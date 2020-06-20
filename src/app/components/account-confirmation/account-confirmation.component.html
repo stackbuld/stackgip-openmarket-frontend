@@ -1,0 +1,43 @@
+<div class="uk-section uk-section uk-section-default">
+  <div class="uk-container uk-container-small">
+    <div class="uk-card uk-background-muted uk-text-center uk-text-bolder">
+      <div class="uk-text-center">
+        <img class="uk-img" width="300px" src="./assets/svg/auth.svg" />
+      </div>
+      <h1 class="">Confirm Your Account</h1>
+      <div
+        class="uk-text-center"
+        [class]="{ 'uk-alert-success': success, 'uk-alert-danger': !success }"
+        *ngIf="isSubmited"
+        uk-alert
+      >
+        <a class="uk-alert-close" uk-close></a>
+        <p>{{ message }}</p>
+      </div>
+
+      <div class="uk-padding-small">
+        <div class="uk-text-center">
+          <h1>Account Activation Required</h1>
+          <div class="text-default uk-padding-small">
+            <p class="uk-text-medium">{{ message }}</p>
+            <span class="uk-text-muted">
+              logged as {{ userData.user.email }}
+              <a (click)="logout()"> logout</a>
+            </span>
+          </div>
+          <button
+            class="text-style-1"
+            class="uk uk-button"
+            (click)="resendConfimation()"
+          >
+            Resend Confirmation Link
+          </button>
+
+          <br />
+        </div>
+
+        <a class="text-style-1 text-gray" routerLink="/"> Home</a>
+      </div>
+    </div>
+  </div>
+</div>

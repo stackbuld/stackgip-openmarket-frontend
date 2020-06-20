@@ -1,0 +1,141 @@
+<div class="uk-card uk-padding uk-background-muted">
+  <div class="uk-text-center">
+    <h1>SIGN UP</h1>
+    <p>If you don’t have an account, register now!</p>
+    <button
+      class="uk-icon-button uk-margin-small-right"
+      uk-icon="google"
+    ></button>
+
+    <button
+      href=""
+      class="uk-icon-button uk-margin-small-right"
+      uk-icon="facebook"
+    ></button>
+  </div>
+  <div class="uk-padding-large uk-padding-remove-top">
+    <form [formGroup]="registerForm" (ngSubmit)="submit()">
+      <div class="uk-text-center uk-padding-small">
+        <span class="uk-text-warning" *ngIf="errorMessage != ''">{{
+          errorMessage
+        }}</span>
+        <br />
+      </div>
+
+      <div class="uk-alert uk-alert-danger" *ngIf="hasError">
+        <span class="uk-text-error" *ngFor="let i of errors">
+          {{ i }} <br />
+        </span>
+      </div>
+      <span
+        *ngIf="
+          f.firstname.invalid && (f.firstname.dirty || f.firstname.touched)
+        "
+      >
+        <span class="uk-text-warning" *ngIf="f.firstname.errors.required">
+          firstname required
+        </span>
+      </span>
+      <mat-form-field class="uk-width-expand">
+        <mat-label>First Name</mat-label>
+        <input
+          type="text"
+          formControlName="firstname"
+          matInput
+          placeholder="Your name"
+          required
+        />
+      </mat-form-field>
+      <span
+        *ngIf="f.lastname.invalid && (f.lastname.dirty || f.lastname.touched)"
+      >
+        <span class="uk-text-warning" *ngIf="f.lastname.errors.required">
+          lastname required
+        </span>
+      </span>
+      <mat-form-field class="uk-width-expand">
+        <mat-label>Last Name</mat-label>
+        <input
+          type="text"
+          formControlName="lastname"
+          matInput
+          placeholder="Your name"
+          required
+        />
+      </mat-form-field>
+      <span *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)">
+        <span class="uk-text-warning" *ngIf="f.email.errors.required">
+          Email required <br
+        /></span>
+        <span class="uk-text-warning" *ngIf="f.email.errors.email">
+          Valid email required
+        </span>
+      </span>
+
+      <mat-form-field class="uk-width-expand">
+        <mat-label>Email</mat-label>
+        <input
+          type="email"
+          formControlName="email"
+          matInput
+          placeholder="Email Address"
+        />
+      </mat-form-field>
+
+      <span
+        *ngIf="f.password.invalid && (f.password.dirty || f.password.touched)"
+      >
+        <span class="uk-text-warning" *ngIf="f.password.errors.required">
+          Password required <br
+        /></span>
+        <span class="uk-text-warning" *ngIf="f.password.value.length < 6">
+          Password should be at least 6 charaters <br
+        /></span>
+      </span>
+
+      <mat-form-field class="uk-width-expand">
+        <mat-label>Password</mat-label>
+        <input
+          type="password"
+          minlength="6"
+          formControlName="password"
+          matInput
+          placeholder="Password"
+          required
+        />
+      </mat-form-field>
+      <span
+        *ngIf="
+          f.confirmPassword.invalid &&
+          (f.confirmPassword.dirty || f.confirmPassword.touched)
+        "
+      >
+        <span class="uk-text-warning" *ngIf="f.confirmPassword.errors.required">
+          Confirm Password required <br
+        /></span>
+        <span
+          class="uk-text-warning"
+          *ngIf="f.confirmPassword.errors.mustMatch"
+        >
+          Confirm Password must match <br
+        /></span>
+      </span>
+
+      <mat-form-field class="uk-width-expand">
+        <mat-label>Confirm Password</mat-label>
+        <input
+          type="password"
+          formControlName="confirmPassword"
+          matInput
+          placeholder="Email Address"
+          required
+        />
+      </mat-form-field>
+      <div class="uk-text-center">
+        <button mat-raised-button color="primary" type="submit">
+          Register
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

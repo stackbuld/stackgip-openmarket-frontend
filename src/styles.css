@@ -1,0 +1,78 @@
+/* You can add global styles to this file, and also import other style files */
+/* uk-navbar */
+.uk-navbar-right {
+  margin-right: 20px;
+}
+
+.uk-navbar-item,
+.uk-navbar-nav > li > a,
+.uk-navbar-toggle {
+  font-family: "Work Sans", sans-serif !important;
+  min-height: 20px !important;
+  text-transform: none;
+  font-weight: 500;
+  color: #7e7e7e;
+}
+.uk-navbar-nav > li {
+  padding: 15px;
+}
+.uk-navbar-nav > li:hover > a,
+.uk-navbar-nav > li > a.uk-open,
+.uk-navbar-nav > li > a:focus {
+  border-bottom: 1px solid black;
+  transition: border-bottom 2s;
+  color: black;
+}
+
+.uk-navbar-container:not(.uk-navbar-transparent) {
+  background: #ffffff;
+  height: 60px;
+}
+/*
+font-family: 'Work Sans', sans-serif;
+*/
+/*
+gray color for font #7e7e7e
+
+*/
+
+/* iconify  */
+
+.iconify {
+  width: 35px;
+  height: 35px;
+  color: #7e7e7e;
+}
+
+html {
+  font-family: "Work Sans", sans-serif !important;
+}
+
+.uk-h1,
+.uk-h2,
+.uk-h3,
+.uk-h4,
+.uk-h5,
+.uk-h6,
+.uk-heading-2xlarge,
+.uk-heading-large,
+.uk-heading-medium,
+.uk-heading-small,
+.uk-heading-xlarge,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Work Sans", sans-serif !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
