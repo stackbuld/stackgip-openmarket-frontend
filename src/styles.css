@@ -74,5 +74,32 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Work Sans", sans-serif !important;
 }
+/* button */
+.btn-default {
+  background-color: #5c8018;
+  border: solid 2px #5c8018;
+  padding: 10px 20px 10px 20px;
+  color: #ffffff;
+  font-family: "Work Sans", sans-serif !important;
+  font-size: medium;
+  font-weight: lighter;
+  transition: background-color 0.5s;
+  transition-timing-function: linear;
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active {
+  background-color: #93c23c;
+}
+.btn-default:disabled {
+  background-color: #91a38f;
+}
+/*
+green colors
+  lighter :#93c23c
+  light : #5c8018;
+  dark: #6f9628
+
+*/
