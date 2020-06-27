@@ -27,6 +27,8 @@ import { environment } from "../environments/environment";
 import { storageSyncMetaReducer } from "ngrx-store-persist";
 import { SliderComponent } from "./components/home/slider/slider.component";
 import { IndexComponent } from "./components/home/index/index.component";
+import { ProductsComponent } from './components/products/products.component';
+import { SingleProductComponent } from './components/products/single-product/single-product.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { IndexComponent } from "./components/home/index/index.component";
     ForgetPasswordComponent,
     SliderComponent,
     IndexComponent,
+    ProductsComponent,
+    SingleProductComponent,
   ],
   imports: [
     BrowserModule,

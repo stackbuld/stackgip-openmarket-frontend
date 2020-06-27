@@ -89,6 +89,9 @@ body {
   transition: background-color 0.5s;
   transition-timing-function: linear;
 }
+.btn-default-small {
+  padding: 6px 5px 6px 5px;
+}
 .btn-default:hover,
 .btn-default:focus,
 .btn-default:active {
@@ -104,3 +107,8 @@ green colors
   dark: #6f9628
 
 */
+
+.backgound-dark-green {
+  color: white;
+  background-color: #46630f;
+}

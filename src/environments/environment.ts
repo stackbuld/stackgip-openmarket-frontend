@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   identityApi: "https://localhost:44337/api/v1/",
+  ecommerceApi: "https://localhost:44304/api/v1/",
 };
 
 /*
