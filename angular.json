@@ -19,19 +19,36 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "src/assets/css/gray-theme.css",
+              "src/assets/css/bootstrap.min.css",
+              "src/assets/css/font-awesome.min.css",
+              "src/assets/css/ionicons.min.css",
+              "src/assets/css/themify-icons.css",
+
               "node_modules/uikit/dist/css/uikit.min.css",
               "node_modules/ngx-toastr/toastr.css",
               "src/hover.css",
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/uikit/dist/js/uikit.min.js"
+              "src/lib/js/vendor/jquery.min.js",
+              "src/lib/js/popper.min.js",
+              "src/lib/js/bootstrap.min.js",
+              "src/lib/js/plugins.js",
+              "src/lib/js/main.js",
+              "src/lib/revolution/js/jquery.themepunch.revolution.min.js",
+              "src/lib/revolution/js/jquery.themepunch.tools.min.js",
+              "src/lib/revolution/revolution-active.js",
+              "src/lib/revolution/js/extensions/revolution.extension.kenburn.min.js",
+              "src/lib/revolution/js/extensions/revolution.extension.slideanims.min.js",
+              "src/lib/revolution/js/extensions/revolution.extension.actions.min.js",
+              "src/lib/revolution/js/extensions/revolution.extension.layeranimation.min.js",
+              "src/lib/revolution/js/extensions/revolution.extension.navigation.min.js",
+              "src/lib/revolution/js/extensions/revolution.extension.parallax.min.js",
+
+              "node_modules/uikit/dist/js/uikit.min.js",
+              "src/lib/js/vendor/modernizr-2.8.3.min.js"
             ]
           },
           "configurations": {
@@ -89,10 +106,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.css"
@@ -108,9 +122,7 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {

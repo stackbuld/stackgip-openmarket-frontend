@@ -25,6 +25,8 @@ import { counterReducer } from "./reducers";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "../environments/environment";
 import { storageSyncMetaReducer } from "ngrx-store-persist";
+import { SliderComponent } from "./components/home/slider/slider.component";
+import { IndexComponent } from "./components/home/index/index.component";
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { storageSyncMetaReducer } from "ngrx-store-persist";
     AccountConfirmationComponent,
     ResetPasswordComponent,
     ForgetPasswordComponent,
+    SliderComponent,
+    IndexComponent,
   ],
   imports: [
     BrowserModule,
