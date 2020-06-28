@@ -29,6 +29,8 @@ import { SliderComponent } from "./components/home/slider/slider.component";
 import { IndexComponent } from "./components/home/index/index.component";
 import { ProductsComponent } from './components/products/products.component';
 import { SingleProductComponent } from './components/products/single-product/single-product.component';
+import { SliderProductsComponent } from './components/products/slider-products/slider-products.component';
+import { CategoryProductsComponent } from './components/products/category-products/category-products.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { SingleProductComponent } from './components/products/single-product/sin
     IndexComponent,
     ProductsComponent,
     SingleProductComponent,
+    SliderProductsComponent,
+    CategoryProductsComponent,
   ],
   imports: [
     BrowserModule,

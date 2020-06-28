@@ -29,6 +29,12 @@
   background: #ffffff;
   height: 60px;
 }
+
+.uk-tab > .uk-active > a {
+  color: #5c8018;
+  border-color: #3e753b;
+  border-width: medium;
+}
 /*
 font-family: 'Work Sans', sans-serif;
 */
@@ -111,4 +117,20 @@ green colors
 .backgound-dark-green {
   color: white;
   background-color: #46630f;
+}
+.backgound-transparent-dark-green {
+  background: rgba(27, 67, 43, 0.66);
+  color: white;
+}
+.backgound-white {
+  background: white;
+}
+.text-white {
+  color: white;
+}
+.text-dark {
+  color: #242424;
+}
+.text-dark-green {
+  color: #6f9628;
 }
