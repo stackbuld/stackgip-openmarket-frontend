@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 /* uk-navbar */
+
 .uk-navbar-right {
   margin-right: 20px;
 }
@@ -27,6 +28,12 @@
 .uk-navbar-container:not(.uk-navbar-transparent) {
   background: #ffffff;
   height: 60px;
+}
+
+.uk-tab > .uk-active > a {
+  color: #5c8018;
+  border-color: #3e753b;
+  border-width: medium;
 }
 /*
 font-family: 'Work Sans', sans-serif;
@@ -74,5 +81,64 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Work Sans", sans-serif !important;
+}
+/* button */
+.btn-default {
+  background-color: #5c8018;
+  border: solid 2px #5c8018;
+  padding: 0.5rem;
+  color: #ffffff;
+  font-family: "Work Sans", sans-serif !important;
+  font-size: medium;
+  font-weight: lighter;
+  transition: background-color 0.5s;
+  transition-timing-function: linear;
+}
+.btn-default-small {
+  padding: 0.2rem;
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active {
+  background-color: #93c23c;
+}
+.btn-default:disabled {
+  background-color: #91a38f;
+}
+/*
+green colors
+  lighter :#93c23c
+  light : #5c8018;
+  dark: #6f9628
+
+*/
+
+.backgound-dark-green {
+  color: white;
+  background-color: #46630f;
+}
+.backgound-transparent-dark-green {
+  background: rgba(27, 67, 43, 0.66);
+  color: white;
+}
+.backgound-white {
+  background: white;
+}
+.text-white {
+  color: white;
+}
+.text-dark {
+  color: #242424;
+}
+.text-dark-green {
+  color: #6f9628;
+}
+
+.single-product-card img {
+  border-radius: 9px 9px 1px 1px;
+  border: solid 1px #6f9628;
+}
+.single-product-card img {
+  border-radius: 9px;
 }

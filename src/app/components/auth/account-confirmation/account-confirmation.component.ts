@@ -28,6 +28,8 @@ export class AccountConfirmationComponent implements OnInit {
     const token = this.route.snapshot.queryParamMap.get("token");
     if (email != null || token != null) {
       this.isSubmited = true;
+      this.message = "Please wait we are verifing your account";
+
       this.authService.ConfirmEmail(email, token).subscribe(
         (a) => {
           this.message = "Success Your Account is confirmed, Please Login";
@@ -39,7 +41,7 @@ export class AccountConfirmationComponent implements OnInit {
         (err) => {
           this.success = false;
           this.message =
-            "Link must have expired and no longer valid, Resend a new link";
+            "Link must have expired or invalid, Resend a new link";
         }
       );
     }
@@ -48,9 +50,10 @@ export class AccountConfirmationComponent implements OnInit {
   resendConfimation() {
     const email = this.userData.user.email;
     this.isSubmited = true;
-
+    this.message = "sending you an email, please wait ";
     this.authService.SendConfirmationEmail(email).subscribe((a) => {
       this.success = true;
+
       console.log(a);
       if (a.status == "success") {
         this.message = "success: email confimation has been sent to " + email;
@@ -62,6 +65,6 @@ export class AccountConfirmationComponent implements OnInit {
 
   logout() {
     this.authService.Logout();
-    this.router.navigate(["/"]);
+    this.router.navigate(["/auth"]);
   }
 }

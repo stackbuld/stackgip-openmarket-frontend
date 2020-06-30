@@ -12,6 +12,9 @@ import {
 } from "../models/signin-model";
 import { RegisterModel, RegisterResponseModel } from "../models/register-model";
 import { IForgetModel, IForgetPasswordModel } from "../models/auth-model";
+import { Store } from "@ngrx/store";
+import { AppState } from "../reducers";
+import { LoginAction, LogOutAction } from "../reducers/action/auth.action";
 
 export interface IAuth {
   isLoggedId: boolean;
@@ -25,7 +28,11 @@ export interface IAuth {
 })
 export class AuthService {
   public isLogin: BehaviorSubject<boolean>;
-  constructor(private api: ApiAppUrlService, private http: HttpClient) {
+  constructor(
+    private api: ApiAppUrlService,
+    private http: HttpClient,
+    private store: Store<AppState>
+  ) {
     const userData = this.GetSignInData();
     console.log("user Data", userData);
     if (userData != null) {
@@ -104,11 +111,14 @@ export class AuthService {
     localStorage.setItem("user", JSON.stringify(a.data.user));
     localStorage.setItem("role", JSON.stringify(a.data.roles));
     localStorage.setItem("siginResponse", JSON.stringify(a.data));
+    this.store.dispatch(LoginAction(a.data.user));
   }
+
   public Logout() {
     localStorage.clear();
-    this.isLogin.next(false);
+    this.store.dispatch(LogOutAction());
   }
+
   public GetSignInData(): ISignIn {
     const datastr = localStorage.getItem("siginResponse");
     const data = JSON.parse(datastr) as ISignIn;

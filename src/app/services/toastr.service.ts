@@ -3,7 +3,7 @@ import { ToastrService as Toastr } from "ngx-toastr";
 
 export const toastOptions = {
   positionClass: "toast-bottom-full-width",
-  preventDuplicates: true,
+  preventDuplicates: false,
 };
 
 @Injectable({

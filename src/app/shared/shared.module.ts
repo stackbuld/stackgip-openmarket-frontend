@@ -11,6 +11,7 @@ import { CommonModule } from "@angular/common";
 import { HttpClientJsonpModule } from "@angular/common/http";
 import { NgxUiLoaderModule } from "ngx-ui-loader";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { MatRippleModule } from "@angular/material/core";
 
 @NgModule({
   declarations: [LoaderComponent],
@@ -22,6 +23,7 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
     MatInputModule,
     ReactiveFormsModule,
     MatInputModule,
+    MatRippleModule,
     FormsModule,
     MatAutocompleteModule,
     NgxUiLoaderModule,

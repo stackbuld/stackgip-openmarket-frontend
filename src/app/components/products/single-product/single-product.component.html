@@ -1,0 +1,45 @@
+<!--=======  single product  =======-->
+<div class="uk-card uk-card-default uk-card-hover uk-card-small">
+  <div
+    class="uk-card-media-top uk-inline-clip uk-transition-toggle"
+    tabindex="0"
+  >
+    <img
+      src="{{ product.imageUrl }},{{ product.name }}"
+      class="uk-transition-scale-up uk-transition-opaque"
+      data-src="{{ product.imageUrl }},{{ product.name }}"
+      alt="{{ product.name }}"
+    />
+  </div>
+  <div
+    class="uk-card-badge uk-label backgound-dark-green"
+    *ngIf="product.unit <= 0"
+  >
+    out of stock
+  </div>
+  <div class="uk-card-body uk-padding-small">
+    <div class="uk-text-center">
+      <h3 class="uk-card-title uk-margin-small uk-margin-remove">
+        {{ product.name }}
+      </h3>
+      <span
+        class="uk-text-muted uk-text-small"
+        style="text-decoration: line-through;"
+        *ngIf="product.price > product.previousPrice"
+      >
+        N{{ product.previousPrice }}
+      </span>
+      |
+      <span class="uk-text-bold">N {{ product.price }}</span>
+      <br />
+    </div>
+    <div class="uk-text-center">
+      <button
+        class="btn-default btn-default-small uk-margin-medium"
+        (click)="addToCart(product)"
+      >
+        Add to Cart
+      </button>
+    </div>
+  </div>
+</div>
