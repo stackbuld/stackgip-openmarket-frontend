@@ -12,7 +12,7 @@ export class ProductsComponent implements OnInit {
   products: ProductModel[] = [];
 
   ngOnInit(): void {
-    this.productService.getProducts().subscribe((data) => {
+    this.productService.getProducts(1,20).subscribe((data) => {
       this.products = data.data.data;
     });
   }

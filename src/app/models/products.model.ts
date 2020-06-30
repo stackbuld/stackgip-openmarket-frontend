@@ -6,9 +6,14 @@ export interface ProductModel {
   categoryId: number;
   category: Category;
   imageUrl: string;
+  unit: number;
   productImages: any[];
   id: number;
   createdOn: string;
+}
+
+export interface ProductCartModel extends ProductModel {
+  orderedUnit: number;
 }
 
 export interface Category {

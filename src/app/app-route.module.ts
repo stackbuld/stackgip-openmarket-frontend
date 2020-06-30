@@ -1,3 +1,4 @@
+import { CartComponent } from "./components/cart/cart.component";
 import { IndexComponent } from "./components/home/index/index.component";
 import { AuthComponent } from "./components/auth/auth.component";
 import { Routes, RouterModule } from "@angular/router";
@@ -20,6 +21,7 @@ const route: Routes = [
       { path: "confirm", component: AccountConfirmationComponent },
       { path: "reset-password", component: ResetPasswordComponent },
       { path: "ResetPassword", component: ResetPasswordComponent },
+      { path: "cart", component: CartComponent },
     ],
   },
 ];

@@ -87,7 +87,7 @@ body {
 .btn-default {
   background-color: #5c8018;
   border: solid 2px #5c8018;
-  padding: 10px 20px 10px 20px;
+  padding: 0.5rem;
   color: #ffffff;
   font-family: "Work Sans", sans-serif !important;
   font-size: medium;
@@ -96,7 +96,7 @@ body {
   transition-timing-function: linear;
 }
 .btn-default-small {
-  padding: 6px 5px 6px 5px;
+  padding: 0.2rem;
 }
 .btn-default:hover,
 .btn-default:focus,
@@ -133,4 +133,12 @@ green colors
 }
 .text-dark-green {
   color: #6f9628;
+}
+
+.single-product-card img {
+  border-radius: 9px 9px 1px 1px;
+  border: solid 1px #6f9628;
+}
+.single-product-card img {
+  border-radius: 9px;
 }

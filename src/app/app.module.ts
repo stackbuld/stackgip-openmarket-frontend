@@ -27,10 +27,12 @@ import { environment } from "../environments/environment";
 import { storageSyncMetaReducer } from "ngrx-store-persist";
 import { SliderComponent } from "./components/home/slider/slider.component";
 import { IndexComponent } from "./components/home/index/index.component";
-import { ProductsComponent } from './components/products/products.component';
-import { SingleProductComponent } from './components/products/single-product/single-product.component';
-import { SliderProductsComponent } from './components/products/slider-products/slider-products.component';
-import { CategoryProductsComponent } from './components/products/category-products/category-products.component';
+import { ProductsComponent } from "./components/products/products.component";
+import { SingleProductComponent } from "./components/products/single-product/single-product.component";
+import { SliderProductsComponent } from "./components/products/slider-products/slider-products.component";
+import { CategoryProductsComponent } from "./components/products/category-products/category-products.component";
+import { CartComponent } from "./components/cart/cart.component";
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { CategoryProductsComponent } from './components/products/category-produc
     SingleProductComponent,
     SliderProductsComponent,
     CategoryProductsComponent,
+    CartComponent,
+    CheckoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,7 +62,6 @@ import { CategoryProductsComponent } from './components/products/category-produc
     ToastrModule.forRoot(toastOptions),
     CommonModule,
     SharedModule,
-
     StoreModule.forRoot(
       { counterReducer },
       {

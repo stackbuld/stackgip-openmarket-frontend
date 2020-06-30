@@ -1,3 +1,4 @@
+import { getCartCount } from "./../../../reducers/selectors/cart.selector";
 import { AuthService } from "src/app/services/auth.service";
 import { Observable } from "rxjs";
 import { getUser } from "./../../../reducers/selectors/auth.selector";
@@ -13,6 +14,7 @@ import { AppState } from "src/app/reducers";
 })
 export class HeaderComponent implements OnInit {
   user$: Observable<IUser>;
+  cartCount$: Observable<number>;
   constructor(
     private store: Store<AppState>,
     private authService: AuthService
@@ -20,6 +22,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.user$ = this.store.select(getUser);
+    this.cartCount$ = this.store.select(getCartCount);
   }
   logout() {
     this.authService.Logout();
