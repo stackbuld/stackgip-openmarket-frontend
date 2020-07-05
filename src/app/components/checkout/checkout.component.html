@@ -1,1 +1,202 @@
-<p>checkout works!</p>
+<div class="uk-section uk-section-large">
+  <div class="uk-container">
+    <h1>CHECK OUT</h1>
+    <div class="uk-grid">
+      <div class="uk-width-expand@s">
+        <div class="uk-card uk-background-muted uk-card-body">
+          <div *ngIf="(user$ | async) == null" class="uk-text-center">
+            <h2>Please login / signup to continue</h2>
+            <button class="btn-default" routerLink="/auth">
+              Login to Continue
+            </button>
+          </div>
+          <div class="" *ngIf="(user$ | async) != null">
+            <h3>Billing Details</h3>
+
+            <form [formGroup]="checkoutForm" (ngSubmit)="checkout()">
+              <div class="uk-grid uk-child-width-1-2@s">
+                <div>
+                  <span
+                    *ngIf="
+                      f.firstname.invalid &&
+                      (f.firstname.dirty || f.firstname.touched)
+                    "
+                  >
+                    <span
+                      class="uk-text-warning"
+                      *ngIf="f.firstname.errors.required"
+                    >
+                      firstname required
+                    </span>
+                  </span>
+                  <mat-form-field class="uk-width-expand">
+                    <mat-label>First Name</mat-label>
+                    <input
+                      formControlName="firstname"
+                      type="text"
+                      matInput
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+                <div>
+                  <span
+                    *ngIf="
+                      f.lastname.invalid &&
+                      (f.lastname.dirty || f.lastname.touched)
+                    "
+                  >
+                    <span
+                      class="uk-text-warning"
+                      *ngIf="f.lastname.errors.required"
+                    >
+                      Lastname required
+                    </span>
+                  </span>
+                  <mat-form-field class="uk-width-expand">
+                    <mat-label>Last Name</mat-label>
+                    <input
+                      formControlName="lastname"
+                      type="text"
+                      matInput
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+                <div>
+                  <mat-form-field class="uk-width-expand">
+                    <mat-label>Email</mat-label>
+                    <input
+                      formControlName="email"
+                      type="email"
+                      matInput
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+                <div>
+                  <mat-form-field class="uk-width-expand">
+                    <mat-label>Phone number</mat-label>
+                    <input
+                      formControlName="phoneNumber"
+                      type="tel"
+                      matInput
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="uk-grid uk-child-width-1-3@s uk-margin-remove-top">
+                <div>
+                  <mat-form-field class="uk-width-expand">
+                    <mat-label>Country</mat-label>
+                    <mat-select formControlName="country" required>
+                      <mat-option value="ng">Nigeria</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div>
+                  <mat-form-field class="uk-width-expand">
+                    <mat-label>State</mat-label>
+                    <mat-select formControlName="state" required>
+                      <mat-option>Select</mat-option>
+
+                      <mat-option
+                        *ngFor="let state of states"
+                        value="state.toLowerCase()"
+                        >{{ state }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div>
+                  <mat-form-field class="uk-width-expand">
+                    <mat-label>City / town</mat-label>
+                    <input
+                      formControlName="city"
+                      type="text"
+                      matInput
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div>
+                <mat-form-field class="uk-width-expand">
+                  <mat-label>Address</mat-label>
+                  <textarea
+                    matInput
+                    placeholder="Delivery Address  ......"
+                    required
+                    formControlName="address"
+                  ></textarea>
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field class="uk-width-expand">
+                  <mat-label>Additional Information</mat-label>
+                  <textarea
+                    matInput
+                    placeholder="Additional Info  ...... "
+                    required
+                    formControlName="additionalInfo"
+                  ></textarea>
+                </mat-form-field>
+              </div>
+              <div class="uk-text-center">
+                <button
+                  [disabled]="checkoutForm.invalid"
+                  type="submit"
+                  class="btn-default"
+                >
+                  Place Order
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="uk-width-1-3@s">
+        <div class="uk-padding">
+          <h3>Order Summary</h3>
+          <div *ngFor="let cart of carts$ | async">
+            <div>
+              <span class="uk-text-light uk-text-large">
+                {{ cart.name }}
+              </span>
+            </div>
+            <div class="uk-grid">
+              <div>
+                <span class="uk-text-bold text-dark-green uk-text-right">
+                  N{{ cart.price.toLocaleString() }}</span
+                >
+                <span style="font-size: medium; margin-left: 5px;"
+                  >x {{ cart.orderedUnit }}</span
+                >
+              </div>
+
+              <div>
+                <span class="uk-text-bold uk-text-right">
+                  N{{ (cart.price * cart.orderedUnit).toLocaleString() }}</span
+                >
+              </div>
+            </div>
+            <hr />
+          </div>
+          <div class="uk-text-center uk-text-capitalize">
+            <h4>
+              Total
+              <span class="uk-text-bold"
+                >N{{ cartTotal.toLocaleString() }}</span
+              >
+            </h4>
+            <br />
+            <button routerLink="/cart" class="btn-default">
+              Go to cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -111,13 +111,13 @@ export class SiginupComponent implements OnInit {
     this.authService.signIn(signInModel).subscribe(
       (a) => {
         this.ngxService.stopLoader("loader-01");
-        this.authService.SetAuthLocalStorage(a);
         if (a.status == "success") {
           this.toast.success("login successful", "notification");
           if (!a.data.canLogin) {
             this.router.navigate(["/confirm-email"]);
           } else {
             location.reload();
+            this.authService.SetAuthLocalStorage(a);
           }
           this.authService.isLogin.next(true);
           console.log("Is login observable", this.authService.isLogin);

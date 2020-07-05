@@ -81,13 +81,14 @@ export class LoginComponent implements OnInit {
     this.authService.signIn(data).subscribe(
       (a) => {
         this.ngxService.stopLoader("loader-01");
-        this.authService.SetAuthLocalStorage(a);
+
         if (a.status == "success") {
           this.toast.success("login successful", "notification");
 
           if (!a.data.canLogin) {
             this.router.navigate(["/confirm-email"]);
           } else {
+            this.authService.SetAuthLocalStorage(a);
             this.router.navigate(["/"]);
           }
           this.authService.isLogin.next(true);

@@ -1,4 +1,4 @@
-<div class="uk-section uk-section-default" style="padding: 0;">
+<div class="uk-section uk-section-default">
   <div class="uk-container">
     <h1>SHOPPING CART</h1>
     <div class="uk-grid">
@@ -48,7 +48,9 @@
                   <input
                     type="number"
                     class="uk-input"
-                    value="{{ item.unit }}"
+                    value="{{ item.orderedUnit }}"
+                    #itemUnit
+                    (change)="updateCartItem(item.id, itemUnit.value)"
                   />
                 </td>
                 <td>
@@ -104,14 +106,16 @@
                 </div>
                 <div>
                   <span class="uk-badge uk-background-secondary"
-                    >x {{ cart.unit }}</span
+                    >x {{ cart.orderedUnit }}</span
                   >
                 </div>
                 <div>
                   <br />
                   Sub total
                   <span class="uk-text-bold uk-text-right">
-                    N{{ (cart.price * cart.unit).toLocaleString() }}</span
+                    N{{
+                      (cart.price * cart.orderedUnit).toLocaleString()
+                    }}</span
                   >
                 </div>
               </div>
@@ -122,7 +126,10 @@
               <span class="uk-text-bold"
                 >N{{ cartTotal.toLocaleString() }}</span
               >
-              <button class="btn-default">Proceed to checkout</button>
+              <br />
+              <button class="btn-default" routerLink="/checkout">
+                Proceed to checkout
+              </button>
             </div>
           </div>
         </div>
