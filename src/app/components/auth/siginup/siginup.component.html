@@ -7,7 +7,7 @@
     <button href="" class="uk-icon-button uk-margin-small-right" uk-icon="facebook"></button>
   </div>
   <div class="uk-padding-large uk-padding-remove-top">
-    <form [formGroup]="registerForm" (ngSubmit)="submit()">
+    <form [formGroup]="registerForm" (ngSubmit)="submit()" >
       <div class="uk-text-center uk-padding-small">
         <span class="uk-text-warning" *ngIf="errorMessage != ''">{{
           errorMessage

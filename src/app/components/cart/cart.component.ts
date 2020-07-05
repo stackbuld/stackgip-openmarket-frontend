@@ -4,6 +4,11 @@ import { ProductCartModel } from "src/app/models/products.model";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/reducers";
 import { getCart } from "src/app/reducers/selectors/cart.selector";
+import {
+  UpdateCartItemUnit,
+  IncreamentCartItem,
+  DecreamentCartItem,
+} from "src/app/reducers/action/cart.actions";
 @Component({
   selector: "app-cart",
   templateUrl: "./cart.component.html",
@@ -18,11 +23,21 @@ export class CartComponent implements OnInit {
     this.carts$.subscribe((items) => {
       let total = 0;
       for (const item of items) {
-        total += item.price * item.unit;
+        total += item.price * item.orderedUnit;
       }
       this.cartTotal = total;
     });
   }
 
-  calculateCartTotal() {}
+  updateCartItem(id: number, unit: number) {
+    this.store.dispatch(UpdateCartItemUnit({ id, orderedUnit: unit }));
+  }
+
+  incrementCartItem(id: number) {
+    this.store.dispatch(IncreamentCartItem({ id }));
+  }
+
+  decrementCartItem(id: number) {
+    this.store.dispatch(DecreamentCartItem({ id }));
+  }
 }

@@ -21,9 +21,9 @@
             "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "src/theme.css",
               "node_modules/uikit/dist/css/uikit.min.css",
               "node_modules/ngx-toastr/toastr.css",
-
               "src/hover.css",
               "src/styles.css"
             ],

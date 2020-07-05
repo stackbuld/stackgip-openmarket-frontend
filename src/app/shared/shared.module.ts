@@ -12,7 +12,7 @@ import { HttpClientJsonpModule } from "@angular/common/http";
 import { NgxUiLoaderModule } from "ngx-ui-loader";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { MatRippleModule } from "@angular/material/core";
-
+import { MatSelectModule } from "@angular/material/select";
 @NgModule({
   declarations: [LoaderComponent],
   imports: [CommonModule],
@@ -27,6 +27,7 @@ import { MatRippleModule } from "@angular/material/core";
     FormsModule,
     MatAutocompleteModule,
     NgxUiLoaderModule,
+    MatSelectModule,
   ],
 })
 export class SharedModule {}
