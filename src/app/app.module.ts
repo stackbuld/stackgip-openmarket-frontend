@@ -33,6 +33,7 @@ import { SliderProductsComponent } from "./components/products/slider-products/s
 import { CategoryProductsComponent } from "./components/products/category-products/category-products.component";
 import { CartComponent } from "./components/cart/cart.component";
 import { CheckoutComponent } from './components/checkout/checkout.component';
+import { OrderComponent } from './components/order/order.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
     CategoryProductsComponent,
     CartComponent,
     CheckoutComponent,
+    OrderComponent,
   ],
   imports: [
     BrowserModule,

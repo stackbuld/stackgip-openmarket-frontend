@@ -13,6 +13,8 @@ import { NgxUiLoaderModule } from "ngx-ui-loader";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { MatRippleModule } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
+import {MatDialogModule} from '@angular/material/dialog';
+
 @NgModule({
   declarations: [LoaderComponent],
   imports: [CommonModule],
@@ -28,6 +30,7 @@ import { MatSelectModule } from "@angular/material/select";
     MatAutocompleteModule,
     NgxUiLoaderModule,
     MatSelectModule,
+    MatDialogModule
   ],
 })
 export class SharedModule {}

@@ -27,6 +27,10 @@ export const UpdateCartItemUnit = createAction(
   props<{ id: number; orderedUnit: number }>()
 );
 
+export const ClearCartItems = createAction(
+  // tslint:disable-next-line: quotemark
+  "[Button ClearCartItems] Clear all cart items"
+);
 //
 export const onIncreamentCartItem = on(
   IncreamentCartItem,
@@ -42,6 +46,13 @@ export const onIncreamentCartItem = on(
   }
 );
 //
+
+export const onClearCartItem = on(ClearCartItems, (state: AppState) => {
+  const nextState = produce(state, (draftState) => {
+    draftState.cart = [];
+  });
+  return nextState;
+});
 
 export const onDecreamentCartItem = on(
   DecreamentCartItem,

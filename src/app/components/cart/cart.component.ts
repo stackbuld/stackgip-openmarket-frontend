@@ -1,3 +1,4 @@
+import { ClearCartItems } from "./../../reducers/action/cart.actions";
 import { Observable } from "rxjs";
 import { Component, OnInit } from "@angular/core";
 import { ProductCartModel } from "src/app/models/products.model";
@@ -39,5 +40,8 @@ export class CartComponent implements OnInit {
 
   decrementCartItem(id: number) {
     this.store.dispatch(DecreamentCartItem({ id }));
+  }
+  clearAll() {
+    this.store.dispatch(ClearCartItems());
   }
 }

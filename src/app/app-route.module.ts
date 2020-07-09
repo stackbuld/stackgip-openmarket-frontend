@@ -1,3 +1,4 @@
+import { OrderComponent } from "./components/order/order.component";
 import { CheckoutComponent } from "./components/checkout/checkout.component";
 import { CartComponent } from "./components/cart/cart.component";
 import { IndexComponent } from "./components/home/index/index.component";
@@ -24,6 +25,7 @@ const route: Routes = [
       { path: "ResetPassword", component: ResetPasswordComponent },
       { path: "cart", component: CartComponent },
       { path: "checkout", component: CheckoutComponent },
+      { path: "orders", component: OrderComponent },
     ],
   },
 ];

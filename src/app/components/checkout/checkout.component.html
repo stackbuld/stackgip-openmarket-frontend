@@ -145,12 +145,19 @@
               </div>
               <div class="uk-text-center">
                 <button
-                  [disabled]="checkoutForm.invalid"
+                  [disabled]="checkoutForm.invalid || isSubmited"
                   type="submit"
                   class="btn-default"
                 >
+                  <img
+                    *ngIf="isSubmited"
+                    width="30"
+                    src="assets/svg/loader-icon.svg"
+                  />
                   Place Order
                 </button>
+
+               
               </div>
             </form>
           </div>
