@@ -4,6 +4,8 @@ import {
   CreateInvoiceModel,
   InvoiceModelResponse,
   VerifyInvoiceResponseModel,
+  pagedInvoiceModel,
+  PagedResponseInvoiceModel,
 } from "./../../models/invoice.model";
 import { HttpClient } from "@angular/common/http";
 import { ApiAppUrlService } from "./../api-app-url.service";
@@ -27,7 +29,7 @@ export class InvoiceService {
     );
   }
 
-  getById(id: number): Observable<InvoiceModelResponse> {
+  getById(id: any): Observable<InvoiceModelResponse> {
     return this.http.get<InvoiceModelResponse>(this.baseUrl + "invoice/" + id);
   }
 
@@ -41,6 +43,12 @@ export class InvoiceService {
     return this.http.patch<ResponseModel>(
       this.baseUrl + `invoice/${invoiceId}/status/${statusEnum}`,
       {}
+    );
+  }
+
+  getUserInvoices(userId: string): Observable<PagedResponseInvoiceModel> {
+    return this.http.get<PagedResponseInvoiceModel>(
+      this.baseUrl + `invoice/user/${userId}`
     );
   }
 }

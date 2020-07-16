@@ -1,3 +1,4 @@
+import { OrderInvoiceComponent } from "./components/order-invoice/order-invoice.component";
 import { OrderComponent } from "./components/order/order.component";
 import { CheckoutComponent } from "./components/checkout/checkout.component";
 import { CartComponent } from "./components/cart/cart.component";
@@ -26,6 +27,7 @@ const route: Routes = [
       { path: "cart", component: CartComponent },
       { path: "checkout", component: CheckoutComponent },
       { path: "orders", component: OrderComponent },
+      { path: "order/:id", component: OrderInvoiceComponent },
     ],
   },
 ];

@@ -34,6 +34,8 @@ import { CategoryProductsComponent } from "./components/products/category-produc
 import { CartComponent } from "./components/cart/cart.component";
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { OrderComponent } from './components/order/order.component';
+import { OrderInvoiceComponent } from './components/order-invoice/order-invoice.component';
+import { ProfileDashboardComponent } from './profile-dashboard/profile-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { OrderComponent } from './components/order/order.component';
     CartComponent,
     CheckoutComponent,
     OrderComponent,
+    OrderInvoiceComponent,
+    ProfileDashboardComponent,
   ],
   imports: [
     BrowserModule,
