@@ -122,6 +122,7 @@ export class AuthService {
   public GetSignInData(): ISignIn {
     const datastr = localStorage.getItem("siginResponse");
     const data = JSON.parse(datastr) as ISignIn;
+    
     return data;
   }
 }

@@ -25,6 +25,17 @@ import { counterReducer } from "./reducers";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "../environments/environment";
 import { storageSyncMetaReducer } from "ngrx-store-persist";
+import { SliderComponent } from "./components/home/slider/slider.component";
+import { IndexComponent } from "./components/home/index/index.component";
+import { ProductsComponent } from "./components/products/products.component";
+import { SingleProductComponent } from "./components/products/single-product/single-product.component";
+import { SliderProductsComponent } from "./components/products/slider-products/slider-products.component";
+import { CategoryProductsComponent } from "./components/products/category-products/category-products.component";
+import { CartComponent } from "./components/cart/cart.component";
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { OrderComponent } from './components/order/order.component';
+import { OrderInvoiceComponent } from './components/order-invoice/order-invoice.component';
+import { ProfileDashboardComponent } from './profile-dashboard/profile-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +48,17 @@ import { storageSyncMetaReducer } from "ngrx-store-persist";
     AccountConfirmationComponent,
     ResetPasswordComponent,
     ForgetPasswordComponent,
+    SliderComponent,
+    IndexComponent,
+    ProductsComponent,
+    SingleProductComponent,
+    SliderProductsComponent,
+    CategoryProductsComponent,
+    CartComponent,
+    CheckoutComponent,
+    OrderComponent,
+    OrderInvoiceComponent,
+    ProfileDashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +68,6 @@ import { storageSyncMetaReducer } from "ngrx-store-persist";
     ToastrModule.forRoot(toastOptions),
     CommonModule,
     SharedModule,
-
     StoreModule.forRoot(
       { counterReducer },
       {
