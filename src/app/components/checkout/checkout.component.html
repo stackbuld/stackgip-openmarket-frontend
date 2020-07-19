@@ -36,6 +36,7 @@
                       type="text"
                       matInput
                       required
+                      disabled
                     />
                   </mat-form-field>
                 </div>
@@ -60,6 +61,7 @@
                       type="text"
                       matInput
                       required
+                      disabled
                     />
                   </mat-form-field>
                 </div>
@@ -71,6 +73,7 @@
                       type="email"
                       matInput
                       required
+                      disabled
                     />
                   </mat-form-field>
                 </div>
@@ -103,7 +106,7 @@
 
                       <mat-option
                         *ngFor="let state of states"
-                        value="state.toLowerCase()"
+                        value="{{ state.toLowerCase() }}"
                         >{{ state }}</mat-option
                       >
                     </mat-select>
@@ -156,8 +159,6 @@
                   />
                   Place Order
                 </button>
-
-               
               </div>
             </form>
           </div>

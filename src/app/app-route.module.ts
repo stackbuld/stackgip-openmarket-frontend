@@ -1,3 +1,7 @@
+import { AuthGuard } from "./guard/auth.guard";
+import { ChangePasswordComponent } from "./components/profile-dashboard/change-password/change-password.component";
+import { ProfileComponent } from "./components/profile-dashboard/profile/profile.component";
+import { ProfileDashboardComponent } from "./components/profile-dashboard/profile-dashboard.component";
 import { OrderInvoiceComponent } from "./components/order-invoice/order-invoice.component";
 import { OrderComponent } from "./components/order/order.component";
 import { CheckoutComponent } from "./components/checkout/checkout.component";
@@ -26,8 +30,31 @@ const route: Routes = [
       { path: "ResetPassword", component: ResetPasswordComponent },
       { path: "cart", component: CartComponent },
       { path: "checkout", component: CheckoutComponent },
-      { path: "orders", component: OrderComponent },
-      { path: "order/:id", component: OrderInvoiceComponent },
+      { path: "orders", component: OrderComponent, canActivate: [AuthGuard] },
+      {
+        path: "order/:id",
+        component: OrderInvoiceComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "profile",
+        canActivate: [AuthGuard],
+        component: ProfileDashboardComponent,
+        children: [
+          {
+            path: "",
+            component: ProfileComponent,
+          },
+          {
+            path: "my",
+            component: ProfileComponent,
+          },
+          {
+            path: "manage-account",
+            component: ChangePasswordComponent,
+          },
+        ],
+      },
     ],
   },
 ];

@@ -32,10 +32,12 @@ import { SingleProductComponent } from "./components/products/single-product/sin
 import { SliderProductsComponent } from "./components/products/slider-products/slider-products.component";
 import { CategoryProductsComponent } from "./components/products/category-products/category-products.component";
 import { CartComponent } from "./components/cart/cart.component";
-import { CheckoutComponent } from './components/checkout/checkout.component';
-import { OrderComponent } from './components/order/order.component';
-import { OrderInvoiceComponent } from './components/order-invoice/order-invoice.component';
-import { ProfileDashboardComponent } from './profile-dashboard/profile-dashboard.component';
+import { CheckoutComponent } from "./components/checkout/checkout.component";
+import { OrderComponent } from "./components/order/order.component";
+import { OrderInvoiceComponent } from "./components/order-invoice/order-invoice.component";
+import { ProfileDashboardComponent } from "./components/profile-dashboard/profile-dashboard.component";
+import { ProfileComponent } from './components/profile-dashboard/profile/profile.component';
+import { ChangePasswordComponent } from './components/profile-dashboard/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { ProfileDashboardComponent } from './profile-dashboard/profile-dashboard
     OrderComponent,
     OrderInvoiceComponent,
     ProfileDashboardComponent,
+    ProfileComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,

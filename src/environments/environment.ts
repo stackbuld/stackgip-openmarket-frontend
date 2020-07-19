@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // identityApi: "https://localhost:44337/api/v1/",
-  identityApi: "http://donprecious-002-site3.ctempurl.com/api/v1/",
+  identityApi: "https://localhost:44337/api/v1/",
+  // identityApi: "http://donprecious-002-site3.ctempurl.com/api/v1/",
 
   ecommerceApi: "https://localhost:44319/api/v1/",
   paystackPublicKey: "pk_test_8e75de0f0e2bba17ee0b37ed227e176b92b52d0b",
