@@ -1,4 +1,7 @@
-import { ClearCartItems } from "./../../reducers/action/cart.actions";
+import {
+  ClearCartItems,
+  RemoveItemFromCart,
+} from "./../../reducers/action/cart.actions";
 import { Observable } from "rxjs";
 import { Component, OnInit } from "@angular/core";
 import { ProductCartModel } from "src/app/models/products.model";
@@ -43,5 +46,8 @@ export class CartComponent implements OnInit {
   }
   clearAll() {
     this.store.dispatch(ClearCartItems());
+  }
+  removeItem(id) {
+    this.store.dispatch(RemoveItemFromCart(id));
   }
 }

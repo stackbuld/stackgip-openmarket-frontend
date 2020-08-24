@@ -10,7 +10,7 @@ import { onIncreament, onDecreament, OnReset } from "./action/actions";
 import { createReducer, Action } from "@ngrx/store";
 
 import { IUser } from "../models/IUserModel";
-import { onLogin, onLogout } from "./action/auth.action";
+import { onLogin, onLogout, onUpdateUser } from "./action/auth.action";
 
 export interface AppState {
   count: number;
@@ -34,6 +34,7 @@ _counterReducer = createReducer(
   OnReset,
   onLogin,
   onLogout,
+  onUpdateUser,
   onAddToCart,
   onRemoveItemFromCart,
   onDecreamentCartItem,

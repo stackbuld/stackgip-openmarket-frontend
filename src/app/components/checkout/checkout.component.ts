@@ -42,6 +42,7 @@ export class CheckoutComponent implements OnInit {
   states: string[];
   checkoutForm: FormGroup;
   isSubmited = false;
+  
   ngOnInit(): void {
     this.carts$ = this.store.select(getCart);
     this.user$ = this.store.select(getUser);
