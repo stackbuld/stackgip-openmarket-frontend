@@ -3,14 +3,14 @@ import {
   onDecreamentCartItem,
   onUpdateCartItemUnit,
   onRemoveItemFromCart,
+  onClearCartItem,
 } from "./action/cart.actions";
 import { ProductCartModel } from "./../models/products.model";
 import { onIncreament, onDecreament, OnReset } from "./action/actions";
 import { createReducer, Action } from "@ngrx/store";
-import { environment } from "../../environments/environment";
-import { state } from "@angular/animations";
+
 import { IUser } from "../models/IUserModel";
-import { onLogin, onLogout } from "./action/auth.action";
+import { onLogin, onLogout, onUpdateUser } from "./action/auth.action";
 
 export interface AppState {
   count: number;
@@ -34,12 +34,14 @@ _counterReducer = createReducer(
   OnReset,
   onLogin,
   onLogout,
+  onUpdateUser,
   onAddToCart,
   onRemoveItemFromCart,
   onDecreamentCartItem,
-  onUpdateCartItemUnit
+  onUpdateCartItemUnit,
+  onClearCartItem
 );
 
-export function counterReducer(state: AppState , action: Action) {
+export function counterReducer(state: AppState, action: Action) {
   return _counterReducer(state, action);
 }

@@ -25,7 +25,7 @@
       <div class="uk-navbar-item">
         <ul class="uk-iconnav">
           <li>
-            <a href="#">
+            <a routerLink="/cart">
               <span
                 class="iconify"
                 data-icon="mdi:cart"
@@ -49,7 +49,7 @@
             >
               <ul class="uk-nav uk-dropdown-nav" *ngIf="user$ | async">
                 <li>
-                  <a href="#">
+                  <a routerLink="/orders">
                     <span
                       class="iconify"
                       data-icon="octicon:package"
@@ -60,7 +60,7 @@
                   >
                 </li>
                 <li>
-                  <a href="#">
+                  <a routerLink="/profile">
                     <span
                       class="iconify"
                       data-icon="gg:profile"

@@ -1,0 +1,93 @@
+<div class="uk-section uk-section-default">
+  <div class="uk-container">
+    <h1>MY ORDER</h1>
+    <div class="uk-grid uk-child-width-1-2@s">
+      <div>
+        <p>
+          Invoice No <span>#{{ invoice.id }}</span>
+        </p>
+        <p>Date <span>21 feb, 2020</span></p>
+        <h3>Customer Information</h3>
+        <p>
+          Name : <span>{{ user.firstName + " " + user.lastName }}</span>
+        </p>
+        <p>
+          Phone : <span>{{ user.phoneNumber }}</span>
+        </p>
+        <h3>Billing Address</h3>
+        <p>
+          Country : <span>{{ invoice.country }}</span>
+        </p>
+        <p>
+          State : <span>{{ invoice.state }}</span>
+        </p>
+        <p>
+          Address : <span>{{ invoice.billingAddress }}</span>
+        </p>
+        <h3>Additional Infomation</h3>
+        <p></p>
+      </div>
+      <div>
+        <h3>Status: {{ invoice.status }}</h3>
+        <h3>Reference No: {{ invoice.transReferenceNo }}</h3>
+        <button
+          *ngIf="
+            invoice.status.toLocaleLowerCase() !=
+            filterType.paid.toLocaleLowerCase()
+          "
+          class="uk-button uk-button-default backgound-dark-green uk-button-small uk-align-right uk-text-right"
+          (click)="pay(invoice.id)"
+        >
+          Pay now
+        </button>
+        <h3>Cost Summary</h3>
+        <!-- <p>Total Item Cost: NGN 40,09902</p> -->
+        <!-- <p>Shipping cost: NGN 3,000</p>
+        <p>Discount: NGN 2000</p> -->
+        <p>
+          <b>Total: NGN {{ total.toLocaleString() }}</b>
+        </p>
+      </div>
+    </div>
+    <div class="uk-margin-top">
+      <hr />
+      <h1 class="uk-text-bold">ITEMS</h1>
+      <div class="uk-overflow-auto">
+        <table
+          class="uk-table uk-table-small uk-table-responsive uk-table-divider uk-table-divider"
+        >
+          <thead>
+            <tr>
+              <th>Order No</th>
+              <th>Item</th>
+              <th>Name</th>
+
+              <th>Unit</th>
+              <th>Cost</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of invoice.orders">
+              <td>{{ order.id }}</td>
+              <td>
+                <div>
+                  <img
+                    class="uk-img"
+                    width="100"
+                    src="{{ order.product.imageUrl }}"
+                  />
+                </div>
+              </td>
+              <td>{{ order.product.name }}</td>
+
+              <td>{{ order.unit }}</td>
+              <td>{{ order.price.toLocaleString() }}</td>
+              <td>{{ order.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

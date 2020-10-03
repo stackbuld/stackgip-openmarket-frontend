@@ -33,16 +33,6 @@ export class SiginupComponent implements OnInit {
     this.hasError = false;
     this.errors = [];
     this.errorMessage = "";
-    // if (typeof gapi == "undefined") {
-    //   let infoToast = this.toast;
-    //   infoToast.toastOptions.positionClass = "toast-top-center";
-    //   infoToast.toastOptions.timeOut = "10000";
-    //   infoToast.info(
-    //     "poor internet connection, <a onclick='location.reload()'>click here to refresh page</a>"
-    //   );
-    // } else {
-    //   this.loadgoogleLogin();
-    // }
     this.registerForm = this.fb.group(
       {
         firstname: ["", [Validators.required]],
@@ -111,17 +101,14 @@ export class SiginupComponent implements OnInit {
     this.authService.signIn(signInModel).subscribe(
       (a) => {
         this.ngxService.stopLoader("loader-01");
+        this.authService.SetAuthLocalStorage(a);
         if (a.status == "success") {
           this.toast.success("login successful", "notification");
           if (!a.data.canLogin) {
             this.router.navigate(["/confirm-email"]);
           } else {
             location.reload();
-            this.authService.SetAuthLocalStorage(a);
           }
-          this.authService.isLogin.next(true);
-          console.log("Is login observable", this.authService.isLogin);
-          console.log(a);
         } else {
           if (a.data.isNotAllowed) {
             this.router.navigate(["/confirm-email"]);

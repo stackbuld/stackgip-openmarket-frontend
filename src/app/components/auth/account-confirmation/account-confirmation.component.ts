@@ -29,7 +29,7 @@ export class AccountConfirmationComponent implements OnInit {
     if (email != null || token != null) {
       this.isSubmited = true;
       this.message = "Please wait we are verifing your account";
-
+      console.log("confirm", email, token);
       this.authService.ConfirmEmail(email, token).subscribe(
         (a) => {
           this.message = "Success Your Account is confirmed, Please Login";
@@ -40,8 +40,7 @@ export class AccountConfirmationComponent implements OnInit {
         },
         (err) => {
           this.success = false;
-          this.message =
-            "Link must have expired or invalid, Resend a new link";
+          this.message = "Link must have expired or invalid, Resend a new link";
         }
       );
     }

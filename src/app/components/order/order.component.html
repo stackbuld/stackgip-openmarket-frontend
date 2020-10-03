@@ -1,0 +1,50 @@
+<div class="uk-section uk-section-large">
+  <div class="uk-container">
+    <h1>My Orders</h1>
+    <ul class="uk-tab-bottom" data-uk-tab="media: @s">
+      <li class="uk-active"><a (click)="filter('all')">All</a></li>
+      <li><a (click)="filter(filterType.pending)">Pending</a></li>
+      <li><a (click)="filter(filterType.paid)">Sucess</a></li>
+      <li><a (click)="filter('others')">others</a></li>
+    </ul>
+    <div>
+      <div class="uk-overflow-auto">
+        <table
+          class="uk-table uk-table-small uk-table-responsive uk-table-divider uk-table-divider"
+        >
+          <thead>
+            <tr>
+              <th>invoiceNo</th>
+              <th>date</th>
+              <th>status</th>
+              <th>items</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody *ngIf="invoices">
+            <tr *ngFor="let invoice of filteredInvoice">
+              <td>#{{ invoice.id }}</td>
+              <td>{{ formatDate(invoice.createdOn) }}</td>
+              <td>{{ invoice.status }}</td>
+              <td>
+                <span class="uk-badge backgound-dark-green">{{
+                  invoice.orders.length
+                }}</span>
+                <span> NGN {{ sumOrders(invoice.orders) }} </span>
+              </td>
+
+              <td>
+                <button
+                  [routerLink]="['/order', invoice.id]"
+                  class="uk-button uk-button-small"
+                >
+                  view
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

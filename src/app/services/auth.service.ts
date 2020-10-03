@@ -1,3 +1,5 @@
+import { UpdateProfileAction } from "./../reducers/action/auth.action";
+import { IUpdatePassword } from "./../models/auth-model";
 import { IResponseModel } from "./../shared/models/IResponseModel";
 
 import { Injectable } from "@angular/core";
@@ -122,6 +124,24 @@ export class AuthService {
   public GetSignInData(): ISignIn {
     const datastr = localStorage.getItem("siginResponse");
     const data = JSON.parse(datastr) as ISignIn;
+
     return data;
+  }
+
+  public UpdatePassword(
+    updateUser: IUpdatePassword
+  ): Observable<IResponseModel> {
+    return this.http.patch<IResponseModel>(
+      this.api.baseApiUrl + "auth/password/change",
+      updateUser
+    );
+  }
+
+  public UpdateUser(user: IUser) {
+    localStorage.setItem("user", JSON.stringify(user));
+    const sigin = this.GetSignInData();
+    sigin.user = user;
+    localStorage.setItem("siginResponse", JSON.stringify(sigin));
+    this.store.dispatch(UpdateProfileAction(user));
   }
 }

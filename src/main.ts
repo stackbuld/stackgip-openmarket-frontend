@@ -15,8 +15,15 @@ if (environment.production) {
 getAllDataFromLocalForage({
   driver: localForage.INDEXEDDB,
   keys: ["counterReducer"],
-}).then(() => {
-  platformBrowserDynamic()
-    .bootstrapModule(AppModule)
-    .catch((err) => console.error(err));
-});
+}).then(
+  () => {
+    platformBrowserDynamic()
+      .bootstrapModule(AppModule)
+      .catch((err) => console.error(err));
+  },
+  (err) => {
+    platformBrowserDynamic()
+      .bootstrapModule(AppModule)
+      .catch((err) => console.error(err));
+  }
+);
