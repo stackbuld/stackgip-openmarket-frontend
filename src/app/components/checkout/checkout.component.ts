@@ -42,7 +42,7 @@ export class CheckoutComponent implements OnInit {
   states: string[];
   checkoutForm: FormGroup;
   isSubmited = false;
-  
+
   ngOnInit(): void {
     this.carts$ = this.store.select(getCart);
     this.user$ = this.store.select(getUser);
@@ -121,7 +121,7 @@ export class CheckoutComponent implements OnInit {
     this.invoiceService.createInvoice(invoiceData).subscribe(
       (data) => {
         if (data.status === ResponseStatus.success) {
-          this.payWithPaystack(data.data.id);
+          this.payWithPaystack(data.data.transReferenceNo);
         }
       },
       (error) => {

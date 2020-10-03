@@ -35,7 +35,7 @@ export class InvoiceService {
 
   verifyInvoice(invoiceId): Observable<VerifyInvoiceResponseModel> {
     return this.http.get<VerifyInvoiceResponseModel>(
-      this.baseUrl + `invoice/${invoiceId}/verifypayment`
+      this.baseUrl + `invoice/${invoiceId}/verifypayment/` + invoiceId
     );
   }
 
@@ -46,9 +46,14 @@ export class InvoiceService {
     );
   }
 
-  getUserInvoices(userId: string): Observable<PagedResponseInvoiceModel> {
+  getUserInvoices(
+    userId: string,
+    pageNumber: number = 1,
+    maxItem = 50
+  ): Observable<PagedResponseInvoiceModel> {
     return this.http.get<PagedResponseInvoiceModel>(
-      this.baseUrl + `invoice/user/${userId}`
+      this.baseUrl +
+        `invoice/user/${userId}/?pageNumber=${pageNumber}&maxItem=${maxItem}`
     );
   }
 }

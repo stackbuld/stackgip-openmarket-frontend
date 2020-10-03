@@ -36,6 +36,7 @@ export interface InvoiceModel {
   status: string;
   orders: OrderModel[];
   id: number;
+  transReferenceNo: string;
   createdOn: string;
   isActive: boolean;
   isDeleted: boolean;
@@ -55,6 +56,7 @@ export interface OrderModel {
   total: number;
   invoiceId: number;
   id: number;
+  status: string;
   createdOn: string;
   isActive: boolean;
   isDeleted: boolean;

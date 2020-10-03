@@ -12,8 +12,8 @@ import { Component, OnInit } from "@angular/core";
 import { NgxUiLoaderService } from "ngx-ui-loader";
 import { SignInModel } from "src/app/models/signin-model";
 import { UIkit } from "uikit";
-import { AuthService } from 'src/app/services/auth.service';
-import { ToastrService } from 'ngx-toastr';
+import { AuthService } from "src/app/services/auth.service";
+import { ToastrService } from "ngx-toastr";
 
 // declare var gapi: any;
 
@@ -81,18 +81,16 @@ export class LoginComponent implements OnInit {
     this.authService.signIn(data).subscribe(
       (a) => {
         this.ngxService.stopLoader("loader-01");
-
+        this.authService.SetAuthLocalStorage(a);
         if (a.status == "success") {
           this.toast.success("login successful", "notification");
 
           if (!a.data.canLogin) {
             this.router.navigate(["/confirm-email"]);
           } else {
-            this.authService.SetAuthLocalStorage(a);
             this.router.navigate(["/"]);
           }
-          this.authService.isLogin.next(true);
-          console.log("Is login observable", this.authService.isLogin);
+
           console.log(a);
         } else {
           if (a.data.isNotAllowed) {
@@ -106,12 +104,9 @@ export class LoginComponent implements OnInit {
         this.errors = [];
         if (err.status === 0) {
           this.errors.push("something went wrong please try");
-        }
-        else if(err.status >=500 ){
+        } else if (err.status >= 500) {
           this.errors.push("something went wrong please try");
-
-        }
-        else {
+        } else {
           this.errors.push(...err.error.message.split(","));
         }
         this.ngxService.stopLoader("loader-01");

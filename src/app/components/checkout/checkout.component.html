@@ -32,10 +32,9 @@
                   <mat-form-field class="uk-width-expand">
                     <mat-label>First Name</mat-label>
                     <input
-                      formControlName="firstname"
                       type="text"
+                      value="{{ f.firstname.value }}"
                       matInput
-                      required
                       disabled
                     />
                   </mat-form-field>
@@ -57,10 +56,9 @@
                   <mat-form-field class="uk-width-expand">
                     <mat-label>Last Name</mat-label>
                     <input
-                      formControlName="lastname"
+                      value="{{ f.lastname.value }}"
                       type="text"
                       matInput
-                      required
                       disabled
                     />
                   </mat-form-field>
@@ -69,10 +67,9 @@
                   <mat-form-field class="uk-width-expand">
                     <mat-label>Email</mat-label>
                     <input
-                      formControlName="email"
+                      value="{{ f.email.value }}"
                       type="email"
                       matInput
-                      required
                       disabled
                     />
                   </mat-form-field>
@@ -178,7 +175,7 @@
                 <span class="uk-text-bold text-dark-green uk-text-right">
                   N{{ cart.price.toLocaleString() }}</span
                 >
-                <span style="font-size: medium; margin-left: 5px;"
+                <span style="font-size: medium; margin-left: 5px"
                   >x {{ cart.orderedUnit }}</span
                 >
               </div>
@@ -199,9 +196,7 @@
               >
             </h4>
             <br />
-            <button routerLink="/cart" class="btn-default">
-              Go to cart
-            </button>
+            <button routerLink="/cart" class="btn-default">Go to cart</button>
           </div>
         </div>
       </div>

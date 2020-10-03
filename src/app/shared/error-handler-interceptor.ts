@@ -31,7 +31,6 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         console.log("error is intercept");
         console.error(error);
         this.ngxService.stopAll();
-
         if (error instanceof HttpErrorResponse) {
           if (error.error instanceof ErrorEvent) {
             console.error("Error Event");
@@ -59,6 +58,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
           this.message = this.errorService.getClientErrorMessage(error);
           this.toast.error(this.message);
         }
+        this.ngxService.stopAll();
         return throwError(error);
       })
     );
