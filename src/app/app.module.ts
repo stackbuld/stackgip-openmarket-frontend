@@ -38,6 +38,9 @@ import { OrderInvoiceComponent } from "./components/order-invoice/order-invoice.
 import { ProfileDashboardComponent } from "./components/profile-dashboard/profile-dashboard.component";
 import { ProfileComponent } from './components/profile-dashboard/profile/profile.component';
 import { ChangePasswordComponent } from './components/profile-dashboard/change-password/change-password.component';
+import { DashboardComponent } from './components/seller/dashboard/dashboard.component';
+import { CategoryHomeGridComponent } from './components/category/category-home-grid/category-home-grid.component';
+import { NewProductListComponent } from './components/home/new-product-list/new-product-list.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +66,9 @@ import { ChangePasswordComponent } from './components/profile-dashboard/change-p
     ProfileDashboardComponent,
     ProfileComponent,
     ChangePasswordComponent,
+    DashboardComponent,
+    CategoryHomeGridComponent,
+    NewProductListComponent,
   ],
   imports: [
     BrowserModule,

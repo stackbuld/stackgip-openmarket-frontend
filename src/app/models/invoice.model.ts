@@ -57,6 +57,7 @@ export interface OrderModel {
   invoiceId: number;
   id: number;
   status: string;
+  paymentOption: string;
   createdOn: string;
   isActive: boolean;
   isDeleted: boolean;
