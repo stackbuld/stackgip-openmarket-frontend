@@ -1,3 +1,7 @@
+import { SellerOrdersComponent } from "./components/seller/seller-orders/seller-orders.component";
+import { SellerProductComponent } from "./components/seller/seller-product/seller-product.component";
+import { SellerHomeComponent } from "./components/seller/seller-home/seller-home.component";
+import { DashboardComponent } from "./components/seller/dashboard/dashboard.component";
 import { AuthGuard } from "./guard/auth.guard";
 import { ChangePasswordComponent } from "./components/profile-dashboard/change-password/change-password.component";
 import { ProfileComponent } from "./components/profile-dashboard/profile/profile.component";
@@ -52,6 +56,25 @@ const route: Routes = [
           {
             path: "manage-account",
             component: ChangePasswordComponent,
+          },
+        ],
+      },
+      {
+        path: "seller",
+        canActivate: [AuthGuard],
+        component: DashboardComponent,
+        children: [
+          {
+            path: "",
+            component: SellerHomeComponent,
+          },
+          {
+            path: "products",
+            component: SellerProductComponent,
+          },
+          {
+            path: "orders",
+            component: SellerOrdersComponent,
           },
         ],
       },

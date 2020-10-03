@@ -36,11 +36,16 @@ import { CheckoutComponent } from "./components/checkout/checkout.component";
 import { OrderComponent } from "./components/order/order.component";
 import { OrderInvoiceComponent } from "./components/order-invoice/order-invoice.component";
 import { ProfileDashboardComponent } from "./components/profile-dashboard/profile-dashboard.component";
-import { ProfileComponent } from './components/profile-dashboard/profile/profile.component';
-import { ChangePasswordComponent } from './components/profile-dashboard/change-password/change-password.component';
-import { DashboardComponent } from './components/seller/dashboard/dashboard.component';
-import { CategoryHomeGridComponent } from './components/category/category-home-grid/category-home-grid.component';
-import { NewProductListComponent } from './components/home/new-product-list/new-product-list.component';
+import { ProfileComponent } from "./components/profile-dashboard/profile/profile.component";
+import { ChangePasswordComponent } from "./components/profile-dashboard/change-password/change-password.component";
+import { DashboardComponent } from "./components/seller/dashboard/dashboard.component";
+import { CategoryHomeGridComponent } from "./components/category/category-home-grid/category-home-grid.component";
+import { NewProductListComponent } from "./components/home/new-product-list/new-product-list.component";
+import { SellerProductComponent } from "./components/seller/seller-product/seller-product.component";
+import { SellerHomeComponent } from './components/seller/seller-home/seller-home.component';
+import { MostSellingProductComponent } from './components/seller/seller-home/most-selling-product/most-selling-product.component';
+import { RecommendedProductToSellComponent } from './components/seller/seller-home/recommended-product-to-sell/recommended-product-to-sell.component';
+import { SellerOrdersComponent } from './components/seller/seller-orders/seller-orders.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +74,11 @@ import { NewProductListComponent } from './components/home/new-product-list/new-
     DashboardComponent,
     CategoryHomeGridComponent,
     NewProductListComponent,
+    SellerProductComponent,
+    SellerHomeComponent,
+    MostSellingProductComponent,
+    RecommendedProductToSellComponent,
+    SellerOrdersComponent,
   ],
   imports: [
     BrowserModule,

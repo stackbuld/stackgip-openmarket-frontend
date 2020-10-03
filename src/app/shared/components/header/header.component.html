@@ -29,7 +29,7 @@
             </ul>
           </div>
         </li>
-        <li><a href="#">Sell</a></li>
+        <li><a routerLink="/seller">Sell</a></li>
       </ul>
     </div>
 
@@ -42,6 +42,7 @@
                 class="iconify"
                 data-icon="mdi:cart"
                 data-inline="false"
+                style="width: 20px; height: 20px"
               ></span>
               <span class="uk-badge backgound-dark-green">{{
                 cartCount$ | async
@@ -54,6 +55,7 @@
                 class="iconify"
                 data-icon="mdi:account-circle"
                 data-inline="false"
+                style="width: 20px; height: 20px"
               ></span>
             </a>
             <div
@@ -132,7 +134,7 @@
         </ul>
       </li>
       <li class="uk-nav-divider"></li>
-      <li class="uk-nav-header">Sell</li>
+      <li class="uk-nav-header"><a routerLink="/seller">Sell</a></li>
     </ul>
   </div>
 </div>
