@@ -6,6 +6,8 @@ import { IUser } from "./../../../models/IUserModel";
 import { Component, OnInit } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/reducers";
+import { ICategory } from "src/app/models/CategoryModels";
+import { CatgoryService } from "src/app/services/category/catgory.service";
 
 @Component({
   selector: "app-header",
@@ -15,10 +17,16 @@ import { AppState } from "src/app/reducers";
 export class HeaderComponent implements OnInit {
   user$: Observable<IUser>;
   cartCount$: Observable<number>;
+  categories: ICategory[] = [];
   constructor(
     private store: Store<AppState>,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private categoryService: CatgoryService
+  ) {
+    this.categoryService.GetCategory().subscribe((a) => {
+      this.categories = a.data;
+    });
+  }
 
   ngOnInit(): void {
     this.user$ = this.store.select(getUser);
