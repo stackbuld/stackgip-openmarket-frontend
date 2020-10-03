@@ -31,8 +31,8 @@
 }
 
 .uk-tab > .uk-active > a {
-  color: #5c8018;
-  border-color: #3e753b;
+  color: #0066d0;
+  border-color: #004a99;
   border-width: medium;
 }
 /*
@@ -48,7 +48,7 @@ gray color for font #7e7e7e
 .iconify {
   width: 35px;
   height: 35px;
-  color: #7e7e7e;
+  color: #769bc2;
 }
 
 html {
@@ -82,7 +82,7 @@ h6 {
 .logo-text {
   font-size: 1.2rem;
   font-weight: 500;
-  color: #5c8018;
+  color: #0066d0;
   letter-spacing: 0.2rem;
 }
 
@@ -96,8 +96,8 @@ body {
 }
 /* button */
 .btn-default {
-  background-color: #5c8018;
-  border: solid 2px #5c8018;
+  background-color: #0066d0;
+  border: solid 2px #0066d0;
   padding: 0.5rem;
   color: #ffffff;
   font-family: "Work Sans", sans-serif !important;
@@ -112,25 +112,18 @@ body {
 .btn-default:hover,
 .btn-default:focus,
 .btn-default:active {
-  background-color: #93c23c;
+  background-color: #147ceb;
 }
 .btn-default:disabled {
-  background-color: #91a38f;
+  background-color: #004a99;
 }
-/*
-green colors
-  lighter :#93c23c
-  light : #5c8018;
-  dark: #6f9628
-
-*/
 
 .backgound-dark-green {
   color: white;
-  background-color: #46630f;
+  background-color: #004a99;
 }
 .backgound-transparent-dark-green {
-  background: rgba(27, 67, 43, 0.66);
+  background: rgba(37, 61, 88, 0.66);
   color: white;
 }
 .backgound-white {
@@ -143,12 +136,12 @@ green colors
   color: #242424;
 }
 .text-dark-green {
-  color: #6f9628;
+  color: #004a99;
 }
 
 .single-product-card img {
   border-radius: 9px 9px 1px 1px;
-  border: solid 1px #6f9628;
+  border: solid 1px #004a99;
 }
 .single-product-card img {
   border-radius: 9px;
