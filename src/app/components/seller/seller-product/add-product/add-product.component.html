@@ -1,0 +1,115 @@
+<div class="dashboard-title">Add New Product</div>
+
+<mat-form-field class="uk-width-expand">
+  <mat-label>Product name</mat-label>
+
+  <input type="text" matInput placeholder="eg Samsung s11" required />
+</mat-form-field>
+<mat-form-field class="uk-width-expand">
+  <mat-label>Description</mat-label>
+  <textarea matInput placeholder="Ex. 100 Main St">
+ provide full detail of this product</textarea
+  >
+</mat-form-field>
+
+<mat-form-field class="uk-width-1-2@s">
+  <mat-label>Price</mat-label>
+
+  <input type="number" matInput placeholder="eg 1000" required />
+</mat-form-field>
+
+<mat-form-field class="uk-width-1-2@s">
+  <mat-label>Previous Price</mat-label>
+  <input type="number" matInput placeholder="eg 2000" required />
+</mat-form-field>
+
+<mat-form-field class="uk-width-1-2@s">
+  <mat-label>Avaliable Unit</mat-label>
+  <input type="number" matInput placeholder="200" required />
+</mat-form-field>
+<mat-form-field class="uk-width-1-2@s">
+  <mat-label>Default Shipping cost</mat-label>
+  <input type="number" matInput placeholder="200" required />
+</mat-form-field>
+
+<div class="js-upload uk-placeholder uk-text-center">
+  <span uk-icon="icon: cloud-upload"></span>
+  <span class="uk-text-middle">Add Photos of Product</span>
+  <div uk-form-custom>
+    <!-- <input type="file" multiple /> -->
+    &nbsp;
+    <span class="uk-link">Click to add</span>
+  </div>
+</div>
+<button type="submit" class="btn-default">
+  <!-- <img
+
+  width="30"
+  src="assets/svg/loader-icon.svg"
+/> -->
+  Add Product
+</button>
+<progress
+  id="js-progressbar"
+  class="uk-progress"
+  value="0"
+  max="100"
+  hidden
+></progress>
+
+<script>
+  var bar = document.getElementById("js-progressbar");
+
+  UIkit.upload(".js-upload", {
+    url: "",
+    multiple: true,
+
+    beforeSend: function () {
+      console.log("beforeSend", arguments);
+    },
+    beforeAll: function () {
+      console.log("beforeAll", arguments);
+    },
+    load: function () {
+      console.log("load", arguments);
+    },
+    error: function () {
+      console.log("error", arguments);
+    },
+    complete: function () {
+      console.log("complete", arguments);
+    },
+
+    loadStart: function (e) {
+      console.log("loadStart", arguments);
+
+      bar.removeAttribute("hidden");
+      bar.max = e.total;
+      bar.value = e.loaded;
+    },
+
+    progress: function (e) {
+      console.log("progress", arguments);
+
+      bar.max = e.total;
+      bar.value = e.loaded;
+    },
+
+    loadEnd: function (e) {
+      console.log("loadEnd", arguments);
+
+      bar.max = e.total;
+      bar.value = e.loaded;
+    },
+
+    completeAll: function () {
+      console.log("completeAll", arguments);
+
+      setTimeout(function () {
+        bar.setAttribute("hidden", "hidden");
+      }, 1000);
+
+      alert("Upload Completed");
+    },
+  });
+</script>
