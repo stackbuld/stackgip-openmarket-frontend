@@ -1,1 +1,153 @@
-<p>seller-product works!</p>
+<button
+  class="uk-button uk-button-primary"
+  type="button"
+  uk-toggle="target: #modal-add-product"
+>
+  Add Product
+</button>
+<div>
+  <div class="dashboard-title">My Products</div>
+  <table class="uk-table uk-table-responsive uk-table-divider">
+    <thead>
+      <tr>
+        <td></td>
+        <th>Product</th>
+        <th>Cost</th>
+        <th>Unit Sold</th>
+        <th>Unit Left</th>
+        <th>Income Generated</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <img
+            class="uk-img"
+            src="https://source.unsplash.com/100x100/?smart watch"
+          />
+        </td>
+        <td>
+          <span class="uk-text-muted"> Accessories</span> <br />
+          Smart watch
+        </td>
+        <td>NGN 4,000</td>
+        <td>10</td>
+        <td>20</td>
+        <td>NGN 40,000</td>
+        <td>
+          <div class="uk-inline">
+            <button class="uk-button uk-button-default" type="button">
+              Action
+            </button>
+            <div uk-dropdown="mode: click">
+              <ul class="uk-list uk-list-divider">
+                <li><a href="#">Edit</a></li>
+                <li><a href="#">Remove</a></li>
+                <li><a>View More</a></li>
+              </ul>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img
+            class="uk-img"
+            src="https://source.unsplash.com/100x100/?smart watch"
+          />
+        </td>
+        <td>
+          <span class="uk-text-muted"> Accessories</span> <br />
+          Smart watch
+        </td>
+        <td>NGN 4,000</td>
+        <td>10</td>
+        <td>20</td>
+        <td>NGN 40,000</td>
+        <td>
+          <div class="uk-inline">
+            <button class="uk-button uk-button-default" type="button">
+              Action
+            </button>
+            <div uk-dropdown="mode: click">
+              <ul class="uk-list uk-list-divider">
+                <li><a href="#">Edit</a></li>
+                <li><a href="#">Remove</a></li>
+                <li><a>View More</a></li>
+              </ul>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img
+            class="uk-img"
+            src="https://source.unsplash.com/100x100/?smart watch"
+          />
+        </td>
+        <td>
+          <span class="uk-text-muted"> Accessories</span> <br />
+          Smart watch
+        </td>
+        <td>NGN 4,000</td>
+        <td>10</td>
+        <td>20</td>
+        <td>NGN 40,000</td>
+        <td>
+          <div class="uk-inline">
+            <button class="uk-button uk-button-default" type="button">
+              Action
+            </button>
+            <div uk-dropdown="mode: click">
+              <ul class="uk-list uk-list-divider">
+                <li><a href="#">Edit</a></li>
+                <li><a href="#">Remove</a></li>
+                <li><a>View More</a></li>
+              </ul>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img
+            class="uk-img"
+            src="https://source.unsplash.com/100x100/?smart watch"
+          />
+        </td>
+        <td>
+          <span class="uk-text-muted"> Accessories</span> <br />
+          Smart watch
+        </td>
+        <td>NGN 4,000</td>
+        <td>10</td>
+        <td>20</td>
+        <td>NGN 40,000</td>
+        <td>
+          <div class="uk-inline">
+            <button class="uk-button uk-button-default" type="button">
+              Action
+            </button>
+            <div uk-dropdown="mode: click">
+              <ul class="uk-list uk-list-divider">
+                <li><a href="#">Edit</a></li>
+                <li><a href="#">Remove</a></li>
+                <li><a>View More</a></li>
+              </ul>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- This is the modal with the outside close button -->
+<div id="modal-add-product" uk-modal="bg-close: false">
+  <div class="uk-modal-dialog uk-modal-body">
+    <button class="uk-modal-close-outside" type="button" uk-close></button>
+    <app-add-product></app-add-product>
+  </div>
+</div>

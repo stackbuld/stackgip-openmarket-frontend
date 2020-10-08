@@ -46,6 +46,8 @@ import { SellerHomeComponent } from './components/seller/seller-home/seller-home
 import { MostSellingProductComponent } from './components/seller/seller-home/most-selling-product/most-selling-product.component';
 import { RecommendedProductToSellComponent } from './components/seller/seller-home/recommended-product-to-sell/recommended-product-to-sell.component';
 import { SellerOrdersComponent } from './components/seller/seller-orders/seller-orders.component';
+import { AddProductComponent } from './components/seller/seller-product/add-product/add-product.component';
+import { ViewProductComponent } from './components/products/view-product/view-product.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +81,8 @@ import { SellerOrdersComponent } from './components/seller/seller-orders/seller-
     MostSellingProductComponent,
     RecommendedProductToSellComponent,
     SellerOrdersComponent,
+    AddProductComponent,
+    ViewProductComponent,
   ],
   imports: [
     BrowserModule,
