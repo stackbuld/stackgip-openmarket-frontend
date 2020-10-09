@@ -29,7 +29,9 @@ export class AuthGuard implements CanActivate {
     if (siginData) {
       isLogin = siginData.canLogin;
     }
-
+    if (!isLogin) {
+      location.href = "/auth";
+    }
     return isLogin;
   }
 }
