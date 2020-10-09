@@ -88,7 +88,7 @@ export const onRemoveItemFromCart = on(
   RemoveItemFromCart,
   (state: AppState, item: { id: number }) => {
     const nextState = produce(state, (draftState) => {
-      draftState.cart = draftState.cart.filter((a) => a.id === item.id);
+      draftState.cart = draftState.cart.filter((a) => a.id !== item.id);
     });
     return nextState;
   }

@@ -12,12 +12,17 @@
   >
     <h1 class="text-white">Open Market</h1>
     <h2 class="text-white">Connecting Seller and Buyers</h2>
-    <form class="uk-search uk-search-default uk-width-expand backgound-white">
-      <a href="" uk-search-icon></a>
+    <form
+      [formGroup]="searchForm"
+      (ngSubmit)="search()"
+      class="uk-search uk-search-default uk-width-expand backgound-white"
+    >
+      <a uk-search-icon></a>
       <input
         class="uk-search-input uk-width-expand"
         type="search"
         placeholder="Search for products"
+        formControlName="text"
       />
     </form>
   </div>

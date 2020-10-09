@@ -15,10 +15,13 @@ export class ProductsService {
 
   getProducts(
     pageNumber: number = 1,
-    maxItem = 50
+    maxItem = 50,
+    search = "",
+    categoryId = ""
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
-      this.baseUrl + `products?pageNumber=${pageNumber}&maxItem=${maxItem}`
+      this.baseUrl +
+        `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}`
     );
   }
 

@@ -19,6 +19,7 @@ import { ForgetPasswordComponent } from "./components/auth/forget-password/forge
 import { ResetPasswordComponent } from "./components/auth/reset-password/reset-password.component";
 import { AccountConfirmationComponent } from "./components/auth/account-confirmation/account-confirmation.component";
 import { LayoutComponent } from "./shared/components/layout/layout.component";
+import { ListProductComponent } from "./components/home/list-product/list-product.component";
 const route: Routes = [
   {
     path: "",
@@ -35,6 +36,7 @@ const route: Routes = [
       { path: "cart", component: CartComponent },
       { path: "checkout", component: CheckoutComponent },
       { path: "orders", component: OrderComponent, canActivate: [AuthGuard] },
+      { path: "products", component: ListProductComponent },
       {
         path: "order/:id",
         component: OrderInvoiceComponent,

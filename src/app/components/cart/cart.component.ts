@@ -48,6 +48,6 @@ export class CartComponent implements OnInit {
     this.store.dispatch(ClearCartItems());
   }
   removeItem(id) {
-    this.store.dispatch(RemoveItemFromCart(id));
+    this.store.dispatch(RemoveItemFromCart({ id }));
   }
 }

@@ -42,12 +42,14 @@ import { DashboardComponent } from "./components/seller/dashboard/dashboard.comp
 import { CategoryHomeGridComponent } from "./components/category/category-home-grid/category-home-grid.component";
 import { NewProductListComponent } from "./components/home/new-product-list/new-product-list.component";
 import { SellerProductComponent } from "./components/seller/seller-product/seller-product.component";
-import { SellerHomeComponent } from './components/seller/seller-home/seller-home.component';
-import { MostSellingProductComponent } from './components/seller/seller-home/most-selling-product/most-selling-product.component';
-import { RecommendedProductToSellComponent } from './components/seller/seller-home/recommended-product-to-sell/recommended-product-to-sell.component';
-import { SellerOrdersComponent } from './components/seller/seller-orders/seller-orders.component';
-import { AddProductComponent } from './components/seller/seller-product/add-product/add-product.component';
-import { ViewProductComponent } from './components/products/view-product/view-product.component';
+import { SellerHomeComponent } from "./components/seller/seller-home/seller-home.component";
+import { MostSellingProductComponent } from "./components/seller/seller-home/most-selling-product/most-selling-product.component";
+import { RecommendedProductToSellComponent } from "./components/seller/seller-home/recommended-product-to-sell/recommended-product-to-sell.component";
+import { SellerOrdersComponent } from "./components/seller/seller-orders/seller-orders.component";
+import { AddProductComponent } from "./components/seller/seller-product/add-product/add-product.component";
+import { ViewProductComponent } from "./components/products/view-product/view-product.component";
+import { ListProductComponent } from "./components/home/list-product/list-product.component";
+import { SearchProductComponent } from './components/home/search-product/search-product.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +85,8 @@ import { ViewProductComponent } from './components/products/view-product/view-pr
     SellerOrdersComponent,
     AddProductComponent,
     ViewProductComponent,
+    ListProductComponent,
+    SearchProductComponent,
   ],
   imports: [
     BrowserModule,
