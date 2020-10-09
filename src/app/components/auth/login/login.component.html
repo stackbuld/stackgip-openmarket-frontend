@@ -5,6 +5,12 @@
   </div>
 
   <div class="uk-padding-large">
+    <div class="uk-background-muted">
+      <p>Demo Only</p>
+      Email: <b>Donprecious24@gmail.com</b>
+      <br />
+      Password: <b>Donprecious24@gmail.com</b>
+    </div>
     <form [formGroup]="loginForm" (ngSubmit)="login()">
       <div class="uk-text-center uk-padding-small">
         <span class="uk-text-warning" *ngIf="errorMessage != ''">{{
@@ -17,7 +23,8 @@
       </div>
       <span *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)">
         <span class="uk-text-warning" *ngIf="f.email.errors.required">
-          Email required <br /></span>
+          Email required <br
+        /></span>
         <span class="uk-text-warning" *ngIf="f.email.errors.email">
           Valid email required
         </span>
@@ -25,28 +32,55 @@
       <mat-form-field class="uk-width-expand">
         <mat-label>Email</mat-label>
 
-        <input type="email" formControlName="email" matInput placeholder="Email Address" required />
+        <input
+          type="email"
+          formControlName="email"
+          matInput
+          placeholder="Email Address"
+          required
+        />
       </mat-form-field>
-      <span *ngIf="f.password.invalid && (f.password.dirty || f.password.touched)">
+      <span
+        *ngIf="f.password.invalid && (f.password.dirty || f.password.touched)"
+      >
         <span class="uk-text-warning" *ngIf="f.password.errors.required">
-          Password required <br /></span>
+          Password required <br
+        /></span>
         <span class="uk-text-warning" *ngIf="f.password.errors.minLength">
-          Password should be at least 6 charaters <br /></span>
+          Password should be at least 6 charaters <br
+        /></span>
       </span>
       <mat-form-field class="uk-width-expand">
         <mat-label>Password</mat-label>
-        <input type="password" formControlName="password" matInput placeholder="Enter Password" required />
+        <input
+          type="password"
+          formControlName="password"
+          matInput
+          placeholder="Enter Password"
+          required
+        />
       </mat-form-field>
 
       <div class="uk-text-center">
-        <button class="btn-default" type="submit" color="primary">Sign in</button>
+        <button class="btn-default" type="submit" color="primary">
+          Sign in
+        </button>
       </div>
     </form>
   </div>
   <div class="uk-text-center uk-margin-large-top">
-    <a class="text-style-1" routerLink="/forget-password" onclick="UIkit.modal('#modal-auth').hide()">
-      Forget Password</a>
+    <a
+      class="text-style-1"
+      routerLink="/forget-password"
+      onclick="UIkit.modal('#modal-auth').hide()"
+    >
+      Forget Password</a
+    >
     |
-    <a class="text-style-1 text-gray" onclick="UIkit.modal('#modal-auth').hide()">Back to Home</a>
+    <a
+      class="text-style-1 text-gray"
+      onclick="UIkit.modal('#modal-auth').hide()"
+      >Back to Home</a
+    >
   </div>
 </div>
