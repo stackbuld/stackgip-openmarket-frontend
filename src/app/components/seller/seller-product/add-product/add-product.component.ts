@@ -1,4 +1,7 @@
-import { CreateShipmentModel } from "./../../../../models/products.model";
+import {
+  CreateProductOption,
+  CreateShipmentModel,
+} from "./../../../../models/products.model";
 import { environment } from "src/environments/environment";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
@@ -14,6 +17,8 @@ export class AddProductComponent implements OnInit {
   form: FormGroup;
 
   shipment: CreateShipmentModel[] = [];
+  productOptions: CreateProductOption[] = [];
+  defaultOptions: string[];
   states: string[] = nigeriaSates.map((a) => a.name);
   constructor(private fb: FormBuilder) {}
   uploadWidget: any;
@@ -31,6 +36,7 @@ export class AddProductComponent implements OnInit {
       category: ["", [Validators.required]],
       unit: [0, [Validators.required]],
     });
+    this.defaultOptions = ["color", "size"];
     this.uploadWidget = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
@@ -50,6 +56,7 @@ export class AddProductComponent implements OnInit {
       city: "all",
       cost: 0.0,
     });
+    this.productOptions = [];
   }
 
   upload() {
@@ -71,5 +78,22 @@ export class AddProductComponent implements OnInit {
 
   removeShipment(sn) {
     this.shipment = this.shipment.filter((a) => a.sn !== sn);
+  }
+
+  addProductOption() {
+    const sn = Math.round(Math.random() * 99999);
+
+    const createOption = {
+      sn,
+      title: "",
+      shortDescription: "",
+      value: "",
+      cost: 0.0,
+    } as CreateProductOption;
+    this.productOptions.push(createOption);
+  }
+
+  removeOption(sn) {
+    this.productOptions = this.productOptions.filter((a) => a.sn !== sn);
   }
 }
