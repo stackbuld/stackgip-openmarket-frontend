@@ -1,3 +1,7 @@
+import {
+  CreateProductModel,
+  CreateProductResponse,
+} from "./../../models/products.model";
 import { Observable } from "rxjs";
 import { ProductsApiModel } from "../../models/products.model";
 import { HttpClient } from "@angular/common/http";
@@ -31,6 +35,15 @@ export class ProductsService {
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
       this.baseUrl + `products/new/?pageNumber=${pageNumber}&maxItem=${maxItem}`
+    );
+  }
+
+  createProduct(
+    product: CreateProductModel
+  ): Observable<CreateProductResponse> {
+    return this.http.post<CreateProductResponse>(
+      this.baseUrl + "products",
+      product
     );
   }
 }
