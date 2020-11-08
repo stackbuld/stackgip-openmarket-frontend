@@ -1,6 +1,8 @@
+import { CreateShipmentModel } from "./../../../../models/products.model";
 import { environment } from "src/environments/environment";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
+import { nigeriaSates } from "src/app/data/nigeriastates";
 
 declare var cloudinary: any;
 @Component({
@@ -10,8 +12,12 @@ declare var cloudinary: any;
 })
 export class AddProductComponent implements OnInit {
   form: FormGroup;
+
+  shipment: CreateShipmentModel[] = [];
+  states: string[] = nigeriaSates.map((a) => a.name);
   constructor(private fb: FormBuilder) {}
   uploadWidget: any;
+
   get f() {
     return this.form.controls;
   }
@@ -37,9 +43,33 @@ export class AddProductComponent implements OnInit {
         }
       }
     );
+    this.shipment.push({
+      sn: 1,
+      countryCode: "ng",
+      state: "all",
+      city: "all",
+      cost: 0.0,
+    });
   }
 
   upload() {
     this.uploadWidget.open();
+  }
+
+  addShipment() {
+    const sn = Math.round(Math.random() * 99999);
+
+    const createShipment = {
+      sn: sn,
+      countryCode: "ng",
+      state: "all",
+      city: "all",
+      cost: 0.0,
+    } as CreateShipmentModel;
+    this.shipment.push(createShipment);
+  }
+
+  removeShipment(sn) {
+    this.shipment = this.shipment.filter((a) => a.sn !== sn);
   }
 }

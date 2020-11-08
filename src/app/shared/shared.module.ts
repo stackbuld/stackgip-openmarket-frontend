@@ -13,8 +13,9 @@ import { NgxUiLoaderModule } from "ngx-ui-loader";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { MatRippleModule } from "@angular/material/core";
 import { MatSelectModule } from "@angular/material/select";
-import {MatDialogModule} from '@angular/material/dialog';
-
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatIconModule } from "@angular/material/icon";
+import { MatTooltipModule } from "@angular/material/tooltip";
 @NgModule({
   declarations: [LoaderComponent],
   imports: [CommonModule],
@@ -30,7 +31,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatAutocompleteModule,
     NgxUiLoaderModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    MatIconModule,
+    MatTooltipModule,
   ],
 })
 export class SharedModule {}

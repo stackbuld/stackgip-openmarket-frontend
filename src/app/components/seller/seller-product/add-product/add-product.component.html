@@ -51,66 +51,121 @@
    provide full detail of this product</textarea
     >
   </mat-form-field>
+  <div class="uk-grid-small uk-grid uk-child-width-1-3@s">
+    <mat-form-field class="">
+      <mat-label
+        >Price
+        <span *ngIf="f.price.invalid && (f.price.dirty || f.price.touched)">
+          <span
+            class="uk-text-warning"
+            style="font-size: smaller"
+            *ngIf="f.price.errors.required"
+          >
+            Price required <br
+          /></span>
+        </span>
+      </mat-label>
 
-  <mat-form-field class="uk-width-1-2@s">
-    <mat-label
-      >Price
-      <span *ngIf="f.price.invalid && (f.price.dirty || f.price.touched)">
-        <span
-          class="uk-text-warning"
-          style="font-size: smaller"
-          *ngIf="f.price.errors.required"
-        >
-          Price required <br
-        /></span>
-      </span>
-    </mat-label>
+      <input
+        type="number"
+        matInput
+        formControlName="price"
+        placeholder="eg 1000"
+        required
+      />
+    </mat-form-field>
 
-    <input
-      type="number"
-      matInput
-      formControlName="price"
-      placeholder="eg 1000"
-      required
-    />
-  </mat-form-field>
+    <mat-form-field class="">
+      <mat-label>Previous Price</mat-label>
+      <input
+        type="number"
+        formControlName="previousPrice"
+        matInput
+        placeholder="eg 2000"
+      />
+    </mat-form-field>
 
-  <mat-form-field class="uk-width-1-2@s">
-    <mat-label>Previous Price</mat-label>
-    <input
-      type="number"
-      formControlName="previousPrice"
-      matInput
-      placeholder="eg 2000"
-    />
-  </mat-form-field>
-
-  <mat-form-field class="uk-width-1-2@s">
-    <mat-label
-      >Avaliable Unit
-      <span *ngIf="f.unit.invalid && (f.unit.dirty || f.unit.touched)">
-        <span
-          class="uk-text-warning"
-          style="font-size: smaller"
-          *ngIf="f.unit.errors.required"
-        >
-          unit required <br
-        /></span>
-      </span>
-    </mat-label>
-    <input
-      type="number"
-      formControlName="unit"
-      matInput
-      placeholder="200"
-      required
-    />
-  </mat-form-field>
-  <!-- <mat-form-field class="uk-width-1-2@s">
+    <mat-form-field class="">
+      <mat-label
+        >Avaliable Unit
+        <span *ngIf="f.unit.invalid && (f.unit.dirty || f.unit.touched)">
+          <span
+            class="uk-text-warning"
+            style="font-size: smaller"
+            *ngIf="f.unit.errors.required"
+          >
+            unit required <br
+          /></span>
+        </span>
+      </mat-label>
+      <input
+        type="number"
+        formControlName="unit"
+        matInput
+        placeholder="200"
+        required
+      />
+    </mat-form-field>
+    <!-- <mat-form-field class="uk-width-1-2@s">
     <mat-label>Default Shipping cost</mat-label>
     <input type="number" matInput placeholder="200" required />
   </mat-form-field> -->
+  </div>
+  <hr />
+  <div *ngFor="let ship of shipment">
+    <div class="uk-grid-small uk-grid uk-child-width-1-4@s">
+      <mat-form-field class="">
+        <mat-label>State</mat-label>
+        <mat-select required>
+          <mat-option>Select</mat-option>
+          <mat-option value="all">All</mat-option>
+          <mat-option
+            *ngFor="let state of states"
+            value="{{ state.toLowerCase() }}"
+            >{{ state }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="">
+        <mat-label>City </mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="all, lagos, ikeja, ajah"
+          value="{{ ship.city }}"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field class="">
+        <mat-label>Cost </mat-label>
+        <input type="number" matInput placeholder="200" required />
+      </mat-form-field>
+      <div>
+        <button
+          mat-raised-button
+          (click)="removeShipment(ship.sn)"
+          color="warn"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
 
+      <!-- <mat-form-field class="uk-width-1-2@s">
+      <mat-label>Default Shipping cost</mat-label>
+      <input type="number" matInput placeholder="200" required />
+    </mat-form-field> -->
+    </div>
+  </div>
+  <br />
+  <button
+    mat-raised-button
+    matTooltip="Add Location Where you can provide shipping"
+    aria-label="Add Shipping Cost"
+    color="primary"
+    (click)="addShipment()"
+  >
+    Add Shipping Cost
+  </button>
   <div class="js-upload uk-placeholder uk-text-center" (click)="upload()">
     <span uk-icon="icon: cloud-upload"></span>
     <span class="uk-text-middle">Add Photos of Product</span>
