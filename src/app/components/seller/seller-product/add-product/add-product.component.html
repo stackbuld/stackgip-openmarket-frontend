@@ -156,15 +156,80 @@
     </mat-form-field> -->
     </div>
   </div>
-  <br />
+
   <button
     mat-raised-button
     matTooltip="Add Location Where you can provide shipping"
     aria-label="Add Shipping Cost"
     color="primary"
     (click)="addShipment()"
+    class="uk-margin"
   >
     Add Shipping Cost
+  </button>
+  <hr />
+
+  <div *ngFor="let option of productOptions">
+    <div class="uk-grid-small uk-grid uk-child-width-1-3@s">
+      <mat-form-field class="">
+        <mat-label>Title/Name</mat-label>
+        <input
+          type="text"
+          matTooltip="Provide Product Option Title such as Color or size, for customer to select option"
+          matInput
+          placeholder="eg color, size "
+          required
+        />
+      </mat-form-field>
+      <mat-form-field class="">
+        <mat-label>Value</mat-label>
+        <input
+          type="text"
+          matInput
+          matTooltip="Enter Value for the title , eg XXL for size"
+          placeholder="eg Select color value such red, yellow, blue"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field class="">
+        <mat-label>Cost</mat-label>
+        <input
+          type="number"
+          matInput
+          matTooltip="Enter cost for this option"
+          placeholder="eg Enter cost for this option"
+        />
+      </mat-form-field>
+      <mat-form-field class="">
+        <mat-label>Short Description</mat-label>
+        <textarea
+          type="text"
+          matInput
+          placeholder="provide short description  of this option"
+        ></textarea>
+      </mat-form-field>
+
+      <div>
+        <button
+          mat-raised-button
+          (click)="removeOption(option.sn)"
+          color="warn"
+          class="uk-margin"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <button
+    mat-raised-button
+    matTooltip="Add option related to product such as Size, Color, Shape and others"
+    aria-label="Add Item Option"
+    color="accent"
+    (click)="addProductOption()"
+    class="uk-margin"
+  >
+    Add Options
   </button>
   <div class="js-upload uk-placeholder uk-text-center" (click)="upload()">
     <span uk-icon="icon: cloud-upload"></span>
