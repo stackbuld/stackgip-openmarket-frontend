@@ -33,4 +33,5 @@ export class ProductsService {
       this.baseUrl + `products/new/?pageNumber=${pageNumber}&maxItem=${maxItem}`
     );
   }
+  
 }
