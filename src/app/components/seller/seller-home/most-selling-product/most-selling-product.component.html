@@ -10,16 +10,16 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr *ngFor="let productDetail of productDetails">
       <td>
         <img
           class="uk-img"
-          src="https://source.unsplash.com/100x100/?smart watch"
+          src="{{ productDetail.imageUrl }}"
         />
       </td>
-      <td>Smart watch</td>
-      <td>Men Acessories</td>
-      <td>10</td>
+      <td>{{ productDetail.name }}</td>
+      <td>{{ productDetail.name }}</td>
+      <td>{{ productDetail.unit }}</td>
       <td>NGN 40,000</td>
     </tr>
     <tr>

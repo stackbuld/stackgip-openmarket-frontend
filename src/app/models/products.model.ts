@@ -92,3 +92,14 @@ export interface CreateProductOption {
   shortDescription: string;
   cost: number;
 }
+
+export interface ProductItem {
+  imageUrl: string;
+  product: string;
+  cost: number;
+  unitsold: number;
+  unitleft: number;
+  income: number;
+  button: string;
+
+}
