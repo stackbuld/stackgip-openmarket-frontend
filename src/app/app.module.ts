@@ -52,6 +52,7 @@ import { ListProductComponent } from "./components/home/list-product/list-produc
 import { SearchProductComponent } from './components/home/search-product/search-product.component';
 import { EditProductComponent } from './components/seller/seller-product/edit-product/edit-product.component';
 import { ProductItemComponent } from './components/seller/seller-product/product-item/product-item.component';
+import { OverviewComponent } from './components/seller/seller-home/overview/overview.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { ProductItemComponent } from './components/seller/seller-product/product
     SearchProductComponent,
     EditProductComponent,
     ProductItemComponent,
+    OverviewComponent,
   ],
   imports: [
     BrowserModule,

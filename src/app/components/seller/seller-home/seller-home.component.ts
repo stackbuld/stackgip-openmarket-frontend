@@ -10,19 +10,20 @@ import { ProductsService } from "../../../services/products/products.service";
   styleUrls: ['./seller-home.component.css']
 })
 export class SellerHomeComponent implements OnInit {
+ 
+  overviews: OverView[];
 
-  overview: OverView[];
-  productDetails: MostSelling[] = [];
+  // productDetails: MostSelling[] = [];
   user = getLoggedInUser();
 
-  constructor( private productService: ProductsService) { }
+  constructor( private productService: ProductsService ) { }
 
   ngOnInit(): void {
     const users = this.user;
     this.productService.getProductOverview(users.id).subscribe((view) => {
-      this.overview = view.data
+      this.overviews = view.data
     })
 
-  }
+   }
 
 }

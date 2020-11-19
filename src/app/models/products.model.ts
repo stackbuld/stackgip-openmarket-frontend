@@ -104,7 +104,7 @@ export interface CreateProductOption {
 //   button: string;
 
 // }
-export class OverView {
+export interface OverView {
   totalProducts: number;
   totalOrders: number;
   pendingOrders: number;
@@ -114,6 +114,7 @@ export class OverView {
 export interface OverviewApiModel extends IApiResponseModel {
   data: OverView[];
 }
+
 export interface MostSelling {
   name: string;
   imageUrl: string;

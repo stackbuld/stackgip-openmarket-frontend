@@ -20,6 +20,10 @@ export class ProductItemComponent implements OnInit {
     });
     
   } 
+
+  onEdit(productDetail) {
+    console.log('Edit Product')
+  }
   
   onDelete(pitem) {
     console.log("Delete");
