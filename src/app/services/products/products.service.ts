@@ -5,6 +5,7 @@ import {
 import { Observable } from "rxjs";
 import { ProductsApiModel } from "../../models/products.model";
 import { ProductModel } from "../../models/products.model";
+import { MostSellingResponse, OverviewApiModel } from "../../models/products.model";
 import { IUser } from 'src/app/models/IUserModel';
 import { HttpClient } from "@angular/common/http";
 import { ApiAppUrlService } from "../api-app-url.service";
@@ -60,21 +61,21 @@ export class ProductsService {
    }
 
    getProductOverview(
-    userId: IUser,
-    Type: string,
-    startDate: string = "",
-    endDate: string = "",
+    userId: string,
+    // Type: string,
+    // startDate: string = "",
+    // endDate: string = "",
 
-  ): Observable<ProductsApiModel> {
-    return this.http.get<ProductsApiModel>(
-      this.baseUrl + `seller/${userId.id}/overview/?Type${Type}&StartDate${startDate}&EndDate${endDate}`
+  ): Observable<OverviewApiModel> {
+    return this.http.get<OverviewApiModel>(
+      this.baseUrl + `seller/${userId}/overview/` //?Type${Type}&StartDate${startDate}&EndDate${endDate}
     );
   }
 
   getMostSelling(
     userId:string = ""
-  ): Observable<ProductsApiModel> {
-    return this.http.get<ProductsApiModel>(
+  ): Observable<MostSellingResponse> {
+    return this.http.get<MostSellingResponse>(
       this.baseUrl + `seller/${userId}/most-selling`
     );
   }

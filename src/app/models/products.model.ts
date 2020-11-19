@@ -1,4 +1,5 @@
 import { ResponseModel } from "./../shared/models/ResponseModel";
+import { InvoiceModel } from './invoice.model';
 export interface ProductModel {
   name: string;
   price: number;
@@ -93,13 +94,51 @@ export interface CreateProductOption {
   cost: number;
 }
 
-export interface ProductItem {
+// export interface ProductItem {
+//   imageUrl: string;
+//   product: string;
+//   cost: number;
+//   unitsold: number;
+//   unitleft: number;
+//   income: number;
+//   button: string;
+
+// }
+export class OverView {
+  totalProducts: number;
+  totalOrders: number;
+  pendingOrders: number;
+  revenue: number;
+}
+
+export interface OverviewApiModel extends IApiResponseModel {
+  data: OverView[];
+}
+export interface MostSelling {
+  name: string;
   imageUrl: string;
-  product: string;
-  cost: number;
-  unitsold: number;
-  unitleft: number;
-  income: number;
-  button: string;
+  unit: number;
+  unitSold: number;
+  category: string;
+  revenue: number;
+}
+
+export interface MostSellingResponse extends IApiResponseModel {
+  data: MostSelling[];
+}
+// export interface IApiResponseModelMS {
+//   message: string;
+//   status: string;
+//   data: object;
+// }
+
+export class NewOrders {
+  userId: string;
+  billingAddress: string;
+  country: string;
+  city: string;
+  status: string;
+  transReferenceNo: string;
+  orders: [];
 
 }

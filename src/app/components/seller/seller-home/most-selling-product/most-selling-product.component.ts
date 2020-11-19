@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ProductModel } from "../../../../models/products.model";
+import { MostSelling } from "../../../../models/products.model";
 import { ProductsService } from "../../../../services/products/products.service";
 import { getLoggedInUser } from "../../../../helpers/userUtility"
 import { IUser } from "../../../../models/IUserModel";
@@ -11,15 +11,17 @@ import { IUser } from "../../../../models/IUserModel";
 })
 export class MostSellingProductComponent implements OnInit {
 
-  productDetails: ProductModel[];
+  productDetails: MostSelling[];
   user = getLoggedInUser();
+  
   constructor( private productService: ProductsService) {}
   
   ngOnInit(): void {
-    const users = this.user;
-    this.productService.getMostSelling(users.id).subscribe((productDetail) => {
-      this.productDetails = productDetail.data.data;
-    })
+
+        const users = this.user;
+        this.productService.getMostSelling(users.id).subscribe((productDetail) => {
+          this.productDetails = productDetail.data;
+        })
   }
   
 }
