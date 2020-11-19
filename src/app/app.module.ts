@@ -50,6 +50,8 @@ import { AddProductComponent } from "./components/seller/seller-product/add-prod
 import { ViewProductComponent } from "./components/products/view-product/view-product.component";
 import { ListProductComponent } from "./components/home/list-product/list-product.component";
 import { SearchProductComponent } from './components/home/search-product/search-product.component';
+import { EditProductComponent } from './components/seller/seller-product/edit-product/edit-product.component';
+import { ProductItemComponent } from './components/seller/seller-product/product-item/product-item.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +89,8 @@ import { SearchProductComponent } from './components/home/search-product/search-
     ViewProductComponent,
     ListProductComponent,
     SearchProductComponent,
+    EditProductComponent,
+    ProductItemComponent,
   ],
   imports: [
     BrowserModule,

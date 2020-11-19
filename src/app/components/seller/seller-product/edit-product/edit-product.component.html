@@ -1,5 +1,5 @@
-<div class="dashboard-title uk-margin-bottom">Add New Product</div>
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="dashboard-title uk-margin-bottom">Edit Product</div>
+<form [formGroup]="form">
   <mat-form-field class="uk-width-expand">
     <mat-label
       >Product name
@@ -20,7 +20,6 @@
       formControlName="name"
       matInput
       placeholder="eg Samsung s11"
-      formControlName="name"
       required
     />
   </mat-form-field>
@@ -72,7 +71,6 @@
         matInput
         formControlName="price"
         placeholder="eg 1000"
-        formControlName="price"
         required
       />
     </mat-form-field>
@@ -84,7 +82,6 @@
         formControlName="previousPrice"
         matInput
         placeholder="eg 2000"
-        formControlName="previousPrice"
       />
     </mat-form-field>
 
@@ -106,7 +103,6 @@
         formControlName="unit"
         matInput
         placeholder="200"
-        formControlName="unit"
         required
       />
     </mat-form-field>
@@ -137,7 +133,6 @@
           matInput
           placeholder="all, lagos, ikeja, ajah"
           value="{{ ship.city }}"
-          
           required
         />
       </mat-form-field>
@@ -386,6 +381,7 @@
     width="30"
     src="assets/svg/loader-icon.svg"
   /> -->
-    Add Product
+    Edit Product
   </button>
 </form>
+

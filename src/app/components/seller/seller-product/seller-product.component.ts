@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { ProductModel, CreateProductModel, CreateProductResponse } from  "../../../models/products.model";
+import { ProductsService }  from "../../../services/products/products.service";
 
 @Component({
   selector: "app-seller-product",
@@ -6,6 +8,25 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./seller-product.component.css"],
 })
 export class SellerProductComponent implements OnInit {
-  constructor() {}
-  ngOnInit(): void {}
+
+ cproduct: CreateProductResponse[];
+//  product: ProductModel;
+ pitems: ProductModel[];
+  
+  constructor( private productservice: ProductsService) {}
+  ngOnInit(): void {
+
+  }
+
+ 
+  cp(createproduct: CreateProductResponse) {
+    this.productservice.createProduct(name).subscribe(cproduct => {
+      this.cproduct.push(cproduct)
+    })
+  }
+
+  // removeOption(id) {
+  //   this.productOptions = this.productOptions.filter((a) => a.id !== id);
+  // }
+
 }
