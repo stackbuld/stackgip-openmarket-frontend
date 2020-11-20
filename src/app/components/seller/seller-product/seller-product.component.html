@@ -6,7 +6,7 @@
   Add Product
 </button>
 
-      <app-product-item></app-product-item>
+      <app-product-item (deleteProductDetail)="deleteProductDetail($event)"></app-product-item>
 
 <!-- This is the modal with the outside close button -->
 <div id="modal-add-product" uk-modal="bg-close: false">

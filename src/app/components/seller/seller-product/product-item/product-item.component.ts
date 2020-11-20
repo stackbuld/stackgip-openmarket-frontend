@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ProductModel } from  "../../../../models/products.model";
 import { ProductsService } from "../../../../services/products/products.service";
 
@@ -8,7 +8,7 @@ import { ProductsService } from "../../../../services/products/products.service"
   styleUrls: ['./product-item.component.css']
 })
 export class ProductItemComponent implements OnInit {
-
+  @Output() deleteProductDetail: EventEmitter<ProductModel> = new EventEmitter();
   productDetails: ProductModel[];
 
   constructor( private productService: ProductsService) { }
@@ -25,8 +25,8 @@ export class ProductItemComponent implements OnInit {
     console.log('Edit Product')
   }
   
-  onDelete(pitem) {
-    console.log("Delete");
+  onDelete(productDetail) {
+    this.deleteProductDetail.emit();
   }
 
 }

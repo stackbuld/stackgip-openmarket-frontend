@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ProductModel, CreateProductModel, CreateProductResponse } from  "../../../models/products.model";
+import { ProductModel, CreateProductResponse } from  "../../../models/products.model";
 import { ProductsService }  from "../../../services/products/products.service";
 
 @Component({
@@ -9,20 +9,17 @@ import { ProductsService }  from "../../../services/products/products.service";
 })
 export class SellerProductComponent implements OnInit {
 
- cproduct: CreateProductResponse[];
-//  product: ProductModel;
- pitems: ProductModel[];
+ createproduct: CreateProductResponse[];
+ product: ProductModel;
+
   
   constructor( private productservice: ProductsService) {}
   ngOnInit(): void {
 
   }
 
- 
-  cp(createproduct: CreateProductResponse) {
-    this.productservice.createProduct(name).subscribe(cproduct => {
-      this.cproduct.push(cproduct)
-    })
+  deleteProductDetail(productDetail: ProductModel) {
+    console.log('Delete me!')
   }
 
   // removeOption(id) {
