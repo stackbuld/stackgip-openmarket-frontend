@@ -1,5 +1,5 @@
 import { ResponseModel } from "./../shared/models/ResponseModel";
-import { InvoiceModel } from './invoice.model';
+import { InvoiceModel } from "./invoice.model";
 export interface ProductModel {
   name: string;
   price: number;
@@ -112,7 +112,7 @@ export class OverView {
 }
 
 export interface OverviewApiModel extends IApiResponseModel {
-  data: OverView[];
+  data: OverView;
 }
 export interface MostSelling {
   name: string;
@@ -140,5 +140,4 @@ export class NewOrders {
   status: string;
   transReferenceNo: string;
   orders: [];
-
 }
