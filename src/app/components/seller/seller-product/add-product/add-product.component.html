@@ -1,9 +1,8 @@
 <div class="dashboard-title uk-margin-bottom">Add New Product</div>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-form-field class="uk-width-expand">
-    <mat-label
-      >Product name
-
+    <mat-label>
+      Product name
       <span *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)">
         <span
           class="uk-text-warning"
@@ -137,7 +136,6 @@
           matInput
           placeholder="all, lagos, ikeja, ajah"
           value="{{ ship.city }}"
-          
           required
         />
       </mat-form-field>
