@@ -1,14 +1,17 @@
 import {
-  CreateProductOption,
   CreateProductResponse,
-  CreateShipmentModel,
 } from "./../../../../models/products.model";
+import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, FormArray, Validators } from "@angular/forms";
 import { Component, OnInit, EventEmitter, Output } from "@angular/core";
 import { CreateProductModel } from "../../../../models/products.model";
 import { nigeriaSates } from "src/app/data/nigeriastates";
 import { ProductsService } from "../../../../services/products/products.service";
+import { CatgoryService } from "../../../../services/category/catgory.service";
+import { ToastrService } from "./../../../../services/toastr.service";
+import { getLoggedInUser } from "src/app/helpers/userUtility";
+import { CategoryResponse } from "./../../../../models/CategoryModels";
 
 declare var cloudinary: any;
 @Component({
@@ -18,34 +21,27 @@ declare var cloudinary: any;
 })
 export class AddProductComponent implements OnInit {
   
-
+  @Output() closed = new EventEmitter();
+  @Output() added = new EventEmitter();
   errors: any[];
   errorMessage: string;
-
   form: FormGroup;
   cproduct: CreateProductResponse;
-
-  shipment: CreateShipmentModel[] = [];
-  productOptions: CreateProductOption[] = [];
-  defaultOptions: string[];
-  states: string[] = nigeriaSates.map((a) => a.name);
-  constructor(private fb: FormBuilder, private productService: ProductsService) {}
+  categories$: Observable<CategoryResponse>;
   uploadWidget: any;
-
-  get f() {
-    return this.form.controls;
-  }
   images = [];
+  states: string[] = nigeriaSates.map((a) => a.name);
+  user = getLoggedInUser();
+
+  constructor(
+    private fb: FormBuilder, private toast: ToastrService,
+    private productService: ProductsService, 
+    private catgoryService: CatgoryService
+  ){}
+  get f() {return this.form.controls;}
+
   ngOnInit(): void {
-    this.form = this.fb.group({
-      name: ["", [Validators.required]],
-      description: ["", [Validators.required]],
-      price: [0.0, [Validators.required]],
-      previousPrice: [0.0],
-      category: ["", [Validators.required]],
-      unit: [0, [Validators.required]],
-    });
-    this.defaultOptions = ["color", "size"];
+    this.categories$ = this.catgoryService.GetCategory();
     this.uploadWidget = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
@@ -53,99 +49,115 @@ export class AddProductComponent implements OnInit {
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
-          console.log("Done! Here is the image info: ", result.info);
+          // console.log("Done! Here is the image info: ", result.info);
           this.images.push(result.info.secure_url);
         }
       }
     );
-    this.shipment.push({
-      sn: 1,
-      countryCode: "ng",
-      state: "all",
-      city: "all",
-      cost: 0.0,
-    });
-    this.productOptions = [];
-
+    this.formInit();
   }
 
-  upload() {
+  formInit():void{
+    this.form = this.fb.group({
+      name: ["", [Validators.required]],
+      description: ["", [Validators.required]],
+      price: [0.0, [Validators.required]],
+      previousPrice: [0.0],
+      category: ["", [Validators.required]],
+      unit: [0, [Validators.required]],
+      shipments: this.fb.array([this.createShipment()]),
+      options: this.fb.array([]),
+    });
+  }
+
+  shipments():FormArray{
+    return this.form.get('shipments') as FormArray;
+  }
+
+  createShipment():FormGroup{
+    return this.fb.group({
+      countryCode: ["ng",[Validators.required]],
+      state: ["all",[Validators.required]],
+      city: ["all",[Validators.required]],
+      cost: [0.0,[Validators.required]]
+    });
+  }
+
+  addShipment():void{
+    this.shipments().push(this.createShipment());
+  }
+
+  removeShipment(index:number):void{
+    this.shipments().removeAt(index);
+  }
+
+  options():FormArray{
+    return this.form.get('options') as FormArray;
+  }
+
+  createOptions():FormGroup{
+    return this.fb.group({
+      title: ["",[Validators.required]],
+      shortDescription: ["",[Validators.required]],
+      value: ["",[Validators.required]],
+      cost: [0.0,[Validators.required]]
+    });
+  }
+
+  addProductOption():void{
+    this.options().push(this.createOptions());
+  }
+
+  removeOption(index:number):void{
+    this.options().removeAt(index);
+  }
+  
+  upload():void{
     this.uploadWidget.open();
   }
 
-  addShipment() {
-    const sn = Math.round(Math.random() * 99999);
-
-    const createShipment = {
-      sn: sn,
-      countryCode: "ng",
-      state: "all",
-      city: "all",
-      cost: 0.0,
-    } as CreateShipmentModel;
-    this.shipment.push(createShipment);
+  removeImage(image_url):void{
+    this.images = this.images.filter(
+      (a) => a !== image_url
+    );
   }
-
-  removeShipment(sn) {
-    this.shipment = this.shipment.filter((a) => a.sn !== sn);
-  }
-
-  addProductOption() {
-    const sn = Math.round(Math.random() * 99999);
-
-    const createOption = {
-      sn,
-      title: "",
-      shortDescription: "",
-      value: "",
-      cost: 0.0,
-    } as CreateProductOption;
-    this.productOptions.push(createOption);
-  }
-
-  removeOption(sn) {
-    this.productOptions = this.productOptions.filter((a) => a.sn !== sn);
-  }
-
-  onSubmit() {
+  
+  onSubmit():void{
     this.errors = [];
     this.errorMessage = "";
 
-    const data: CreateProductModel  = {
+    if (this.form.invalid) {
+      console.log(this.form.errors);
+      return;
+    }
+    const data: CreateProductModel  =  this.getProductData();
+    this.productService.createProduct(data).subscribe( 
+      (a) => {
+        this.images = [];
+        this.added.emit(a.data);
+        this.toast.success("product created successfully");
+        this.closed.emit();
+      },
+      (error) => {
+        // this.errors = error.error.errors.map((a) => a.description);
+        console.log("error", error);
+      }
+     )
+  }
+
+  getProductData():CreateProductModel{
+    return {
       name: this.form.get("name").value,
       price: this.form.get("price").value,
       previousPrice: this.form.get("previousPrice").value,
       description: this.form.get("description").value,
       unit: this.form.get("unit").value,
-      imageUrl: this.form.get("imageUrl").value,
-      imageUrls: this.form.get("imageUrls").value,
-      // profileImageUrl: "",
-    } as CreateProductModel;
-
-    const shipment: CreateShipmentModel = {
-      // countryCode: this.form.get("countryCode").value,
-      state: this.form.get("state").value,
-      city: this.form.get("city").value,
-      cost: this.form.get("cost").value,
-    } as CreateShipmentModel;
-
-    const productoption: CreateProductOption = {
-      title: this.form.get("title").value,
-      value: this.form.get("value").value,
-      shortDescription: this.form.get("shortDescription").value,
-    } as CreateProductOption;
-
-    this.productService.createProduct(data).subscribe( cp => {
-      this.cproduct.data;
-      console.log(data);
-
-      shipment => {
-        this.shipment = shipment;
-        console.log(shipment)
-      }
-      productoption => {
-        this.productOptions = productoption;
-      }
-    })
+      imageUrl: this.images[0],
+      imageUrls: this.images,
+      shipments: this.form.get("shipments").value,
+      options: this.form.get("options").value,
+      categoryId: this.form.get('category').value,
+      userId: this.user.id,
+    } as CreateProductModel
   }
 }

@@ -1,5 +1,6 @@
 import { ResponseModel } from "./../shared/models/ResponseModel";
 import { InvoiceModel } from "./invoice.model";
+import { ICategory } from "./CategoryModels";
 export interface ProductModel {
   name: string;
   price: number;
@@ -25,10 +26,12 @@ export interface CreateProductModel {
   unit: number;
   imageUrls: string[];
   userId: string;
+  shipments: CreateShipmentModel[];
+  options: CreateProductOption[];
 }
 
 export interface CreateProductResponse extends ResponseModel {
-  data: CreateProductModel;
+  data: CreateProductModel & {category?: ICategory};
 }
 
 export interface ProductCartModel extends ProductModel {
