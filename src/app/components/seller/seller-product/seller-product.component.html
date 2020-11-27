@@ -6,13 +6,16 @@
   Add Product
 </button>
 
-      <app-product-item (cp)="cp($event)"></app-product-item>
+      <app-product-item (cp)="cp($event)" #productList></app-product-item>
 
 <!-- This is the modal with the outside close button -->
 <div id="modal-add-product" uk-modal="bg-close: false">
   <div class="uk-modal-dialog uk-modal-body">
-    <button class="uk-modal-close-outside" type="button" uk-close></button>
-    <app-add-product></app-add-product>
+    <button class="uk-modal-close-outside" type="button" uk-close #closeCreate></button>
+    <app-add-product 
+      (closed)="closeAddProductModal()" 
+      (added)="productList.updateProduct($event)">
+    </app-add-product>
   </div>
 </div>
 

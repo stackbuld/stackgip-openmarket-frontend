@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ElementRef, ViewChild} from "@angular/core";
 import { ProductModel, CreateProductModel, CreateProductResponse } from  "../../../models/products.model";
 import { ProductsService }  from "../../../services/products/products.service";
 
@@ -8,8 +8,9 @@ import { ProductsService }  from "../../../services/products/products.service";
   styleUrls: ["./seller-product.component.css"],
 })
 export class SellerProductComponent implements OnInit {
-
- cproduct: CreateProductResponse[];
+  @ViewChild('productList') productList: ElementRef<HTMLElement>;
+  @ViewChild('closeCreate') closeCreate: ElementRef<HTMLElement>;
+  cproduct: CreateProductResponse[];
 //  product: ProductModel;
  pitems: ProductModel[];
   
@@ -25,6 +26,9 @@ export class SellerProductComponent implements OnInit {
     })
   }
 
+  closeAddProductModal(){
+    this.closeCreate.nativeElement.click();
+  }
   // removeOption(id) {
   //   this.productOptions = this.productOptions.filter((a) => a.id !== id);
   // }

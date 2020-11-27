@@ -25,4 +25,7 @@ export class ProductItemComponent implements OnInit {
     console.log("Delete");
   }
 
+  public updateProduct(product: ProductModel){
+    this.productDetails.push(product);
+  }
 }
