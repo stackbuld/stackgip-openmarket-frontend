@@ -15,10 +15,7 @@
       <tbody>
         <tr *ngFor="let productDetail of productDetails">
           <td>
-            <img
-              class="uk-img"
-              src="{{ productDetail.imageUrl }}" width="100" height="100"
-            />
+            <img class="uk-img" src="{{ productDetail.imageUrl }}" width="100" height="100" />
           </td>
           <td>
             <span class="uk-text-muted"> {{ productDetail.category.name }} </span> <br />
@@ -31,18 +28,29 @@
           <td>
             <div class="uk-inline">
               <button class="uk-button uk-button-default" type="button">
-              Action
+                Action
               </button>
               <div uk-dropdown="mode: click">
                 <ul class="uk-list uk-list-divider">
-                  <li><a href="#" id="js-modal-prompt" uk-toggle="target: #modal-edit-product">Edit</a></li>
-                  <li><a (click)="onDelete(productDetail)"> Remove</a></li>
-                  <li><a>View More</a></li>
+                  <li>
+                    <a id="js-modal-prompt" 
+                       uk-toggle="target: #modal-edit-product"
+                       (click)="setProductId(productDetail.id)">
+                        Edit
+                    </a>
+                  </li>
+                  <li><a (click)="onDelete(productDetail.id)"> Remove</a></li>
+                  <li>
+                    <a uk-toggle="target: #modal-view-more" 
+                      (click)="setViewMore(productDetail.id)">
+                      View More
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
           </td>
         </tr>
-          </tbody>
+      </tbody>
     </table>
-  </div>
+</div>

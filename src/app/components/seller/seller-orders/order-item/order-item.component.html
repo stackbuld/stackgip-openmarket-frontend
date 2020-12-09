@@ -1,0 +1,49 @@
+<table class="uk-table uk-table-responsive uk-table-divider">
+    <thead>
+        <tr>
+            <td></td>
+            <th>Product</th>
+            <th>Cost</th>
+            <th>Unit Ordered</th>
+            <th>Total Cost</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of items">
+            <td>
+                <img class="uk-img" src="{{item.imageUrl}}" />
+            </td>
+            <td>
+                <span class="uk-text-muted"> {{item.country}}</span> <br />
+                {{item.product.name}}
+            </td>
+            <td>NGN {{item.price}}</td>
+            <td>{{item.unit}}</td>
+            <td>NGN {{item.total}}</td>
+            <td>
+                <div class="uk-inline">
+                    <button class="uk-button uk-button-default" type="button">
+                        Action
+                    </button>
+                    <div uk-dropdown="mode: click">
+                        <ul class="uk-list uk-list-divider">
+                            <li>
+                                <a uk-toggle="target: #modal-view-more" 
+                                    (click)="setViewMore(item)">
+                                    View More
+                                </a>
+                            </li>
+                            <li>
+                                <a uk-toggle="target: #modal-update-delivery-status">
+                                    Update Delivery Status
+                                </a>
+                            </li>
+                            <li><a (click)="onDelete(item.id)">Cancel</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

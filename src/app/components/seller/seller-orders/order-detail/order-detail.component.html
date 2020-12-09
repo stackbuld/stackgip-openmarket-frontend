@@ -1,0 +1,43 @@
+<table class="uk-table uk-table-responsive uk-table-divider">
+    <tbody>
+        <tr>
+            <td>User Id:</td><td>{{order.userId}}</td>
+        </tr>
+        <tr>
+            <td>Address:</td>
+            <td>{{order.billingAddress}}</td>
+        </tr>
+        <tr>
+            <td>Country:</td>
+            <td>{{order.country}}</td>
+        </tr>
+        <tr>
+            <td>State:</td>
+            <td>{{order.state}}</td>
+        </tr>
+        <tr>
+            <td>City:</td>
+            <td>{{order.city}}</td>
+        </tr>
+        <tr>
+            <td>Status:</td>
+            <td>{{order.status}}</td>
+        </tr>
+        <tr>
+            <td>Total Item:</td>
+            <td>{{order.orders.length}}</td>
+        </tr>
+        <tr>
+            <td>Amount:</td>
+            <td>NGN {{orderSservice.getPrice(order.orders)}}</td>
+        </tr>
+        <tr>
+            <td>Created On:</td>
+            <td>{{formatDate(order.createdOn)}}</td>
+        </tr>
+        <!-- <tr>
+            <td>Payment Type:</td>
+            <td>Pay on delivery</td>
+        </tr> -->
+    </tbody>
+</table>

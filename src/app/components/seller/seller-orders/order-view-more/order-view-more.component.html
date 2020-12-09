@@ -1,0 +1,34 @@
+<div class="uk-card-body uk-padding-small">
+    <div class="dashboard-title uk-margin-bottom">Order Detail</div>
+    <table class="uk-table uk-table-responsive uk-table-divider" *ngIf="order">
+        <tbody>
+            <tr>
+                <td>Product Id: </td><td>{{order.productId}}</td>
+            </tr>
+            <tr>
+                <td>Name: </td><td>{{order.product.name}}</td>
+            </tr>
+            <tr>
+                <td>Unit: </td><td>{{order.unit}}</td>
+            </tr>
+            <tr>
+                <td>Price: </td><td>{{order.price}}</td>
+            </tr>
+            <tr>
+                <td>Discount: </td><td>{{order.discount}}</td>
+            </tr>
+            <tr>
+                <td>Total: </td><td>{{order.total}}</td>
+            </tr>
+            <tr>
+                <td>Status: </td><td>{{order.status}}</td>
+            </tr>
+            <tr>
+                <td>Invoice Id: </td><td>{{order.invoiceId}}</td>
+            </tr>
+            <tr>
+                <td>Created On: </td><td>{{formatDate(order.createdOn)}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

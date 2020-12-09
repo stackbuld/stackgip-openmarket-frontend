@@ -1,6 +1,7 @@
 import {
   CreateProductModel,
   CreateProductResponse,
+  EditProductItem,
 } from "./../../models/products.model";
 import { Observable } from "rxjs";
 import { ProductsApiModel } from "../../models/products.model";
@@ -53,6 +54,16 @@ export class ProductsService {
     );
   }
 
+  UpdateProduct(
+    productId: number,
+    product: CreateProductModel
+  ): Observable<CreateProductResponse> {
+    return this.http.put<CreateProductResponse>(
+      `${this.baseUrl}products/${productId}`,
+      product
+    );
+  }
+
   getProductId(pid: ProductModel): Observable<ProductModel> {
     return this.http.get<ProductModel>(this.baseUrl + `products?id=${pid.id}`);
   }
@@ -83,5 +94,13 @@ export class ProductsService {
       this.baseUrl +
         `seller/${userId.id}/orders/new/?pageNumber${PageNumber}&MaxItem${MaxIttem}`
     );
+  }
+
+  getProductById(productId:string):Observable<EditProductItem>{
+    return this.http.get<EditProductItem>(this.baseUrl + `products/${productId}`);
+  }
+
+  deleteProduct(productId:number){
+    return this.http.delete(this.baseUrl+`products/${productId}`);
   }
 }
