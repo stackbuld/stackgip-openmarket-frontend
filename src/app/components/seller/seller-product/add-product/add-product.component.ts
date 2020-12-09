@@ -34,7 +34,8 @@ export class AddProductComponent implements OnInit {
   user = getLoggedInUser();
 
   constructor(
-    private fb: FormBuilder, private toast: ToastrService,
+    private fb: FormBuilder, 
+    private toast: ToastrService,
     private productService: ProductsService, 
     private catgoryService: CatgoryService
   ){}

@@ -1,0 +1,14 @@
+<div class="dashboard-title uk-margin-bottom">Update Delivery Status</div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-form-field class="uk-width-expand">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status" required>
+      <mat-option value="In queue">In queue</mat-option>
+      <mat-option value="In Transit">In Transit</mat-option>
+      <mat-option value="Deliver">Deliver</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button type="submit" class="btn-default">
+    Update
+  </button>
+</form>
