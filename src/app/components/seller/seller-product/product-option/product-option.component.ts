@@ -50,9 +50,8 @@ export class ProductOptionComponent implements OnInit {
     // }, 1000);
   }
 
-  removeOption(optionId:any,index:number):void{
+  removeOption(productId:number,optionId:any,index:number):void{
     this.options[index].loading = true;
-    this.productService
     setTimeout(()=>{     
       this.options.splice(index,1);
     }, 1000);
