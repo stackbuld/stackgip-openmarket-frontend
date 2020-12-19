@@ -1,45 +1,16 @@
-<div class="dashboard-title">New Orders ({{firstOrderCount}})</div>
-<div class="uk-grid uk-child-width-1-1" *ngFor="let order of orderList">
-  <div class="uk-card uk-card-default uk-card-body uk-margin-small">
-    <div class="uk-text-left">
-      <b>User Id: </b> <span>{{order.userId}}</span> &nbsp; <b>Total Items</b> {{order.orders.length}}
-      <b>Amount:</b> Ngn {{orderService.getPrice(order.orders)}}
-      <br />
-
-      <span class="uk-float-left"> {{order.billingAddress}}</span>
-      <span class="uk-label uk-label-default uk-float-right">{{order.status}}</span>
-    </div>
-    <br />
-    <button class="btn-default uk-margin" type="button" 
-      [attr.data-uk-toggle]="'target: .toggle-'+order.id"
-      (click)="viewItems()">View Items
-    </button>
-    &nbsp;
-    <button class="btn-default uk-margin" type="button" 
-      [attr.data-uk-toggle]="'target: .toggle-'+order.id"
-      (click)="viewMore(order.id)">View More
-    </button>
-    <div class="uk-background-muted toggle-{{order.id}}" hidden>
-      <app-order-item   [items]="order.orders" *ngIf="!order.viewMore"
-        (viewedMore)="orderViewMore.setOrder($event)" >
-      </app-order-item> 
-      <app-order-detail *ngIf="order.viewMore" [order]="order"></app-order-detail> 
-    </div>
-  </div>
-</div>
-
-<!-- This is the modal with the outside close button -->
-<div id="modal-view-more" uk-modal="bg-close: false">
-  <div class="uk-modal-dialog uk-modal-body">
-    <button class="uk-modal-close-outside" type="button" uk-close></button>
-    <app-order-view-more #orderViewMore></app-order-view-more>
-  </div>
-</div>
-
-<!-- This is the modal with the outside close button -->
-<div id="modal-update-delivery-status" uk-modal="bg-close: false">
-  <div class="uk-modal-dialog uk-modal-body">
-    <button class="uk-modal-close-outside" type="button" uk-close></button>
-    <app-update-delivery-status ></app-update-delivery-status>
-  </div>
+<div class="uk-grid uk-child-width-1-1" >
+    <div class="dashboard-title">Orders</div>
+    <ul uk-tab>
+        <li class="uk-active"><a>All</a></li>
+        <li><a>Pending</a></li>
+        <li><a href="#">In Transit</a></li>
+        <li><a href="#">Deliver</a></li>
+        <!-- <li class="uk-disabled"><a>Disabled</a></li> -->
+    </ul>
+    <ul class="uk-switcher uk-margin">
+      <li><app-order-list></app-order-list></li>
+      <li><app-order-list></app-order-list></li>
+      <li><app-order-list></app-order-list></li>
+      <li><app-order-list></app-order-list></li>
+    </ul>
 </div>

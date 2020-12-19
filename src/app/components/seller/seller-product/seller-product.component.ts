@@ -23,9 +23,9 @@ export class SellerProductComponent implements OnInit {
 
  
   cp(createproduct: CreateProductResponse):void{
-    this.productservice.createProduct(name).subscribe(cproduct => {
-      this.cproduct.push(cproduct)
-    })
+    // this.productservice.createProduct(name).subscribe(cproduct => {
+    //   this.cproduct.push(cproduct)
+    // })
   }
 
   closeAddProductModal():void{
