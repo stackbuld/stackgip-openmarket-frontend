@@ -1,0 +1,74 @@
+<h3 class="uk-heading-line uk-text-center"><span>Product Options</span></h3>
+<div class="uk-grid-small uk-grid uk-child-width-1-4@s" 
+    *ngFor="let pOption of options; let i=index;">
+    <div>
+        <div class="uk-margin">
+            <input class="uk-input uk-form-width-medium" 
+                type="text" value="{{pOption.title}}" readonly>
+        </div>
+    </div>
+    <div>
+        <div class="uk-margin">
+            <input class="uk-input uk-form-width-medium" type="text" 
+                type="text" value="{{pOption.value}}" readonly>
+        </div>
+    </div>
+    <div>
+        <div class="uk-margin">
+            <input class="uk-input uk-form-width-medium" type="text" 
+                type="text" value="{{pOption.cost}}" readonly>
+        </div>
+    </div>
+    <div>
+        <button mat-raised-button color="warn" type="button" 
+            [class.spinner]="pOption.loading" [disabled]="pOption.loading"
+            (click)="removeOption(pOption.productId,pOption.id,i)" >
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+</div>
+
+<div class="uk-grid-small uk-grid uk-child-width-1-4@s" [formGroup]="optionForm">
+    <mat-form-field class="">
+        <mat-label>Title/Name</mat-label>
+        <input type="text" matInput placeholder="eg color, size " 
+            matTooltip="Provide Product Option Title such as Color or size, for customer to select option"
+            (focus)="errs = []" formControlName="Title" required
+        />
+    </mat-form-field>
+    <mat-form-field class="">
+        <mat-label>Value</mat-label>
+        <input type="text" matInput matTooltip="Enter Value for the title , eg XXL for size"
+            placeholder="eg Select color value such red, yellow, blue"  formControlName="Value" 
+            (focus)="errs = []" required
+        />
+    </mat-form-field>
+    <mat-form-field class="">
+        <mat-label>Cost</mat-label>
+        <input type="number" matInput matTooltip="Enter cost for this option"
+            placeholder="eg Enter cost for this option" formControlName="Cost" 
+            (focus)="errs = []" required
+        />
+    </mat-form-field>
+    <mat-form-field class="">
+        <mat-label>Description</mat-label>
+        <!-- <textarea type="text" matInput placeholder="provide short description  of this option"
+        formControlName="optionShortDescription"
+        ></textarea> -->
+        <input type="text" matInput matTooltip="provide short description  of this option"
+        placeholder="provide short description  of this option" 
+        formControlName="ShortDescription"
+        />
+    </mat-form-field>
+</div>
+<mat-error *ngIf="errs.length">
+    <strong>
+        <span *ngFor="let err of errs">{{err}} </span> {{errs.length > 1?'are':'is'}} required
+    </strong>
+</mat-error>
+<button mat-raised-button [class.spinner]="loading" [disabled]="loading"
+    aria-label="Add Item Option" class="uk-margin" type="button"
+    matTooltip="Add option related to product such as Size, Color, Shape and others"
+    (click)="addProductOption()" color="accent">
+    Save Option
+</button>

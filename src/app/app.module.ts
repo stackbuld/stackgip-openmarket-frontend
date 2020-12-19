@@ -57,6 +57,9 @@ import { OrderDetailComponent } from './components/seller/seller-orders/order-de
 import { ViewMoreComponent } from './components/seller/seller-product/view-more/view-more.component';
 import { OrderViewMoreComponent } from './components/seller/seller-orders/order-view-more/order-view-more.component';
 import { UpdateDeliveryStatusComponent } from './components/seller/seller-orders/update-delivery-status/update-delivery-status.component';
+import { OrderListComponent } from './components/seller/seller-orders/order-list/order-list.component';
+import { ProductOptionComponent } from './components/seller/seller-product/product-option/product-option.component';
+import { ProductShipmentComponent } from './components/seller/seller-product/product-shipment/product-shipment.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +104,9 @@ import { UpdateDeliveryStatusComponent } from './components/seller/seller-orders
     ViewMoreComponent,
     OrderViewMoreComponent,
     UpdateDeliveryStatusComponent,
+    OrderListComponent,
+    ProductOptionComponent,
+    ProductShipmentComponent,
   ],
   imports: [
     BrowserModule,

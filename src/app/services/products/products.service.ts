@@ -1,15 +1,11 @@
 import {
-  CreateProductModel,
-  CreateProductResponse,
-  EditProductItem,
+  CreateProductModel, CreateProductResponse, EditProductItem,
 } from "./../../models/products.model";
-import { Observable } from "rxjs";
-import { ProductsApiModel } from "../../models/products.model";
-import { ProductModel } from "../../models/products.model";
-import {
-  MostSellingResponse,
-  OverviewApiModel,
+import { 
+  ProductsApiModel, ProductModel, CreateProductOption,
+  MostSellingResponse, OverviewApiModel,CreateProductOptionResponse 
 } from "../../models/products.model";
+import { Observable } from "rxjs";
 import { IUser } from "src/app/models/IUserModel";
 import { HttpClient } from "@angular/common/http";
 import { ApiAppUrlService } from "../api-app-url.service";
@@ -103,4 +99,15 @@ export class ProductsService {
   deleteProduct(productId:number){
     return this.http.delete(this.baseUrl+`products/${productId}`);
   }
+
+  createProductOption(productId:number,option:CreateProductOption):
+    Observable<CreateProductOptionResponse>{
+    return this.http.post<CreateProductOptionResponse>(
+      this.baseUrl + `productoption?productId=${productId}`,option
+    );
+  }
+
+  // deleteProductOption(productId:number,optionId:number){
+  //   return this.http.delete(this.baseUrl+`products/${productId}`);
+  // }
 }

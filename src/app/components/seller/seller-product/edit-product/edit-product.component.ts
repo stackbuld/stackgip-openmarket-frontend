@@ -6,7 +6,7 @@ import {
 import { CreateProductModel } from "../../../../models/products.model";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { FormBuilder, FormGroup, FormArray, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, OnInit, EventEmitter, Output} from "@angular/core";
 import { nigeriaSates } from "src/app/data/nigeriastates";
 import { ProductsService } from "../../../../services/products/products.service";
@@ -31,6 +31,8 @@ export class EditProductComponent implements OnInit{
   productId: number;
   states: string[] = nigeriaSates.map((a) => a.name);
   images: string[] = [];
+  productOptions: CreateProductOption[];
+  productShipments: CreateShipmentModel[];
   user = getLoggedInUser();
 
   constructor(
@@ -70,54 +72,10 @@ export class EditProductComponent implements OnInit{
       name: ["", [Validators.required]],
       description: ["", [Validators.required]],
       price: [0.0, [Validators.required]],
-      previousPrice: [0.0],
       category: ["", [Validators.required]],
       unit: [0, [Validators.required]],
-      shipments: this.fb.array([]),
-      options: this.fb.array([]),
+      previousPrice: [0.0]
     });
-  }
-
-  shipments():FormArray{
-    return this.form.get('shipments') as FormArray;
-  }
-
-  createShipment():FormGroup{
-    return this.fb.group({
-      countryCode: ["ng",[Validators.required]],
-      state: ["all",[Validators.required]],
-      city: ["all",[Validators.required]],
-      cost: [0.0,[Validators.required]]
-    });
-  }
-
-  addShipment():void{
-    this.shipments().push(this.createShipment());
-  }
-
-  removeShipment(index:number):void{
-    this.shipments().removeAt(index);
-  }
-
-  options():FormArray{
-    return this.form.get('options') as FormArray;
-  }
-
-  createOptions():FormGroup{
-    return this.fb.group({
-      title: ["",[Validators.required]],
-      shortDescription: ["",[Validators.required]],
-      value: ["",[Validators.required]],
-      cost: [0.0,[Validators.required]]
-    });
-  }
-
-  addProductOption():void{
-    this.options().push(this.createOptions());
-  }
-
-  removeOption(index:number):void{
-    this.options().removeAt(index);
   }
 
   upload() {
@@ -131,8 +89,8 @@ export class EditProductComponent implements OnInit{
   }
 
   setProduct({productId}):void{
-    this.productId = productId
-    // this.productId = 145
+    // this.productId = productId
+    this.productId = 145
     this.productService.getProductById(productId).subscribe((a)=>{
       const data:EditProductModel = a.data;
       // this.form.get('name').setValue(data.name);
@@ -142,38 +100,12 @@ export class EditProductComponent implements OnInit{
         "price":data.price,
         "previousPrice":data.previousPrice,
         "category":data.category.id,
-        "unit":data.unit,
-        "shipments":[],
-        "options":[],
+        "unit":data.unit
       });
       this.images = data.productImages
 
-      this.setShipments(data.productShipments as CreateShipmentModel[]);
-      this.setOptions(data.productOptions as CreateProductOption[]);
-    });
-  }
-
-  setShipments(shipments:CreateShipmentModel[]):void{
-    shipments.forEach((shipment:CreateShipmentModel)=>{
-       let fb = this.fb.group({
-        countryCode: [shipment.countryCode,[Validators.required]],
-        state: [shipment.state,[Validators.required]],
-        city: [shipment.city,[Validators.required]],
-        cost: [shipment.cost,[Validators.required]]
-      });
-      this.shipments().push(fb);
-    });
-  }
-
-  setOptions(options:CreateProductOption[]):void{
-    options.forEach((option:CreateProductOption)=>{
-      let fb = this.fb.group({
-        title: [option.title,[Validators.required]],
-        shortDescription: [option.shortDescription,[Validators.required]],
-        value: [option.value,[Validators.required]],
-        cost: [option.cost,[Validators.required]]
-      }); 
-      this.options().push(fb);
+      this.productOptions = data.productOptions;
+      this.productShipments = data.productShipments;
     });
   }
 
@@ -195,7 +127,6 @@ export class EditProductComponent implements OnInit{
         this.closed.emit();
       },
       (error) => {
-        // this.errors = error.error.errors.map((a) => a.description);
         console.log("error", error);
       }
      )
@@ -210,8 +141,6 @@ export class EditProductComponent implements OnInit{
       unit: this.form.get("unit").value,
       imageUrl: this.images[0],
       imageUrls: this.images,
-      shipments: this.form.get("shipments").value,
-      options: this.form.get("options").value,
       categoryId: this.form.get('category').value,
       userId: this.user.id,
     } as CreateProductModel
