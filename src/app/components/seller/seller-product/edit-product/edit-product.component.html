@@ -119,9 +119,11 @@
     </mat-form-field>
   </div>
   
-  <app-product-shipment [shipments]="productShipments"></app-product-shipment>
+  <app-product-shipment [shipments]="productShipments" [productId]="productId">
+  </app-product-shipment>
   <hr/>
-  <app-product-option [options]="productOptions" [productId]="productId"></app-product-option>
+  <app-product-option  [options]="productOptions" [productId]="productId">
+  </app-product-option>
   <hr/>
   
   <div class="js-upload uk-placeholder uk-text-center" (click)="upload()">

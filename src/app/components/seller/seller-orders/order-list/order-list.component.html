@@ -1,9 +1,8 @@
-<!-- <div class="dashboard-title">New Orders ({{firstOrderCount}})</div> -->
-<!-- <div class="uk-grid uk-child-width-1-1" > -->
   <div class="uk-card uk-card-default uk-card-body uk-margin-small" 
     *ngFor="let order of orderList">
     <div class="uk-text-left">
-      <b>User Id: </b> <span>{{order.userId}}</span> &nbsp; <b>Total Items</b> {{order.orders.length}}<br />
+      <!-- <b>User Id: </b> <span>{{order.userId}}</span> &nbsp;-->
+      <b>Total Items</b> {{order.orders.length}}<br /> 
       <b>Amount:</b> Ngn {{orderService.getPrice(order.orders)}}
       <br />
 

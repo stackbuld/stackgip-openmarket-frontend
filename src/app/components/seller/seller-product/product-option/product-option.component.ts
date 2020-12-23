@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { CreateProductOption, ProductOption} from 'src/app/models/products.model';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl} from '@angular/forms';
 import { ErrorService } from './../../../../services/error.service';
 import { ProductsService } from './../../../../services/products/products.service';
 
@@ -9,10 +9,11 @@ import { ProductsService } from './../../../../services/products/products.servic
   templateUrl: './product-option.component.html',
   styleUrls: ['./product-option.component.css','../../../../shared/css/spinner.css']
 })
-export class ProductOptionComponent implements OnInit {
+export class ProductOptionComponent implements OnInit, OnChanges {
   @Input() options: ProductOption[];
   @Input() productId:number;
   optionForm: FormGroup;
+  optionEditForm: FormGroup;
   errs: string[] = [];
   loading: boolean = false;
 
@@ -29,6 +30,42 @@ export class ProductOptionComponent implements OnInit {
       Value: ["", [Validators.required]],
       Cost: ["", [Validators.required]],
     });
+    this.optionEditForm = this.fb.group({
+      options: this.fb.array([])
+    });
+  }
+
+  ngOnChanges(changes:SimpleChanges):void{
+    if(changes['options'] && changes['options'].currentValue){
+        this.optionArray().clear();
+        this.setEditForm(
+          changes['options'].currentValue as ProductOption[]
+        );
+    }
+  }
+
+  optionArray():FormArray{
+    return this.optionEditForm.get('options') as FormArray;
+  }
+
+  setEditForm(options:ProductOption[]):void{
+    options.forEach((option) => {
+      this.optionArray().push(
+        this.setEditFormGroup(option)
+      )
+    });
+  }
+
+  setEditFormGroup(option:ProductOption):FormGroup{
+    return this.fb.group({
+      id:option.id,
+      title:[option.title,[Validators.required]],
+      value:[option.value,[Validators.required]],
+      cost:[option.cost,[Validators.required]],
+      shortDescription:option.shortDescription,
+      productId:option.productId,editable:false,
+      loading:false,editLoading:false,
+    });
   }
 
   addProductOption():void{
@@ -38,23 +75,45 @@ export class ProductOptionComponent implements OnInit {
     this.loading = true;
     this.productService.createProductOption(this.productId,data)
       .subscribe((a)=>{
-      this.options.push(a.data);
+      this.optionArray().push(this.setEditFormGroup(a.data));
       this.resetForm();
       this.loading = false;
     });
-
-    // setTimeout(()=>{     
-    //   this.options.push(data);
-    //   this.resetForm();
-    //   this.loading = false;
-    // }, 1000);
   }
 
-  removeOption(productId:number,optionId:any,index:number):void{
-    this.options[index].loading = true;
-    setTimeout(()=>{     
-      this.options.splice(index,1);
-    }, 1000);
+  editOption(index:number):void{
+    this.optionArray().at(index).get('editable').setValue(true);
+  }
+
+  updateOption(optionId:number,index:number):void{
+    let optionControl:AbstractControl = this.optionArray().at(index);
+    if(optionControl.invalid){
+      this.errs = this.errorService.setControlEditError(
+        ["Title","Value","Cost"],optionControl
+      );
+      return
+    }
+    optionControl.get('editLoading').setValue(true);
+    const optionData = (({title,value,cost})=>({title,value,cost}))
+    (optionControl.value) as ProductOption;
+
+    this.productService.UpdateProductOption(optionId,optionData)
+      .subscribe((a)=>{
+        optionControl.patchValue({
+          title:a.data.title,value:a.data.value,
+          cost:a.data.cost,editable:false,editLoading:false
+        });
+    });
+  }
+
+  removeOption(optionId:number,index:number):void{
+    this.optionArray().at(index).get('loading').setValue(true)
+    this.productService.deleteProductOption(optionId)
+    .subscribe((a)=>{this.optionArray().removeAt(index);});
+
+    // setTimeout(()=>{     
+    //   this.optionArray().removeAt(index);
+    // }, 1000);
   }
 
   controlsErrorExist():number{

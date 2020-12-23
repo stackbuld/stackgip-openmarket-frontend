@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AbstractControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,20 @@ export class ErrorService {
           errs.push(name+',');
         }
     }
+    return this.makeErrorReadable(errs);
+  }
+
+  setControlEditError(controls:string[],absControl:AbstractControl){
+    let errs:string[] = [];
+    controls.forEach((control)=>{
+      if(absControl.get(control.toLowerCase()).hasError('required')){
+        errs.push(control+',');
+      }
+    });
+    return this.makeErrorReadable(errs);
+  }
+
+  makeErrorReadable(errs:string[]){
     const lastIndex:number = errs.length - 1;
     if(lastIndex > -1){
       errs[lastIndex] = errs[lastIndex].replace(',','');

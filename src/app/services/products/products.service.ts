@@ -1,9 +1,8 @@
-import {
-  CreateProductModel, CreateProductResponse, EditProductItem,
-} from "./../../models/products.model";
 import { 
-  ProductsApiModel, ProductModel, CreateProductOption,
-  MostSellingResponse, OverviewApiModel,CreateProductOptionResponse 
+  ProductsApiModel, ProductModel, CreateProductOption, ProductShipment,
+  CreateProductModel, CreateProductResponse, EditProductItem,
+  MostSellingResponse, OverviewApiModel,CreateProductOptionResponse, 
+  ProductShipmentResponse,CreateShipmentModel 
 } from "../../models/products.model";
 import { Observable } from "rxjs";
 import { IUser } from "src/app/models/IUserModel";
@@ -107,7 +106,38 @@ export class ProductsService {
     );
   }
 
-  // deleteProductOption(productId:number,optionId:number){
-  //   return this.http.delete(this.baseUrl+`products/${productId}`);
-  // }
+  UpdateProductOption(
+    productOptionId:number,productOption:CreateProductOption
+  ):Observable<CreateProductOptionResponse>{
+    return this.http.put<CreateProductOptionResponse>(
+      `${this.baseUrl}productoption/${productOptionId}`,
+      productOption
+    );
+  }
+
+  deleteProductOption(productOptionId:number){
+    return this.http.delete(this.baseUrl+`productoption/${productOptionId}`);
+  }
+
+  createProductShipment(productId:number,shipment:CreateShipmentModel):
+    Observable<ProductShipmentResponse>{
+    return this.http.post<ProductShipmentResponse>(
+      this.baseUrl + `productshipment?productId=${productId}`,shipment
+    );
+  }
+
+  UpdateProductShipment(
+    productShipmentId: number, productOption: ProductShipment
+  ):Observable<ProductShipmentResponse>{
+    return this.http.put<ProductShipmentResponse>(
+      `${this.baseUrl}productshipment/${productShipmentId}`,
+      productOption
+    );
+  }
+
+  deleteProductShipment(productShipmentId:number){
+    return this.http.delete(
+      `${this.baseUrl}productshipment/${productShipmentId}`
+    );
+  }
 }

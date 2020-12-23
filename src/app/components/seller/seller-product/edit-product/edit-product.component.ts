@@ -89,11 +89,11 @@ export class EditProductComponent implements OnInit{
   }
 
   setProduct({productId}):void{
-    // this.productId = productId
-    this.productId = 145
+    // productId = 148 //145
+    this.productId = productId
     this.productService.getProductById(productId).subscribe((a)=>{
       const data:EditProductModel = a.data;
-      // this.form.get('name').setValue(data.name);
+      // console.log(a.data);
       this.form.setValue({
         "name":data.name,
         "description":data.description,
