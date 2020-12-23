@@ -1,8 +1,8 @@
 import { Component, OnInit, Input} from '@angular/core';
-import { FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators, AbstractControl} from '@angular/forms';
 import { ErrorService } from './../../../../services/error.service';
 import { nigeriaSates } from './../../../../data/nigeriastates';
-import { CreateShipmentModel } from './../../../../models/products.model';
+import { ProductShipment } from './../../../../models/products.model';
 import { ProductsService } from './../../../../services/products/products.service';
 
 @Component({
@@ -11,8 +11,10 @@ import { ProductsService } from './../../../../services/products/products.servic
   styleUrls: ['./product-shipment.component.css','../../../../shared/css/spinner.css']
 })
 export class ProductShipmentComponent implements OnInit {
-  @Input() shipments:CreateShipmentModel & {loading?: boolean}[];
+  @Input() shipments:ProductShipment[];
+  @Input() productId:number;
   shipmentForm:FormGroup;
+  shipmentEditForm: FormGroup;
   loading:boolean = false;
   errs: string[] = [];
   states: string[] = nigeriaSates.map((a) => a.name);
@@ -29,25 +31,75 @@ export class ProductShipmentComponent implements OnInit {
       City: ["", [Validators.required]],
       Cost: ["", [Validators.required]],
     });
+    this.shipmentEditForm = this.fb.group({
+      shipments: this.fb.array([]),
+    });
+    this.setEditForm();
   }
 
-  removeOption(productId:number,shipmentId:any,index:number):void{
-    this.shipments[index].loading = true;
-    setTimeout(()=>{     
-      this.shipments.splice(index,1);
-    }, 1000);
+  shipmentArray():FormArray{
+    return this.shipmentEditForm.get('shipments') as FormArray;
+  }
+
+  setEditForm(){
+    this.shipments.forEach((shipment) => {
+      this.shipmentArray().push(
+        this.setEditFormGroup(shipment)
+      )
+    });
+  }
+
+  setEditFormGroup(shipment:ProductShipment):FormGroup{
+    return this.fb.group({
+      state: [shipment.state,[Validators.required]],
+      city: [shipment.city,[Validators.required]],
+      cost: [shipment.cost,[Validators.required]],
+      productId:shipment.productId,editable:false,
+      loading:false,editLoading:false,id:shipment.id,
+    });
+  }
+
+  editShipment(index:number):void{
+    this.shipmentArray().at(index).get('editable').setValue(true);
+  }
+
+  updateShipment(shipmentId:number,index:number):void{
+    let shipmentControl:AbstractControl = this.shipmentArray().at(index);
+    if(shipmentControl.invalid){
+      this.errs = this.errorService.setControlEditError(
+        ["State","City","Cost"],shipmentControl
+      );
+      return
+    }
+    shipmentControl.get('editLoading').setValue(true);
+    const shipmentData = (({state,city,cost})=>({state,city,cost}))
+    (shipmentControl.value) as ProductShipment;
+
+    this.productService.UpdateProductShipment(shipmentId,shipmentData)
+      .subscribe((a)=>{
+        shipmentControl.patchValue({
+          state:a.data.state,city:a.data.city,
+          cost:a.data.cost,editable:false,editLoading:false
+        });
+    });
+  }
+
+  removeShipment(shipmentId:number,index:number):void{
+    this.shipmentArray().at(index).get('loading').setValue(true)
+    this.productService.deleteProductShipment(shipmentId)
+    .subscribe((a)=>{this.shipmentArray().removeAt(index);});
   }
 
   addShipment():void{
     if(this.controlsErrorExist()) return;
-    let data:CreateShipmentModel & {loading?: boolean};
-    data = this.getShipment();
+    let data:ProductShipment = this.getShipment();
     this.loading = true;
-    setTimeout(()=>{     
-      this.shipments.push(data);
+    this.productService.createProductShipment(this.productId,data)
+      .subscribe((a)=>{
+      this.shipmentArray().push(this.setEditFormGroup(a.data));
       this.resetForm();
       this.loading = false;
-    }, 1000);
+    });
   }
 
   controlsErrorExist():number{
@@ -64,11 +116,11 @@ export class ProductShipmentComponent implements OnInit {
     });
   }
 
-  getShipment():CreateShipmentModel & {loading?: boolean}{
+  getShipment():ProductShipment{
     return {
       "state":this.shipmentForm.get("State").value,
       "city":this.shipmentForm.get("City").value,
       "cost":this.shipmentForm.get("Cost").value
-    } as CreateShipmentModel & {loading?: boolean};
+    } as ProductShipment;
   }
 }

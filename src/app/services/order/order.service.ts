@@ -27,6 +27,16 @@ export class OrderService {
     );
   }
 
+  getOrdersByStatus(
+    userId:string,status:string,
+    pageNumber:number = 1,maxItem = 50
+  ):Observable<OrderResponce>{
+    return this.http.get<OrderResponce>(
+      `${this.baseUrl}seller/${userId}/orders/${status}/?
+      pageNumber=${pageNumber}&maxItem=${maxItem}`
+    );
+  }
+
   deleteOrder(userId:string,orderId:number){
     return this.http.delete(
       this.baseUrl+`seller/${userId}/orders/${orderId}`

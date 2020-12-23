@@ -1,32 +1,62 @@
 <h3 class="uk-heading-line uk-text-center"><span>Product Shipments</span></h3>
-<div class="uk-grid-small uk-grid uk-child-width-1-4@s" 
-    *ngFor="let shipment of shipments; let i=index;">
-    <div>
-        <div class="uk-margin">
-            <input class="uk-input uk-form-width-medium" 
-                type="text" value="{{shipment.state}}" readonly>
+<div [formGroup]="shipmentEditForm">
+    <div formArrayName="shipments" 
+        *ngFor="let shipment of shipmentArray()['controls']; let i=index;">
+        <div [formGroupName]="i"
+            class="uk-grid-small uk-grid uk-child-width-1-4@s uk-margin-small-bottom uk-margin-remove-bottom@m">
+            <mat-form-field class="">
+                <mat-label>State</mat-label>
+                <input *ngIf="!shipment.get('editable').value" value="{{shipment.get('state').value}}" 
+                    matInput [readonly]="!shipment.get('editable').value">
+                <mat-select formControlName="state" required  
+                    *ngIf="shipment.get('editable').value"> 
+                    <mat-option>Select</mat-option>
+                    <mat-option value="all">All</mat-option>
+                    <mat-option *ngFor="let state of states" value="{{ state.toLowerCase() }}" 
+                        (focus)="errs = []">
+                        {{ state }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="">
+                <mat-label>City </mat-label>
+                <input type="text" matInput placeholder="all, lagos, ikeja, ajah" formControlName="city"
+                    (focus)="errs = []" required [readonly]="!shipment.get('editable').value"/>
+            </mat-form-field>
+            <mat-form-field class="">
+                <mat-label>Cost </mat-label>
+                <input type="number" matInput placeholder="200"  formControlName="cost" 
+                    (focus)="errs = []" required [readonly]="!shipment.get('editable').value"/>
+            </mat-form-field>
+            <div class="uk-flex">
+                <div  *ngIf="!shipment.get('editable').value">
+                    <button mat-raised-button color="info" type="button" 
+                        (click)="editShipment(i)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </div>
+                <div *ngIf="shipment.get('editable').value">
+                    <button mat-raised-button color="primary" type="button" 
+                        [class.spinner]="shipment.get('editLoading').value" 
+                        [disabled]="shipment.get('editLoading').value"
+                        (click)="updateShipment(shipment.get('id').value,i)" >
+                        <mat-icon>save</mat-icon>
+                    </button>
+                </div>
+                <div class="uk-margin-small-left">
+                    <button mat-raised-button color="warn" type="button" 
+                        [class.spinner]="shipment.get('loading').value" 
+                        [disabled]="shipment.get('loading').value"
+                        (click)="removeShipment(shipment.get('id').value,i)" >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
-    <div>
-        <div class="uk-margin">
-            <input class="uk-input uk-form-width-medium" type="text" 
-                type="text" value="{{shipment.city}}" readonly>
-        </div>
-    </div>
-    <div>
-        <div class="uk-margin">
-            <input class="uk-input uk-form-width-medium" type="text" 
-                type="text" value="{{shipment.cost}}" readonly>
-        </div>
-    </div>
-    <div>
-        <button mat-raised-button color="warn" type="button" 
-            [class.spinner]="shipment.loading" [disabled]="shipment.loading"
-            (click)="removeOption(shipment.productId,'shipmentId',i)" >
-            <mat-icon>delete</mat-icon>
-        </button>
     </div>
 </div>
+
+
 
 <div class="uk-grid-small uk-grid uk-child-width-1-4@s" [formGroup]="shipmentForm">
     <mat-form-field class="">
@@ -61,5 +91,5 @@
     matTooltip="Add Location Where you can provide shipping"
     aria-label="Add Shipping Cost" color="primary" class="uk-margin"
     (click)="addShipment()" type="button">
-    Save Shipment
+    Create Shipment
 </button>
