@@ -1,4 +1,4 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, AbstractControl} from '@angular/forms';
 import { ErrorService } from './../../../../services/error.service';
 import { nigeriaSates } from './../../../../data/nigeriastates';
@@ -10,7 +10,7 @@ import { ProductsService } from './../../../../services/products/products.servic
   templateUrl: './product-shipment.component.html',
   styleUrls: ['./product-shipment.component.css','../../../../shared/css/spinner.css']
 })
-export class ProductShipmentComponent implements OnInit {
+export class ProductShipmentComponent implements OnInit, OnChanges{
   @Input() shipments:ProductShipment[];
   @Input() productId:number;
   shipmentForm:FormGroup;
@@ -34,15 +34,23 @@ export class ProductShipmentComponent implements OnInit {
     this.shipmentEditForm = this.fb.group({
       shipments: this.fb.array([]),
     });
-    this.setEditForm();
+  }
+
+  ngOnChanges(changes:SimpleChanges):void{
+    if(changes.shipments && changes.shipments.currentValue){
+        this.shipmentArray().clear();
+        this.setEditForm(
+          changes.shipments.currentValue as ProductShipment[]
+        );
+    }
   }
 
   shipmentArray():FormArray{
     return this.shipmentEditForm.get('shipments') as FormArray;
   }
 
-  setEditForm(){
-    this.shipments.forEach((shipment) => {
+  setEditForm(shipments:ProductShipment[]):void{
+    shipments.forEach((shipment) => {
       this.shipmentArray().push(
         this.setEditFormGroup(shipment)
       )

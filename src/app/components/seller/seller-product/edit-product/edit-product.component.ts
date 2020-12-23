@@ -93,6 +93,7 @@ export class EditProductComponent implements OnInit{
     this.productId = productId
     this.productService.getProductById(productId).subscribe((a)=>{
       const data:EditProductModel = a.data;
+      // console.log(a.data);
       this.form.setValue({
         "name":data.name,
         "description":data.description,

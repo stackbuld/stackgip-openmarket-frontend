@@ -119,12 +119,10 @@
     </mat-form-field>
   </div>
   
-  <app-product-shipment *ngIf="productShipments" [shipments]="productShipments" 
-    [productId]="productId">
+  <app-product-shipment [shipments]="productShipments" [productId]="productId">
   </app-product-shipment>
   <hr/>
-  <app-product-option *ngIf="productOptions" [options]="productOptions" 
-    [productId]="productId">
+  <app-product-option  [options]="productOptions" [productId]="productId">
   </app-product-option>
   <hr/>
   

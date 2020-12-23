@@ -1,4 +1,4 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
 import { CreateProductOption, ProductOption} from 'src/app/models/products.model';
 import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl} from '@angular/forms';
 import { ErrorService } from './../../../../services/error.service';
@@ -9,7 +9,7 @@ import { ProductsService } from './../../../../services/products/products.servic
   templateUrl: './product-option.component.html',
   styleUrls: ['./product-option.component.css','../../../../shared/css/spinner.css']
 })
-export class ProductOptionComponent implements OnInit{
+export class ProductOptionComponent implements OnInit, OnChanges {
   @Input() options: ProductOption[];
   @Input() productId:number;
   optionForm: FormGroup;
@@ -33,15 +33,23 @@ export class ProductOptionComponent implements OnInit{
     this.optionEditForm = this.fb.group({
       options: this.fb.array([])
     });
-    this.setEditForm();
+  }
+
+  ngOnChanges(changes:SimpleChanges):void{
+    if(changes['options'] && changes['options'].currentValue){
+        this.optionArray().clear();
+        this.setEditForm(
+          changes['options'].currentValue as ProductOption[]
+        );
+    }
   }
 
   optionArray():FormArray{
     return this.optionEditForm.get('options') as FormArray;
   }
 
-  setEditForm(){
-    this.options.forEach((option) => {
+  setEditForm(options:ProductOption[]):void{
+    options.forEach((option) => {
       this.optionArray().push(
         this.setEditFormGroup(option)
       )
@@ -84,7 +92,7 @@ export class ProductOptionComponent implements OnInit{
         ["Title","Value","Cost"],optionControl
       );
       return
-    }console.log(optionId);
+    }
     optionControl.get('editLoading').setValue(true);
     const optionData = (({title,value,cost})=>({title,value,cost}))
     (optionControl.value) as ProductOption;
