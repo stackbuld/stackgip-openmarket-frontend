@@ -1,13 +1,19 @@
   <div class="uk-card uk-card-default uk-card-body uk-margin-small" 
     *ngFor="let order of orderList">
     <div class="uk-text-left">
+      <!-- *ngIf="userService.getUserById(order.userId) | async as user"> -->
       <!-- <b>User Id: </b> <span>{{order.userId}}</span> &nbsp;-->
+
+      <!-- <b>Customer</b> {{user.data.firstName}}<br />  -->
       <b>Total Items</b> {{order.orders.length}}<br /> 
       <b>Amount:</b> Ngn {{orderService.getPrice(order.orders)}}
       <br />
-
-      <span class="uk-float-left"> {{order.billingAddress}}</span>
-      <span class="uk-label uk-label-default uk-float-right">{{order.status}}</span>
+      <div>
+        <span> {{order.billingAddress}}</span>
+        <p class="uk-align-right@m"><span class="uk-label uk-label-default">{{order.status}}</span></p>
+      </div>
+      <!-- <span class="uk-float-left"> {{order.billingAddress}}</span>
+      <span class="uk-label uk-label-default uk-float-right">{{order.status}}</span> -->
     </div>
     <br />
     <button class="btn-default uk-margin" type="button" 
