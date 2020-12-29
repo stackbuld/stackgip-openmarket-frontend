@@ -3,6 +3,7 @@ import { getLoggedInUser } from "src/app/helpers/userUtility";
 import { OrderService } from "../../../../services/order/order.service";
 import { OrderDetail } from "../../../../models/order.model";
 import { OrderViewMoreComponent } from './../order-view-more/order-view-more.component';
+import { UserService } from './../../../../services/user/user.service';
 
 @Component({
   selector: 'app-order-list',
@@ -13,15 +14,13 @@ export class OrderListComponent implements OnInit {
   @ViewChild('orderViewMore') orderViewMore: OrderViewMoreComponent;
   @Input() status:string;
   user = getLoggedInUser();
-  // firstOrderCount:number = 0;
   public orderList:OrderDetail[];
 
 
-  constructor(public orderService:OrderService) { }
+  constructor(public orderService:OrderService,public userService:UserService) { }
 
   ngOnInit(): void {
     this.orderService.getOrdersByStatus(this.user.id,this.status).subscribe((o)=>{
-      // this.firstOrderCount = o.data.shift().orders.length;
       this.orderList = o.data;
     });
     // this.orderService.getNewOrders(this.user.id).subscribe((o)=>{

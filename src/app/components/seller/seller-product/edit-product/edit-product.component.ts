@@ -117,10 +117,10 @@ export class EditProductComponent implements OnInit{
     const data: CreateProductModel  =  this.getProductUpdatedData();
     this.productService.UpdateProduct(this.productId,data).subscribe( 
       (a) => {
-        if(!a.data.category)
-        {
-           a.data.category = {id:0,name:'no category set',imageUrl:'',createdOn:''};
-        }
+        // if(!a.data.category)
+        // {
+        //    a.data.category = {id:0,name:'no category set',imageUrl:'',createdOn:''};
+        // }
         this.images = [];
         this.edited.emit(a.data);
         this.toast.success("product updated successfully");
