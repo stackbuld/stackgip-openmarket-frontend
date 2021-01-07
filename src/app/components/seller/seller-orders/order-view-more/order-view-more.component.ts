@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Order } from './../../../../models/order.model';
 import { formatDate } from './../../../../helpers/date-format';
 
@@ -8,6 +8,7 @@ import { formatDate } from './../../../../helpers/date-format';
   styleUrls: ['./order-view-more.component.css']
 })
 export class OrderViewMoreComponent implements OnInit {
+  @Input() type:string;
   order:Order;
   formatDate:Function;
 

@@ -3,9 +3,6 @@
     <table class="uk-table uk-table-responsive uk-table-divider" *ngIf="order">
         <tbody>
             <tr>
-                <td>Product Id: </td><td>{{order.productId}}</td>
-            </tr>
-            <tr>
                 <td>Name: </td><td>{{order.product.name}}</td>
             </tr>
             <tr>
@@ -25,6 +22,9 @@
             </tr>
             <tr>
                 <td>Invoice Id: </td><td>{{order.invoiceId}}</td>
+            </tr>
+            <tr>
+                <td>Product Id: </td><td>{{order.productId}}</td>
             </tr>
             <tr>
                 <td>Created On: </td><td>{{formatDate(order.createdOn)}}</td>

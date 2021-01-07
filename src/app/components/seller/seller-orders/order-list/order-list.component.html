@@ -1,50 +1,59 @@
   <div class="uk-card uk-card-default uk-card-body uk-margin-small" 
     *ngFor="let order of orderList">
-    <div class="uk-text-left">
-      <!-- *ngIf="userService.getUserById(order.userId) | async as user"> -->
-      <!-- <b>User Id: </b> <span>{{order.userId}}</span> &nbsp;-->
+    <div *ngIf="order.user$ | async as user">
+      <div class="uk-text-left">
+        <!-- *ngIf="userService.getUserById(order.userId) | async as user"> -->
+        <!-- <b>User Id: </b> <span>{{order.userId}}</span> &nbsp; -->
 
-      <!-- <b>Customer</b> {{user.data.firstName}}<br />  -->
-      <b>Total Items</b> {{order.orders.length}}<br /> 
-      <b>Amount:</b> Ngn {{orderService.getPrice(order.orders)}}
-      <br />
-      <div>
-        <span> {{order.billingAddress}}</span>
-        <p class="uk-align-right@m"><span class="uk-label uk-label-default">{{order.status}}</span></p>
+        <b>Customer</b> {{user.data.lastName}} {{user.data.firstName}}<br /> 
+        <b>Total Items</b> {{order.orders.length}}<br /> 
+        <b>Amount:</b> Ngn {{orderService.getPrice(order.orders)}}<br/>
+
+        <!-- <b>Customer</b> {{order.user.lastName}} {{order.user.firstName}}<br /> 
+        <b>Total Items</b> {{order.orders.length}}<br /> 
+        <b>Amount:</b> Ngn {{orderService.getPrice(order.orders)}}<br/> -->
+        <div>
+          <span><b>Delivery Location: </b> {{order.billingAddress}}</span>
+          <p class="uk-align-right@m"><span class="uk-label uk-label-default">{{order.status}}</span></p>
+        </div>
+        <!-- <span class="uk-float-left"> {{order.billingAddress}}</span>
+        <span class="uk-label uk-label-default uk-float-right">{{order.status}}</span> -->
       </div>
-      <!-- <span class="uk-float-left"> {{order.billingAddress}}</span>
-      <span class="uk-label uk-label-default uk-float-right">{{order.status}}</span> -->
-    </div>
-    <br />
-    <button class="btn-default uk-margin" type="button" 
-      [attr.data-uk-toggle]="'target: .toggle-'+order.id"
-      (click)="viewItems()">View Items
-    </button>
-    &nbsp;
-    <button class="btn-default uk-margin" type="button" 
-      [attr.data-uk-toggle]="'target: .toggle-'+order.id"
-      (click)="viewMore(order.id)">View More
-    </button>
-    <div class="uk-background-muted toggle-{{order.id}}" hidden>
-      <app-order-item   [items]="order.orders" *ngIf="!order.viewMore"
-        (viewedMore)="orderViewMore.setOrder($event)" >
-      </app-order-item> 
-      <app-order-detail *ngIf="order.viewMore" [order]="order"></app-order-detail> 
+      <br />
+      <button class="btn-default uk-margin" type="button" 
+        [attr.data-uk-toggle]="'target: .toggle-'+order.id"
+        (click)="viewItems()">View Items 
+      </button>
+      &nbsp;
+      <button class="btn-default uk-margin" type="button" 
+        [attr.data-uk-toggle]="'target: .toggle-'+order.id"
+        (click)="viewMore(order.id)">View More
+      </button>
+      <div class="uk-background-muted toggle-{{order.id}}" hidden>
+        <app-order-item   [items]="order.orders" [status]="status" *ngIf="!order.viewMore"
+          (viewedMore)="setOrder($event)" 
+          (orderIdSet)="setOrderId($event)">
+        </app-order-item> 
+        <app-order-detail *ngIf="order.viewMore" [order]="order" [user]="user.data"></app-order-detail> 
+      </div>
     </div>
   </div>
-<!-- </div> -->
+
 <!-- This is the modal with the outside close button -->
-<div id="modal-view-more" uk-modal="bg-close: false">
+<div id="modal-view-more-{{status}}" uk-modal="bg-close: false">
   <div class="uk-modal-dialog uk-modal-body">
     <button class="uk-modal-close-outside" type="button" uk-close></button>
-    <app-order-view-more #orderViewMore></app-order-view-more>
+    <app-order-view-more [type]="status"></app-order-view-more>
   </div>
 </div>
 
 <!-- This is the modal with the outside close button -->
-<div id="modal-update-delivery-status" uk-modal="bg-close: false">
+<div id="modal-update-delivery-status-{{status}}" uk-modal="bg-close: false">
   <div class="uk-modal-dialog uk-modal-body">
-    <button class="uk-modal-close-outside" type="button" uk-close></button>
-    <app-update-delivery-status ></app-update-delivery-status>
+    <button class="uk-modal-close-outside" type="button" uk-close 
+      [attr.data-status]="status" #closeUpdateStatus>
+    </button>
+    <app-update-delivery-status [type]="status" (closed)="closeUpdateStatusModal()">
+    </app-update-delivery-status>
   </div>
 </div>
