@@ -12,7 +12,9 @@ import { getLoggedInUser } from './../../../../helpers/userUtility';
 })
 export class OrderItemComponent implements OnInit {
   @Input() items:Order[];
+  @Input() status:string;
   @Output() viewedMore = new EventEmitter();
+  @Output() orderIdSet = new EventEmitter();
   user = getLoggedInUser();
 
   constructor(
@@ -35,7 +37,11 @@ export class OrderItemComponent implements OnInit {
       },()=>{});
   }
 
-  setViewMore(order:Order){
+  setViewMore(order:Order):void{
     this.viewedMore.emit({order});
+  }
+
+  setOrderId(orderId:number,status:string):void{
+    this.orderIdSet.emit({orderId,status});
   }
 }

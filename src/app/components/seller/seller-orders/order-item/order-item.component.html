@@ -29,13 +29,14 @@
                     <div uk-dropdown="mode: click">
                         <ul class="uk-list uk-list-divider">
                             <li>
-                                <a uk-toggle="target: #modal-view-more" 
+                                <a attr.data-uk-toggle="target: #modal-view-more-{{status}}" 
                                     (click)="setViewMore(item)">
                                     View More
                                 </a>
                             </li>
                             <li>
-                                <a uk-toggle="target: #modal-update-delivery-status">
+                                <a attr.data-uk-toggle="target: #modal-update-delivery-status-{{status}}"
+                                    (click)="setOrderId(item.id,item.status)">
                                     Update Delivery Status
                                 </a>
                             </li>

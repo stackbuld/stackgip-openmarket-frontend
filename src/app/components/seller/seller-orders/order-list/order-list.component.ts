@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList, ElementRef} from '@angular/core';
 import { getLoggedInUser } from "src/app/helpers/userUtility";
 import { OrderService } from "../../../../services/order/order.service";
 import { OrderDetail } from "../../../../models/order.model";
 import { OrderViewMoreComponent } from './../order-view-more/order-view-more.component';
 import { UserService } from './../../../../services/user/user.service';
+import { UpdateDeliveryStatusComponent } from './../update-delivery-status/update-delivery-status.component';
 
 @Component({
   selector: 'app-order-list',
@@ -11,22 +12,23 @@ import { UserService } from './../../../../services/user/user.service';
   styleUrls: ['./order-list.component.css']
 })
 export class OrderListComponent implements OnInit {
-  @ViewChild('orderViewMore') orderViewMore: OrderViewMoreComponent;
+  @ViewChildren(OrderViewMoreComponent) orderViewMores: QueryList<OrderViewMoreComponent>
+  @ViewChildren(UpdateDeliveryStatusComponent) updateDeliveries: QueryList<UpdateDeliveryStatusComponent>
+  @ViewChildren('closeUpdateStatus') closeUpdateStatus: QueryList<ElementRef>
   @Input() status:string;
   user = getLoggedInUser();
-  public orderList:OrderDetail[];
-
+  public orderList:OrderDetail[]; 
 
   constructor(public orderService:OrderService,public userService:UserService) { }
 
   ngOnInit(): void {
     this.orderService.getOrdersByStatus(this.user.id,this.status).subscribe((o)=>{
-      this.orderList = o.data;
+      let oList:OrderDetail[] = o.data
+      oList.map((o)=>{
+        o.user$ = this.userService.getUserById(o.userId);
+      });
+      this.orderList = oList;
     });
-    // this.orderService.getNewOrders(this.user.id).subscribe((o)=>{
-    //   this.firstOrderCount = o.data.shift().orders.length;
-    //   this.orderList = o.data;
-    // });
   }
 
   viewMore(orderId:number):void{
@@ -41,5 +43,28 @@ export class OrderListComponent implements OnInit {
       o.viewMore = false;
       return o;
     }); 
+  }
+
+  setOrder({order}):void{
+    const orderViewMore:OrderViewMoreComponent = this.orderViewMores
+      .find((item)=>{
+        return item.type == this.status
+      });
+    orderViewMore.setOrder({order});
+  }
+
+  setOrderId({orderId,status}):void{
+    const updateDelivery:UpdateDeliveryStatusComponent = this.updateDeliveries
+      .find((item)=>{
+        return item.type == this.status
+      });
+    updateDelivery.setOrderId({orderId,status});
+  }
+
+  closeUpdateStatusModal():void{
+    const closeBtnEle:ElementRef = this.closeUpdateStatus.find((ele)=>{
+      return ele.nativeElement.getAttribute('data-status') == this.status;
+    });
+    closeBtnEle.nativeElement.click();
   }
 }
