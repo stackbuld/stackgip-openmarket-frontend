@@ -6,7 +6,7 @@ import { ToastrService } from 'src/app/services/toastr.service';
 @Component({
   selector: 'app-update-delivery-status',
   templateUrl: './update-delivery-status.component.html',
-  styleUrls: ['./update-delivery-status.component.css']
+  styleUrls: ['./update-delivery-status.component.css','../../../../shared/css/spinner.css']
 })
 export class UpdateDeliveryStatusComponent implements OnInit {
   @Input() type:string;
@@ -23,11 +23,12 @@ export class UpdateDeliveryStatusComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       status: ["", [Validators.required]],
+      loading:false,
     });
   }
 
   public setOrderId({orderId,status}):void{
-    this.form.setValue({status:status.toLowerCase()});
+    this.form.get("status").setValue(status.toLowerCase());
     this.currentOrderId = orderId;
   }
 
@@ -37,9 +38,11 @@ export class UpdateDeliveryStatusComponent implements OnInit {
       return;
     }
     const status = this.form.get("status").value
+    this.form.get("loading").setValue(true);
     this.orderService.UpdateStatus(this.currentOrderId,status)
       .subscribe((o)=>{
         // console.log(o.data);
+        this.form.get("loading").setValue(false);
         this.toast.success("Status updated successfully");
         this.closed.emit()
       });

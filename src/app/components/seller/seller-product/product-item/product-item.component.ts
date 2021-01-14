@@ -13,6 +13,9 @@ export class ProductItemComponent implements OnInit {
   @Output() productIdSend = new EventEmitter();
   @Output() viewedMore = new EventEmitter();
   productDetails: ProductModel[];
+  pageNumber: number;
+  totalItemCount: number;
+  maximumItem: number = 4;
 
   constructor(
      private productService: ProductsService,
@@ -20,9 +23,7 @@ export class ProductItemComponent implements OnInit {
   ){ }
 
   ngOnInit():void{
-    this.productService.getProducts(1, 4).subscribe((productDetail) => {
-      this.productDetails = productDetail.data.data
-    });  
+    this.fetchCurrentProducts(1); 
   } 
   
   onDelete(productId:number):void{
@@ -55,5 +56,14 @@ export class ProductItemComponent implements OnInit {
 
   setViewMore(productId:string):void{
     this.viewedMore.emit({productId});
+  }
+
+  fetchCurrentProducts(pageNumber:number){
+    this.productService.getProducts(pageNumber, this.maximumItem)
+      .subscribe((productDetail) => {
+        this.productDetails = productDetail.data.data;
+        this.pageNumber = productDetail.data.pager.pageNumber;
+        this.totalItemCount = productDetail.data.pager.totalItemCount;
+      },error => console.error(error));
   }
 }

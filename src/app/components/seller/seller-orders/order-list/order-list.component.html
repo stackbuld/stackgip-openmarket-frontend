@@ -1,5 +1,5 @@
   <div class="uk-card uk-card-default uk-card-body uk-margin-small" 
-    *ngFor="let order of orderList">
+    *ngFor="let order of orderList ">
     <div *ngIf="order.user$ | async as user">
       <div class="uk-text-left">
         <!-- *ngIf="userService.getUserById(order.userId) | async as user"> -->
@@ -38,6 +38,10 @@
       </div>
     </div>
   </div>
+  <!-- <div class="uk-flex uk-flex-center">
+    <pagination-controls (pageChange)="fetchCurrentProducts($event)"></pagination-controls>
+  </div> -->
+
 
 <!-- This is the modal with the outside close button -->
 <div id="modal-view-more-{{status}}" uk-modal="bg-close: false">
