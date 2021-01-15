@@ -101,9 +101,12 @@ export class EditProductComponent implements OnInit{
         "category":data.category.id,
         "unit":data.unit
       });
-      this.images = data.productImages
+      this.images = data.productImages;
 
-      this.productOptions = data.productOptions;
+      // this.productOptions = data.productOptions;
+      this.productOptions = data.productOptions.reduce(
+        (accumulator, value) => accumulator.concat(value), []
+      );
       this.productShipments = data.productShipments;
     });
   }

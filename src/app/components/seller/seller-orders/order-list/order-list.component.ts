@@ -18,11 +18,15 @@ export class OrderListComponent implements OnInit {
   @Input() status:string;
   user = getLoggedInUser();
   public orderList:OrderDetail[]; 
+  pageNumber: number;
+  totalItemCount: number;
+  maximumItem: number = 4;
 
   constructor(public orderService:OrderService,public userService:UserService) { }
 
   ngOnInit(): void {
     this.orderService.getOrdersByStatus(this.user.id,this.status).subscribe((o)=>{
+      console.log('from order list',o);
       let oList:OrderDetail[] = o.data
       oList.map((o)=>{
         o.user$ = this.userService.getUserById(o.userId);
@@ -66,5 +70,18 @@ export class OrderListComponent implements OnInit {
       return ele.nativeElement.getAttribute('data-status') == this.status;
     });
     closeBtnEle.nativeElement.click();
+  }
+
+  fetchCurrentProducts(pageNumber:number){
+    this.orderService.getOrdersByStatus(this.user.id,this.status,pageNumber,this.maximumItem)
+      .subscribe((o)=>{
+        let oList:OrderDetail[] = o.data
+        oList.map((o)=>{
+          o.user$ = this.userService.getUserById(o.userId);
+        });
+        // this.orderList = oList;
+        // this.pageNumber = o.data.pager.pageNumber;
+        // this.totalItemCount = o.data.pager.totalItemCount;
+      },error => console.error(error));
   }
 }

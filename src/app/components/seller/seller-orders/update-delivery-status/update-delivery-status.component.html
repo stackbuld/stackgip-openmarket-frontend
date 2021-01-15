@@ -12,7 +12,9 @@
       <mat-option value="pending">Pending</mat-option>
     </mat-select>
   </mat-form-field>
-  <button type="submit" class="btn-default">
+  <button mat-raised-button class="btn-default" type="submit" 
+    [class.spinner]="form.get('loading').value" 
+    [disabled]="form.get('loading').value">
     Update
   </button>
 </form>

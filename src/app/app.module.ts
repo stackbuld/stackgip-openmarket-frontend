@@ -60,6 +60,7 @@ import { UpdateDeliveryStatusComponent } from './components/seller/seller-orders
 import { OrderListComponent } from './components/seller/seller-orders/order-list/order-list.component';
 import { ProductOptionComponent } from './components/seller/seller-product/product-option/product-option.component';
 import { ProductShipmentComponent } from './components/seller/seller-product/product-shipment/product-shipment.component';
+import { NgxPaginationModule } from './shared/pagination/ngx-pagination.module';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import { ProductShipmentComponent } from './components/seller/seller-product/pro
     ToastrModule.forRoot(toastOptions),
     CommonModule,
     SharedModule,
+    NgxPaginationModule,
     StoreModule.forRoot(
       { counterReducer },
       {
