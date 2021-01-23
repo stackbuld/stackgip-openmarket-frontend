@@ -32,6 +32,36 @@ export class UpdateDeliveryStatusComponent implements OnInit {
     this.currentOrderId = orderId;
   }
 
+  showConfirmed():boolean{
+    const tabs:string[] = ['paid'];
+    return (tabs.findIndex((i)=>i == this.type) == -1)?false:true;
+  }
+
+  showCanceled():boolean{
+    const tabs:string[] = ['paid'];
+    return (tabs.findIndex((i)=>i == this.type) == -1)?false:true;
+  }
+
+  showRefunded():boolean{
+    const tabs:string[] = [];
+    return (tabs.findIndex((i)=>i == this.type) == -1)?false:true;
+  }
+
+  showDeliver():boolean{
+    const tabs:string[] = [];
+    return (tabs.findIndex((i)=>i == this.type) == -1)?false:true;
+  }
+
+  showIntransit():boolean{
+    const tabs:string[] = ['confirmed'];
+    return (tabs.findIndex((i)=>i == this.type) == -1)?false:true;
+  }
+
+  showPending():boolean{
+    const tabs:string[] = [];
+    return (tabs.findIndex((i)=>i == this.type) == -1)?false:true;
+  }
+
   onSubmit():void{
     if (this.form.invalid) {
       console.log(this.form.errors);

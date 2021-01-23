@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { ApiAppUrlService } from "../api-app-url.service";
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
-import { OrderResponce, Order } from "./../../models/order.model";
+import { OrderResponce, Order, OrderApiModel } from "./../../models/order.model";
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +30,8 @@ export class OrderService {
   getOrdersByStatus(
     userId:string,status:string,
     pageNumber:number = 1,maxItem = 50
-  ):Observable<OrderResponce>{
-    return this.http.get<OrderResponce>(
+  ):Observable<OrderApiModel>{
+    return this.http.get<OrderApiModel>(
       `${this.baseUrl}seller/${userId}/orders/${status}/?
       pageNumber=${pageNumber}&maxItem=${maxItem}`
     );

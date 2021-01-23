@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ProductModel } from  "../../../../models/products.model";
 import { ProductsService } from "../../../../services/products/products.service";
 import { ToastrService } from "./../../../../services/toastr.service";
+import { getLoggedInUser } from "src/app/helpers/userUtility";
 import uikit from "uikit";
 
 @Component({
@@ -12,6 +13,7 @@ import uikit from "uikit";
 export class ProductItemComponent implements OnInit {
   @Output() productIdSend = new EventEmitter();
   @Output() viewedMore = new EventEmitter();
+  user = getLoggedInUser();
   productDetails: ProductModel[];
   pageNumber: number;
   totalItemCount: number;
@@ -23,7 +25,7 @@ export class ProductItemComponent implements OnInit {
   ){ }
 
   ngOnInit():void{
-    this.fetchCurrentProducts(1); 
+    this.fetchNextProducts(1); 
   } 
   
   onDelete(productId:number):void{
@@ -58,8 +60,8 @@ export class ProductItemComponent implements OnInit {
     this.viewedMore.emit({productId});
   }
 
-  fetchCurrentProducts(pageNumber:number){
-    this.productService.getProducts(pageNumber, this.maximumItem)
+  fetchNextProducts(pageNumber:number){
+    this.productService.getSellerProducts(this.user.id, pageNumber, this.maximumItem)
       .subscribe((productDetail) => {
         this.productDetails = productDetail.data.data;
         this.pageNumber = productDetail.data.pager.pageNumber;

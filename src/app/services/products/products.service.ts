@@ -31,6 +31,21 @@ export class ProductsService {
     );
   }
 
+  getSellerProducts(
+    userId:string,
+    pageNumber: number = 1,
+    maxItem = 50,
+    search = "",
+    categoryId = ""
+  ): Observable<ProductsApiModel> {
+    return this.http.get<ProductsApiModel>(
+      this.baseUrl +
+        `seller/${userId}/products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}`
+      // this.baseUrl +
+      //   `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}`
+    );
+  }
+
   getNewProducts(
     pageNumber: number = 1,
     maxItem = 50
