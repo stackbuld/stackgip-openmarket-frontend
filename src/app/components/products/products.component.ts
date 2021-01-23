@@ -10,10 +10,20 @@ import { Component, OnInit } from "@angular/core";
 export class ProductsComponent implements OnInit {
   constructor(private productService: ProductsService) {}
   products: ProductModel[] = [];
+  pageNumber: number;
+  maximumItem: number = 20;
+  hasNextPage:boolean;
 
   ngOnInit(): void {
-    this.productService.getProducts(1, 20).subscribe((data) => {
-      this.products = data.data.data;
-    });
+    this.fetchNextProducts(1);
+  }
+
+  fetchNextProducts(pageNumber:number){
+    this.productService.getProducts( pageNumber, this.maximumItem)
+      .subscribe((product) => {
+        this.products = [...this.products, ...product.data.data];
+        this.pageNumber = product.data.pager.pageNumber;
+        this.hasNextPage = product.data.pager.hasNextPage;
+      },error => console.error(error));
   }
 }

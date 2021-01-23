@@ -26,12 +26,7 @@ export class OrderListComponent implements OnInit {
 
   ngOnInit(): void {
     this.orderService.getOrdersByStatus(this.user.id,this.status).subscribe((o)=>{
-      console.log('from order list',o);
-      let oList:OrderDetail[] = o.data
-      oList.map((o)=>{
-        o.user$ = this.userService.getUserById(o.userId);
-      });
-      this.orderList = oList;
+      this.fetchCurrentOrders(1);
     });
   }
 
@@ -72,16 +67,17 @@ export class OrderListComponent implements OnInit {
     closeBtnEle.nativeElement.click();
   }
 
-  fetchCurrentProducts(pageNumber:number){
+  fetchCurrentOrders(pageNumber:number){
     this.orderService.getOrdersByStatus(this.user.id,this.status,pageNumber,this.maximumItem)
       .subscribe((o)=>{
-        let oList:OrderDetail[] = o.data
+        let oList:OrderDetail[] = o.data.data
         oList.map((o)=>{
           o.user$ = this.userService.getUserById(o.userId);
+          return o;
         });
-        // this.orderList = oList;
-        // this.pageNumber = o.data.pager.pageNumber;
-        // this.totalItemCount = o.data.pager.totalItemCount;
+        this.orderList = oList;
+        this.pageNumber = o.data.pager.pageNumber;
+        this.totalItemCount = o.data.pager.totalItemCount;
       },error => console.error(error));
   }
 }

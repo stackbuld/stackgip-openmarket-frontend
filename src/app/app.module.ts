@@ -61,6 +61,7 @@ import { OrderListComponent } from './components/seller/seller-orders/order-list
 import { ProductOptionComponent } from './components/seller/seller-product/product-option/product-option.component';
 import { ProductShipmentComponent } from './components/seller/seller-product/product-shipment/product-shipment.component';
 import { NgxPaginationModule } from './shared/pagination/ngx-pagination.module';
+import { InfiniteScrollComponent } from './shared/infinite-scroll/Infinite-scroll.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +109,7 @@ import { NgxPaginationModule } from './shared/pagination/ngx-pagination.module';
     OrderListComponent,
     ProductOptionComponent,
     ProductShipmentComponent,
+    InfiniteScrollComponent,
   ],
   imports: [
     BrowserModule,

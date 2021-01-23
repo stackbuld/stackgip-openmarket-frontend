@@ -22,7 +22,7 @@
             {{ productDetail.name }}
           </td>
           <td>NGN {{ productDetail.price }}</td>
-          <td>{{ productDetail.unit }}</td>
+          <td>{{ productDetail.unitSold }}</td>
           <td>{{ productDetail.unit }}</td>
           <td>NGN {{ productDetail.price * productDetail.unit }}</td>
           <td>
@@ -54,6 +54,6 @@
       </tbody>
     </table>
     <div class="uk-flex uk-flex-center">
-      <pagination-controls (pageChange)="fetchCurrentProducts($event)"></pagination-controls>
+      <pagination-controls (pageChange)="fetchNextProducts($event)"></pagination-controls>
     </div>
 </div>

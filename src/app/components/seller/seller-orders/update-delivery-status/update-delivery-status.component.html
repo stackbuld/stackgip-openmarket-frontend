@@ -4,12 +4,12 @@
     <mat-label>Status</mat-label>
     <mat-select formControlName="status" required>
       <mat-option value="paid">Paid</mat-option>
-      <mat-option value="confirmed">Confirmed</mat-option>
-      <mat-option value="canceled">Canceled</mat-option>
-      <mat-option value="refunded">Refunded</mat-option>
-      <mat-option value="deliver">Deliver</mat-option>
-      <mat-option value="intransit">Intransit</mat-option>
-      <mat-option value="pending">Pending</mat-option>
+      <mat-option value="confirmed" *ngIf="showConfirmed()">Confirmed</mat-option>
+      <mat-option value="canceled" *ngIf="showCanceled()">Canceled</mat-option>
+      <mat-option value="refunded" *ngIf="showRefunded()">Refunded</mat-option>
+      <mat-option value="deliver" *ngIf="showDeliver()">Deliver</mat-option>
+      <mat-option value="intransit" *ngIf="showIntransit()">Intransit</mat-option>
+      <mat-option value="pending" *ngIf="showPending()">Pending</mat-option>
     </mat-select>
   </mat-form-field>
   <button mat-raised-button class="btn-default" type="submit" 

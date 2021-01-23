@@ -1,11 +1,19 @@
 import { 
-    ProductModel, CreateShipmentModel, 
+    ProductModel, CreateShipmentModel, IPagerResponse,
     CreateProductOption, IApiResponseModel 
 } from "./products.model";
 import { IUserResponse } from './IUserModel';
 import { Observable } from 'rxjs';
 
 export interface OrderResponce extends IApiResponseModel {
+    data: OrderDetail[];
+}
+
+export interface OrderApiModel extends IApiResponseModel {
+    data: IOrderPage;
+}   
+
+export interface IOrderPage extends IPagerResponse {
     data: OrderDetail[];
 }
 
