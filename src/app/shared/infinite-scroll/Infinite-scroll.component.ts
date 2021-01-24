@@ -5,7 +5,8 @@ import {
 
 @Component({
     selector: 'infinite-scroll',
-    templateUrl: "./infinite-scroll.component.html",
+    // templateUrl: "./infinite-scroll.component.html",
+    template: `<div #anchor><ng-content></ng-content></div>`
     // template: `<ng-content></ng-content><div #anchor></div>`,
   })
   export class InfiniteScrollComponent implements OnInit, AfterViewInit, OnDestroy {
