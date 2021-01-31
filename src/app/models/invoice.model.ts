@@ -83,6 +83,16 @@ export const invoiceStatus = {
   paymentCanceled: "PaymentCanceled",
 };
 
+export const fullInvoiceStatus = {
+  Paid:"Paid",
+  Confirmed:"Confirmed",
+  Canceled:"Canceled",
+  Refunded:"Refunded",
+  Deliver:"Deliver",
+  InTransit:"InTransit",
+  Pending:"Pending",
+};
+
 export const invoiceStatusEnums = {
   pending: 0,
   paid: 1,

@@ -52,7 +52,6 @@ import { ListProductComponent } from "./components/home/list-product/list-produc
 import { SearchProductComponent } from './components/home/search-product/search-product.component';
 import { EditProductComponent } from './components/seller/seller-product/edit-product/edit-product.component';
 import { ProductItemComponent } from './components/seller/seller-product/product-item/product-item.component';
-import { OrderItemComponent } from './components/seller/seller-orders/order-item/order-item.component';
 import { OrderDetailComponent } from './components/seller/seller-orders/order-detail/order-detail.component';
 import { ViewMoreComponent } from './components/seller/seller-product/view-more/view-more.component';
 import { OrderViewMoreComponent } from './components/seller/seller-orders/order-view-more/order-view-more.component';
@@ -101,7 +100,6 @@ import { InfiniteScrollComponent } from './shared/infinite-scroll/Infinite-scrol
     SearchProductComponent,
     EditProductComponent,
     ProductItemComponent,
-    OrderItemComponent,
     OrderDetailComponent,
     ViewMoreComponent,
     OrderViewMoreComponent,

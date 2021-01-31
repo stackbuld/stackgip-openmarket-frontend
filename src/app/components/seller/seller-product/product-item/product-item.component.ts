@@ -18,6 +18,7 @@ export class ProductItemComponent implements OnInit {
   pageNumber: number;
   totalItemCount: number;
   maximumItem: number = 4;
+  defaultPage:number = 1
 
   constructor(
      private productService: ProductsService,
@@ -25,7 +26,7 @@ export class ProductItemComponent implements OnInit {
   ){ }
 
   ngOnInit():void{
-    this.fetchNextProducts(1); 
+    this.fetchNextProducts(this.defaultPage); 
   } 
   
   onDelete(productId:number):void{
