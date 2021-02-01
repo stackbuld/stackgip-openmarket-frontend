@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from './../../../../services/order/order.service';
 import { ToastrService } from 'src/app/services/toastr.service';
@@ -9,7 +9,7 @@ import { ToastrService } from 'src/app/services/toastr.service';
   styleUrls: ['./update-delivery-status.component.css','../../../../shared/css/spinner.css']
 })
 export class UpdateDeliveryStatusComponent implements OnInit {
-  @Input() type:string;
+  type:string = "Paid";
   @Output() closed = new EventEmitter();
   currentOrderId:string;
   form: FormGroup;

@@ -14,16 +14,27 @@ export class ListProductComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
   products: ProductModel[] = [];
+  pageNumber: number;
+  totalItemCount: number;
+  maximumItem: number = 20;
+  defaultPage:number = 1;
+  search:string = "";
+  categoryId:string = "";
 
   ngOnInit(): void {
     let search = this.route.snapshot.queryParamMap.get("search");
-    search = search ? search : "";
+    this.search = search ? search : "";
     let categoryId = this.route.snapshot.queryParamMap.get("categoryId");
-    categoryId = categoryId ? categoryId : "";
-    this.productService
-      .getProducts(1, 20, search, categoryId)
-      .subscribe((data) => {
-        this.products = data.data.data;
-      });
+    this.categoryId = categoryId ? categoryId : "";
+    this.fetchNextProducts(this.defaultPage)
+  }
+
+  fetchNextProducts(pageNumber:number){
+    this.productService.getProducts(pageNumber, this.maximumItem, this.search, this.categoryId)
+      .subscribe((products) => {
+        this.products = products.data.data;
+        this.pageNumber = products.data.pager.pageNumber;
+        this.totalItemCount = products.data.pager.totalItemCount;
+      },error => console.error(error));
   }
 }

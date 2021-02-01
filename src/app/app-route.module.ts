@@ -20,6 +20,8 @@ import { ResetPasswordComponent } from "./components/auth/reset-password/reset-p
 import { AccountConfirmationComponent } from "./components/auth/account-confirmation/account-confirmation.component";
 import { LayoutComponent } from "./shared/components/layout/layout.component";
 import { ListProductComponent } from "./components/home/list-product/list-product.component";
+import { OrderListComponent } from './components/seller/seller-orders/order-list/order-list.component';
+import { OrderDetailComponent } from './components/seller/seller-orders/order-detail/order-detail.component';
 const route: Routes = [
   {
     path: "",
@@ -77,6 +79,16 @@ const route: Routes = [
           {
             path: "orders",
             component: SellerOrdersComponent,
+            children: [
+              {
+                path: "",
+                component: OrderListComponent,
+              },
+              {
+                path: "detail/:id/:user_id",
+                component: OrderDetailComponent,
+              },
+            ]
           },
         ],
       },

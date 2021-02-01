@@ -1,54 +1,48 @@
-  <div class="uk-card uk-card-default uk-card-body uk-margin-small" 
-    *ngFor="let order of orderList | paginate: { itemsPerPage: maximumItem, currentPage: pageNumber, totalItems:totalItemCount}">
-    <div *ngIf="order.user$ | async as user">
-      <div class="uk-text-left">
-        <b>Customer</b> {{user.data.lastName}} {{user.data.firstName}}<br /> 
-        <b>Total Items</b> {{order.orders.length}}<br /> 
-        <b>Amount:</b> Ngn {{orderService.getPrice(order.orders)}}<br/>
-        <div>
-          <span><b>Delivery Location: </b> {{order.billingAddress}}</span>
-          <p class="uk-align-right@m"><span class="uk-label uk-label-default">{{order.status}}</span></p>
+<div class="uk-card uk-card-default uk-card-body uk-margin-small">
+    <h1>Orders</h1>
+    <ul class="uk-tab-bottom" data-uk-tab="media: @s">
+      <li class="uk-active"><a (click)="filter(filterType.Paid)">Paid</a></li>
+      <li><a (click)="filter(filterType.Confirmed)">Confirmed</a></li>
+      <li><a (click)="filter(filterType.Canceled)">Canceled</a></li>
+      <li><a (click)="filter(filterType.Refunded)">Refunded</a></li>
+      <li><a (click)="filter(filterType.Deliver)">Deliver</a></li>
+      <li><a (click)="filter(filterType.InTransit)">InTransit</a></li>
+      <li><a (click)="filter(filterType.Pending)">Pending</a></li>
+    </ul>
+    <div>
+      <div class="uk-overflow-auto">
+        <table class="uk-table uk-table-small uk-table-responsive uk-table-divider uk-table-divider">
+          <thead>
+            <tr>
+              <th>invoiceNo</th>
+              <th>date</th>
+              <th>status</th>
+              <th>items</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          <tbody *ngIf="orderList">
+            <tr *ngFor="let invoice of orderList | paginate: { itemsPerPage: maximumItem, currentPage: pageNumber, totalItems:totalItemCount}">
+              <td>#{{ invoice.id }}</td>
+              <td>{{ formatDate(invoice.createdOn) }}</td>
+              <td>{{ invoice.status }}</td>
+              <td>
+                <span class="uk-badge backgound-dark-green">{{invoice.orders.length}}</span>
+                <span> NGN {{orderService.getPrice(invoice.orders)}} </span>
+              </td>
+              <td>
+                <button [routerLink]="['detail', invoice.id,invoice.userId]"
+                  class="uk-button uk-button-small">
+                  view
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="uk-flex uk-flex-center">
+            <pagination-controls (pageChange)="fetchCurrentOrders($event)"></pagination-controls>
         </div>
       </div>
-      <br />
-      <button class="btn-default uk-margin" type="button" 
-        [attr.data-uk-toggle]="'target: .toggle-'+order.id"
-        (click)="viewItems()">View Items 
-      </button>
-      &nbsp;
-      <button class="btn-default uk-margin" type="button" 
-        [attr.data-uk-toggle]="'target: .toggle-'+order.id"
-        (click)="viewMore(order.id)">View More
-      </button>
-      <div class="uk-background-muted toggle-{{order.id}}" hidden>
-        <app-order-item   [items]="order.orders" [status]="status" *ngIf="!order.viewMore"
-          (viewedMore)="setOrder($event)" 
-          (orderIdSet)="setOrderId($event)">
-        </app-order-item> 
-        <app-order-detail *ngIf="order.viewMore" [order]="order" [user]="user.data"></app-order-detail> 
-      </div>
     </div>
-  </div>
-  <div class="uk-flex uk-flex-center">
-    <pagination-controls (pageChange)="fetchCurrentOrders($event)"></pagination-controls>
-  </div>
-
-
-<!-- This is the modal with the outside close button -->
-<div id="modal-view-more-{{status}}" uk-modal="bg-close: false">
-  <div class="uk-modal-dialog uk-modal-body">
-    <button class="uk-modal-close-outside" type="button" uk-close></button>
-    <app-order-view-more [type]="status"></app-order-view-more>
-  </div>
-</div>
-
-<!-- This is the modal with the outside close button -->
-<div id="modal-update-delivery-status-{{status}}" uk-modal="bg-close: false">
-  <div class="uk-modal-dialog uk-modal-body">
-    <button class="uk-modal-close-outside" type="button" uk-close 
-      [attr.data-status]="status" #closeUpdateStatus>
-    </button>
-    <app-update-delivery-status [type]="status" (closed)="closeUpdateStatusModal()">
-    </app-update-delivery-status>
-  </div>
 </div>
