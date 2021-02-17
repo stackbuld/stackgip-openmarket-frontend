@@ -1,0 +1,49 @@
+<!--=======  add to  cart  =======-->
+<div class="uk-card uk-card-default uk-card-hover uk-card-large" *ngIf="product">
+    <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
+    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
+        <ul class="uk-slideshow-items">
+            <li>
+                <img src="{{ product.imageUrl }}" data-src="{{ product.imageUrl }}" 
+                    width="800" height="400" alt="" uk-cover>
+            </li>
+            <li>
+                <img src="{{ product.imageUrl }}" data-src="{{ product.imageUrl }}" 
+                    width="800" height="400" alt="" uk-cover>
+            </li>
+            <li *ngFor="let imageUrl of product.productImages">
+                <img src="{{ imageUrl }}" data-src="{{ imageUrl }}" 
+                    width="800" height="400" alt="" uk-cover>
+            </li>
+        </ul>
+        <a class="uk-position-center-left uk-position-small uk-hidden-hover" 
+            href="#" uk-slidenav-previous uk-slideshow-item="previous">
+        </a>
+        <a class="uk-position-center-right uk-position-small uk-hidden-hover" 
+            href="#" uk-slidenav-next uk-slideshow-item="next">
+        </a>
+    </div>
+
+    <div class="uk-card-body uk-padding-small">
+        <table class="uk-table uk-table-responsive">
+            <tbody>
+                <tr>
+                    <td col-span="2"><h2>{{product.name}} fresh and new</h2></td>
+                </tr>
+                <tr>
+                    <td>Price: </td><td>{{product.price}}</td>
+                </tr>
+                <tr>
+                    <td>Previous Price: </td><td>{{product.previousPrice}}</td>
+                </tr>
+                <tr>
+                    <td>Category: </td><td>{{product.category.name}}</td>
+                </tr>
+                <tr>
+                    <td>Unit: </td><td>{{product.unit}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>

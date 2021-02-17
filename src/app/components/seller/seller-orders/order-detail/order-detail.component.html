@@ -2,6 +2,7 @@
     <h1>ORDER INVOICE DETAIL</h1>
     <div class="uk-grid uk-child-width-1-2@s" *ngIf="invoice">
       <div *ngIf="user$ | async as user">
+      <!-- <div> -->
         <p>
           Invoice No <span>#{{ invoice.id }}</span>
         </p>
@@ -51,7 +52,7 @@
     <div class="uk-margin-top" *ngIf="invoice">
       <hr />
       <h1 class="uk-text-bold">ITEMS</h1>
-      <div class="uk-overflow-auto">
+      <div class="uk-overflow-auto" *ngIf="user$ | async as user">
         <table class="uk-table uk-table-small uk-table-responsive uk-table-divider uk-table-divider">
           <thead>
             <tr>
@@ -60,7 +61,8 @@
               <th>Name</th>
               <th>Unit</th>
               <th>Cost</th>
-              <th>Status</th>
+              <th>Customer</th>
+              <!-- <th>Status</th> -->
               <th></th>
             </tr>
           </thead>
@@ -79,7 +81,8 @@
                 <td>{{ order.product.name }}</td>
                 <td>{{ order.unit }}</td>
                 <td>{{ order.price.toLocaleString() }}</td>
-                <td>{{ order.status }}</td>
+                <td>{{ user.data.firstName + " " + user.data.lastName }}</td>
+                <!-- <td>{{ order.status }}</td> -->
                 <td>
                     <div class="uk-inline">
                         <button class="uk-button uk-button-default" type="button">
