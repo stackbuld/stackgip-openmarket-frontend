@@ -1,49 +1,188 @@
 <!--=======  add to  cart  =======-->
-<div class="uk-card uk-card-default uk-card-hover uk-card-large" *ngIf="product">
-    <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
-        <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
-            <ul class="uk-slideshow-items">
-                <li>
-                    <img src="{{ product.imageUrl }}" data-src="{{ product.imageUrl }}" 
-                        width="800" height="400" alt="" uk-cover>
-                </li>
-                <li>
-                    <img src="{{ product.imageUrl }}" data-src="{{ product.imageUrl }}" 
-                        width="800" height="400" alt="" uk-cover>
-                </li>
-                <li *ngFor="let imageUrl of product.productImages">
-                    <img src="{{ imageUrl }}" data-src="{{ imageUrl }}" 
-                        width="800" height="400" alt="" uk-cover>
-                </li>
-            </ul>
-            <a class="uk-position-center-left uk-position-small uk-hidden-hover" 
-                href="#" uk-slidenav-previous uk-slideshow-item="previous">
-            </a>
-            <a class="uk-position-center-right uk-position-small uk-hidden-hover" 
-                href="#" uk-slidenav-next uk-slideshow-item="next">
-            </a>
-        </div>
+<div class="" *ngIf="product">
+  <div class="uk-child-width-1-2@s" uk-grid>
+    <div uk-slideshow="animation: push">
+      <div
+        class="uk-position-relative uk-visible-toggle uk-light"
+        tabindex="-1"
+      >
+        <ul class="uk-slideshow-items">
+          <li>
+            <img src="{{ product.imageUrl }}" alt="" uk-cover />
+          </li>
+          <li>
+            <img src="{{ product.imageUrl }}" alt="" uk-cover />
+          </li>
+          <li>
+            <img src="{{ product.imageUrl }}" alt="" uk-cover />
+          </li>
+        </ul>
 
-        <div class="uk-card-body uk-padding-small">
-            <table class="uk-table uk-table-responsive">
-                <tbody>
-                    <tr>
-                        <td col-span="2"><h2>{{product.name}} fresh and new</h2></td>
-                    </tr>
-                    <tr>
-                        <td>Price: </td><td>{{product.price}}</td>
-                    </tr>
-                    <tr>
-                        <td>Previous Price: </td><td>{{product.previousPrice}}</td>
-                    </tr>
-                    <tr>
-                        <td>Category: </td><td>{{product.category.name}}</td>
-                    </tr>
-                    <tr>
-                        <td>Unit: </td><td>{{product.unit}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <a
+          class="uk-position-center-left uk-position-small uk-hidden-hover"
+          href="#"
+          uk-slidenav-previous
+          uk-slideshow-item="previous"
+        ></a>
+        <a
+          class="uk-position-center-right uk-position-small uk-hidden-hover"
+          href="#"
+          uk-slidenav-next
+          uk-slideshow-item="next"
+        ></a>
+      </div>
+
+      <ul class="uk-slideshow-nav uk-dotnav uk-flex-center uk-margin"></ul>
     </div>
+    <!-- <div
+      class="uk-position-relative uk-visible-toggle uk-light"
+      tabindex="-1"
+      uk-slideshow
+    >
+      <ul class="uk-slideshow-items">
+        <li>
+          <img
+            src="{{ product.imageUrl }}"
+            data-src="{{ product.imageUrl }}"
+            width="800"
+            height="400"
+            alt=""
+            uk-cover
+          />
+        </li>
+        <li>
+          <img
+            src="{{ product.imageUrl }}"
+            data-src="{{ product.imageUrl }}"
+            width="800"
+            height="400"
+            alt=""
+            uk-cover
+          />
+        </li>
+        <li *ngFor="let imageUrl of product.productImages">
+          <img
+            src="{{ imageUrl }}"
+            data-src="{{ imageUrl }}"
+            width="800"
+            height="400"
+            alt=""
+            uk-cover
+          />
+        </li>
+      </ul>
+      <a
+        class="uk-position-center-left uk-position-small uk-hidden-hover"
+        href="#"
+        uk-slidenav-previous
+        uk-slideshow-item="previous"
+      >
+      </a>
+      <a
+        class="uk-position-center-right uk-position-small uk-hidden-hover"
+        href="#"
+        uk-slidenav-next
+        uk-slideshow-item="next"
+      >
+      </a>
+    </div> -->
+
+    <div>
+      <h1 class="uk-text-bold uk-text-lead">
+        {{ product.name.toUpperCase() }}
+      </h1>
+
+      <small>{{ product.category.name }}</small>
+
+      <p class="uk-text-bold uk-text-lead">
+        NGN{{ product.price.toLocaleString() }}
+        <span
+          class="uk-text-muted uk-text-small"
+          style="text-decoration: line-through"
+          >| {{ product.previousPrice.toLocaleString() }}</span
+        >
+      </p>
+      <p class="uk-badge uk-background-secondary">{{ product.unit }} left</p>
+      <div>
+        <p>Select Color</p>
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+          <label
+            ><input class="uk-radio" type="radio" name="size-group" checked />
+            Red (+ NGN 0.00)
+          </label>
+          <label
+            ><input class="uk-radio" type="radio" name="size-group" /> Blue (+
+            NGN 2.00)</label
+          >
+          <label
+            ><input class="uk-radio" type="radio" name="size-group" /> Yellow (+
+            NGN 5.00)</label
+          >
+        </div>
+      </div>
+      <div>
+        <p>Select Size</p>
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+          <label
+            ><input class="uk-radio" type="radio" name="color-group" />
+            L (+ NGN 5.00)
+          </label>
+          <label
+            ><input class="uk-radio" type="radio" name="color-group" /> XL (+
+            NGN 5.00)</label
+          >
+          <label
+            ><input class="uk-radio" type="radio" name="color-group" /> XXL (+
+            NGN 5.00)</label
+          >
+          <label
+            ><input class="uk-radio" type="radio" name="color-group" /> XXL (+
+            NGN 5.00)</label
+          >
+        </div>
+      </div>
+
+      <div>
+        <p>Select Shipping</p>
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+          <label
+            ><input class="uk-radio" type="radio" name="shipping-group" />
+            DHL (+ NGN3,000) 2 - 3 days
+          </label>
+          <label
+            ><input class="uk-radio" type="radio" name="shipping-group" /> Fedx
+            (+ NGN1,000) 3 - 5 days
+          </label>
+          <label
+            ><input class="uk-radio" type="radio" name="shipping-group" />
+            Standard (NGN100) 4 - 7 days
+          </label>
+          <label
+            ><input class="uk-radio" type="radio" name="shipping-group" /> Free
+            Delivery (NGN 0.00) 14 - 20 days</label
+          >
+        </div>
+      </div>
+
+      <div class="uk-margin">
+        <button class="uk-button uk-button-primary">
+          Add to cart (NGN 5,0000)
+        </button>
+
+        <button class="uk-button uk-button-secondary">Continue shopping</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h2>Product Description</h2>
+    <div class="uk-text uk-text-meta">
+      CURREN Casual Sport Watches for Men Blue Top Brand Luxury Military Leather
+      Wrist Watch Man Clock Fashion Chronograph Wristwatch 1. Chronograph watch,
+      seconds small dial, minute small dial, 24 hours small dial. 2.Mens fashion
+      2019 sports watch 3.Spring ahead clocks Specifications: Dial diameter: 48
+      mm Case thickness: 14 mm Watch length: 240 mm Band width: 24 mm Watch
+      weight: 100.6 g Water resistance: 30 M Features: Mirror Material:Hardlex
+      12-months movement guarantee Components Included: 1×Watch
+    </div>
+  </div>
 </div>
