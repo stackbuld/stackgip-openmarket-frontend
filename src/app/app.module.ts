@@ -61,6 +61,7 @@ import { ProductOptionComponent } from './components/seller/seller-product/produ
 import { ProductShipmentComponent } from './components/seller/seller-product/product-shipment/product-shipment.component';
 import { NgxPaginationModule } from './shared/pagination/ngx-pagination.module';
 import { InfiniteScrollComponent } from './shared/infinite-scroll/Infinite-scroll.component';
+import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +109,7 @@ import { InfiniteScrollComponent } from './shared/infinite-scroll/Infinite-scrol
     ProductOptionComponent,
     ProductShipmentComponent,
     InfiniteScrollComponent,
+    AddToCartComponent,
   ],
   imports: [
     BrowserModule,

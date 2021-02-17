@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/reducers";
 import { AddToCart } from "src/app/reducers/action/cart.actions";
+import { produce } from 'immer';
 
 @Component({
   selector: "app-single-product",
@@ -36,5 +37,9 @@ export class SingleProductComponent implements OnInit {
     };
     this.store.dispatch(AddToCart(productCart));
     this.toast.success("product added to cart");
+  }
+
+  logg(product){
+    console.log(product)
   }
 }
