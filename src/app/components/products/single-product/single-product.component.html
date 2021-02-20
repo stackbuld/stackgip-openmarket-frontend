@@ -24,7 +24,7 @@
       </h3>
       <span
         class="uk-text-muted uk-text-small"
-        style="text-decoration: line-through;"
+        style="text-decoration: line-through"
         *ngIf="product.price > product.previousPrice"
       >
         N{{ product.previousPrice }}
@@ -34,12 +34,14 @@
       <br />
     </div>
     <div class="uk-text-center">
-      <button attr.data-uk-toggle="target: #modal-add-to-cart-{{product.id}}" 
+      <button
+        attr.data-uk-toggle="target: #modal-add-to-cart-{{ product.id }}"
         class="btn-default btn-default-small uk-margin-medium"
-        (click)="logg(product)">
+        (click)="logg(product)"
+      >
         Add to Cart
       </button>
-      <!-- <a uk-toggle="target: #modal-view-more" 
+      <!-- <a uk-toggle="target: #modal-view-more"
         (click)="setViewMore(productDetail.id)"  (click)="addToCart(product)">
         Add to cart
       </a> -->
@@ -47,7 +49,11 @@
   </div>
 </div>
 
-<div id="modal-add-to-cart-{{product.id}}" uk-modal="bg-close: false" class="uk-modal-container">
+<div
+  id="modal-add-to-cart-{{ product.id }}"
+  uk-modal="bg-close: false"
+  class="uk-modal-container"
+>
   <div class="uk-modal-dialog uk-modal-body">
     <button class="uk-modal-close-outside" type="button" uk-close></button>
     <app-add-to-cart [product]="product"></app-add-to-cart>
