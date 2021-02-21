@@ -115,25 +115,50 @@
             </div>
           </div>
       </div>
-      <div>
-        <p>Select Shipping</p>
+      <!-- <div>
+        <p>Select Size</p>
         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
           <label
-            ><input class="uk-radio" type="radio" name="shipping-group" />
-            DHL (+ NGN3,000) 2 - 3 days
+            ><input class="uk-radio" type="radio" name="color-group" />
+            L (+ NGN 5.00)
           </label>
           <label
-            ><input class="uk-radio" type="radio" name="shipping-group" /> Fedx
-            (+ NGN1,000) 3 - 5 days
-          </label>
-          <label
-            ><input class="uk-radio" type="radio" name="shipping-group" />
-            Standard (NGN100) 4 - 7 days
-          </label>
-          <label
-            ><input class="uk-radio" type="radio" name="shipping-group" /> Free
-            Delivery (NGN 0.00) 14 - 20 days</label
+            ><input class="uk-radio" type="radio" name="color-group" /> XL (+
+            NGN 5.00)</label
           >
+          <label
+            ><input class="uk-radio" type="radio" name="color-group" /> XXL (+
+            NGN 5.00)</label
+          >
+          <label
+            ><input class="uk-radio" type="radio" name="color-group" /> XXL (+
+            NGN 5.00)</label
+          >
+        </div>
+      </div> -->
+
+      <div>
+        <p>
+          Select a Prefred Shipping Location <br />
+          <small class="uk-text-small uk-text muted uk-text-meta"
+            >location where items can be shipped
+          </small>
+        </p>
+
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+          <label *ngFor="let shipment of product.productShipments"
+            ><input class="uk-radio" type="radio" name="shipping-group" />
+            <span *ngIf="shipment.state.toLowerCase() == 'all'">
+              Any State (+ NGN{{ shipment.cost.toLocaleString() }})
+              <small>{{ shipment.description }}</small>
+            </span>
+            <span>
+              {{ shipment.state }} / {{ shipment.city }} (+ NGN{{
+                shipment.cost.toLocaleString()
+              }})
+              <small>{{ shipment.description }}</small>
+            </span>
+          </label>
         </div>
       </div>
       <div class="uk-margin">

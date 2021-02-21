@@ -51,11 +51,17 @@
    provide full detail of this product</textarea
     >
   </mat-form-field>
-  <mat-form-field class="uk-width-expand" *ngIf="categories$ | async as categories">
+  <mat-form-field
+    class="uk-width-expand"
+    *ngIf="categories$ | async as categories"
+  >
     <mat-label>Category</mat-label>
     <mat-select formControlName="category" required>
       <mat-option>Select</mat-option>
-      <mat-option *ngFor="let category of categories.data" value="{{ category.id }}">
+      <mat-option
+        *ngFor="let category of categories.data"
+        value="{{ category.id }}"
+      >
         {{ category.name }}
       </mat-option>
     </mat-select>
@@ -124,7 +130,10 @@
   </mat-form-field> -->
   </div>
   <hr />
-  <div formArrayName="shipments" *ngFor="let shipment of shipments()['controls']; let i=index;">
+  <div
+    formArrayName="shipments"
+    *ngFor="let shipment of shipments()['controls']; let i = index"
+  >
     <div class="uk-grid-small uk-grid uk-child-width-1-4@s" [formGroupName]="i">
       <mat-form-field class="">
         <mat-label>State</mat-label>
@@ -139,7 +148,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class="">
-        <mat-label>City </mat-label>
+        <mat-label>City/Region/Area </mat-label>
         <input
           type="text"
           matInput
@@ -150,9 +159,12 @@
       </mat-form-field>
       <mat-form-field class="">
         <mat-label>Cost </mat-label>
-        <input 
-          type="number" matInput placeholder="200" 
-          formControlName="cost" required 
+        <input
+          type="number"
+          matInput
+          placeholder="200"
+          formControlName="cost"
+          required
         />
       </mat-form-field>
       <div>
@@ -186,7 +198,10 @@
   </button>
   <hr />
 
-  <div formArrayName="options" *ngFor="let option of options()['controls']; let j=index;">
+  <div
+    formArrayName="options"
+    *ngFor="let option of options()['controls']; let j = index"
+  >
     <div class="uk-grid-small uk-grid uk-child-width-1-3@s" [formGroupName]="j">
       <mat-form-field class="">
         <mat-label>Title/Name</mat-label>
@@ -271,12 +286,15 @@
         <img style="max-height: 90px" src="{{ image }}" alt="{{ image }}" />
         <div
           class="uk-position-center uk-overlay uk-overlay-primary"
-          style="padding: 5px; border-radius: 20px" (click)="removeImage(image)">
+          style="padding: 5px; border-radius: 20px"
+          (click)="removeImage(image)"
+        >
           <span
             class="iconify"
             data-icon="ri:delete-bin-6-line"
             data-inline="false"
-            style="color: rgb(177, 55, 55)">
+            style="color: rgb(177, 55, 55)"
+          >
           </span>
         </div>
       </div>
