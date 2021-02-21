@@ -21,7 +21,7 @@ export class SingleProductComponent implements OnInit {
   @Input() product;
   ngOnInit(): void {}
 
-  addToCart({product,orderedUnit}) {
+  addToCart({product,orderedUnit,shipmentOption}) {
     const productCart: ProductCartModel = {
       category: product.category,
       categoryId: product.categoryId,
@@ -35,6 +35,7 @@ export class SingleProductComponent implements OnInit {
       previousPrice: product.previousPrice,
       price: product.price,
       productImages: product.productImages,
+      shipmentOption:shipmentOption
     };
     this.store.dispatch(AddToCart(productCart));
     this.toast.success("product added to cart");

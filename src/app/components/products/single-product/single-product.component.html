@@ -53,11 +53,8 @@
 >
   <div class="uk-modal-dialog uk-modal-body">
     <button class="uk-modal-close-outside" type="button" uk-close #closeAddToCart></button>
-    <app-add-to-cart [product]="product">
-      <!-- (addedToCart)="addToCart($event)"
-      (closed)="closeAddToCartModal()"
-      > -->
+    <app-add-to-cart [productId]="product.id"
+      (addedToCart)="addToCart($event)" (closed)="closeAddToCartModal()">
     </app-add-to-cart>
-    <!-- <app-add-to-cart #addToCart></app-add-to-cart> -->
   </div>
 </div>
