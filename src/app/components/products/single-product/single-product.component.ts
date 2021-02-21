@@ -4,7 +4,7 @@ import {
   Category,
   ProductCartModel,
 } from "./../../../models/products.model";
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ViewChild, ElementRef} from "@angular/core";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/reducers";
 import { AddToCart } from "src/app/reducers/action/cart.actions";
@@ -17,10 +17,11 @@ import { produce } from 'immer';
 })
 export class SingleProductComponent implements OnInit {
   constructor(private toast: ToastrService, private store: Store<AppState>) {}
+  @ViewChild('closeAddToCart') closeAddToCart: ElementRef<HTMLElement>;
   @Input() product;
   ngOnInit(): void {}
 
-  addToCart(product: ProductModel) {
+  addToCart({product,orderedUnit}) {
     const productCart: ProductCartModel = {
       category: product.category,
       categoryId: product.categoryId,
@@ -30,16 +31,17 @@ export class SingleProductComponent implements OnInit {
       description: "",
       id: product.id,
       imageUrl: product.imageUrl,
-      orderedUnit: 1,
+      orderedUnit: orderedUnit,
       previousPrice: product.previousPrice,
       price: product.price,
       productImages: product.productImages,
     };
     this.store.dispatch(AddToCart(productCart));
     this.toast.success("product added to cart");
+    this.closeAddToCartModal();
   }
 
-  logg(product){
-    console.log(product)
+  closeAddToCartModal():void{
+    this.closeAddToCart.nativeElement.click()
   }
 }

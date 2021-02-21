@@ -35,8 +35,7 @@
     </div>
     <div class="uk-text-center">
       <button attr.data-uk-toggle="target: #modal-add-to-cart-{{product.id}}" 
-        class="btn-default btn-default-small uk-margin-medium"
-        (click)="logg(product)">
+        class="btn-default btn-default-small uk-margin-medium">
         Add to Cart
       </button>
       <!-- <a uk-toggle="target: #modal-view-more" 
@@ -49,8 +48,11 @@
 
 <div id="modal-add-to-cart-{{product.id}}" uk-modal="bg-close: false" class="uk-modal-container">
   <div class="uk-modal-dialog uk-modal-body">
-    <button class="uk-modal-close-outside" type="button" uk-close></button>
-    <app-add-to-cart [product]="product"></app-add-to-cart>
+    <button class="uk-modal-close-outside" type="button" uk-close #closeAddToCart></button>
+    <app-add-to-cart [product]="product" 
+      (addedToCart)="addToCart($event)"
+      (closed)="closeAddToCartModal()">
+    </app-add-to-cart>
     <!-- <app-add-to-cart #addToCart></app-add-to-cart> -->
   </div>
 </div>
