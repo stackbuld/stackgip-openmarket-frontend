@@ -87,13 +87,11 @@
       </a>
     </div> -->
 
-    <div>
+    <div [formGroup]="optionForm">
       <h1 class="uk-text-bold uk-text-lead">
         {{ product.name.toUpperCase() }}
       </h1>
-
       <small>{{ product.category.name }}</small>
-
       <p class="uk-text-bold uk-text-lead">
         NGN{{ product.price.toLocaleString() }}
         <span
@@ -103,24 +101,22 @@
         >
       </p>
       <p class="uk-badge uk-background-secondary">{{ product.unit }} left</p>
-      <div>
-        <p>Select Color</p>
-        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-          <label
-            ><input class="uk-radio" type="radio" name="size-group" checked />
-            Red (+ NGN 0.00)
-          </label>
-          <label
-            ><input class="uk-radio" type="radio" name="size-group" /> Blue (+
-            NGN 2.00)</label
-          >
-          <label
-            ><input class="uk-radio" type="radio" name="size-group" /> Yellow (+
-            NGN 5.00)</label
-          >
-        </div>
+
+      <div formArrayName="options" 
+          *ngFor="let option of optionArray()['controls']; let j=index;">
+          <div [formGroupName]="j">
+            <p>Select {{option.get('title').value}}</p>
+            <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+              <label *ngFor="let opt of productOptions[option.get('title').value]">
+                <input class="uk-radio" type="radio" name="cost" value="{{opt.cost}}" 
+                  formControlName="cost" />
+                {{opt.value}} (+ NGN {{opt.cost}})
+              </label>
+            </div>
+          </div>
       </div>
-      <div>
+
+      <!-- <div>
         <p>Select Size</p>
         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
           <label
@@ -140,7 +136,7 @@
             NGN 5.00)</label
           >
         </div>
-      </div>
+      </div> -->
 
       <div>
         <p>
@@ -151,8 +147,9 @@
         </p>
 
         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-          <label *ngFor="let shipment of product.productShipments"
-            ><input class="uk-radio" type="radio" name="shipping-group" />
+          <label *ngFor="let shipment of product.productShipments">
+            <input class="uk-radio"  name="shipmentOption" formControlName="shipmentOption" 
+              type="radio" value="{{ shipment.state }}-{{ shipment.city }}|{{shipment.cost}}"/>
             <span *ngIf="shipment.state.toLowerCase() == 'all'">
               Any State (+ NGN{{ shipment.cost.toLocaleString() }})
               <small>{{ shipment.description }}</small>
@@ -168,20 +165,15 @@
       </div>
       <div class="uk-margin">
         <label>Quantity</label>
-        <input
-          type="number"
-          class="uk-input"
-          value="1"
-          min="1"
-          placeholder="Add quantity"
+        <input type="number" class="uk-input" value="1" min="1"
+          placeholder="Add quantity" formControlName="quantity"
         />
       </div>
       <div class="uk-margin">
-        <button class="uk-button uk-button-primary">
-          Add to cart (NGN 5,0000)
+        <button class="uk-button uk-button-primary" (click)="addToCart()">
+            Add to cart (NGN {{numberWithCommas(totalPrice)}})
         </button>
-
-        <button class="uk-button uk-button-secondary">Continue shopping</button>
+        <button class="uk-button uk-button-secondary" (click)="close()">Continue shopping</button>
       </div>
     </div>
   </div>
