@@ -8,7 +8,6 @@ import { Component, OnInit, Input, ViewChild, ElementRef} from "@angular/core";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/reducers";
 import { AddToCart } from "src/app/reducers/action/cart.actions";
-import { produce } from 'immer';
 
 @Component({
   selector: "app-single-product",
@@ -17,7 +16,7 @@ import { produce } from 'immer';
 })
 export class SingleProductComponent implements OnInit {
   constructor(private toast: ToastrService, private store: Store<AppState>) {}
-  @ViewChild('closeAddToCart') closeAddToCart: ElementRef<HTMLElement>;
+  @ViewChild('closeAddToCart') closeAddToCart: ElementRef<HTMLElement>
   @Input() product;
   ngOnInit(): void {}
 

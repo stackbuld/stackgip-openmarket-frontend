@@ -1,7 +1,7 @@
+import {ProductWithOptionAndShipmentModel, CreateProductOption} from "./../../models/products.model";
 import { ProductsService } from "src/app/services/products/products.service";
 import { Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
 import { FormBuilder, FormGroup, FormArray, Validators} from '@angular/forms';
-import {ProductWithOptionAndShipmentModel, CreateProductOption} from "./../../models/products.model";
 import { formatDate } from "./../../helpers/date-format";
 import { numberWithCommas } from './../../helpers/number-format';
 import { debounceTime } from 'rxjs/operators';
@@ -12,12 +12,12 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: "./add-to-cart.component.html",
   styleUrls: ["./add-to-cart.component.css"],
 })
-export class AddToCartComponent implements OnInit {
+export class AddToCartComponent implements OnInit{
   @Input() productId: number
   @Output() addedToCart = new EventEmitter()
   @Output() closed = new EventEmitter()
   productOptions:{[title:string]:CreateProductOption[]}
-  product: ProductWithOptionAndShipmentModel
+  product: ProductWithOptionAndShipmentModel = null
   currentOptions:{[title:string]:number} = {}
   numberWithCommas:Function
   priceWithOptions:number
@@ -49,10 +49,12 @@ export class AddToCartComponent implements OnInit {
   }
 
   init(): void {
-    this.productOptions = this.groupBy(this.product.productOptions,'title')
-    this.setOptionForm(Object.keys(this.productOptions))
-    this.priceWithOptions = this.product.price
+    this.productOptions = this.groupBy('title')
     this.totalPrice = this.product.price
+    this.priceWithOptions = this.product.price
+    const defaultShipment:string = this.getDefaultShipment()
+    this.optionForm.get('shipmentOption').setValue(defaultShipment)
+    this.setOptionForm(Object.keys(this.productOptions))
   }
 
   optionArray():FormArray{
@@ -61,12 +63,16 @@ export class AddToCartComponent implements OnInit {
 
   setOptionForm(options:string[]):void{
     options.forEach((option) => {
-      const itemToAdd = this.fb.group({title:option,cost:[0,[]]})
+      const {title, cost} = this.productOptions[option][0]
+      let itemToAdd = this.fb.group({
+        title:option,cost:[cost.toString(),[]]
+      })
       itemToAdd.valueChanges.pipe(debounceTime(200)).subscribe(
         data => this.onOptionValueChanged(data)
       )
       this.optionArray().push(itemToAdd)
       this.currentOptions[option] = 0
+      this.onOptionValueChanged({title,cost})
     });
   }
 
@@ -84,23 +90,30 @@ export class AddToCartComponent implements OnInit {
 
   addToCart(){
     const shipmentOption = this.optionForm.get('shipmentOption')
-    if(shipmentOption.hasError('required')){
-      this.toast.error("please select shipment option")
+    let currentShipmentOption:string = 'state-city|0'
+    if(this.product.productShipments.length > 0){
+      currentShipmentOption = shipmentOption.value
+    }
+    if(this.optionForm.get('quantity').value < 1){
+      this.toast.error("please enter a valid quantity")
       return
     }
+    this.moveProductToCart(currentShipmentOption)
+  }
+
+  moveProductToCart(shipmentoption:string){
     this.product.price = this.priceWithOptions
     this.addedToCart.emit(
       {
         product:this.product,
         orderedUnit:this.currentQuantity,
-        shipmentOption:shipmentOption.value
+        shipmentOption:shipmentoption
       }
     )
   }
 
-  groupBy(productOptions:CreateProductOption[], property:string)
-    :{[title:string]:CreateProductOption[]}{
-    return productOptions.reduce((acc, obj) => {
+  groupBy(property:string):{[title:string]:CreateProductOption[]}{
+    return this.product.productOptions.reduce((acc, obj) => {
        const key = obj[property]
        if (!acc[key]) {acc[key] = []}
        acc[key].push(obj)
@@ -110,5 +123,15 @@ export class AddToCartComponent implements OnInit {
 
   close(){
     this.closed.emit()
+  }
+
+  getDefaultShipment(){
+    let shipmentOptionDefault:string = ''
+    if(this.product.productShipments.length > 0){
+        shipmentOptionDefault = this.product.productShipments[0].state+'-'+
+        this.product.productShipments[0].city+'|'+
+        this.product.productShipments[0].cost
+    }
+    return shipmentOptionDefault
   }
 }
