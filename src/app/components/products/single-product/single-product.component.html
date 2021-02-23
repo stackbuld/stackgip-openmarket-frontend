@@ -38,10 +38,6 @@
         class="btn-default btn-default-small uk-margin-medium">
         Add to Cart
       </button>
-      <!-- <a uk-toggle="target: #modal-view-more"
-        (click)="setViewMore(productDetail.id)"  (click)="addToCart(product)">
-        Add to cart
-      </a> -->
     </div>
   </div>
 </div>
@@ -53,8 +49,9 @@
 >
   <div class="uk-modal-dialog uk-modal-body">
     <button class="uk-modal-close-outside" type="button" uk-close #closeAddToCart></button>
-    <app-add-to-cart [productId]="product.id"
-      (addedToCart)="addToCart($event)" (closed)="closeAddToCartModal()">
+    <app-add-to-cart [productId]="product.id" 
+      (addedToCart)="addToCart($event)"   
+      (closed)="closeAddToCartModal()">
     </app-add-to-cart>
   </div>
 </div>

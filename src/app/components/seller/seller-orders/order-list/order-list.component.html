@@ -16,7 +16,7 @@
             <tr>
               <th>invoiceNo</th>
               <th>date</th>
-              <th>status</th>
+              <th>customer</th>
               <th>items</th>
               <th></th>
             </tr>
@@ -26,7 +26,9 @@
             <tr *ngFor="let invoice of orderList | paginate: { itemsPerPage: maximumItem, currentPage: pageNumber, totalItems:totalItemCount}">
               <td>#{{ invoice.id }}</td>
               <td>{{ formatDate(invoice.createdOn) }}</td>
-              <td>{{ invoice.status }}</td>
+              <td *ngIf="invoice.user$ | async as user">
+                {{ user.data.firstName + " " + user.data.lastName }}
+              </td>
               <td>
                 <span class="uk-badge backgound-dark-green">{{invoice.orders.length}}</span>
                 <span> NGN {{orderService.getPrice(invoice.orders)}} </span>

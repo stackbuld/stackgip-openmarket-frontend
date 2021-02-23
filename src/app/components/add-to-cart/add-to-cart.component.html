@@ -108,47 +108,24 @@
             <p>Select {{option.get('title').value}}</p>
             <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
               <label *ngFor="let opt of productOptions[option.get('title').value]">
-                <input class="uk-radio" type="radio" name="cost" value="{{opt.cost}}" 
+                <input class="uk-radio" type="radio"  value="{{opt.cost}}" 
                   formControlName="cost" />
                 {{opt.value}} (+ NGN {{opt.cost}})
               </label>
             </div>
           </div>
       </div>
-
-      <!-- <div>
-        <p>Select Size</p>
-        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-          <label
-            ><input class="uk-radio" type="radio" name="color-group" />
-            L (+ NGN 5.00)
-          </label>
-          <label
-            ><input class="uk-radio" type="radio" name="color-group" /> XL (+
-            NGN 5.00)</label
-          >
-          <label
-            ><input class="uk-radio" type="radio" name="color-group" /> XXL (+
-            NGN 5.00)</label
-          >
-          <label
-            ><input class="uk-radio" type="radio" name="color-group" /> XXL (+
-            NGN 5.00)</label
-          >
-        </div>
-      </div> -->
-
-      <div>
+      <div *ngIf="product.productShipments.length > 0">
         <p>
           Select a Prefred Shipping Location <br />
-          <small class="uk-text-small uk-text muted uk-text-meta"
-            >location where items can be shipped
+          <small class="uk-text-small uk-text muted uk-text-meta">
+            location where items can be shipped
           </small>
         </p>
 
         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
           <label *ngFor="let shipment of product.productShipments">
-            <input class="uk-radio"  name="shipmentOption" formControlName="shipmentOption" 
+            <input class="uk-radio"  formControlName="shipmentOption" 
               type="radio" value="{{ shipment.state }}-{{ shipment.city }}|{{shipment.cost}}"/>
             <span *ngIf="shipment.state.toLowerCase() == 'all'">
               Any State (+ NGN{{ shipment.cost.toLocaleString() }})
@@ -180,6 +157,9 @@
   <div>
     <h2>Product Description</h2>
     <div class="uk-text uk-text-meta">
+      {{ product.description }}
+    </div>
+    <!-- <div class="uk-text uk-text-meta">
       CURREN Casual Sport Watches for Men Blue Top Brand Luxury Military Leather
       Wrist Watch Man Clock Fashion Chronograph Wristwatch 1. Chronograph watch,
       seconds small dial, minute small dial, 24 hours small dial. 2.Mens fashion
@@ -187,6 +167,6 @@
       mm Case thickness: 14 mm Watch length: 240 mm Band width: 24 mm Watch
       weight: 100.6 g Water resistance: 30 M Features: Mirror Material:Hardlex
       12-months movement guarantee Components Included: 1×Watch
-    </div>
+    </div> -->
   </div>
 </div>
