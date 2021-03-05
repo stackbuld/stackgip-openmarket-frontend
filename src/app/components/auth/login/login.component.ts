@@ -14,6 +14,7 @@ import { SignInModel } from "src/app/models/signin-model";
 import { UIkit } from "uikit";
 import { AuthService } from "src/app/services/auth.service";
 import { ToastrService } from "ngx-toastr";
+import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService} from "angularx-social-login";
 
 // declare var gapi: any;
 
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
   loading: false;
   constructor(
     private authService: AuthService,
+    private socialAuthService: SocialAuthService,
     private fb: FormBuilder,
     private toast: ToastrService,
     private router: Router,
@@ -113,6 +115,28 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
+  signInWithGoogle(): void {
+    this.socialAuthService.initState.subscribe(() => {
+      this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
+        .then(data => {
+          console.log('idToke: ' + data.idToken);
+          this.authService.GoogleSignIn(data.idToken)
+            .subscribe(signInResponse => this.authService.SetAuthLocalStorage(signInResponse))
+        });
+    })
+  }
+
+  signInWithFacebook(): void {
+    this.socialAuthService.initState.subscribe(() => {
+      this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID)
+        .then(data => {
+          this.authService.FacebookSignIn(data.id, data.authToken)
+            .subscribe(signInResponse => this.authService.SetAuthLocalStorage(signInResponse))
+        })
+    })
+  }
+
 
   // loadgoogleLogin() {
   //   gapi.load("auth2", () => {

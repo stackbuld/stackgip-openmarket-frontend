@@ -8,6 +8,7 @@ import { RegisterModel } from "src/app/models/register-model";
 import { SignInModel } from "src/app/models/signin-model";
 import UIkit from "uikit";
 import { MustMatch } from "src/app/helpers/control-validators";
+import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser} from "angularx-social-login";
 
 @Component({
   selector: "app-siginup",
@@ -18,10 +19,12 @@ export class SiginupComponent implements OnInit {
   hasError = false;
   errors: any[];
   googleAuth: any;
+  user: SocialUser;
 
   errorMessage: string;
   constructor(
     private authService: AuthService,
+    private socialAuthService: SocialAuthService,
     private fb: FormBuilder,
     private toast: ToastrService,
     private router: Router,
@@ -46,6 +49,10 @@ export class SiginupComponent implements OnInit {
       }
     );
     // {validator: this.ctrlValidator.MustMatch('password', 'confirmPassword')});
+
+    this.socialAuthService.authState.subscribe(user => {
+      this.user = user;
+    })
   }
 
   get f() {
@@ -127,6 +134,29 @@ export class SiginupComponent implements OnInit {
         this.ngxService.stopLoader("loader-01");
       }
     );
+  }
+
+  signInWithGoogle(): void {
+    this.socialAuthService.initState.subscribe(() => {
+      this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
+        .then(data => {
+          console.log('idToke: ' + data.idToken);
+          this.authService.GoogleSignIn(data.idToken)
+            .subscribe(signInResponse => this.authService.SetAuthLocalStorage(signInResponse))
+        });
+    })
+  }
+
+  signInWithFacebook(): void {
+    this.ngxService.startLoader("loader-01");
+    this.socialAuthService.initState.subscribe(() => {
+      this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID)
+        .then(data => {
+          this.authService.FacebookSignIn(data.id, data.authToken)
+            .subscribe(signInResponse => this.authService.SetAuthLocalStorage(signInResponse))
+        })
+    })
+    this.ngxService.stopLoader("loader-01");
   }
 
   // loadgoogleLogin() {
