@@ -1,15 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import uikit from "uikit";
 import { nigeriaSates } from "src/app/data/nigeriastates";
 import { SellerService } from 'src/app/services/seller/seller.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-seller-registeration-form',
   templateUrl: './seller-registeration-form.component.html',
   styleUrls: ['./seller-registeration-form.component.css']
 })
-export class SellerRegisterationFormComponent implements OnInit {
+export class SellerRegisterationFormComponent implements OnInit, OnDestroy {
   @Input() openModal: boolean = false;
 
   @Output() modalStatus = new EventEmitter(null);
@@ -69,6 +70,7 @@ export class SellerRegisterationFormComponent implements OnInit {
       ],
     ],
   });
+  regSeller$: Subscription;
   states = nigeriaSates.map((a) => a.name.toLowerCase());
   constructor(private fb: FormBuilder, private sellerS: SellerService) { }
 
@@ -81,7 +83,7 @@ export class SellerRegisterationFormComponent implements OnInit {
   }
   submit() {
     console.log(this.componentForm.value);
-    this.sellerS.registerSeller(this.componentForm.value).subscribe(
+    this.regSeller$ = this.sellerS.registerSeller(this.componentForm.value).subscribe(
       res => {
         console.log(res);
       },
@@ -96,6 +98,11 @@ export class SellerRegisterationFormComponent implements OnInit {
   closeModal() {
     this.modalStatus.emit(true);
     uikit.modal('#seller-modal-full').hide();
+  }
+  ngOnDestroy(): void {
+    if (this.regSeller$) {
+      this.regSeller$.unsubscribe();
+    }
   }
 
 }
