@@ -1,0 +1,139 @@
+<div id="seller-modal-full" class="uk-modal-full" uk-modal>
+    <div class="uk-modal-dialog">
+        <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+        <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
+            <!-- <div class="uk-background-cover" style="background-image: url('images/photo.jpg');" uk-height-viewport></div> -->
+            <div class="uk-background-cover seller-info" uk-height-viewport>
+              <div class="img-holder">
+                  <img src="assets/svg/shopping-bag-icon.svg" alt="cart bag">
+                </div>
+                <p>Seller info</p>
+            </div>
+            <div class="uk-padding-large">
+                <h1>Seller Registeration Form</h1>
+                <div>
+                  <form [formGroup]="componentForm">
+
+                    <div>
+                        <mat-form-field class="uk-width-expand">
+                          <mat-label>Business/Brand/Company Name</mat-label>
+                          <input type="text" matInput formControlName="businessName">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field class="uk-width-expand">
+                          <mat-label>Business/Brand/Company Phone Number</mat-label>
+                          <input type="tel" matInput formControlName="businessPhone">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field class="uk-width-expand">
+                          <mat-label>Business/Brand/Company Email Address</mat-label>
+                          <input type="email" matInput formControlName="businessEmail">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field class="uk-width-expand">
+                          <mat-label>Business/Brand/Company Address</mat-label>
+                          <input type="text" matInput formControlName="businessAddress">
+                          <textarea
+                            matInput
+                            required
+                            formControlName="businessAddress"
+                          ></textarea>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="uk-grid">
+                        <div class="uk-width-1-3">
+                            <mat-form-field class="uk-width-expand">
+                                <mat-label>Business/Brand/Country</mat-label>
+                                <mat-select formControlName="businessCountryCode" required>
+                                <mat-option value="ng">Nigeria</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="uk-width-1-3">
+                            <mat-form-field class="uk-width-expand">
+                                <mat-label>State</mat-label>
+                                <mat-select formControlName="businessState" required>
+                                <mat-option
+                                    *ngFor="let state of states"
+                                    value="{{state}}"
+                                    >{{ state }}</mat-option
+                                >
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div>
+                        <mat-form-field class="uk-width-expand">
+                          <mat-label>Business/Brand/Company Registration Number</mat-label>
+                          <input type="tel" matInput formControlName="businessRegistrationNumber">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field class="uk-width-expand">
+                          <mat-label>Business/Brand/Company logoUrl</mat-label>
+                          <input type="email" matInput formControlName="businessLogoUrl">
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="uk-text-right">
+                          <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                          <button class="uk-button uk-button-primary" type="button">Save</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- bg-close="false" -->
+<!-- <div id="seller-modal-center" class="uk-flex-top" uk-modal>
+  
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+      <button class="uk-modal-close-default" type="button" uk-close></button>
+
+      <div>
+        <h2>Seller Registeration</h2>
+      </div>
+
+      <form [formGroup]="componentForm">
+       <div>
+          <mat-form-field class="uk-width-expand">
+            <mat-label>Business/Brand/Company Name</mat-label>
+            <input matInput formControlName="companyName">
+          </mat-form-field>
+       </div>
+       <div>
+          <mat-form-field class="uk-width-expand">
+            <mat-label>Business/Brand/Company Phone Number</mat-label>
+            <input matInput formControlName="companyPhoneNumber">
+          </mat-form-field>
+       </div>
+       <div>
+          <mat-form-field class="uk-width-expand">
+            <mat-label>Business/Brand/Company Email Address</mat-label>
+            <input matInput formControlName="companyEmail">
+          </mat-form-field>
+       </div>
+       <div>
+          <mat-form-field class="uk-width-expand">
+            <mat-label>Business/Brand/Company Address</mat-label>
+            <input matInput formControlName="companyEmail">
+          </mat-form-field>
+       </div>
+       <div class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+            <button class="uk-button uk-button-primary" type="button">Save</button>
+        </div>
+      </form>
+    </div>
+</div> -->
