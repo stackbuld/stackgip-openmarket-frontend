@@ -1,18 +1,18 @@
 <div id="seller-modal-full" class="uk-modal-full" uk-modal>
     <div class="uk-modal-dialog">
-        <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+        <!-- <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button> -->
         <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
             <!-- <div class="uk-background-cover" style="background-image: url('images/photo.jpg');" uk-height-viewport></div> -->
             <div class="uk-background-cover seller-info" uk-height-viewport>
               <div class="img-holder">
-                  <img src="assets/svg/shopping-bag-icon.svg" alt="cart bag">
+                  <img [src]="imgUrl" alt="cart bag">
                 </div>
                 <p>Seller info</p>
             </div>
             <div class="uk-padding-large">
                 <h1>Seller Registeration Form</h1>
                 <div>
-                  <form [formGroup]="componentForm">
+                  <form [formGroup]="componentForm" (submit)="submit()">
 
                     <div>
                         <mat-form-field class="uk-width-expand">
@@ -68,12 +68,20 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+
+                        <div class="uk-width-1-3">
+                            <mat-form-field class="uk-width-expand">
+                          <mat-label>City</mat-label>
+                          <input type="text" matInput formControlName="businessCity">
+                        </mat-form-field>
+                        </div>
+
                     </div>
 
                     <div>
                         <mat-form-field class="uk-width-expand">
                           <mat-label>Business/Brand/Company Registration Number</mat-label>
-                          <input type="tel" matInput formControlName="businessRegistrationNumber">
+                          <input type="tex" matInput formControlName="businessRegistrationNumber">
                         </mat-form-field>
                     </div>
 
@@ -85,8 +93,8 @@
                     </div>
                     
                     <div class="uk-text-right">
-                          <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                          <button class="uk-button uk-button-primary" type="button">Save</button>
+                          <button class="uk-button uk-button-default uk-modal-close" type="button" (click)="closeModal()">Cancel</button>
+                          <button class="uk-button uk-button-primary" type="submit">Submit</button>
                     </div>
                     </form>
                 </div>

@@ -1,4 +1,4 @@
-<div class="uk-section uk-section-large">
+<div class="uk-section uk-section-large" *ngIf="isSellerApproved">
   <div class="uk-container">
     <h1>Dashboard</h1>
     <div class="uk-grid" uk-grid>
@@ -24,4 +24,6 @@
 </div>
 
 <!-- popup if user is not a seller yet -->
-<app-seller-registeration-form></app-seller-registeration-form>
+<ng-container *ngIf="!isSellerApproved">
+  <app-seller-registeration-form [openModal]="openModal" (modalStatus)="modalStatus($event)"></app-seller-registeration-form>
+</ng-container>
