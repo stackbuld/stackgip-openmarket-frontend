@@ -15,6 +15,9 @@ import { UIkit } from "uikit";
 import { AuthService } from "src/app/services/auth.service";
 import { ToastrService } from "ngx-toastr";
 import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService} from "angularx-social-login";
+import {of, Subscription} from "rxjs";
+import {delay} from "rxjs/operators";
+import {JwtHelperService} from "../../../services/jwt-helper.service";
 
 // declare var gapi: any;
 
@@ -34,13 +37,16 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   googleAuth: any;
   loading: false;
+  tokenSubscription = new Subscription();
+  decodedJwt;
   constructor(
     private authService: AuthService,
     private socialAuthService: SocialAuthService,
     private fb: FormBuilder,
     private toast: ToastrService,
     private router: Router,
-    private ngxService: NgxUiLoaderService
+    private ngxService: NgxUiLoaderService,
+    private jwtHelperService: JwtHelperService
   ) {}
 
   get f() {
@@ -82,8 +88,11 @@ export class LoginComponent implements OnInit {
 
     this.authService.signIn(data).subscribe(
       (a) => {
+        // console.log("signInResponse: " + JSON.stringify(a));
         this.ngxService.stopLoader("loader-01");
         this.authService.SetAuthLocalStorage(a);
+        this.decodedJwt = this.jwtHelperService.getDecodedAccessToken(a.data.auth_token);
+        this.expirationCounter(this.decodedJwt.exp - this.decodedJwt.iat);
         if (a.status == "success") {
           this.toast.success("login successful", "notification");
 
@@ -114,6 +123,14 @@ export class LoginComponent implements OnInit {
         this.ngxService.stopLoader("loader-01");
       }
     );
+  }
+
+  expirationCounter(timeout): void {
+    this.tokenSubscription.unsubscribe();
+    this.tokenSubscription = of(null).pipe(delay(timeout)).subscribe(() => {
+      this.authService.Logout();
+      this.router.navigate([""]);
+    })
   }
 
   signInWithGoogle(): void {
