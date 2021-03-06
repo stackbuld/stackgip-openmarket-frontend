@@ -9,6 +9,9 @@ import { SignInModel } from "src/app/models/signin-model";
 import UIkit from "uikit";
 import { MustMatch } from "src/app/helpers/control-validators";
 import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser} from "angularx-social-login";
+import {of, Subscription} from "rxjs";
+import {delay} from "rxjs/operators";
+import {JwtHelperService} from "../../../services/jwt-helper.service";
 
 @Component({
   selector: "app-siginup",
@@ -16,6 +19,8 @@ import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUse
   styleUrls: ["./siginup.component.css"],
 })
 export class SiginupComponent implements OnInit {
+  tokenSubscription = new Subscription();
+  decodedJwt;
   hasError = false;
   errors: any[];
   googleAuth: any;
@@ -28,7 +33,8 @@ export class SiginupComponent implements OnInit {
     private fb: FormBuilder,
     private toast: ToastrService,
     private router: Router,
-    private ngxService: NgxUiLoaderService
+    private ngxService: NgxUiLoaderService,
+    private jwtHelperService: JwtHelperService
   ) {}
   registerForm: FormGroup;
 
@@ -109,6 +115,8 @@ export class SiginupComponent implements OnInit {
       (a) => {
         this.ngxService.stopLoader("loader-01");
         this.authService.SetAuthLocalStorage(a);
+        this.decodedJwt = this.jwtHelperService.getDecodedAccessToken(a.data.auth_token);
+        this.expirationCounter(this.decodedJwt.exp - this.decodedJwt.iat);
         if (a.status == "success") {
           this.toast.success("login successful", "notification");
           if (!a.data.canLogin) {
@@ -136,11 +144,18 @@ export class SiginupComponent implements OnInit {
     );
   }
 
+  expirationCounter(timeout): void {
+    this.tokenSubscription.unsubscribe();
+    this.tokenSubscription = of(null).pipe(delay(timeout)).subscribe(() => {
+      this.authService.Logout();
+      this.router.navigate([""]);
+    })
+  }
+
   signInWithGoogle(): void {
     this.socialAuthService.initState.subscribe(() => {
       this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
         .then(data => {
-          console.log('idToke: ' + data.idToken);
           this.authService.GoogleSignIn(data.idToken)
             .subscribe(signInResponse => this.authService.SetAuthLocalStorage(signInResponse))
         });

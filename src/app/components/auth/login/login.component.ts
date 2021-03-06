@@ -137,7 +137,6 @@ export class LoginComponent implements OnInit {
     this.socialAuthService.initState.subscribe(() => {
       this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
         .then(data => {
-          console.log('idToke: ' + data.idToken);
           this.authService.GoogleSignIn(data.idToken)
             .subscribe(signInResponse => this.authService.SetAuthLocalStorage(signInResponse))
         });
