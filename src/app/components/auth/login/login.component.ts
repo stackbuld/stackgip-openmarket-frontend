@@ -145,11 +145,13 @@ export class LoginComponent implements OnInit {
   }
 
   signInWithFacebook(): void {
+    this.ngxService.startLoader("loader-01");
     this.socialAuthService.initState.subscribe(() => {
       this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID)
         .then(data => {
           this.authService.FacebookSignIn(data.id, data.authToken)
             .subscribe(signInResponse => this.authService.SetAuthLocalStorage(signInResponse))
+          this.ngxService.stopLoader("loader-01");
         })
     })
   }

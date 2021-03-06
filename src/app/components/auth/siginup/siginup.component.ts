@@ -154,9 +154,10 @@ export class SiginupComponent implements OnInit {
         .then(data => {
           this.authService.FacebookSignIn(data.id, data.authToken)
             .subscribe(signInResponse => this.authService.SetAuthLocalStorage(signInResponse))
+          this.ngxService.stopLoader("loader-01");
         })
     })
-    this.ngxService.stopLoader("loader-01");
+
   }
 
   // loadgoogleLogin() {
