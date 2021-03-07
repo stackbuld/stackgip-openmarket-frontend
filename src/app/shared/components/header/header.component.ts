@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private authService: AuthService,
-    private categoryService: CatgoryService
+    private categoryService: CatgoryService,
   ) {
     this.categoryService.GetCategory().subscribe((a) => {
       this.categories = a.data;

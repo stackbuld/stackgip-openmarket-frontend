@@ -63,6 +63,7 @@ import { NgxPaginationModule } from './shared/pagination/ngx-pagination.module';
 import { InfiniteScrollComponent } from './shared/infinite-scroll/Infinite-scroll.component';
 import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
 import { SellerRegisterationFormComponent } from "./components/seller/seller-registeration-form/seller-registeration-form.component";
+import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { SellerRegisterationFormComponent } from "./components/seller/seller-reg
     CommonModule,
     SharedModule,
     NgxPaginationModule,
+    SocialLoginModule,
     StoreModule.forRoot(
       { counterReducer },
       {
@@ -142,6 +144,26 @@ import { SellerRegisterationFormComponent } from "./components/seller/seller-reg
       useClass: ErrorHandlerInterceptor,
       multi: true,
     },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '956222060687-e1lptm6hn64rh2htlr0jt4igjtg4e51u.apps.googleusercontent.com'
+            )
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider(
+              '840620949857020'
+            )
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    }
   ],
   bootstrap: [AppComponent],
 })
