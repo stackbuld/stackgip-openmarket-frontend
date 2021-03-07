@@ -5,7 +5,7 @@ import { nigeriaSates } from "src/app/data/nigeriastates";
 import { SellerService } from 'src/app/services/seller/seller.service';
 import { Subscription } from 'rxjs';
 import { ResponseModel } from 'src/app/shared/models/ResponseModel';
-import { SellerModel } from 'src/app/models/sellerModel';
+import { ISeller } from 'src/app/models/sellerModel';
 
 @Component({
   selector: 'app-seller-registeration-form',
@@ -82,7 +82,7 @@ export class SellerRegisterationFormComponent implements OnInit, OnDestroy {
       uikit.modal('#seller-modal-full').show();
   }
   submit() {
-    const sellerData: SellerModel = this.componentForm.value;
+    const sellerData: ISeller = this.componentForm.value;
     this.isLoading = true;
     this.regSeller$ = this.sellerS.registerSeller(sellerData).subscribe(
       (res: ResponseModel) => {

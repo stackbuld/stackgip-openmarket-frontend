@@ -1,4 +1,4 @@
-export interface SellerModel {
+export interface ISeller {
     businessName: 'string';
     businessAddress: 'string';
     businessEmail: 'string';

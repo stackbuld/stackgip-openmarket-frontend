@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { getLoggedInUser } from 'src/app/helpers/userUtility';
 import { IUser } from 'src/app/models/IUserModel';
-import { SellerModel } from 'src/app/models/sellerModel';
+import { ISeller } from 'src/app/models/sellerModel';
 import { ResponseModel } from 'src/app/shared/models/ResponseModel';
 import { ApiAppUrlService } from '../api-app-url.service';
 import { RequestService } from '../request/request.service';
@@ -25,7 +25,7 @@ export class SellerService {
     this.baseUrl = this.apiUrls.baseApiUrl;
   }
 
-  registerSeller(data: SellerModel) {
+  registerSeller(data: ISeller) {
     const query = `${ this.baseUrl }users/${ this.loggedInUser.id }/seller`;
     return this.reqS.put<ResponseModel>(query, data)
       .pipe(
@@ -34,7 +34,7 @@ export class SellerService {
         }),
       );
   }
-  updateUserSellerDetails(val: ResponseModel, data: SellerModel): Observable<any> {
+  updateUserSellerDetails(val: ResponseModel, data: ISeller): Observable<any> {
     const loggedInUser = getLoggedInUser();
     const newData = {
       ...loggedInUser,
