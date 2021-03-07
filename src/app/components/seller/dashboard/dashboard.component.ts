@@ -23,7 +23,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.routeData$ = this.route.data.subscribe(
       res => {
         this.switching = res.data;
-        console.log(this.switching);
       }
     );
   }

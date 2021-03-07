@@ -27,7 +27,6 @@ export class SellerService {
 
   registerSeller(data: SellerModel) {
     const query = `${ this.baseUrl }users/${ this.loggedInUser.id }/seller`;
-    console.log(query);
     return this.reqS.put<ResponseModel>(query, data)
       .pipe(
         switchMap((val) => {
