@@ -62,6 +62,7 @@ import { ProductShipmentComponent } from './components/seller/seller-product/pro
 import { NgxPaginationModule } from './shared/pagination/ngx-pagination.module';
 import { InfiniteScrollComponent } from './shared/infinite-scroll/Infinite-scroll.component';
 import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { AddToCartComponent } from './components/add-to-cart/add-to-cart.compone
     ToastrModule.forRoot(toastOptions),
     CommonModule,
     SharedModule,
+    NgxSliderModule,
     NgxPaginationModule,
     StoreModule.forRoot(
       { counterReducer },
