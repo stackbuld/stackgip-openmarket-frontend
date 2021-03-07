@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import uikit from "uikit";
 import { nigeriaSates } from "src/app/data/nigeriastates";
 import { SellerService } from 'src/app/services/seller/seller.service';
@@ -14,6 +14,7 @@ export class SellerRegisterationFormComponent implements OnInit, OnDestroy {
   @Input() openModal: boolean = false;
 
   @Output() modalStatus = new EventEmitter(null);
+  isLoading = false;
   componentForm = this.fb.group({
     businessName: [
       '',
@@ -75,28 +76,32 @@ export class SellerRegisterationFormComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private sellerS: SellerService) { }
 
   ngOnInit(): void {
-    console.log(this.imgUrl);
     // open modal
-    if (this.openModal) {
       uikit.modal('#seller-modal-full').show();
-    }
   }
   submit() {
     console.log(this.componentForm.value);
+    this.isLoading = true;
     this.regSeller$ = this.sellerS.registerSeller(this.componentForm.value).subscribe(
-      res => {
+      (res: any) => {
         console.log(res);
+        if (res.status === 'success') {
+          this.isLoading = false;
+          this.modalStatus.emit({
+            isModalClose: true,
+          });
+        }
       },
       err => {
+        this.isLoading = false;
         console.log(err);
       }
     );
   }
-  get imgUrl() {
-    return 'assets/svg/shopping-bag-icon.svg';
-  }
   closeModal() {
-    this.modalStatus.emit(true);
+    this.modalStatus.emit({
+      isModalClose: true,
+    });
     uikit.modal('#seller-modal-full').hide();
   }
   ngOnDestroy(): void {

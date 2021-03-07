@@ -10,14 +10,20 @@ import { RequestService } from '../request/request.service';
 export class SellerService {
   loggedInUser: IUser = getLoggedInUser();
   baseUrl = "";
+  sellerRegisterationFormStatus = {
+    approved: 'approved',
+    pending: 'pending',
+    canceled: 'canceled',
+    nully: 'nully',
+  }
 
   constructor(private reqS: RequestService, private apiUrls: ApiAppUrlService) {
-    this.baseUrl = this.apiUrls.ecommerceBaseUrl;
+    this.baseUrl = this.apiUrls.baseApiUrl;
   }
 
   registerSeller(data: any) {
     const query = `${ this.baseUrl }users/${ this.loggedInUser.id }/seller`;
     console.log(query);
-    return this.reqS.post(query, data);
+    return this.reqS.put(query, data);
   }
 }

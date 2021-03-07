@@ -1,24 +1,7 @@
 .seller-info {
-    background: #d066d0;
+    height: 100vh !important;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-.seller-info .img-holder {
-    width: 150px;
-    height: 150px;
-    overflow: hidden;
-}
-.seller-info .img-holder img {
-    width: 150px;
-    height: 150px;
-    object-fit: contain;
-    -webkit-filter: invert(100%); /* Safari/Chrome */
-    filter: invert(100%);
-}
-.seller-info p {
-    color: #fff !important;
-    font-size: 1rem !important;
-    margin-top: 20px !important;
 }

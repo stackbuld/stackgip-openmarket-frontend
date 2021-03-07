@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { get } from 'lodash';
 import { Subscription } from 'rxjs';
+import { SellerService } from 'src/app/services/seller/seller.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,21 +10,25 @@ import { Subscription } from 'rxjs';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   isSellerApproved: boolean = false;
-  openModal: boolean = false;
   routeData$: Subscription;
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  switching: string;
+  approved = this.sellerS.sellerRegisterationFormStatus.approved;
+  pending = this.sellerS.sellerRegisterationFormStatus.pending;
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private sellerS: SellerService,
+  ) { }
   ngOnInit(): void {
     this.routeData$ = this.route.data.subscribe(
       res => {
-        this.isSellerApproved = get(res, 'data', false);
-        this.openModal = !this.isSellerApproved;
+        this.switching = res.data;
+        console.log(this.switching);
       }
     );
   }
   modalStatus(d: any) {
-    if (d) {
-      console.log('clicked');
-      this.openModal = false;
+    if (d.isModalClose) {
       this.router.navigate(['/']);
     }
   }

@@ -1,29 +1,60 @@
-<div class="uk-section uk-section-large" *ngIf="isSellerApproved">
-  <div class="uk-container">
-    <h1>Dashboard</h1>
-    <div class="uk-grid" uk-grid>
-      <div class="uk-width-1-3@s uk-width-1-5@m">
-        <ul class="uk-nav uk-nav-default">
-          <li class="uk-active"><a routerLink="/seller">Dashboard</a></li>
-          <li><a routerLink="/seller/orders">Orders</a></li>
-          <li><a routerLink="/seller/products">Products</a></li>
-          <!-- <li class="uk-parent">
-            <a href="#">Product</a>
-            <ul class="uk-nav-sub">
-              <li><a href="#">Sub item</a></li>
-              <li><a href="#">Sub item</a></li>
-            </ul>
-          </li> -->
-        </ul>
-      </div>
-      <div class="uk-width-2-3@s uk-width-4-5@m">
-        <router-outlet></router-outlet>
+<ng-container [ngSwitch]="switching">
+
+      <ng-container *ngSwitchCase="approved">
+        <ng-container *ngTemplateOutlet="dashboard"></ng-container>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="pending">
+        <ng-container *ngTemplateOutlet="sellerPendingStatus"></ng-container>
+      </ng-container>
+
+      <ng-container *ngSwitchDefault>
+        <ng-container *ngTemplateOutlet="sellerForm"></ng-container>
+      </ng-container>
+
+</ng-container>
+
+
+<ng-template #dashboard>
+  <div class="uk-section uk-section-large" *ngIf="isSellerApproved">
+    <div class="uk-container">
+      <h1>Dashboard</h1>
+      <div class="uk-grid" uk-grid>
+        <div class="uk-width-1-3@s uk-width-1-5@m">
+          <ul class="uk-nav uk-nav-default">
+            <li class="uk-active"><a routerLink="/seller">Dashboard</a></li>
+            <li><a routerLink="/seller/orders">Orders</a></li>
+            <li><a routerLink="/seller/products">Products</a></li>
+            <!-- <li class="uk-parent">
+              <a href="#">Product</a>
+              <ul class="uk-nav-sub">
+                <li><a href="#">Sub item</a></li>
+                <li><a href="#">Sub item</a></li>
+              </ul>
+            </li> -->
+          </ul>
+        </div>
+        <div class="uk-width-2-3@s uk-width-4-5@m">
+          <router-outlet></router-outlet>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</ng-template>
 
 <!-- popup if user is not a seller yet -->
-<ng-container *ngIf="!isSellerApproved">
-  <app-seller-registeration-form [openModal]="openModal" (modalStatus)="modalStatus($event)"></app-seller-registeration-form>
-</ng-container>
+<ng-template #sellerForm>
+  <app-seller-registeration-form (modalStatus)="modalStatus($event)"></app-seller-registeration-form>
+</ng-template>
+
+
+<ng-template #sellerPendingStatus>
+   <div class="uk-text-center" uk-grid>
+    <div class="uk-width-expand">
+        <div class="uk-card uk-card-default uk-card-body">
+          <h1>Your Registeration is {{pending}} Approval</h1>
+          <h1>Please check back later</h1>
+        </div>
+    </div>
+</div>
+</ng-template>
