@@ -8,12 +8,15 @@ import {
   Router,
 } from "@angular/router";
 import { Observable } from "rxjs";
+import {SocialAuthService, SocialUser} from "angularx-social-login";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService,
+              private socialAuthService: SocialAuthService,
+              private router: Router) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -24,10 +27,13 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree {
     let isLogin = false;
+    let socialUser: SocialUser = null;
 
+    this.socialAuthService.authState.subscribe(user => socialUser = user);
     const siginData = this.authService.GetSignInData();
-    if (siginData) {
+    if (siginData || socialUser) {
       isLogin = siginData.canLogin;
+      isLogin = socialUser != null;
     }
     if (!isLogin) {
       location.href = "/auth";
