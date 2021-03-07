@@ -1,17 +1,21 @@
 <div class="uk-card uk-padding uk-background-muted">
   <div class="uk-text-center">
     <h1>SIGN UP</h1>
-    <p>If you don’t have an account, register now!</p>
-    <button
-      class="uk-icon-button uk-margin-small-right"
-      uk-icon="google"
-    ></button>
+    <p>If you don’t have an account, register now!;</p>
 
-    <button
-      href=""
-      class="uk-icon-button uk-margin-small-right"
-      uk-icon="facebook"
-    ></button>
+    <button (click)="signInWithGoogle()" class="uk-button uk-button-default uk-button-large uk-margin-small-right">
+      <span class="iconify" data-icon="flat-color-icons:google" data-inline="false"></span>
+    </button>
+
+    <button (click)="signInWithFacebook()" class="uk-button uk-button-default uk-button-large">
+      <span class="iconify" data-icon="logos:facebook" data-inline="false"></span>
+    </button>
+
+<!--    <button-->
+<!--      href=""-->
+<!--      class="uk-icon-button uk-margin-small-right"-->
+<!--      uk-icon="facebook"-->
+<!--    >Facebook</button>-->
   </div>
   <div class="uk-padding-large uk-padding-remove-top">
     <form [formGroup]="registerForm" (ngSubmit)="submit()">
