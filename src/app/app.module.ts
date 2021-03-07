@@ -63,6 +63,7 @@ import { NgxPaginationModule } from './shared/pagination/ngx-pagination.module';
 import { InfiniteScrollComponent } from './shared/infinite-scroll/Infinite-scroll.component';
 import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
 import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 @NgModule({
   declarations: [
@@ -120,8 +121,10 @@ import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, Soc
     ToastrModule.forRoot(toastOptions),
     CommonModule,
     SharedModule,
+    NgxSliderModule,
     NgxPaginationModule,
     SocialLoginModule,
+    NgxSliderModule,
     StoreModule.forRoot(
       { counterReducer },
       {
