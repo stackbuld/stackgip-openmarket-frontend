@@ -12,7 +12,7 @@ export class sellerApproveStatusApproveRouteResolver implements Resolve<any> {
     constructor(private sellerS: SellerService) { }
     async resolve(): Promise<Observable<any> | Promise<any> | any> {
         const sellerApprovalStatus = get(getLoggedInUser(), 'sellerApprovalStatus', null);
-        return sellerApprovalStatus;
+        return this.switchState(sellerApprovalStatus);
     }
     switchState(switchData: any) {
         //states ::::: approve, pending, canceled, null, ""
