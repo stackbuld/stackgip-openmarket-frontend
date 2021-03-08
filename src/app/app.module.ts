@@ -155,13 +155,13 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '956222060687-e1lptm6hn64rh2htlr0jt4igjtg4e51u.apps.googleusercontent.com'
+              environment.googleClientId
             )
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
             provider: new FacebookLoginProvider(
-              '840620949857020'
+              environment.facebookAppId
             )
           }
         ]
