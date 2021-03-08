@@ -1,7 +1,7 @@
 import { ProductsService } from "src/app/services/products/products.service";
 import { ProductModel } from "src/app/models/products.model";
 import { Options, LabelType } from '@angular-slider/ngx-slider';
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef} from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { CatgoryService } from './../../../services/category/catgory.service';
 import { CategoryResponse } from './../../../models/CategoryModels';
@@ -14,6 +14,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ["./list-product.component.css"],
 })
 export class ListProductComponent implements OnInit {
+  @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
   categories$: Observable<CategoryResponse>
   products: ProductModel[] = [];
   totalItemCount: number;
@@ -22,8 +23,8 @@ export class ListProductComponent implements OnInit {
   pageNumber: number;
   search:string = "";
   categoryId:string = "";
-  minValue: number = 1800;
-  maxValue: number = 5000;
+  minValue: number = 10;
+  maxValue: number = 500000;
   options:Options;
   form: FormGroup;
 
@@ -50,16 +51,16 @@ export class ListProductComponent implements OnInit {
 
   setPriceRangeOption(){
     this.options = {
-      floor: 500,
-      ceil: 10000,
+      floor: 10,
+      ceil: 10000000,
       translate: (value: number, label: LabelType): string => {
         switch (label) {
           case LabelType.Low:
-            return '<b>Min price:</b> N ' + value;
+            return '<b>Min price:</b> NGN ' + value;
           case LabelType.High:
-            return '<b>Max price:</b> N ' + value;
+            return '<b>Max price:</b> NGN ' + value;
           default:
-            return 'N ' + value;
+            return 'NGN ' + value;
         }
       }
     } as Options
@@ -75,8 +76,14 @@ export class ListProductComponent implements OnInit {
   }
 
   onSearch(){
-    this.search = this.form.get("keyword").value
-    this.categoryId = this.form.get("category").value
+    this.search = this.form.get('keyword').value
+    this.categoryId = this.form.get('category').value
     this.fetchNextProducts(this.defaultPage)
+  }
+
+  onClear(){
+    this.form.get('keyword').setValue('')
+    this.form.get('category').setValue('')
+    this.categoryItem.nativeElement.innerText = ''
   }
 }
