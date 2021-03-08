@@ -22,6 +22,7 @@ import { LayoutComponent } from "./shared/components/layout/layout.component";
 import { ListProductComponent } from "./components/home/list-product/list-product.component";
 import { OrderListComponent } from './components/seller/seller-orders/order-list/order-list.component';
 import { OrderDetailComponent } from './components/seller/seller-orders/order-detail/order-detail.component';
+import { sellerApproveStatusApproveRouteResolver } from "./resolver/seller-status-approve.resolver";
 const route: Routes = [
   {
     path: "",
@@ -67,6 +68,7 @@ const route: Routes = [
         path: "seller",
         canActivate: [AuthGuard],
         component: DashboardComponent,
+        resolve: { data: sellerApproveStatusApproveRouteResolver},
         children: [
           {
             path: "",

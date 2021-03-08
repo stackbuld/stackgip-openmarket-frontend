@@ -62,6 +62,7 @@ import { ProductShipmentComponent } from './components/seller/seller-product/pro
 import { NgxPaginationModule } from './shared/pagination/ngx-pagination.module';
 import { InfiniteScrollComponent } from './shared/infinite-scroll/Infinite-scroll.component';
 import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
+import { SellerRegisterationFormComponent } from "./components/seller/seller-registeration-form/seller-registeration-form.component";
 import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
@@ -112,6 +113,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
     ProductShipmentComponent,
     InfiniteScrollComponent,
     AddToCartComponent,
+    SellerRegisterationFormComponent,
   ],
   imports: [
     BrowserModule,

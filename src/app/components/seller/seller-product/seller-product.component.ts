@@ -1,6 +1,6 @@
-import { Component, OnInit, ElementRef, ViewChild} from "@angular/core";
-import { CreateProductResponse } from  "../../../models/products.model";
-import { ProductsService }  from "../../../services/products/products.service";
+import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
+import { CreateProductResponse } from "../../../models/products.model";
+import { ProductsService } from "../../../services/products/products.service";
 import { ViewMoreComponent } from './view-more/view-more.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
 import { ProductItemComponent } from './product-item/product-item.component';
@@ -17,22 +17,22 @@ export class SellerProductComponent implements OnInit {
   @ViewChild('viewMore') viewMore: ViewMoreComponent;
   @ViewChild('closeEdit') closeEdit: ElementRef<HTMLElement>;
   cproduct: CreateProductResponse[];
-  
-  constructor( private productservice: ProductsService) {}
-  ngOnInit(): void {}
 
- 
-  cp(createproduct: CreateProductResponse):void{
+  constructor(private productservice: ProductsService) { }
+  ngOnInit(): void { }
+
+
+  cp(createproduct: CreateProductResponse): void {
     // this.productservice.createProduct(name).subscribe(cproduct => {
     //   this.cproduct.push(cproduct)
     // })
   }
 
-  closeAddProductModal():void{
+  closeAddProductModal(): void {
     this.closeCreate.nativeElement.click();
   }
 
-  closeEditProductModal():void{
+  closeEditProductModal(): void {
     this.closeEdit.nativeElement.click();
   }
 }
