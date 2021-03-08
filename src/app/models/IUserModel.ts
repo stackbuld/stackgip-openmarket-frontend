@@ -1,5 +1,5 @@
 import { ResponseModel } from "./../shared/models/ResponseModel";
-export interface IUserModel {}
+export interface IUserModel { }
 export interface IUser {
   id: string;
   firstName?: any;

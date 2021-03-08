@@ -62,6 +62,7 @@ import { ProductShipmentComponent } from './components/seller/seller-product/pro
 import { NgxPaginationModule } from './shared/pagination/ngx-pagination.module';
 import { InfiniteScrollComponent } from './shared/infinite-scroll/Infinite-scroll.component';
 import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
+import { SellerRegisterationFormComponent } from "./components/seller/seller-registeration-form/seller-registeration-form.component";
 import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
@@ -112,6 +113,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
     ProductShipmentComponent,
     InfiniteScrollComponent,
     AddToCartComponent,
+    SellerRegisterationFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -153,13 +155,13 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '956222060687-e1lptm6hn64rh2htlr0jt4igjtg4e51u.apps.googleusercontent.com'
+              environment.googleClientId
             )
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
             provider: new FacebookLoginProvider(
-              '840620949857020'
+              environment.facebookAppId
             )
           }
         ]
