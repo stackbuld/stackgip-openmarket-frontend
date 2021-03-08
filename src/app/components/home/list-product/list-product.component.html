@@ -3,22 +3,24 @@
     <form [formGroup]="form" (ngSubmit)="onSearch()">
       <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
         <div class="uk-width-3-4@s">
+          <label for="category">Search keyword:</label>
           <input class="uk-input" type="text" placeholder="enter search product ..."
             formControlName="keyword">
         </div>
         <div class="uk-width-1-4@s" *ngIf="categories$ | async as categories">
-            <div uk-form-custom="target: > * > span:first-child">
+          <label for="category">Select category:</label><br>
+          <div uk-form-custom="target: > * > span:first-child">
               <select formControlName="category">
-                  <option value="">Select category...</option>
+                  <option value="">All</option>
                   <option value="{{ category.id }}" *ngFor="let category of categories.data">
                     {{ category.name }}
                   </option>
               </select>
               <button class="uk-button uk-button-default" type="button" tabindex="-1">
-                  <span></span>
+                  <span #categoryItem></span>
                   <span uk-icon="icon: chevron-down"></span>
               </button>
-          </div>
+            </div>
         </div>
       </div>
       <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
@@ -27,8 +29,12 @@
         </div>
         <div class="uk-width-1-4@s">
           <button type="submit" 
-            class="uk-button uk-button-primary uk-margin-small-top uk-margin-remove-top@m" >
+            class="uk-button uk-button-primary uk-margin-small-top uk-margin-small-right uk-margin-remove-top@m" >
             filter
+          </button>
+          <button  (click)="onClear()" type="button"
+            class="uk-button uk-button-default uk-margin-small-top uk-margin-remove-top@m" >
+            Clear
           </button>
         </div>
       </div>
