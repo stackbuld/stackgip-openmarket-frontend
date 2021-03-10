@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
   tokenSubscription = new Subscription();
   decodedJwt;
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private socialAuthService: SocialAuthService,
     private fb: FormBuilder,
     private toast: ToastrService,
@@ -91,8 +91,7 @@ export class LoginComponent implements OnInit {
         // console.log("signInResponse: " + JSON.stringify(a));
         this.ngxService.stopLoader("loader-01");
         this.authService.SetAuthLocalStorage(a);
-        this.decodedJwt = this.jwtHelperService.getDecodedAccessToken(a.data.auth_token);
-        this.expirationCounter((this.decodedJwt.exp - this.decodedJwt.iat)*1000);
+        this.authService.logoutAndRedirectOnTokenExpiration(a.data.auth_token);
         if (a.status == "success") {
           this.toast.success("login successful", "notification");
 
@@ -124,41 +123,6 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-
-  expirationCounter(timeout): void {
-    this.tokenSubscription.unsubscribe();
-    this.tokenSubscription = of(null).pipe(delay(timeout)).subscribe(() => {
-      this.authService.Logout();
-      this.router.navigate([""]);
-    })
-  }
-
-  signInWithGoogle(): void {
-    this.ngxService.startLoader("loader-01");
-    this.socialAuthService.initState.subscribe(() => {
-      this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
-        .then(data => {
-          this.authService.GoogleSignIn(data.idToken)
-            .subscribe(signInResponse => this.authService.SetAuthLocalStorage(signInResponse))
-          this.router.navigate([""]);
-          this.ngxService.stopLoader("loader-01");
-        });
-    })
-  }
-
-  signInWithFacebook(): void {
-    this.ngxService.startLoader("loader-01");
-    this.socialAuthService.initState.subscribe(() => {
-      this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID)
-        .then(data => {
-          this.authService.FacebookSignIn(data.id, data.authToken)
-            .subscribe(signInResponse => this.authService.SetAuthLocalStorage(signInResponse))
-          this.router.navigate([""]);
-          this.ngxService.stopLoader("loader-01");
-        })
-    })
-  }
-
 
   // loadgoogleLogin() {
   //   gapi.load("auth2", () => {
