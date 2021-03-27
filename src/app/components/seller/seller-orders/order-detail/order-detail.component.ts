@@ -75,4 +75,9 @@ export class OrderDetailComponent implements OnInit {
   closeUpdateStatusModal():void{
     this.closeUpdateStatus.nativeElement.click();
   }
+
+  isUpdatable(status:string):boolean{
+    const blackList:string[] = ['pending','canceled']
+    return !blackList.includes(status)
+  }
 }

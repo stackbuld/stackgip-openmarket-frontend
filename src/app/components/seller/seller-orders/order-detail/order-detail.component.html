@@ -94,7 +94,7 @@
                                         View More
                                     </a>
                                 </li>
-                                <li>
+                                <li *ngIf="isUpdatable(order.status)">
                                     <a uk-toggle="target: #modal-update-delivery-status"
                                         (click)="setOrderId(order.id,order.status)">
                                         Update Delivery Status
