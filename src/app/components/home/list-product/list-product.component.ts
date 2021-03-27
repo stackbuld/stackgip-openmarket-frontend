@@ -67,12 +67,15 @@ export class ListProductComponent implements OnInit {
   }
 
   fetchNextProducts(pageNumber:number){
-    this.productService.getProducts(pageNumber, this.maximumItem, this.search, this.categoryId)
-      .subscribe((products) => {
-        this.products = products.data.data;
-        this.pageNumber = products.data.pager.pageNumber;
-        this.totalItemCount = products.data.pager.totalItemCount;
-      },error => console.error(error));
+      this.productService.getProducts(
+        pageNumber, this.maximumItem, this.search, this.categoryId, 
+        this.minValue, this.maxValue
+      ).subscribe((products) => {
+          this.products = products.data.data;
+          this.pageNumber = products.data.pager.pageNumber;
+          this.totalItemCount = products.data.pager.totalItemCount;
+        },error => console.error(error)
+      );
   }
 
   onSearch(){

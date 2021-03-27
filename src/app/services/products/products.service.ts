@@ -31,11 +31,13 @@ export class ProductsService {
     pageNumber: number = 1,
     maxItem = 50,
     search = "",
-    categoryId = ""
+    categoryId = "",
+    minPrice = 10,
+    maxPrice = 500000
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
       this.baseUrl +
-        `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}`
+        `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}&minPrice=${minPrice}&maxPrice=${maxPrice}`
     );
   }
 

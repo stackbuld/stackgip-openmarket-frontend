@@ -110,10 +110,6 @@ export class ProductOptionComponent implements OnInit, OnChanges {
     this.optionArray().at(index).get('loading').setValue(true)
     this.productService.deleteProductOption(optionId)
     .subscribe((a)=>{this.optionArray().removeAt(index);});
-
-    // setTimeout(()=>{     
-    //   this.optionArray().removeAt(index);
-    // }, 1000);
   }
 
   controlsErrorExist():number{

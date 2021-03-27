@@ -300,12 +300,8 @@
       </div>
     </div>
   </div>
-  <button type="submit" class="btn-default">
-    <!-- <img
-
-    width="30"
-    src="assets/svg/loader-icon.svg"
-  /> -->
+  <button mat-raised-button type="submit" class="btn-default" 
+    [class.spinner]="loading" [disabled]="loading">
     Add Product
   </button>
 </form>

@@ -3,7 +3,7 @@
   <mat-form-field class="uk-width-expand">
     <mat-label>Status</mat-label>
     <mat-select formControlName="status" required>
-      <mat-option value="paid">Paid</mat-option>
+      <mat-option value="paid" *ngIf="showPaid()">Paid</mat-option>
       <mat-option value="confirmed" *ngIf="showConfirmed()">Confirmed</mat-option>
       <mat-option value="canceled" *ngIf="showCanceled()">Canceled</mat-option>
       <mat-option value="refunded" *ngIf="showRefunded()">Refunded</mat-option>

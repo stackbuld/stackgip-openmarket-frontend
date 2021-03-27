@@ -17,7 +17,7 @@ declare var cloudinary: any;
 @Component({
   selector: "app-add-product",
   templateUrl: "./add-product.component.html",
-  styleUrls: ["./add-product.component.css"],
+  styleUrls: ["./add-product.component.css","../../../../shared/css/spinner.css"],
 })
 export class AddProductComponent implements OnInit {
   
@@ -28,6 +28,7 @@ export class AddProductComponent implements OnInit {
   form: FormGroup;
   cproduct: CreateProductResponse;
   categories$: Observable<CategoryResponse>;
+  loading: boolean = false;
   uploadWidget: any;
   images = [];
   states: string[] = nigeriaSates.map((a) => a.name);
@@ -99,7 +100,7 @@ export class AddProductComponent implements OnInit {
   createOptions():FormGroup{
     return this.fb.group({
       title: ["",[Validators.required]],
-      shortDescription: ["",[Validators.required]],
+      shortDescription: ["",[]], 
       value: ["",[Validators.required]],
       cost: [0.0,[Validators.required]]
     });
@@ -131,12 +132,14 @@ export class AddProductComponent implements OnInit {
       console.log(this.form.errors);
       return;
     }
+    this.loading = true
     const data: CreateProductModel  =  this.getProductData();
     this.productService.createProduct(data).subscribe( 
       (a) => {
         this.images = [];
         this.added.emit(a.data);
         this.toast.success("product created successfully");
+        this.loading = false
         this.closed.emit();
       },
       (error) => {

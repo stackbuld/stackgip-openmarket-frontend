@@ -3,11 +3,11 @@
     <ul class="uk-tab-bottom" data-uk-tab="media: @s">
       <li class="uk-active"><a (click)="filter(filterType.Paid)">Paid</a></li>
       <li><a (click)="filter(filterType.Confirmed)">Confirmed</a></li>
-      <li><a (click)="filter(filterType.Canceled)">Canceled</a></li>
+      <li><a (click)="filter(filterType.InTransit)">InTransit</a></li>
       <li><a (click)="filter(filterType.Refunded)">Refunded</a></li>
       <li><a (click)="filter(filterType.Deliver)">Deliver</a></li>
-      <li><a (click)="filter(filterType.InTransit)">InTransit</a></li>
-      <li><a (click)="filter(filterType.Pending)">Pending</a></li>
+      <li><a (click)="filter(filterType.Canceled)">Canceled</a></li>
+      <li><a (click)="filter(filterType.Pending)">Pending Transactions</a></li>
     </ul>
     <div>
       <div class="uk-overflow-auto">
