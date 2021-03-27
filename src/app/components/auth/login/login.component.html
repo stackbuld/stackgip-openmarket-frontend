@@ -3,11 +3,11 @@
     <h1>LOGIN</h1>
     <p>Its Great to have you back</p>
 
-    <button (click)="signInWithGoogle()" class="uk-button uk-button-default uk-button-large uk-margin-small-right">
+    <button (click)="this.authService.signInWithGoogle()" class="uk-button uk-button-default uk-button-large uk-margin-small-right">
       <span class="iconify" data-icon="flat-color-icons:google" data-inline="false"></span>
     </button>
 
-    <button (click)="signInWithFacebook()" class="uk-button uk-button-default uk-button-large">
+    <button (click)="this.authService.signInWithFacebook()" class="uk-button uk-button-default uk-button-large">
       <span class="iconify" data-icon="logos:facebook" data-inline="false"></span>
     </button>
   </div>
