@@ -11,8 +11,8 @@ import { getLoggedInUser } from './../../../../helpers/userUtility';
 import { ToastrService } from 'src/app/services/toastr.service';
 import { Order } from './../../../../models/order.model';
 import { OrderViewMoreComponent } from './../order-view-more/order-view-more.component';
-import uikit from 'uikit';
 import { UpdateDeliveryStatusComponent } from './../update-delivery-status/update-delivery-status.component';
+import uikit from 'uikit';
 
 @Component({
   selector: 'app-order-detail',
@@ -37,15 +37,15 @@ export class OrderDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let id = this.route.snapshot.paramMap.get("id");
-    let userId = this.route.snapshot.paramMap.get("user_id");
+    let id = this.route.snapshot.paramMap.get("id")
+    let userId = this.route.snapshot.paramMap.get("user_id")
     this.invoiceService.getById(id).subscribe((d) => {
-      this.invoice = d.data;
-      this.total = 0;
+      this.invoice = d.data
+      this.total = 0
       this.invoice.orders.forEach((a) => {
-        this.total += a.total;
+        this.total += a.total
       });
-      this.user$ = this.userService.getUserById(userId);
+      this.user$ = this.userService.getUserById(userId)
     });
   }
 
@@ -56,28 +56,34 @@ export class OrderDetailComponent implements OnInit {
         this.orderService.deleteOrder(this.loginUser.id,orderId).subscribe((a)=>{
           this.invoice.orders = this.invoice.orders.filter(
             (o) => o.id !== orderId
-          );
-        });
-        this.toast.success("order removed successfully");
+          )
+        })
+        this.toast.success("order removed successfully")
       },()=>{});
   }
 
   setViewMore(order:Order):void{
     // this.orderViewMore.type = this.status
-    this.orderViewMore.setOrder({order});
+    this.orderViewMore.setOrder({order})
   }
 
   setOrderId(orderId:number,status:string):void{
     this.updateDelivery.type = status
-    this.updateDelivery.setOrderId({orderId,status});
+    this.updateDelivery.setOrderId({orderId,status})
   }
 
   closeUpdateStatusModal():void{
-    this.closeUpdateStatus.nativeElement.click();
+    this.closeUpdateStatus.nativeElement.click()
   }
 
   isUpdatable(status:string):boolean{
     const blackList:string[] = ['pending','canceled']
     return !blackList.includes(status)
+  }
+
+  updateLocation():void{
+    uikit.modal.prompt("Enter current location ", '')
+    // todo api
+    .then((location)=>console.log(location))
   }
 }

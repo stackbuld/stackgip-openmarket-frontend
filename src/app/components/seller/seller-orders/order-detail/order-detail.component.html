@@ -86,8 +86,8 @@
                         <button class="uk-button uk-button-default" type="button">
                             Action
                         </button>
-                        <div uk-dropdown="mode: click">
-                            <ul class="uk-list uk-list-divider">
+                        <div uk-dropdown="mode: click" style="z-index:99">
+                            <ul class="uk-list uk-list-divider" style="z-index:99">
                                 <li>
                                     <a uk-toggle="target: #modal-view-more" 
                                         (click)="setViewMore(order)">
@@ -99,6 +99,9 @@
                                         (click)="setOrderId(order.id,order.status)">
                                         Update Delivery Status
                                     </a>
+                                </li>
+                                <li *ngIf="order.status === 'intransit'">
+                                  <a (click)="updateLocation(order.id)">Update Location</a>
                                 </li>
                                 <li><a (click)="onDelete(order.id)">Cancel</a></li>
                             </ul>

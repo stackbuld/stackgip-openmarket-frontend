@@ -76,20 +76,27 @@ export class UpdateDeliveryStatusComponent implements OnInit {
     const status = this.form.get("status").value
     this.form.get("loading").setValue(true)
     if(status == 'canceled'){
-      uikit.modal.confirm(
-        'Are you sure that you want to cancel this order (cannot be reversed) ?'
-      ).then(()=>{
-        this.orderService.UpdateStatus(this.currentOrderId,status)
-        .subscribe((o)=>{
+      uikit.modal.prompt("Please briefly describe your reason for canceling ", '')
+      .then((reason)=>{
+        if(String(reason) !== ''){
+          if(reason !== null){
+            // todo api
+            //this.orderService.UpdateReason(reason)
+            this.orderService.UpdateStatus(this.currentOrderId,status)
+            .subscribe((o)=>{
+              this.form.get("loading").setValue(false)
+              if(this.type.toLowerCase() === 'intransit'){
+                this.toast.warining("This action will reduce your trust quality on the platform !!!")
+              }
+              this.toast.success("Status updated successfully")
+              this.closed.emit()
+            })
+          }else{this.form.get("loading").setValue(false)}
+        }else{
+          this.toast.error("Order canceling required reason")
           this.form.get("loading").setValue(false)
-          if(this.type.toLowerCase() === 'intransit'){
-            this.toast.warining("This action will reduce your trust quality on the platform !!!")
-          }
-          this.toast.success("Status updated successfully")
-          this.closed.emit()
-        })
-        },()=>{this.form.get("loading").setValue(false)}
-      )
+        }
+      },()=>{this.form.get("loading").setValue(false)})
     }else{
     this.orderService.UpdateStatus(this.currentOrderId,status)
       .subscribe((o)=>{
