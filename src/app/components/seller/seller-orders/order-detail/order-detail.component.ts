@@ -81,9 +81,9 @@ export class OrderDetailComponent implements OnInit {
     return !blackList.includes(status)
   }
 
-  updateLocation():void{
+  updateLocation(orderId:number):void{
     uikit.modal.prompt("Enter current location ", '')
     // todo api
-    .then((location)=>console.log(location))
+    .then((location)=>console.log(location),()=>{})
   }
 }
