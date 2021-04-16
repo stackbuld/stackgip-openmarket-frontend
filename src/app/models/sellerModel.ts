@@ -6,6 +6,6 @@ export interface ISeller {
     businessCountryCode: 'string';
     businessState: 'string';
     businessCity: 'string';
-    businessLogoUrl: 'string';
+    businessLogoUrl: 'string' | string;
     businessRegistrationNumber: 'string';
 }

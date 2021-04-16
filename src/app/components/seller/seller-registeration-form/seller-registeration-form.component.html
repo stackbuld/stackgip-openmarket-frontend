@@ -78,19 +78,26 @@
                         </mat-form-field>
                     </div>
 
-                    <div>
-                        <mat-form-field class="uk-width-expand">
-                          <mat-label>Business/Brand/Company logoUrl</mat-label>
-                          <input type="email" matInput formControlName="businessLogoUrl">
-                        </mat-form-field>
+                    <div class="js-upload uk-placeholder uk-text-center" (click)="upload()">
+                      <span uk-icon="icon: cloud-upload"></span>
+                      <span class="uk-text-middle">Business/Brand/Company logoUrl</span>
+                      <div uk-form-custom>
+                        &nbsp;
+                        <span class="uk-link">Click to add</span>
+                      </div>
                     </div>
-                    
+                    <div class="uk-margin uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid-small uk-grid">
+                      <div class="uk-inline uk-dark" *ngIf="image">
+                        <img style="max-height: 90px" src="{{ image }}" alt="{{ image }}" />
+                      </div>
+                    </div>
+
                     <div class="uk-text-right">
-                          <button class="uk-button uk-button-default uk-modal-close" type="button" (click)="closeModal()">Cancel</button>
-                          <button class="uk-button uk-button-primary" type="submit" [disabled]="isLoading">
-                            <span uk-spinner="ratio: 1" *ngIf="isLoading"></span>
-                             Submit
-                          </button>
+                        <button class="uk-button uk-button-default uk-modal-close" type="button" (click)="closeModal()">Cancel</button>
+                        <button class="uk-button uk-button-primary" type="submit" [disabled]="isLoading">
+                          <span uk-spinner="ratio: 1" *ngIf="isLoading"></span>
+                            Submit
+                        </button>
                     </div>
                     </form>
                 </div>
