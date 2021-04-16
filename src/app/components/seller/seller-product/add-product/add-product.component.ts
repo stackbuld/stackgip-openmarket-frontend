@@ -85,7 +85,7 @@ export class AddProductComponent implements OnInit {
     });
   }
 
-  addShipment():void{
+  addShipment():void{ 
     this.shipments().push(this.createShipment());
   }
 
