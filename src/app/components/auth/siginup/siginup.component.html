@@ -24,6 +24,10 @@
           errorMessage
         }}</span>
         <br />
+          <span class="uk-text-success" *ngIf="message != '' && hasError == false">{{
+            message
+            }}</span>
+          <br />
       </div>
 
       <div class="uk-alert uk-alert-danger" *ngIf="hasError">

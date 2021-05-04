@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   googleAuth: any;
   loading: false;
+  message = '';
   tokenSubscription = new Subscription();
   decodedJwt;
   constructor(
@@ -91,13 +92,15 @@ export class LoginComponent implements OnInit {
         // console.log("signInResponse: " + JSON.stringify(a));
         this.ngxService.stopLoader("loader-01");
         this.authService.SetAuthLocalStorage(a);
-        this.authService.logoutAndRedirectOnTokenExpiration(a.data.auth_token);
+        
         if (a.status == "success") {
           this.toast.success("login successful", "notification");
-
+             this.message = "login successful";
+             this.hasError = false;
           if (!a.data.canLogin) {
             this.router.navigate(["/confirm-email"]);
           } else {
+            this.authService.logoutAndRedirectOnTokenExpiration(a.data.auth_token);
             this.router.navigate(["/"]);
           }
 

@@ -25,6 +25,9 @@
           errorMessage
         }}</span>
         <br />
+        <span class="uk-text-success" *ngIf="message != '' && hasError == false">{{
+          message
+          }}</span>
         <span class="uk-text-warning uk-text" *ngFor="let i of errors">
           {{ i }} <br />
         </span>
