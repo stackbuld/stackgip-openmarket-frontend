@@ -39,7 +39,7 @@ export class AddProductComponent implements OnInit {
     private toast: ToastrService,
     private productService: ProductsService, 
     private catgoryService: CatgoryService
-  ){}
+  ){this.formInit()}
   get f() {return this.form.controls;}
 
   ngOnInit(): void {
@@ -56,7 +56,6 @@ export class AddProductComponent implements OnInit {
         }
       }
     );
-    this.formInit();
   }
 
   formInit():void{
@@ -69,7 +68,19 @@ export class AddProductComponent implements OnInit {
       unit: [0, [Validators.required]],
       shipments: this.fb.array([this.createShipment()]),
       options: this.fb.array([]),
+      paymentOption: this.fb.array(this.setPaymentOption()),
     });
+  }
+
+  paymentOption():FormArray{
+    return this.form.get('paymentOption') as FormArray;
+  }
+
+  setPaymentOption():FormGroup[]{
+    return [
+      this.fb.group({ method: [true, []], value:"online", label:"Pay Online" }),
+      this.fb.group({ method: [false, []], value:"ondelivery", label:"Pay On Delivery" }),
+    ]
   }
 
   shipments():FormArray{
@@ -127,7 +138,9 @@ export class AddProductComponent implements OnInit {
   onSubmit():void{
     this.errors = [];
     this.errorMessage = "";
-
+    // console.log(
+      //this.flatPaymentOption(this.form.get("paymentOption").value)
+    // )
     if (this.form.invalid) {
       console.log(this.form.errors);
       return;
@@ -147,6 +160,10 @@ export class AddProductComponent implements OnInit {
         console.log("error", error);
       }
      )
+  }
+
+  flatPaymentOption(option:{method:boolean,value:string,label:string}[]){
+    return option.filter(opt=>opt.method).map(opt=>opt.value)
   }
 
   getProductData():CreateProductModel{

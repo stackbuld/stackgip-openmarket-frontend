@@ -16,6 +16,9 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import {MatNativeDateModule} from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 @NgModule({
   declarations: [LoaderComponent],
   imports: [CommonModule],
@@ -25,7 +28,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatButtonModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatInputModule,
     MatRippleModule,
     FormsModule,
     MatAutocompleteModule,
@@ -34,6 +36,10 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatDialogModule,
     MatIconModule,
     MatTooltipModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatCheckboxModule,
   ],
 })
 export class SharedModule {}

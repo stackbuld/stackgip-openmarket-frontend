@@ -102,7 +102,7 @@
             <p>Select {{option.get('title').value}}</p>
             <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
               <label *ngFor="let opt of productOptions[option.get('title').value]">
-                <input class="uk-radio" type="radio"  value="{{opt.cost}}" 
+                <input class="uk-radio" type="radio"  value="{{opt.cost}}|{{opt.value}}" 
                   formControlName="cost" />
                 {{opt.value}} (+ NGN {{opt.cost}})
               </label>
@@ -134,6 +134,19 @@
           </label>
         </div>
       </div>
+      <div>
+        <p>Select payment type </p>
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+          <label>
+            <input class="uk-radio"  formControlName="paymentOption" type="radio" value="online" />
+            <span>Pay Online</span>
+          </label>
+          <label>
+            <input class="uk-radio"  formControlName="paymentOption" type="radio" value="ondelivery" />
+            <span>Pay On delivery</span>
+          </label>
+        </div>
+      </div>
       <div class="uk-margin">
         <label>Quantity</label>
         <input type="number" class="uk-input" value="1" min="1"
@@ -153,14 +166,5 @@
     <div class="uk-text uk-text-meta">
       {{ product.description }}
     </div>
-    <!-- <div class="uk-text uk-text-meta">
-      CURREN Casual Sport Watches for Men Blue Top Brand Luxury Military Leather
-      Wrist Watch Man Clock Fashion Chronograph Wristwatch 1. Chronograph watch,
-      seconds small dial, minute small dial, 24 hours small dial. 2.Mens fashion
-      2019 sports watch 3.Spring ahead clocks Specifications: Dial diameter: 48
-      mm Case thickness: 14 mm Watch length: 240 mm Band width: 24 mm Watch
-      weight: 100.6 g Water resistance: 30 M Features: Mirror Material:Hardlex
-      12-months movement guarantee Components Included: 1×Watch
-    </div> -->
   </div>
 </div>

@@ -44,10 +44,4 @@ export class OrderService {
       `${this.baseUrl}seller/orders/${orderId}/status/${status}`,[]
     );
   }
-
-  deleteOrder(userId:string,orderId:number){
-    return this.http.delete(
-      this.baseUrl+`seller/${userId}/orders/${orderId}`
-    );
-  }
 }

@@ -49,21 +49,7 @@ export class OrderDetailComponent implements OnInit {
     });
   }
 
-  onDelete(orderId:number):void{
-    uikit.modal.confirm(
-      'Are you sure that you want to remove this ?'
-    ).then(()=>{
-        this.orderService.deleteOrder(this.loginUser.id,orderId).subscribe((a)=>{
-          this.invoice.orders = this.invoice.orders.filter(
-            (o) => o.id !== orderId
-          )
-        })
-        this.toast.success("order removed successfully")
-      },()=>{});
-  }
-
   setViewMore(order:Order):void{
-    // this.orderViewMore.type = this.status
     this.orderViewMore.setOrder({order})
   }
 
@@ -85,5 +71,9 @@ export class OrderDetailComponent implements OnInit {
     uikit.modal.prompt("Enter current location ", '')
     // todo api
     .then((location)=>console.log(location),()=>{})
+  }
+
+  canCancel(status:string):boolean{
+    return status !== 'paid'
   }
 }
