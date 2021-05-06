@@ -129,6 +129,17 @@
     <input type="number" matInput placeholder="200" required />
   </mat-form-field> -->
   </div>
+  <mat-label>Payment type *</mat-label>
+  <div class="uk-grid-small uk-grid uk-child-width-1-2@s">
+    <div *ngFor="let paymentOpt of paymentOption()['controls']; let l = index"
+      formArrayName="paymentOption">
+      <div [formGroupName]="l">
+        <mat-checkbox formControlName="method">
+          {{paymentOpt.get('label').value}}
+        </mat-checkbox>
+      </div>
+    </div>
+  </div>
   <hr />
   <div
     formArrayName="shipments"

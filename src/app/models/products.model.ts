@@ -124,7 +124,7 @@ export interface CreateProductOption {
   title: string;
   value: string;
   shortDescription: string;
-  cost: number;
+  cost: number | string;
   description: string;
 }
 

@@ -61,7 +61,8 @@
               <th>Order No</th>
               <th>Item</th>
               <th>Name</th>
-
+              <th>Option</th>
+              <th>Shipment</th>
               <th>Unit</th>
               <th>Cost</th>
               <th>Status</th>
@@ -80,7 +81,8 @@
                 </div>
               </td>
               <td>{{ order.product.name }}</td>
-
+              <td>blue|XL</td>
+              <td>abia / oka (+ NGN5,000)</td>
               <td>{{ order.unit }}</td>
               <td>NGN {{ numberWithCommas(order.price.toLocaleString()) }}</td>
               <td>{{ order.status }}</td>

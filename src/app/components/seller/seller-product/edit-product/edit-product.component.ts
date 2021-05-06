@@ -40,7 +40,7 @@ export class EditProductComponent implements OnInit{
     private toast: ToastrService,
     private catgoryService: CatgoryService,
     private productService: ProductsService, 
-  ) {}
+  ) {this.formInit()}
 
   get f() {
     return this.form.controls;
@@ -49,7 +49,6 @@ export class EditProductComponent implements OnInit{
   ngOnInit(): void {
     this.categories$ = this.catgoryService.GetCategory();
     this.uploadWidget = this.cloudinaryWidget();
-    this.formInit();
   }
 
   cloudinaryWidget():any{
@@ -90,12 +89,13 @@ export class EditProductComponent implements OnInit{
 
   setProduct({productId}):void{
     // productId = 148 //145
+    // productId = 23
     this.productId = productId
     this.productService.getProductById(productId).subscribe((a)=>{
       const data:EditProductModel = a.data;
       this.form.setValue({
         "name":data.name,
-        "description":data.description,
+        "description":data.description || '',
         "price":data.price,
         "previousPrice":data.previousPrice,
         "category":data.category.id,
