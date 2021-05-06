@@ -1,20 +1,12 @@
 <!--=======  single product  =======-->
 <div class="uk-card uk-card-default uk-card-hover uk-card-small" 
     *ngIf="product$ | async as product">
-    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
+    <div class="uk-position-relative uk-visible-toggle uk-light uk-slideshow" tabindex="-1" uk-slideshow>
         <ul class="uk-slideshow-items">
-            <li>
-                <img src="{{ product.data.imageUrl }}" data-src="{{ product.data.imageUrl }}" 
-                    width="800" height="400" alt="" uk-cover>
-            </li>
-            <li>
-                <img src="{{ product.data.imageUrl }}" data-src="{{ product.data.imageUrl }}" 
-                    width="800" height="400" alt="" uk-cover>
-            </li>
             <li *ngFor="let imageUrl of product.data.productImages">
-                <img src="{{ imageUrl }}" data-src="{{ imageUrl }}" 
-                    width="800" height="400" alt="" uk-cover>
+                <img src="{{ imageUrl }}" data-src="{{ imageUrl }}" alt="{{product.data.name}}" uk-cover>
             </li>
+        
         </ul>
         <a class="uk-position-center-left uk-position-small uk-hidden-hover" 
             href="#" uk-slidenav-previous uk-slideshow-item="previous">

@@ -7,14 +7,8 @@
         tabindex="-1"
       >
         <ul class="uk-slideshow-items">
-          <li>
-            <img src="{{ product.imageUrl }}" alt="" uk-cover />
-          </li>
-          <li>
-            <img src="{{ product.imageUrl }}" alt="" uk-cover />
-          </li>
-          <li>
-            <img src="{{ product.imageUrl }}" alt="" uk-cover />
+          <li *ngFor="let images of product.productImages">
+            <img src="{{ images }}" alt="" uk-cover />
           </li>
         </ul>
 

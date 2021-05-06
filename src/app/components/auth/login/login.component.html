@@ -13,18 +13,16 @@
   </div>
 
   <div class="uk-padding-large">
-    <div class="uk-background-muted">
-      <p>Demo Only</p>
-      Email: <b>Donprecious24@gmail.com</b>
-      <br />
-      Password: <b>Donprecious24@gmail.com</b>
-    </div>
+  
     <form [formGroup]="loginForm" (ngSubmit)="login()">
       <div class="uk-text-center uk-padding-small">
         <span class="uk-text-warning" *ngIf="errorMessage != ''">{{
           errorMessage
         }}</span>
         <br />
+        <span class="uk-text-success" *ngIf="message != '' && hasError == false">{{
+          message
+          }}</span>
         <span class="uk-text-warning uk-text" *ngFor="let i of errors">
           {{ i }} <br />
         </span>

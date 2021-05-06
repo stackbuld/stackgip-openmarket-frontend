@@ -25,7 +25,7 @@ export class SiginupComponent implements OnInit {
   errors: any[];
   googleAuth: any;
   user: SocialUser;
-
+  message = '';
   errorMessage: string;
   constructor(
     public authService: AuthService,
@@ -42,6 +42,7 @@ export class SiginupComponent implements OnInit {
     this.hasError = false;
     this.errors = [];
     this.errorMessage = "";
+    this.message = "";
     this.registerForm = this.fb.group(
       {
         firstname: ["", [Validators.required]],
@@ -85,12 +86,15 @@ export class SiginupComponent implements OnInit {
 
     this.authService.register(data).subscribe(
       (d) => {
-        const signinData = {
-          email: data.email,
-          password: data.password,
-        } as SignInModel;
-        this.login(signinData);
-        console.log(d);
+        // const signinData = {
+        //   email: data.email,
+        //   password: data.password,
+        // } as SignInModel;
+        // this.login(signinData);
+        // console.log(d); 
+          this.ngxService.stopLoader("loader-01");
+        this.message = d.message;
+        this.hasError = false;
       },
       (err) => {
         this.errors = [];
@@ -117,6 +121,8 @@ export class SiginupComponent implements OnInit {
         this.authService.SetAuthLocalStorage(a);
         this.authService.logoutAndRedirectOnTokenExpiration(a.data.auth_token)
         if (a.status == "success") {
+             this.message = "login successful";
+             this.hasError = false;
           this.toast.success("login successful", "notification");
           if (!a.data.canLogin) {
             this.router.navigate(["/confirm-email"]);
