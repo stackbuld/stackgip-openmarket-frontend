@@ -9,7 +9,7 @@ import { UserService } from './../../../../services/user/user.service';
 import { IUserResponse } from './../../../../models/IUserModel';
 import { getLoggedInUser } from './../../../../helpers/userUtility';
 import { ToastrService } from 'src/app/services/toastr.service';
-import { Order } from './../../../../models/order.model';
+import { Order, OrderStatus} from './../../../../models/order.model';
 import { OrderViewMoreComponent } from './../order-view-more/order-view-more.component';
 import { UpdateDeliveryStatusComponent } from './../update-delivery-status/update-delivery-status.component';
 import uikit from 'uikit';
@@ -67,10 +67,24 @@ export class OrderDetailComponent implements OnInit {
     return !blackList.includes(status)
   }
 
-  updateLocation(orderId:number):void{
+  updateLocation(orderId:string):void{
     uikit.modal.prompt("Enter current location ", '')
-    // todo api
-    .then((location)=>console.log(location),()=>{})
+    .then(
+      (location)=>{
+        if(String(location) !== ''){
+          if(location !== null){
+            this.orderService.UpdateStatus(
+              orderId, {itemLocationInfo:String(location)} as OrderStatus
+            )
+            .subscribe((o)=>{
+              this.toast.success("Location updated successfully")
+            })
+          }
+        }else{
+          this.toast.error("Update required location")
+        }
+      },()=>{}
+    )
   }
 
   canCancel(status:string):boolean{

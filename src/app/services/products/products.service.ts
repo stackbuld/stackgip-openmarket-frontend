@@ -46,13 +46,13 @@ export class ProductsService {
     pageNumber: number = 1,
     maxItem = 50,
     search = "",
-    categoryId = ""
+    categoryId = "",
+    min = 10,
+    max = 500000
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
       this.baseUrl +
-        `seller/${userId}/products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}`
-      // this.baseUrl +
-      //   `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}`
+        `seller/${userId}/products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&min=${min}&max=${max}&categoryId=${categoryId}`
     );
   }
 
