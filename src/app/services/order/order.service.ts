@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { ApiAppUrlService } from "../api-app-url.service";
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
-import { OrderResponce, Order, OrderApiModel } from "./../../models/order.model";
+import { OrderResponce, Order, OrderApiModel,OrderStatus } from "./../../models/order.model";
 
 @Injectable({
   providedIn: 'root'
@@ -38,10 +38,11 @@ export class OrderService {
   }
 
   UpdateStatus(
-    orderId:string,status:string
+    orderId:string,orderStatus:OrderStatus
   ):Observable<OrderResponce>{
     return this.http.put<OrderResponce>(
-      `${this.baseUrl}seller/orders/${orderId}/status/${status}`,[]
+      `${this.baseUrl}seller/orders/${orderId}/status`,orderStatus 
+      // `${this.baseUrl}seller/orders/${orderId}/status/${status}`,[] 
     );
   }
 }

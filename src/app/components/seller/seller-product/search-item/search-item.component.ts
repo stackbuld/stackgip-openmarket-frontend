@@ -1,5 +1,5 @@
 import { CatgoryService } from './../../../../services/category/catgory.service'
-import { Component, OnInit, ViewChild, ElementRef} from '@angular/core'
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter} from '@angular/core'
 import { CategoryResponse } from './../../../../models/CategoryModels'
 import { ToastrService } from "./../../../../services/toastr.service"
 import { Options, LabelType } from '@angular-slider/ngx-slider'
@@ -15,9 +15,10 @@ import { MatDatepickerToggle } from '@angular/material/datepicker'
 export class SearchItemComponent implements OnInit {
   @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>
   @ViewChild('startDateToggle') startDateToggle: MatDatepickerToggle<any> 
-  @ViewChild('endDateToggle') endDateToggle: MatDatepickerToggle<any> 
+  @ViewChild('endDateToggle') endDateToggle: MatDatepickerToggle<any>
+  @Output() onSearch = new EventEmitter()
+  @Output() onSearchClear = new EventEmitter()
   categories$: Observable<CategoryResponse>
-  // products: ProductModel[] = []
   search:string = ""
   categoryId:string = ""
   minValue: number = 10
@@ -87,6 +88,7 @@ export class SearchItemComponent implements OnInit {
     this.categoryItem.nativeElement.innerText = ''
     this.minValue = 50
     this.maxValue = 500000
+    this.onSearchClear.emit({})
   }
 
   pickStartDate(){
@@ -97,7 +99,14 @@ export class SearchItemComponent implements OnInit {
     const _ = this.endDateToggle._button._elementRef.nativeElement.click()
   }
   
-  onSearch(){
-
+  onSearchSubmit(){
+    this.onSearch.emit({
+      keyword:this.searchForm.get('keyword').value,
+      category:this.searchForm.get('category').value,
+      startDate:this.searchForm.get('startDate').value,
+      endDate:this.searchForm.get('endDate').value,
+      minValue:this.minValue,
+      maxValue:this.maxValue
+    })
   }
 }

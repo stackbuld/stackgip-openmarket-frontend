@@ -136,34 +136,36 @@ export class AddProductComponent implements OnInit {
   }
   
   onSubmit():void{
-    this.errors = [];
-    this.errorMessage = "";
-    // console.log(
-      //this.flatPaymentOption(this.form.get("paymentOption").value)
-    // )
+    this.errors = []
+    this.errorMessage = ""
     if (this.form.invalid) {
-      console.log(this.form.errors);
-      return;
+      console.log(this.form.errors)
+      return
+    }
+    if(this.images.length < 1){
+      this.toast.error("product image is required")
+      return
     }
     this.loading = true
-    const data: CreateProductModel  =  this.getProductData();
+    const data: CreateProductModel  =  this.getProductData()
+    
     this.productService.createProduct(data).subscribe( 
       (a) => {
-        this.images = [];
-        this.added.emit(a.data);
-        this.toast.success("product created successfully");
+        this.images = []
+        this.added.emit(a.data)
+        this.toast.success("product created successfully")
         this.loading = false
-        this.closed.emit();
+        this.closed.emit()
       },
       (error) => {
         // this.errors = error.error.errors.map((a) => a.description);
-        console.log("error", error);
+        console.log("error", error)
       }
      )
   }
 
   flatPaymentOption(option:{method:boolean,value:string,label:string}[]){
-    return option.filter(opt=>opt.method).map(opt=>opt.value)
+    return option.filter(opt=>opt.method).map(opt=>opt.value).join(',')
   }
 
   getProductData():CreateProductModel{
@@ -179,6 +181,7 @@ export class AddProductComponent implements OnInit {
       options: this.form.get("options").value,
       categoryId: this.form.get('category').value,
       userId: this.user.id,
+      paymentOptions:this.flatPaymentOption(this.form.get("paymentOption").value)
     } as CreateProductModel
   }
 }

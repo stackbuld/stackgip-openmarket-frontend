@@ -27,6 +27,7 @@ export interface CreateProductModel {
   unit: number;
   imageUrls: string[];
   userId: string;
+  paymentOptions?: string,
   shipments?: CreateShipmentModel[];
   options?: CreateProductOption[];
 }
