@@ -60,7 +60,8 @@ export interface ProductResponse extends EditProductItem {}
 
 export interface ProductCartModel extends ProductModel {
   orderedUnit: number;
-  shipmentOption:string
+  shipmentOption:string;
+  productOptions?:string;
 }
 
 export interface Category {

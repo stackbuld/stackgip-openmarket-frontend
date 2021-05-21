@@ -106,6 +106,8 @@ export class CheckoutComponent implements OnInit {
           price: item.price,
           discount: 0,
           productId: item.id,
+          shipments: item.shipmentOption,
+          options: item.productOptions
         };
         createOrders.push(orders);
       });

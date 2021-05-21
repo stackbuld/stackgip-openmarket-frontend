@@ -1,3 +1,4 @@
+import { formatProductOptions, formatShipmentOption } from './../../helpers/productOption';
 import { getLoggedInUser } from "./../../helpers/userUtility";
 import { InvoiceService } from "src/app/services/invoice/invoice.service";
 import { InvoiceModel, invoiceStatus } from "./../../models/invoice.model";
@@ -15,6 +16,8 @@ import { numberWithCommas } from './../../helpers/number-format';
 })
 export class OrderInvoiceComponent implements OnInit {
   numberWithCommas:Function = numberWithCommas
+  formatProductOptions:Function = formatProductOptions
+  formatShipmentOption:Function = formatShipmentOption
   user = getLoggedInUser();
   invoice: InvoiceModel;
   total: number;

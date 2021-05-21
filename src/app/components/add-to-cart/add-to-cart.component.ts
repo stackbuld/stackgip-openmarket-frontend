@@ -17,6 +17,7 @@ export class AddToCartComponent implements OnInit{
   @Output() addedToCart = new EventEmitter()
   @Output() closed = new EventEmitter()
   productOptions:{[title:string]:CreateProductOption[]}
+  selectedProductOptions:{[title:string]:string} = {}
   product: ProductWithOptionAndShipmentModel = null
   currentOptions:{[title:string]:number} = {}
   numberWithCommas:Function
@@ -84,18 +85,19 @@ export class AddToCartComponent implements OnInit{
   }
 
   onOptionValueChanged(data:{title:string,cost:string}){
-    const [cost,_] = data.cost.split('|')
+    const [cost,value] = data.cost.split('|')
     const numCost = Number(cost)
     this.priceWithOptions -= this.currentOptions[data.title]
     this.priceWithOptions += numCost
     this.currentOptions[data.title] = numCost
     this.totalPrice = Number(this.priceWithOptions) * Number(this.currentQuantity)
+    this.selectedProductOptions[data.title] = value 
   }
 
   addToCart(){
     const paymentOption = this.optionForm.get('paymentOption')
     const shipmentOption = this.optionForm.get('shipmentOption')
-    let currentShipmentOption:string = 'state-city|0'
+    let currentShipmentOption:string = 'state|city|0'
     if(this.product.productShipments.length > 0){
       currentShipmentOption = shipmentOption.value
     }
@@ -103,17 +105,23 @@ export class AddToCartComponent implements OnInit{
       this.toast.error("please enter a valid quantity")
       return
     }
-    this.moveProductToCart(currentShipmentOption,paymentOption.value)
+    const [state, city, cost] = currentShipmentOption.split('|')
+    this.moveProductToCart({
+      shipmentOption:JSON.stringify({state,city,cost}),
+      paymentOption:paymentOption.value,
+      productOptions:JSON.stringify(this.selectedProductOptions)
+    })
   }
 
-  moveProductToCart(shipmentoption:string,paymentOption:string){
+  moveProductToCart(cartOption){
     this.product.price = this.priceWithOptions
     this.addedToCart.emit(
       {
         product:this.product,
         orderedUnit:this.currentQuantity,
-        shipmentOption:shipmentoption,
-        paymentOption
+        paymentOption:cartOption.paymentOption,
+        shipmentOption:cartOption.shipmentOption,
+        productOptions:cartOption.productOptions
       }
     )
   }
@@ -134,7 +142,7 @@ export class AddToCartComponent implements OnInit{
   getDefaultShipment(){
     let shipmentOptionDefault:string = ''
     if(this.product.productShipments.length > 0){
-        shipmentOptionDefault = this.product.productShipments[0].state+'-'+
+        shipmentOptionDefault = this.product.productShipments[0].state+'|'+
         this.product.productShipments[0].city+'|'+
         this.product.productShipments[0].cost
     }

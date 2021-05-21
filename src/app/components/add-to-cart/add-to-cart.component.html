@@ -120,7 +120,7 @@
         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
           <label *ngFor="let shipment of product.productShipments">
             <input class="uk-radio"  formControlName="shipmentOption" 
-              type="radio" value="{{ shipment.state }}-{{ shipment.city }}|{{shipment.cost}}"/>
+              type="radio" value="{{ shipment.state }}|{{ shipment.city }}|{{shipment.cost}}"/>
             <span *ngIf="shipment.state.toLowerCase() == 'all'">
               Any State (+ NGN{{ shipment.cost.toLocaleString() }})
               <small>{{ shipment.description }}</small>

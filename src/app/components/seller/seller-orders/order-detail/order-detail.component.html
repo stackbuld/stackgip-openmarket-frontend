@@ -80,8 +80,8 @@
                     </div>
                 </td>
                 <td>{{ order.product.name }}</td>
-                <td>blue|XL</td>
-                <td>abia / oka (+ NGN5,000)</td>
+                <td [innerHtml]="formatProductOptions(order.options)"></td>
+                <td>{{formatShipmentOption(order.shipments)}}</td>
                 <td>{{ order.unit }}</td>
                 <td>NGN {{ order.price.toLocaleString() }}</td>
                 <td>{{ order.status }}</td>
