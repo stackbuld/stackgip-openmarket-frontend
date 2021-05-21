@@ -13,6 +13,7 @@ import { Order, OrderStatus} from './../../../../models/order.model';
 import { OrderViewMoreComponent } from './../order-view-more/order-view-more.component';
 import { UpdateDeliveryStatusComponent } from './../update-delivery-status/update-delivery-status.component';
 import uikit from 'uikit';
+import { formatProductOptions, formatShipmentOption } from './../../../../helpers/productOption';
 
 @Component({
   selector: 'app-order-detail',
@@ -23,6 +24,8 @@ export class OrderDetailComponent implements OnInit {
   @ViewChild(OrderViewMoreComponent) orderViewMore: OrderViewMoreComponent;
   @ViewChild(UpdateDeliveryStatusComponent) updateDelivery: UpdateDeliveryStatusComponent;
   @ViewChild('closeUpdateStatus') closeUpdateStatus: ElementRef;
+  formatProductOptions:Function = formatProductOptions
+  formatShipmentOption:Function = formatShipmentOption
   user$: Observable<IUserResponse>
   filterType = fullInvoiceStatus;
   loginUser = getLoggedInUser();

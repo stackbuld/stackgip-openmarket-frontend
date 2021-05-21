@@ -1,5 +1,5 @@
 <div class="uk-section uk-section-default">
-  <div class="uk-container">
+  <div class="uk-container" *ngIf="invoice">
     <h1>MY ORDER</h1>
     <div class="uk-grid uk-child-width-1-2@s">
       <div>
@@ -81,8 +81,8 @@
                 </div>
               </td>
               <td>{{ order.product.name }}</td>
-              <td>blue|XL</td>
-              <td>abia / oka (+ NGN5,000)</td>
+              <td [innerHtml]="formatProductOptions(order.options)"></td>
+              <td>{{formatShipmentOption(order.shipments)}}</td>
               <td>{{ order.unit }}</td>
               <td>NGN {{ numberWithCommas(order.price.toLocaleString()) }}</td>
               <td>{{ order.status }}</td>
