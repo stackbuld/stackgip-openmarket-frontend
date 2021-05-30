@@ -5,6 +5,7 @@ import { Component, OnInit, ViewChild, ElementRef} from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { CatgoryService } from './../../../services/category/catgory.service';
 import { CategoryResponse } from './../../../models/CategoryModels';
+import { ToastrService } from "./../../../services/toastr.service"
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -32,6 +33,7 @@ export class ListProductComponent implements OnInit {
     private productService: ProductsService,
     private categoryService: CatgoryService,
     private route: ActivatedRoute,
+    private toast: ToastrService,
     private fb: FormBuilder 
   ) {}
 
@@ -42,29 +44,14 @@ export class ListProductComponent implements OnInit {
     let categoryId = this.route.snapshot.queryParamMap.get("categoryId");
     this.categoryId = categoryId ? categoryId : "";
     this.fetchNextProducts(this.defaultPage)
-    this.setPriceRangeOption()
     this.form = this.fb.group({
       keyword: ["", []],
       category: ["", []],
+      minPrice: [10, []],
+      maxPrice: [500000, []],
     })
   }
 
-  setPriceRangeOption(){
-    this.options = {
-      floor: 10,
-      ceil: 10000000,
-      translate: (value: number, label: LabelType): string => {
-        switch (label) {
-          case LabelType.Low:
-            return '<b>Min price:</b> NGN ' + value;
-          case LabelType.High:
-            return '<b>Max price:</b> NGN ' + value;
-          default:
-            return 'NGN ' + value;
-        }
-      }
-    } as Options
-  }
 
   fetchNextProducts(pageNumber:number){
       this.productService.getProducts(
@@ -81,12 +68,36 @@ export class ListProductComponent implements OnInit {
   onSearch(){
     this.search = this.form.get('keyword').value
     this.categoryId = this.form.get('category').value
+    this.minValue = this.form.get('minPrice').value
+    this.maxValue = this.form.get('maxPrice').value
     this.fetchNextProducts(this.defaultPage)
   }
 
   onClear(){
     this.form.get('keyword').setValue('')
     this.form.get('category').setValue('')
+    this.form.get('minPrice').setValue(10)
+    this.form.get('maxPrice').setValue(500000)
     this.categoryItem.nativeElement.innerText = ''
+  }
+
+  onChangeMinPrice(){
+    this.resetPrice()
+  }
+
+  onChangeMaxPrice(){
+    if(this.resetPrice()){
+      this.toast.error("Maximum price must be greater than minimum price")
+    }
+  }
+
+  resetPrice():boolean{
+    const minPrice:number = this.form.get('minPrice').value
+    const maxPrice:number = this.form.get('maxPrice').value
+    if(minPrice > maxPrice){
+      this.form.get('maxPrice').setValue(minPrice)
+      return true
+    }
+    return false
   }
 }

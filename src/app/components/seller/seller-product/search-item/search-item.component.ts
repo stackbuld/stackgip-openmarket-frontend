@@ -21,8 +21,6 @@ export class SearchItemComponent implements OnInit {
   categories$: Observable<CategoryResponse>
   search:string = ""
   categoryId:string = ""
-  minValue: number = 10
-  maxValue: number = 500000
   options:Options
   searchForm: FormGroup
 
@@ -35,29 +33,23 @@ export class SearchItemComponent implements OnInit {
       category: ["", []],
       startDate: ["", []],
       endDate: ["", []],
+      minPrice: [10, []],
+      maxPrice: [500000, []],
     })
    }
 
   ngOnInit(): void {
     this.categories$ = this.categoryService.GetCategory()
-    this.setPriceRangeOption()
   }
 
-  setPriceRangeOption(){
-    this.options = {
-      floor: 10,
-      ceil: 10000000,
-      translate: (value: number, label: LabelType): string => {
-        switch (label) {
-          case LabelType.Low:
-            return '<b>Min price:</b> NGN ' + value
-          case LabelType.High:
-            return '<b>Max price:</b> NGN ' + value
-          default:
-            return 'NGN ' + value
-        }
-      }
-    } as Options
+  onChangeMinPrice(){
+    this.resetPrice()
+  }
+
+  onChangeMaxPrice(){
+    if(this.resetPrice()){
+      this.toast.error("Maximum price must be greater than minimum price")
+    }
   }
 
   startDateChange(date:string){
@@ -80,14 +72,24 @@ export class SearchItemComponent implements OnInit {
     return false
   }
 
+  resetPrice():boolean{
+    const start:number = this.searchForm.get('minPrice').value
+    const end:number = this.searchForm.get('maxPrice').value
+    if(start > end){
+      this.searchForm.get('maxPrice').setValue(start)
+      return true
+    }
+    return false
+  }
+
   onClear(){
     this.searchForm.get('keyword').setValue('')
     this.searchForm.get('category').setValue('')
-    this.searchForm.get('startDate').setValue('')
+    this.searchForm.get('startDate').setValue('') 
     this.searchForm.get('endDate').setValue('')
+    this.searchForm.get('minPrice').setValue(50) 
+    this.searchForm.get('maxPrice').setValue(500000)
     this.categoryItem.nativeElement.innerText = ''
-    this.minValue = 50
-    this.maxValue = 500000
     this.onSearchClear.emit({})
   }
 
@@ -105,8 +107,8 @@ export class SearchItemComponent implements OnInit {
       category:this.searchForm.get('category').value,
       startDate:this.searchForm.get('startDate').value,
       endDate:this.searchForm.get('endDate').value,
-      minValue:this.minValue,
-      maxValue:this.maxValue
+      minValue:this.searchForm.get('minPrice').value,
+      maxValue:this.searchForm.get('maxPrice').value
     })
   }
 }
