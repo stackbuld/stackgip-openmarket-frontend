@@ -2,7 +2,7 @@ import { numberWithCommas } from "./number-format"
 
 export function formatProductOptions(options:string){
     options = options || `{"size":"M"}`
-    const opts:{[key:string]:string} = JSON.parse(options || "")
+    const opts:{[key:string]:string} = JSON.parse(options)
     let formatOpts:string = ""
     for(let option in opts){
       formatOpts += `${option}|${opts[option]}<br>`
