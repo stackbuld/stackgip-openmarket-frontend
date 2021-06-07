@@ -13,6 +13,7 @@ import {
   CreateShipmentModel,
 } from "../../models/products.model";
 import { Observable } from "rxjs";
+import { CategoryResponse } from "./../../models/CategoryModels";
 import { IUser } from "src/app/models/IUserModel";
 import { HttpClient } from "@angular/common/http";
 import { ApiAppUrlService } from "../api-app-url.service";
@@ -22,9 +23,15 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class ProductsService {
+  baseUrll="";
   baseUrl = "";
+  
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
+  }
+  
+  public GetCategory(): Observable<CategoryResponse> {
+    return this.http.get<CategoryResponse>(this.baseUrll + "categories");
   }
 
   getProducts(

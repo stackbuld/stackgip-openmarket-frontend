@@ -23,6 +23,8 @@ export class MostSellingProductComponent implements OnInit {
     this.productService.getMostSelling(users.id).subscribe((productDetail) => {
       this.productDetails = productDetail.data;
     })
+
+    
   }
   
 }

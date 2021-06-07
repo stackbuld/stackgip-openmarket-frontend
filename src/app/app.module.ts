@@ -66,6 +66,7 @@ import { SellerRegisterationFormComponent } from "./components/seller/seller-reg
 import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { SearchItemComponent } from './components/seller/seller-product/search-item/search-item.component';
+import { SellerShowCaseProductComponent } from './components/seller/sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,8 @@ import { SearchItemComponent } from './components/seller/seller-product/search-i
     AddToCartComponent,
     SellerRegisterationFormComponent,
     SearchItemComponent,
+    SellerShowCaseProductComponent
+  
   ],
   imports: [
     BrowserModule,
