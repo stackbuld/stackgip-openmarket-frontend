@@ -23,6 +23,8 @@ import { ListProductComponent } from "./components/home/list-product/list-produc
 import { OrderListComponent } from './components/seller/seller-orders/order-list/order-list.component';
 import { OrderDetailComponent } from './components/seller/seller-orders/order-detail/order-detail.component';
 import { sellerApproveStatusApproveRouteResolver } from "./resolver/seller-status-approve.resolver";
+import { SellerShowCaseProductComponent } from './components/seller/sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
+
 const route: Routes = [
   {
     path: "",
@@ -65,6 +67,10 @@ const route: Routes = [
         ],
       },
       {
+        path:'sellerproduct',
+        component: SellerShowCaseProductComponent,
+      },
+      {
         path: "seller",
         canActivate: [AuthGuard],
         component: DashboardComponent,
@@ -78,6 +84,7 @@ const route: Routes = [
             path: "products",
             component: SellerProductComponent,
           },
+        
           {
             path: "orders",
             component: SellerOrdersComponent,
