@@ -49,6 +49,11 @@ export interface OrderProductModel extends ProductModel {
   productOptions: CreateProductOption[];
 }
 
+export interface OrderStatus {
+    status?:           string
+    reason?:           string
+    itemLocationInfo?: string
+}
 // export interface Product {
 //     name:             string;
 //     price:            number;

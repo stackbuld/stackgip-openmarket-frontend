@@ -1,6 +1,8 @@
 import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from './../../../../services/order/order.service';
+import { OrderStatus } from "./../../../../models/order.model"
+
 import { ToastrService } from 'src/app/services/toastr.service';
 import uikit from 'uikit';
 
@@ -80,9 +82,9 @@ export class UpdateDeliveryStatusComponent implements OnInit {
       .then((reason)=>{
         if(String(reason) !== ''){
           if(reason !== null){
-            // todo api
-            //this.orderService.UpdateReason(reason)
-            this.orderService.UpdateStatus(this.currentOrderId,status)
+            this.orderService.UpdateStatus(
+              this.currentOrderId, {status,reason:String(reason)} as OrderStatus
+            )
             .subscribe((o)=>{
               this.form.get("loading").setValue(false)
               if(this.type.toLowerCase() === 'intransit'){
@@ -98,7 +100,7 @@ export class UpdateDeliveryStatusComponent implements OnInit {
         }
       },()=>{this.form.get("loading").setValue(false)})
     }else{
-    this.orderService.UpdateStatus(this.currentOrderId,status)
+    this.orderService.UpdateStatus(this.currentOrderId,{status} as OrderStatus)
       .subscribe((o)=>{
         this.form.get("loading").setValue(false)
         this.toast.success("Status updated successfully")

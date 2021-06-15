@@ -17,6 +17,7 @@ export class AddToCartComponent implements OnInit{
   @Output() addedToCart = new EventEmitter()
   @Output() closed = new EventEmitter()
   productOptions:{[title:string]:CreateProductOption[]}
+  selectedProductOptions:{[title:string]:string} = {}
   product: ProductWithOptionAndShipmentModel = null
   currentOptions:{[title:string]:number} = {}
   numberWithCommas:Function
@@ -41,7 +42,8 @@ export class AddToCartComponent implements OnInit{
     this.optionForm = this.fb.group({
       shipmentOption:['',[Validators.required]],
       quantity:[1,[Validators.required]],
-      options: this.fb.array([])
+      options: this.fb.array([]),
+      paymentOption:['online',[Validators.required]]
     });
     this.optionForm.get('quantity').valueChanges.pipe(debounceTime(200))
     .subscribe(data => this.onQuantityValueChanged(data))
@@ -63,15 +65,16 @@ export class AddToCartComponent implements OnInit{
 
   setOptionForm(options:string[]):void{
     options.forEach((option) => {
-      const {title, cost} = this.productOptions[option][0]
+      let {title, value, cost} = this.productOptions[option][0]
       let itemToAdd = this.fb.group({
-        title:option,cost:[cost.toString(),[]]
+        title:option,cost:[`${cost}|${value}`,[]]
       })
       itemToAdd.valueChanges.pipe(debounceTime(200)).subscribe(
         data => this.onOptionValueChanged(data)
       )
       this.optionArray().push(itemToAdd)
       this.currentOptions[option] = 0
+      cost = String(cost)
       this.onOptionValueChanged({title,cost})
     });
   }
@@ -81,16 +84,20 @@ export class AddToCartComponent implements OnInit{
     this.totalPrice = this.priceWithOptions * this.currentQuantity
   }
 
-  onOptionValueChanged(data:{title:string,cost:number}){
+  onOptionValueChanged(data:{title:string,cost:string}){
+    const [cost,value] = data.cost.split('|')
+    const numCost = Number(cost)
     this.priceWithOptions -= this.currentOptions[data.title]
-    this.priceWithOptions += Number(data.cost)
-    this.currentOptions[data.title] = data.cost
+    this.priceWithOptions += numCost
+    this.currentOptions[data.title] = numCost
     this.totalPrice = Number(this.priceWithOptions) * Number(this.currentQuantity)
+    this.selectedProductOptions[data.title] = value 
   }
 
   addToCart(){
+    const paymentOption = this.optionForm.get('paymentOption')
     const shipmentOption = this.optionForm.get('shipmentOption')
-    let currentShipmentOption:string = 'state-city|0'
+    let currentShipmentOption:string = 'state|city|0'
     if(this.product.productShipments.length > 0){
       currentShipmentOption = shipmentOption.value
     }
@@ -98,16 +105,23 @@ export class AddToCartComponent implements OnInit{
       this.toast.error("please enter a valid quantity")
       return
     }
-    this.moveProductToCart(currentShipmentOption)
+    const [state, city, cost] = currentShipmentOption.split('|')
+    this.moveProductToCart({
+      shipmentOption:JSON.stringify({state,city,cost}),
+      paymentOption:paymentOption.value,
+      productOptions:JSON.stringify(this.selectedProductOptions)
+    })
   }
 
-  moveProductToCart(shipmentoption:string){
+  moveProductToCart(cartOption){
     this.product.price = this.priceWithOptions
     this.addedToCart.emit(
       {
         product:this.product,
         orderedUnit:this.currentQuantity,
-        shipmentOption:shipmentoption
+        paymentOption:cartOption.paymentOption,
+        shipmentOption:cartOption.shipmentOption,
+        productOptions:cartOption.productOptions
       }
     )
   }
@@ -128,7 +142,7 @@ export class AddToCartComponent implements OnInit{
   getDefaultShipment(){
     let shipmentOptionDefault:string = ''
     if(this.product.productShipments.length > 0){
-        shipmentOptionDefault = this.product.productShipments[0].state+'-'+
+        shipmentOptionDefault = this.product.productShipments[0].state+'|'+
         this.product.productShipments[0].city+'|'+
         this.product.productShipments[0].cost
     }

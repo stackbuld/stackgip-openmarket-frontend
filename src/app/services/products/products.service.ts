@@ -13,6 +13,7 @@ import {
   CreateShipmentModel,
 } from "../../models/products.model";
 import { Observable } from "rxjs";
+import { CategoryResponse } from "./../../models/CategoryModels";
 import { IUser } from "src/app/models/IUserModel";
 import { HttpClient } from "@angular/common/http";
 import { ApiAppUrlService } from "../api-app-url.service";
@@ -22,9 +23,15 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class ProductsService {
+  baseUrll="";
   baseUrl = "";
+  
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
+  }
+  
+  public GetCategory(): Observable<CategoryResponse> {
+    return this.http.get<CategoryResponse>(this.baseUrll + "categories");
   }
 
   getProducts(
@@ -46,13 +53,13 @@ export class ProductsService {
     pageNumber: number = 1,
     maxItem = 50,
     search = "",
-    categoryId = ""
+    categoryId = "",
+    min = 10,
+    max = 500000
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
       this.baseUrl +
-        `seller/${userId}/products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}`
-      // this.baseUrl +
-      //   `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}`
+        `seller/${userId}/products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&min=${min}&max=${max}&categoryId=${categoryId}`
     );
   }
 

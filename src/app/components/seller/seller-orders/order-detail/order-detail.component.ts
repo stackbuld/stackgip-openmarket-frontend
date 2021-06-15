@@ -9,10 +9,11 @@ import { UserService } from './../../../../services/user/user.service';
 import { IUserResponse } from './../../../../models/IUserModel';
 import { getLoggedInUser } from './../../../../helpers/userUtility';
 import { ToastrService } from 'src/app/services/toastr.service';
-import { Order } from './../../../../models/order.model';
+import { Order, OrderStatus} from './../../../../models/order.model';
 import { OrderViewMoreComponent } from './../order-view-more/order-view-more.component';
 import { UpdateDeliveryStatusComponent } from './../update-delivery-status/update-delivery-status.component';
 import uikit from 'uikit';
+import { formatProductOptions, formatShipmentOption } from './../../../../helpers/productOption';
 
 @Component({
   selector: 'app-order-detail',
@@ -23,6 +24,8 @@ export class OrderDetailComponent implements OnInit {
   @ViewChild(OrderViewMoreComponent) orderViewMore: OrderViewMoreComponent;
   @ViewChild(UpdateDeliveryStatusComponent) updateDelivery: UpdateDeliveryStatusComponent;
   @ViewChild('closeUpdateStatus') closeUpdateStatus: ElementRef;
+  formatProductOptions:Function = formatProductOptions
+  formatShipmentOption:Function = formatShipmentOption
   user$: Observable<IUserResponse>
   filterType = fullInvoiceStatus;
   loginUser = getLoggedInUser();
@@ -49,21 +52,7 @@ export class OrderDetailComponent implements OnInit {
     });
   }
 
-  onDelete(orderId:number):void{
-    uikit.modal.confirm(
-      'Are you sure that you want to remove this ?'
-    ).then(()=>{
-        this.orderService.deleteOrder(this.loginUser.id,orderId).subscribe((a)=>{
-          this.invoice.orders = this.invoice.orders.filter(
-            (o) => o.id !== orderId
-          )
-        })
-        this.toast.success("order removed successfully")
-      },()=>{});
-  }
-
   setViewMore(order:Order):void{
-    // this.orderViewMore.type = this.status
     this.orderViewMore.setOrder({order})
   }
 
@@ -81,9 +70,27 @@ export class OrderDetailComponent implements OnInit {
     return !blackList.includes(status)
   }
 
-  updateLocation(orderId:number):void{
+  updateLocation(orderId:string):void{
     uikit.modal.prompt("Enter current location ", '')
-    // todo api
-    .then((location)=>console.log(location),()=>{})
+    .then(
+      (location)=>{
+        if(String(location) !== ''){
+          if(location !== null){
+            this.orderService.UpdateStatus(
+              orderId, {itemLocationInfo:String(location)} as OrderStatus
+            )
+            .subscribe((o)=>{
+              this.toast.success("Location updated successfully")
+            })
+          }
+        }else{
+          this.toast.error("Update required location")
+        }
+      },()=>{}
+    )
+  }
+
+  canCancel(status:string):boolean{
+    return status !== 'paid'
   }
 }

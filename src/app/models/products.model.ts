@@ -27,6 +27,7 @@ export interface CreateProductModel {
   unit: number;
   imageUrls: string[];
   userId: string;
+  paymentOptions?: string,
   shipments?: CreateShipmentModel[];
   options?: CreateProductOption[];
 }
@@ -59,7 +60,8 @@ export interface ProductResponse extends EditProductItem {}
 
 export interface ProductCartModel extends ProductModel {
   orderedUnit: number;
-  shipmentOption:string
+  shipmentOption:string;
+  productOptions?:string;
 }
 
 export interface Category {
@@ -124,7 +126,7 @@ export interface CreateProductOption {
   title: string;
   value: string;
   shortDescription: string;
-  cost: number;
+  cost: number | string;
   description: string;
 }
 

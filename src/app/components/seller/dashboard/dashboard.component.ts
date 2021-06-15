@@ -22,13 +22,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.routeData$ = this.route.data.subscribe(
       res => {
-        this.switching = res.data;
+        this.switching = res.data  
       }
     );
   }
   modalStatus(d: any) {
     if (d.isModalClose) {
-      this.router.navigate(['/']);
+      if(d.isFormSubmit){
+        this.switching = 'pending'
+      }else{
+        this.router.navigate(['/']);
+      }
     }
   }
   ngOnDestroy(): void {

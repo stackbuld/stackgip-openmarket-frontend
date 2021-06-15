@@ -65,6 +65,8 @@ import { AddToCartComponent } from './components/add-to-cart/add-to-cart.compone
 import { SellerRegisterationFormComponent } from "./components/seller/seller-registeration-form/seller-registeration-form.component";
 import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { SearchItemComponent } from './components/seller/seller-product/search-item/search-item.component';
+import { SellerShowCaseProductComponent } from './components/seller/sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +116,9 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
     InfiniteScrollComponent,
     AddToCartComponent,
     SellerRegisterationFormComponent,
+    SearchItemComponent,
+    SellerShowCaseProductComponent
+  
   ],
   imports: [
     BrowserModule,

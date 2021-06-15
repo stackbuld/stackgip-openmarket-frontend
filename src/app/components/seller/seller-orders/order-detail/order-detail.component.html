@@ -59,6 +59,8 @@
               <th>Order No</th>
               <th>Item</th>
               <th>Name</th>
+              <th>Option</th>
+              <th>Shipment</th>
               <th>Unit</th>
               <th>Cost</th>
               <th>Status</th>
@@ -78,6 +80,8 @@
                     </div>
                 </td>
                 <td>{{ order.product.name }}</td>
+                <td [innerHtml]="formatProductOptions(order.options)"></td>
+                <td>{{formatShipmentOption(order.shipments)}}</td>
                 <td>{{ order.unit }}</td>
                 <td>NGN {{ order.price.toLocaleString() }}</td>
                 <td>{{ order.status }}</td>
@@ -103,7 +107,6 @@
                                 <li *ngIf="order.status === 'intransit'">
                                   <a (click)="updateLocation(order.id)">Update Location</a>
                                 </li>
-                                <li><a (click)="onDelete(order.id)">Cancel</a></li>
                             </ul>
                         </div>
                     </div>

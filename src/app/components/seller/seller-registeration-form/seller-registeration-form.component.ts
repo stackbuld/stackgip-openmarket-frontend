@@ -114,7 +114,7 @@ export class SellerRegisterationFormComponent implements OnInit, OnDestroy {
         if (res.response.status === 'success') {
           this.isLoading = false;
           this.toast.success("Registeration successfully submited")
-          this.closeModal()
+          this.closeModal(true)
         }
       },
       err => {
@@ -124,9 +124,9 @@ export class SellerRegisterationFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  closeModal() {
+  closeModal(isFormSubmit=false) {
     this.modalStatus.emit({
-      isModalClose: true,
+      isModalClose: true, isFormSubmit
     });
     uikit.modal('#seller-modal-full').hide();
   }

@@ -39,7 +39,7 @@ export class AddProductComponent implements OnInit {
     private toast: ToastrService,
     private productService: ProductsService, 
     private catgoryService: CatgoryService
-  ){}
+  ){this.formInit()}
   get f() {return this.form.controls;}
 
   ngOnInit(): void {
@@ -56,7 +56,6 @@ export class AddProductComponent implements OnInit {
         }
       }
     );
-    this.formInit();
   }
 
   formInit():void{
@@ -69,7 +68,19 @@ export class AddProductComponent implements OnInit {
       unit: [0, [Validators.required]],
       shipments: this.fb.array([this.createShipment()]),
       options: this.fb.array([]),
+      paymentOption: this.fb.array(this.setPaymentOption()),
     });
+  }
+
+  paymentOption():FormArray{
+    return this.form.get('paymentOption') as FormArray;
+  }
+
+  setPaymentOption():FormGroup[]{
+    return [
+      this.fb.group({ method: [true, []], value:"online", label:"Pay Online" }),
+      this.fb.group({ method: [false, []], value:"ondelivery", label:"Pay On Delivery" }),
+    ]
   }
 
   shipments():FormArray{
@@ -125,28 +136,36 @@ export class AddProductComponent implements OnInit {
   }
   
   onSubmit():void{
-    this.errors = [];
-    this.errorMessage = "";
-
+    this.errors = []
+    this.errorMessage = ""
     if (this.form.invalid) {
-      console.log(this.form.errors);
-      return;
+      console.log(this.form.errors)
+      return
+    }
+    if(this.images.length < 1){
+      this.toast.error("product image is required")
+      return
     }
     this.loading = true
-    const data: CreateProductModel  =  this.getProductData();
+    const data: CreateProductModel  =  this.getProductData()
+    
     this.productService.createProduct(data).subscribe( 
       (a) => {
-        this.images = [];
-        this.added.emit(a.data);
-        this.toast.success("product created successfully");
+        this.images = []
+        this.added.emit(a.data)
+        this.toast.success("product created successfully")
         this.loading = false
-        this.closed.emit();
+        this.closed.emit()
       },
       (error) => {
         // this.errors = error.error.errors.map((a) => a.description);
-        console.log("error", error);
+        console.log("error", error)
       }
      )
+  }
+
+  flatPaymentOption(option:{method:boolean,value:string,label:string}[]){
+    return option.filter(opt=>opt.method).map(opt=>opt.value).join(',')
   }
 
   getProductData():CreateProductModel{
@@ -162,6 +181,7 @@ export class AddProductComponent implements OnInit {
       options: this.form.get("options").value,
       categoryId: this.form.get('category').value,
       userId: this.user.id,
+      paymentOptions:this.flatPaymentOption(this.form.get("paymentOption").value)
     } as CreateProductModel
   }
 }

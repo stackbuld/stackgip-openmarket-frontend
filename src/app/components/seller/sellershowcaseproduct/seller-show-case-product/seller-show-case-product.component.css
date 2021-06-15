@@ -1,0 +1,25 @@
+ul.demo{
+    list-style-type: none;
+    margin:0px;
+    
+}
+li{
+    display: inline-block;
+    padding: 15px;
+}
+
+a:hover{
+    color:yellow;
+}
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+.span{
+    color:rgb(241, 54, 54)
+}
