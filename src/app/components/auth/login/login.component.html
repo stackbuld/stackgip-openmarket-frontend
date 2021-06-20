@@ -1,92 +1,76 @@
-<div class="uk-card uk-padding">
-  <div class="uk-text-center">
-    <h1>LOGIN</h1>
-    <p>Its Great to have you back</p>
-
-    <button (click)="this.authService.signInWithGoogle()" class="uk-button uk-button-default uk-button-large uk-margin-small-right">
-      <span class="iconify" data-icon="flat-color-icons:google" data-inline="false"></span>
-    </button>
-
-    <button (click)="this.authService.signInWithFacebook()" class="uk-button uk-button-default uk-button-large">
-      <span class="iconify" data-icon="logos:facebook" data-inline="false"></span>
-    </button>
-  </div>
-
-  <div class="uk-padding-large">
-  
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-      <div class="uk-text-center uk-padding-small">
-        <span class="uk-text-warning" *ngIf="errorMessage != ''">{{
-          errorMessage
-        }}</span>
-        <br />
-        <span class="uk-text-success" *ngIf="message != '' && hasError == false">{{
-          message
-          }}</span>
-        <span class="uk-text-warning uk-text" *ngFor="let i of errors">
-          {{ i }} <br />
-        </span>
+<section class="main">
+  <div class="uk-grid">
+    <div class="">
+     <div class="hero">
+      <h1 >Welcome Back</h1>
+      <p>Login into your account...</p>
+     </div>
+    </div>
+   
+    <div class="form">
+      <a href="" onclick="UIkit.modal('#modal-auth').hide()">
+        <div class="back">
+          <img src="https://cdn.iconscout.com/icon/free/png-512/back-arrow-1767531-1502435.png" alt=""><p class="go-back">Go Back</p>
+        </div>
+      </a>
+      <h1>Open Market</h1>
+      <form [formGroup]="loginForm" (ngSubmit)="login()" id="form" class="uk-form">
+        <div class="input_wrap uk-form-width-medium">
+            <div>
+              <span class="uk-text-warning" *ngIf="errorMessage != ''">{{ errorMessage }}</span>
+              <br />
+              <span class="uk-text-success" *ngIf="message != '' && hasError == false">{{ message }}</span>
+              <span class="uk-text-warning uk-text" *ngFor="let i of errors">
+                {{ i }} <br />
+              </span>
+            </div>
+            <span *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)">
+              <span class="uk-text-warning" *ngIf="f.email.errors.required">
+                Email required <br/>
+              </span>
+              <span class="uk-text-warning" *ngIf="f.email.errors.email">
+                Valid email required
+              </span>
+            </span>
+            <input type="email" formControlName="email" required />
+            <label>Email Address</label>
+        </div>
+       
+        <div class="input_wrap uk-form-width-medium uk-form-password">
+          <span *ngIf="f.password.invalid && (f.password.dirty || f.password.touched)">
+            <span class="uk-text-warning" *ngIf="f.password.errors.required">
+              Password required <br/>
+            </span>
+            <span class="uk-text-warning" *ngIf="f.password.errors.minLength">
+              Password should be at least 6 charaters <br/>
+            </span>
+          </span>
+          <input type="password" formControlName="password" required />
+          <label >
+            <a href="" class="uk-form-password-toggle" data-uk-form-password>Password</a>
+          </label>
+        </div>
+          <a routerLink="/forget-password" onclick="UIkit.modal('#modal-auth').hide()" class="forgot">
+            Forgot password?
+          </a>
+          <button class="uk-button uk-width-1-1 btn1" type="submit">Login</button>
+      </form>
+      
+      <div id="or">
+          <div class="hr1"></div>
+          <div class="or">or</div>
+          <div class="hr2"></div>
       </div>
-      <span *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)">
-        <span class="uk-text-warning" *ngIf="f.email.errors.required">
-          Email required <br
-        /></span>
-        <span class="uk-text-warning" *ngIf="f.email.errors.email">
-          Valid email required
-        </span>
-      </span>
-      <mat-form-field class="uk-width-expand">
-        <mat-label>Email</mat-label>
-
-        <input
-          type="email"
-          formControlName="email"
-          matInput
-          placeholder="Email Address"
-          required
-        />
-      </mat-form-field>
-      <span
-        *ngIf="f.password.invalid && (f.password.dirty || f.password.touched)"
-      >
-        <span class="uk-text-warning" *ngIf="f.password.errors.required">
-          Password required <br
-        /></span>
-        <span class="uk-text-warning" *ngIf="f.password.errors.minLength">
-          Password should be at least 6 charaters <br
-        /></span>
-      </span>
-      <mat-form-field class="uk-width-expand">
-        <mat-label>Password</mat-label>
-        <input
-          type="password"
-          formControlName="password"
-          matInput
-          placeholder="Enter Password"
-          required
-        />
-      </mat-form-field>
-
-      <div class="uk-text-center">
-        <button class="btn-default" type="submit" color="primary">
-          Sign in
+      
+      <div id="btn" class="uk-grid" >
+        <button class="uk-button btn2" (click)="this.authService.signInWithGoogle()">
+          <img src="https://cdn.worldvectorlogo.com/logos/google-icon.svg" alt="">Google
+        </button>
+        <button class="uk-button btn3" (click)="this.authService.signInWithFacebook()">
+          <img src="https://cdn.worldvectorlogo.com/logos/facebook-2.svg" alt="">Facebook
         </button>
       </div>
-    </form>
+      <h6>Don't have an account? <a routerLink="/signup">Register</a></h6>
+    </div>
   </div>
-  <div class="uk-text-center uk-margin-large-top">
-    <a
-      class="text-style-1"
-      routerLink="/forget-password"
-      onclick="UIkit.modal('#modal-auth').hide()"
-    >
-      Forget Password</a
-    >
-    |
-    <a
-      class="text-style-1 text-gray"
-      onclick="UIkit.modal('#modal-auth').hide()"
-      >Back to Home</a
-    >
-  </div>
-</div>
+</section>
