@@ -11,7 +11,6 @@ import { OrderComponent } from "./components/order/order.component";
 import { CheckoutComponent } from "./components/checkout/checkout.component";
 import { CartComponent } from "./components/cart/cart.component";
 import { IndexComponent } from "./components/home/index/index.component";
-import { AuthComponent } from "./components/auth/auth.component";
 import { Routes, RouterModule } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -23,8 +22,10 @@ import { ListProductComponent } from "./components/home/list-product/list-produc
 import { OrderListComponent } from './components/seller/seller-orders/order-list/order-list.component';
 import { OrderDetailComponent } from './components/seller/seller-orders/order-detail/order-detail.component';
 import { sellerApproveStatusApproveRouteResolver } from "./resolver/seller-status-approve.resolver";
+import { SellerShowCaseProductComponent } from './components/seller/sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
 import { LoginComponent } from "./components/auth/login/login.component";
 import { SiginupComponent } from "./components/auth/siginup/siginup.component";
+
 const route: Routes = [
   {
     path: "",
@@ -32,7 +33,6 @@ const route: Routes = [
     children: [
       { path: "", component: IndexComponent },
       // { path: "home", component: IndexComponent },
-      // { path: "auth", component: AuthComponent },
       { path: "forget-password", component: ForgetPasswordComponent },
       { path: "confirm-email", component: AccountConfirmationComponent },
       { path: "confirm", component: AccountConfirmationComponent },
@@ -67,6 +67,10 @@ const route: Routes = [
         ],
       },
       {
+        path:'sellerproduct',
+        component: SellerShowCaseProductComponent,
+      },
+      {
         path: "seller",
         canActivate: [AuthGuard],
         component: DashboardComponent,
@@ -80,6 +84,7 @@ const route: Routes = [
             path: "products",
             component: SellerProductComponent,
           },
+        
           {
             path: "orders",
             component: SellerOrdersComponent,
