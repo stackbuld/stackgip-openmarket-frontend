@@ -23,6 +23,8 @@ import { ListProductComponent } from "./components/home/list-product/list-produc
 import { OrderListComponent } from './components/seller/seller-orders/order-list/order-list.component';
 import { OrderDetailComponent } from './components/seller/seller-orders/order-detail/order-detail.component';
 import { sellerApproveStatusApproveRouteResolver } from "./resolver/seller-status-approve.resolver";
+import { LoginComponent } from "./components/auth/login/login.component";
+import { SiginupComponent } from "./components/auth/siginup/siginup.component";
 const route: Routes = [
   {
     path: "",
@@ -30,7 +32,7 @@ const route: Routes = [
     children: [
       { path: "", component: IndexComponent },
       // { path: "home", component: IndexComponent },
-      { path: "auth", component: AuthComponent },
+      // { path: "auth", component: AuthComponent },
       { path: "forget-password", component: ForgetPasswordComponent },
       { path: "confirm-email", component: AccountConfirmationComponent },
       { path: "confirm", component: AccountConfirmationComponent },
@@ -96,6 +98,8 @@ const route: Routes = [
       },
     ],
   },
+  { path: "login", component: LoginComponent },
+  { path: "signup", component: SiginupComponent },
 ];
 
 @NgModule({
