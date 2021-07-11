@@ -79,25 +79,30 @@
                 <input type="password" formControlName="confirmPassword" required />
                 <label>Confirm Password</label>
             </div>
-            <button class="btn1" type="submit">Sign Up</button>
+            <button class="btn-1" type="submit">Sign Up</button>
         </form>
-        <div id="or">
-            <div class="hr1"></div>
-            <div class="or">or</div>
-            <div class="hr2"></div>
-        </div>
+        <div style="
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        /* margin-left: 20px; */
+      ">
+      <div class="line"></div>
+      <!-- <img src="../assets/Line_1.png" alt="" style="width:100px; height: 1px;"/> -->
+      <h4 class="with">or </h4>
+      <div class="line"></div>
+    </div>
         
         <div id="btn">
-            <button class="btn2" (click)="this.authService.signInWithGoogle()"> 
-                <img src="https://cdn.worldvectorlogo.com/logos/google-icon.svg" alt="google">
-                Google
+            <button class="btn-2" (click)="this.authService.signInWithGoogle()"> 
+                <img src="https://res.cloudinary.com/mindset/image/upload/v1625917475/google__1_epmkfp.png" alt="" class="img-1">
             </button> 
-            <button class="btn3" (click)="this.authService.signInWithFacebook()"> 
-                <img src="https://cdn.worldvectorlogo.com/logos/facebook-2.svg" alt="facebook">
-                Facebook
+            <button class="btn-3" (click)="this.authService.signInWithFacebook()"> 
+                <img src="https://res.cloudinary.com/mindset/image/upload/v1625923180/facebook__uzmrzq.png" alt="" class="img-1">
             </button>
           </div>
-        <h6>Already registered? <a routerLink="/login">Log in</a></h6>
+        <h6>Already registered? <a routerLink="/login">Login</a></h6>
         </div>
     </div>
 </section>

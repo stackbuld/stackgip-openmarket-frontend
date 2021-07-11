@@ -6,22 +6,39 @@
        background-repeat: no-repeat;
        height: 1324px;
     }
+
+    .with{
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        padding-top:20px;
+        margin-left: 10px;
+        margin-right: 10px;
+        color: #111111;
+      }
+
+      .line{
+        width: 185px;
+                 height: 1px;
+                 background-color: #333333;
+                 margin-top: 31px;
+     }
     a:hover{
         text-decoration: none;
     
     }
-    /* .hero{
-        display: grid;
-        grid-template-columns: 60% 40%;
-    } */
+   
     
     #hero h1{
         font-weight: 800;
-        font-size: 64px;
+        font-size: 50px;
         color: #ffffff;
         padding-top: 350px;
         padding-left: 150px;
         width: 15em;
+        line-height: 68px;
     }
     
     #hero p{
@@ -39,16 +56,18 @@
     .back img{
         width: 30px;
         height: 30px;
-        margin-left: 20px;
+        margin-left: -20px;
+        margin-top: -5px;
     }
     .form{
         background-color: #F2F2F2;
         margin-top: 90px;
         margin-left: 15em;
-        height: 784px;
+        height: auto;
         width: 500px;
         padding-top: 20px;
         align-self: center;
+        border-radius: 6px;
     }
     
     .form h1{
@@ -67,18 +86,20 @@
     .input_wrap{
         margin-bottom: 30px;
         height: 50px;
-        margin-left: 40px;
+        margin-left: -15px;
         position:relative;
         /* padding: 30px; */
+        width: 200px;
       }
       input{
         height: 44px;
-        width: 343px;
+        /* width: 123px; */
         border: .5px solid #000;
         border-radius: 6px;
       }
       label{
-          padding: 15px;
+          padding: 20px;
+          margin-left: 10px;
       }
       input[type="text"] {
         border: .5px solid #000;
@@ -87,21 +108,34 @@
         font-size: 14px;
         /* padding-left: 20px; */
         box-shadow: none; 
-        /* width: 40px;  */
+        width: 400px; 
+        margin-left: 15px;
       }
-      
+
+      input[type="email"] {
+        width: 400px; 
+        margin-left: 15px;
+      }
+      input[type="password"] {
+        width: 400px; 
+        margin-left: 15px;
+      }
       /* Label style after Input feild is in focus. Can also use input:focus ~ label to select sibling. */
       
       input:focus + label, input:valid + label{
+          position: relative;
         font-size: 1rem;
         color: #afbdcf;
-        top: -5px;
+        top: -55px;
         left:10px;
         background: #ffffff;
+        border-radius: 10px;
         padding: 0px 5px 0px 5px;
       }
       
-      .input_wrap {width:auto; height:auto;
+      .input_wrap {
+          /* width:auto;  */
+          height:auto;
       }
       
       .input_wrap label {
@@ -109,9 +143,10 @@
         font-family:arial;
         font-size:16px;
         color: #afbdcf;
-        position: absolute;
-        top: 0;
+        position: relative;
+        top: -30px;
         left: 0;
+        /* z-index: 2; */
         transition:0.2s ease all; 
         -moz-transition:0.2s ease all; 
         -webkit-transition:0.2s ease all;
@@ -128,6 +163,7 @@
     
     #btn{
         display: flex;
+        /* margin-left: -15px; */
     }
     
     .btn2 img{
@@ -138,11 +174,11 @@
         width: 30px;
         height: 30px;
     }
-    .btn1{
-        /* margin: 10px; */
-        margin-left: 40px;
+    .btn-1{
+        
+        margin-left: 0px;
         height: 54px;
-        width: 343px;
+        width: 400px;
         border-radius: 6px;
         padding: 20px;
         text-align: center;
@@ -152,12 +188,12 @@
         
     }
     
-    .btn2{
+    .btn-2{
         display: flex;
         margin: 10px;
-        margin-left: 40px;
-        height: 54px;
-        width: 143px;
+        margin-left: 5px;
+        height: 42px;
+        width: 171px;
         border-radius: 6px;
         padding: 20px;
         text-align: center;
@@ -166,51 +202,30 @@
         color:#584DCD;
     }
     
-    .btn3{
+    .btn-3{
         display: flex;
         margin: 10px;
         margin-left: 40px;
-        height: 54px;
-        width: 143px;
+        height: 42px;
+        width: 171px;
         border-radius: 6px;
         padding: 20px;
         text-align: center;
+        border: solid .5px #fff;
         background-color: #fff;
         color:#000;
         text-align: center;
     
     }
-    
-    #or{
-        margin-top:20px ;
-        display: grid;
-        grid-template-columns: 33% 20% 33%;
-        margin-left: 60px;
-        margin-bottom: 10px;
+    .img-1{
+        margin-top: -15px;
     }
-    
-    .hr1{
-        width: 8vw;
-        color: #000;
-        height: 1px;
-        background-color: #000;
-        margin-left: -13%;
-    }
-    .hr2{
-        width: 8vw;
-        color: #000;
-        height: 1px;
-        background-color: #000;
-        margin-left: -13%;
-    }
-    .or{
-        margin-top: -13px;
-        padding-left: 20px;
-    }
+  
     
     h6{
         text-align: center;
         padding: 40px;
+        font-size: 16px;
     }
 
 
@@ -255,7 +270,7 @@
         margin-bottom: 30px;
         margin-right: 10px;
         margin-left: 3em;
-        height: 674px;
+        height: 800px;
         width: 90vw;
         padding-top: 20px;
         align-self: center;
@@ -341,7 +356,7 @@
     }
     
     h6{
-        font-size: 12px;
+        font-size: 16px;
         text-align: center;
         padding: 40px;
     }
@@ -381,11 +396,29 @@
        height: 1224%;
        position: relative;
     }
-    /* .hero{
-        display: flex;
-        flex-direction: column;
-    } */
+    .with{
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        padding-top:20px;
+        margin-left: 10px;
+        margin-right: 10px;
+        color: #111111;
+      }
 
+      .line{
+        width: 115px;
+                 height: 1px;
+                 background-color: #333333;
+                 margin-top: 31px;
+     }
+
+
+     .img-1{
+        margin-top: 0px;
+    }
     #hero h1{
         font-weight: 800;
         font-size: 1.2rem;
@@ -412,10 +445,11 @@
         margin-bottom: 30px;
         margin-right: 10px;
         margin-left: 3em;
-        height: 674px;
-        width: 90vw;
+        height: auto;
+        width: 83vw;
         padding-top: 20px;
         align-self: center;
+        border-radius: 6px;
     }
 
     .form p{
@@ -436,12 +470,33 @@
     input{
         margin-left: -40px;
         height: 34px;
-        width: 270px;
+        width: 200px;
         border: .5px solid #000;
         border-radius: 6px;
       }
+
+      input[type="text"] {
+        border: .5px solid #000;
+        border-radius: 5px;
+        color: #584DCD;
+        font-size: 14px;
+        /* padding-left: 20px; */
+        box-shadow: none; 
+        width: 250px; 
+        margin-left: 20px;
+      }
+
+      input[type="email"] {
+        width: 250px; 
+        margin-left: 20px;
+      }
+      input[type="password"] {
+        width: 250px; 
+        margin-left: 20px;
+      }
       label{
-        padding: 4px;
+        /* padding: 4px; */
+        padding-left: 30px;
         font-size: 12px;
     }
     button{
@@ -450,23 +505,23 @@
         align-items: center;
     }
     
-    .btn1{
+    .btn-1{
         margin-left: 1px;
         height: 34px;
-        width: 270px;
+        width: 260px;
         border-radius: 6px;
         text-align: center;
         color:#fff;
         font-size: 16px;
         padding-top: 2px;
-        background-color: #584DCD;
+        background-color: #584DCD;   
     }
     
-    .btn2{
+    .btn-2{
      
         margin-left: 1px;
         height: 44px;
-        width: 130px;
+        width: 110px;
         border-radius: 6px;
         font-size: 16px;
         text-align: center;
@@ -476,14 +531,15 @@
         /* padding-left: 4px; */
     }
     
-    .btn3{
-        margin-left: 1px;
-        margin-left: 46px;
+    .btn-3{
+        /* margin-left: 1px; */
+        margin-left: 15px;
         height: 44px;
         font-size: 16px;
-        width:130px;
+        width:110px;
         border-radius: 6px;
         text-align: center;
+        border: solid .5px #fff;
         background-color: #fff;
         color:#000;
         padding-left: 4px;
@@ -503,31 +559,10 @@
         font-size: 12px;
         text-align: center;
         padding: 40px;
+        font-size: 16px;
     }
-    #or{
-        display: grid;
-        grid-template-columns: 27% 26% 33%;
-        text-align: center;
-        margin-left: 30px;
-    }
-    .hr1{
-        width: 30vw;
-        color: #000;
-        height: 1px;
-        background-color: #000;
-        margin-left: -35%;
-    }
-    .hr2{
-        width: 30vw;
-        color: #000;
-        height: 1px;
-        background-color: #000;
-        margin-left: -5%;
-    }
-    .or{
-        margin-top: -13px;
-        /* padding: 20px; */
-    }
+    
+  
 }
 
 @media only screen and (min-width: 411px){
