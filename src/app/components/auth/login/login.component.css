@@ -4,6 +4,10 @@
    height: 1124px;
    width: 100vw;
 }
+.img-1{
+    padding-right: 20px;
+    padding-top: 10px;
+}
 .uk-grid{
  display: grid;
     grid-template-columns: 45% 45%;
@@ -12,9 +16,14 @@
     width: 100vw;
     
 }
-.go-back{
-    margin-left: -15em; 
-    font-size: 1.2rem;
+.back{
+    display: flex;
+}
+.back img{
+    width: 30px;
+    height: 30px;
+    margin-left: -20px;
+    margin-top: -5px;
 }
 .hero{
     background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6),
@@ -60,6 +69,7 @@
 h6{
     text-align: center;
     padding-top: 120px;
+    font-size: 16px;
 }
 
 .form h1{
@@ -102,19 +112,7 @@ a:hover{
 #btn{
     margin-left: 50px;
 }
-.btn2 img{
 
-    width: 30px;
-    height: 30px;
-    padding-top: 2px;
-}
-  
-.btn3 img{
-
-    width: 30px;
-    height: 30px;
-    padding-top: 2px;
-}
   /* Input form Style */
     .input_wrap{
     margin-bottom: 30px;
@@ -136,24 +134,29 @@ a:hover{
     border: 2px solid #afbdcf;
     border-radius: 5px;
     color: #584DCD;
-    font-size: 1.2rem;
-    /* padding-left: 20px; */
+    font-size: 14px;
     box-shadow: none; 
     width: 40px; 
   }
+
+  
   
   /* Label style after Input feild is in focus. Can also use input:focus ~ label to select sibling. */
   
   input:focus + label, input:valid + label{
-    font-size: 1.4rem;
+      position: relative;
+    font-size: 1rem;
     color: #afbdcf;
-    top: -7px;
+    top: -65px;
     left:10px;
     background: #ffffff;
+    border-radius: 10px;
     padding: 0px 5px 0px 5px;
   }
   
-  .input_wrap {width:auto; height:auto;
+  .input_wrap {
+      /* width:auto;  */
+    height:auto;
   }
   
   .input_wrap label {
@@ -161,8 +164,8 @@ a:hover{
     font-family:arial;
     font-size:16px;
     color: #afbdcf;
-    position: absolute;
-    top: 0;
+    position: relative;
+    top: -38px;
     left: 0;
     transition:0.2s ease all; 
     -moz-transition:0.2s ease all; 
@@ -223,7 +226,7 @@ a:hover{
 .btn3{
     display: flex;
     margin: 20px;
-    margin-left: 15%;
+    margin-left: 15px;
     height: 44px;
     width: 140px;
     color: #fff;
@@ -249,6 +252,12 @@ a:hover{
    background-repeat: no-repeat;
    height: 1124px;
    width: 100vw;
+    }
+
+    .img-1{
+        /* padding-right: 20px; */
+        /* padding-top: 10px; */
+        /* width: 50px; */
     }
    
     .uk-grid{
@@ -293,7 +302,7 @@ a:hover{
         box-shadow: #584DCD;
         margin-top: -235%;
         margin-left: 5%;
-        height: 576px;
+        height: auto;
         border-radius: 6px;
         width: 303px;
         padding-top: 10px;
@@ -419,6 +428,7 @@ a:hover{
     h6{
         text-align: center;
         padding-top: 10px;
+        padding-bottom: 15px;
         font-size: 14px;
     }
 }
