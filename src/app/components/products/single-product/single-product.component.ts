@@ -22,7 +22,10 @@ export class SingleProductComponent implements OnInit {
   numberWithCommas:Function = numberWithCommas
   ngOnInit(): void {}
 
-  addToCart({product,orderedUnit,shipmentOption,productOptions}) {
+  addToCart(productItem) {
+    const {
+      product,orderedUnit,shipmentOption,productOptions,paymentOption
+    } = productItem
     const productCart: ProductCartModel = {
       category: product.category,
       categoryId: product.categoryId,
@@ -37,7 +40,8 @@ export class SingleProductComponent implements OnInit {
       price: product.price,
       productImages: product.productImages,
       shipmentOption,
-      productOptions
+      productOptions,
+      paymentOption,
     };
     this.store.dispatch(AddToCart(productCart));
     this.toast.success("product added to cart");

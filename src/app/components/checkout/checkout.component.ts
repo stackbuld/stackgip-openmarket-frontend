@@ -49,7 +49,9 @@ export class CheckoutComponent implements OnInit {
     this.carts$.subscribe((items) => {
       let total = 0;
       for (const item of items) {
-        total += item.price * item.orderedUnit;
+        if(item.paymentOption === 'online'){
+          total += item.price * item.orderedUnit;
+        }
       }
       this.cartTotal = total;
     });
@@ -107,7 +109,8 @@ export class CheckoutComponent implements OnInit {
           discount: 0,
           productId: item.id,
           shipments: item.shipmentOption,
-          options: item.productOptions
+          options: item.productOptions,
+          paymentOption: item.paymentOption,
         };
         createOrders.push(orders);
       });
@@ -123,7 +126,9 @@ export class CheckoutComponent implements OnInit {
     this.invoiceService.createInvoice(invoiceData).subscribe(
       (data) => {
         if (data.status === ResponseStatus.success) {
-          this.payWithPaystack(data.data.transReferenceNo);
+          if(Number(this.cartTotal) > 0){
+            this.payWithPaystack(data.data.transReferenceNo);
+          }
         }
       },
       (error) => {

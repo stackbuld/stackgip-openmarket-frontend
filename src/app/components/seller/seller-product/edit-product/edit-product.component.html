@@ -118,7 +118,19 @@
       />
     </mat-form-field>
   </div>
-  
+  <mat-label>Payment type *</mat-label>
+  <div class="uk-grid-small uk-grid uk-child-width-1-2@s">
+    <div *ngFor="let paymentOpt of paymentOption()['controls']; let l = index"
+      formArrayName="paymentOption">
+      <div [formGroupName]="l">
+        <mat-checkbox formControlName="method">
+          {{paymentOpt.get('label').value}}
+        </mat-checkbox>
+      </div>
+    </div>
+  </div>
+  <hr />
+
   <app-product-shipment [shipments]="productShipments" [productId]="productId">
   </app-product-shipment>
   <hr/>
