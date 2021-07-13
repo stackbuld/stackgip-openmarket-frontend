@@ -98,4 +98,22 @@ export class ProductItemComponent implements OnInit {
     this.minValue = 10
     this.maxValue = 500000
   }
+
+  sortByUnitLeft(reverse:boolean = false):void{
+    this.productDetails.sort((a:ProductModel,b:ProductModel)=>{
+      if(reverse){
+        return b.unit - a.unit
+      }
+      return a.unit - b.unit
+    })
+  }
+
+  // sortBy(field, reverse, primer){
+  //   const key = primer?(x)=>primer(x[field]):(x)=>x[field]
+  //   const reverseInt = !reverse?1:-1
+  //   return (a:any,b:any)=>{
+  //     a = key(a), b = key(b)
+  //     reverseInt * ((a > b) - (b > a))
+  //   }
+  // }
 }

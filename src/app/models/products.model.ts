@@ -62,6 +62,7 @@ export interface ProductCartModel extends ProductModel {
   orderedUnit: number;
   shipmentOption:string;
   productOptions?:string;
+  paymentOption?:string;
 }
 
 export interface Category {

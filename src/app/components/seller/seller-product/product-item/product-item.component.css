@@ -1,0 +1,24 @@
+th#unit-left-th{
+    display: flex;
+}
+
+span#unit-left{
+    font-size: 12px;
+}
+
+span#unit-left-sort-asc, span#unit-left-sort-desc{
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    transform: rotate(45deg);
+    border: solid 4px;
+}
+
+span#unit-left-sort-asc{
+    border-bottom: transparent;
+    border-right: transparent;
+}
+span#unit-left-sort-desc{
+    border-top: transparent;
+    border-left: transparent;
+}
