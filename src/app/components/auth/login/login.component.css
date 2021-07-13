@@ -3,242 +3,245 @@
     background-color: rgba(0, 0, 0, 0.6);
    height: 1124px;
    width: 100vw;
-}
-.img-1{
-    padding-right: 20px;
-    padding-top: 10px;
-}
-.uk-grid{
- display: grid;
-    grid-template-columns: 45% 45%;
-}
-.hero{
-    width: 100vw;
-    
-}
-.back{
-    display: flex;
-}
-.back img{
-    width: 30px;
-    height: 30px;
-    margin-left: -20px;
-    margin-top: -5px;
-}
-.hero{
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6),
-      rgba(0, 0, 0, 0.6)),url("/assets/image/Rectangle 165.png") ;
-    background-position: left;
-   background-size: cover;
-   background-repeat: no-repeat;
-   height: 1124px;
-   width: 50vw;
-}
-.hero h1{
-    font-weight: 800;
-    font-size: 4rem;
-    color: #ffffff;
-    padding-top: 350px;
-    padding-left: 150px;
-    
-}
-
-.hero p{
-    color: #ffffff; 
-    padding-left: 150px;
-    padding-top: 40px;
-    font-weight: 400;
-    font-size: 1.2rem;  
-}
-
-.form{
-    background-color: #F2F2F2;
-    box-shadow: #584DCD;
-    margin-top: -30%;
-    /* margin-left: 50%; */
-    margin-left: 155px;
-    height: 784px;
-    border-radius: 6px;
-    width: 524px;
-    padding-top: 20px;
-    padding-left: 10px;
-    align-self: center;
-    /* width: 40vw; */
-}
-
-h6{
-    text-align: center;
-    padding-top: 120px;
-    font-size: 16px;
-}
-
-.form h1{
-    font-size: 3rem;
-    font-weight: 800;
-    color:#293146;
-    text-align: center;
-    margin-bottom: 30px;
-    margin-top: 80px;
-    /* padding-left: 5px; */
-    
-}
-a:hover{
-    text-decoration: none;
-
-}
-
-.form p{
-    margin-left: 20px;
-}
-
-.forgot{
-    margin-left: 58%;
-    padding-top: 2px;
-    color: #584DCD;
-}
-.btn1{
-    margin: 20px;
-    margin-left: 15%;
-    height: 54px;
-    width: 343px;
-    border-radius: 6px;
-    padding: 10px;
-    text-align: center;
-    padding-bottom: 10px;
-    color:#fff;
-    background-color: #584DCD;
-}
-
-#btn{
-    margin-left: 50px;
-}
-
-  /* Input form Style */
-    .input_wrap{
-    margin-bottom: 30px;
-    height: 50px;
-    margin-left: 15%;
-    position:relative;
-    /* padding: 30px; */
-  }
-  input{
-    height: 54px;
-    width: 343px;
-    border: .5px solid #000;
-    border-radius: 6px;
-  }
-  label{
-      padding: 20px;
-  }
-  input[type="text"] {
-    border: 2px solid #afbdcf;
-    border-radius: 5px;
-    color: #584DCD;
-    font-size: 14px;
-    box-shadow: none; 
-    width: 40px; 
-  }
-
-  
-  
-  /* Label style after Input feild is in focus. Can also use input:focus ~ label to select sibling. */
-  
-  input:focus + label, input:valid + label{
-      position: relative;
-    font-size: 1rem;
-    color: #afbdcf;
-    top: -65px;
-    left:10px;
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 0px 5px 0px 5px;
-  }
-  
-  .input_wrap {
-      /* width:auto;  */
-    height:auto;
-  }
-  
-  .input_wrap label {
-    
-    font-family:arial;
-    font-size:16px;
-    color: #afbdcf;
-    position: relative;
-    top: -38px;
-    left: 0;
-    transition:0.2s ease all; 
-    -moz-transition:0.2s ease all; 
-    -webkit-transition:0.2s ease all;
-    pointer-events: none;
-  
-  }
-  
-  input[type="text"]:focus {outline:none;}
-  .back{
-    display: flex;
-}
-.back img{
-    width: 30px;
-    height: 30px;
-    margin-left: 20px;
-}
-#or{
+    }
+    .img-1{
+        padding-right: 20px;
+        padding-top: 10px;
+    }
+    .uk-grid{
     display: grid;
-    grid-template-columns: 33% 20% 33%;
-    margin-left: 20%;
-}
-.hr1{
-    width: 142px;
-    color: #000;
-    height: 1px;
-    background-color: #000;
-    margin-left: -20%;
-}
-.hr2{
-    width: 142px;
-    color: #000;
-    height: 1px;
-    background-color: #000;
-    margin-left: -33%;
-}
-.or{
-    margin-top: -13px;
-    padding-left: 5px;
-}
+        grid-template-columns: 45% 45%;
+    }
+    .hero{
+        width: 100vw;
+        
+    }
+    .back{
+        display: flex;
+    }
+    .back img{
+        width: 30px;
+        height: 30px;
+        margin-left: -20px;
+        margin-top: -5px;
+    }
+    .hero{
+        background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6),
+        rgba(0, 0, 0, 0.6)),url("/assets/image/Rectangle 165.png") ;
+        background-position: left;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 1124px;
+    width: 50vw;
+    }
+    .hero h1{
+        font-weight: 800;
+        font-size: 4rem;
+        color: #ffffff;
+        padding-top: 350px;
+        padding-left: 150px;
+        
+    }
 
-.btn2{
-    display: flex;
-    margin: 20px;
-    margin-left: 15%;
-    height: 44px;
-    width: 140px;
-    color: #fff;
-    background-color: #584DCD;
-    border-radius: 6px;
-    padding: 2px;
-    text-align: center;
-    padding-left: 30px;
-    border: solid .5px #584DCD;
-    background-color: #f2f2f2;
-    color:#584DCD;
-}
-.btn3{
-    display: flex;
-    margin: 20px;
-    margin-left: 15px;
-    height: 44px;
-    width: 140px;
-    color: #fff;
-    background-color: #fff;
-    border-radius: 6px;
-    padding: 2px;
-    text-align: center;
-    padding-left: 30px;
-    border: solid .5px #584DCD;
+    .hero p{
+        color: #ffffff; 
+        padding-left: 150px;
+        padding-top: 40px;
+        font-weight: 400;
+        font-size: 1.2rem;  
+    }
+
+    .form{
+        background-color: #F2F2F2;
+        box-shadow: #584DCD;
+        margin-top: -30%;
+        /* margin-left: 50%; */
+        margin-left: 155px;
+        height: 784px;
+        border-radius: 6px;
+        width: 524px;
+        padding-top: 20px;
+        padding-left: 10px;
+        align-self: center;
+        /* width: 40vw; */
+    }
+
+    h6{
+        text-align: center;
+        padding-top: 120px;
+        font-size: 16px;
+    }
+
+    .form h1{
+        font-size: 3rem;
+        font-weight: 800;
+        color:#293146;
+        text-align: center;
+        margin-bottom: 30px;
+        margin-top: 80px;
+        /* padding-left: 5px; */
+        
+    }
+    a:hover{
+        text-decoration: none;
+
+    }
+
+    .form p{
+        margin-left: 20px;
+    }
+
+    .forgot{
+        margin-left: 58%;
+        padding-top: 2px;
+        color: #584DCD;
+    }
+    .btn1{
+        margin: 20px;
+        margin-left: 15%;
+        height: 54px;
+        width: 343px;
+        border-radius: 6px;
+        padding: 10px;
+        text-align: center;
+        padding-bottom: 10px;
+        color:#fff;
+        background-color: #584DCD;
+    }
+
+    #btn{
+        margin-left: 50px;
+    }
+
+    /* Input form Style */
+        .input_wrap{
+        margin-bottom: 30px;
+        height: 50px;
+        margin-left: 15%;
+        position:relative;
+        /* padding: 30px; */
+    }
+    input{
+        height: 54px;
+        width: 343px;
+        border: .5px solid #000;
+        border-radius: 6px;
+        /* background: #f2f2f2; */
+        background-color: #f2f2f2 !important;
+    }
+    label{
+        padding: 20px;
+    }
+    input[type="text"] {
+        border: 2px solid #afbdcf;
+        border-radius: 5px;
+        color: #f2f2f2;
+        font-size: 14px;
+        box-shadow: none; 
+        width: 40px; 
+    }
+
     
-    color:#584DCD;
-}
+    
+    /* Label style after Input feild is in focus. Can also use input:focus ~ label to select sibling. */
+    
+    input:focus + label, input:valid + label{
+        position: relative;
+        font-size: 1rem;
+        background: #f2f2f2;
+        ;
+        top: -65px;
+        left:10px;
+        color: #c4c4c4;
+        border-radius: 10px;
+        padding: 0px 5px 0px 5px;
+    }
+    
+    .input_wrap {
+        /* width:auto;  */
+        height:auto;
+    }
+    
+    .input_wrap label {
+        
+        font-family:arial;
+        font-size:16px;
+        color: #c4c4c4;
+        position: relative;
+        top: -38px;
+        left: 0;
+        transition:0.2s ease all; 
+        -moz-transition:0.2s ease all; 
+        -webkit-transition:0.2s ease all;
+        pointer-events: none;
+    
+    }
+    
+    input[type="text"]:focus {outline:none;}
+    .back{
+        display: flex;
+    }
+    .back img{
+        width: 30px;
+        height: 30px;
+        margin-left: 20px;
+    }
+    #or{
+        display: grid;
+        grid-template-columns: 33% 20% 33%;
+        margin-left: 20%;
+    }
+    .hr1{
+        width: 142px;
+        color: #000;
+        height: 1px;
+        background-color: #000;
+        margin-left: -20%;
+    }
+    .hr2{
+        width: 142px;
+        color: #000;
+        height: 1px;
+        background-color: #000;
+        margin-left: -33%;
+    }
+    .or{
+        margin-top: -13px;
+        padding-left: 5px;
+    }
+
+    .btn2{
+        display: flex;
+        margin: 20px;
+        margin-left: 15%;
+        height: 44px;
+        width: 140px;
+        color: #fff;
+        background-color: #584DCD;
+        border-radius: 6px;
+        padding: 2px;
+        text-align: center;
+        padding-left: 30px;
+        border: solid .5px #584DCD;
+        background-color: #f2f2f2;
+        color:#584DCD;
+    }
+    .btn3{
+        display: flex;
+        margin: 20px;
+        margin-left: 15px;
+        height: 44px;
+        width: 140px;
+        color: #fff;
+        background-color: #fff;
+        border-radius: 6px;
+        padding: 2px;
+        text-align: center;
+        padding-left: 30px;
+        border: solid .5px #584DCD;
+        
+        color:#584DCD;
+    }
 
 
 
@@ -252,13 +255,21 @@ a:hover{
    background-repeat: no-repeat;
    height: 1124px;
    width: 100vw;
+   overflow-x:hidden;
     }
 
     .img-1{
-        /* padding-right: 20px; */
-        /* padding-top: 10px; */
-        /* width: 50px; */
+        padding-right: 0;
+        padding-top: 0;
+        width: 90%;
+        object-fit:contain;
+        display: block;
+        margin: auto;
     }
+    /* .imgg{
+        display: block;
+        width: 100%;
+    } */
    
     .uk-grid{
         display: flex;
@@ -331,8 +342,20 @@ a:hover{
         margin-left: -10px;
       }
       label{
-        padding: 10px;
+          position:absolute;
     }
+
+    input:focus + label, input:valid + label{
+        position: relative;
+      font-size: 1rem;
+      color: #afbdcf;
+      top: -55px;
+      left:10px;
+      background: #f2f2f2;
+      border-radius: 10px;
+      padding: 0px 5px 0px 5px;
+    }
+    
       .forgot{
         margin-left: 50%;
         padding-top: -20px;
@@ -374,13 +397,13 @@ a:hover{
     }
     .btn3{
      
-        margin-left: 5px;
+        margin-left: 25px;
         height: 40px;
         width: 80px;
         border-radius: 6px;
         font-size: 1rem;
         text-align: center;
-        border: solid .5px #584DCD;
+        border: solid .5px #fffx;
         background-color: #fff;
         color:#584DCD;
         padding-left: 1px;
@@ -392,16 +415,7 @@ a:hover{
         justify-content: center;
         align-items: center;
     }
-        .btn2 img{
-            width: 15px;
-            height: 15px;
-            padding-top: 3px;
-            /* padding-left: -10px; */
-        }
-        .btn3 img{
-            width: 15px;
-            height: 15px;
-        }
+        
     #or{
         display: grid;
         grid-template-columns: 27% 23% 33%;
