@@ -18,6 +18,9 @@
     }
     .back{
         display: flex;
+        position: relative;
+        top: 20px;
+        bottom: 40px;
     }
     .back img{
         width: 30px;
@@ -291,16 +294,16 @@
     }
 
     .back{
-        display: flex;
+        /* display: flex; */
+        position: relative;
+        top: 20px;
     }
     .back img{
         width: 30px;
         height: 30px;
         margin-left: 20px;
     }
-    .go-back{
-        margin-left: -20px;
-    }
+    
     .hero p{
         color: #ffffff; 
         padding-left: 15px;
@@ -403,7 +406,7 @@
         border-radius: 6px;
         font-size: 1rem;
         text-align: center;
-        border: solid .5px #fffx;
+        border: solid .5px #fff;
         background-color: #fff;
         color:#584DCD;
         padding-left: 1px;
