@@ -4,7 +4,9 @@ import { ProductsService } from "../../../../services/products/products.service"
 import { ToastrService } from "./../../../../services/toastr.service";
 import { getLoggedInUser } from "src/app/helpers/userUtility";
 import { numberWithCommas } from './../../../../helpers/number-format';
+import { formatDateToLocal } from "./../../../../helpers/date-format";
 import uikit from "uikit";
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-product-item',
@@ -17,12 +19,16 @@ export class ProductItemComponent implements OnInit {
   numberWithCommas:Function = numberWithCommas
   user = getLoggedInUser()
   productDetails: ProductModel[]
+  formatDateToLocal:Function
+  productSort:string = 'Date' //Date or UnitSold
+  byAscending: boolean = false
   pageNumber: number
   totalItemCount: number
   maximumItem: number = 4
   defaultPage:number = 1
   keyword:string = ''
   category:string = ''
+  type:string = 'All' //All or Custom
   startDate:string = ''
   endDate:string = ''
   minValue:number = 10
@@ -31,7 +37,7 @@ export class ProductItemComponent implements OnInit {
   constructor(
      private productService: ProductsService,
      private toast: ToastrService
-  ){ }
+  ){this.formatDateToLocal = formatDateToLocal}
 
   ngOnInit():void{
     this.fetchNextProducts(this.defaultPage)
@@ -72,7 +78,8 @@ export class ProductItemComponent implements OnInit {
   fetchNextProducts(pageNumber:number){
     this.productService.getSellerProducts(
       this.user.id, pageNumber, this.maximumItem, this.keyword, 
-      this.category, this.minValue, this.maxValue
+      this.category, this.minValue, this.maxValue, this.type, this.startDate, 
+      this.endDate, this.productSort, this.byAscending
     ).subscribe((productDetail) => {
         this.productDetails = productDetail.data.data;
         this.pageNumber = productDetail.data.pager.pageNumber;
@@ -83,10 +90,13 @@ export class ProductItemComponent implements OnInit {
   onSearch(data):void{
     this.keyword = data.keyword
     this.category = data.category
-    this.startDate = data.startDate
-    this.endDate = data.endDate
+    this.startDate = data.startDate?data.startDate.toLocaleDateString():''
+    this.endDate = data.endDate?data.startDate.toLocaleDateString():''
     this.minValue = data.minValue
     this.maxValue = data.maxValue
+    if(this.startDate !== ''){
+      this.type = 'Custom'
+    }
     this.fetchNextProducts(this.defaultPage)
   }
 
@@ -99,21 +109,18 @@ export class ProductItemComponent implements OnInit {
     this.maxValue = 500000
   }
 
-  sortByUnitLeft(reverse:boolean = false):void{
-    this.productDetails.sort((a:ProductModel,b:ProductModel)=>{
-      if(reverse){
-        return b.unit - a.unit
-      }
-      return a.unit - b.unit
-    })
+  sortBy(field:string, asc:boolean = true):void{
+    this.productSort = field
+    this.byAscending = asc
+    this.fetchNextProducts(this.defaultPage)
   }
 
-  // sortBy(field, reverse, primer){
-  //   const key = primer?(x)=>primer(x[field]):(x)=>x[field]
-  //   const reverseInt = !reverse?1:-1
-  //   return (a:any,b:any)=>{
-  //     a = key(a), b = key(b)
-  //     reverseInt * ((a > b) - (b > a))
-  //   }
+  // sortByUnitLeft(reverse:boolean = false):void{
+  //   this.productDetails.sort((a:ProductModel,b:ProductModel)=>{
+  //     if(reverse){
+  //       return b.unit - a.unit
+  //     }
+  //     return a.unit - b.unit
+  //   })
   // }
 }
