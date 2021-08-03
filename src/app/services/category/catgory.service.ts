@@ -1,4 +1,4 @@
-import { CategoryResponse } from "./../../models/CategoryModels";
+import { CategoryResponse, ICategory } from "./../../models/CategoryModels";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -15,5 +15,11 @@ export class CatgoryService {
 
   public GetCategory(): Observable<CategoryResponse> {
     return this.http.get<CategoryResponse>(this.baseUrl + "categories");
+  }
+
+  getCategoryByUserId(id: string): Observable<CategoryResponse> {
+    return this.http.get<CategoryResponse>(
+      this.baseUrl + `categories?userId=${id}`
+    );
   }
 }

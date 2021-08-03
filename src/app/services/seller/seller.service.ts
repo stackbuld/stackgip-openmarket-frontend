@@ -3,10 +3,14 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { getLoggedInUser } from 'src/app/helpers/userUtility';
 import { IUser } from 'src/app/models/IUserModel';
-import { ISeller } from 'src/app/models/sellerModel';
+import { GetSeller, ISeller } from 'src/app/models/sellerModel';
 import { ResponseModel } from 'src/app/shared/models/ResponseModel';
 import { ApiAppUrlService } from '../api-app-url.service';
 import { RequestService } from '../request/request.service';
+
+
+import { HttpClient } from "@angular/common/http";
+import { AuthService } from '../auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +25,11 @@ export class SellerService {
     nully: 'nully',
   };
 
-  constructor(private reqS: RequestService, private apiUrls: ApiAppUrlService) {
+  constructor(private reqS: RequestService, private apiUrls: ApiAppUrlService,private http: HttpClient) {
     this.baseUrl = this.apiUrls.baseApiUrl;
   }
+
+  
 
   registerSeller(data: ISeller) {
     const query = `${ this.baseUrl }users/${ this.loggedInUser.id }/seller`;
@@ -50,5 +56,10 @@ export class SellerService {
         ...val
       }
     });
+  }
+  getSellerById(id: string): Observable<GetSeller> {
+    return this.http.get<GetSeller>(
+      this.baseUrl + `users/${id}`
+    );
   }
 }
