@@ -7,9 +7,28 @@
           <td></td>
           <th>Product</th>
           <th>Cost</th>
-          <th>Unit Sold</th>
-          <th>Unit Left</th>
+          <th class="product-unit">
+            <span class="unit-caption">Unit Sold</span> 
+            <p class="unit-wrap">
+              <span (click)="sortBy('UnitSold', true)" class="sort-asc"></span>
+              <span (click)="sortBy('UnitSold', false)" class="sort-desc"></span>
+            </p> 
+          </th>
+          <th class="product-unit">
+            <span class="unit-caption">Unit Left </span>
+            <!-- <p class="unit-wrap">
+              <span (click)="sortBy('UnitSold', true)" class="sort-asc"></span>
+              <span (click)="sortBy('UnitSold', false)" class="sort-desc"></span>
+            </p> -->
+          </th>
           <th>Income Generated</th>
+          <th class="product-unit">
+            <span id="created-at">Created At</span>  
+            <p id="created-at-wrap">
+              <span (click)="sortBy('Date', true)" class="sort-asc"></span>
+              <span (click)="sortBy('Date', false)" class="sort-desc"></span>
+            </p>
+          </th>
           <th></th>
         </tr>
       </thead>
@@ -26,6 +45,7 @@
           <td>{{ productDetail.unitSold }}</td>
           <td>{{ productDetail.unit }}</td>
           <td>NGN {{ numberWithCommas(productDetail.price * productDetail.unit) }}</td>
+          <td>{{ formatDateToLocal(productDetail.createdOn) }}</td>
           <td>
             <div class="uk-inline">
               <button class="uk-button uk-button-default" type="button">

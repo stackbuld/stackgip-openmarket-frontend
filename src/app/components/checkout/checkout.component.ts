@@ -39,6 +39,7 @@ export class CheckoutComponent implements OnInit {
   user$: Observable<IUser>;
   carts$: Observable<ProductCartModel[]>;
   cartTotal: number;
+  onlineCartTotal: number;
   states: string[];
   checkoutForm: FormGroup;
   isSubmited = false;
@@ -48,10 +49,15 @@ export class CheckoutComponent implements OnInit {
     this.user$ = this.store.select(getUser);
     this.carts$.subscribe((items) => {
       let total = 0;
+      let onlineTotal = 0;
       for (const item of items) {
         total += item.price * item.orderedUnit;
+        if(item.paymentOption === 'online'){
+          onlineTotal += item.price * item.orderedUnit;
+        }
       }
       this.cartTotal = total;
+      this.onlineCartTotal = onlineTotal;
     });
     this.initlizeForm();
     this.states = nigeriaSates.map((a) => a.name);
@@ -107,7 +113,8 @@ export class CheckoutComponent implements OnInit {
           discount: 0,
           productId: item.id,
           shipments: item.shipmentOption,
-          options: item.productOptions
+          options: item.productOptions,
+          paymentOption: item.paymentOption,
         };
         createOrders.push(orders);
       });
@@ -123,7 +130,9 @@ export class CheckoutComponent implements OnInit {
     this.invoiceService.createInvoice(invoiceData).subscribe(
       (data) => {
         if (data.status === ResponseStatus.success) {
-          this.payWithPaystack(data.data.transReferenceNo);
+          if(Number(this.onlineCartTotal) > 0){
+            this.payWithPaystack(data.data.transReferenceNo);
+          }
         }
       },
       (error) => {
@@ -136,11 +145,11 @@ export class CheckoutComponent implements OnInit {
   }
 
   payWithPaystack(ref) {
-    console.log(this.cartTotal);
+    // console.log(this.onlineCartTotal);
     let handler = PaystackPop.setup({
       key: environment.paystackPublicKey, // Replace with your public key
       email: this.checkoutForm.get("email").value,
-      amount: Math.ceil(this.cartTotal) * 100,
+      amount: Math.ceil(this.onlineCartTotal) * 100,
       firstname: this.checkoutForm.get("firstname").value,
       lastname: this.checkoutForm.get("lastname").value,
       phone: this.checkoutForm.get("phoneNumber").value,

@@ -63,6 +63,7 @@
               <th>Shipment</th>
               <th>Unit</th>
               <th>Cost</th>
+              <th>Payment Option</th>
               <th>Status</th>
               <th></th>
             </tr>
@@ -72,11 +73,7 @@
                 <td>{{ order.id }}</td>
                 <td>
                     <div>
-                    <img
-                        class="uk-img"
-                        width="100"
-                        src="{{ order.product.imageUrl }}"
-                    />
+                      <img class="uk-img" width="100" src="{{ order.product.imageUrl }}"/>
                     </div>
                 </td>
                 <td>{{ order.product.name }}</td>
@@ -84,6 +81,7 @@
                 <td>{{formatShipmentOption(order.shipments)}}</td>
                 <td>{{ order.unit }}</td>
                 <td>NGN {{ order.price.toLocaleString() }}</td>
+                <td>{{ order.paymentOption }}</td>
                 <td>{{ order.status }}</td>
                 <td>
                     <div class="uk-inline">

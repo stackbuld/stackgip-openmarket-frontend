@@ -66,6 +66,7 @@
               <th>Unit</th>
               <th>Cost</th>
               <th>Status</th>
+              <th>Payment Option</th>
             </tr>
           </thead>
           <tbody>
@@ -86,6 +87,7 @@
               <td>{{ order.unit }}</td>
               <td>NGN {{ numberWithCommas(order.price.toLocaleString()) }}</td>
               <td>{{ order.status }}</td>
+              <td>{{ order.paymentOption }}</td>
             </tr>
           </tbody>
         </table>

@@ -6,7 +6,7 @@ import {
 import { CreateProductModel } from "../../../../models/products.model";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, FormArray, Validators } from "@angular/forms";
 import { Component, OnInit, EventEmitter, Output} from "@angular/core";
 import { nigeriaSates } from "src/app/data/nigeriastates";
 import { ProductsService } from "../../../../services/products/products.service";
@@ -56,6 +56,8 @@ export class EditProductComponent implements OnInit{
       {
         cloudName: environment.cloudinaryName,
         uploadPreset: environment.cloudinaryUploadPerset,
+        clientAllowedFormats:['jpeg','jpg','png','gif'],
+        // resourceType: 'image',
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
@@ -73,8 +75,20 @@ export class EditProductComponent implements OnInit{
       price: [0.0, [Validators.required]],
       category: ["", [Validators.required]],
       unit: [0, [Validators.required]],
-      previousPrice: [0.0]
+      previousPrice: [0.0],
+      paymentOption: this.fb.array(this.setPaymentOption()),
     });
+  }
+
+  paymentOption():FormArray{
+    return this.form.get('paymentOption') as FormArray;
+  }
+
+  setPaymentOption():FormGroup[]{
+    return [
+      this.fb.group({ method: [true, []], value:"online", label:"Pay Online" }),
+      this.fb.group({ method: [false, []], value:"ondelivery", label:"Pay On Delivery" }),
+    ]
   }
 
   upload() {
@@ -99,7 +113,11 @@ export class EditProductComponent implements OnInit{
         "price":data.price,
         "previousPrice":data.previousPrice,
         "category":data.category.id,
-        "unit":data.unit
+        "unit":data.unit,
+        "paymentOption":[ //Todo: need to reset payment option from api data
+          {method:true, value:"online", label:"Pay Online"}, 
+          {method:false, value:"ondelivery", label:"Pay On Delivery"}
+        ]
       });
       this.images = data.productImages;
 
@@ -134,6 +152,10 @@ export class EditProductComponent implements OnInit{
      )
   }
 
+  flatPaymentOption(option:{method:boolean,value:string,label:string}[]){
+    return option.filter(opt=>opt.method).map(opt=>opt.value).join(',')
+  }
+
   getProductUpdatedData():CreateProductModel{
     return {
       name: this.form.get("name").value,
@@ -145,6 +167,9 @@ export class EditProductComponent implements OnInit{
       imageUrls: this.images,
       categoryId: this.form.get('category').value,
       userId: this.user.id,
+      paymentOptions:this.flatPaymentOption(this.form.get("paymentOption").value),
+      shipments: [],
+      options: [],
     } as CreateProductModel
   }
 }

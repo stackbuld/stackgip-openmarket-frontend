@@ -6,24 +6,27 @@
             <div class="uk-width-auto">
                 <img class="uk-border-circle" width="40" height="40" src="/assets/image/bag.jpg">
                 <br>
-                <span class="uk-text-bold">Xano Collection</span>
+                
             </div>
             <div class="uk-width-expand">
-                <p class="uk-card-meta uk-margin-remove-bottom"> No 6, Adetunji street, Pepple Road</p>
-                <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">+234 807 789 6789</time></p>
-                <p class="uk-text-meta uk-margin-remove-top">xanocollection@gmail.com</p>
+                <p class="uk-text-bold"> {{sellerinfo?.businessName}}</p>
+                <p class="uk-card-meta uk-margin-remove-bottom"> {{sellerinfo?.address}}</p>
+                <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">{{sellerinfo?.phoneNumber}}</time></p>
+                <p class="uk-text-meta uk-margin-remove-top">{{sellerinfo?.businessEmail}}</p>
+                
             </div>
         </div>
-    </div>
+    </div> 
 </div>
 <div class="uk-card-body">
     <div>
         <hr>
     <ul class="demo" style="float:left">
-        <li><a href="#">All</a></li>
+        <!-- <li><a href="#">All</a></li>
         <li><a href="#">Electronics</a></li>
         <li><a href="#">Phones</a></li>
-        <li><a href="#">Gift Items</a></li>
+        <li><a href="#">Gift Items</a></li> -->
+        <li *ngFor="let category of categories"><a href="#">{{category.name}}</a></li>
     </ul>
     <ul class="demo" style="float:right">
         <li>share</li>
@@ -36,44 +39,9 @@
 </div>
 </div>
 
-<div class="uk-card">
-    <div class="uk-card-body">
-        <h2 class="uk-text-left">Featured Products</h2>
-        <div class="uk-child-width-expand@s uk-text-center" uk-grid>
-            
-        <div>
-            <div class="uk-card uk-card-default uk-card-body">
-                <img class="uk-card-img-top" height="220px" src="/assets/image/bag.jpg" alt="Card img cap">
-          <span> Men Leather bag</span><br>
-          <span class="span"> 3000</span>
-            </div>
-        </div>
-        <div>
-            <div class="uk-card uk-card-default uk-card-body">
-                <img class="uk-card-img-top" height="220px" src="/assets/image/bag.jpg" alt="Card img cap">
-          <span> Men Leather bag</span><br>
-          <span class="span"> 3000</span>
-            </div>
-        </div>
-        <div>
-            <div class="uk-card uk-card-default uk-card-body">
-                <img class="uk-card-img-top" height="220px" src="/assets/image/bag.jpg" alt="Card img cap">
-          <span> Men Leather bag</span><br>
-          <span class="span"> 3000</span>
-            </div>
-        </div>
-        <div>
-            <div class="uk-card uk-card-default uk-card-body">
-                <img class="uk-card-img-top" height="220px" src="/assets/image/bag.jpg" alt="Card img cap">
-          <span> Men Leather bag</span><br>
-          <span class="span"> 3000</span>
-            </div>
-        </div>
- </div>  
-</div>
-</div>
+
 <div class="uk-card-body">
-    <h2 class="uk-text-left">All Products</h2>
+    <h2 class="uk-text-left">Product</h2>
     <div
     class=""
   >
