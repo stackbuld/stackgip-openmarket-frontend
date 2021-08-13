@@ -25,12 +25,14 @@
     display: flex;
     justify-content: space-around;
 }
+
 .container{
     background-color: #f2f2f2;
     margin-left: -20px;
     margin-bottom: 100px;
     height: 2300px;
 }
+
 a{
     color: #fff !important;
 }
@@ -136,7 +138,7 @@ a{
     font-family: roboto;
     font-style: normal;
     font-weight: 800;
-    font-size: 45px;
+    font-size: 15px;
     line-height: 61px;
     color: #000000;
 }
