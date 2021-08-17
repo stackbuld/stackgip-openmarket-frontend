@@ -138,7 +138,7 @@ a{
     font-family: roboto;
     font-style: normal;
     font-weight: 800;
-    font-size: 15px;
+    font-size: 45px;
     line-height: 61px;
     color: #000000;
 }
@@ -194,6 +194,8 @@ a{
     text-align: center;
     margin-top: -130px;
     z-index: 2;
+    padding-right: 20px;
+    padding-left: 20px;
     margin-bottom: 300px;
 }
 .open h1{
@@ -207,7 +209,7 @@ a{
     text-align: center;
     color: #333333;
     width: 862px;
-    margin-left: 107px;
+    /* margin-left: 57px; */
     margin-top: 71px;
     margin-bottom: 15px;
 }
@@ -215,7 +217,7 @@ a{
     display: flex;
     justify-content: center;
     align-content: center;
-    margin-left: 35%;
+    margin-left: 75%;
 }
 
 @media (max-width: 480px) {
@@ -223,10 +225,11 @@ a{
         margin-top: -20px;
         overflow: hidden;
         height: 260em;
+        width: auto;
     }
     .open h1{
         font-size: 24px;
-        margin-left: 10px;
+        /* margin-left: 10px; */
         width: 320px;
         overflow: hidden;
     }
@@ -265,6 +268,119 @@ a{
     }
     .online{
         margin-left: 10px;
+    }
+    .open {
+        margin-top: 10px;
+        /* margin-left: -30px; */
+    }
+    .open img{
+        width: 350px;
+    }
+    .hero1{
+        margin-left: 10px;
+        padding-top: 20px;
+    }
+    .hero1 h1{
+        font-size: 28px;
+        margin-left: -50px;
+        
+    }
+    .hero1 p{
+        font-size: 20px;
+        width: 300px;
+        margin-left: -50px;
+        margin-bottom: 50px;
+    }
+    .back{
+        display: none;
+    }
+    
+    .btn{
+        font-family: Avenir;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 20px;
+        width: 200px;
+        line-height: 27px;
+        color: #FFB55E;
+        background-color: transparent;
+        outline: none;
+        border: none;
+    }
+    .uk-button{
+        width: 200px;
+    }
+}
+
+
+@media (max-width: 770px) {
+
+    .btn{
+        font-family: Avenir;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 20px;
+        width: 200px;
+        line-height: 27px;
+        color: #FFB55E;
+        background-color: transparent;
+        outline: none;
+        border: none;
+    }
+    .uk-button{
+        width: 200px;
+    }
+    .container{
+        margin-top: -20px;
+        overflow: hidden;
+        height: 260em;
+        width: auto;
+    }
+
+    .open h1{
+        font-size: 24px;
+        /* margin-left: 10px; */
+        width: 320px;
+        overflow: hidden;
+    }
+    .open{
+        width: 360px;
+        background-color: #fff;
+        height: 420px;
+    }
+    .uk-flex{
+        display: flex;
+        flex-direction: column;
+    }
+    .market{
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        height: 200em;
+        margin-bottom: 40px;
+    }
+    .left{
+        margin-left: -20px;
+        width: 300px;
+    }
+    .right{
+        padding-top: 0px;
+        width: 300px;
+    }
+    .right h1{
+        width: auto;
+        font-size: 30px;
+    }
+    .right p{
+        font-size: 18px;
+    }
+    .hero{
+        height: 1050px;
+        margin-bottom: 40px;
+    }
+    .online{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0px;
     }
     .open {
         margin-top: 10px;

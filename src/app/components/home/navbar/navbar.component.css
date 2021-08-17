@@ -35,3 +35,38 @@ a{
     color: #fff;
     border-color: #584DCD;
 }
+.navvy{
+    display: block;
+}
+.navy{
+    display: none;
+    color: red;
+    /* background-color: black; */
+}
+
+@media (max-width: 480px) {
+    .navvy{
+        display: none;
+    }
+    .navy{
+        display: block;
+        color: #fff;
+        background-color: #243853;
+        outline: none;
+
+    }
+
+}
+@media (max-width: 1200px) {
+    .navvy{
+        display: none;
+    }
+    .navy{
+        display: block;
+        color: #fff;
+        background-color: #243853;
+        outline: none;
+
+    }
+
+}
