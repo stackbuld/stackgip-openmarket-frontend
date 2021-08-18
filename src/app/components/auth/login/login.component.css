@@ -358,7 +358,7 @@
         padding-left: -20px;
       }
       label{
-          /* position:absolute; */
+          position:absolute;
     }
 
     input:focus + label, input:valid + label{

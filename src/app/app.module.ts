@@ -67,6 +67,10 @@ import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, Soc
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { SearchItemComponent } from './components/seller/seller-product/search-item/search-item.component';
 import { SellerShowCaseProductComponent } from './components/seller/sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
+import { HomeLandingComponent } from './components/home/home-landing/home-landing.component';
+import { NavbarComponent } from './components/home/navbar/navbar.component';
+import { FooterComponent } from './components/home/footer/footer.component';
+import { ConnectionComponent } from './components/home/connection/connection.component';
 
 @NgModule({
   declarations: [
@@ -117,7 +121,11 @@ import { SellerShowCaseProductComponent } from './components/seller/sellershowca
     AddToCartComponent,
     SellerRegisterationFormComponent,
     SearchItemComponent,
-    SellerShowCaseProductComponent
+    SellerShowCaseProductComponent,
+    HomeLandingComponent,
+    NavbarComponent,
+    FooterComponent,
+    ConnectionComponent,
   
   ],
   imports: [
@@ -143,6 +151,8 @@ import { SellerShowCaseProductComponent } from './components/seller/sellershowca
       maxAge: 25,
       logOnly: environment.production,
     }),
+
+    
   ],
 
   providers: [
