@@ -25,10 +25,10 @@ import { sellerApproveStatusApproveRouteResolver } from "./resolver/seller-statu
 import { SellerShowCaseProductComponent } from './components/seller/sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
 import { LoginComponent } from "./components/auth/login/login.component";
 import { SiginupComponent } from "./components/auth/siginup/siginup.component";
-import { NavbarComponent } from "./components/home/navbar/navbar.component";
-import { HomeLandingComponent } from "./components/home/home-landing/home-landing.component";
-import { FooterComponent } from "./components/home/footer/footer.component";
-import { ConnectionComponent } from "./components/home/connection/connection.component";
+import { NavbarComponent } from "./shared/components/navbar/navbar.component";
+import { HomeLandingComponent } from "./shared/components/home-landing/home-landing.component";
+import { FooterComponent } from "./shared/components/footer/footer.component";
+import { ConnectionComponent } from "./shared/components/connection/connection.component";
 
 const route: Routes = [
   {
