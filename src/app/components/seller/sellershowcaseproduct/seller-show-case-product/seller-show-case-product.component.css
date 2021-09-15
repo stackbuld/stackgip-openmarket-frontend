@@ -1,25 +1,24 @@
-ul.demo{
-    list-style-type: none;
-    margin:0px;
-    
+ul.demo {
+  list-style-type: none;
+  margin: 0px;
 }
-li{
-    display: inline-block;
-    padding: 15px;
+li {
+  display: inline-block;
+  padding: 15px;
 }
 
-a:hover{
-    color:yellow;
+a:hover {
+  color: rgb(65, 65, 219);
 }
 h2 {
-    display: block;
-    font-size: 1.5em;
-    margin-block-start: 0.83em;
-    margin-block-end: 0.83em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
+  display: block;
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
 }
-.span{
-    color:rgb(241, 54, 54)
+.span {
+  color: rgb(241, 54, 54);
 }
