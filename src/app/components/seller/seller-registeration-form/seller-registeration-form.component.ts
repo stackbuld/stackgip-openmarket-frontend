@@ -92,6 +92,7 @@ export class SellerRegisterationFormComponent implements OnInit, OnDestroy {
       {
         cloudName: environment.cloudinaryName,
         uploadPreset: environment.cloudinaryUploadPerset,
+        clientAllowedFormats:['jpeg','jpg','png','gif'],
       },
       (error, result) => {
         if (!error && result && result.event === "success") {

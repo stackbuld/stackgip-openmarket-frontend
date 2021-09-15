@@ -25,6 +25,10 @@ import { sellerApproveStatusApproveRouteResolver } from "./resolver/seller-statu
 import { SellerShowCaseProductComponent } from './components/seller/sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
 import { LoginComponent } from "./components/auth/login/login.component";
 import { SiginupComponent } from "./components/auth/siginup/siginup.component";
+import { NavbarComponent } from "./shared/components/navbar/navbar.component";
+import { HomeLandingComponent } from "./shared/components/home-landing/home-landing.component";
+import { FooterComponent } from "./shared/components/footer/footer.component";
+import { ConnectionComponent } from "./shared/components/connection/connection.component";
 
 const route: Routes = [
   {
@@ -105,6 +109,10 @@ const route: Routes = [
   },
   { path: "login", component: LoginComponent },
   { path: "signup", component: SiginupComponent },
+  { path: "navbar", component: NavbarComponent },
+  { path: "landing", component: HomeLandingComponent },
+  { path: "footer", component: FooterComponent },
+  { path: "connection", component: ConnectionComponent },
 ];
 
 @NgModule({

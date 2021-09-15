@@ -1,5 +1,5 @@
 
-    .main{
+.main{
         background-image: linear-gradient(0deg, rgba(66, 61, 64, 0.3), rgba(15, 14, 15, 0.3)),url("/assets/image/Rectangle 164.png") ;
        background-position: center;
        background-size: cover;
@@ -37,7 +37,7 @@
         color: #ffffff;
         padding-top: 350px;
         padding-left: 150px;
-        width: 15em;
+        width: 13em;
         line-height: 68px;
     }
     
@@ -63,6 +63,7 @@
         background-color: #F2F2F2;
         margin-top: 90px;
         margin-left: 15em;
+        /* margin-right:10px; */
         height: auto;
         width: 500px;
         padding-top: 20px;
@@ -78,7 +79,14 @@
         margin-bottom: 30px;
         
     }
-    
+    input:focus { 
+        outline: none !important;
+        border-color: #6200ee;
+    }
+    input[type="text"]:focus{
+        outline: none !important;
+        border-color: #6200ee;
+    }
     .form p{
         margin-left: 20px;
     }
@@ -110,15 +118,18 @@
         box-shadow: none; 
         width: 400px; 
         margin-left: 15px;
+        padding-left: 15px;
       }
 
       input[type="email"] {
         width: 400px; 
         margin-left: 15px;
+        padding-left: 20px;
       }
       input[type="password"] {
         width: 400px; 
         margin-left: 15px;
+        padding-left: 15px;
       }
       /* Label style after Input feild is in focus. Can also use input:focus ~ label to select sibling. */
       
@@ -166,14 +177,7 @@
         /* margin-left: -15px; */
     }
     
-    .btn2 img{
-        width: 30px;
-        height: 30px;
-    }
-    .btn3 img{
-        width: 30px;
-        height: 30px;
-    }
+   
     .btn-1{
         
         margin-left: 0px;
@@ -200,6 +204,9 @@
         border: solid .5px #584DCD;
         background-color: #f2f2f2;
         color:#584DCD;
+    }
+    .google{
+        margin-top:-15px;
     }
     
     .btn-3{
@@ -393,8 +400,12 @@
        background-position: center;
        background-size: cover;
        background-repeat: no-repeat;
-       height: 1224%;
+       height: 1224px;
        position: relative;
+       overflow-x: hidden;
+    }
+    .google{
+        margin-top:0px;
     }
     .with{
         font-family: Montserrat;
@@ -402,7 +413,7 @@
         font-weight: normal;
         font-size: 12px;
         line-height: 15px;
-        padding-top:20px;
+        padding-top:22px;
         margin-left: 10px;
         margin-right: 10px;
         color: #111111;
@@ -413,6 +424,7 @@
                  height: 1px;
                  background-color: #333333;
                  margin-top: 31px;
+                 margin-left: -5px;
      }
 
 
@@ -420,23 +432,23 @@
         margin-top: 0px;
     }
     #hero h1{
+        width: 359px;
         font-weight: 800;
-        font-size: 1.2rem;
-        color: #ffffff;
+        font-size: 26px;
+        line-height:44px;
+        color: #f2f2f2;
         padding-top: 30px;
-        padding-left: 10px;
-        text-align: center;
-        /* width: 100%; */
+        margin-left: -20px;
 
     }
     
     #hero p{
-        color: #ffffff; 
-        padding-top: 20px;
-        font-weight: 400;
-        font-size: 20px;
-        padding-left: 1em;
-        text-align: center;
+        color: #f2f2f2; 
+        font-weight: normal;
+        font-size: 15px;
+        line-height:33px;
+        margin-left: 5px;
+        
     }
 
     .form{
@@ -444,7 +456,7 @@
         margin-top: 40px;
         margin-bottom: 30px;
         margin-right: 10px;
-        margin-left: 3em;
+        margin-left: 4.5em;
         height: auto;
         width: 83vw;
         padding-top: 20px;
@@ -464,11 +476,12 @@
         font-weight: 800;
         color:#293146;
         text-align: center;
-        margin-bottom: 30px;
+        /* margin-bottom: 30px; */
+        margin-top: 40px;
         
     }
     input{
-        margin-left: -40px;
+        margin-left: -10px;
         height: 34px;
         width: 200px;
         border: .5px solid #000;
@@ -483,21 +496,33 @@
         /* padding-left: 20px; */
         box-shadow: none; 
         width: 250px; 
-        margin-left: 20px;
+        margin-left: 3px;
       }
 
       input[type="email"] {
         width: 250px; 
-        margin-left: 20px;
+        margin-left: 3px;
       }
       input[type="password"] {
         width: 250px; 
-        margin-left: 20px;
+        margin-left: 3px;
       }
       label{
         /* padding: 4px; */
-        padding-left: 30px;
+        padding-left: 20px;
         font-size: 12px;
+    }
+    
+
+    input:focus + label, input:valid + label{
+        position: relative;
+      font-size: 1rem;
+      color: #afbdcf;
+      top: -45px;
+      left:20px;
+      background: #f2f2f2;
+      border-radius: 10px;
+      padding: 0px 5px 0px 5px;
     }
     button{
         display: flex;
@@ -506,20 +531,22 @@
     }
     
     .btn-1{
-        margin-left: 1px;
-        height: 34px;
+        margin-left: -10px;
+        height: 44px;
+        justify-content: center;
         width: 260px;
         border-radius: 6px;
         text-align: center;
         color:#fff;
         font-size: 16px;
-        padding-top: 2px;
+        padding-top: 10px;
+        align-content: center;
         background-color: #584DCD;   
     }
     
     .btn-2{
      
-        margin-left: 1px;
+        margin-left: -5px;
         height: 44px;
         width: 110px;
         border-radius: 6px;
@@ -533,7 +560,7 @@
     
     .btn-3{
         /* margin-left: 1px; */
-        margin-left: 15px;
+        margin-left: 30px;
         height: 44px;
         font-size: 16px;
         width:110px;

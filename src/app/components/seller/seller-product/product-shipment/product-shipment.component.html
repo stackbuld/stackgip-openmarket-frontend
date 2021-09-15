@@ -30,25 +30,25 @@
             </mat-form-field>
             <div class="uk-flex">
                 <div  *ngIf="!shipment.get('editable').value">
-                    <button mat-raised-button color="info" type="button" 
+                    <button mat-raised-button color="info" type="button" class="action-btn"
                         (click)="editShipment(i)">
-                        <mat-icon>edit</mat-icon>
+                        <mat-icon>edit</mat-icon><span class="icon-text">edit</span>
                     </button>
                 </div>
                 <div *ngIf="shipment.get('editable').value">
-                    <button mat-raised-button color="primary" type="button" 
+                    <button mat-raised-button color="primary" type="button" class="action-btn"
                         [class.spinner]="shipment.get('editLoading').value" 
                         [disabled]="shipment.get('editLoading').value"
                         (click)="updateShipment(shipment.get('id').value,i)" >
-                        <mat-icon>save</mat-icon>
+                        <mat-icon>save</mat-icon><span class="icon-text">save</span>
                     </button>
                 </div>
                 <div class="uk-margin-small-left">
-                    <button mat-raised-button color="warn" type="button" 
+                    <button mat-raised-button color="warn" type="button" class="action-btn delete"
                         [class.spinner]="shipment.get('loading').value" 
                         [disabled]="shipment.get('loading').value"
                         (click)="removeShipment(shipment.get('id').value,i)" >
-                        <mat-icon>delete</mat-icon>
+                        <mat-icon>delete</mat-icon><span class="icon-text">delete</span>
                     </button>
                 </div>
             </div>

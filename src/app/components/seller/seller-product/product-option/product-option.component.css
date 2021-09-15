@@ -1,0 +1,20 @@
+mat-icon{
+    font-size: 15px;
+    width: 20px;
+    height: 20px;
+}
+
+.icon-text{
+    vertical-align: middle;
+    font-size: 12px;
+}
+
+.action-btn{
+    padding-left: 0px;
+    padding-right: 6px;
+}
+
+.action-btn.delete{
+    padding-left: 5px;
+    padding-right: 11px;
+}
