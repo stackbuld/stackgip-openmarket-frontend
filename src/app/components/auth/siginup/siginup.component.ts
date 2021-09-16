@@ -12,6 +12,9 @@ import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUse
 import {of, Subscription} from "rxjs";
 import {delay} from "rxjs/operators";
 import {JwtHelperService} from "../../../services/jwt-helper.service";
+import {MDCTextField} from '@material/textfield';
+
+// const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
 
 @Component({
   selector: "app-siginup",

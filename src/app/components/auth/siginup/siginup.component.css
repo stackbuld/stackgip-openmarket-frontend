@@ -1,4 +1,25 @@
+/* @use "@material/checkbox";
+@use "@material/form-field";
 
+@include checkbox.core-styles;
+@include form-field.core-styles;
+
+@use "@material/floating-label/mdc-floating-label";
+@use "@material/line-ripple/mdc-line-ripple";
+@use "@material/notched-outline/mdc-notched-outline";
+@use "@material/textfield";
+
+@include textfield.core-styles; */
+
+/* checkbox  */
+
+
+  
+input[type="checkbox"] {
+    width: 20px;
+}
+
+/* end of checkbox */
 .main{
         background-image: linear-gradient(0deg, rgba(66, 61, 64, 0.3), rgba(15, 14, 15, 0.3)),url("/assets/image/Rectangle 164.png") ;
        background-position: center;
@@ -37,7 +58,7 @@
         color: #ffffff;
         padding-top: 350px;
         padding-left: 150px;
-        width: 13em;
+        width: 18em;
         line-height: 68px;
     }
     
@@ -81,18 +102,20 @@
     }
     input:focus { 
         outline: none !important;
-        border-color: #6200ee;
+        /* border-color: #6200ee; */
+        border: solid 2px #6200ee;
     }
     input[type="text"]:focus{
         outline: none !important;
-        border-color: #6200ee;
+        /* border-color: #6200ee; */
+        border: solid 2px #6200ee;
     }
     .form p{
         margin-left: 20px;
     }
     
     .input_wrap{
-        margin-bottom: 30px;
+        margin-bottom: 10px;
         height: 50px;
         margin-left: -15px;
         position:relative;
@@ -136,7 +159,7 @@
       input:focus + label, input:valid + label{
           position: relative;
         font-size: 1rem;
-        color: #afbdcf;
+        color: #000;
         top: -55px;
         left:10px;
         background: #ffffff;
@@ -155,7 +178,7 @@
         font-size:16px;
         color: #afbdcf;
         position: relative;
-        top: -30px;
+        top: -50px;
         left: 0;
         /* z-index: 2; */
         transition:0.2s ease all; 
@@ -189,6 +212,8 @@
         padding-bottom: 10px;
         color:#fff;
         background-color: #584DCD;
+        outline: none;
+        border: none;
         
     }
     
@@ -404,6 +429,21 @@
        position: relative;
        overflow-x: hidden;
     }
+    .input_wrap label {
+        
+        font-family:arial;
+        font-size:16px;
+        color: #afbdcf;
+        position: relative;
+        top: -30px;
+        left: 0;
+        /* z-index: 2; */
+        transition:0.2s ease all; 
+        -moz-transition:0.2s ease all; 
+        -webkit-transition:0.2s ease all;
+        pointer-events: none;
+      
+      }
     .google{
         margin-top:0px;
     }
@@ -517,10 +557,10 @@
     input:focus + label, input:valid + label{
         position: relative;
       font-size: 1rem;
-      color: #afbdcf;
+      color: #000;
       top: -45px;
-      left:20px;
-      background: #f2f2f2;
+      left: 5px;
+      background: #fff;
       border-radius: 10px;
       padding: 0px 5px 0px 5px;
     }
@@ -599,6 +639,7 @@
     .btn1{
         width: 310px;
     }
+    
 }
 @media only screen and (max-width: 380px){
     input{

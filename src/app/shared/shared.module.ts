@@ -19,8 +19,9 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+// import { ServicesComponent } from './components/services/services.component';
 @NgModule({
-  declarations: [LoaderComponent],
+  declarations: [LoaderComponent, ],
   imports: [CommonModule],
   exports: [
     HttpClientJsonpModule,
