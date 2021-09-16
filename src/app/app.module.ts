@@ -70,11 +70,13 @@ import { SellerShowCaseProductComponent } from './components/seller/sellershowca
 import { HomeLandingComponent } from './shared/components/home-landing/home-landing.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
-import { ConnectionComponent } from './shared/components/connection/connection.component';
 import { SellerAgreementComponent } from './components/agreements/seller-agreement/seller-agreement.component';
 import { TermsComponent } from './components/agreements/terms/terms.component';
 import { PrivatePolicyComponent } from './components/agreements/private-policy/private-policy.component';
-
+import { OurservicesComponent } from './shared/components/ourservices/ourservices.component';
+import { FaqsComponent } from './shared/components/faqs/faqs.component';
+import { ContactComponent } from './shared/components/contact/contact.component';
+import { FeaturesComponent } from './shared/components/features/features.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -128,10 +130,13 @@ import { PrivatePolicyComponent } from './components/agreements/private-policy/p
     HomeLandingComponent,
     NavbarComponent,
     FooterComponent,
-    ConnectionComponent,
     SellerAgreementComponent,
     TermsComponent,
     PrivatePolicyComponent,
+    OurservicesComponent,
+    FaqsComponent,
+    ContactComponent,
+    FeaturesComponent,
   
   ],
   imports: [

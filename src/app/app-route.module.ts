@@ -28,7 +28,13 @@ import { SiginupComponent } from "./components/auth/siginup/siginup.component";
 import { NavbarComponent } from "./shared/components/navbar/navbar.component";
 import { HomeLandingComponent } from "./shared/components/home-landing/home-landing.component";
 import { FooterComponent } from "./shared/components/footer/footer.component";
-import { ConnectionComponent } from "./shared/components/connection/connection.component";
+import { OurservicesComponent } from "./shared/components/ourservices/ourservices.component";
+import { PrivatePolicyComponent } from "./components/agreements/private-policy/private-policy.component";
+import { TermsComponent } from "./components/agreements/terms/terms.component";
+import { SellerAgreementComponent } from "./components/agreements/seller-agreement/seller-agreement.component";
+import { FaqsComponent } from "./shared/components/faqs/faqs.component";
+import { ContactComponent } from "./shared/components/contact/contact.component";
+import { FeaturesComponent } from "./shared/components/features/features.component";
 
 const route: Routes = [
   {
@@ -112,7 +118,13 @@ const route: Routes = [
   { path: "navbar", component: NavbarComponent },
   { path: "landing", component: HomeLandingComponent },
   { path: "footer", component: FooterComponent },
-  { path: "connection", component: ConnectionComponent },
+  { path: "ourservices", component: OurservicesComponent },
+  { path: "private-policy", component: PrivatePolicyComponent },
+  { path: "seller-agreement", component: SellerAgreementComponent },
+  { path: "terms", component: TermsComponent },
+  { path: "faqs", component: FaqsComponent },
+  { path: "contact", component: ContactComponent },
+  { path: "features", component: FeaturesComponent },
 ];
 
 @NgModule({
