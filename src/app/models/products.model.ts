@@ -34,6 +34,7 @@ export interface CreateProductModel {
 export interface ProductWithOptionAndShipmentModel extends ProductModel {
   productShipments: CreateShipmentModel[];
   productOptions: CreateProductOption[];
+  paymentOptions: string;
 }
 export interface EditProductModel extends ProductModel {
   productShipments: CreateShipmentModel[];
