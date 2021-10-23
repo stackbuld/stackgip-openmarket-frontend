@@ -23,13 +23,13 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class ProductsService {
-  baseUrll="";
+  baseUrll = "";
   baseUrl = "";
-  
+
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
-  
+
   public GetCategory(): Observable<CategoryResponse> {
     return this.http.get<CategoryResponse>(this.baseUrll + "categories");
   }
@@ -56,7 +56,7 @@ export class ProductsService {
     categoryId = "",
     min = 10,
     max = 500000,
-    type = 'All',
+    type = "All",
     startDate = "",
     endDate = "",
     productSort = "Date",

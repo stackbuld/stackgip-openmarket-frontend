@@ -19,10 +19,10 @@ import { ResetPasswordComponent } from "./components/auth/reset-password/reset-p
 import { AccountConfirmationComponent } from "./components/auth/account-confirmation/account-confirmation.component";
 import { LayoutComponent } from "./shared/components/layout/layout.component";
 import { ListProductComponent } from "./components/home/list-product/list-product.component";
-import { OrderListComponent } from './components/seller/seller-orders/order-list/order-list.component';
-import { OrderDetailComponent } from './components/seller/seller-orders/order-detail/order-detail.component';
+import { OrderListComponent } from "./components/seller/seller-orders/order-list/order-list.component";
+import { OrderDetailComponent } from "./components/seller/seller-orders/order-detail/order-detail.component";
 import { sellerApproveStatusApproveRouteResolver } from "./resolver/seller-status-approve.resolver";
-import { SellerShowCaseProductComponent } from './components/seller/sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
+import { SellerShowCaseProductComponent } from "./components/seller/sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component";
 import { LoginComponent } from "./components/auth/login/login.component";
 import { SiginupComponent } from "./components/auth/siginup/siginup.component";
 import { NavbarComponent } from "./shared/components/navbar/navbar.component";
@@ -77,14 +77,14 @@ const route: Routes = [
         ],
       },
       {
-        path:'sellerproduct',
+        path: "sellerproduct/:sellerId",
         component: SellerShowCaseProductComponent,
       },
       {
         path: "seller",
         canActivate: [AuthGuard],
         component: DashboardComponent,
-        resolve: { data: sellerApproveStatusApproveRouteResolver},
+        resolve: { data: sellerApproveStatusApproveRouteResolver },
         children: [
           {
             path: "",
@@ -94,7 +94,7 @@ const route: Routes = [
             path: "products",
             component: SellerProductComponent,
           },
-        
+
           {
             path: "orders",
             component: SellerOrdersComponent,
@@ -107,7 +107,7 @@ const route: Routes = [
                 path: "detail/:id/:user_id",
                 component: OrderDetailComponent,
               },
-            ]
+            ],
           },
         ],
       },
