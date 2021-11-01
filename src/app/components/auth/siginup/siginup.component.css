@@ -77,7 +77,7 @@ form {
   width: 343px;
   margin: 3rem auto;
 }
-.open-market {
+.open-market-sm {
   display: none;
 }
 .signup-form-section mat-form-field {
@@ -146,6 +146,7 @@ form {
 .img-1 {
   padding-right: 20px;
   padding-top: 10px;
+  padding-bottom: 5px;
 }
 
 @media only screen and (max-width: 769px) {
@@ -199,12 +200,15 @@ form {
   #signup-btn {
     width: 100%;
   }
-  .open-market {
+  .open-market-sm {
     display: block;
     text-align: center;
     font-weight: 800;
     font-size: 2rem;
     margin-top: 1rem;
+  }
+  .open-market-lg {
+    display: none;
   }
 }
 

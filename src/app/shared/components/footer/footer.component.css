@@ -1,111 +1,115 @@
-.footer{
-    background-color: #e0e0e0;
-    width: 100vw;
-    height: 487px;
+.footer {
+  background-color: #e0e0e0;
+  width: 100%;
 }
 
-.default-width{
-    width: 80vw;
-    margin: 0 auto;
-    /* margin-top: 68px; */
+.default-width {
+  width: 80%;
+  margin: 0 auto;
+  /* margin-top: 68px; */
 }
 
-.content{
-    padding-top: 68px;
+.content {
+  padding-top: 68px;
 }
-.first h1{
-    font-family: Avenir;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 50px;
-    line-height: 68px;
-    color: #333;
+.first h1 {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 50px;
+  line-height: 68px;
+  color: #333;
 }
-.first h2{
-    font-family: Avenir;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 40px;
-    line-height: 55px;
-    color: #333;
+.first h2 {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 55px;
+  color: #333;
 }
-.first h3{
-    font-family: Avenir;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 32px;
-    color: #333;
+.first h3 {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  color: #333;
 }
-.privacy{
-    margin-top: 30px;
+.privacy {
+  margin-top: 30px;
 }
-.privacy a{
-    font-family: Avenir;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 19px;
-    color: #333;
-    margin-top: 35px;
+.privacy a {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  color: #333;
+  margin-top: 35px;
 }
-.privacy h3{
-    font-family: Avenir;
-    font-style: normal;
-    font-weight: 800;
-    font-size: 20px;
-    line-height: 27px;
+.privacy h3 {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 27px;
 }
 
-.right{
-    font-family: Avenir;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 19px;
-    /* margin-right: 50px; */
-    margin-top: 30px;
+.right {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  /* margin-right: 50px; */
+  margin-top: 30px;
+  padding-bottom: 3rem;
 }
-.right a{  
-    color: #333;
+.right a {
+  color: #333;
 }
-.first h3{
-    font-family: Avenir;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 32px;
+.first h3 {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
 }
-.first a{
-    font-family: Avenir;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 32px;
-    color: #333;
-    
+.first a {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  color: #333;
 }
- p{
-    margin-top: 35px;
+p {
+  margin-top: 35px;
 }
 
 @media (max-width: 480px) {
-
-    .uk-flex{
-        display: flex;
-        flex-direction: column;
-    }
-    .footer{
-        background-color: #e0e0e0;
-        width: 100vw;
-        height: auto;
-    }
+  .uk-flex {
+    display: flex;
+    flex-direction: column;
+  }
+  .footer {
+    background-color: #e0e0e0;
+    width: 100%;
+    height: auto;
+  }
 }
 @media (max-width: 768px) {
-
-    .uk-flex{
-        display: flex;
-        flex-direction: column;
-        height: auto;
-    }
+  .uk-flex {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
 }
+/* @media (max-width: 1200px) {
+  .uk-flex {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+} */
