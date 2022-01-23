@@ -15,6 +15,9 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class InvoiceService {
+  getProducts(pageNumber: number, maximumItem: number, search: string, categoryId: string, minValue: number, maxValue: number) {
+    throw new Error("Method not implemented.");
+  }
   baseUrl: string;
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
