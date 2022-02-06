@@ -43,6 +43,7 @@ export class CheckoutComponent implements OnInit {
   states: string[];
   checkoutForm: FormGroup;
   isSubmited = false;
+  hasOnlinePaymentItems = false;
 
   ngOnInit(): void {
     this.carts$ = this.store.select(getCart);
@@ -50,9 +51,11 @@ export class CheckoutComponent implements OnInit {
     this.carts$.subscribe((items) => {
       let total = 0;
       let onlineTotal = 0;
+      this.hasOnlinePaymentItems =
+        items.filter((a) => a.paymentOption.includes("online")).length > 0;
       for (const item of items) {
         total += item.price * item.orderedUnit;
-        if(item.paymentOption === 'online'){
+        if (item.paymentOption === "online") {
           onlineTotal += item.price * item.orderedUnit;
         }
       }
@@ -69,7 +72,7 @@ export class CheckoutComponent implements OnInit {
 
   initlizeForm() {
     const user = localStorage.getItem("user");
-    
+
     if (user) {
       const userJson: IUser = JSON.parse(user);
       this.checkoutForm = this.fb.group({
@@ -130,8 +133,27 @@ export class CheckoutComponent implements OnInit {
     this.invoiceService.createInvoice(invoiceData).subscribe(
       (data) => {
         if (data.status === ResponseStatus.success) {
-          if(Number(this.onlineCartTotal) > 0){
-            this.payWithPaystack(data.data.transReferenceNo);
+          const onlineInvoice = data.data.find((a) =>
+            a.paymentOptionType.toLowerCase().includes("online")
+          );
+
+          if (onlineInvoice) {
+            this.payWithPaystack(onlineInvoice.transReferenceNo);
+          } else {
+            setTimeout(() => {
+              uikit.modal.dialog(
+                `
+        <div class="uk-card uk-card-body">
+        <h3> Payment complete!</h3>
+        <p>Processing your transaction, please wait</p>
+        </div>
+      `,
+                { "bg-close": false }
+              );
+              this.store.dispatch(ClearCartItems());
+              // this.router.navigate(["/orders"]);
+              location.href = "/orders";
+            }, 2000);
           }
         }
       },
@@ -180,8 +202,6 @@ export class CheckoutComponent implements OnInit {
         // redirect user to orders page
       },
       callback: (response) => {
-        let message = "Payment complete! Reference: " + response.reference;
-
         uikit.modal.dialog(
           `
         <div class="uk-card uk-card-body">

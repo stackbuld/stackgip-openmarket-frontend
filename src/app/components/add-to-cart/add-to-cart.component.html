@@ -137,13 +137,16 @@
       </div>
       <div>
         <p>Available payment type </p>
-        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">  
+     
+       
+       
           <label *ngIf="product.paymentOptions.split(',').includes('online')">
-            <input class="uk-radio"  formControlName="paymentOption" type="radio" value="online" />
+            <input class="uk-radio" checked formControlName="paymentOption" type="radio" value="online" />
             <span>Pay Online</span>
           </label>
           <label *ngIf="product.paymentOptions.split(',').includes('ondelivery')">
-            <input class="uk-radio"  formControlName="paymentOption" type="radio" value="ondelivery" />
+            <input class="uk-radio"   formControlName="paymentOption" type="radio" value="ondelivery" />
             <span>Pay On delivery</span>
           </label>
         </div>

@@ -6,6 +6,7 @@ import {
   VerifyInvoiceResponseModel,
   pagedInvoiceModel,
   PagedResponseInvoiceModel,
+  CreateInvoiceModelResponse,
 } from "./../../models/invoice.model";
 import { HttpClient } from "@angular/common/http";
 import { ApiAppUrlService } from "./../api-app-url.service";
@@ -15,7 +16,14 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class InvoiceService {
-  getProducts(pageNumber: number, maximumItem: number, search: string, categoryId: string, minValue: number, maxValue: number) {
+  getProducts(
+    pageNumber: number,
+    maximumItem: number,
+    search: string,
+    categoryId: string,
+    minValue: number,
+    maxValue: number
+  ) {
     throw new Error("Method not implemented.");
   }
   baseUrl: string;
@@ -25,8 +33,8 @@ export class InvoiceService {
 
   createInvoice(
     createInvoiceModel: CreateInvoiceModel
-  ): Observable<InvoiceModelResponse> {
-    return this.http.post<InvoiceModelResponse>(
+  ): Observable<CreateInvoiceModelResponse> {
+    return this.http.post<CreateInvoiceModelResponse>(
       this.baseUrl + "invoice",
       createInvoiceModel
     );

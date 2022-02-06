@@ -29,7 +29,9 @@ export interface CreateOrderDto {
 export interface InvoiceModelResponse extends ResponseModel {
   data: InvoiceModel;
 }
-
+export interface CreateInvoiceModelResponse extends ResponseModel {
+  data: InvoiceModel[];
+}
 export interface InvoiceModel {
   userId: string;
   billingAddress: string;
@@ -41,6 +43,7 @@ export interface InvoiceModel {
   id: number;
   transReferenceNo: string;
   createdOn: string;
+  paymentOptionType: string;
   isActive: boolean;
   isDeleted: boolean;
 }
