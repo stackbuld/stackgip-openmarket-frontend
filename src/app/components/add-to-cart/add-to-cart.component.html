@@ -1,3 +1,4 @@
+
 <!--=======  add to  cart  =======-->
 <div class="" *ngIf="product">
   <div class="uk-child-width-1-2@s" uk-grid>
@@ -135,13 +136,15 @@
         </div>
       </div>
       <div>
-        <p>Select Payment type </p>
+        <p>Available payment type </p>
         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-          <label *ngFor="let paymentOption of availablePaymentOption">
-            <input class="uk-radio" formControlName="paymentOption"
-              [checked]='paymentOption == "online" || availablePaymentOption.length == 1 ? true:false' type="radio"
-              value="{{paymentOption}}" />
-            <span>{{ paymentOption == 'online' ? "Pay Online": "Pay on delivery"}}</span>
+          <label *ngIf="product.paymentOptions.split(',').includes('online')">
+            <input class="uk-radio"  formControlName="paymentOption" type="radio" value="online" />
+            <span>Pay Online</span>
+          </label>
+          <label *ngIf="product.paymentOptions.split(',').includes('ondelivery')">
+            <input class="uk-radio"  formControlName="paymentOption" type="radio" value="ondelivery" />
+            <span>Pay On delivery</span>
           </label>
         </div>
       </div>

@@ -1,6 +1,10 @@
 import { IPage } from "./../../models/products.model";
 import { getLoggedInUser } from "./../../helpers/userUtility";
 import { InvoiceService } from "src/app/services/invoice/invoice.service";
+
+import { ProductsService } from "src/app/services/products/products.service";
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ProductModel } from "src/app/models/products.model";
 import {
   InvoiceModel,
   OrderModel,
@@ -22,9 +26,27 @@ export class OrderComponent implements OnInit {
   filterType = invoiceStatus;
   invoices: InvoiceModel[];
   page: IPage;
+
+  user = getLoggedInUser()
+  maximumItem: number = 10;
+  defaultPage:number = 1;
+  pageNumber: number;
+  search:string = "";
+  categoryId:string = "";
+  minValue: number = 10;
+  maxValue: number = 500000;
+  products: ProductModel[] = [];
+  totalItemCount: number;
+  form: FormGroup;
+  keyword:string = ''
+  category:string = ''
+  // user: any;
   
-  constructor(private invoiceService: InvoiceService) {}
+  constructor(
+    // private productService: ProductsService,
+    private invoiceService: InvoiceService) {}
   ngOnInit(): void {
+    // this.fetchNextProducts(this.defaultPage)
     const user = getLoggedInUser();
     if (user) {
       this.invoiceService.getUserInvoices(user.id).subscribe((data) => {
@@ -63,4 +85,29 @@ export class OrderComponent implements OnInit {
       this.filteredInvoice = this.invoices;
     }
   }
+
+
+
+  fetchNextProducts(pageNumber:number){
+    this.invoiceService.getUserInvoices(
+       this.user.id,pageNumber,
+      this.maxValue
+    ).subscribe((invoices) => {
+        this.invoices = invoices.data.data;
+        this.pageNumber = invoices.data.pager.pageNumber;
+        this.totalItemCount = invoices.data.pager.totalItemCount;
+      },error => console.error(error)
+    );
+}
+
+
+
+// onSearch(data):void{
+//   this.keyword = data.keyword
+//   this.category = data.category
+//   this.minValue = data.minValue
+//   this.maxValue = data.maxValue
+//   this.fetchNextProducts(this.defaultPage)
+// }
+
 }

@@ -1,88 +1,145 @@
-<section class="main">
-  <div class="uk-grid">
-    <div class="">
-     <div class="hero">
-      <h1 >Welcome Back</h1>
-      <p>Login into your account...</p>
-     </div>
-    </div>
-   
-    <div class="form">
-      <a href="" onclick="UIkit.modal('#modal-auth').hide()">
-        <div class="back">
-          <img src="https://cdn.iconscout.com/icon/free/png-512/back-arrow-1767531-1502435.png" alt="go-back">
-          Go Back
-        </div>
-      </a>
-      <h1>Rena Market</h1>
-      <form [formGroup]="loginForm" (ngSubmit)="login()" id="form" class="uk-form">
-        <div class="input_wrap uk-form-width-medium">
-            <div>
-              <span class="uk-text-warning" *ngIf="errorMessage != ''">{{ errorMessage }}</span>
-              <br />
-              <span class="uk-text-success" *ngIf="message != '' && hasError == false">{{ message }}</span>
-              <span class="uk-text-warning uk-text" *ngFor="let i of errors">
-                {{ i }} <br />
-              </span>
+<div class="login-main">
+  <div class="login-flex-container">
+    <div class="login-image-section"></div>
+    <div class="login-form-section">
+      <div class="login-form-container">
+        <div class="login-back-btn">
+          <a [routerLink]="['']" onclick="UIkit.modal('#modal-auth').hide()">
+            <div class="login-back">
+              <img
+                src="https://cdn.iconscout.com/icon/free/png-512/back-arrow-1767531-1502435.png"
+                alt="go-back"
+              />
+              Go Home
             </div>
-            <span *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)">
-              <span class="uk-text-warning" *ngIf="f.email.errors.required">
-                Email required <br/>
-              </span>
-              <span class="uk-text-warning" *ngIf="f.email.errors.email">
-                Valid email required
-              </span>
-            </span>
-            <input type="email" formControlName="email" required />
-            <label>Email Address</label>
-        </div>
-       
-        <div class="input_wrap uk-form-width-medium uk-form-password">
-          <span *ngIf="f.password.invalid && (f.password.dirty || f.password.touched)">
-            <span class="uk-text-warning" *ngIf="f.password.errors.required">
-              Password required <br/>
-            </span>
-            <span class="uk-text-warning" *ngIf="f.password.errors.minLength">
-              Password should be at least 6 charaters <br/>
-            </span>
-          </span>
-          <input type="password" formControlName="password" required />
-          <label >
-            <a href="" class="uk-form-password-toggle" data-uk-form-password>Password</a>
-          </label>
-        </div>
-          <a routerLink="/forget-password" onclick="UIkit.modal('#modal-auth').hide()" class="forgot">
-            Forgot password?
           </a>
-          <button class="uk-button uk-width-1-1 btn1" type="submit">Login</button>
-      </form>
-      
-      <div id="or">
-          <div class="hr1"></div>
-          <div class="or">or</div>
-          <div class="hr2"></div>
+        </div>
+        <div class="login-form-header">
+          <h1 class="open-market-lg">
+            <img
+              src="../../../../assets/logos/Rena-Market-Transparent-WHT-2.png"
+              alt="RENA MARKET"
+              width="200"
+            />
+          </h1>
+          <h2>Welcome Back!</h2>
+          <p>Login into your account...</p>
+          <div class="login-form">
+            <h1 class="open-market-sm">
+              <img
+                src="../../../../assets/logos/Rena-Market-Transparent-WHT-2.png"
+                alt="RENA MARKET"
+                width="200"
+              />
+            </h1>
+            <form [formGroup]="loginForm" (ngSubmit)="login()" id="form">
+              <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Email Address</mat-label>
+                  <input
+                    matInput
+                    placeholder="example@email.com"
+                    type="email"
+                    formControlName="email"
+                    required
+                  />
+                  <mat-error *ngIf="message != '' && hasError == false">{{
+                    message
+                  }}</mat-error>
+                  <mat-error *ngFor="let i of errors">
+                    {{ i }} <br />
+                  </mat-error>
+                  <mat-error *ngIf="errorMessage != ''">{{
+                    errorMessage
+                  }}</mat-error>
+                  <mat-error
+                    *ngIf="
+                      f.email.invalid && (f.email.dirty || f.email.touched)
+                    "
+                  >
+                    <mat-error *ngIf="f.email.errors.required">
+                      Email required
+                    </mat-error>
+                    <mat-error *ngIf="f.email.errors.email">
+                      Valid email required
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input
+                    matInput
+                    placeholder="********"
+                    type="password"
+                    formControlName="password"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      f.password.invalid &&
+                      (f.password.dirty || f.password.touched)
+                    "
+                  >
+                    <mat-error *ngIf="f.password.errors.required">
+                      Password required <br />
+                    </mat-error>
+                    <mat-error *ngIf="f.password.errors.minLength">
+                      Password should be at least 6 characters <br />
+                    </mat-error>
+                  </mat-error>
+                </mat-form-field>
+              </p>
+              <p class="text-right">
+                <a
+                  routerLink="/forget-password"
+                  onclick="UIkit.modal('#modal-auth').hide()"
+                  class="login-forgot"
+                >
+                  Forgot password?
+                </a>
+              </p>
+              <p>
+                <button class="uk-button uk-width-1-1 login-btn1" type="submit">
+                  Login
+                </button>
+              </p>
+            </form>
+            <div id="login-or">
+              <div class="login-hr1"></div>
+              <div class="login-or">or</div>
+              <div class="login-hr2"></div>
+            </div>
+
+            <div id="login-btn">
+              <button
+                class="uk-button login-btn2"
+                (click)="this.authService.signInWithGoogle()"
+              >
+                <img
+                  src="https://res.cloudinary.com/mindset/image/upload/v1625917475/google__1_epmkfp.png"
+                  alt=""
+                  class="login-img-1"
+                />
+              </button>
+              <button
+                class="uk-button login-btn2"
+                (click)="this.authService.signInWithFacebook()"
+              >
+                <img
+                  src="https://res.cloudinary.com/mindset/image/upload/v1625923180/facebook__uzmrzq.png"
+                  alt=""
+                  class="login-img-1"
+                />
+              </button>
+            </div>
+            <h6 class="signup-route">
+              Don't have an account? <a routerLink="/signup">Register</a>
+            </h6>
+          </div>
+        </div>
       </div>
-      
-      <div id="btn" class="uk-grid" >
-        <button class="uk-button btn2" (click)="this.authService.signInWithGoogle()">
-          <img src="https://res.cloudinary.com/mindset/image/upload/v1625917475/google__1_epmkfp.png" alt=""  class="img-1 imgg">
-        </button>
-        <button class="uk-button btn3" (click)="this.authService.signInWithFacebook()">
-          <img src="https://res.cloudinary.com/mindset/image/upload/v1625923180/facebook__uzmrzq.png" alt=""  class="img-1">
-        </button>
-      </div>
-      <h6>Don't have an account? <a routerLink="/signup">Register</a></h6>
     </div>
-
-
-
-
-    
   </div>
-
-
-
-
-
-  
-</section>
+</div>

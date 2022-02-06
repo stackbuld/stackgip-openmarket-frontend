@@ -22,6 +22,9 @@
             <li class="uk-active"><a routerLink="/seller">Dashboard</a></li>
             <li><a routerLink="/seller/orders">Orders</a></li>
             <li><a routerLink="/seller/products">Products</a></li>
+            <li>
+              <a [routerLink]="['/sellerproduct', loggedInUser.id]">My Shelf</a>
+            </li>
             <!-- <li class="uk-parent">
               <a href="#">Product</a>
               <ul class="uk-nav-sub">
