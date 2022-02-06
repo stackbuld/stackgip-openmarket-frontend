@@ -5,8 +5,8 @@
       <div class="uk-width-expand@s">
         <div class="uk-card uk-background-muted uk-card-body">
           <div *ngIf="(user$ | async) == null" class="uk-text-center">
-            <h2>Please login / signup to continue</h2>
-            <button class="btn-default" routerLink="/auth">
+            <h2>Please login to continue</h2>
+            <button class="btn-default" routerLink="/login">
               Login to Continue
             </button>
           </div>
@@ -74,7 +74,20 @@
                     />
                   </mat-form-field>
                 </div>
-                <div>
+                <div> 
+                     <span
+                    *ngIf="
+                      f.phoneNumber.invalid &&
+                      (f.phoneNumber.dirty || f.phoneNumber.touched)
+                    "
+                  >
+                    <span
+                      class="uk-text-warning"
+                      *ngIf="f.phoneNumber.errors.required"
+                    >
+                      Phone number is required
+                    </span>
+                  </span>
                   <mat-form-field class="uk-width-expand">
                     <mat-label>Phone number</mat-label>
                     <input
@@ -96,6 +109,7 @@
                   </mat-form-field>
                 </div>
                 <div>
+                  
                   <mat-form-field class="uk-width-expand">
                     <mat-label>State</mat-label>
                     <mat-select formControlName="state" required>
@@ -132,7 +146,7 @@
                   ></textarea>
                 </mat-form-field>
               </div>
-              <div>
+              <!-- <div>
                 <mat-form-field class="uk-width-expand">
                   <mat-label>Additional Information</mat-label>
                   <textarea
@@ -141,7 +155,7 @@
                     formControlName="additionalInfo"
                   ></textarea>
                 </mat-form-field>
-              </div>
+              </div> -->
               <div class="uk-text-center">
                 <button
                   [disabled]="checkoutForm.invalid || isSubmited"

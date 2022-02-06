@@ -135,15 +135,13 @@
         </div>
       </div>
       <div>
-        <p>Select payment type </p>
+        <p>Select Payment type </p>
         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-          <label>
-            <input class="uk-radio"  formControlName="paymentOption" type="radio" value="online" />
-            <span>Pay Online</span>
-          </label>
-          <label>
-            <input class="uk-radio"  formControlName="paymentOption" type="radio" value="ondelivery" />
-            <span>Pay On delivery</span>
+          <label *ngFor="let paymentOption of availablePaymentOption">
+            <input class="uk-radio" formControlName="paymentOption"
+              [checked]='paymentOption == "online" || availablePaymentOption.length == 1 ? true:false' type="radio"
+              value="{{paymentOption}}" />
+            <span>{{ paymentOption == 'online' ? "Pay Online": "Pay on delivery"}}</span>
           </label>
         </div>
       </div>

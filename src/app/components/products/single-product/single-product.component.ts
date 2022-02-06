@@ -32,6 +32,7 @@ export class SingleProductComponent implements OnInit {
       unit: product.unit,
       createdOn: product.createdOn,
       name: product.name,
+      paymentOptions: product.paymentOption,
       description: "",
       id: product.id,
       imageUrl: product.imageUrl,

@@ -26,7 +26,7 @@ export class AddToCartComponent implements OnInit{
   optionForm: FormGroup
   formatDate:Function
   totalPrice:number
-
+  availablePaymentOption = [];
   constructor(
     private productService: ProductsService,private toast: ToastrService,
     private fb: FormBuilder) {
@@ -43,11 +43,12 @@ export class AddToCartComponent implements OnInit{
       shipmentOption:['',[Validators.required]],
       quantity:[1,[Validators.required]],
       options: this.fb.array([]),
-      paymentOption:['online',[Validators.required]]
+      paymentOption:['',[Validators.required]]
     });
     this.optionForm.get('quantity').valueChanges.pipe(debounceTime(200))
     .subscribe(data => this.onQuantityValueChanged(data))
-    this.currentQuantity = 1
+    this.currentQuantity = 1;
+
   }
 
   init(): void {
@@ -56,7 +57,8 @@ export class AddToCartComponent implements OnInit{
     this.priceWithOptions = this.product.price
     const defaultShipment:string = this.getDefaultShipment()
     this.optionForm.get('shipmentOption').setValue(defaultShipment)
-    this.setOptionForm(Object.keys(this.productOptions))
+    this.setOptionForm(Object.keys(this.productOptions));
+    this.availablePaymentOption = this.product.paymentOptions.split(',')
   }
 
   optionArray():FormArray{
