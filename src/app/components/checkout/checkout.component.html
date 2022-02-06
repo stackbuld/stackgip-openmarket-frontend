@@ -156,6 +156,9 @@
                   ></textarea>
                 </mat-form-field>
               </div> -->
+                <div class='uk-alert uk-alert-warning' *ngIf="hasOnlinePaymentItems">
+              <p>Some Item on your cart requires online payment, you will be required to make payment online. </p>
+            </div>
               <div class="uk-text-center">
                 <button
                   [disabled]="checkoutForm.invalid || isSubmited"
@@ -207,7 +210,8 @@
               <span class="uk-text-bold"
                 >N{{ cartTotal.toLocaleString() }}</span
               >
-            </h4>
+            </h4> 
+          
             <br />
             <button routerLink="/cart" class="btn-default">Go to cart</button>
           </div>
