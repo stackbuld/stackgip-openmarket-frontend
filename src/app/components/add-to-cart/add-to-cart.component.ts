@@ -68,6 +68,7 @@ export class AddToCartComponent implements OnInit {
     this.availablePaymentOption = this.product.paymentOptions
       ? this.product.paymentOptions.split(",")
       : [];
+    this.optionForm.get('paymentOption').setValue(this.availablePaymentOption[0]);
     console.log("payment options", this.availablePaymentOption);
   }
 
