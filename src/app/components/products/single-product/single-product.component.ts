@@ -4,11 +4,11 @@ import {
   Category,
   ProductCartModel,
 } from "./../../../models/products.model";
-import { Component, OnInit, Input, ViewChild, ElementRef} from "@angular/core";
+import { Component, OnInit, Input, ViewChild, ElementRef } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { AppState } from "src/app/reducers";
 import { AddToCart } from "src/app/reducers/action/cart.actions";
-import { numberWithCommas } from './../../../helpers/number-format';
+import { numberWithCommas } from "./../../../helpers/number-format";
 
 @Component({
   selector: "app-single-product",
@@ -17,15 +17,19 @@ import { numberWithCommas } from './../../../helpers/number-format';
 })
 export class SingleProductComponent implements OnInit {
   constructor(private toast: ToastrService, private store: Store<AppState>) {}
-  @ViewChild('closeAddToCart') closeAddToCart: ElementRef<HTMLElement>
+  @ViewChild("closeAddToCart") closeAddToCart: ElementRef<HTMLElement>;
   @Input() product;
-  numberWithCommas:Function = numberWithCommas
+  numberWithCommas: Function = numberWithCommas;
   ngOnInit(): void {}
 
   addToCart(productItem) {
     const {
-      product,orderedUnit,shipmentOption,productOptions,paymentOption
-    } = productItem
+      product,
+      orderedUnit,
+      shipmentOption,
+      productOptions,
+      paymentOption,
+    } = productItem;
     const productCart: ProductCartModel = {
       category: product.category,
       categoryId: product.categoryId,
@@ -49,7 +53,7 @@ export class SingleProductComponent implements OnInit {
     this.closeAddToCartModal();
   }
 
-  closeAddToCartModal():void{
-    this.closeAddToCart.nativeElement.click()
+  closeAddToCartModal(): void {
+    this.closeAddToCart.nativeElement.click();
   }
 }
