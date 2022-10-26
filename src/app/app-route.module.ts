@@ -35,6 +35,7 @@ import { SellerAgreementComponent } from "./components/agreements/seller-agreeme
 import { FaqsComponent } from "./shared/components/faqs/faqs.component";
 import { ContactComponent } from "./shared/components/contact/contact.component";
 import { FeaturesComponent } from "./shared/components/features/features.component";
+import { SellerDashboardComponent } from "./seller-dashboard/seller-dashboard.component";
 
 const route: Routes = [
   {
@@ -117,6 +118,7 @@ const route: Routes = [
   { path: "signup", component: SiginupComponent },
   { path: "navbar", component: NavbarComponent },
   { path: "landing", component: HomeLandingComponent },
+  { path: "seller-dashboard", component: SellerDashboardComponent },
   { path: "footer", component: FooterComponent },
   { path: "ourservices", component: OurservicesComponent },
   { path: "private-policy", component: PrivatePolicyComponent },

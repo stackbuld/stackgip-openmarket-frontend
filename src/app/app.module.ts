@@ -77,6 +77,7 @@ import { OurservicesComponent } from './shared/components/ourservices/ourservice
 import { FaqsComponent } from './shared/components/faqs/faqs.component';
 import { ContactComponent } from './shared/components/contact/contact.component';
 import { FeaturesComponent } from './shared/components/features/features.component';
+import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -137,6 +138,7 @@ import { FeaturesComponent } from './shared/components/features/features.compone
     FaqsComponent,
     ContactComponent,
     FeaturesComponent,
+    SellerDashboardComponent,
   
   ],
   imports: [
