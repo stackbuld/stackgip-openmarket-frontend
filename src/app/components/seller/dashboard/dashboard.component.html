@@ -13,7 +13,106 @@
 </ng-container>
 
 <ng-template #dashboard>
-  <div class="uk-section uk-section-large">
+  <div class="uk-container uk-container-expand">
+    <div class="uk-grid" uk-grid>
+              <!-- Menu for large or desktop screen -->
+      <div
+        class="uk-width-1-5@m uk-visible@m uk-padding uk-background-secondary"
+      >
+        <ul class="uk-nav uk-nav-default">
+          <li ckass="uk-nav-header">
+            <a class="" href="#" aria-label="Back to Home">
+              <img
+                src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1667540325/rena-market/Rena-Market-Transaprent-BLK-2_2_f7z6tu.png"
+                alt="RENA MARKET"
+                width="140"
+              />
+            </a>
+          </li>
+          <li>
+            <a routerLink="/seller">
+              <span uk-icon="home" class="uk-padding-small"></span> Dashboard</a
+            >
+          </li>
+          <li>
+            <a routerLink="/seller/orders">
+              <span uk-icon="cart" class="uk-padding-small"></span> Orders</a
+            >
+          </li>
+          <li>
+            <a routerLink="/seller/products">
+              <span uk-icon="list" class="uk-padding-small"></span> Products</a
+            >
+          </li>
+          <li>
+            <a [routerLink]="['/sellerproduct', loggedInUser.id]"
+              ><span uk-icon="album" class="uk-padding-small"></span> My
+              Shelf</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div class="uk-width-2-3@s uk-width-4-5@m">
+        <!-- Menu for mobile screen -->
+        <div class="uk-hidden@m">
+          <nav class="uk-navbar-container" uk-navbar>
+            <div class="uk-navbar-left">
+              <ul class="uk-navbar-nav">
+                <li class="uk-active">
+                  <a class="" href="#" aria-label="Back to Home">
+                    <img
+                      src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1667540325/rena-market/Rena-Market-Transparent-WHT-2_1_a9kqoj.png"
+                      alt="RENA MARKET"
+                      width="100"
+                    />
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="uk-navbar-right">
+              <ul class="uk-navbar-nav">
+                <li>
+                  <a href="#"> <span uk-navbar-toggle-icon></span></a>
+                  <div class="uk-navbar-dropdown">
+                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li>
+            <a routerLink="/seller">
+              <span uk-icon="home" class="uk-padding-small"></span> Dashboard</a
+            >
+          </li>
+          <li>
+            <a routerLink="/seller/orders">
+              <span uk-icon="cart" class="uk-padding-small"></span> Orders</a
+            >
+          </li>
+          <li>
+            <a routerLink="/seller/products">
+              <span uk-icon="list" class="uk-padding-small"></span> Products</a
+            >
+          </li>
+          <li>
+            <a [routerLink]="['/sellerproduct', loggedInUser.id]"
+              ><span uk-icon="album" class="uk-padding-small"></span> My
+              Shelf</a
+            >
+          </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div> 
+
+
+        <div class="uk-margin-large-top">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="uk-section uk-section-large">
     <div class="uk-container">
       <h1>Dashboard</h1>
       <div class="uk-grid" uk-grid>
@@ -25,13 +124,7 @@
             <li>
               <a [routerLink]="['/sellerproduct', loggedInUser.id]">My Shelf</a>
             </li>
-            <!-- <li class="uk-parent">
-              <a href="#">Product</a>
-              <ul class="uk-nav-sub">
-                <li><a href="#">Sub item</a></li>
-                <li><a href="#">Sub item</a></li>
-              </ul>
-            </li> -->
+       
           </ul>
         </div>
         <div class="uk-width-2-3@s uk-width-4-5@m">
@@ -39,7 +132,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </ng-template>
 
 <!-- popup if user is not a seller yet -->
