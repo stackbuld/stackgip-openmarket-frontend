@@ -11,13 +11,17 @@ import { Component, OnInit } from "@angular/core";
 
 import { NgxUiLoaderService } from "ngx-ui-loader";
 import { SignInModel } from "src/app/models/signin-model";
-import { UIkit } from "uikit";
+// import { UIkit } from "uikit";
 import { AuthService } from "src/app/services/auth.service";
 import { ToastrService } from "ngx-toastr";
-import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService} from "angularx-social-login";
-import {of, Subscription} from "rxjs";
-import {delay} from "rxjs/operators";
-import {JwtHelperService} from "../../../services/jwt-helper.service";
+import {
+  FacebookLoginProvider,
+  GoogleLoginProvider,
+  SocialAuthService,
+} from "angularx-social-login";
+import { of, Subscription } from "rxjs";
+import { delay } from "rxjs/operators";
+import { JwtHelperService } from "../../../services/jwt-helper.service";
 
 // declare var gapi: any;
 
@@ -37,7 +41,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   googleAuth: any;
   loading: false;
-  message = '';
+  message = "";
   tokenSubscription = new Subscription();
   decodedJwt;
   constructor(
@@ -92,15 +96,17 @@ export class LoginComponent implements OnInit {
         // console.log("signInResponse: " + JSON.stringify(a));
         this.ngxService.stopLoader("loader-01");
         this.authService.SetAuthLocalStorage(a);
-        
+
         if (a.status == "success") {
           this.toast.success("login successful", "notification");
-             this.message = "login successful";
-             this.hasError = false;
+          this.message = "login successful";
+          this.hasError = false;
           if (!a.data.canLogin) {
             this.router.navigate(["/confirm-email"]);
           } else {
-            this.authService.logoutAndRedirectOnTokenExpiration(a.data.auth_token);
+            this.authService.logoutAndRedirectOnTokenExpiration(
+              a.data.auth_token
+            );
             this.router.navigate(["/"]);
           }
 
