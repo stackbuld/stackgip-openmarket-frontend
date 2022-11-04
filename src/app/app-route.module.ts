@@ -80,37 +80,6 @@ const route: Routes = [
         path: "sellerproduct/:sellerId",
         component: SellerShowCaseProductComponent,
       },
-      {
-        path: "seller",
-        canActivate: [AuthGuard],
-        component: DashboardComponent,
-        resolve: { data: sellerApproveStatusApproveRouteResolver },
-        children: [
-          {
-            path: "",
-            component: SellerHomeComponent,
-          },
-          {
-            path: "products",
-            component: SellerProductComponent,
-          },
-
-          {
-            path: "orders",
-            component: SellerOrdersComponent,
-            children: [
-              {
-                path: "",
-                component: OrderListComponent,
-              },
-              {
-                path: "detail/:id/:user_id",
-                component: OrderDetailComponent,
-              },
-            ],
-          },
-        ],
-      },
     ],
   },
   { path: "login", component: LoginComponent },
@@ -125,6 +94,37 @@ const route: Routes = [
   { path: "faqs", component: FaqsComponent },
   { path: "contact", component: ContactComponent },
   { path: "features", component: FeaturesComponent },
+  {
+    path: "seller",
+    canActivate: [AuthGuard],
+    component: DashboardComponent,
+    resolve: { data: sellerApproveStatusApproveRouteResolver },
+    children: [
+      {
+        path: "",
+        component: SellerHomeComponent,
+      },
+      {
+        path: "products",
+        component: SellerProductComponent,
+      },
+
+      {
+        path: "orders",
+        component: SellerOrdersComponent,
+        children: [
+          {
+            path: "",
+            component: OrderListComponent,
+          },
+          {
+            path: "detail/:id/:user_id",
+            component: OrderDetailComponent,
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
