@@ -64,6 +64,7 @@ export class ProductItemComponent implements OnInit {
 
   public updateProduct(product: ProductModel): void {
     const index = this.productDetails.findIndex((p) => p.id === product.id);
+
     this.productDetails[index] = product;
   }
 
