@@ -15,42 +15,86 @@
 <ng-template #dashboard>
   <div class="uk-container uk-container-expand topbar">
     <div class="uk-grid" uk-grid>
-              <!-- Menu for large or desktop screen -->
-      <div
-        class="uk-width-1-5@m uk-visible@m uk-padding "
-      >
+      <!-- Menu for large or desktop screen -->
+      <div class="uk-width-1-5@m uk-visible@m uk-padding topbar__left">
+        <a
+          class="uk-nav-header"
+          href="#"
+          aria-label="Back to Home"
+          style="text-decoration: none"
+        >
+          <img
+            src="../../../../assets/img/renaMarket.png"
+            alt="RENA MARKET"
+            width="100"
+          />
+        </a>
         <ul class="uk-nav uk-nav-default">
-          <li ckass="uk-nav-header">
-            <a class="" href="#" aria-label="Back to Home">
-              <img
-                src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1667540325/rena-market/Rena-Market-Transaprent-BLK-2_2_f7z6tu.png"
-                alt="RENA MARKET"
-                width="140"
-              />
-            </a>
-          </li>
           <li>
             <a routerLink="/seller">
-              <span uk-icon="home" class="uk-padding-small"></span> Dashboard</a
+              <img
+                src="../../../../assets/img/profileIcon.png"
+                class="uk-padding-small"
+                alt=""
+              />
+              Profile</a
             >
           </li>
           <li>
             <a routerLink="/seller/orders">
-              <span uk-icon="cart" class="uk-padding-small"></span> Orders</a
+              <img
+                src="../../../../assets/img/ordersIcon.png"
+                class="uk-padding-small"
+                alt=""
+              />
+              Orders</a
             >
           </li>
           <li>
             <a routerLink="/seller/products">
-              <span uk-icon="list" class="uk-padding-small"></span> Products</a
+              <img
+                src="../../../../assets/img/productIcon.png"
+                class="uk-padding-small"
+                alt=""
+              />
+              Products</a
             >
           </li>
           <li>
             <a [routerLink]="['/sellerproduct', loggedInUser.id]"
-              ><span uk-icon="album" class="uk-padding-small"></span> My
-              Shelf</a
+              ><img
+                src="../../../../assets/img/storeIcon.png"
+                class="uk-padding-small"
+                alt=""
+              />
+              Store</a
+            >
+          </li>
+          <li>
+            <a routerLink="/seller/products">
+              <img
+                src="../../../../assets/img/voucherIcon.png"
+                class="uk-padding-small"
+                alt=""
+              />
+              Vouchers</a
             >
           </li>
         </ul>
+        <div class="sidebar__btn">
+          <ul class="uk-nav uk-nav-default">
+            <li>
+              <a (click)="logout()">
+                <img
+                  src="../../../../assets/img/logoutIcon.png"
+                  class="uk-padding-small"
+                  alt=""
+                />
+                Logout</a
+              >
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div class="uk-width-2-3@s uk-width-4-5@m">
@@ -62,7 +106,7 @@
                 <li class="uk-active">
                   <a class="" href="#" aria-label="Back to Home">
                     <img
-                      src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1667540325/rena-market/Rena-Market-Transparent-WHT-2_1_a9kqoj.png"
+                      src="../../../../assets/img/renaMarket.png"
                       alt="RENA MARKET"
                       width="100"
                     />
@@ -76,27 +120,56 @@
                   <a href="#"> <span uk-navbar-toggle-icon></span></a>
                   <div class="uk-navbar-dropdown">
                     <ul class="uk-nav uk-navbar-dropdown-nav">
-                        <li>
-            <a routerLink="/seller">
-              <span uk-icon="home" class="uk-padding-small"></span> Dashboard</a
-            >
-          </li>
-          <li>
-            <a routerLink="/seller/orders">
-              <span uk-icon="cart" class="uk-padding-small"></span> Orders</a
-            >
-          </li>
-          <li>
-            <a routerLink="/seller/products">
-              <span uk-icon="list" class="uk-padding-small"></span> Products</a
-            >
-          </li>
-          <li>
-            <a [routerLink]="['/sellerproduct', loggedInUser.id]"
-              ><span uk-icon="album" class="uk-padding-small"></span> My
-              Shelf</a
-            >
-          </li>
+                      <li>
+                        <a routerLink="/seller">
+                          <img
+                            src="../../../../assets/img/profileIcon.png"
+                            class="uk-padding-small"
+                            alt=""
+                          />
+                          Profile</a
+                        >
+                      </li>
+                      <li>
+                        <a routerLink="/seller/orders">
+                          <img
+                            src="../../../../assets/img/ordersIcon.png"
+                            class="uk-padding-small"
+                            alt=""
+                          />
+                          Orders</a
+                        >
+                      </li>
+                      <li>
+                        <a routerLink="/seller/products">
+                          <img
+                            src="../../../../assets/img/productIcon.png"
+                            class="uk-padding-small"
+                            alt=""
+                          />
+                          Products</a
+                        >
+                      </li>
+                      <li>
+                        <a [routerLink]="['/sellerproduct', loggedInUser.id]"
+                          ><img
+                            src="../../../../assets/img/storeIcon.png"
+                            class="uk-padding-small"
+                            alt=""
+                          />
+                          Store</a
+                        >
+                      </li>
+                      <li>
+                        <a routerLink="/seller/products">
+                          <img
+                            src="../../../../assets/img/voucherIcon.png"
+                            class="uk-padding-small"
+                            alt=""
+                          />
+                          Vouchers</a
+                        >
+                      </li>
                     </ul>
                   </div>
                 </li>
@@ -104,7 +177,6 @@
             </div>
           </nav>
         </div>
-
 
         <div class="uk-margin-large-top">
           <router-outlet></router-outlet>
