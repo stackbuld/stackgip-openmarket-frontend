@@ -1,55 +1,6 @@
 <div *ngIf="overview"  uk-grid
   class="uk-child-width-1-4@m uk-child-width-1-2@s uk-grid-small uk-grid-match">
-  <div>
-    <div class="uk-card uk-background-muted uk-card-body">
-      <h3 class="uk-card-title">New Orders</h3>
-      <span
-        class="iconify"
-        data-icon="icons8:add-shopping-cart"
-        data-inline="false"
-        style="width: 50px; height: 50px"
-      ></span>
-      <span style="font-size: 1rem">{{ overview.pendingOrders }}</span>
-    </div>
-  </div>
-  <div>
-    <div class="uk-card uk-card-primary uk-card-body">
-      <h3 class="uk-card-title">Total Sales</h3>
-      <span
-        class="iconify"
-        style="width: 30px; height: 30px"
-        data-icon="whh:stocks"
-        data-inline="false"
-      ></span>
-      &nbsp;
-      <span style="font-size: 1rem">NGN {{ overview.revenue }}</span>
-    </div>
-  </div>
-  <div>
-    <div class="uk-card uk-card-secondary uk-card-body">
-      <h3 class="uk-card-title">Products</h3>
-      <span
-        class="iconify"
-        data-icon="emojione-monotone:shopping-bags"
-        style="width: 30px; height: 30px"
-        data-inline="false"
-      ></span>
-      &nbsp; &nbsp;
-      <span style="font-size: 1rem">{{ overview.totalProducts }}</span>
-    </div>
-  </div>
-  <div>
-    <div class="uk-card uk-card-secondary uk-card-body">
-      <h3 class="uk-card-title">Total Orders</h3>
-      <span
-        class="iconify"
-        data-icon="icons8:add-shopping-cart"
-        data-inline="false"
-        style="width: 50px; height: 50px"
-      ></span>
-      <span style="font-size: 1rem">{{ overview.totalOrders }}</span>
-    </div>
-  </div>
+
 </div>
 
 <app-most-selling-product
