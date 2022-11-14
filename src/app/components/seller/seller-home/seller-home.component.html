@@ -1,6 +1,92 @@
-<div *ngIf="overview"  uk-grid
-  class="uk-child-width-1-4@m uk-child-width-1-2@s uk-grid-small uk-grid-match">
-
+<div *ngIf="overview" uk-grid class="uk-text-center seller__main">
+  <div>
+    <p>Enter Your Product(s) Details</p>
+    <br />
+    <form
+      class="uk-child-width-1-2@s uk-grid-small uk-grid-match seller__form"
+      uk-grid
+    >
+      <div class="uk-width-1-1">
+        <label for="">Product Name*</label>
+        <input
+          class="uk-input"
+          type="text"
+          placeholder="Please type clear Product name"
+          aria-label="100"
+        />
+      </div>
+      <div class="uk-width-1-1">
+        <label for="">Store Address*</label>
+        <input
+          class="uk-input"
+          type="text"
+          placeholder="Please type your Store address"
+          aria-label="100"
+        />
+      </div>
+      <div class="uk-width-1-2@s">
+        <label for="">Category*</label>
+        <select aria-label="Custom controls">
+          <option value="1">-- select category --</option>
+          <option value="2">Option 02</option>
+          <option value="3">Option 03</option>
+          <option value="4">Option 04</option>
+        </select>
+      </div>
+      <div class="uk-width-1-2@s">
+        <label for="">Sub-Category*</label>
+        <select aria-label="Custom controls">
+          <option value="1">-- select sub-category --</option>
+          <option value="2">Option 02</option>
+          <option value="3">Option 03</option>
+          <option value="4">Option 04</option>
+        </select>
+      </div>
+      <div class="uk-width-1-2@s">
+        <label for="">Price*</label>
+        <input
+          class="uk-input"
+          type="number"
+          placeholder="₦ 0.00"
+          aria-label="100"
+        />
+      </div>
+      <div class="uk-width-1-2@s">
+        <label for="">Available Unit*</label>
+        <select aria-label="Custom controls">
+          <option value="1">-- Enter Available unit --</option>
+          <option value="2">Option 02</option>
+          <option value="3">Option 03</option>
+          <option value="4">Option 04</option>
+        </select>
+      </div>
+      <div class="uk-width-1-2@s">
+        <label for="">Price*</label>
+        <input
+          class="uk-input"
+          type="number"
+          placeholder="₦ 0.00"
+          aria-label="100"
+        />
+      </div>
+      <div class="uk-width-1-2@s">
+        <label for="">Available Unit*</label>
+        <select aria-label="Custom controls">
+          <option value="1">-- Enter Available unit --</option>
+          <option value="2">Option 02</option>
+          <option value="3">Option 03</option>
+          <option value="4">Option 04</option>
+        </select>
+      </div>
+      <div class="uk-width-1-1">
+        <label for="">Available Unit*</label>
+        <textarea class="uk-textarea" rows="4" placeholder="Please provide a detailed description" aria-label="Textarea"></textarea>
+      </div>
+    </form>
+  </div>
+  <div class="uk-child-width-1-2@s uk-grid-small uk-grid-match seller__upload">
+    Upload form
+  </div>
 </div>
 
 <app-most-selling-product
