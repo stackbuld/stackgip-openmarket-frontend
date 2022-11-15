@@ -1,7 +1,6 @@
-.uk-grid>* {
+.uk-grid > * {
   text-align: left !important;
 }
-
 
 .seller__main p {
   font-family: "Avenir";
@@ -16,6 +15,44 @@
   max-width: 650px;
 }
 
+.uk-width-1-1 input[type="text"] {
+  background: #ffffff;
+  border: 0.8px solid #bdbdbd;
+  border-radius: 8px;
+  padding: .4em .3em;
+  width: 100%;
+}
+
+.div-input input[type="number"] {
+  background: #ffffff;
+  border: 0.8px solid #bdbdbd;
+  border-radius: 8px;
+  padding: .4em .3em;
+  width: 100%;
+}
+
+.uk-width-1-1 label {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 350;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+}
+
 .seller__upload {
   max-width: 150px;
+}
+
+.center-div {
+  padding: 50px;
+}
+
+.center-div p {
+  font-family: 'Avenir';
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 120%;
+color: #000000;
 }
