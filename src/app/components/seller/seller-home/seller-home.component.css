@@ -19,7 +19,7 @@
   background: #ffffff;
   border: 0.8px solid #bdbdbd;
   border-radius: 8px;
-  padding: .4em .3em;
+  padding: 0.4em 0.3em;
   width: 100%;
 }
 
@@ -27,7 +27,15 @@
   background: #ffffff;
   border: 0.8px solid #bdbdbd;
   border-radius: 8px;
-  padding: .4em .3em;
+  padding: 0.4em 0.3em;
+  width: 100%;
+}
+
+.div-select select {
+  background: #ffffff;
+  border: 0.8px solid #bdbdbd;
+  border-radius: 8px;
+  padding: 0.65em 0.3em;
   width: 100%;
 }
 
@@ -49,10 +57,18 @@
 }
 
 .center-div p {
-  font-family: 'Avenir';
-font-style: normal;
-font-weight: 500;
-font-size: 18px;
-line-height: 120%;
-color: #000000;
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 120%;
+  color: #000000;
+}
+
+.seller__select select {
+  background: #ffffff;
+  border: 0.8px solid #bdbdbd;
+  border-radius: 8px;
+  padding: 0.65em 0.3em;
+  width: 100%;
 }
