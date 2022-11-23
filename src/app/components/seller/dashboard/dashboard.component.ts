@@ -10,6 +10,9 @@ import { SellerService } from "src/app/services/seller/seller.service";
   styleUrls: ["./dashboard.component.css"],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+logout() {
+throw new Error('Method not implemented.');
+}
   isSellerApproved: boolean = false;
   routeData$: Subscription;
   switching: string;

@@ -1,7 +1,72 @@
-.uk-nav-default>li.uk-active>a {
-    color: #fff;
+.uk-nav-default > li.uk-active > a {
+  color: #fff;
 }
 
-.uk-nav-default>li>a:hover {
-    color: #fff;
+.uk-nav-default > li > a:hover {
+  color: #fff;
+}
+
+.topbar {
+  height: 100%;
+}
+
+.topbar__left {
+  background-color: #000 !important;
+  padding: 20px 0px 0px 40px;
+  flex: 1.2;
+  height: 200vh;
+  overflow-x: hidden;
+}
+
+.topbar__left p {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 750;
+  font-size: 24px;
+  color: #f2f2f2;
+  padding: 15px 0px 0px 60px;
+  text-transform: capitalize;
+}
+
+.uk-width-3-4 {
+  flex: 4;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: static;
+}
+
+.uk-width-3-4 p {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  color: #333333;
+}
+
+.uk-width-3-4 .item {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.uk-width-3-4 .search {
+  display: flex;
+  justify-content: center;
+}
+
+.uk-width-3-4 input {
+  border: none;
+  outline: none;
+  width: 300px;
+  padding: 12px 4px 12px 40px;
+  background: #f1f1f1 url("../../../../assets/img/searchIcon.png") no-repeat
+    13px center;
+  border-radius: 6px;
+}
+
+.uk-width-3-4 input::placeholder {
+  font-size: 14px;
 }
