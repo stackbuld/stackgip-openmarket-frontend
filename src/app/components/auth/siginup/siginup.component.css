@@ -83,6 +83,11 @@ form {
 .signup-form-section mat-form-field {
   width: 343px;
 }
+
+.signup-form .mat-input-element {
+  color: #000;
+}
+
 .signup-forgot {
   margin-left: auto;
   padding-top: 2px;

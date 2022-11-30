@@ -38,7 +38,7 @@ export class SellerRegisterationFormComponent
     registerationStatus: ["registered"],
     businessName: ["", [Validators.required]],
     businessPhone: ["", [Validators.required]],
-    businessEmail: ["", [Validators.required]],
+    businessEmail: ["", [Validators.required, Validators.email]],
     businessAddress: ["", [Validators.required]],
     businessCountry: ["", [Validators.required]],
     businessState: ["", [Validators.required]],
@@ -49,7 +49,7 @@ export class SellerRegisterationFormComponent
         // Validators.required,
       ],
     ],
-    businessRegistrationNumber: ["", [Validators.required]],
+    businessRegistrationNumber: [""],
     businessApplicantAddress: ["", [Validators.required]],
     businessAddressLandmark: ["", [Validators.required]],
     businessApplicantID: ["", [Validators.required]],
@@ -65,6 +65,7 @@ export class SellerRegisterationFormComponent
   ) {}
 
   ngOnInit(): void {
+    this.setBusinessCategoryValidators ()
     // open modal
     uikit.modal("#seller-modal-full").show();
     this.uploadWidget = cloudinary.createUploadWidget(
@@ -166,5 +167,29 @@ export class SellerRegisterationFormComponent
     if (this.regSeller$) {
       this.regSeller$.unsubscribe();
     }
+  }
+
+  setBusinessCategoryValidators (){
+    const businessRegNumberControl = this.componentForm.get('businessRegistrationNumber');
+    const businessApplicantAddressControl = this.componentForm.get('businessApplicantAddress');
+    const businessAddressLandmarkControl = this.componentForm.get('businessAddressLandmark');
+
+    this.componentForm.get('registerationStatus').valueChanges.subscribe(registerationStatus => {
+      if (registerationStatus === 'registered') {
+        businessRegNumberControl.setValidators([Validators.required]);
+        businessApplicantAddressControl.setValidators(null);
+        businessAddressLandmarkControl.setValidators(null);
+      }
+
+      if (registerationStatus === 'unregistered') {
+        businessRegNumberControl.setValidators(null);
+        businessApplicantAddressControl.setValidators([Validators.required]);
+        businessAddressLandmarkControl.setValidators([Validators.required]);
+      }
+
+      businessRegNumberControl.updateValueAndValidity();
+      businessApplicantAddressControl.updateValueAndValidity();
+      businessAddressLandmarkControl.updateValueAndValidity();
+    })
   }
 }
