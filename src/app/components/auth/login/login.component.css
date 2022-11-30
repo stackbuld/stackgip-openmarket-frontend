@@ -33,6 +33,11 @@
 .login-back-btn a {
   color: #333333;
 }
+
+.login-form .mat-input-element {
+  color: #000;
+}
+
 .login-back {
   display: flex;
   align-items: center;
