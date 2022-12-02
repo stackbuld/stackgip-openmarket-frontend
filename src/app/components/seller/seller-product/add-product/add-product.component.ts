@@ -182,7 +182,7 @@ export class AddProductComponent implements OnInit {
       options: this.form.get("options").value,
       categoryId: this.form.get('category').value,
       userId: this.user.id,
-      paymentOptions:this.flatPaymentOption(this.form.get("paymentOption").value)
+      paymentOptions: this.flatPaymentOption(this.form.get("paymentOption").value)
     } as CreateProductModel
   }
 }
