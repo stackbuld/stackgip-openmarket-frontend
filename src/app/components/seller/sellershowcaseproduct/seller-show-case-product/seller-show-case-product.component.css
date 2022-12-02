@@ -1,31 +1,35 @@
-ul.demo {
-  list-style-type: none;
-  margin: 0px;
+.seller_label {
+  font-style: normal;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 33px;
+  color: #000000;
 }
-.iconify {
-  width: 24px;
-  height: 24px;
+.uk-radio:checked {
+  background-image: url(data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Ccircle%20fill%3D%22%23fff%22%20cx%3D%228%22%20cy%3D%228%22%20r%3D%222%22%20%2F%3E%0A%3C%2Fsvg%3E);
 }
-.share-icons li {
-  margin-right: 0.5rem;
-}
-li {
-  display: inline-block;
-  /* padding: 15px; */
+.uk-checkbox:checked,
+.uk-checkbox:indeterminate,
+.uk-radio:checked {
+  background-color: #000000 !important;
+  border-color: black;
 }
 
-a:hover {
-  color: #4a4a4a;
+.seller-right {
+  text-align: right;
+  padding: 20px;
 }
-h2 {
-  display: block;
-  font-size: 1.5em;
-  margin-block-start: 0.83em;
-  margin-block-end: 0.83em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  font-weight: bold;
+
+.seller-btn {
+  background: #000000;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: #ffffff;
+  padding: 10px 25px;
+  text-transform: capitalize;
 }
-.span {
-  color: rgb(241, 54, 54);
-}
+
+
