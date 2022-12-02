@@ -35,6 +35,7 @@ import { SellerAgreementComponent } from "./components/agreements/seller-agreeme
 import { FaqsComponent } from "./shared/components/faqs/faqs.component";
 import { ContactComponent } from "./shared/components/contact/contact.component";
 import { FeaturesComponent } from "./shared/components/features/features.component";
+import { SellerStoreComponent } from "./components/seller/seller-store/seller-store.component";
 
 const route: Routes = [
   {
@@ -122,6 +123,10 @@ const route: Routes = [
             component: OrderDetailComponent,
           },
         ],
+      },
+      {
+        path: "store",
+        component: SellerStoreComponent,
       },
     ],
   },
