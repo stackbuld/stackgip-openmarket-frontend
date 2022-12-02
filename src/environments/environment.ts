@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  identityApi: "https://rena-dev-identity.agreeablewater-fe9b1d2c.northeurope.azurecontainerapps.io/api/v1/",
+  identityApi: "https://dev-identity.renamarkets.com/api/v1/",
   // identityApi: "http://localhost:59906/api/v1/",
-  ecommerceApi: "https://rena-dev-ecommerce.agreeablewater-fe9b1d2c.northeurope.azurecontainerapps.io/api/v1/",
+  ecommerceApi: "https://dev-ecommerce.renamarkets.com/api/v1/",
   // ecommerceApi: "http://localhost:57889/api/v1/",
   paystackPublicKey: "pk_test_8e75de0f0e2bba17ee0b37ed227e176b92b52d0b",
   googleClientId:
