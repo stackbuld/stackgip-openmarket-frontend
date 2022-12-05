@@ -20,6 +20,13 @@
   padding: 20px;
 }
 
+@media only screen and (max-width:1024px) {
+  .seller-right {
+     text-align: center;
+
+  }
+}
+
 .seller-btn {
   background: #000000;
   border-radius: 8px;
@@ -30,4 +37,33 @@
   color: #ffffff;
   padding: 10px 25px;
   text-transform: capitalize;
+}
+
+@media only screen and (max-width:1024px) {
+  .seller-btn {
+     font-size: 12px;
+     line-height: 14px;
+     padding: 10px 15px !important;
+
+  }
+}
+
+.store-grid h6
+{
+  font-family: 'Avenir';
+font-style: normal;
+font-weight: 900;
+font-size: 16px;
+line-height: 22px;
+color: #000000;
+}
+
+.seller-store-modal {
+  border-radius: 8px;
+}
+
+.seller-store-modalCloseBtn {
+  background: #F2F2F2;
+border-radius: 4px;
+color: #000000;
 }
