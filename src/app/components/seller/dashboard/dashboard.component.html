@@ -7,191 +7,21 @@
     <ng-container *ngTemplateOutlet="sellerPendingStatus"></ng-container>
   </ng-container>
 
-  <!-- <ng-container *ngSwitchDefault>
+  <ng-container *ngSwitchDefault>
     <ng-container *ngTemplateOutlet="sellerForm"></ng-container>
-  </ng-container> -->
+  </ng-container>
 </ng-container>
 
 <ng-template #dashboard>
-  <div class="uk-container uk-container-expand topbar">
-    <div class="uk-grid" uk-grid>
+  <div class="topbar">
+    <div class="uk-flex">
       <!-- Menu for large or desktop screen -->
       <div class="uk-width-1-5@m uk-visible@m uk-padding topbar__left">
-        <a
-          class="uk-nav-header"
-          href="#"
-          aria-label="Back to Home"
-          style="text-decoration: none"
-        >
-          <img
-            src="../../../../assets/img/renaMarket.png"
-            alt="RENA MARKET"
-            width="100"
-          />
-        </a>
-        <ul class="uk-nav uk-nav-default">
-          <li>
-            <a routerLink="/seller">
-              <img
-                src="../../../../assets/img/profileIcon.png"
-                class="uk-padding-small"
-                alt=""
-              />
-              Profile</a
-            >
-          </li>
-          <li>
-            <a routerLink="/seller/orders">
-              <img
-                src="../../../../assets/img/ordersIcon.png"
-                class="uk-padding-small"
-                alt=""
-              />
-              Orders</a
-            >
-          </li>
-          <li>
-            <a routerLink="/seller/products">
-              <img
-                src="../../../../assets/img/productIcon.png"
-                class="uk-padding-small"
-                alt=""
-              />
-              Products</a
-            >
-          </li>
-          <li>
-            <a [routerLink]="['/sellerproduct', loggedInUser.id]"
-              ><img
-                src="../../../../assets/img/storeIcon.png"
-                class="uk-padding-small"
-                alt=""
-              />
-              Store</a
-            >
-          </li>
-          <li>
-            <a routerLink="/seller/products">
-              <img
-                src="../../../../assets/img/voucherIcon.png"
-                class="uk-padding-small"
-                alt=""
-              />
-              Vouchers</a
-            >
-          </li>
-        </ul>
-        <div class="sidebar__btn">
-          <ul class="uk-nav uk-nav-default">
-            <li>
-              <a (click)="logout()">
-                <img
-                  src="../../../../assets/img/logoutIcon.png"
-                  class="uk-padding-small"
-                  alt=""
-                />
-                Logout</a
-              >
-            </li>
-          </ul>
-        </div>
+        <app-seller-sidebar></app-seller-sidebar>
       </div>
 
-      <div class="uk-width-2-3@s uk-width-4-5@m">
-        <div class="uk-width-3-4">
-          <p class="">Products</p>
-          <div class="item">
-            <div class="search">
-              <input type="text" placeholder="Search for products" />
-            </div>
-          </div>
-          <div class="item">
-            <img
-              src="../../../../assets/img/userFavicon.png"
-              alt=""
-              style="width: 48px; height: 48px"
-            />
-          </div>
-        </div>
-        <!-- Menu for mobile screen -->
-        <div class="uk-hidden@m">
-          <nav class="uk-navbar-container" uk-navbar>
-            <div class="uk-navbar-left">
-              <ul class="uk-navbar-nav">
-                <li class="uk-active">
-                  <a class="" href="#" aria-label="Back to Home">
-                    <img
-                      src="../../../../assets/img/mobileRenaLogo.png"
-                      alt="RENA MARKET"
-                      width="100"
-                    />
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="uk-navbar-right">
-              <ul class="uk-navbar-nav">
-                <li>
-                  <a href="#"> <span uk-navbar-toggle-icon></span></a>
-                  <div class="uk-navbar-dropdown">
-                    <ul class="uk-nav uk-navbar-dropdown-nav">
-                      <li>
-                        <a routerLink="/seller">
-                          <img
-                            src="../../../../assets/img/profileIcon.png"
-                            class="uk-padding-small"
-                            alt=""
-                          />
-                          Profile</a
-                        >
-                      </li>
-                      <li>
-                        <a routerLink="/seller/orders">
-                          <img
-                            src="../../../../assets/img/ordersIcon.png"
-                            class="uk-padding-small"
-                            alt=""
-                          />
-                          Orders</a
-                        >
-                      </li>
-                      <li>
-                        <a routerLink="/seller/products">
-                          <img
-                            src="../../../../assets/img/productIcon.png"
-                            class="uk-padding-small"
-                            alt=""
-                          />
-                          Products</a
-                        >
-                      </li>
-                      <li>
-                        <a [routerLink]="['/sellerproduct', loggedInUser.id]"
-                          ><img
-                            src="../../../../assets/img/storeIcon.png"
-                            class="uk-padding-small"
-                            alt=""
-                          />
-                          Store</a
-                        >
-                      </li>
-                      <li>
-                        <a routerLink="/seller/products">
-                          <img
-                            src="../../../../assets/img/voucherIcon.png"
-                            class="uk-padding-small"
-                            alt=""
-                          />
-                          Vouchers</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </nav>
-        </div>
+      <div class="uk-width-4-5@m main_content">
+        <app-seller-header></app-seller-header>
 
         <div class="uk-margin-large-top">
           <router-outlet></router-outlet>
@@ -199,27 +29,6 @@
       </div>
     </div>
   </div>
-  <!-- <div class="uk-section uk-section-large">
-    <div class="uk-container">
-      <h1>Dashboard</h1>
-      <div class="uk-grid" uk-grid>
-        <div class="uk-width-1-3@s uk-width-1-5@m">
-          <ul class="uk-nav uk-nav-default">
-            <li class="uk-active"><a routerLink="/seller">Dashboard</a></li>
-            <li><a routerLink="/seller/orders">Orders</a></li>
-            <li><a routerLink="/seller/products">Products</a></li>
-            <li>
-              <a [routerLink]="['/sellerproduct', loggedInUser.id]">My Shelf</a>
-            </li>
-
-          </ul>
-        </div>
-        <div class="uk-width-2-3@s uk-width-4-5@m">
-          <router-outlet></router-outlet>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </ng-template>
 
 <!-- popup if user is not a seller yet -->
