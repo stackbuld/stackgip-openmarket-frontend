@@ -1,32 +1,46 @@
+.uk-nav-default>li>a {
+  color: #999;
+  transition: 0.2s ease-in-out;
+}
 .uk-nav-default > li.uk-active > a {
   color: #fff;
+  font-weight: 750;
+  & .text {
+    color: #fff;
+  }
+  & path {
+    fill: #fff;
+    opacity: 0.7;
+  }
+  & rect {
+    opacity: 1;
+  }
 }
 
 .uk-nav-default > li > a:hover {
   color: #fff;
+  font-weight: 750;
+  & .text {
+    color: #fff;
+  }
+  & path {
+    fill: #fff;
+    opacity: 0.7;
+  }
+  & rect {
+    opacity: 1;
+  }
 }
 
-.sidebar__list-link {
+.sidebar {
   display: flex;
-  align-items: center;
-  text-decoration: none;
-  letter-spacing: 0.02em;
-  transition: 0.2s ease-in-out;
-  color: #F2F2F2;
-  font-weight: 350;
-  :hover,
-  &.active {
-    color: #fff;
-    font-weight: 750;
-    & .text {
-      color: #fff;
-    }
-    & path {
-      fill: #fff;
-      opacity: 0.8;
-    }
-    & rect {
-      opacity: 1;
-    }
+  flex-direction: column;
+  height: 100%;
+  &__btn {
+    margin-top: auto;
+    margin-bottom: 2rem;
+  }
+  &__list-link {
+    color: #999!important;
   }
 }

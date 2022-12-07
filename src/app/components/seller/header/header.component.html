@@ -1,5 +1,8 @@
 <div class="uk-width-3-4 uk-visible@m">
-  <p class="">Products</p>
+  <p *ngIf="currentRoute.includes('seller/dashboard')">Dashboard</p>
+  <p *ngIf="currentRoute.includes('seller/orders')">Orders</p>
+  <p *ngIf="currentRoute.includes('seller/products')">Products</p>
+  <p *ngIf="currentRoute.includes('seller/store')">Store</p>
   <div class="item">
     <div class="search">
       <input type="text" placeholder="Search for products" />
