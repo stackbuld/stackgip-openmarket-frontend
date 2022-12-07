@@ -1,9 +1,23 @@
+@media only screen and (max-width: 1024px) {
+  .seller-store-card {
+    text-align: left !important;
+    width: 385px !important;
+  }
+}
+
 .seller_label {
   font-style: normal;
   font-weight: 800;
   font-size: 24px;
   line-height: 33px;
   color: #000000;
+}
+
+@media only screen and (max-width:1024px) {
+  .seller_label {
+     font-size: 16px;
+     line-height: 12px;
+  }
 }
 .uk-radio:checked {
   background-image: url(data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Ccircle%20fill%3D%22%23fff%22%20cx%3D%228%22%20cy%3D%228%22%20r%3D%222%22%20%2F%3E%0A%3C%2Fsvg%3E);
@@ -20,10 +34,9 @@
   padding: 20px;
 }
 
-@media only screen and (max-width:1024px) {
+@media only screen and (max-width: 1024px) {
   .seller-right {
-     text-align: center;
-
+    text-align: center;
   }
 }
 
@@ -39,23 +52,27 @@
   text-transform: capitalize;
 }
 
-@media only screen and (max-width:1024px) {
+@media only screen and (max-width: 1024px) {
   .seller-btn {
-     font-size: 12px;
-     line-height: 14px;
-     padding: 10px 15px !important;
-
+    font-size: 12px;
+    line-height: 14px;
+    padding: 10px 15px !important;
   }
 }
 
-.store-grid h6
-{
-  font-family: 'Avenir';
-font-style: normal;
-font-weight: 900;
-font-size: 16px;
-line-height: 22px;
-color: #000000;
+.store-grid h6 {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 22px;
+  color: #000000;
+}
+
+@media only screen and (max-width:1024px) {
+  .store-grid h6 {
+     font-size: 14px;
+  }
 }
 
 .seller-store-modal {
@@ -63,7 +80,7 @@ color: #000000;
 }
 
 .seller-store-modalCloseBtn {
-  background: #F2F2F2;
-border-radius: 4px;
-color: #000000;
+  background: #f2f2f2;
+  border-radius: 4px;
+  color: #000000;
 }
