@@ -1,0 +1,32 @@
+.uk-nav-default > li.uk-active > a {
+  color: #fff;
+}
+
+.uk-nav-default > li > a:hover {
+  color: #fff;
+}
+
+.sidebar__list-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: 0.2s ease-in-out;
+  color: #F2F2F2;
+  font-weight: 350;
+  :hover,
+  &.active {
+    color: #fff;
+    font-weight: 750;
+    & .text {
+      color: #fff;
+    }
+    & path {
+      fill: #fff;
+      opacity: 0.8;
+    }
+    & rect {
+      opacity: 1;
+    }
+  }
+}
