@@ -17,7 +17,7 @@
   }
 }
 
-.uk-nav-default > li > a:hover {
+.uk-nav-default > li > a:hover, .uk-nav-default > li > a.active {
   color: #fff;
   font-weight: 750;
   & .text {

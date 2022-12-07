@@ -106,6 +106,10 @@ const route: Routes = [
         component: SellerHomeComponent,
       },
       {
+        path: "dashboard",
+        component: SellerHomeComponent,
+      },
+      {
         path: "products",
         component: SellerProductComponent,
       },
