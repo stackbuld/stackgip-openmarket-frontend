@@ -1,0 +1,134 @@
+<div class="uk-card uk-card-default uk-card-body uk-margin-small seller-store-card">
+  <label class="seller_label">
+    <input class="uk-radio" type="radio" name="radio2" checked />
+    Store
+  </label>
+  <ul class="uk-tab-bottom" data-uk-tab="media: @s"></ul>
+
+  <div
+    class="uk-grid-small uk-child-width-1-3@m uk-grid-small uk-grid-match store-grid"
+    uk-grid
+  >
+    <div class="uk-width-1-4@s">
+      <h6>Street Address:</h6>
+    </div>
+    <div class="uk-width-1-4@s">
+      <h6>City, State:</h6>
+    </div>
+    <div class="uk-width-1-4@s">
+      <h6>Country:</h6>
+    </div>
+  </div>
+  <div
+    class="uk-grid-small uk-child-width-1-3@m uk-grid-small uk-grid-match store-grid"
+    uk-grid
+  >
+    <div class="uk-width-1-4@s">
+      <h6>Landmark:</h6>
+    </div>
+    <div class="uk-width-1-4@s">
+      <h6>Postal Code:</h6>
+    </div>
+    <div class="uk-width-1-4@s">
+      <h6>Phone Number:</h6>
+    </div>
+  </div>
+  <div
+    class="uk-grid-small uk-child-width-1-3@m uk-grid-small uk-grid-match store-grid"
+    uk-grid
+  >
+    <div class="uk-width-1-3@s">
+      <h6>Number of Products in Store:</h6>
+    </div>
+  </div>
+</div>
+<div class="seller-right">
+  <button
+    class="uk-button uk-button-primary seller-btn"
+    type="button"
+    uk-toggle="target: #edit-store"
+  >
+    + Add More Store
+  </button>
+</div>
+
+<!-- This is the modal -->
+<div id="edit-store" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body seller-store-modal">
+    <button
+      class="uk-modal-close-default seller-store-modalCloseBtn"
+      type="button"
+      uk-close
+    ></button>
+    <form class="uk-form-stacked">
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Store Name*</label>
+        <div class="uk-form-controls">
+          <input
+            class="uk-input"
+            id="form-stacked-text"
+            type="text"
+            placeholder="Please type your store name"
+          />
+        </div>
+      </div>
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Store Name*</label>
+        <div class="uk-form-controls">
+          <input
+            class="uk-input"
+            id="form-stacked-text"
+            type="text"
+            placeholder="Please type your store name"
+          />
+        </div>
+      </div>
+      <div class="uk-grid-small" uk-grid>
+        <div class="uk-width-1-2@s">
+          <label class="uk-form-label" for="form-stacked-text">City*</label>
+          <select aria-label="Custom controls">
+            <option value="1">-- select sub-category --</option>
+            <option value="2">Option 02</option>
+            <option value="3">Option 03</option>
+            <option value="4">Option 04</option>
+          </select>
+        </div>
+        <div class="uk-width-1-2@s">
+          <label class="uk-form-label" for="form-stacked-text">State*</label>
+          <select aria-label="Custom controls">
+            <option value="1">-- select sub-category --</option>
+            <option value="2">Option 02</option>
+            <option value="3">Option 03</option>
+            <option value="4">Option 04</option>
+          </select>
+        </div>
+      </div>
+      <div class="uk-grid-small" uk-grid>
+        <div class="uk-width-1-2@s">
+          <label for="">Landmark*</label>
+        <input
+          class="uk-input"
+          type="text"
+          placeholder="₦ 0.00"
+          aria-label="100"
+        />
+        </div>
+        <div class="uk-width-1-2@s">
+          <label for="">Postal Code*</label>
+        <input
+          class="uk-input"
+          type="text"
+          placeholder="₦ 0.00"
+          aria-label="100"
+        />
+        </div>
+      </div>
+    </form>
+    <p class="uk-text-center uk-margin-top">
+      <button class="uk-button uk-button-default uk-modal-close" type="button">
+        Save
+      </button>
+      <!-- <button class="uk-button uk-button-primary" type="button">Save</button> -->
+    </p>
+  </div>
+</div>
