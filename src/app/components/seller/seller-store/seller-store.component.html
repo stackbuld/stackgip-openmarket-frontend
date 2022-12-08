@@ -53,14 +53,14 @@
 </div>
 
 <!-- This is the modal -->
-<div id="edit-store" uk-modal>
+<div id="edit-store" class="edit-store" uk-modal>
   <div class="uk-modal-dialog uk-modal-body seller-store-modal">
     <button
       class="uk-modal-close-default seller-store-modalCloseBtn"
       type="button"
       uk-close
     ></button>
-    <form class="uk-form-stacked">
+    <form class="uk-form-stacked edit-form">
       <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-text">Store Name*</label>
         <div class="uk-form-controls">
@@ -73,7 +73,7 @@
         </div>
       </div>
       <div class="uk-margin">
-        <label class="uk-form-label" for="form-stacked-text">Store Name*</label>
+        <label class="uk-form-label" for="form-stacked-text">Store Address*</label>
         <div class="uk-form-controls">
           <input
             class="uk-input"
@@ -123,12 +123,34 @@
         />
         </div>
       </div>
-    </form>
+      <div class="uk-grid-small" uk-grid>
+        <div class="uk-width-1-2@s">
+          <label for="">Country*</label>
+        <input
+          class="uk-input"
+          type="text"
+          placeholder="₦ 0.00"
+          aria-label="100"
+        />
+        </div>
+        <div class="uk-width-1-2@s">
+          <label for="">Phone Number*</label>
+          <span>+234</span>
+        <input
+          class="uk-input"
+          type="text"
+          placeholder="₦ 0.00"
+          aria-label="100"
+        />
+        </div>
+      </div>
+
     <p class="uk-text-center uk-margin-top">
       <button class="uk-button uk-button-default uk-modal-close" type="button">
         Save
       </button>
       <!-- <button class="uk-button uk-button-primary" type="button">Save</button> -->
     </p>
+  </form>
   </div>
 </div>
