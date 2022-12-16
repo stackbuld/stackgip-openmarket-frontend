@@ -28,7 +28,7 @@
     width: 100%;
     order: 2;
     background-color: #E7E7E7;
-    /* margin-right: 15px; */
+    border-radius: 3px;
   }
   .uk-width-3-4 .item-profileImg {
     order: 1;
