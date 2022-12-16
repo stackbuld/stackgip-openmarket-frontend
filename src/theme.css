@@ -72,6 +72,7 @@
 .mat-typography {
   font: 400 14px/20px Roboto;
   letter-spacing: 0.0179em;
+  background-color: #E5E5E5;
 }
 .mat-body p,
 .mat-body-1 p,
