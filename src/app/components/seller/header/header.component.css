@@ -1,7 +1,7 @@
 
 .uk-width-3-4 {
   flex: 4;
-  padding: 10px 0px;
+  padding: 31px 14px 10px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -26,12 +26,13 @@
 .uk-width-3-4 .search {
   display: flex;
   justify-content: center;
+  padding-left: 550px;
 }
 
 .uk-width-3-4 input {
   border: none;
   outline: none;
-  width: 300px;
+  width: 550px;
   padding: 12px 4px 12px 40px;
   background: #f1f1f1 url("../../../../assets/img/searchIcon.png") no-repeat
     13px center;

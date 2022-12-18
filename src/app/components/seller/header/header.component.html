@@ -1,21 +1,7 @@
-<div class="uk-width-3-4 uk-visible@m">
-  <p *ngIf="currentRoute.includes('seller/dashboard')">Dashboard</p>
-  <p *ngIf="currentRoute.includes('seller/orders')">Orders</p>
-  <p *ngIf="currentRoute.includes('seller/products')">Products</p>
-  <p *ngIf="currentRoute.includes('seller/store')">Store</p>
-  <div class="item">
-    <div class="search">
-      <input type="text" placeholder="Search for products" />
-    </div>
+<div class="uk-visible@m">
+  <app-sidebar-header-display></app-sidebar-header-display>
   </div>
-  <div class="item">
-    <img
-      src="../../../../assets/img/userFavicon.png"
-      alt=""
-      style="width: 48px; height: 48px"
-    />
-  </div>
-</div>
+
 <!-- Menu for mobile screen -->
 <div class="uk-hidden@m">
   <nav class="uk-navbar-container" uk-navbar>
@@ -94,4 +80,5 @@
       </ul>
     </div>
   </nav>
+  <app-sidebar-header-display></app-sidebar-header-display>
 </div>
