@@ -25,12 +25,14 @@
   }
 }
 
-.seller-top .edit-imgIcon, .del-imgIcon {
-  width: 30px
+.seller-top .edit-imgIcon,
+.del-imgIcon {
+  width: 30px;
 }
 
 @media only screen and (max-width: 1024px) {
-  .seller-top .edit-imgIcon, .del-imgIcon {
+  .seller-top .edit-imgIcon,
+  .del-imgIcon {
     width: 21px;
   }
 }
@@ -150,4 +152,28 @@
   .edit-form button {
     font-size: 14px;
   }
+}
+
+.delete-store h6 {
+  font-style: normal;
+  font-weight: 850;
+  font-size: 24px;
+  text-align: center;
+  color: #000000;
+}
+
+.delete-store p {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  text-align: center;
+  color: #000000;
+}
+
+.delete-store span {
+  background: #fff1ef;
+  border-radius: 8px;
+  padding: 10px;
+  width: 626px;
 }
