@@ -12,9 +12,9 @@
 </app-product-item>
 
 <!-- This is the modal with the outside close button -->
-<div id="modal-add-product" uk-modal="bg-close: false">
-  <div class="uk-modal-dialog uk-modal-body">
-    <button class="uk-modal-close-outside" type="button" uk-close #closeCreate></button>
+<div id="modal-add-product" class="uk-modal-full" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body height-auto">
+    <button class="uk-modal-close-full uk-close-large" type="button" uk-close #closeCreate></button>
     <app-add-product 
       (closed)="closeAddProductModal()" 
       (added)="productList.addProduct($event)">

@@ -7,6 +7,7 @@ import { Injectable } from "@angular/core";
 export class ApiAppUrlService {
   public baseApiUrl = environment.identityApi;
   public ecommerceBaseUrl = environment.ecommerceApi;
+  public storeBaseUrl = environment.storeApi;
   
   constructor() {}
 }
