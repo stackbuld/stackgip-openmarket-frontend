@@ -3,7 +3,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatSliderModule } from "@angular/material/slider";
 import { LoaderComponent } from "./components/loader/loader.component";
-import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
 import { MatLabel } from "@angular/material/form-field";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -19,9 +19,10 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { SidebarHeaderDisplayComponent } from "./components/sidebar-header-display/sidebar-header-display.component";
 // import { ServicesComponent } from './components/services/services.component';
 @NgModule({
-  declarations: [LoaderComponent, ],
+  declarations: [LoaderComponent, SidebarHeaderDisplayComponent, ],
   imports: [CommonModule],
   exports: [
     HttpClientJsonpModule,
@@ -41,6 +42,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatNativeDateModule,
     MatDatepickerModule,
     MatCheckboxModule,
+    SidebarHeaderDisplayComponent
   ],
+  providers: [
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
+  ]
 })
 export class SharedModule {}

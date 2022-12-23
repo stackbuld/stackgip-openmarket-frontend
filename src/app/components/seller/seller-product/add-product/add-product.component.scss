@@ -1,0 +1,31 @@
+mat-icon{
+    font-size: 18px;
+}
+.js-upload {
+    width: max-content;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 72px;
+    background: 0 0;
+    border: 0.8px solid #BDBDBD;
+    border-radius: 8px;
+    cursor: pointer;
+}
+span svg {
+    color: #243853;
+}
+span svg [stroke*='#'] {
+    stroke: #243853;
+}
+.uk-icon:not(.uk-preserve) [stroke*='#']:not(.uk-preserve) {
+    stroke: #243853;
+}
+::ng-deep .mat-form-field-wrapper{
+    padding-bottom: 0px !important;
+}
+.option {
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}

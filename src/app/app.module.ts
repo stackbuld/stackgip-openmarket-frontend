@@ -81,7 +81,7 @@ import { FeaturesComponent } from './shared/components/features/features.compone
 //Seller Layout
 import { SellerHeaderComponent } from './components/seller/header/header.component';
 import { SellerSidebarComponent } from './components/seller/sidebar/sidebar.component';
-
+import { SellerDashboardComponent } from './components/seller/seller-dashboard/seller-dashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -143,8 +143,8 @@ import { SellerSidebarComponent } from './components/seller/sidebar/sidebar.comp
     ContactComponent,
     FeaturesComponent,
     SellerHeaderComponent,
-    SellerSidebarComponent
-  
+    SellerSidebarComponent,
+    SellerDashboardComponent
   ],
   imports: [
     BrowserModule,

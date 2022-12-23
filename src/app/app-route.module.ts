@@ -36,6 +36,7 @@ import { FaqsComponent } from "./shared/components/faqs/faqs.component";
 import { ContactComponent } from "./shared/components/contact/contact.component";
 import { FeaturesComponent } from "./shared/components/features/features.component";
 import { SellerStoreComponent } from "./components/seller/seller-store/seller-store.component";
+import { SellerDashboardComponent } from "./components/seller/seller-dashboard/seller-dashboard.component";
 
 const route: Routes = [
   {
@@ -103,11 +104,11 @@ const route: Routes = [
     children: [
       {
         path: "",
-        component: SellerHomeComponent,
+        component: SellerDashboardComponent,
       },
       {
         path: "dashboard",
-        component: SellerHomeComponent,
+        component: SellerDashboardComponent,
       },
       {
         path: "products",

@@ -1,0 +1,19 @@
+<div class="uk-width-3-4 general-header">
+    <p *ngIf="currentRoute.includes('seller/dashboard')">Dashboard</p>
+    <p *ngIf="currentRoute.includes('seller/orders')">Orders</p>
+    <p *ngIf="currentRoute.includes('seller/products')">Products</p>
+    <p *ngIf="currentRoute.includes('seller/store')">Store</p>
+    <div class="item">
+      <div class="search">
+        <img src="../../../../assets/img/searchIcon.png" alt="">
+        <input type="text" placeholder="Search for products"/>
+      </div>
+    </div>
+    <div class="item-profileImg">
+      <img
+        src="../../../../assets/img/userFavicon.png"
+        alt=""
+        style="width: 48px; height: 48px"
+      />
+    </div>
+  </div>
