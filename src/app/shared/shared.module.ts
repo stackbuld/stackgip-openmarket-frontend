@@ -3,7 +3,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatSliderModule } from "@angular/material/slider";
 import { LoaderComponent } from "./components/loader/loader.component";
-import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
 import { MatLabel } from "@angular/material/form-field";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -44,5 +44,8 @@ import { SidebarHeaderDisplayComponent } from "./components/sidebar-header-displ
     MatCheckboxModule,
     SidebarHeaderDisplayComponent
   ],
+  providers: [
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
+  ]
 })
 export class SharedModule {}
