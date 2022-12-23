@@ -25,140 +25,159 @@
   </div>
 
   <!-- This is the seller-delete modal -->
-<div id="delete-store" class="delete-store" uk-modal>
-  <div class="uk-modal-dialog uk-modal-body seller-store-modal">
-    <button
-      class="uk-modal-close-default seller-store-modalCloseBtn"
-      type="button"
-      uk-close
-    ></button>
-    <div class="uk-text-center">
-      <h6>Delete Store?</h6>
-      <p>Are you sure you want to delete <b>“Store 1”</b>?</p>
-      <p>You can’t undo this action.</p>
-      <span >
-        <img src="" alt="">
-          <p class="warning">Warning</p>
-          <p>By deleting this store, <b>12 Products</b> in this store will automatically move to the Default Store.</p>
-      </span>
-    </div>
+  <div id="delete-store" class="delete-store" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body seller-store-modal">
+      <button
+        class="uk-modal-close-default seller-store-modalCloseBtn"
+        type="button"
+        uk-close
+      ></button>
+      <div>
+        <h6>Delete Store?</h6>
+        <p>Are you sure you want to delete <b>“Store 1”</b>?</p>
+        <p>You can’t undo this action.</p>
+        <div class="border">
+          <div style="display: flex">
+            <img
+              src="../../../../assets/img/danger.png"
+              alt=""
+              class="danger-icon"
+            />
+            <p class="warning">Warning</p>
+          </div>
+          <p class="delete-text">
+            By deleting this store, <b>12 Products</b> in this store will
+            automatically move to the Default Store.
+          </p>
+        </div>
+      </div>
       <!-- <h6>Delete Store?</h6>
       <p>Are you sure you want to delete <b>“Store 1”</b>?</p>
       <p>You can’t undo this action.</p> -->
-      <div class="uk-text-center" style="justify-content: space-between;">
-          <button class="uk-button uk-button-default uk-modal-close" style="padding-right: 10px;" type="button">Cancel</button>
-          <button class="uk-button uk-button-primary" type="button">Save</button>
-      </div>
-  </div>
-</div>
-
-  <!-- This is the seller-edit modal -->
-<div id="edit-store" class="edit-store" uk-modal>
-  <div class="uk-modal-dialog uk-modal-body seller-store-modal">
-    <button
-      class="uk-modal-close-default seller-store-modalCloseBtn"
-      type="button"
-      uk-close
-    ></button>
-    <form class="uk-form-stacked edit-form">
-      <div class="uk-margin">
-        <label class="uk-form-label" for="form-stacked-text">Store Name*</label>
-        <div class="uk-form-controls">
-          <input
-            class="uk-input"
-            id="form-stacked-text"
-            type="text"
-            placeholder="Please type your store name"
-          />
-        </div>
-      </div>
-      <div class="uk-margin">
-        <label class="uk-form-label" for="form-stacked-text"
-          >Store Address*</label
-        >
-        <div class="uk-form-controls">
-          <input
-            class="uk-input"
-            id="form-stacked-text"
-            type="text"
-            placeholder="Please type your store name"
-          />
-        </div>
-      </div>
-      <div class="uk-grid-small" uk-grid>
-        <div class="uk-width-1-2@s">
-          <label class="uk-form-label" for="form-stacked-text">City*</label>
-          <select aria-label="Custom controls">
-            <option value="1">-- select sub-category --</option>
-            <option value="2">Option 02</option>
-            <option value="3">Option 03</option>
-            <option value="4">Option 04</option>
-          </select>
-        </div>
-        <div class="uk-width-1-2@s">
-          <label class="uk-form-label" for="form-stacked-text">State*</label>
-          <select aria-label="Custom controls">
-            <option value="1">-- select sub-category --</option>
-            <option value="2">Option 02</option>
-            <option value="3">Option 03</option>
-            <option value="4">Option 04</option>
-          </select>
-        </div>
-      </div>
-      <div class="uk-grid-small" uk-grid>
-        <div class="uk-width-1-2@s">
-          <label for="">Landmark*</label>
-          <input
-            class="uk-input"
-            type="text"
-            placeholder="₦ 0.00"
-            aria-label="100"
-          />
-        </div>
-        <div class="uk-width-1-2@s">
-          <label for="">Postal Code*</label>
-          <input
-            class="uk-input"
-            type="text"
-            placeholder="₦ 0.00"
-            aria-label="100"
-          />
-        </div>
-      </div>
-      <div class="uk-grid-small" uk-grid>
-        <div class="uk-width-1-2@s">
-          <label for="">Country*</label>
-          <input
-            class="uk-input"
-            type="text"
-            placeholder="₦ 0.00"
-            aria-label="100"
-          />
-        </div>
-        <div class="uk-width-1-2@s">
-          <label for="">Phone Number*</label>
-          <span>+234</span>
-          <input
-            class="uk-input"
-            type="text"
-            placeholder="₦ 0.00"
-            aria-label="100"
-          />
-        </div>
-      </div>
-
-      <p class="uk-text-center uk-margin-top">
+      <div class="uk-text-center" style="justify-content: space-between">
         <button
           class="uk-button uk-button-default uk-modal-close"
           type="button"
         >
-          Save
+          Cancel
         </button>
-        <!-- <button class="uk-button uk-button-primary" type="button">Save</button> -->
-      </p>
-    </form>
+        <button class="uk-button uk-button-primary" type="button">
+          Delete
+          <span class="material-symbols-outlined"> delete </span>
+        </button>
+      </div>
+    </div>
   </div>
-</div>
+
+  <!-- This is the seller-edit modal -->
+  <div id="edit-store" class="edit-store" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body seller-store-modal">
+      <button
+        class="uk-modal-close-default seller-store-modalCloseBtn"
+        type="button"
+        uk-close
+      ></button>
+      <form class="uk-form-stacked edit-form">
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-stacked-text"
+            >Store Name*</label
+          >
+          <div class="uk-form-controls">
+            <input
+              class="uk-input"
+              id="form-stacked-text"
+              type="text"
+              placeholder="Please type your store name"
+            />
+          </div>
+        </div>
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-stacked-text"
+            >Store Address*</label
+          >
+          <div class="uk-form-controls">
+            <input
+              class="uk-input"
+              id="form-stacked-text"
+              type="text"
+              placeholder="Please type your store name"
+            />
+          </div>
+        </div>
+        <div class="uk-grid-small" uk-grid>
+          <div class="uk-width-1-2@s">
+            <label class="uk-form-label" for="form-stacked-text">City*</label>
+            <select aria-label="Custom controls">
+              <option value="1">-- select sub-category --</option>
+              <option value="2">Option 02</option>
+              <option value="3">Option 03</option>
+              <option value="4">Option 04</option>
+            </select>
+          </div>
+          <div class="uk-width-1-2@s">
+            <label class="uk-form-label" for="form-stacked-text">State*</label>
+            <select aria-label="Custom controls">
+              <option value="1">-- select sub-category --</option>
+              <option value="2">Option 02</option>
+              <option value="3">Option 03</option>
+              <option value="4">Option 04</option>
+            </select>
+          </div>
+        </div>
+        <div class="uk-grid-small" uk-grid>
+          <div class="uk-width-1-2@s">
+            <label for="">Landmark*</label>
+            <input
+              class="uk-input"
+              type="text"
+              placeholder="₦ 0.00"
+              aria-label="100"
+            />
+          </div>
+          <div class="uk-width-1-2@s">
+            <label for="">Postal Code*</label>
+            <input
+              class="uk-input"
+              type="text"
+              placeholder="₦ 0.00"
+              aria-label="100"
+            />
+          </div>
+        </div>
+        <div class="uk-grid-small" uk-grid>
+          <div class="uk-width-1-2@s">
+            <label for="">Country*</label>
+            <input
+              class="uk-input"
+              type="text"
+              placeholder="₦ 0.00"
+              aria-label="100"
+            />
+          </div>
+          <div class="uk-width-1-2@s">
+            <label for="">Phone Number*</label>
+            <span>+234</span>
+            <input
+              class="uk-input"
+              type="text"
+              placeholder="₦ 0.00"
+              aria-label="100"
+            />
+          </div>
+        </div>
+
+        <p class="uk-text-center uk-margin-top">
+          <button
+            class="uk-button uk-button-default uk-modal-close"
+            type="button"
+          >
+            Save
+          </button>
+          <!-- <button class="uk-button uk-button-primary" type="button">Save</button> -->
+        </p>
+      </form>
+    </div>
+  </div>
 
   <ul class="uk-tab-bottom" data-uk-tab="media: @s"></ul>
 
@@ -200,12 +219,7 @@
   </div>
 </div>
 <div class="seller-right">
-  <button
-    class="uk-button uk-button-primary seller-btn"
-    type="button"
-  >
+  <button class="uk-button uk-button-primary seller-btn" type="button">
     + Add More Store
   </button>
 </div>
-
-

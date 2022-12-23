@@ -171,9 +171,35 @@
   color: #000000;
 }
 
-.delete-store span {
+.delete-store .border {
   background: #fff1ef;
   border-radius: 8px;
-  padding: 10px;
-  width: 626px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.delete-store .danger-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.delete-store .warning {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 850;
+  font-size: 24px;
+  line-height: 37px;
+  color: #8a1818;
+  text-align: left !important;
+  padding-right: -30px;
+}
+
+.delete-store .delete-text {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 31px;
+  color: #bb4636;
+  text-align: left !important;
 }
