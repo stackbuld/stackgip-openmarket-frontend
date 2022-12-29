@@ -1,5 +1,5 @@
 .footer {
-  background-color: #e0e0e0;
+  background:  #fbf9f9;
   width: 100%;
 }
 
@@ -10,8 +10,50 @@
 }
 
 .content {
-  padding-top: 68px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 1rem;
 }
+
+.footer-logo {
+  display: flex;
+  margin-bottom: 2.5rem;
+  margin-top: 1.25rem;
+}
+
+.footer-logoIcon {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.footer-head {
+  font-family: 'Avenir LT Std';
+  font-style: normal;
+  font-weight: 750;
+  font-size: 1.5rem;
+  color: black;
+  margin-bottom: 2.5rem;
+}
+
+.footer-body {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Avenir LT Std';
+  font-size: 0.75rem;
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: 500;
+  margin-bottom: 4rem;
+}
+
+.footer-body p a {
+  color: #333;
+  line-height: 0.25rem;
+  /* margin-top: 35px; */
+}
+
 .first h1 {
   font-family: Avenir;
   font-style: normal;
@@ -20,6 +62,7 @@
   line-height: 68px;
   color: #333;
 }
+
 .first h2 {
   font-family: Avenir;
   font-style: normal;
@@ -28,6 +71,7 @@
   line-height: 55px;
   color: #333;
 }
+
 .first h3 {
   font-family: Avenir;
   font-style: normal;
@@ -36,25 +80,11 @@
   line-height: 32px;
   color: #333;
 }
+
 .privacy {
   margin-top: 30px;
 }
-.privacy a {
-  font-family: Avenir;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 19px;
-  color: #333;
-  margin-top: 35px;
-}
-.privacy h3 {
-  font-family: Avenir;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 20px;
-  line-height: 27px;
-}
+
 
 .right {
   font-family: Avenir;
@@ -66,9 +96,11 @@
   margin-top: 30px;
   padding-bottom: 3rem;
 }
+
 .right a {
   color: #333;
 }
+
 .first h3 {
   font-family: Avenir;
   font-style: normal;
@@ -76,6 +108,7 @@
   font-size: 20px;
   line-height: 32px;
 }
+
 .first a {
   font-family: Avenir;
   font-style: normal;
@@ -84,28 +117,36 @@
   line-height: 32px;
   color: #333;
 }
-p {
-  margin-top: 35px;
+
+@media only screen and (min-width: 768px) {
+
 }
 
-@media (max-width: 480px) {
+@media only screen and (min-width: 992px) {
+
+}
+
+/* @media (max-width: 480px) {
   .uk-flex {
     display: flex;
     flex-direction: column;
   }
+
   .footer {
-    background-color: #e0e0e0;
+    background-color:  #fbf9f9;
     width: 100%;
     height: auto;
   }
 }
+
 @media (max-width: 768px) {
   .uk-flex {
     display: flex;
     flex-direction: column;
     height: auto;
   }
-}
+} */
+
 /* @media (max-width: 1200px) {
   .uk-flex {
     display: flex;
