@@ -10,6 +10,21 @@
   /* color: #fff; */
 }
 
+.up-navBar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.uk-offcanvas-close {
+  margin-top: 1.5rem;
+  margin-right: 1rem;
+  color: black;
+}
+.uk-offcanvas-bar {
+  background-color: #E5E5E5;
+  width: 100%;
+}
+
 .uk-button {
   padding: 0rem !important;
 }
@@ -37,7 +52,8 @@ a {
   background: black;
   border-radius: 6px;
   color: #fff !important;
-  /* border-color: #584dcd; */
+  width: 100%;
+  text-transform: none !important;
 }
 .navvy {
   display: block;
@@ -53,14 +69,17 @@ ul {
 }
 .mobile-side-menu {
   margin-top: 2rem;
+  font-weight: 400;
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
 }
 .mobile-side-menu li {
   padding: 0.4rem 0;
 }
 .mobile-side-menu li a {
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: all 0.5s;
+  font-family: 'Avenir LT Std';
+  color: black;
+  
 }
 .mobile-side-menu li a:hover {
   color: #584dcd;

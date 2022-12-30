@@ -36,6 +36,7 @@
   border-radius: 6px;
   padding: 0.5rem 1rem;
   width: 100%;
+  text-transform: none !important;
 }
 
 .waitList a {
@@ -210,392 +211,224 @@
      color: #fff;
   }
 }
-/*.hero {
-  clip-path: polygon(0 0, 100% 0, 100% 83%, 0% 100%);
-  width: 100vw;
-  background-color: #243853;
-  height: 800px;
-  margin-top: -20px;
-}
-*{
-    background: red;
-}
-
-.default-width {
-  margin: 0 auto;
-  width: 100%;
-}
-
-.uk-flex {
-  display: flex;
-  justify-content: space-around;
-}
-
-.container {
-  background-color: #f2f2f2;
-  margin-left: -20px;
-  margin-bottom: 100px;
-  height: 2300px;
-}
-
-a {
-  color: #fff !important;
-}
-.hero1 {
-  width: 50%;
-  padding-left: 80px;
-}
-.hero h1 {
-  font-family: Avenir;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 50px;
-  line-height: 68px;
-  width: 565px;
-  color: #f2f2f2;
-
-}
-
-.hero p {
-  width: 547px;
-  font-family: Avenir;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  line-height: 44px;
-  color: #f2f2f2;
-}
-
-.signup {
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  margin: 0px 10px 0px 0px;
-  background: #584dcd;
-  border-radius: 6px;
-  color: #fff;
-  border-color: #584dcd;
-}
-
-.hero1 {
-  margin-top: 216px;
-}
-.img {
-  position: relative;
-  margin-left: 80px;
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
-  width: 50%;
-}
-.front {
-  z-index: 2;
-  margin-top: 80px;
-}
-.back {
-  position: absolute;
-  height: 626.81px;
-  top: -188px;
-}
-.btn {
-  font-family: Avenir;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 27px;
-  color: #ffb55e;
-  background-color: transparent;
-  outline: none;
-  border: none;
-}
-
-.market {
-  clip-path: polygon(0 23%, 100% 0%, 100% 100%, 0% 100%);
-  background-color: #fff;
-  width: 100vw;
-  height: 800px;
-  padding-top: 100px;
-  padding-left: 76px;
-  margin-right: 100px;
-}
-
-.art {
-  background-color: rgba(36, 56, 83, 0.2);
-  border-radius: 4.3566px;
-  color: #333;
-  padding: 16px;
-}
-
-.right {
-  padding-top: 148px;
-  width: 524px;
-}
-.right h1 {
-  font-family: roboto;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 45px;
-  line-height: 61px;
-  color: #000000;
-}
-.right p {
-  font-family: roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  line-height: 36px;
-  color: #000000;
-}
-
-.left {
-  width: 600px;
-  margin-left: 241px;
-  margin-top: 14px;
-}
-
-.security {
-  background-color: rgba(88, 77, 205, 0.2);
-  margin-top: 14px;
-  padding: 16px;
-  border-radius: 4.3566px;
-}
-
-.pay {
-  background-color: rgba(200, 93, 59, 0.2);
-  margin-top: 14px;
-  padding: 16px;
-  border-radius: 4.3566px;
-}
-
-.price {
-  background-color: rgba(5, 198, 153, 0.2);
-  margin-top: 14px;
-  padding: 16px;
-  border-radius: 4.3566px;
-}
-
-.quality {
-  background-color: rgba(255, 181, 94, 0.2);
-  margin-top: 14px;
-  padding: 16px;
-  border-radius: 4.3566px;
-}
-.open {
-  background: #ffffff;
-  border-radius: 6px;
-  width: 1076px;
-  height: 626px;
-  align-content: center;
-  text-align: center;
-  margin-top: -130px;
-  z-index: 2;
-  padding-right: 20px;
-  padding-left: 20px;
-  margin-bottom: 300px;
-}
-.open h1 {
-  font-family: Avenir;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 40px;
-  line-height: 55px;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  color: #333333;
-  width: 862px;
-  margin-top: 71px;
-  margin-bottom: 15px;
-}
-.online {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-}
-
-@media (max-width: 480px) {
-  .container {
-    margin-top: -20px;
-    overflow: hidden;
-    height: 260em;
-    width: auto;
-  }
-  .open h1 {
-    font-size: 24px;
-    width: 320px;
-    overflow: hidden;
-  }
-  .open {
-    width: 360px;
+@media only screen and (min-width: 768px) {
+  .container-wrapper {
     background-color: #fff;
-    height: 420px;
+    padding: 0.25rem 1rem;
   }
-  .uk-flex {
+  
+  .top-section {
+    margin-bottom: 2.5rem;
     display: flex;
     flex-direction: column;
+    gap: 1.5rem;
   }
-  .market {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-    height: 200em;
-    margin-bottom: 40px;
-  }
-  .left {
-    margin-left: -20px;
-    width: 300px;
-  }
-  .right {
-    padding-top: 0px;
-    width: 300px;
-  }
-  .right h1 {
-    width: auto;
-    font-size: 30px;
-  }
-  .right p {
-    font-size: 18px;
-  }
-  .hero {
-    height: 1050px;
-    margin-bottom: 40px;
-  }
-  .online {
-    margin-left: 10px;
-  }
-  .open {
-    margin-top: 10px;
-  }
-  .open img {
-    width: 350px;
-  }
-  .hero1 {
-    margin-left: 10px;
-    padding-top: 20px;
-    margin-top: 10px;
-  }
-  .hero1 h1 {
-    font-size: 28px;
-    margin-left: -50px;
-  }
-  .hero1 p {
-    font-size: 20px;
-    width: 300px;
-    margin-left: -50px;
-    margin-bottom: 50px;
-  }
-  .back {
-    display: none;
-  }
-
-  .btn {
-    font-family: Avenir;
+  
+  .top-text {
+    font-family: "Avenir LT Std";
     font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    width: 200px;
-    line-height: 27px;
-    color: #ffb55e;
-    background-color: transparent;
-    outline: none;
-    border: none;
+    font-weight: 750;
+    font-size: 2rem;
+    color: #000000;
+    line-height: 2.75rem;
+    padding: 0rem;
+    margin: 0rem;
   }
-  .uk-button {
-    width: 200px;
+  
+  .top-deco {
+    background: linear-gradient(to right, #fab663 30%, #da47ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
-}
-@media (max-width: 1200px) {
-  .hero-flex {
+  
+  .waitList {
     display: flex;
-    flex-direction: column;
-  }
-}
-@media (max-width: 770px) {
-  .btn {
-    font-family: Avenir;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    width: 200px;
-    line-height: 27px;
-    color: #ffb55e;
-    background-color: transparent;
-    outline: none;
-    border: none;
-  }
-  .uk-button {
-    width: 200px;
-  }
-  .container {
-    margin-top: -20px;
-    overflow: hidden;
-    height: 260em;
-    width: auto;
-  }
-
-  .open h1 {
-    font-size: 24px;
-    width: 320px;
-    overflow: hidden;
-  }
-  .open {
-    width: 360px;
-    background-color: #fff;
-    height: 420px;
-  }
-  .uk-flex {
-    display: flex;
-    flex-direction: column;
-  }
-  .market {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-    height: 200em;
-    margin-bottom: 40px;
-  }
-  .left {
-    margin-left: -20px;
-    width: 300px;
-  }
-  .right {
-    padding-top: 0px;
-    width: 300px;
-  }
-  .right h1 {
-    width: auto;
-    font-size: 30px;
-  }
-  .right p {
-    font-size: 18px;
-  }
-  .hero {
-    height: 1050px;
-    margin-bottom: 40px;
-  }
-  .online {
-    display: flex;
-    align-items: center;
+    flex-direction: row;
     justify-content: center;
-    margin-left: 0px;
+    align-items: center;
+    background: black;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    width: 100%;
   }
-  .open {
-    margin-top: 10px;
+  
+  .waitList a {
+    color: #fff;
   }
-  .open img {
-    width: 350px;
+  
+  .image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 7rem;
   }
-  .hero1 {
-    margin-left: 10px;
-    padding-top: 20px;
+  
+  .image-one {
+    position: relative;
+    object-fit: contain;
   }
-  .hero1 h1 {
-    font-size: 28px;
-    margin-left: -50px;
+  
+  .image-two {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 0%;
   }
-  .hero1 p {
-    font-size: 20px;
-    width: 300px;
-    margin-left: -50px;
-    margin-bottom: 50px;
+  
+  .image-three {
+    position: absolute;
+    bottom: -20%;
+    left: 0%;
+    width: 4rem;
   }
-  .back {
-    display: none;
+  
+  .features-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-} */
+  
+  .features-wrapper .features-heading{
+    font-size: 1.5rem;
+    font-weight: 750;
+    line-height: 29px;
+    text-align: center;
+    font-family: 'Avenir LT Std';
+    width: 75%;
+    color: black;
+    margin-top: 5rem;
+  }
+  
+  .rena-box-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0rem 2rem;
+    gap: 1.5rem;
+  }
+  
+  .rena-box {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background-color: white;
+    box-shadow: 0px 64.0541px 73.2046px rgba(222, 222, 222, 0.4);
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .box-image {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .box-heading {
+    font-family: "Avenir";
+    font-size: 1.125rem;
+    margin: 0rem;
+    padding: 0rem;
+    font-weight: 500;
+  }
+  
+  .box-text {
+    font-family: "Avenir LT Std";
+    font-size: 0.875rem;
+    margin: 0rem;
+    padding: 0rem;
+  }
+  
+  .image-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: nowrap;
+    margin-bottom: 2rem;
+    padding: 1rem;
+  
+    .left-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .right-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+  
+  }
+  
+  .bottom-heading {
+    font-size: 1.5rem;
+    font-family: 'Avenir LT Std';
+    color: #000000;
+    font-weight: 750;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+  }
+  
+  .bottom-text {
+    font-family: "Avenir LT Std";
+    font-size: 0.875rem;
+    margin: 0rem;
+    padding: 0.5rem;
+  }
+  .bottom-text1 {
+    font-family: "Avenir LT Std";
+    font-size: 0.875rem;
+    margin: 0rem 0rem 5rem 0rem;
+    padding: 1rem;
+    
+  }
+  
+  .bottom-section {
+    margin-bottom: 2.5rem;
+  }
+  
+  .buttom-image-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: relative;
+    margin-bottom: 3rem;
+    margin-left: 1rem;
+  }
+  
+  .buttom-image-one {
+    position: relative;
+    object-fit: contain;
+    margin-left: 1rem;
+  
+  }
+  
+  .buttom-image-two {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 0%;
+  }
+  
+  .waitList-bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    width: 75%;
+    margin: 1rem 1rem 3rem 1rem;
+    a {
+       color: #fff;
+    }
+  }
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+@media only screen and (min-width: 1200px) {
+
+}
