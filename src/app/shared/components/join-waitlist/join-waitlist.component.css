@@ -1,0 +1,64 @@
+body {
+    background-color: #fff;
+}
+
+.wrapper-container {
+  margin: 0.5rem 1.25rem;
+  background: #fff;
+}
+
+.waitList-nav {
+  margin: 0rem 1rem;
+}
+
+.waitList-heading {
+  font-family: 'Avenir LT Std';
+  font-style: normal;
+  font-weight: 750;
+  font-size: 1.1rem;
+  color: black;
+  display: flex;
+  justify-content: center;
+  margin: 3rem 0rem 1.5rem 0rem;
+}
+
+
+.waitList-radioBtn {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.waitList-radioBtn input {
+  color: black;
+  margin-right: 0.25rem;
+}
+
+.group-wrapper {
+    /* margin: 1rem; */
+}
+
+.group-wrapper label {
+    display: block;
+    color: #424242;
+    font-weight: 400;
+}
+.group-wrapper input {
+    color: #424242;
+    border-radius: 0.3rem;
+    width: 100%;
+    padding: 0.5rem 0.85rem;
+    margin: 0.25rem 0rem 2rem 0rem;
+    outline: none;
+}
+
+.joinBtn {
+    background: black;
+    border-radius: 0.3rem;
+    width: 100%;
+    padding: 0.5rem 0.85rem;
+}
+.joinBtn a {
+    color: #fff;
+}
