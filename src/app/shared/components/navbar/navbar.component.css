@@ -51,16 +51,17 @@ a {
   margin: 0px 10px;
   background: black;
   border-radius: 6px;
-  color: #fff !important;
+
   width: 100%;
   text-transform: none !important;
 }
-.navvy {
-  display: block;
+.waitList a {
+  color: #fff;
 }
+
 .navy {
-  display: none;
-  color: red;
+  display: block;
+  /* color: red; */
   /* background-color: black; */
 }
 ul {
@@ -84,25 +85,19 @@ ul {
 .mobile-side-menu li a:hover {
   color: #584dcd;
 }
-@media (max-width: 480px) {
+
+.navvy {
+  display: none;
+}
+@media (min-width: 992px) {
   .navvy {
-    display: none;
+    display: block;
   }
   .navy {
-    display: block;
-    color: black;
-    /* background-color: #243853; */
-    outline: none;
+    display: none;
   }
 }
+
 @media (max-width: 1200px) {
-  .navvy {
-    display: none;
-  }
-  .navy {
-    display: block;
-    color: black;
-    /* background-color: black; */
-    outline: none;
-  }
+
 }

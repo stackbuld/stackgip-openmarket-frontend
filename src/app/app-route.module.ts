@@ -38,6 +38,7 @@ import { FeaturesComponent } from "./shared/components/features/features.compone
 import { SellerStoreComponent } from "./components/seller/seller-store/seller-store.component";
 import { SellerDashboardComponent } from "./components/seller/seller-dashboard/seller-dashboard.component";
 import { JoinWaitlistComponent } from "./shared/components/join-waitlist/join-waitlist.component";
+import { SuccessModalComponent } from "./shared/components/success-modal/success-modal.component";
 
 const route: Routes = [
   {
@@ -98,6 +99,7 @@ const route: Routes = [
   { path: "contact", component: ContactComponent },
   { path: "features", component: FeaturesComponent },
   { path: "wait-list", component: JoinWaitlistComponent },
+  { path: "join", component: SuccessModalComponent},
   {
     path: "seller",
     canActivate: [AuthGuard],

@@ -83,6 +83,7 @@ import { SellerHeaderComponent } from './components/seller/header/header.compone
 import { SellerSidebarComponent } from './components/seller/sidebar/sidebar.component';
 import { SellerDashboardComponent } from './components/seller/seller-dashboard/seller-dashboard.component';
 import { JoinWaitlistComponent } from './shared/components/join-waitlist/join-waitlist.component';
+import { SuccessModalComponent } from './shared/components/success-modal/success-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -146,7 +147,8 @@ import { JoinWaitlistComponent } from './shared/components/join-waitlist/join-wa
     SellerHeaderComponent,
     SellerSidebarComponent,
     SellerDashboardComponent,
-    JoinWaitlistComponent
+    JoinWaitlistComponent,
+    SuccessModalComponent
   ],
   imports: [
     BrowserModule,

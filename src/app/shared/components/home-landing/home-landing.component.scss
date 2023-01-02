@@ -3,11 +3,18 @@
   padding: 0.25rem 1rem;
 }
 
+.top-segment {
+display: flex;
+gap: 2rem;
+margin-bottom: 2.5rem;
+flex-wrap: wrap;
+}
+
 .top-section {
-  margin-bottom: 2.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 100%;
 }
 
 .top-text {
@@ -48,7 +55,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  margin-bottom: 7rem;
+  width: 100%;
 }
 
 .image-one {
@@ -87,7 +94,13 @@
   margin-top: 5rem;
 }
 
-.rena-box-wrapper {
+.rena-box-wrapper1 {
+  display: flex;
+  flex-direction: column;
+  padding: 0rem 2rem;
+  gap: 1.5rem;
+}
+.rena-box-wrapper2 {
   display: flex;
   flex-direction: column;
   padding: 0rem 2rem;
@@ -103,7 +116,10 @@
   box-shadow: 0px 64.0541px 73.2046px rgba(222, 222, 222, 0.4);
   justify-content: center;
   align-items: flex-start;
+  width: 20rem;
 }
+
+
 
 .box-image {
   width: 3.5rem;
@@ -115,7 +131,7 @@
   font-size: 1.125rem;
   margin: 0rem;
   padding: 0rem;
-  font-weight: 500;
+  font-weight: 500 !important;
 }
 
 .box-text {
@@ -153,41 +169,51 @@
   color: #000000;
   font-weight: 750;
   margin-bottom: 1.5rem;
-  padding: 1rem;
+  padding: 0rem;
 }
 
 .bottom-text {
   font-family: "Avenir LT Std";
   font-size: 0.875rem;
   margin: 0rem;
-  padding: 0.5rem;
+  padding: 0rem;
 }
+
+.product-recommendation {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .bottom-text1 {
   font-family: "Avenir LT Std";
   font-size: 0.875rem;
   margin: 0rem 0rem 5rem 0rem;
-  padding: 1rem;
+  padding: 0rem;
   
 }
 
-.bottom-section {
+.last-section {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
   margin-bottom: 2.5rem;
+}
+
+.bottom-section {
 }
 
 .buttom-image-wrapper {
   display: flex;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: flex-end;
   position: relative;
-  margin-bottom: 3rem;
-  margin-left: 1rem;
+  width: 100%;
 }
 
 .buttom-image-one {
   position: relative;
   object-fit: contain;
-  margin-left: 1rem;
-
+  width: 80%;  
 }
 
 .buttom-image-two {
@@ -197,7 +223,7 @@
   bottom: 0%;
 }
 
-.waitList-bottom {
+.bottom-section .waitList-botton {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -206,114 +232,76 @@
   border-radius: 6px;
   padding: 0.5rem 1rem;
   width: 75%;
-  margin: 1rem 1rem 3rem 1rem;
+  margin: 2rem 0rem 0rem 0rem;
   a {
      color: #fff;
   }
 }
 @media only screen and (min-width: 768px) {
   .container-wrapper {
-    background-color: #fff;
     padding: 0.25rem 1rem;
   }
+
+  .top-segment {
+    justify-content: center;
+    margin-bottom: 5rem;
+    flex-wrap: wrap;
+    margin-top: 3.5rem;
+    padding: 0rem 2rem;
+    }
   
   .top-section {
-    margin-bottom: 2.5rem;
-    display: flex;
-    flex-direction: column;
     gap: 1.5rem;
+    width: 70%;
   }
   
   .top-text {
-    font-family: "Avenir LT Std";
-    font-style: normal;
-    font-weight: 750;
+    text-align: justify;
     font-size: 2rem;
-    color: #000000;
-    line-height: 2.75rem;
-    padding: 0rem;
-    margin: 0rem;
-  }
-  
-  .top-deco {
-    background: linear-gradient(to right, #fab663 30%, #da47ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
   }
   
   .waitList {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background: black;
-    border-radius: 6px;
     padding: 0.5rem 1rem;
-    width: 100%;
-  }
-  
-  .waitList a {
-    color: #fff;
   }
   
   .image-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    margin-bottom: 7rem;
-  }
-  
-  .image-one {
-    position: relative;
-    object-fit: contain;
-  }
-  
-  .image-two {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
-    bottom: 0%;
+
   }
   
   .image-three {
-    position: absolute;
     bottom: -20%;
-    left: 0%;
+    left: 27%;
     width: 4rem;
   }
   
   .features-wrapper {
-    display: flex;
     flex-direction: column;
     align-items: center;
   }
   
   .features-wrapper .features-heading{
     font-size: 1.5rem;
-    font-weight: 750;
-    line-height: 29px;
-    text-align: center;
-    font-family: 'Avenir LT Std';
     width: 75%;
-    color: black;
     margin-top: 5rem;
   }
   
-  .rena-box-wrapper {
-    display: flex;
-    flex-direction: column;
+  .rena-box-wrapper1 {
+    flex-direction: row;
     padding: 0rem 2rem;
     gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .rena-box-wrapper2 {
+    flex-direction: row;
+    padding: 0rem 2rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
   }
   
   .rena-box {
     padding: 3rem;
-    display: flex;
     flex-direction: column;
     gap: 2rem;
-    background-color: white;
-    box-shadow: 0px 64.0541px 73.2046px rgba(222, 222, 222, 0.4);
     justify-content: center;
     align-items: flex-start;
   }
@@ -324,76 +312,69 @@
   }
   
   .box-heading {
-    font-family: "Avenir";
     font-size: 1.125rem;
-    margin: 0rem;
-    padding: 0rem;
     font-weight: 500;
   }
   
   .box-text {
-    font-family: "Avenir LT Std";
     font-size: 0.875rem;
-    margin: 0rem;
-    padding: 0rem;
   }
   
   .image-group {
-    display: flex;
     gap: 1rem;
     flex-wrap: nowrap;
-    margin-bottom: 2rem;
+    margin-bottom: 0rem;
     padding: 1rem;
+    width: 100%;
   
     .left-group {
-      display: flex;
       flex-direction: column;
       gap: 1rem;
     }
   
     .right-group {
-      display: flex;
       flex-direction: column;
       gap: 1rem;
-      margin-top: 2rem;
     }
   
   }
   
   .bottom-heading {
     font-size: 1.5rem;
-    font-family: 'Avenir LT Std';
-    color: #000000;
-    font-weight: 750;
-    margin-bottom: 1.5rem;
-    padding: 1rem;
   }
   
   .bottom-text {
-    font-family: "Avenir LT Std";
     font-size: 0.875rem;
-    margin: 0rem;
-    padding: 0.5rem;
   }
   .bottom-text1 {
-    font-family: "Avenir LT Std";
     font-size: 0.875rem;
-    margin: 0rem 0rem 5rem 0rem;
-    padding: 1rem;
-    
+  }
+
+  .last-section {
+    gap: 2rem;
+    flex-wrap: nowrap;
+    margin-bottom: 5.5rem;
+    padding: 0rem 1rem;
+  }
+
+  .product-recommendation {
+    flex-wrap: nowrap;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding: 0rem 1rem;
   }
   
   .bottom-section {
-    margin-bottom: 2.5rem;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 0rem;
+    width: 47.5%;
+
   }
   
   .buttom-image-wrapper {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    position: relative;
-    margin-bottom: 3rem;
-    margin-left: 1rem;
+    width: 47.5%;
   }
   
   .buttom-image-one {
@@ -410,25 +391,452 @@
     bottom: 0%;
   }
   
-  .waitList-bottom {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background: black;
-    border-radius: 6px;
+  .waitList-botton {
     padding: 0.5rem 1rem;
     width: 75%;
     margin: 1rem 1rem 3rem 1rem;
-    a {
-       color: #fff;
-    }
   }
 }
 
 @media only screen and (min-width: 992px) {
+  .container-wrapper {
+    padding: 0.25rem 1rem;
+  }
 
+  .top-segment {
+    justify-content: space-between;
+    margin-bottom: 5rem;
+    flex-wrap: nowrap;
+    padding: 0rem 3rem;
+    }
+  
+  .top-section {
+    justify-content: center;
+    gap: 2.5rem;
+    width: 50%;
+    padding-right: 1rem;
+  }
+  
+  .top-text {
+    text-align: left;
+    font-size: 2.5rem;
+    line-height: 1.25;
+    width: 100%;
+  }
+  
+  .waitList {
+    padding: 0.5rem 1rem;
+  }
+  
+  .image-wrapper {
+    width: 50%;
+  }
+  
+  .image-one {
+    object-fit: cover;
+    width: 65%;
+    height: 100%;
+  }
+
+  .image-two {
+    width: 100%;
+  }
+
+  .image-three {
+    bottom: -60.6px;
+    left: 0.5rem;
+    width: 5rem;
+  }
+  
+  .features-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .features-wrapper .features-heading{
+    font-size: 2.5rem;
+    width: 75%;
+    margin-top: 5rem;
+  }
+  
+  .rena-box-wrapper1 {
+    flex-direction: row;
+    padding: 0rem 2rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .rena-box-wrapper1 .box-heading {
+    font-size: 1.25rem;
+  }
+
+  .rena-box-wrapper1 .box-text {
+    font-size: 1rem;
+  }
+
+  .rena-box-wrapper2 {
+    flex-direction: row;
+    padding: 0rem 2rem;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 10rem;
+    width: 100%;
+  }
+
+  .rena-box-wrapper2 .rena-box {
+    width: 21rem;
+  }
+  
+  .rena-box {
+    padding: 3rem;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .box-image {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .box-heading {
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+  
+  .box-text {
+    font-size: 1.25rem;
+  }
+  
+  .image-group {
+    gap: 1rem;
+    flex-wrap: nowrap;
+    margin-bottom: 0rem;
+    padding: 1rem;
+    width: 45%;
+  
+    .left-group {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .right-group {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+  }
+  
+  .bottom-heading {
+    font-size: 2.5rem;
+  }
+  
+  .bottom-text {
+    font-size: 0.875rem;
+  }
+  .bottom-text1 {
+    font-size: 0.875rem;
+  }
+
+  .last-section {
+    gap: 2rem;
+    flex-wrap: nowrap;
+    margin-bottom: 5.5rem;
+    padding: 0rem 3rem;
+    width: 100%;
+  }
+
+  .product-recommendation {
+    flex-wrap: nowrap;
+    // flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-bottom: 5rem;
+    margin-top: 10rem;
+    padding: 0rem 3rem;
+    width: 100%;
+  }
+  
+ .last-section .bottom-section {
+    // flex-direction: row;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0rem;
+    // margin-top: 4rem;
+    width: 50%;
+    padding: 6rem 1rem 6rem 0rem;
+    gap: 0rem;
+  }
+ .product-recommendation .bottom-section {
+    // flex-direction: row;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0rem;
+    // margin-top: 4rem;
+    width: 50%;
+    padding: 0rem 1rem 0rem 0rem;
+    gap: 1rem;
+  }
+
+  .bottom-heading {
+    line-height: 1.25;
+    font-size: 2.25rem;
+  }
+  
+  .buttom-image-wrapper {
+    width: 50%;
+  }
+
+  .product-recommendation .left-group, .product-recommendation .right-group{
+    width: 48%;
+
+  }
+  .buttom-image-wrapper .right-group {
+    margin-top: 1rem;
+  }
+  
+  .buttom-image-one {
+    // position: relative;
+    object-fit: cover;
+    width: 80%;
+    height: 100%;
+    // margin-left: 1rem;
+  
+  }
+  
+  .buttom-image-two {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 0%;
+    width: 100%;
+  }
+  
+  .waitList-botton {
+    padding: 0.5rem 1rem;
+    width: 50%;
+    margin: 1rem 1rem 3rem 1rem;
+  }
 }
 @media only screen and (min-width: 1200px) {
+  .container-wrapper {
+    padding: 0.25rem 1rem;
+  }
 
+  .top-segment {
+    justify-content: space-between;
+    margin-bottom: 5rem;
+    flex-wrap: nowrap;
+    padding: 0rem 3rem;
+    }
+  
+  .top-section {
+    justify-content: center;
+    gap: 2.5rem;
+    width: 50%;
+    padding-right: 1rem;
+  }
+  
+  .top-text {
+    text-align: left;
+    font-size: 2.5rem;
+    line-height: 1.25;
+    width: 100%;
+  }
+  
+  .waitList {
+    padding: 0.5rem 1rem;
+  }
+  
+  .image-wrapper {
+    width: 50%;
+  }
+  
+  .image-one {
+    object-fit: cover;
+    width: 65%;
+    height: 100%;
+  }
+
+  .image-two {
+    width: 100%;
+  }
+
+  .image-three {
+    bottom: -60.6px;
+    left: 0.5rem;
+    width: 5rem;
+  }
+  
+  .features-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .features-wrapper .features-heading{
+    font-size: 2.5rem;
+    width: 75%;
+    margin-top: 5rem;
+  }
+  
+  .rena-box-wrapper1 {
+    flex-direction: row;
+    padding: 0rem 2rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .rena-box-wrapper1 .box-heading {
+    font-size: 1.25rem;
+  }
+
+  .rena-box-wrapper1 .box-text {
+    font-size: 1rem;
+  }
+
+  .rena-box-wrapper2 {
+    flex-direction: row;
+    padding: 0rem 2rem;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 10rem;
+    width: 100%;
+  }
+
+  .rena-box-wrapper2 .rena-box {
+    width: 21rem;
+  }
+  
+  .rena-box {
+    padding: 3rem;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .box-image {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .box-heading {
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+  
+  .box-text {
+    font-size: 1.25rem;
+  }
+  
+  .image-group {
+    gap: 1rem;
+    flex-wrap: nowrap;
+    margin-bottom: 0rem;
+    padding: 1rem;
+    width: 45%;
+  
+    .left-group {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .right-group {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+  }
+  
+  .bottom-heading {
+    font-size: 2.5rem;
+  }
+  
+  .bottom-text {
+    font-size: 0.875rem;
+  }
+  .bottom-text1 {
+    font-size: 0.875rem;
+  }
+
+  .last-section {
+    gap: 2rem;
+    flex-wrap: nowrap;
+    margin-bottom: 5.5rem;
+    padding: 0rem 3rem;
+    width: 100%;
+  }
+
+  .product-recommendation {
+    flex-wrap: nowrap;
+    // flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-bottom: 5rem;
+    margin-top: 10rem;
+    padding: 0rem 3rem;
+    width: 100%;
+  }
+  
+ .last-section .bottom-section {
+    // flex-direction: row;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0rem;
+    // margin-top: 4rem;
+    width: 50%;
+    padding: 6rem 1rem 6rem 0rem;
+    gap: 0rem;
+  }
+ .product-recommendation .bottom-section {
+    // flex-direction: row;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0rem;
+    // margin-top: 4rem;
+    width: 50%;
+    padding: 0rem 1rem 0rem 0rem;
+    gap: 1rem;
+  }
+
+  .bottom-heading {
+    line-height: 1.25;
+    font-size: 2.25rem;
+  }
+  
+  .buttom-image-wrapper {
+    width: 50%;
+  }
+
+  .product-recommendation .left-group, .product-recommendation .right-group{
+    width: 48%;
+
+  }
+  .buttom-image-wrapper .right-group {
+    margin-top: 1rem;
+  }
+  
+  .buttom-image-one {
+    // position: relative;
+    object-fit: cover;
+    width: 80%;
+    height: 100%;
+    // margin-left: 1rem;
+  
+  }
+  
+  .buttom-image-two {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 0%;
+    width: 100%;
+  }
+  
+  .waitList-botton {
+    padding: 0.5rem 1rem;
+    width: 50%;
+    margin: 1rem 1rem 3rem 1rem;
+  }
 }
