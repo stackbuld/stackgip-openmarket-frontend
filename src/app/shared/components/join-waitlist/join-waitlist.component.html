@@ -2,15 +2,20 @@
     <div class="waitList-nav">
         <app-navbar></app-navbar>
     </div>
-
-    <div class="waitList-heading">
-        <p>Join waitlist</p>
+    <div uk-offcanvas-bar>
+        <button class="uk-offcanvas-close" type="button" uk-close>
+        </button>
+        <div class="waitList-heading">
+            <p>Join waitlist</p>
+        </div>
     </div>
 
+
+
     <div class="waitList-radioBtn">
-        <label><input type="radio" checked name="" />
+        <label for=""><input id="black" type="radio" checked name="" value="" />
             <span>Seller</span></label>
-        <label><input type="radio" name="" />
+        <label for=""><input id="black" type="radio" name="" value="" />
             <span>Buyer</span></label>
     </div>
     <div class="group-wrapper">
@@ -29,7 +34,7 @@
 
         <div>
             <button class="joinBtn">
-               <a href="join">Join</a></button>
+                <a [routerLink]="['/join']">Join</a></button>
         </div>
     </div>
 </div>
