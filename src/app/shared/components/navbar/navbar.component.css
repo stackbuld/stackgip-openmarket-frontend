@@ -1,17 +1,31 @@
 .head {
-  background: #243853;
-  box-shadow: 0px 24px 50px rgba(0, 0, 0, 0.25);
   color: white;
 }
 
 .default-width {
   margin: 0 auto;
   width: 90%;
-  /* color: #fff; */
 }
-a {
-  color: #fff !important;
+
+.up-navBar {
+  display: flex;
+  justify-content: space-between;
 }
+
+.uk-offcanvas-close {
+  margin-top: 1.5rem;
+  margin-right: 1rem;
+  color: black;
+}
+.uk-offcanvas-bar {
+  background-color: #fff;
+  width: 100%;
+}
+
+.uk-button {
+  padding: 0rem !important;
+}
+
 .login {
   font-family: Avenir;
   font-style: normal;
@@ -19,29 +33,28 @@ a {
   font-size: 16px;
   line-height: 22px;
   color: #ffb55e;
-  /* background: #584DCD; */
   text-transform: capitalize;
   margin-right: 10px;
   outline: none;
   border: none;
 }
-.signup {
+.waitList {
   flex: none;
   order: 0;
   flex-grow: 0;
   margin: 0px 10px;
-  background: #584dcd;
+  background: black;
   border-radius: 6px;
+
+  width: 100%;
+  text-transform: none !important;
+}
+.waitList a {
   color: #fff;
-  border-color: #584dcd;
 }
-.navvy {
-  display: block;
-}
+
 .navy {
-  display: none;
-  color: red;
-  /* background-color: black; */
+  display: block;
 }
 ul {
   list-style-type: none;
@@ -49,37 +62,35 @@ ul {
 }
 .mobile-side-menu {
   margin-top: 2rem;
+  font-weight: 400;
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
 }
 .mobile-side-menu li {
   padding: 0.4rem 0;
+  margin: 1.5rem 0rem;
 }
 .mobile-side-menu li a {
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: all 0.5s;
+  font-family: 'Avenir LT Std';
+  color: black;
+  
 }
 .mobile-side-menu li a:hover {
   color: #584dcd;
 }
-@media (max-width: 480px) {
+
+.navvy {
+  display: none;
+}
+@media (min-width: 992px) {
   .navvy {
-    display: none;
+    display: block;
   }
   .navy {
-    display: block;
-    color: #fff;
-    background-color: #243853;
-    outline: none;
+    display: none;
   }
 }
+
 @media (max-width: 1200px) {
-  .navvy {
-    display: none;
-  }
-  .navy {
-    display: block;
-    color: #fff;
-    background-color: #243853;
-    outline: none;
-  }
+
 }
