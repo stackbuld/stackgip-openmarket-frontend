@@ -99,7 +99,8 @@ const route: Routes = [
   { path: "contact", component: ContactComponent },
   { path: "features", component: FeaturesComponent },
   { path: "wait-list", component: JoinWaitlistComponent },
-  { path: "join", component: SuccessModalComponent},
+  { path: "join", component: SuccessModalComponent },
+  { path: "detail", component: OrderDetailComponent },
   {
     path: "seller",
     canActivate: [AuthGuard],
@@ -127,10 +128,10 @@ const route: Routes = [
             path: "",
             component: OrderListComponent,
           },
-          {
-            path: "detail/:id/:user_id",
-            component: OrderDetailComponent,
-          },
+          // {
+          //   path: "detail/:id/:user_id",
+          //   component: OrderDetailComponent,
+          // },
         ],
       },
       {
