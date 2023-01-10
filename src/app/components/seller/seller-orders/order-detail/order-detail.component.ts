@@ -18,7 +18,7 @@ import { formatProductOptions, formatShipmentOption } from './../../../../helper
 @Component({
   selector: 'app-order-detail',
   templateUrl: './order-detail.component.html',
-  styleUrls: ['./order-detail.component.css']
+  styleUrls: ['./order-detail.component.scss']
 })
 export class OrderDetailComponent implements OnInit {
   @ViewChild(OrderViewMoreComponent) orderViewMore: OrderViewMoreComponent;
