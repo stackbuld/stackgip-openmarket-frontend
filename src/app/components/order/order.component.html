@@ -49,7 +49,7 @@
     <table class="table-container uk-table">
       <thead>
         <tr class="table-head-data">
-          <div>
+          <div class="head-data">
             <th>Item</th>
             <th>Invoice no</th>
             <th>Name</th>
@@ -61,110 +61,215 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <div class="productWrapper">
-            <div class="productThumbnail">
-              <img src="./../../../assets/image/Rectangle 703.svg" alt="">
-            </div>
-            <div class="productDetails">
-              <div class="productDesc">
-                <p class="order-number">#20</p>
-                <p class="description">Sneakers</p>
-                <p class="amt">₦50,000</p>
+        <div class="mobile-view">
+          <tr>
+            <div class="productWrapper">
+              <div class="productThumbnail">
+                <img src="./../../../assets/image/Rectangle 703.svg" alt="">
               </div>
-              <div class="unitSold">
+              <div class="productDetails">
+                <div class="productDesc">
+                  <p class="order-number">#20</p>
+                  <p class="description">Sneakers</p>
+                  <p class="amt">₦50,000</p>
+                </div>
+                <div class="unitSold">
+                  <p>10 units</p>
+                </div>
+                <div class="status-view">
+                  <div class="success-detail">
+                    <img src="./../../../assets/image/Ellipse 453.svg" alt="">
+                    <span>Success</span>
+                  </div>
+                  <div class="view-btn">
+                    <button [routerLink]="['/detail']">View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </tr>
+
+          <tr>
+            <div class="productWrapper">
+              <div class="productThumbnail">
+                <img src="./../../../assets/image/Rectangle 703.svg" alt="">
+              </div>
+              <div class="productDetails">
+                <div class="productDesc">
+                  <p class="order-number">#20</p>
+                  <p class="description">Sneakers</p>
+                  <p class="amt">₦50,000</p>
+                </div>
+                <div class="unitSold">
+                  <p>10 units</p>
+                </div>
+                <div class="status-view">
+                  <div class="success-detail">
+                    <img src="./../../../assets/image/Ellipse 453.svg" alt="">
+                    <span>Success</span>
+                  </div>
+                  <div class="view-btn">
+                    <button [routerLink]="['/detail']">View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </tr>
+          <tr>
+            <div class="productWrapper">
+              <div class="productThumbnail">
+                <img src="./../../../assets/image/Rectangle 703.svg" alt="">
+              </div>
+              <div class="productDetails">
+                <div class="productDesc">
+                  <p class="order-number">#20</p>
+                  <p class="description">Sneakers</p>
+                  <p class="amt">₦50,000</p>
+                </div>
+                <div class="unitSold">
+                  <p>10 units</p>
+                </div>
+                <div class="status-view">
+                  <div class="success-detail">
+                    <img src="./../../../assets/image/Ellipse 453.svg" alt="">
+                    <span>Success</span>
+                  </div>
+                  <div class="view-btn">
+                    <button [routerLink]="['/detail']">View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </tr>
+          <tr>
+            <div class="productWrapper">
+              <div class="productThumbnail">
+                <img src="./../../../assets/image/Rectangle 703.svg" alt="">
+              </div>
+              <div class="productDetails">
+                <div class="productDesc">
+                  <p class="order-number">#20</p>
+                  <p class="description">Sneakers</p>
+                  <p class="amt">₦50,000</p>
+                </div>
+                <div class="unitSold">
+                  <p>10 units</p>
+                </div>
+                <div class="status-view">
+                  <div class="success-detail">
+                    <img src="./../../../assets/image/Ellipse 453.svg" alt="">
+                    <span>Success</span>
+                  </div>
+                  <div class="view-btn">
+                    <button [routerLink]="['/detail']">View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </tr>
+        </div>
+        <div class="desktop-view">
+          <tr>
+              <td class="productThumbnail">
+                <img src="./../../../assets/image/Rectangle 703.svg" alt="">
+              </td>
+
+              <td class="order-number">#20</td>
+              <td class="description">Sneakers</td>
+              <td class="amt">₦50,000</td>
+
+              <td class="unitSold">
                 <p>10 units</p>
-              </div>
-              <div class="status-view">
-                <div class="success-detail">
-                  <img src="./../../../assets/image/Ellipse 453.svg" alt="">
-                  <span>Success</span>
-                </div>
-                <div class="view-btn">
-                  <button [routerLink]="['/detail']">View</button>
-                </div>
-              </div>
-            </div>
-          </div>
+              </td>
+              <td class="success-detail">
+                <img src="./../../../assets/image/Ellipse 453.svg" alt="">
+                <span> Success</span>
+              </td>
+              <td class="view-btn">
+                <button [routerLink]="['/detail']">View</button>
+              </td>
+          </tr>
+          <tr>
+              <td class="productThumbnail">
+                <img src="./../../../assets/image/Rectangle 703.svg" alt="">
+              </td>
+
+              <td class="order-number">#20</td>
+              <td class="description">Sneakers</td>
+              <td class="amt">₦50,000</td>
+
+              <td class="unitSold">
+                <p>10 units</p>
+              </td>
+              <td class="success-detail">
+                <img src="./../../../assets/image/Ellipse 455.svg" alt="">
+                <span> Pending</span>
+              </td>
+              <td class="view-btn">
+                <button [routerLink]="['/detail']">View</button>
+              </td>
+          </tr>
+          <tr>
+              <td class="productThumbnail">
+                <img src="./../../../assets/image/Rectangle 703.svg" alt="">
+              </td>
+
+              <td class="order-number">#20</td>
+              <td class="description">Sneakers</td>
+              <td class="amt">₦50,000</td>
+
+              <td class="unitSold">
+                <p>10 units</p>
+              </td>
+              <td class="success-detail">
+                <img src="./../../../assets/image/Ellipse 455.svg" alt="">
+                <span> Pending</span>
+              </td>
+              <td class="view-btn">
+                <button [routerLink]="['/detail']">View</button>
+              </td>
+          </tr>
+          <tr>
+            <td class="productThumbnail">
+              <img src="./../../../assets/image/Rectangle 703.svg" alt="">
+            </td>
+
+            <td class="order-number">#20</td>
+            <td class="description">Sneakers</td>
+            <td class="amt">₦50,000</td>
+
+            <td class="unitSold">
+              <p>10 units</p>
+            </td>
+            <td class="success-detail">
+              <img src="./../../../assets/image/Ellipse 453.svg" alt="">
+              <span> Success</span>
+            </td>
+            <td class="view-btn">
+              <button [routerLink]="['/detail']">View</button>
+            </td>
         </tr>
         <tr>
-          <div class="productWrapper">
-            <div class="productThumbnail">
-              <img src="./../../../assets/image/Rectangle 703.svg" alt="">
-            </div>
-            <div class="productDetails">
-              <div class="productDesc">
-                <p class="order-number">#20</p>
-                <p class="description">Sneakers</p>
-                <p class="amt">₦50,000</p>
-              </div>
-              <div class="unitSold">
-                <p>10 units</p>
-              </div>
-              <div class="status-view">
-                <div class="success-detail">
-                  <img src="./../../../assets/image/Ellipse 453.svg" alt="">
-                  <span>Success</span>
-                </div>
-                <div class="view-btn">
-                  <button [routerLink]="['/detail']">View</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </tr>
-        <tr>
-          <div class="productWrapper">
-            <div class="productThumbnail">
-              <img src="./../../../assets/image/Rectangle 703.svg" alt="">
-            </div>
-            <div class="productDetails">
-              <div class="productDesc">
-                <p class="order-number">#20</p>
-                <p class="description">Sneakers</p>
-                <p class="amt">₦50,000</p>
-              </div>
-              <div class="unitSold">
-                <p>10 units</p>
-              </div>
-              <div class="status-view">
-                <div class="success-detail">
-                  <img src="./../../../assets/image/Ellipse 453.svg" alt="">
-                  <span>Success</span>
-                </div>
-                <div class="view-btn">
-                  <button [routerLink]="['/detail']">View</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </tr>
-        <tr>
-          <div class="productWrapper">
-            <div class="productThumbnail">
-              <img src="./../../../assets/image/Rectangle 703.svg" alt="">
-            </div>
-            <div class="productDetails">
-              <div class="productDesc">
-                <p class="order-number">#20</p>
-                <p class="description">Sneakers</p>
-                <p class="amt">₦50,000</p>
-              </div>
-              <div class="unitSold">
-                <p>10 units</p>
-              </div>
-              <div class="status-view">
-                <div class="success-detail">
-                  <img src="./../../../assets/image/Ellipse 453.svg" alt="">
-                  <span>Success</span>
-                </div>
-                <div class="view-btn">
-                  <button [routerLink]="['/detail']">View</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </tr>
+          <td class="productThumbnail">
+            <img src="./../../../assets/image/Rectangle 703.svg" alt="">
+          </td>
+
+          <td class="order-number">#20</td>
+          <td class="description">Sneakers</td>
+          <td class="amt">₦50,000</td>
+
+          <td class="unitSold">
+            <p>10 units</p>
+          </td>
+          <td class="success-detail">
+            <img src="./../../../assets/image/Ellipse 453.svg" alt="">
+            <span> Success</span>
+          </td>
+          <td class="view-btn">
+            <button [routerLink]="['/detail']">View</button>
+          </td>
+      </tr>
+        </div>
       </tbody>
     </table>
   </div>
@@ -173,7 +278,7 @@
 
 
 <!-- <div class="uk-grid uk-grid-small uk-grid-match uk-child-width-1-2 uk-child-width-1-4@s uk-child-width-1-5@m uk-margin"> -->
-  <!-- <app-single-product
+<!-- <app-single-product
         *ngFor="let invoice of filteredInvoice | paginate: { itemsPerPage: maximumItem, currentPage: pageNumber, totalItems:totalItemCount}"
         [product]="invoice"
         class="uk-margin-bottom"

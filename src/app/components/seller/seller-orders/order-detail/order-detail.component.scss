@@ -99,10 +99,6 @@
   flex-direction: column;
 }
 
-.item-in-order {
-  /* width: 30%; */
-}
-
 .detail-box {
 
   .tracking-info-container {
@@ -148,4 +144,180 @@
       border-left: none;
     }
   }
+}
+
+@media only screen and (min-width: 768px) {
+  .navbar-wrapper {
+    padding: 0.25rem 1rem;
+  }
+  
+  .container-wrapper {
+    margin: 1rem 1.25rem;
+  }
+  
+  .order-detail {
+    margin: 2rem 0rem 3rem 0rem;
+  }
+  
+  .order-detail span {
+    font-weight: 400;
+    font-size: 1.25rem;
+  }
+  
+  .uk-card-body {
+    padding: 0rem;
+    gap: 1.5rem;
+  }
+  
+  .detail-box {
+    padding: 1rem;
+  }
+  
+  .order-heading {
+    font-weight: 750;
+    font-size: 1rem;
+  }
+  
+  .order-text {
+    font-weight: 400;
+    font-size: 0.75rem;
+  }
+  
+  .order-quantity {
+    font-size: 0.625rem;
+  }
+  
+  .item-in-order {
+    gap: 0.5rem;
+  
+    img {
+      width: 4rem;
+    }
+  
+    .btn-group {
+      margin-left: auto;
+  
+      button {
+        font-size: 0.625rem;
+      }
+    }
+  }
+  
+  .detail-box {
+  
+    .tracking-info-container {
+      .tracking-box {
+        padding-left: 1rem;
+  
+        .icon-img {
+          top: -0.125rem;
+          left: -0.625rem;
+        }
+  
+        .tracking-info {
+          padding-bottom: 3rem;
+  
+  
+          .heading {
+            font-size: 1rem;
+          }
+  
+          .tracking-info-detail {
+            font-weight: 400;
+            font-size: 0.875rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .navbar-wrapper {
+    padding: 0.25rem 1rem;
+  }
+  
+  .container-wrapper {
+    margin: 1rem 1.25rem;
+  }
+  
+  .order-detail {
+    margin: 2rem 0rem 3rem 0rem;
+  }
+  
+  .order-detail span {
+    font-weight: 400;
+    font-size: 1.25rem;
+  }
+  
+  .uk-card-body {
+    padding: 0rem;
+    gap: 1.5rem;
+  }
+  
+  .detail-box {
+    padding: 1rem;
+  }
+  
+  .order-heading {
+    font-weight: 750;
+    font-size: 1rem;
+  }
+  
+  .order-text {
+    font-weight: 400;
+    font-size: 0.75rem;
+  }
+  
+  .order-quantity {
+    font-size: 0.625rem;
+  }
+  
+  .item-in-order {
+    gap: 0.5rem;
+  
+    img {
+      width: 4rem;
+    }
+  
+    .btn-group {
+      margin-left: auto;
+  
+      button {
+        font-size: 0.625rem;
+      }
+    }
+  }
+  
+  .detail-box {
+  
+    .tracking-info-container {
+      .tracking-box {
+        padding-left: 1rem;
+  
+        .icon-img {
+          top: -0.125rem;
+          left: -0.625rem;
+        }
+  
+        .tracking-info {
+          padding-bottom: 3rem;
+  
+  
+          .heading {
+            font-size: 1rem;
+          }
+  
+          .tracking-info-detail {
+            font-weight: 400;
+            font-size: 0.875rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+
 }
