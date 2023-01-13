@@ -18,7 +18,7 @@ import { numberWithCommas } from './../../helpers/number-format';
 @Component({
   selector: "app-order",
   templateUrl: "./order.component.html",
-  styleUrls: ["./order.component.css"],
+  styleUrls: ["./order.component.scss"],
 })
 export class OrderComponent implements OnInit {
   numberWithCommas:Function = numberWithCommas
