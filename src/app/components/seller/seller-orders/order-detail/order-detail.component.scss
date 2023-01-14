@@ -273,7 +273,6 @@
       align-items: center;
 
     .tracking-box:first-child {
-        // background-color: red;
         position: relative;
         border-top: none;
       }
@@ -286,7 +285,6 @@
       border-top: 1px solid black;
     }
     .tracking-box:last-child {
-        // background-color: red;
         position: relative;
         border-top: none;
       }
@@ -354,93 +352,124 @@
     }
 
   }
-
-  // .detail-box {
-  //   padding: 1rem;
-  // }
-
-  // .order-heading {
-  //   font-weight: 750;
-  //   font-size: 1rem;
-  // }
-
-  // .order-text {
-  //   font-weight: 400;
-  //   font-size: 0.75rem;
-  // }
-
-  // .order-quantity {
-  //   font-size: 0.625rem;
-  // }
-
-  // .item-in-order {
-  //   gap: 0.5rem;
-
-  //   img {
-  //     width: 6rem;
-  //   }
-
-  //   .item-details {
-  //     margin-left: 1.5rem;
-  //   }
-
-  //   .btn-group {
-  //     margin-left: auto;
-
-  //     button {
-  //       font-size: 0.7rem;
-  //       padding: 0.25rem;
-  //     }
-  //   }
-  // }
-
-  // .detail-box {
-  //   .tracking-info-container {
-  //     display: flex;
-  //     flex-direction: row;
-  
-  //     .tracking-box {
-  //       position: relative;
-  //       border-top: 1px solid black;
-  //       border-left: none;
-  //       padding-top: 1rem;
-
-  
-  //       .icon-img {
-  //         position: absolute;
-  //         top: -0.7rem;
-  //         left: -0.5rem;
-  //       }
-  
-  //       .tracking-info {
-  //         display: flex;
-  //         flex-direction: column;
-  //         padding-bottom: 3rem;
-  
-  //         .heading {
-  //           font-family: "Avenir LT Std";
-  //           font-style: normal;
-  //           font-weight: bold;
-  //           font-size: 1rem;
-  //           color: #000;
-  //         }
-  
-  //         .tracking-info-detail {
-  //           font-family: "Avenir LT Std";
-  //           font-style: normal;
-  //           font-weight: 400;
-  //           font-size: 0.875rem;
-  //           color: #333333;
-  //           margin: 0rem;
-  //         }
-  //       }
-  //     }
-  //     :nth-child(4) {
-  //       border-left: none;
-  //     }
-  //   }
-  // }
 }
 
 @media only screen and (min-width: 1200px) {
+  .navbar-wrapper {
+    padding: 0.25rem 1rem;
+  }
+
+  .container-wrapper {
+    margin: 1rem 1.25rem;
+  }
+
+  .order-detail {
+    margin: 2rem 0rem 3rem 0rem;
+  }
+
+  .order-detail span {
+    font-weight: 400;
+    font-size: 1.25rem;
+  }
+
+  .uk-card-body {
+    padding: 0rem;
+    gap: 2.5rem;
+  }
+
+  .mobile-view {
+    display: none;
+  }
+  .desktop-view {
+    display: flex;
+    flex-direction: column;
+
+    .order-heading {
+      padding-bottom: 4rem;
+    }
+
+
+    .tracking-info-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    .tracking-box:first-child {
+        position: relative;
+        border-top: none;
+      }
+    .tracking-box:first-child::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      right: 0;
+      width: 50%;
+      border-top: 1px solid black;
+    }
+    .tracking-box:last-child {
+        position: relative;
+        border-top: none;
+      }
+    .tracking-box:last-child::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      left: 0;
+      width: 50%;
+      border-top: 1px solid black;
+    }
+
+    }
+
+    .tracking-box {
+        position: relative;
+        border-top: 1px solid black;
+        border-left: none;
+        width: 20%;
+        display: flex;
+        justify-content: center;
+        padding: 2rem 0.5rem;
+        height: 7.5rem;
+
+        .heading {
+          font-size: 0.75rem;
+        }
+    }
+
+    .icon-img {
+      position: absolute;
+      top: -0.7rem;
+      
+    }
+
+    .uk-table {
+      width: 80%;
+      margin: 0rem;
+      align-self: center;
+
+      th {
+        text-transform: none;
+      }
+    }
+
+    .uk-table thead tr {
+      border-bottom: 0.1px solid #B9B9B9;
+
+      :last-child {
+        text-align: right;
+      }
+    }
+
+    .uk-table tbody tr {
+      border-bottom: 0.1px solid #B9B9B9;
+
+         :last-child {
+        text-align: right;
+      }
+    }
+
+    .uk-table tbody tr:last-child {
+      border-bottom: none;
+    }
+  }
 }
