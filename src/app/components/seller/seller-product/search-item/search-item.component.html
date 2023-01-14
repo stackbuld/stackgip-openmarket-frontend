@@ -1,74 +1,92 @@
-<div class="uk-section uk-section-default" style="padding: 0;margin-top: 10px;">
-    <div class="uk-container">
-      <form [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()">
-        <hr/>
-        <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
-          <div class="uk-width-2-5@s">
-            <label for="category">Search keyword:</label>
-            <input class="uk-input" type="text" placeholder="enter search product ..."
-              formControlName="keyword">
-          </div>
-          <div class="uk-width-1-5@s" *ngIf="categories$ | async as categories">
-            <label for="category">Select category:</label><br>
-            <div uk-form-custom="target: > * > span:first-child">
-                <select formControlName="category">
-                    <option value="">All</option>
-                    <option value="{{ category.id }}" *ngFor="let category of categories.data">
-                      {{ category.name }}
-                    </option>
-                </select>
-                <button class="uk-button uk-button-default" type="button" tabindex="-1">
-                    <span #categoryItem></span>
-                    <span uk-icon="icon: chevron-down"></span>
-                </button>
+<div class="uk-section uk-section-default uk-margin-top" style="padding: 0;">
+  <div class="">
+    <form [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()">
+      <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
+        <div class="uk-width-2-5@s">
+          <mat-form-field class="uk-width-expand">
+            <mat-label>
+              Search keyword
+            </mat-label>
+    
+            <input
+              type="text"
+              formControlName="keyword"
+              matInput
+              placeholder="Search for product name, brand,..."
+            />
+          </mat-form-field>
+        </div>
+        <div class="uk-width-1-5@s" *ngIf="categories$ | async as categories">
+          <mat-form-field
+            class="uk-width-expand"
+          >
+            <mat-label>Select category</mat-label>
+            <mat-select formControlName="category">
+              <mat-option>Select</mat-option>
+              <mat-option
+                *ngFor="let category of categories.data"
+                value="{{ category.id }}"
+              >
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="uk-width-2-5@s">
+              <div class="uk-grid-small uk-grid uk-child-width-1-2@s">
+                  <mat-form-field>
+                      <input matInput #refStart type="text" [matDatepicker]="startDate" 
+                          (dateChange)="startDateChange(refStart.value)" formControlName="startDate" 
+                          placeholder="Start date" readonly (click)="pickStartDate()"> 
+                      <mat-datepicker-toggle #startDateToggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                      <mat-datepicker #startDate></mat-datepicker>
+                  </mat-form-field>
+                  <mat-form-field>
+                      <input matInput #refEnd type="text" [matDatepicker]="endDate" 
+                          (dateChange)="endDateChange(refEnd.value)" formControlName="endDate"
+                          placeholder="End date" readonly (click)="pickEndDate()">
+                      <mat-datepicker-toggle #endDateToggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                      <mat-datepicker #endDate></mat-datepicker>
+                  </mat-form-field>
               </div>
-          </div>
-          <div class="uk-width-2-5@s">
-                <div class="uk-grid-small uk-grid uk-child-width-1-2@s">
-                    <mat-form-field>
-                        <input matInput #refStart type="text" [matDatepicker]="startDate" 
-                            (dateChange)="startDateChange(refStart.value)" formControlName="startDate" 
-                            placeholder="Start date" readonly (click)="pickStartDate()"> 
-                        <mat-datepicker-toggle #startDateToggle matSuffix [for]="startDate"></mat-datepicker-toggle>
-                        <mat-datepicker #startDate></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <input matInput #refEnd type="text" [matDatepicker]="endDate" 
-                            (dateChange)="endDateChange(refEnd.value)" formControlName="endDate"
-                            placeholder="End date" readonly (click)="pickEndDate()">
-                        <mat-datepicker-toggle #endDateToggle matSuffix [for]="endDate"></mat-datepicker-toggle>
-                        <mat-datepicker #endDate></mat-datepicker>
-                    </mat-form-field>
-                </div>
+        </div>
+      </div>
+      <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
+        <div class="uk-width-3-4@s">
+          <div class="uk-grid-small uk-grid uk-child-width-1-2@s">
+            <mat-form-field class="">
+              <mat-label>Minimum Price</mat-label>
+              <input
+                type="number"
+                matInput
+                placeholder="10"
+                formControlName="minPrice"
+                (change)="onChangeMinPrice()"
+              />
+            </mat-form-field>
+            <mat-form-field class="">
+              <mat-label>Maximum Price</mat-label>
+              <input
+                type="number"
+                matInput
+                placeholder="500000"
+                formControlName="maxPrice"
+                (change)="onChangeMaxPrice()"
+              />
+            </mat-form-field>
           </div>
         </div>
-        <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
-          <div class="uk-width-3-4@s">
-            <div class="uk-grid-small uk-grid uk-child-width-1-2@s">
-              <div>
-                <label for="minPrice">Minimum Price:</label>
-                <input class="uk-input" type="number" placeholder="10" 
-                  formControlName="minPrice" (change)="onChangeMinPrice()">
-              </div>
-              <div>
-                <label for="maxPrice">Maximum Price:</label>
-                <input class="uk-input" type="number" placeholder="500000"
-                  formControlName="maxPrice"  (change)="onChangeMaxPrice()">
-              </div>
-            </div>
-          </div>
-          <div class="uk-width-1-4@s" style="padding-top: 10px;">
-            <button type="submit" 
-              class="uk-button uk-button-primary uk-margin-small-top uk-margin-small-right uk-margin-remove-top@m" >
-              filter
-            </button>
-            <button  (click)="onClear()" type="button"
-              class="uk-button uk-button-default uk-margin-small-top uk-margin-remove-top@m" >
-              Clear
-            </button>
-          </div>
+        <div class="uk-width-1-4@s uk-flex">
+          <button type="submit" style="margin: 0.25em 0;"
+            class="uk-button uk-button-secondary uk-width-1-2@s uk-margin-small-right" >
+            filter
+          </button>
+          <button  (click)="onClear()" type="button" style="margin: 0.25em 0;"
+            class="uk-button uk-button-default uk-width-1-2@s" >
+            Clear
+          </button>
         </div>
-        <hr/>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
+</div>
