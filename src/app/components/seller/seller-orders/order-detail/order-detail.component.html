@@ -31,7 +31,8 @@
     <div class="detail-box">
       <p class="order-heading">Item in order</p>
       <p class="order-text">Status: <img src="../../../../../assets/image/Ellipse 455.svg" alt="">
-        <span class="order-text"> Pending</span></p>
+        <span class="order-text"> Pending</span>
+      </p>
       <div class="item-in-order">
         <img src="../../../../../assets/image/Rectangle 703.svg" alt="">
         <div class="item-details">
@@ -45,7 +46,51 @@
         </div>
       </div>
     </div>
-    <div class="detail-box">
+    <div class="detail-box mobile-view">
+      <p class="order-heading">Tracking details</p>
+      <div class="tracking-info-container">
+        <div class="tracking-box">
+          <div class="icon-img">
+            <img src="../../../../../assets/image/confirm-filled.svg" alt="">
+          </div>
+          <div class="tracking-info">
+            <p class="heading">Order confirmation</p>
+            <p class="tracking-info-detail date-time">23rd April, 2022, 12:04pm </p>
+            <p class="tracking-info-detail address">ABU, Zaria</p>
+          </div>
+        </div>
+        <div class="tracking-box">
+          <div class="icon-img">
+            <img src="../../../../../assets/image/confirm-filled.svg" alt="">
+          </div>
+          <div class="tracking-info">
+            <p class="heading">Picked up by delivery agent</p>
+            <p class="tracking-info-detail date-time">23rd April, 2022, 12:04pm </p>
+            <p class="tracking-info-detail address">ABU, Zaria</p>
+          </div>
+        </div>
+        <div class="tracking-box">
+          <div class="icon-img">
+            <img src="../../../../../assets/image/confirm-filled.svg" alt="">
+          </div>
+          <div class="tracking-info">
+            <p class="heading">On transit</p>
+            <p class="tracking-info-detail date-time">23rd April, 2022, 12:04pm </p>
+            <p class="tracking-info-detail address">ABU, Zaria</p>
+          </div>
+        </div>
+        <div class="tracking-box">
+          <div class="icon-img">
+            <img src="../../../../../assets/image/dot-empty.svg" alt="">
+          </div>
+          <div class="tracking-info">
+            <p class="heading">Delivered</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="desktop-view">
       <p class="order-heading">Tracking details</p>
       <div class="tracking-info-container">
         <div class="tracking-box">
@@ -53,42 +98,58 @@
             <img src="../../../../../assets/image/confirm-filled.svg" alt="">
             <!-- <img src="../../../../../assets/image/dot-empty.svg" alt=""> -->
           </div>
-          <div class="tracking-info">
           <p class="heading">Order confirmation</p>
-          <p class="tracking-info-detail date-time">23rd April, 2022, 12:04pm </p>
-          <p class="tracking-info-detail address">ABU, Zaria</p>
-        </div>
         </div>
         <div class="tracking-box">
           <div class="icon-img">
             <img src="../../../../../assets/image/confirm-filled.svg" alt="">
+            <!-- <img src="../../../../../assets/image/dot-empty.svg" alt=""> -->
           </div>
-          <div class="tracking-info">
           <p class="heading">Picked up by delivery agent</p>
-          <p class="tracking-info-detail date-time">23rd April, 2022, 12:04pm </p>
-          <p class="tracking-info-detail address">ABU, Zaria</p>
-        </div>
         </div>
         <div class="tracking-box">
           <div class="icon-img">
             <img src="../../../../../assets/image/confirm-filled.svg" alt="">
+            <!-- <img src="../../../../../assets/image/dot-empty.svg" alt=""> -->
           </div>
-          <div class="tracking-info">
           <p class="heading">On transit</p>
-          <p class="tracking-info-detail date-time">23rd April, 2022, 12:04pm </p>
-          <p class="tracking-info-detail address">ABU, Zaria</p>
-        </div>
         </div>
         <div class="tracking-box">
           <div class="icon-img">
             <!-- <img src="../../../../../assets/image/confirm-filled.svg" alt=""> -->
             <img src="../../../../../assets/image/dot-empty.svg" alt="">
           </div>
-          <div class="tracking-info">
           <p class="heading">Delivered</p>
-        </div>
+
         </div>
       </div>
+      <table class="uk-table">
+        <thead>
+          <tr>
+            <th>Date and time</th>
+            <th>Location</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>23rd April, 2022, 12:04pm</td>
+            <td>ABU, Zaria</td>
+            <td>Ready for pickup</td>
+          </tr>
+          <tr>
+            <td>23rd April, 2022, 10:04pm </td>
+            <td></td>
+            <td>On transit</td>
+          </tr>
+          <tr class="">
+            <td>23rd April, 2022, 09:04pm </td>
+            <td>Kaduna Road</td>
+            <td>Picked up by delivery agent</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
 
