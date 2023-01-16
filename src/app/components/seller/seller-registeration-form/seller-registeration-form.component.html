@@ -1,15 +1,10 @@
 <div id="seller-modal-full" class="uk-modal-full modal-container" uk-modal>
-  <div
-    class="uk-modal-dialog uk-flex uk-flex-between uk-flex-middle form-container"
-  >
+  <div class="uk-modal-dialog uk-flex uk-flex-between uk-flex-middle form-container">
     <div class="form-img"></div>
 
     <div class="form">
       <div class="go-back" (click)="closeModal()">
-        <img
-          src="https://cdn.iconscout.com/icon/free/png-512/back-arrow-1767531-1502435.png"
-          alt="go-back"
-        />
+        <img src="https://cdn.iconscout.com/icon/free/png-512/back-arrow-1767531-1502435.png" alt="go-back" />
         <span>Go Back</span>
       </div>
       <div class="seller-info">
@@ -18,244 +13,138 @@
             <span class="bold">Get Started</span>Enter your business details
           </h1>
           <div>
-            <form [formGroup]="componentForm" (submit)="submit()">
+            <form [formGroup]="sellerRegFormGroup" (submit)="submit()">
               <div class="business-status">
-                <label
-                  ><input
-                    type="radio"
-                    checked
-                    name="registerationStatus"
-                    value="registered"
-                    formControlName="registerationStatus"
-                  />
-                  <span> Registered business</span></label
-                >
-                <label
-                  ><input
-                    type="radio"
-                    name="registerationStatus"
-                    value="unregistered"
-                    formControlName="registerationStatus"
-                  />
-                  <span> Unregistered business</span></label
-                >
+                <label><input type="radio" checked name="isBusinessRegistered" [value]='true'
+                    formControlName="isBusinessRegistered" />
+                  <span> Registered business</span></label>
+                <label><input type="radio" name="isBusinessRegistered" [value]='false'
+                    formControlName="isBusinessRegistered" />
+                  <span> Unregistered business</span></label>
               </div>
 
               <div class="form-group">
-                <label
-                  [ngClass]="{
+                <label [ngClass]="{
                     invalid:
-                      componentForm.get('businessName').invalid &&
-                      !componentForm.get('businessName').untouched
-                  }"
-                  >Business/Brand/Company Name</label
-                >
+                      sellerRegFormGroup.get('businessName').invalid &&
+                      !sellerRegFormGroup.get('businessName').untouched
+                  }">Business Name</label>
                 <input type="text" matInput formControlName="businessName" />
               </div>
 
               <div class="form-group">
-                <label
-                  [ngClass]="{
+                <label [ngClass]="{
                     invalid:
-                      componentForm.get('businessPhone').invalid &&
-                      !componentForm.get('businessPhone').untouched
-                  }"
-                  >Business/Brand/Company Phone Number</label
-                >
-                <input type="tel" matInput formControlName="businessPhone" />
+                      sellerRegFormGroup.get('businessDescription').invalid &&
+                      !sellerRegFormGroup.get('businessDescription').untouched
+                  }">Business Description</label>
+                <input type="text" matInput formControlName="businessDescription" />
               </div>
 
               <div class="form-group">
-                <label
-                  [ngClass]="{
+                <label [ngClass]="{
                     invalid:
-                      componentForm.get('businessEmail').invalid &&
-                      !componentForm.get('businessEmail').untouched
-                  }"
-                  >Business/Brand/Company Email Address</label
-                >
-                <input type="email" matInput formControlName="businessEmail" />
+                      sellerRegFormGroup.get('businessAddress').invalid &&
+                      !sellerRegFormGroup.get('businessAddress').untouched
+                  }">Business Address</label>
+                <input type="text" matInput required formControlName="businessAddress" />
               </div>
 
               <div class="form-group">
-                <label
-                  [ngClass]="{
+                <label [ngClass]="{
                     invalid:
-                      componentForm.get('businessAddress').invalid &&
-                      !componentForm.get('businessAddress').untouched
-                  }"
-                  >Business/Brand/Company Address</label
-                >
-                <input
-                  type="text"
-                  matInput
-                  required
-                  formControlName="businessAddress"
-                />
+                      sellerRegFormGroup.get('state').invalid &&
+                      !sellerRegFormGroup.get('state').untouched
+                  }">Business State</label>
+                <input type="text" matInput required formControlName="state" />
               </div>
 
               <div class="form-group">
-                <label
-                  [ngClass]="{
+                <label [ngClass]="{
                     invalid:
-                      componentForm.get('businessCountry').invalid &&
-                      !componentForm.get('businessCountry').untouched
-                  }"
-                  >Business/Brand/Company Country</label
-                >
-                <input
-                  type="text"
-                  matInput
-                  required
-                  formControlName="businessCountry"
-                />
+                      sellerRegFormGroup.get('lga').invalid &&
+                      !sellerRegFormGroup.get('lga').untouched
+                  }">Business Local Government Area</label>
+                <input type="text" matInput formControlName="lga" />
               </div>
 
               <div class="form-group">
-                <label
-                  [ngClass]="{
+                <label [ngClass]="{
                     invalid:
-                      componentForm.get('businessState').invalid &&
-                      !componentForm.get('businessState').untouched
-                  }"
-                  >Business/Brand/Company State</label
-                >
-                <input
-                  type="text"
-                  matInput
-                  required
-                  formControlName="businessState"
-                />
+                      sellerRegFormGroup.get('street').invalid &&
+                      !sellerRegFormGroup.get('street').untouched
+                  }">Business Street</label>
+                <input type="text" matInput required formControlName="street" />
               </div>
 
-              <div class="form-group">
-                <label
-                  [ngClass]="{
+              <!-- For registered business only -->
+              <div class="form-group" *ngIf="isBusinessRegistered == true">
+                <label [ngClass]="{
                     invalid:
-                      componentForm.get('businessCity').invalid &&
-                      !componentForm.get('businessCity').untouched
-                  }"
-                  >Business/Brand/Company City</label
-                >
-                <input
-                  type="text"
-                  matInput
-                  required
-                  formControlName="businessCity"
-                />
+                      sellerRegFormGroup?.get('businessRegistrationNumber').invalid &&
+                      !sellerRegFormGroup?.get('businessRegistrationNumber').untouched
+                  }">Business Registration Number</label>
+                <input type="text" matInput required formControlName="businessRegistrationNumber" />
               </div>
 
               <div class="form-group logo-group" (click)="upload()">
-                <label>Business/Brand/Company Logo</label>
-                <input
-                  type="text"
-                  id="logo-input"
-                  placeholder="Upload"
-                  formControlName="businessLogoUrl"
-                />
+                <label>Business Logo</label>
+                <input type="text" id="logo-input" placeholder="Upload" formControlName="businessLogo" />
                 <img src="../../../../assets/image/upload.png" alt="" />
               </div>
 
-              <div
-                class="form-group"
-                *ngIf="registerationStatus == 'registered'"
-              >
-                <label
-                  [ngClass]="{
-                    invalid:
-                      componentForm.get('businessRegistrationNumber').invalid &&
-                      !componentForm.get('businessRegistrationNumber').untouched
-                  }"
-                  >Business/Brand/Company Registration Number</label
-                >
-                <input
-                  type="text"
-                  matInput
-                  required
-                  formControlName="businessRegistrationNumber"
-                />
-              </div>
-
-              <div
-                class="form-group"
-                *ngIf="registerationStatus !== 'registered'"
-              >
-                <label
-                  [ngClass]="{
-                    invalid:
-                      componentForm.get('businessApplicantAddress').invalid &&
-                      !componentForm.get('businessApplicantAddress').untouched
-                  }"
-                  >Applicant Address</label
-                >
-                <input
-                  type="text"
-                  matInput
-                  required
-                  formControlName="businessApplicantAddress"
-                />
-              </div>
-
-              <div
-                class="form-group"
-                *ngIf="registerationStatus !== 'registered'"
-              >
-                <label
-                  [ngClass]="{
-                    invalid:
-                      componentForm.get('businessAddressLandmark').invalid &&
-                      !componentForm.get('businessAddressLandmark').untouched
-                  }"
-                  >Address Landmark</label
-                >
-                <input
-                  type="text"
-                  matInput
-                  required
-                  formControlName="businessAddressLandmark"
-                />
+              <div class="form-group">
+                <label [ngClass]="{
+                  invalid:
+                    sellerRegFormGroup.get('landmark').invalid &&
+                    !sellerRegFormGroup.get('landmark').untouched
+                }">Address Landmark</label>
+                <input type="text" matInput required formControlName="landmark" />
               </div>
 
               <div class="form-group">
-                <label
-                  [ngClass]="{
-                    invalid:
-                      componentForm.get('businessApplicantID').invalid &&
-                      !componentForm.get('businessApplicantID').untouched
-                  }"
-                  >Applicant ID</label
-                >
-                <input
-                  type="text"
-                  matInput
-                  required
-                  formControlName="businessApplicantID"
-                />
+                <label [ngClass]="{
+                  invalid:
+                    sellerRegFormGroup.get('userId').invalid &&
+                    !sellerRegFormGroup.get('userId').untouched
+                }">Applicant ID</label>
+                <input type="text" matInput required formControlName="userId" />
               </div>
 
-              <div class="form-group">
-                <label
-                  [ngClass]="{
+             
+
+              <div formGroupName="applicant">
+                <div class="form-group">
+                  <label [ngClass]="{
                     invalid:
-                      componentForm.get('businessIDType').invalid &&
-                      !componentForm.get('businessIDType').untouched
-                  }"
-                  >ID Type</label
-                >
-                <input
-                  type="text"
-                  matInput
-                  required
-                  formControlName="businessIDType"
-                />
+                      applicant.get('idType').invalid &&
+                      !applicant.get('idType').untouched
+                  }">Applicant ID Type</label>
+                  <select required formControlName="idType">
+                  <option *ngFor="let id of idCardTypes" [value]="id">{{id}}</option>
+                </select>
+                </div>
+                <div class="form-group">
+                  <label [ngClass]="{
+                      invalid:
+                        applicant.get('idNumber').invalid &&
+                        !applicant.get('idNumber').untouched
+                    }">Applicant Number</label>
+                  <input type="text" matInput required formControlName="idNumber" />
+                </div>
+  
+                <div class="form-group">
+                  <label [ngClass]="{
+                      invalid:
+                        applicant.get('dateOfBirth').invalid &&
+                        !applicant.get('dateOfBirth').untouched
+                    }">Applicant Date of Birth</label>
+                  <input type="text" matInput required formControlName="dateOfBirth" />
+                </div>
               </div>
 
               <div>
-                <button
-                  class="reg-btn"
-                  type="submit"
-                  [disabled]="isLoading || componentForm.invalid"
-                >
+                <button class="reg-btn" type="submit" [disabled]="isLoading || sellerRegFormGroup.invalid">
                   <span uk-spinner="ratio: 1" *ngIf="isLoading"></span>
                   Submit
                 </button>

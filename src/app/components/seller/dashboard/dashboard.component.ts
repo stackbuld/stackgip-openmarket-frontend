@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { IUser } from "src/app/models/IUserModel";
 import { SellerService } from "src/app/services/seller/seller.service";
 
 @Component({
@@ -10,15 +9,12 @@ import { SellerService } from "src/app/services/seller/seller.service";
   styleUrls: ["./dashboard.component.css"],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-logout() {
-throw new Error('Method not implemented.');
-}
+
   isSellerApproved: boolean = false;
   routeData$: Subscription;
   switching: string;
   approved = this.sellerS.sellerRegisterationFormStatus.approved;
   pending = this.sellerS.sellerRegisterationFormStatus.pending;
-  loggedInUser: IUser;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -28,7 +24,6 @@ throw new Error('Method not implemented.');
     this.routeData$ = this.route.data.subscribe((res) => {
       this.switching = res.data;
     });
-    this.loggedInUser = this.sellerS.loggedInUser;
   }
   modalStatus(d: any) {
     if (d.isModalClose) {

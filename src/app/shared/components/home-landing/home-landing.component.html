@@ -1,328 +1,120 @@
-<div>
-  <app-navbar></app-navbar>
-  <div class="container-fluid p-0 main-container">
-    <div class="hero-section">
-      <div class="back-img">
-        <img
-          src="https://res.cloudinary.com/mindset/image/upload/v1628005820/Rectangle168_3_xzmi0l.png"
-          alt=""
-          class="back"
-        />
+<!-- <div class="uk-visible@m">
+  <app-seller-header></app-seller-header>
+</div> -->
+
+<div class="container-wrapper">
+  <div class="top-segment">
+    <div class="top-section">
+      <p class="top-text">The marketplace to buy and sell awesome <span class="top-deco">products</span></p>
+      <p class="box-text">Join the fastest moving online market square that connects millions of sellers and buyers at
+        ease.</p>
+      <button class="uk-button uk-button-default uk-text-capitalize waitList">
+        <a [routerLink]="['/wait-list']">Join the waitlist</a>
+      </button>
+    </div>
+    <div class="image-wrapper">
+      <img class="image-one" src="../../../../assets/image/Rectangle 706.svg" alt="" />
+      <img class="image-two"
+        src="../../../../assets/image/young-woman-shopping-with-colorful-packs-blue-wall_155003-26325 1.svg" alt="" />
+      <img class="image-three" src="../../../../assets/image/Rectangle 703.svg" alt="" />
+    </div>
+  </div>
+
+  <div class="features-wrapper">
+    <p class="features-heading">Why Buy on Rena Market?</p>
+    <div class="rena-box-wrapper1">
+      <div class="rena-box">
+        <img class="box-image" src="../../../../assets/image/Group 604.svg" alt="">
+        <h4 class="box-heading">Multiple Payment Options</h4>
+        <p class="box-text">Get Merchant Payout in multiple currencies and Multiple Payment gateway including crypto and
+          web3 </p>
       </div>
-      <div class="hero-content">
-        <div class="hero-text-section">
-          <h1>Unlock a new shopping experience</h1>
-          <p>
-            Buy and sell with ease from wherever you are on the Rena marketplace
-            network.
-          </p>
-          <div class="hero-buttons">
-            <button
-              class="uk-button uk-button-default uk-text-capitalize signup"
-            >
-              Get Started
-            </button>
-            <button class="marketplace-btn">Go To Marketplace >></button>
-          </div>
-        </div>
-        <div class="hero-img-section">
-          <img
-            src="https://res.cloudinary.com/mindset/image/upload/v1628005824/Rectangle168_6_kpcuao.png"
-            alt=""
-            class="front"
-          />
-        </div>
+      <div class="rena-box">
+        <img class="box-image" src="../../../../assets/image/Group 603.svg" alt="">
+        <h4 class="box-heading">Fast Delivery</h4>
+        <p class="box-text">Multiple Logistic Providers for faster and smoother delivery, buy same day and get delivered
+          next day</p>
+      </div>
+      <div class="rena-box">
+        <img class="box-image" src="../../../../assets/image/Group 604.svg" alt="">
+        <h4 class="box-heading">Easy Refund</h4>
+        <p class="box-text">Get refunds as easy as possible with a good reason, without any issue</p>
+      </div>
+      <div class="rena-box">
+        <img class="box-image" src="../../../../assets/image/Group 628.svg" alt="">
+        <h4 class="box-heading">Secured and Trusted</h4>
+        <p class="box-text">The security of users is very important which is why we have designed a platform with ease
+          and security im mind
+          for both users and sellers.</p>
       </div>
     </div>
-    <div class="online">
-      <div class="open">
-        <h1>
-          Rena marketplace makes buying and selling easy for you! We provide a
-          secure network that connects buyers to sellers in an instant.
-        </h1>
-        <img
-          src="https://res.cloudinary.com/mindset/image/upload/v1628237230/Desktop_-_5_hayzuf.png"
-          alt=""
-        />
+  </div>
+  <div class="features-wrapper">
+    <p class="features-heading">Why Sell on Rena Market?</p>
+  </div>
+  <div class="rena-box-wrapper2">
+    <div class="rena-box">
+      <img class="box-image" src="../../../../assets/image/Group 603.svg" alt="">
+      <h4 class="box-heading">Smooth Logistic</h4>
+      <p class="box-text">Multiple Logistic Providers for faster and smoother delivery, buy same day and get delivered
+        next day</p>
+    </div>
+    <div class="rena-box">
+      <img class="box-image" src="../../../../assets/image/Group 604.svg" alt="">
+      <h4 class="box-heading">Multi Currency Payout</h4>
+      <p class="box-text">Get Merchant Payout in multiple currencies and Multiple Payment gateway including crypto and
+        web3
+      </p>
+    </div>
+    <div class="rena-box">
+      <img class="box-image" src="../../../../assets/image/Group 604 (1).svg" alt="">
+      <h4 class="box-heading">Sell 10x Faster</h4>
+      <p class="box-text">Every potential customer is different--and if you just take the extra few minutes to get to
+        know him, you will
+        close the sale with ease</p>
+    </div>
+    <div class="rena-box">
+      <img class="box-image" src="../../../../assets/image/Group 604 (1).svg" alt="">
+      <h4 class="box-heading">Product Recommendation</h4>
+      <p class="box-text">Know what your customer want, we provide recommendation on what to sell to boost your business
+      </p>
+    </div>
+    <div class="rena-box">
+      <img src="../../../../assets/image/Group 604.svg" alt="">
+      <h4 class="box-heading">Zero Fee</h4>
+      <p class="box-text">Zero commission , Zero listing , Zero Hidden charge , Upload product and sell freely</p>
+    </div>
+  </div>
+
+  <div class="product-recommendation">
+    <div class="image-group">
+      <div class="left-group">
+        <img src="../../../../assets/image/Rectangle 707.svg" alt="">
+        <img src="../../../../assets/image/Rectangle 709.svg" alt="">
+      </div>
+      <div class="right-group">
+        <img src="../../../../assets/image/Rectangle 708.svg" alt="">
+        <img src="../../../../assets/image/Rectangle 710.svg" alt="">
       </div>
     </div>
-    <div class="reason-section">
-      <div class="reason-flex">
-        <div class="left">
-          <h1>Why Rena Market?</h1>
-          <p>
-            Shopping should be fun and stress-free right? We help you get access
-            to a wide range of quality products that match your taste. Get the
-            best deals for your money’s worth at affordable prices.
-          </p>
-          <div class="left-img" style="margin-top: 60px">
-            <img
-              src="https://res.cloudinary.com/mindset/image/upload/v1628235505/Group_601_ezjjns.png"
-              alt=""
-            />
-          </div>
-        </div>
-
-        <div class="right">
-          <div class="uk-flex art service">
-            <div class="service-icon">
-              <div class="right-case">
-                <img
-                  src="https://res.cloudinary.com/mindset/image/upload/v1628230639/Group_603_sn5yd4.png"
-                  alt=""
-                />
-              </div>
-            </div>
-            <div>
-              <h4>Artificial Intelligence</h4>
-              <h5 style="font-size: 14px; margin-top: -14px">
-                Our algorithm makes the best match of sellers to buyers. It
-                recommends products based on your preference to you.
-              </h5>
-            </div>
-          </div>
-
-          <div class="uk-flex security service">
-            <div class="service-icon">
-              <div class="right-case">
-                <img
-                  src="https://res.cloudinary.com/mindset/image/upload/v1628232970/Group_628_xu0vil.png"
-                  alt=""
-                />
-              </div>
-            </div>
-            <div>
-              <h4>Security</h4>
-              <h5 style="font-size: 14px; margin-top: -14px">
-                We provide a secure network for safe and smooth transactions for
-                both buyers and sellers.
-              </h5>
-            </div>
-          </div>
-
-          <div class="uk-flex quality service">
-            <div class="service-icon">
-              <div class="right-case">
-                <img
-                  src="https://res.cloudinary.com/mindset/image/upload/v1628232970/Group_604_pbknxi.png"
-                  alt=""
-                />
-              </div>
-            </div>
-            <div>
-              <h4>Quality</h4>
-              <h5 style="font-size: 14px; margin-top: -14px">
-                Rena marketplace reserves only the best for you which is why we
-                have verified sellers who put out quality products for you to
-                shop.
-              </h5>
-            </div>
-          </div>
-
-          <div class="uk-flex price service">
-            <div class="service-icon">
-              <div class="right-case">
-                <img
-                  src="https://res.cloudinary.com/mindset/image/upload/v1628232970/Group_605_zgpn4y.png"
-                  alt=""
-                />
-              </div>
-            </div>
-            <div>
-              <h4>Affordable Pricing</h4>
-              <h5 style="font-size: 14px; margin-top: -14px">
-                Now you can get a wide range of products in one place at
-                affordable prices. Also, get good deals as a bonus!
-              </h5>
-            </div>
-          </div>
-
-          <div class="uk-flex pay service">
-            <div class="service-icon">
-              <div class="right-case">
-                <img
-                  src="https://res.cloudinary.com/mindset/image/upload/v1628232970/Group_606_c9gfmm.png"
-                  alt=""
-                />
-              </div>
-            </div>
-            <div>
-              <h4>Delivery Policy</h4>
-              <h5 style="font-size: 14px; margin-top: -14px">
-                We offer you a flexible cash-on-delivery payment option. Smaller
-                packages also get delivered quickly using our drone system while
-                we provide trusted courier services to our sellers for easy and
-                quick delivery.
-              </h5>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="bottom-section">
+      <p class="bottom-heading">Product Recommendation to sell</p>
+      <p class="bottom-text1">Get amazing product recommendation to sell and for customers to use your product</p>
     </div>
-    <app-ourservices></app-ourservices>
+  </div>
+  <div class="last-section">
+    <div class="buttom-image-wrapper">
+      <img class="buttom-image-one" src="../../../../assets/image/Rectangle 706.svg" alt="">
+      <img class="buttom-image-two"
+        src="../../../../assets/image/young-black-lady-holding-shopping-bags-feeling-excited_181624-32959 1.svg" alt="">
+    </div>
+    <div class="bottom-section">
+      <p class="bottom-heading">Grow faster</p>
+      <p class="bottom-text">Do you want easy-to-use marketing store to grow your business fast? You got it.</p>
+      <button class="uk-button uk-button-default uk-text-capitalize waitList-botton">
+        <a [routerLink]="['/wait-list']">Join the waitlist</a>
+      </button>
+    </div>
   </div>
 </div>
 <app-footer></app-footer>
-<!-- <div style="overflow: hidden; background-color: #f2f2f2">
-  <app-navbar></app-navbar>
-
-  <div class="container">
-    <div class="hero">
-      <div class="uk-flex hero-flex default-width">
-        <div class="hero1">
-          <h1>Sell and buy on the go!</h1>
-          <p>
-            Join the fastest moving online market square that connects millions
-            of sellers and buyers at ease.
-          </p>
-          <button class="uk-button uk-button-default uk-text-capitalize signup">
-            <a href="signup">Start Selling</a>
-          </button>
-          <button [routerLink]="['']" class="btn">Go to marketplace >></button>
-        </div>
-
-        <div class="img">
-          <img
-            src="https://res.cloudinary.com/mindset/image/upload/v1628005824/Rectangle168_6_kpcuao.png"
-            alt=""
-            class="front"
-          />
-          <img
-            src="https://res.cloudinary.com/mindset/image/upload/v1628005820/Rectangle168_3_xzmi0l.png"
-            alt=""
-            class="back"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div class="online">
-      <div class="open">
-        <h1>
-          Rena market is an online marketplace that connects buyers and sellers
-          worldwide.
-        </h1>
-        <img
-          src="https://res.cloudinary.com/mindset/image/upload/v1628237230/Desktop_-_5_hayzuf.png"
-          alt=""
-        />
-      </div>
-    </div>
-    <div class="market">
-      <div class="uk-flex">
-        <div class="right">
-          <h1>Why Rena Market?</h1>
-          <p>
-            Rena market brings you a whole new type of experience. With the aid
-            of artificial intelligence coupled with top level security, you get
-            quality products that match your taste presented to you at an
-            affordable price while ensuring you pay for what has been delivered
-            to you.
-          </p>
-          <div style="margin-top: 60px">
-            <img
-              src="https://res.cloudinary.com/mindset/image/upload/v1628235505/Group_601_ezjjns.png"
-              alt=""
-            />
-            <img src="" alt="" />
-          </div>
-        </div>
-
-        <div class="left">
-          <div class="uk-flex art">
-            <div style="margin-right: 20px; padding-top: 6px">
-              <img
-                src="https://res.cloudinary.com/mindset/image/upload/v1628230639/Group_603_sn5yd4.png"
-                alt=""
-                style="width: 85px; height: 55px"
-              />
-            </div>
-            <div>
-              <h4>Artificial Intelligence</h4>
-              <h5 style="font-size: 14px; margin-top: -14px">
-                Rena market research uses industry standard artificial
-                intelligence algorithm to recommend and match sellers with
-                buyers.
-              </h5>
-            </div>
-          </div>
-
-
-          <div class="uk-flex security">
-            <div style="margin-right: 20px; padding-top: 6px">
-              <img
-                src="https://res.cloudinary.com/mindset/image/upload/v1628232970/Group_628_xu0vil.png"
-                alt=""
-                style="width: 115px; height: 55px"
-              />
-            </div>
-            <div>
-              <h4>Security</h4>
-              <h5 style="font-size: 14px; margin-top: -14px">
-                The security of our platform and users is very important to us
-                which is why we have designed a platform with ease and security
-                im mind for both users and sellers.
-              </h5>
-            </div>
-          </div>
-
-          <div class="uk-flex quality">
-            <div style="margin-right: 20px; padding-top: 6px">
-              <img
-                src="https://res.cloudinary.com/mindset/image/upload/v1628232970/Group_604_pbknxi.png"
-                alt=""
-                style="width: 85px; height: 55px"
-              />
-            </div>
-            <div>
-              <h4>Quality</h4>
-              <h5 style="font-size: 14px; margin-top: -14px">
-                The quality of the products on sale on our platform is
-                important, hence we ensure only products in uptmost .
-              </h5>
-            </div>
-          </div>
-
-
-          <div class="uk-flex price">
-            <div style="margin-right: 20px; padding-top: 6px">
-              <img
-                src="https://res.cloudinary.com/mindset/image/upload/v1628232970/Group_605_zgpn4y.png"
-                alt=""
-                style="width: 75px; height: 55px"
-              />
-            </div>
-            <div>
-              <h4>Affordable Price</h4>
-              <h5 style="font-size: 14px; margin-top: -14px">
-                Prices of products on open market are affordable and same as you
-                will find in a physical market.
-              </h5>
-            </div>
-          </div>
-
-
-          <div class="uk-flex pay">
-            <div style="margin-right: 20px; padding-top: 6px">
-              <img
-                src="https://res.cloudinary.com/mindset/image/upload/v1628232970/Group_606_c9gfmm.png"
-                alt=""
-                style="width: 85px; height: 55px"
-              />
-            </div>
-            <div>
-              <h4>Pay On Delivery</h4>
-              <h5 style="font-size: 14px; margin-top: -14px">
-                Our delivery policy is to strictly payment on delivery, this is
-                to avoid or curb fraudulent activities on theses platfrom.
-              </h5>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <app-ourservices></app-ourservices>
-</div>
-<app-footer></app-footer> -->

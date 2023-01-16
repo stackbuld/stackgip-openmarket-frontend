@@ -1,0 +1,38 @@
+.container-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 4rem;
+  background-color: #fff !important;
+}
+
+.container-wrapper p {
+  font-family: 'Avenir LT Std';
+  font-weight: 350;
+  font-size: 1rem;
+}
+
+.join-btn {
+  background: black;
+  border-radius: 0.3rem;
+  width: 100%;
+  padding: 0.5rem 7.5rem;
+}
+
+.join-btn a {
+  color: #fff;
+}
+
+@media only screen and (min-width: 992px) {
+  .container-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 15rem;
+    background-color: #fff !important;
+  }
+}

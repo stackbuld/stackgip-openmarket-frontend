@@ -97,6 +97,7 @@ export class SiginupComponent implements OnInit {
         // console.log(d); 
           this.ngxService.stopLoader("loader-01");
         this.message = d.message;
+        this.toast.success(d.message, "notification")
         this.hasError = false;
       },
       (err) => {
@@ -106,9 +107,11 @@ export class SiginupComponent implements OnInit {
         this.hasError = true;
         if (err.status == 0) {
           this.errors.push("something went wrong please try again later");
+          this.toast.error("something went wrong please try again later", "notification")
         } else {
           this.errors.push(...err.error.message.split(","));
         }
+        this.toast.error(err.error.message, "notification")
       }
     );
   }

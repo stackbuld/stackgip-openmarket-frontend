@@ -7,17 +7,20 @@ import { FormBuilder, FormGroup, FormArray, Validators } from "@angular/forms";
 import { Component, OnInit, EventEmitter, Output } from "@angular/core";
 import { CreateProductModel } from "../../../../models/products.model";
 import { nigeriaSates } from "src/app/data/nigeriastates";
+import { variations } from "src/app/data/productVariations";
 import { ProductsService } from "../../../../services/products/products.service";
 import { CatgoryService } from "../../../../services/category/catgory.service";
 import { ToastrService } from "./../../../../services/toastr.service";
 import { getLoggedInUser } from "src/app/helpers/userUtility";
 import { CategoryResponse } from "./../../../../models/CategoryModels";
+import { StoreService } from "src/app/services/store/store.service";
+import { StoreResponse } from "src/app/models/StoreModels";
 
 declare var cloudinary: any;
 @Component({
   selector: "app-add-product",
   templateUrl: "./add-product.component.html",
-  styleUrls: ["./add-product.component.css","../../../../shared/css/spinner.css"],
+  styleUrls: ["./add-product.component.scss","../../../../shared/css/spinner.css"],
 })
 export class AddProductComponent implements OnInit {
   
@@ -28,22 +31,26 @@ export class AddProductComponent implements OnInit {
   form: FormGroup;
   cproduct: CreateProductResponse;
   categories$: Observable<CategoryResponse>;
+  stores$: Observable<StoreResponse>;
   loading: boolean = false;
   uploadWidget: any;
   images = [];
   states: string[] = nigeriaSates.map((a) => a.name);
+  productVariations: string[] = variations;
   user = getLoggedInUser();
 
   constructor(
     private fb: FormBuilder, 
     private toast: ToastrService,
     private productService: ProductsService, 
-    private catgoryService: CatgoryService
+    private catgoryService: CatgoryService,
+    private storeService: StoreService
   ){this.formInit()}
   get f() {return this.form.controls;}
 
   ngOnInit(): void {
     this.categories$ = this.catgoryService.GetCategory();
+    this.stores$ = this.storeService.getStoresByUserId(this.user.id);
     this.uploadWidget = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
@@ -64,45 +71,34 @@ export class AddProductComponent implements OnInit {
       name: ["", [Validators.required]],
       description: ["", [Validators.required]],
       price: [0.0, [Validators.required]],
+      weight: [0.0],
       previousPrice: [0.0],
       category: ["", [Validators.required]],
+      storeIds: [[], [Validators.required]],
       unit: [0, [Validators.required]],
-      shipments: this.fb.array([this.createShipment()]),
+      variations: this.fb.array([this.createVariation()]),
       options: this.fb.array([]),
-      paymentOption: this.fb.array(this.setPaymentOption()),
     });
   }
 
-  paymentOption():FormArray{
-    return this.form.get('paymentOption') as FormArray;
+  variations():FormArray{
+    return this.form.get('variations') as FormArray;
   }
 
-  setPaymentOption():FormGroup[]{
-    return [
-      this.fb.group({ method: [true, []], value:"online", label:"Pay Online" }),
-      this.fb.group({ method: [false, []], value:"ondelivery", label:"Pay On Delivery" }),
-    ]
-  }
-
-  shipments():FormArray{
-    return this.form.get('shipments') as FormArray;
-  }
-
-  createShipment():FormGroup{
+  createVariation():FormGroup{
     return this.fb.group({
-      countryCode: ["ng",[Validators.required]],
-      state: ["all",[Validators.required]],
-      city: ["all",[Validators.required]],
+      title: ["",[Validators.required]],
+      value: ["",[Validators.required]],
       cost: [0.0,[Validators.required]]
     });
   }
 
-  addShipment():void{ 
-    this.shipments().push(this.createShipment());
+  addVariation():void{ 
+    this.variations().push(this.createVariation());
   }
 
-  removeShipment(index:number):void{
-    this.shipments().removeAt(index);
+  removeVariation(index:number):void{
+    this.variations().removeAt(index);
   }
 
   options():FormArray{
@@ -175,14 +171,19 @@ export class AddProductComponent implements OnInit {
       price: this.form.get("price").value,
       previousPrice: this.form.get("previousPrice").value,
       description: this.form.get("description").value,
-      unit: this.form.get("unit").value,
-      imageUrl: this.images[0],
-      imageUrls: this.images,
-      shipments: this.form.get("shipments").value,
-      options: this.form.get("options").value,
       categoryId: this.form.get('category').value,
+      imageUrl: this.images[0],
+      unit: this.form.get("unit").value,
+      weight: this.form.get("weight").value,
       userId: this.user.id,
-      paymentOptions: this.flatPaymentOption(this.form.get("paymentOption").value)
+      imageUrls: this.images,
+      storeIds: this.form.get('storeIds').value,
+      options: [
+        ...this.form.get("variations").value,
+        ...this.form.get("options").value
+      ]
+      // shipments: this.form.get("shipments").value,
+      // paymentOptions: this.flatPaymentOption(this.form.get("paymentOption").value)
     } as CreateProductModel
   }
 }

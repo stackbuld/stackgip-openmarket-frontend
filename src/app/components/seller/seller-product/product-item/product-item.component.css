@@ -1,5 +1,8 @@
-.product-unit{
-    display: flex;
+.product-img{
+    width: 64px;
+    height: 64px;
+    border: 0.8px solid #BDBDBD;
+    border-radius: 4px;
 }
 
 .unit-caption,span#created-at{
@@ -21,4 +24,16 @@ span.sort-asc{
 span.sort-desc{
     border-top: transparent;
     border-left: transparent;
+}
+
+.info-card {
+    padding: 25px 50px;
+    background: #FFFFFF;
+    border: 1px solid #BDBDBD;
+    box-shadow: 0px 2px 4px rgba(27, 27, 32, 0.1);
+    border-radius: 8px;
+}
+
+.padding_54 {
+    padding-left: 54px;
 }

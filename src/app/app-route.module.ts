@@ -35,13 +35,18 @@ import { SellerAgreementComponent } from "./components/agreements/seller-agreeme
 import { FaqsComponent } from "./shared/components/faqs/faqs.component";
 import { ContactComponent } from "./shared/components/contact/contact.component";
 import { FeaturesComponent } from "./shared/components/features/features.component";
+import { SellerStoreComponent } from "./components/seller/seller-store/seller-store.component";
+import { SellerDashboardComponent } from "./components/seller/seller-dashboard/seller-dashboard.component";
+import { JoinWaitlistComponent } from "./shared/components/join-waitlist/join-waitlist.component";
+import { SuccessModalComponent } from "./shared/components/success-modal/success-modal.component";
 
 const route: Routes = [
   {
     path: "",
     component: LayoutComponent,
     children: [
-      { path: "", component: IndexComponent },
+      { path: "", component: HomeLandingComponent },
+      // { path: "", component: IndexComponent },
       // { path: "home", component: IndexComponent },
       { path: "forget-password", component: ForgetPasswordComponent },
       { path: "confirm-email", component: AccountConfirmationComponent },
@@ -94,6 +99,9 @@ const route: Routes = [
   { path: "faqs", component: FaqsComponent },
   { path: "contact", component: ContactComponent },
   { path: "features", component: FeaturesComponent },
+  { path: "wait-list", component: JoinWaitlistComponent },
+  { path: "join", component: SuccessModalComponent },
+  { path: "detail", component: OrderDetailComponent },
   {
     path: "seller",
     canActivate: [AuthGuard],
@@ -102,7 +110,11 @@ const route: Routes = [
     children: [
       {
         path: "",
-        component: SellerHomeComponent,
+        component: SellerDashboardComponent,
+      },
+      {
+        path: "dashboard",
+        component: SellerDashboardComponent,
       },
       {
         path: "products",
@@ -117,11 +129,15 @@ const route: Routes = [
             path: "",
             component: OrderListComponent,
           },
-          {
-            path: "detail/:id/:user_id",
-            component: OrderDetailComponent,
-          },
+          // {
+          //   path: "detail/:id/:user_id",
+          //   component: OrderDetailComponent,
+          // },
         ],
+      },
+      {
+        path: "store",
+        component: SellerStoreComponent,
       },
     ],
   },

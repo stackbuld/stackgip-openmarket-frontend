@@ -8,33 +8,33 @@
     uk-navbar
   >
     <div class="uk-navbar-left default-width">
-      <a class="uk-navbar-item uk-logo" href="#" style="color: white"
+      <a class="uk-navbar-item uk-logo" href="#"
         ><img
-          src="../../../../assets/logos/Rena-Market-Transaprent-BLK-2.png"
-          alt="RENA MARKET"
-          width="120"
+        src="../../../../assets/image/quality-logo.svg"
+        alt="RENA MARKET"
+        width="120"
       /></a>
 
-      <div style="display: flex; flex-direction: row; width: 60%; color: white">
+      <div style="display: flex; flex-direction: row; width: 60%;">
         <ul class="uk-navbar-nav">
           <li>
             <a [routerLink]="['']">
               <span class="uk-icon uk-margin-small-right"></span>
-              Market Place
+              Product
             </a>
           </li>
           <li>
-            <a href="/features">
+            <a [routerLink]="['/features']">
               <span class="uk-icon uk-margin-small-right"></span>
               Features
             </a>
           </li>
-          <li>
+          <!-- <li>
             <a href="/faqs">
               <span class="uk-icon uk-margin-small-right"></span>
               FAQs
             </a>
-          </li>
+          </li> -->
           <li>
             <a href="#">
               <span class="uk-icon uk-margin-small-right"></span>
@@ -42,7 +42,7 @@
             </a>
           </li>
           <li>
-            <a href="/contact">
+            <a [routerLink]="['/contact']">
               <span class="uk-icon uk-margin-small-right"></span>
               Contact
             </a>
@@ -54,11 +54,11 @@
         </div> -->
 
       <div class="uk-navbar-right">
-        <button class="uk-button-default login">
+        <!-- <button class="uk-button-default login">
           <a href="login">Login</a>
-        </button>
-        <button class="uk-button uk-button-default uk-text-capitalize signup">
-          <a href="signup">Sign Up</a>
+        </button> -->
+        <button class="uk-button uk-button-default uk-text-capitalize waitList" type="button" uk-toggle="target: #offcanvas-usage">
+          <a [routerLink]="['/wait-list']">Join waitlist</a>
         </button>
       </div>
     </div>
@@ -75,9 +75,9 @@
     <div class="uk-navbar-left">
       <a class="uk-navbar-item uk-logo navy" href="#"
         ><img
-          src="../../../../assets/logos/Rena-Market-Transaprent-BLK-2.png"
+          src="../../../../assets/image/quality-logo.svg"
           alt="RENA MARKET"
-          width="120"
+          width="90"
       /></a>
     </div>
 
@@ -92,25 +92,32 @@
 
       <div id="offcanvas-flip" uk-offcanvas="overlay: true">
         <div class="uk-offcanvas-bar">
-          <button class="uk-offcanvas-close" type="button" uk-close></button>
+          <div class="up-navBar">
+            <div class="uk-navbar-left">
+              <a class="uk-navbar-item uk-logo navy" href="#"
+                ><img
+                  src="../../../../assets/image/quality-logo.svg"
+                  alt="RENA MARKET"
+                  width="90"
+              /></a>
+            </div>
+            <div uk-offcanvas-bar>
+              <button class="uk-offcanvas-close" type="button" uk-close></button>
+            </div>
+          </div>
+         
 
           <ul class="mobile-side-menu">
             <li>
               <a [routerLink]="['']">
                 <span class="uk-icon uk-margin-small-right"></span>
-                Market Place
+                Product
               </a>
             </li>
             <li>
               <a [routerLink]="['/features']">
                 <span class="uk-icon uk-margin-small-right"></span>
                 Features
-              </a>
-            </li>
-            <li>
-              <a [routerLink]="['/faqs']">
-                <span class="uk-icon uk-margin-small-right"></span>
-                FAQs
               </a>
             </li>
             <li>
@@ -126,7 +133,13 @@
               </a>
             </li>
           </ul>
+          <div class="uk-navbar-right">
+            <button class="uk-button uk-button-default uk-text-capitalize waitList" type="button" uk-toggle="target: #offcanvas-usage">
+              <a [routerLink]="['/wait-list']">Join waitlist</a> 
+            </button>
+          </div>
         </div>
+
       </div>
     </div>
   </div>

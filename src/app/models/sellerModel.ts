@@ -1,21 +1,38 @@
 import { ResponseModel } from "../shared/models/ResponseModel";
 
 export interface ISeller {
-  businessName: "string";
-  businessAddress: "string";
+  // businessName: "string";
+  // businessAddress: "string";
   businessEmail: "string";
   businessPhone: "string";
   businessCountryCode: "string";
   businessState: "string";
   businessCity: "string";
   businessLogoUrl?: "string" | string;
-  businessRegistrationNumber?: "string";
+  // businessRegistrationNumber?: "string";
   address: "string";
   phoneNumber: "string";
   businessApplicantAddress?: string;
   businessAddressLandmark?: string;
   businessApplicantID: string;
   businessIDType: string;
+
+  userId: "string";
+  businessName: "string";
+  businessDescription: "string";
+  businessAddress: "string";
+  businessLogo?: "string" | string;
+  businessRegistrationNumber: "string";
+  street: "string";
+  lga: "string";
+  isBusinessRegistered: boolean;
+  state: "string";
+  landmark: "string";
+  applicant: {
+    idType: "string";
+    idNumber: "string";
+    dateOfBirth: "10-10-string";
+  }
 }
 
 export interface GetSeller extends ResponseModel {
