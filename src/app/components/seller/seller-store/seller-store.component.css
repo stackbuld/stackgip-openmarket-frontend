@@ -5,14 +5,25 @@
   }
 }
 
-.seller-top {
+.seller-radio {
   display: flex;
   justify-content: space-between;
 }
 
+.seller-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.seller_default {
+  font-style: italic;
+  color: #4CAF50;
+}
+
 .seller_label {
   font-style: normal;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 24px;
   line-height: 33px;
   color: #000000;
@@ -81,10 +92,21 @@
 .store-grid h6 {
   font-family: "Avenir";
   font-style: normal;
-  font-weight: 900;
+  font-weight: 500;
   font-size: 16px;
   line-height: 22px;
   color: #000000;
+}
+
+.store-grid p {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 100;
+  line-height: 22px;
+}
+
+.store-grid {
+  margin-bottom: 24px;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -202,4 +224,8 @@
   line-height: 31px;
   color: #bb4636;
   text-align: left !important;
+}
+
+.seller-details-container {
+  margin-left: 20px;
 }

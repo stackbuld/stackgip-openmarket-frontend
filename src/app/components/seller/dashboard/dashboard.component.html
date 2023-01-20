@@ -21,19 +21,15 @@
       </div>
 
       <div class="uk-width-4-5@m main_content">
-
         <div class="uk-visible@m">
           <app-sidebar-header-display></app-sidebar-header-display>
-          </div>
-          <div  class="uk-hidden@m">
-            <app-seller-header></app-seller-header>
-            <app-sidebar-header-display></app-sidebar-header-display>
+        </div>
+        <div class="uk-hidden@m">
+          <app-seller-header></app-seller-header>
+          <app-sidebar-header-display></app-sidebar-header-display>
+        </div>
 
-          </div>
-      
-
-        <div style="margin: auto; width: 96%;" class="uk-margin-top">
-         
+        <div style="margin: auto; width: 96%; padding-top: 2rem;" class="uk-margin-top">
           <router-outlet></router-outlet>
         </div>
       </div>
@@ -43,9 +39,7 @@
 
 <!-- popup if user is not a seller yet -->
 <ng-template #sellerForm>
-  <app-seller-registeration-form
-    (modalStatus)="modalStatus($event)"
-  ></app-seller-registeration-form>
+  <app-seller-registeration-form (modalStatus)="modalStatus($event)"></app-seller-registeration-form>
 </ng-template>
 
 <ng-template #sellerPendingStatus>
