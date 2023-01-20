@@ -63,7 +63,7 @@ import { NgxPaginationModule } from './shared/pagination/ngx-pagination.module';
 import { InfiniteScrollComponent } from './shared/infinite-scroll/Infinite-scroll.component';
 import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
 import { SellerRegisterationFormComponent } from "./components/seller/seller-registeration-form/seller-registeration-form.component";
-import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from "angularx-social-login";
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { SearchItemComponent } from './components/seller/seller-product/search-item/search-item.component';
 import { SellerShowCaseProductComponent } from './components/seller/sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
@@ -84,6 +84,7 @@ import { SellerSidebarComponent } from './components/seller/sidebar/sidebar.comp
 import { SellerDashboardComponent } from './components/seller/seller-dashboard/seller-dashboard.component';
 import { JoinWaitlistComponent } from './shared/components/join-waitlist/join-waitlist.component';
 import { SuccessModalComponent } from './shared/components/success-modal/success-modal.component';
+import { SellerStoreComponent } from "./components/seller/seller-store/seller-store.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -148,7 +149,8 @@ import { SuccessModalComponent } from './shared/components/success-modal/success
     SellerSidebarComponent,
     SellerDashboardComponent,
     JoinWaitlistComponent,
-    SuccessModalComponent
+    SuccessModalComponent,
+    SellerStoreComponent
   ],
   imports: [
     BrowserModule,
@@ -174,7 +176,7 @@ import { SuccessModalComponent } from './shared/components/success-modal/success
       logOnly: environment.production,
     }),
 
-    
+
   ],
 
   providers: [
@@ -207,4 +209,4 @@ import { SuccessModalComponent } from './shared/components/success-modal/success
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

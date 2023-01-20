@@ -1,15 +1,17 @@
-<ng-container>
+<ng-container *ngFor="let store of dummyStores; let i = index;">
   <div class="uk-card uk-card-default uk-card-body uk-margin-small seller-store-card">
     <div class="seller-radio">
       <label class="seller_label">
-        <input class="uk-radio" type="radio" name="radio2" checked />
-        Store
+        <input class="uk-radio" type="radio" [name]="'radio' + store?.id" [checked]="i === 0" />
+        Store {{i}}
       </label>
     </div>
 
     <div class="seller-details-container">
       <div class="seller-top">
-        <p class="seller_default">Default Store</p>
+        <p (click)="setAsDefault(i)" [class]="store?.isDefaultStore ? 'seller_default' : 'seller_not_default'">
+          {{store?.isDefaultStore ? 'Default Store' : 'Set As Default'}}
+        </p>
         <div>
           <a href="#edit-store" uk-toggle style="padding-right: 10px">
             <img class="edit-imgIcon" src="../../../../assets/svg/edit-seller-store-icon.svg" alt="" />
@@ -19,39 +21,39 @@
           </a>
         </div>
       </div>
-  
+
       <div class="uk-grid-small uk-child-width-1-3@m uk-grid-small uk-grid-match store-grid" uk-grid>
         <div class="uk-width-1-4@s">
           <h6>Street Address</h6>
-          <p>Street Address</p>
+          <p>{{store?.streetAddress}}</p>
         </div>
         <div class="uk-width-1-4@s">
           <h6>City, State</h6>
-          <p>City, State</p>
+          <p>{{store?.city}}</p>
         </div>
         <div class="uk-width-1-4@s">
           <h6>Country</h6>
-          <p>Country</p>
+          <p>{{store?.country}}</p>
         </div>
       </div>
       <div class="uk-grid-small uk-child-width-1-3@m uk-grid-small uk-grid-match store-grid" uk-grid>
         <div class="uk-width-1-4@s">
           <h6>Landmark</h6>
-          <p>Landmark</p>
+          <p>{{store?.landmark}}</p>
         </div>
         <div class="uk-width-1-4@s">
           <h6>Postal Code</h6>
-          <p>Postal Code</p>
+          <p>{{store?.postalCode}}</p>
         </div>
         <div class="uk-width-1-4@s">
           <h6>Phone Number</h6>
-          <p>Phone Number</p>
+          <p>{{store?.phoneNumber}}</p>
         </div>
       </div>
       <div class="uk-grid-small uk-child-width-1-3@m uk-grid-small uk-grid-match store-grid" uk-grid>
         <div class="uk-width-1-3@s">
           <h6>Number of Products in Store:</h6>
-          <p>Number of Products in Store</p>
+          <p>{{store?.numberOfProductsInstore}}</p>
         </div>
       </div>
     </div>

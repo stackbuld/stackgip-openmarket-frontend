@@ -5,6 +5,11 @@
   }
 }
 
+.seller-store-card {
+  border-radius: 4px !important;
+  margin-bottom: 2rem;
+}
+
 .seller-radio {
   display: flex;
   justify-content: space-between;
@@ -19,6 +24,11 @@
 .seller_default {
   font-style: italic;
   color: #4CAF50;
+}
+
+.seller_not_default {
+  font-style: italic;
+  color: #FF8B00;
 }
 
 .seller_label {

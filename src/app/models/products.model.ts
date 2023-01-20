@@ -188,3 +188,16 @@ export class NewOrders {
   transReferenceNo: string;
   orders: [];
 }
+
+export interface DummyStore {
+  id: number;
+  name: string;
+  isDefaultStore: boolean;
+  streetAddress: string;
+  city: string;
+  country: string;
+  landmark: string;
+  postalCode: string;
+  phoneNumber: string;
+  numberOfProductsInstore: number;
+}
