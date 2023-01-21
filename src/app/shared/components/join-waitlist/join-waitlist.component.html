@@ -4,7 +4,7 @@
             <app-navbar></app-navbar>
         </div>
         <div>
-            <button class="uk-offcanvas-close" type="button" uk-toggle="target: #offcanvas-usage" uk-close [routerLink]="['/landing']">
+            <button class="uk-offcanvas-close" type="button" uk-toggle="target: #offcanvas-usage" uk-close (click)="goBack()">
             </button>
             <div class="waitList-heading">
                 <p>Join waitlist</p>

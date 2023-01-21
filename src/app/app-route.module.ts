@@ -45,9 +45,10 @@ const route: Routes = [
     path: "",
     component: LayoutComponent,
     children: [
-      { path: "", component: HomeLandingComponent },
+      { path: "", component: LoginComponent },
+      { path: "landing", component: HomeLandingComponent },
       // { path: "", component: IndexComponent },
-      // { path: "home", component: IndexComponent },
+      { path: "home", component: IndexComponent },
       { path: "forget-password", component: ForgetPasswordComponent },
       { path: "confirm-email", component: AccountConfirmationComponent },
       { path: "confirm", component: AccountConfirmationComponent },
