@@ -8,7 +8,7 @@
     uk-navbar
   >
     <div class="uk-navbar-left default-width">
-      <a class="uk-navbar-item uk-logo" href="#"
+      <a class="uk-navbar-item uk-logo" [routerLink]="['/market-place']"
         ><img
         src="../../../../assets/image/quality-logo.svg"
         alt="RENA MARKET"
@@ -24,7 +24,7 @@
             </a>
           </li>
           <li>
-            <a [routerLink]="['/features']">
+            <a [routerLink]="['/landing']">
               <span class="uk-icon uk-margin-small-right"></span>
               Features
             </a>
@@ -36,7 +36,7 @@
             </a>
           </li> -->
           <li>
-            <a href="#">
+            <a [routerLink]="['/landing']">
               <span class="uk-icon uk-margin-small-right"></span>
               About
             </a>
@@ -73,7 +73,7 @@
 >
   <div class="uk-navbar-container head" uk-navbar>
     <div class="uk-navbar-left">
-      <a class="uk-navbar-item uk-logo navy" href="#"
+      <a class="uk-navbar-item uk-logo navy" [routerLink]="['/market-place']"
         ><img
           src="../../../../assets/image/quality-logo.svg"
           alt="RENA MARKET"
@@ -115,13 +115,13 @@
               </a>
             </li>
             <li>
-              <a [routerLink]="['/features']">
+              <a [routerLink]="['/landing']">
                 <span class="uk-icon uk-margin-small-right"></span>
                 Features
               </a>
             </li>
             <li>
-              <a [routerLink]="['']">
+              <a [routerLink]="['/landing']">
                 <span class="uk-icon uk-margin-small-right"></span>
                 About
               </a>
