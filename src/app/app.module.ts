@@ -84,6 +84,7 @@ import { SellerSidebarComponent } from './components/seller/sidebar/sidebar.comp
 import { SellerDashboardComponent } from './components/seller/seller-dashboard/seller-dashboard.component';
 import { JoinWaitlistComponent } from './shared/components/join-waitlist/join-waitlist.component';
 import { SuccessModalComponent } from './shared/components/success-modal/success-modal.component';
+import { MarketPlaceComponent } from './shared/components/market-place/market-place.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -148,7 +149,8 @@ import { SuccessModalComponent } from './shared/components/success-modal/success
     SellerSidebarComponent,
     SellerDashboardComponent,
     JoinWaitlistComponent,
-    SuccessModalComponent
+    SuccessModalComponent,
+    MarketPlaceComponent
   ],
   imports: [
     BrowserModule,

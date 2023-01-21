@@ -39,6 +39,7 @@ import { SellerStoreComponent } from "./components/seller/seller-store/seller-st
 import { SellerDashboardComponent } from "./components/seller/seller-dashboard/seller-dashboard.component";
 import { JoinWaitlistComponent } from "./shared/components/join-waitlist/join-waitlist.component";
 import { SuccessModalComponent } from "./shared/components/success-modal/success-modal.component";
+import { MarketPlaceComponent } from "./shared/components/market-place/market-place.component"
 
 const route: Routes = [
   {
@@ -99,6 +100,7 @@ const route: Routes = [
   { path: "faqs", component: FaqsComponent },
   { path: "contact", component: ContactComponent },
   { path: "features", component: FeaturesComponent },
+  { path: "market-place", component: MarketPlaceComponent },
   { path: "wait-list", component: JoinWaitlistComponent },
   { path: "join", component: SuccessModalComponent },
   { path: "detail", component: OrderDetailComponent },
