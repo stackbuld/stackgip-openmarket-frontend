@@ -1,3 +1,4 @@
+import { AddProductComponent } from './components/seller/seller-product/add-product/add-product.component';
 import { SellerOrdersComponent } from "./components/seller/seller-orders/seller-orders.component";
 import { SellerProductComponent } from "./components/seller/seller-product/seller-product.component";
 import { SellerHomeComponent } from "./components/seller/seller-home/seller-home.component";
@@ -40,6 +41,7 @@ import { SellerDashboardComponent } from "./components/seller/seller-dashboard/s
 import { JoinWaitlistComponent } from "./shared/components/join-waitlist/join-waitlist.component";
 import { SuccessModalComponent } from "./shared/components/success-modal/success-modal.component";
 import { MarketPlaceComponent } from "./shared/components/market-place/market-place.component"
+import { ViewProductComponent } from './components/seller/seller-product/view-product/view-product.component';
 
 const route: Routes = [
   {
@@ -121,9 +123,22 @@ const route: Routes = [
       },
       {
         path: "products",
-        component: SellerProductComponent,
+        // component: SellerProductComponent,
+        children: [
+          {
+            path: "",
+            component: SellerProductComponent,
+          },
+          {
+            path: "add",
+            component: AddProductComponent,
+          },
+          {
+            path: "view",
+            component: ViewProductComponent,
+          },
+        ],
       },
-
       {
         path: "orders",
         component: SellerOrdersComponent,

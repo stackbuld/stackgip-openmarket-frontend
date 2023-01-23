@@ -57,7 +57,8 @@
             <mat-form-field class="">
               <mat-label>Minimum Price</mat-label>
               <input
-                type="number"
+                type="text"
+                (keypress)="preventLetter($event)"
                 matInput
                 placeholder="10"
                 formControlName="minPrice"
@@ -67,7 +68,8 @@
             <mat-form-field class="">
               <mat-label>Maximum Price</mat-label>
               <input
-                type="number"
+                type="text"
+                (keypress)="preventLetter($event)"
                 matInput
                 placeholder="500000"
                 formControlName="maxPrice"
@@ -77,11 +79,11 @@
           </div>
         </div>
         <div class="uk-width-1-4@s uk-flex">
-          <button type="submit" style="margin: 0.25em 0;"
+          <button type="submit" style="margin: 0.25em 0; border-radius: 5px; height: 50px;"
             class="uk-button uk-button-secondary uk-width-1-2@s uk-margin-small-right" >
             filter
           </button>
-          <button  (click)="onClear()" type="button" style="margin: 0.25em 0;"
+          <button  (click)="onClear()" type="button" style="margin: 0.25em 0; border-radius: 5px; height: 50px;"
             class="uk-button uk-button-default uk-width-1-2@s" >
             Clear
           </button>

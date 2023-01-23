@@ -17,7 +17,7 @@ export class ProductItemComponent implements OnInit {
   @Output() viewedMore = new EventEmitter();
   numberWithCommas: Function = numberWithCommas;
   user = getLoggedInUser();
-  productDetails: ProductModel[];
+  productDetails: ProductModel[] = [];
   formatDateToLocal: Function;
   productSort: string = "Date"; //Date or UnitSold
   byAscending: boolean = false;
@@ -122,6 +122,8 @@ export class ProductItemComponent implements OnInit {
     this.endDate = "";
     this.minValue = 10;
     this.maxValue = 500000;
+    console.log('closed!!!');
+    this.fetchNextProducts(this.defaultPage);
   }
 
   sortBy(field: string, asc: boolean = true): void {

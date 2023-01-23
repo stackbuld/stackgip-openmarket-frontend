@@ -9,12 +9,51 @@
     font-size: 12px;
 }
 
+.al {
+    align-items: center;
+}
+
+.heading {
+    color: #FF8473;
+}
+
+.stock-section {
+    padding: 20px 20px 0px 20px;
+    border-top: 1px solid #DFDDDD;
+    border-bottom: 1px solid #DFDDDD;
+}
+
 span.sort-asc, span.sort-desc{
     display: inline-block;
     width: 5px;
     height: 5px;
     transform: rotate(45deg);
     border: solid 4px;
+}
+
+.edge {
+    border: 1px solid black !important;
+    color: black;
+    padding: 7px 15px;
+    border-radius: 5px;
+}
+
+.edge2:hover {
+    background: black;
+    color: white;
+    padding: 7px 15px;
+    border-radius: 5px;
+}
+
+.edge2 {
+    background: black;
+    color: white;
+    padding: 7px 15px;
+    border-radius: 5px;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 span.sort-asc{

@@ -28,6 +28,14 @@ export class SearchItemComponent implements OnInit {
     private fb: FormBuilder, private categoryService: CatgoryService,
     private toast: ToastrService
   ) {
+    this.initForm();
+   }
+
+  ngOnInit(): void {
+    this.categories$ = this.categoryService.GetCategory()
+  }
+
+  initForm() {
     this.searchForm = this.fb.group({
       keyword: ["", []],
       category: ["", []],
@@ -36,10 +44,12 @@ export class SearchItemComponent implements OnInit {
       minPrice: [10, []],
       maxPrice: [500000, []],
     })
-   }
+  }
 
-  ngOnInit(): void {
-    this.categories$ = this.categoryService.GetCategory()
+  preventLetter(evt: any): boolean {
+    var charCode = evt.which ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+    return true;
   }
 
   onChangeMinPrice(){
@@ -83,13 +93,14 @@ export class SearchItemComponent implements OnInit {
   }
 
   onClear(){
-    this.searchForm.get('keyword').setValue('')
-    this.searchForm.get('category').setValue('')
-    this.searchForm.get('startDate').setValue('') 
-    this.searchForm.get('endDate').setValue('')
-    this.searchForm.get('minPrice').setValue(50) 
-    this.searchForm.get('maxPrice').setValue(500000)
-    this.categoryItem.nativeElement.innerText = ''
+    // this.searchForm.get('keyword').setValue('')
+    // this.searchForm.get('category').setValue('')
+    // this.searchForm.get('startDate').setValue('') 
+    // this.searchForm.get('endDate').setValue('')
+    // this.searchForm.get('minPrice').setValue(50) 
+    // this.searchForm.get('maxPrice').setValue(500000)
+    // this.categoryItem.nativeElement.innerText = ''
+    this.initForm();
     this.onSearchClear.emit({})
   }
 
