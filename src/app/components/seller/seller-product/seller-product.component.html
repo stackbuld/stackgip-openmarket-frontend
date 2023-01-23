@@ -1,9 +1,9 @@
 <button
-  class="uk-button uk-button-primary"
-  type="button"
-  uk-toggle="target: #modal-add-product">
+  class="uk-button uk-button-secondary radius"
+  type="button" routerLink="/seller/products/add">
   Add Product
 </button>
+<!-- uk-toggle="target: #modal-add-product" -->
 
 <app-product-item (cp)="cp($event)" 
   (productIdSend)="editProduct.setProduct($event)" 
@@ -12,7 +12,7 @@
 </app-product-item>
 
 <!-- This is the modal with the outside close button -->
-<div id="modal-add-product" class="uk-modal-full" uk-modal>
+<!-- <div id="modal-add-product" class="uk-modal-full" uk-modal>
   <div class="uk-modal-dialog uk-modal-body height-auto">
     <button class="uk-modal-close-full uk-close-large" type="button" uk-close #closeCreate></button>
     <app-add-product 
@@ -20,7 +20,7 @@
       (added)="productList.addProduct($event)">
     </app-add-product>
   </div>
-</div>
+</div> -->
 
 <!-- This is the modal with the outside close button -->
 <div id="modal-edit-product" uk-modal="bg-close: false">

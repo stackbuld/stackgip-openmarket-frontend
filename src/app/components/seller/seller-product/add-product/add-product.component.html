@@ -1,355 +1,445 @@
-<h1 class="uk-margin-bottom">Enter Your Product(s) Details</h1>
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="uk-flex uk-flex-wrap uk-flex-wrap-around">
-    <div class="uk-width-1-2">
-      <mat-form-field class="uk-width-expand">
-        <mat-label>
-          Product name
-          <span *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)">
-            <span
-              class="uk-text-warning"
-              style="font-size: smaller"
-              *ngIf="f.name.errors.required"
-            >
-              Product Name required <br
-            /></span>
-          </span>
-        </mat-label>
-
-        <input
-          type="text"
-          formControlName="name"
-          matInput
-          placeholder="eg Samsung s11"
-          formControlName="name"
-          required
-        />
-      </mat-form-field>
-      <mat-form-field
-        class="uk-width-expand"
-        *ngIf="stores$ | async as stores"
-      >
-        <mat-label>Store Address</mat-label>
-        <mat-select 
-          formControlName="storeIds" 
-          multiple
-          required
-        >
-          <mat-option>Select</mat-option>
-          <mat-option
-            *ngFor="let store of stores.data"
-            value="{{ store.id }}"
-          >
-            {{ store.fullAddress }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field
-        class="uk-width-expand"
-        *ngIf="categories$ | async as categories"
-      >
-        <mat-label>Category</mat-label>
-        <mat-select formControlName="category" required>
-          <mat-option>Select</mat-option>
-          <mat-option
-            *ngFor="let category of categories.data"
-            value="{{ category.id }}"
-          >
-            {{ category.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div class="uk-grid-small uk-grid uk-child-width-1-2@s">
-        <mat-form-field class="">
-          <mat-label
-            >Price
-            <span *ngIf="f.price.invalid && (f.price.dirty || f.price.touched)">
+<div *ngIf="!isPreview">
+  <h1 class="uk-margin-bottom">Enter Your Product(s) Details</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="main uk-flex uk-flex-wrap uk-flex-wrap-around">
+      <div class="full-width uk-width-1-2">
+        <mat-form-field class="mb-3 uk-width-expand">
+          <mat-label>
+            Product name
+            <span *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)">
               <span
                 class="uk-text-warning"
                 style="font-size: smaller"
-                *ngIf="f.price.errors.required"
+                *ngIf="f.name.errors.required"
               >
-                Price required <br
+                Product Name required <br
               /></span>
             </span>
           </mat-label>
 
           <input
-            type="number"
+            type="text"
+            formControlName="name"
             matInput
-            formControlName="price"
-            placeholder="eg 1000"
-            formControlName="price"
+            placeholder="eg Samsung s11"
+            formControlName="name"
             required
           />
         </mat-form-field>
-
-        <mat-form-field class="">
-          <mat-label
-            >Avaliable Unit
-            <span *ngIf="f.unit.invalid && (f.unit.dirty || f.unit.touched)">
-              <span
-                class="uk-text-warning"
-                style="font-size: smaller"
-                *ngIf="f.unit.errors.required"
-              >
-                unit required <br
-              /></span>
-            </span>
-          </mat-label>
-          <input
-            type="number"
-            formControlName="unit"
-            matInput
-            placeholder="200"
-            formControlName="unit"
+        <div class="d-flex justify-content-end">
+          <p class="add-store-btn">+ Add new store</p>
+        </div>
+        <mat-form-field
+          class="mb-3 uk-width-expand"
+          *ngIf="stores$ | async as stores"
+        >
+          <mat-label>Store Address</mat-label>
+          <mat-select 
+            formControlName="storeIds" 
+            multiple
             required
-          />
-        </mat-form-field>
-        <!-- <mat-form-field class="uk-width-1-2@s">
-        <mat-label>Default Shipping cost</mat-label>
-        <input type="number" matInput placeholder="200" required />
-      </mat-form-field> -->
-      </div>
-      <mat-form-field class="">
-        <mat-label>Weight</mat-label>
-        <input
-          type="number"
-          formControlName="weight"
-          matInput
-          placeholder="eg 2000"
-          formControlName="weight"
-        />
-      </mat-form-field>
-      <mat-form-field class="uk-width-expand">
-        <mat-label
-          >Description
-
-          <span
-            *ngIf="
-              f.description.invalid &&
-              (f.description.dirty || f.description.touched)
-            "
           >
-            <span
-              class="uk-text-warning"
-              style="font-size: smaller"
-              *ngIf="f.description.errors.required"
+            <mat-option>Select</mat-option>
+            <mat-option
+              *ngFor="let store of stores.data"
+              value="{{ store.id }}"
             >
-              Product Description required <br
-            /></span>
-          </span>
-        </mat-label>
-        <textarea
-          matInput
-          placeholder="Ex. 100 Main St"
-          formControlName="description"
-          required
-        >
-          provide full detail of this Product
-        </textarea>
-      </mat-form-field>
-      <hr />
-    </div>
-    <div class="uk-width-1-2 uk-flex uk-flex-center">
-      <div class="uk-width-2-3 uk-flex uk-flex-column uk-flex-middle uk-text-center">
-        <h3 class="uk-text-center">Upload Pictures of Product</h3>
-        <div class="js-upload uk-text-center" (click)="upload()">
-          <span uk-icon="icon: cloud-upload; ratio: 3" style="color: #243853;"></span>
-        </div>
-        <div
-          class="uk-margin uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid-small uk-grid"
-        >
-          <div class="uk-margin-small-bottom" *ngFor="let image of images">
-            <div class="uk-inline uk-dark">
-              <img style="max-height: 90px" src="{{ image }}" alt="{{ image }}" />
-              <div
-                class="uk-position-center uk-overlay uk-overlay-primary"
-                style="padding: 5px; border-radius: 20px"
-                (click)="removeImage(image)"
-              >
-                <span
-                  class="iconify"
-                  data-icon="ri:delete-bin-6-line"
-                  data-inline="false"
-                  style="color: rgb(177, 55, 55)"
-                >
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="uk-flex uk-flex-center uk-flex-column">
-    <div
-      formArrayName="variations"
-      *ngFor="let variation of variations()['controls']; let i = index"
-    >
-      <div class="uk-flex uk-flex-center" [formGroupName]="i">
-        <div class="uk-flex uk-flex-center uk-flex-middle uk-width-3-4 option">
-          <mat-form-field class="uk-width-1-4">
-            <mat-label>Title</mat-label>
-            <mat-select formControlName="title" required>
-              <mat-option>--- Select Variation ---</mat-option>
-              <mat-option
-                *ngFor="let productVariation of productVariations"
-                value="{{ productVariation.toLowerCase() }}"
-                >{{ productVariation }}
+              {{ store.fullAddress }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="mb-3 uk-grid-small uk-grid uk-child-width-1-2@s">
+          <mat-form-field class="uk-width-expand" *ngIf="categories$ | async as categories">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="categoryId" required>
+              <mat-option>Select</mat-option>
+              <mat-option *ngFor="let category of categories.data" value="{{ category.id }}">
+                {{ category.name }}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field class="uk-width-1-4 uk-margin-left">
-            <mat-label>Value</mat-label>
+
+          <mat-form-field class="uk-width-expand" *ngIf="categories$ | async as categories">
+            <mat-label>Sub Category</mat-label>
+            <mat-select formControlName="categoryId" required>
+              <mat-option>Select</mat-option>
+              <mat-option *ngFor="let category of categories.data" value="{{ category.id }}">
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="mb-3 uk-grid-small uk-grid uk-child-width-1-2@s">
+          <mat-form-field class="">
+            <mat-label
+              >Price
+              <span *ngIf="f.price.invalid && (f.price.dirty || f.price.touched)">
+                <span
+                  class="uk-text-warning"
+                  style="font-size: smaller"
+                  *ngIf="f.price.errors.required"
+                >
+                  Price required <br
+                /></span>
+              </span>
+            </mat-label>
+
             <input
+              (keypress)="preventLetter($event)"
               type="text"
               matInput
-              placeholder="--- Add Value---"
-              formControlName="value"
+              formControlName="price"
+              placeholder="eg 1000"
+              formControlName="price"
               required
             />
           </mat-form-field>
-          <mat-form-field class="uk-width-1-4 uk-margin-left">
-            <mat-label>Price </mat-label>
+
+          <mat-form-field class="">
+            <mat-label
+              >Avaliable Unit
+              <span *ngIf="f.unit.invalid && (f.unit.dirty || f.unit.touched)">
+                <span
+                  class="uk-text-warning"
+                  style="font-size: smaller"
+                  *ngIf="f.unit.errors.required"
+                >
+                  unit required <br
+                /></span>
+              </span>
+            </mat-label>
             <input
-              type="number"
+              (keypress)="preventLetter($event)"
+              type="text"
+              formControlName="unit"
               matInput
-              placeholder="--- Input Price ---"
-              formControlName="cost"
+              placeholder="200"
+              formControlName="unit"
               required
             />
           </mat-form-field>
-          <div class="uk-margin-left">
-            <button
-              mat-raised-button
-              (click)="removeVariation(i)"
-              color="warn"
-              type="button"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
+          <!-- <mat-form-field class="uk-width-1-2@s">
+          <mat-label>Default Shipping cost</mat-label>
+          <input type="number" matInput placeholder="200" required />
+        </mat-form-field> -->
+        </div>
+        <mat-form-field class="mb-3">
+          <mat-label>Weight</mat-label>
+          <div class="d-flex">
+            <input type="text" (keypress)="preventLetter($event)" formControlName="weight" matInput placeholder="eg 2000" formControlName="weight" /> 
+            <span class="pl-2 py-0 kg-border">KG</span>
           </div>
+        </mat-form-field>
+        <!-- <mat-form-field class="mb-3 uk-width-expand">
+          <mat-label>Description
+            <span *ngIf="f.description.invalid && (f.description.dirty || f.description.touched)">
+              <span class="uk-text-warning" style="font-size: smaller" *ngIf="f.description.errors.required">
+                Product Description required <br/>
+              </span>
+            </span>
+          </mat-label>
+          <ckeditor></ckeditor>
+          <textarea rows="10" matInput placeholder="Ex. 100 Main St" formControlName="description"
+            required>
+            provide full detail of this Product
+          </textarea>
+        </mat-form-field> -->
+        <div class="mb-3 uk-width-expand">
+          <ckeditor formControlName="description"></ckeditor>
         </div>
       </div>
-    </div>
-    <div class="uk-flex uk-flex-center">
-      <button
-        mat-raised-button
-        matTooltip="Add Variations of the Product"
-        aria-label="Add Product Variation"
-        (click)="addVariation()"
-        class="uk-margin uk-button-default"
-        type="button"
-      >
-      <mat-icon>plus_one</mat-icon>
-        Add Variation
-      </button>
-    </div>
-    <hr />
-  </div>
-
-  <div class="uk-flex uk-flex-center uk-flex-column">
-    <div
-      formArrayName="options"
-      *ngFor="let option of options()['controls']; let j = index"
-    >
-      <div class="uk-flex uk-flex-center" [formGroupName]="j">
-        <div class="uk-flex uk-flex-wrap uk-flex-center uk-flex-middle uk-width-3-4 option">
-          <mat-form-field class="uk-width-2-5">
-            <mat-label>Product Name</mat-label>
-            <input
-              type="text"
-              matTooltip="Provide Product Title"
-              matInput
-              placeholder="Product Name"
-              formControlName="title"
-              required
-            />
-          </mat-form-field>
-          <mat-form-field class="uk-width-2-5 uk-margin-left">
-            <mat-label>Price</mat-label>
-            <input
-              type="number"
-              matInput
-              matTooltip="Enter cost for this product"
-              placeholder="eg Enter cost for this Product"
-              formControlName="cost"
-            />
-          </mat-form-field>
-          <mat-form-field class="uk-width-3-5 uk-margin-left">
-            <mat-label>Short Description</mat-label>
-            <textarea
-              type="text"
-              matInput
-              placeholder="provide short description  of this option"
-              formControlName="shortDescription"
-            ></textarea>
-          </mat-form-field>
-
-          <div class="uk-width-1-5 uk-flex uk-flex-center">
-            <div class="uk-width-2-3 uk-flex uk-flex-column uk-flex-middle uk-text-center">
-              <div class="js-upload uk-text-center">
-                <span uk-icon="icon: cloud-upload; ratio: 3" style="color: #243853;"></span>
-              </div>
-              <div
-                class="uk-margin uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid-small uk-grid"
-              >
-                <div class="uk-margin-small-bottom" *ngFor="let image of images">
-                  <div class="uk-inline uk-dark">
-                    <img style="max-height: 90px" src="{{ image }}" alt="{{ image }}" />
-                    <div
-                      class="uk-position-center uk-overlay uk-overlay-primary"
-                      style="padding: 5px; border-radius: 20px"
-                      (click)="removeImage(image)"
-                    >
-                      <span
-                        class="iconify"
-                        data-icon="ri:delete-bin-6-line"
-                        data-inline="false"
-                        style="color: rgb(177, 55, 55)"
-                      >
-                      </span>
-                    </div>
-                  </div>
+      <div class="full-width uk-width-1-2 uk-flex uk-flex-center">
+        <div class="uk-width-2-3 uk-flex uk-flex-column uk-flex-middle uk-text-center">
+          <h3 class="uk-text-center">Upload Pictures of Product</h3>
+          <div class="js-upload uk-text-center" (click)="upload()">
+            <span uk-icon="icon: cloud-upload; ratio: 3" style="color: #243853;"></span>
+          </div>
+          <div
+            class="uk-margin uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid-small uk-grid"
+          >
+            <div class="uk-margin-small-bottom" *ngFor="let image of images">
+              <div class="uk-inline uk-dark">
+                <img style="max-height: 90px" src="{{ image }}" alt="{{ image }}" />
+                <div
+                  class="uk-position-center uk-overlay uk-overlay-primary"
+                  style="padding: 5px; border-radius: 20px"
+                  (click)="removeImage(image)"
+                >
+                  <span
+                    class="iconify"
+                    data-icon="ri:delete-bin-6-line"
+                    data-inline="false"
+                    style="color: rgb(177, 55, 55)"
+                  >
+                  </span>
                 </div>
               </div>
-              <h3 class="uk-text-center">Upload Pictures of Product</h3>
             </div>
-          </div>
-
-          <div class="uk-width-1-2 uk-margin-left">
-            <button
-              mat-raised-button
-              (click)="removeOption(j)"
-              color="warn"
-              class="uk-margin"
-              type="button"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="uk-flex uk-flex-center">
-      <button
-        mat-raised-button
-        matTooltip="Add Variations of the Product"
-        aria-label="Add Product Variation"
-        (click)="addProductOption()"
-        class="uk-margin uk-button-default"
-        type="button"
+
+    <div class="main mt-3 d-flex justify-content-center">
+      <div *ngIf="!addingVariation" class="d-flex justify-content-center">
+        <button
+          aria-label="Add Product Variation"
+          (click)="addVariation()"
+          class="the-btn"
+          type="button"
+        >
+          + Add Variation
+        </button> &nbsp; 
+        <img src="assets/image/btn-tool-tip.svg" alt="tootip" matTooltip="Add Variations of the Product"/>       
+      </div>
+      &nbsp; &nbsp; &nbsp; &nbsp;
+      <div *ngIf="!addingComplimentaryOptions" class="d-flex justify-content-center">
+        <button
+          aria-label="Add Complementary Variation"
+          (click)="addProductOption()"
+          class="the-btn"
+          type="button"
+        >
+          + Complementary Product
+        </button> &nbsp;
+        <img src="assets/image/btn-tool-tip.svg" alt="tootip" matTooltip="Add Complementary Products of your Product"/>  
+      </div>
+    </div>
+
+    <div class="mt-5 uk-flex uk-flex-center uk-flex-column">
+      <div formArrayName="variations" *ngFor="let variation of variations()['controls']; let i = index">
+        <div class="" [formGroupName]="i">
+          <div class="main d-flex wrapper-style">
+          <div class="mt-2">
+              <p class="number-count">{{i + 1}}</p>
+          </div>
+            <mat-form-field class="full-width uk-width-1-4">
+              <mat-label>Title</mat-label>
+              <mat-select formControlName="title" required>
+                <mat-option>--- Select Variation ---</mat-option>
+                <mat-option
+                  *ngFor="let productVariation of productVariations"
+                  value="{{ productVariation.toLowerCase() }}"
+                  >{{ productVariation }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="no-mobile-margin full-width uk-width-1-4 uk-margin-left">
+              <mat-label>Value</mat-label>
+              <input
+                type="text"
+                matInput
+                placeholder="--- Add Value---"
+                formControlName="value"
+                required
+              />
+            </mat-form-field>
+            <mat-form-field class="no-mobile-margin full-width uk-width-1-4 uk-margin-left">
+              <mat-label>Price </mat-label>
+              <input
+                type="number"
+                matInput
+                placeholder="--- Input Price ---"
+                formControlName="cost"
+                required
+              />
+            </mat-form-field>
+            <div class="ml-3 del-mobile">
+                <img (click)="removeVariation(i)" class="pointer" src="assets/image/del-btn.svg" alt="del-btn"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div  *ngIf="addingVariation" class="d-flex justify-content-center">
+        <button
+          aria-label="Add Product Variation"
+          (click)="addVariation()"
+          class="the-btn"
+          type="button"
+        >
+          + Add Variation
+        </button> &nbsp; 
+        <img src="assets/image/btn-tool-tip.svg" alt="tootip" matTooltip="Add Variations of the Product"/>       
+      </div>
+
+      <hr />
+
+      <div
+        formArrayName="options"
+        *ngFor="let option of options()['controls']; let j = index"
       >
-      <mat-icon>plus_one</mat-icon>
-        Add Complementary Product
+        <div class="wrapper-style2" [formGroupName]="j">
+          <div class="">
+            <div class="main d-flex">
+              <mat-form-field class="w-400">
+                <mat-label>Product Name</mat-label>
+                <input
+                  type="text"
+                  matTooltip="Provide Product Title"
+                  matInput
+                  placeholder="Product Name"
+                  formControlName="title"
+                  required
+                />
+              </mat-form-field>
+              &nbsp; &nbsp;
+              <mat-form-field class="w-400">
+                <mat-label>Price</mat-label>
+                <input
+                  type="text"
+                  matInput (keypress)="preventLetter($event)" 
+                  matTooltip="Enter cost for this product"
+                  placeholder="eg Enter cost for this Product"
+                  formControlName="cost"
+                />
+              </mat-form-field>
+            </div>
+            <div class="main d-flex mt-4">
+              <div class="">
+                <mat-form-field class="full-width w-600">
+                  <mat-label>Short Description</mat-label>
+                  <textarea
+                    type="text"
+                    matInput rows="10"
+                    placeholder="provide short description  of this option"
+                    formControlName="shortDescription"
+                  ></textarea>
+                </mat-form-field>
+                <div class="del-mobile mt-4">
+                  <img (click)="removeOption(j)" class="pointer" src="assets/image/del-btn.svg" alt="del-btn"/>
+                </div>
+              </div>
+              &nbsp; &nbsp;
+              <div class="full-width w-200">
+                <div class="">
+                  <div class="js-upload my-0 uk-text-center" (click)="uploadComplimentaryImage(j)">
+                    <span uk-icon="icon: cloud-upload; ratio: 3" style="color: #243853;"></span>
+                  </div>
+                  <div class="uk-margin uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid-small uk-grid">
+                    <!-- <div class="uk-margin-small-bottom" *ngFor="let image of complimentartImages"> -->
+                      <div class="uk-margin-small-bottom">
+                      <div class="uk-inline uk-dark">
+                        <img style="max-height: 90px" src="{{ imageShow }}" />
+                        <!-- <img style="max-height: 90px" src="{{ image }}" alt="{{ image }}" /> -->
+                        <div
+                          class="uk-position-center uk-overlay uk-overlay-primary"
+                          style="padding: 5px; border-radius: 20px"
+                        >
+                        <!-- (click)="removeComplimentaryImage(j)" -->
+                        <!-- (click)="removeComplimentaryImage(image)" -->
+                          <span
+                            class="iconify"
+                            data-icon="ri:delete-bin-6-line"
+                            data-inline="false"
+                            style="color: rgb(177, 55, 55)"
+                          >
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="text-center mb-0 upload-text">Upload a single pictures of product</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="addingComplimentaryOptions" class="d-flex justify-content-center">
+        <button
+          aria-label="Add Complementary Variation"
+          (click)="addProductOption()"
+          class="the-btn"
+          type="button"
+        >
+          + Complementary Product
+        </button> &nbsp;
+        <img src="assets/image/btn-tool-tip.svg" alt="tootip" matTooltip="Add Complementary Products of your Product"/>  
+      </div>
+    </div>
+    
+    <div class="d-flex justify-content-center mt-4">
+      <button type="submit" class="btn-add" 
+        [class.spinner]="loading" [disabled]="loading">
+        Preview & Save
       </button>
     </div>
-    <hr />
+  </form>
+</div>
+
+<div *ngIf="isPreview">
+  <div class="row">
+    <div class="col-md-5 col-sm-12 col-xs-12 col-l-5">
+      <div class="main-img">
+        <img src="{{previewImg}}" alt="laptop"/>
+      </div>
+      <div class="mt-3 d-flex">
+        <div class="pointer" *ngFor="let item of previewData?.imageUrls">
+          <img [ngClass]="{'active-img': previewImg === item}" (click)="showImg(item)" 
+            src="{{ item }}" alt="laptop" width="100" height="70" class="mr-2"/>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-space col-md-7 col-sm-12 col-xs-12 col-l-7">
+      <p class="item-name">{{ previewData?.name || 'N/A'}}</p>
+      <p class="item-price">{{ previewData?.price | currency: '₦' }}</p>
+
+      <p class="gen-st mb-0">Available Units</p>
+      <div class="d-flex">
+        <svg (click)="changeUnit(previewData?.unit, 'minus')" class="pointer" width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16.0003 29.8333C23.3641 29.8333 29.3337 23.8638 29.3337 16.5C29.3337 9.13616 23.3641 3.16663 16.0003 3.16663C8.63653 3.16663 2.66699 9.13616 2.66699 16.5C2.66699 23.8638 8.63653 29.8333 16.0003 29.8333Z" fill="#F2F2F2"/>
+          <path d="M10.667 16.5H21.3337" stroke="#D8D8D8" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg> 
+        &nbsp; &nbsp;       
+        <p class="num mb-0 my-0">{{ previewData?.unit || 'N/A' }}</p>
+        &nbsp; &nbsp; 
+        <svg (click)="changeUnit(previewData?.unit, 'add')" class="pointer" width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16.0003 29.8333C23.3641 29.8333 29.3337 23.8638 29.3337 16.5C29.3337 9.13616 23.3641 3.16663 16.0003 3.16663C8.63653 3.16663 2.66699 9.13616 2.66699 16.5C2.66699 23.8638 8.63653 29.8333 16.0003 29.8333Z" fill="#F2F2F2"/>
+          <path d="M16 11.1666V21.8333" stroke="#666666" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10.667 16.5H21.3337" stroke="#666666" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>          
+      </div>
+
+      <div class="mt-3" *ngFor="let item of variationList">
+        <p class="gen-st mb-0">{{ item?.title }}</p>
+        <span class="mr-2 value" *ngFor="let it of item?.value">{{ it }}</span>
+      </div>
+    </div>
   </div>
-  <button mat-raised-button type="submit" class="btn-default" 
-    [class.spinner]="loading" [disabled]="loading">
-    Add Product
-  </button>
-</form>
+
+  <div class="mt-5">
+    <div>
+      <p class="gen-st mb-0 underline">Product Description</p>
+      <p [innerHTML]="previewData?.description" class="description py-3">
+        <!-- {{ previewData?.description || 'N/A' }} -->
+      </p>
+    </div>
+
+    <div>
+      <p class="gen-st mb-0 underline">Complementary Product(s)</p>
+      <div class="p-3">
+        <div class="d-flex">
+          <div *ngFor="let item of previewData?.options" class="carder">
+            <img src="{{ item?.imageUrl }}" alt="laptop" width="200" height="300" />
+            <div class="p-2">
+              <p class="card-name">{{ item?.title }}</p>
+              <p class="card-price">{{ item?.cost | currency: '₦'}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="d-flex justify-content-center mt-4">
+      <button (click)="edit()" type="submit" class="btn-edit">
+        Edit
+      </button>
+      &nbsp; &nbsp;
+      <button type="submit" class="btn-submit" 
+        [class.spinner]="loading" [disabled]="loading">
+        Save & Continue
+      </button>
+    </div>
+
+  </div>
+</div>

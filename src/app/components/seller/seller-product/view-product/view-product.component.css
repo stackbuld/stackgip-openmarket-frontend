@@ -1,0 +1,181 @@
+.main-img {
+    background: #F6F6FD;
+    border: 0.4px solid #BDBDBD;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    height: 300px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.active-img {
+    border: 1px solid black !important;
+}
+
+.item-price {
+    font-family: Avenir;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 38px;
+    letter-spacing: 0px;
+    text-align: left;
+}
+
+.summary-card {
+    background: #FFFFFF;
+    border: 1px solid #BDBDBD;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.gen-st {
+    font-family: Avenir;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 38px;
+    letter-spacing: 0px;
+    text-align: left;
+}
+
+.imcome-amt {
+    font-family: Avenir LT Std;
+    font-size: 24px;
+    font-weight: 750;
+    line-height: 29px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.income {
+    font-family: Avenir LT Std;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    color: #979797;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.item-name {
+    font-family: Avenir;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 38px;
+    letter-spacing: 0px;
+    text-align: left;
+}
+
+.text-sty {
+    font-family: Avenir;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: left;
+}
+
+.num {
+    font-family: Avenir;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 49px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+.gen-st {
+    font-family: Avenir;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 38px;
+    letter-spacing: 0px;
+    text-align: left;
+}
+
+.description {
+    font-family: Avenir LT Std;
+    font-size: 18px;
+    font-weight: 350;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+    width: 70%;
+}
+
+.value {
+    background-color: #F6F6FD;
+    border: 1px solid #BDBDBD;
+    border-radius: 5px;
+    color: black;
+    padding: 5px;
+    width: auto;
+}
+
+.underline {
+    border-bottom: 1px solid #BDBDBD;
+}
+
+.btn-add {
+    background: #000000;
+    color: white;
+    border: 0.8px solid #FFFFFF;
+    box-shadow: 0px 4px 8px rgba(142, 141, 208, 0.16);
+    border-radius: 8px;
+    padding: 15px 50px;
+}
+
+.btn-submit {
+    background: #000000;
+    color: white;
+    border: 0.8px solid #FFFFFF;
+    box-shadow: 0px 4px 8px rgba(142, 141, 208, 0.16);
+    border-radius: 8px;
+    padding: 15px 50px;
+    width: 250px;
+}
+
+.btn-edit {
+    background: #FFFFFF;
+    color: 000000;
+    border: 0.8px solid #000000;
+    box-shadow: 0px 4px 8px rgba(142, 141, 208, 0.16);
+    border-radius: 8px;
+    padding: 15px 50px;
+    width: 250px;
+}
+
+@media screen and (max-width: 768px) {
+
+    .mobile-space {
+        margin-top: 10px;
+    }
+    .description {
+        width: 100% !important;
+    }
+
+    .mobile-block {
+        display: block !important;
+    }
+    .summary-card {
+        margin-bottom: 1rem;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .mobile-block {
+        display: block !important;
+    }
+
+    .summary-card {
+        margin-bottom: 1rem;
+    }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1365px) {
+    
+}

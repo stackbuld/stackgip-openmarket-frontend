@@ -57,14 +57,14 @@
           <th>Product Name/Image</th>
           <th>Price (₦)</th>
           <th>
-            <span class="unit-caption">Unit Sold</span> 
-            <span class="unit-wrap">
+            <span class="unit-caption">Unit Available</span>
+            <!-- <span class="unit-wrap">
               <span (click)="sortBy('UnitSold', true)" class="sort-asc"></span>
               <span (click)="sortBy('UnitSold', false)" class="sort-desc"></span>
-            </span> 
+            </span>  -->
           </th>
           <th>
-            <span class="unit-caption">Unit Available</span>
+            <span class="unit-caption">Unit Sold</span> 
             <!-- <p class="unit-wrap">
               <span (click)="sortBy('UnitSold', true)" class="sort-asc"></span>
               <span (click)="sortBy('UnitSold', false)" class="sort-desc"></span>
@@ -73,46 +73,40 @@
           <th>Revenue</th>
           <th>
             <span id="created-at">Date posted</span>  
-            <span id="created-at-wrap">
+            <!-- <span id="created-at-wrap">
               <span (click)="sortBy('Date', true)" class="sort-asc"></span>
               <span (click)="sortBy('Date', false)" class="sort-desc"></span>
-            </span>
+            </span> -->
           </th>
           <th>View</th>
           <th>Action</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="productDetails.length > 0">
         <tr *ngFor="let productDetail of productDetails | paginate: { itemsPerPage: maximumItem, currentPage: pageNumber, totalItems:totalItemCount}">
           <td><input class="uk-checkbox" type="checkbox" aria-label="Checkbox"></td>
           <td class="uk-flex uk-flex-middle">
             <img class="uk-img product-img" src="{{ productDetail.imageUrl }}" width="100" height="100" />
             <span class="uk-text-muted uk-margin-left"> {{ productDetail.name }} </span>
           </td>
-          <td>₦{{ numberWithCommas(productDetail.price) }}</td>
-          <td>{{ productDetail.unitSold }}</td>
+          <td>{{ productDetail.price | currency: '₦' }}</td>
           <td>{{ productDetail.unit }}</td>
-          <td>₦{{ numberWithCommas(productDetail.price * productDetail.unit) }}</td>
-          <td>{{ formatDateToLocal(productDetail.createdOn) }}</td>
-          <td class="uk-text-danger">
-            <a uk-toggle="target: #modal-view-more" 
-            (click)="setViewMore(productDetail.id)">
+          <td>{{ productDetail.unitSold }}</td>
+          <td>{{ (productDetail.price * productDetail.unit) | currency: '₦' }}</td>
+          <td>{{ productDetail.createdOn | date: 'short' }}</td>
+          <td class="">
+            <!-- uk-toggle="target: #modal-view-more"
+            (click)="setViewMore(productDetail.id)" -->
+            <a routerLink="/seller/products/view" class="edge2">
               <span style="margin-right: 4px;">View</span>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M10.1536 4.67109C10.1997 4.62487 10.2545 4.5882 10.3148 4.56318C10.3751 4.53816 10.4397 4.52528 10.505 4.52528C10.5703 4.52528 10.6349 4.53816 10.6952 4.56318C10.7555 4.5882 10.8103 4.62487 10.8564 4.67109L13.8344 7.64903C13.8806 7.69513 13.9173 7.7499 13.9423 7.8102C13.9673 7.8705 13.9802 7.93514 13.9802 8.00043C13.9802 8.06571 13.9673 8.13035 13.9423 8.19065C13.9173 8.25095 13.8806 8.30572 13.8344 8.35182L10.8564 11.3298C10.7632 11.423 10.6368 11.4753 10.505 11.4753C10.3732 11.4753 10.2468 11.423 10.1536 11.3298C10.0604 11.2366 10.0081 11.1102 10.0081 10.9784C10.0081 10.8466 10.0604 10.7202 10.1536 10.627L12.7812 8.00043L10.1536 5.37388C10.1074 5.32778 10.0707 5.27301 10.0457 5.21271C10.0207 5.15241 10.0078 5.08777 10.0078 5.02249C10.0078 4.9572 10.0207 4.89256 10.0457 4.83226C10.0707 4.77196 10.1074 4.71719 10.1536 4.67109Z" fill="#D01717"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.07031 8.00032C2.07031 7.86868 2.1226 7.74244 2.21568 7.64936C2.30876 7.55629 2.435 7.50399 2.56664 7.50399H12.9894C13.1211 7.50399 13.2473 7.55629 13.3404 7.64936C13.4335 7.74244 13.4858 7.86868 13.4858 8.00032C13.4858 8.13195 13.4335 8.25819 13.3404 8.35127C13.2473 8.44435 13.1211 8.49664 12.9894 8.49664H2.56664C2.435 8.49664 2.30876 8.44435 2.21568 8.35127C2.1226 8.25819 2.07031 8.13195 2.07031 8.00032Z" fill="#D01717"/>
-              </svg>  
             </a>            
           </td>
-          <td class="uk-text-danger">
-            <a id="js-modal-prompt" 
-              uk-toggle="target: #modal-edit-product"
-              (click)="setProductId(productDetail.id)">
-              <span style="margin-right: 4px;">Edit Details</span>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M10.1536 4.67109C10.1997 4.62487 10.2545 4.5882 10.3148 4.56318C10.3751 4.53816 10.4397 4.52528 10.505 4.52528C10.5703 4.52528 10.6349 4.53816 10.6952 4.56318C10.7555 4.5882 10.8103 4.62487 10.8564 4.67109L13.8344 7.64903C13.8806 7.69513 13.9173 7.7499 13.9423 7.8102C13.9673 7.8705 13.9802 7.93514 13.9802 8.00043C13.9802 8.06571 13.9673 8.13035 13.9423 8.19065C13.9173 8.25095 13.8806 8.30572 13.8344 8.35182L10.8564 11.3298C10.7632 11.423 10.6368 11.4753 10.505 11.4753C10.3732 11.4753 10.2468 11.423 10.1536 11.3298C10.0604 11.2366 10.0081 11.1102 10.0081 10.9784C10.0081 10.8466 10.0604 10.7202 10.1536 10.627L12.7812 8.00043L10.1536 5.37388C10.1074 5.32778 10.0707 5.27301 10.0457 5.21271C10.0207 5.15241 10.0078 5.08777 10.0078 5.02249C10.0078 4.9572 10.0207 4.89256 10.0457 4.83226C10.0707 4.77196 10.1074 4.71719 10.1536 4.67109Z" fill="#D01717"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M2.07031 8.00032C2.07031 7.86868 2.1226 7.74244 2.21568 7.64936C2.30876 7.55629 2.435 7.50399 2.56664 7.50399H12.9894C13.1211 7.50399 13.2473 7.55629 13.3404 7.64936C13.4335 7.74244 13.4858 7.86868 13.4858 8.00032C13.4858 8.13195 13.4335 8.25819 13.3404 8.35127C13.2473 8.44435 13.1211 8.49664 12.9894 8.49664H2.56664C2.435 8.49664 2.30876 8.44435 2.21568 8.35127C2.1226 8.25819 2.07031 8.13195 2.07031 8.00032Z" fill="#D01717"/>
-              </svg>  
+          <td class="">
+            <!-- uk-toggle="target: #modal-edit-product"
+              (click)="setProductId(productDetail.id)"
+              id="js-modal-prompt"  -->
+            <a class="edge" routerLink="/seller/products/add">
+              <span style="margin-right: 4px;">Edit</span>
             </a>            
           </td>
           <!-- <td>
@@ -122,7 +116,157 @@
       </tbody>
     </table>
   </div>
-    <div class="uk-flex uk-flex-center">
+    <div *ngIf="productDetails.length === 0" class="p-5 d-flex justify-content-center">
+      <img src="/assets/image/empty-table.svg" alt="empty-table" />
+    </div>
+    <div *ngIf="productDetails.length > 0" class="uk-flex uk-flex-right">
       <pagination-controls (pageChange)="fetchNextProducts($event)"></pagination-controls>
+    </div>
+
+    <div>
+      <h2 class="heading">Products Low in Stock <span style="color: black;">(12)</span></h2>
+      <div class="stock-section mt-3">
+        <div class="mb-3 d-flex justify-content-between">
+          <div class="d-flex">
+            <img src="assets/image/hp-laptop.png" alt="img" width="100" height="100" /> &nbsp; &nbsp;
+            <div>
+              <p style="width: 70%;">Hp Pavilion 15 11th 500GB Win 10 + 1 Year Warranty</p>
+              <p><span style="color: #FCCF00;">04</span> in Stock</p>
+            </div>
+          </div>
+          <div class="al d-flex">
+            <div class="d-flex">
+              <svg class="pointer" width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.0003 29.8333C23.3641 29.8333 29.3337 23.8638 29.3337 16.5C29.3337 9.13616 23.3641 3.16663 16.0003 3.16663C8.63653 3.16663 2.66699 9.13616 2.66699 16.5C2.66699 23.8638 8.63653 29.8333 16.0003 29.8333Z" fill="#F2F2F2"/>
+                <path d="M10.667 16.5H21.3337" stroke="#D8D8D8" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg> 
+              &nbsp; &nbsp;       
+              <p class="mb-0 al d-flex">{{ 9 || 'N/A' }}</p>
+              &nbsp; &nbsp; 
+              <svg class="pointer" width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.0003 29.8333C23.3641 29.8333 29.3337 23.8638 29.3337 16.5C29.3337 9.13616 23.3641 3.16663 16.0003 3.16663C8.63653 3.16663 2.66699 9.13616 2.66699 16.5C2.66699 23.8638 8.63653 29.8333 16.0003 29.8333Z" fill="#F2F2F2"/>
+                <path d="M16 11.1666V21.8333" stroke="#666666" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.667 16.5H21.3337" stroke="#666666" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>          
+            </div>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <div class="">
+              <!-- uk-toggle="target: #modal-view-more" -->
+              <a routerLink="/seller/products/view">
+                <span style="margin-right: 4px; color: #D01717;">View</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.1536 4.67109C10.1997 4.62487 10.2545 4.5882 10.3148 4.56318C10.3751 4.53816 10.4397 4.52528 10.505 4.52528C10.5703 4.52528 10.6349 4.53816 10.6952 4.56318C10.7555 4.5882 10.8103 4.62487 10.8564 4.67109L13.8344 7.64903C13.8806 7.69513 13.9173 7.7499 13.9423 7.8102C13.9673 7.8705 13.9802 7.93514 13.9802 8.00043C13.9802 8.06571 13.9673 8.13035 13.9423 8.19065C13.9173 8.25095 13.8806 8.30572 13.8344 8.35182L10.8564 11.3298C10.7632 11.423 10.6368 11.4753 10.505 11.4753C10.3732 11.4753 10.2468 11.423 10.1536 11.3298C10.0604 11.2366 10.0081 11.1102 10.0081 10.9784C10.0081 10.8466 10.0604 10.7202 10.1536 10.627L12.7812 8.00043L10.1536 5.37388C10.1074 5.32778 10.0707 5.27301 10.0457 5.21271C10.0207 5.15241 10.0078 5.08777 10.0078 5.02249C10.0078 4.9572 10.0207 4.89256 10.0457 4.83226C10.0707 4.77196 10.1074 4.71719 10.1536 4.67109Z" fill="#D01717"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M2.07031 8.00032C2.07031 7.86868 2.1226 7.74244 2.21568 7.64936C2.30876 7.55629 2.435 7.50399 2.56664 7.50399H12.9894C13.1211 7.50399 13.2473 7.55629 13.3404 7.64936C13.4335 7.74244 13.4858 7.86868 13.4858 8.00032C13.4858 8.13195 13.4335 8.25819 13.3404 8.35127C13.2473 8.44435 13.1211 8.49664 12.9894 8.49664H2.56664C2.435 8.49664 2.30876 8.44435 2.21568 8.35127C2.1226 8.25819 2.07031 8.13195 2.07031 8.00032Z" fill="#D01717"/>
+                </svg>  
+              </a>            
+            </div>
+            &nbsp; &nbsp; &nbsp; 
+            <div class="">
+              <!-- id="js-modal-prompt" uk-toggle="target: #modal-edit-product" -->
+              <a routerLink="/seller/products/add">
+                <span style="margin-right: 4px; color: #D01717;">Edit Details</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.1536 4.67109C10.1997 4.62487 10.2545 4.5882 10.3148 4.56318C10.3751 4.53816 10.4397 4.52528 10.505 4.52528C10.5703 4.52528 10.6349 4.53816 10.6952 4.56318C10.7555 4.5882 10.8103 4.62487 10.8564 4.67109L13.8344 7.64903C13.8806 7.69513 13.9173 7.7499 13.9423 7.8102C13.9673 7.8705 13.9802 7.93514 13.9802 8.00043C13.9802 8.06571 13.9673 8.13035 13.9423 8.19065C13.9173 8.25095 13.8806 8.30572 13.8344 8.35182L10.8564 11.3298C10.7632 11.423 10.6368 11.4753 10.505 11.4753C10.3732 11.4753 10.2468 11.423 10.1536 11.3298C10.0604 11.2366 10.0081 11.1102 10.0081 10.9784C10.0081 10.8466 10.0604 10.7202 10.1536 10.627L12.7812 8.00043L10.1536 5.37388C10.1074 5.32778 10.0707 5.27301 10.0457 5.21271C10.0207 5.15241 10.0078 5.08777 10.0078 5.02249C10.0078 4.9572 10.0207 4.89256 10.0457 4.83226C10.0707 4.77196 10.1074 4.71719 10.1536 4.67109Z" fill="#D01717"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M2.07031 8.00032C2.07031 7.86868 2.1226 7.74244 2.21568 7.64936C2.30876 7.55629 2.435 7.50399 2.56664 7.50399H12.9894C13.1211 7.50399 13.2473 7.55629 13.3404 7.64936C13.4335 7.74244 13.4858 7.86868 13.4858 8.00032C13.4858 8.13195 13.4335 8.25819 13.3404 8.35127C13.2473 8.44435 13.1211 8.49664 12.9894 8.49664H2.56664C2.435 8.49664 2.30876 8.44435 2.21568 8.35127C2.1226 8.25819 2.07031 8.13195 2.07031 8.00032Z" fill="#D01717"/>
+                </svg>  
+              </a>            
+            </div>
+          </div>
+        </div>
+        <div class="mb-3 d-flex justify-content-between">
+          <div class="d-flex">
+            <img src="assets/image/hp-laptop.png" alt="img" width="100" height="100" /> &nbsp; &nbsp;
+            <div>
+              <p style="width: 70%;">Hp Pavilion 15 11th 500GB Win 10 + 1 Year Warranty</p>
+              <p><span style="color: #FCCF00;">04</span> in Stock</p>
+            </div>
+          </div>
+          <div class="al d-flex">
+            <div class="d-flex">
+              <svg class="pointer" width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.0003 29.8333C23.3641 29.8333 29.3337 23.8638 29.3337 16.5C29.3337 9.13616 23.3641 3.16663 16.0003 3.16663C8.63653 3.16663 2.66699 9.13616 2.66699 16.5C2.66699 23.8638 8.63653 29.8333 16.0003 29.8333Z" fill="#F2F2F2"/>
+                <path d="M10.667 16.5H21.3337" stroke="#D8D8D8" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg> 
+              &nbsp; &nbsp;       
+              <p class="mb-0 al d-flex">{{ 9 || 'N/A' }}</p>
+              &nbsp; &nbsp; 
+              <svg class="pointer" width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.0003 29.8333C23.3641 29.8333 29.3337 23.8638 29.3337 16.5C29.3337 9.13616 23.3641 3.16663 16.0003 3.16663C8.63653 3.16663 2.66699 9.13616 2.66699 16.5C2.66699 23.8638 8.63653 29.8333 16.0003 29.8333Z" fill="#F2F2F2"/>
+                <path d="M16 11.1666V21.8333" stroke="#666666" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.667 16.5H21.3337" stroke="#666666" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>          
+            </div>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <div class="">
+              <!-- uk-toggle="target: #modal-view-more" -->
+              <a routerLink="/seller/products/view">
+                <span style="margin-right: 4px; color: #D01717;">View</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.1536 4.67109C10.1997 4.62487 10.2545 4.5882 10.3148 4.56318C10.3751 4.53816 10.4397 4.52528 10.505 4.52528C10.5703 4.52528 10.6349 4.53816 10.6952 4.56318C10.7555 4.5882 10.8103 4.62487 10.8564 4.67109L13.8344 7.64903C13.8806 7.69513 13.9173 7.7499 13.9423 7.8102C13.9673 7.8705 13.9802 7.93514 13.9802 8.00043C13.9802 8.06571 13.9673 8.13035 13.9423 8.19065C13.9173 8.25095 13.8806 8.30572 13.8344 8.35182L10.8564 11.3298C10.7632 11.423 10.6368 11.4753 10.505 11.4753C10.3732 11.4753 10.2468 11.423 10.1536 11.3298C10.0604 11.2366 10.0081 11.1102 10.0081 10.9784C10.0081 10.8466 10.0604 10.7202 10.1536 10.627L12.7812 8.00043L10.1536 5.37388C10.1074 5.32778 10.0707 5.27301 10.0457 5.21271C10.0207 5.15241 10.0078 5.08777 10.0078 5.02249C10.0078 4.9572 10.0207 4.89256 10.0457 4.83226C10.0707 4.77196 10.1074 4.71719 10.1536 4.67109Z" fill="#D01717"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M2.07031 8.00032C2.07031 7.86868 2.1226 7.74244 2.21568 7.64936C2.30876 7.55629 2.435 7.50399 2.56664 7.50399H12.9894C13.1211 7.50399 13.2473 7.55629 13.3404 7.64936C13.4335 7.74244 13.4858 7.86868 13.4858 8.00032C13.4858 8.13195 13.4335 8.25819 13.3404 8.35127C13.2473 8.44435 13.1211 8.49664 12.9894 8.49664H2.56664C2.435 8.49664 2.30876 8.44435 2.21568 8.35127C2.1226 8.25819 2.07031 8.13195 2.07031 8.00032Z" fill="#D01717"/>
+                </svg>  
+              </a>            
+            </div>
+            &nbsp; &nbsp; &nbsp; 
+            <div class="">
+              <!-- id="js-modal-prompt" uk-toggle="target: #modal-edit-product" -->
+              <a routerLink="/seller/products/add">
+                <span style="margin-right: 4px; color: #D01717;">Edit Details</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.1536 4.67109C10.1997 4.62487 10.2545 4.5882 10.3148 4.56318C10.3751 4.53816 10.4397 4.52528 10.505 4.52528C10.5703 4.52528 10.6349 4.53816 10.6952 4.56318C10.7555 4.5882 10.8103 4.62487 10.8564 4.67109L13.8344 7.64903C13.8806 7.69513 13.9173 7.7499 13.9423 7.8102C13.9673 7.8705 13.9802 7.93514 13.9802 8.00043C13.9802 8.06571 13.9673 8.13035 13.9423 8.19065C13.9173 8.25095 13.8806 8.30572 13.8344 8.35182L10.8564 11.3298C10.7632 11.423 10.6368 11.4753 10.505 11.4753C10.3732 11.4753 10.2468 11.423 10.1536 11.3298C10.0604 11.2366 10.0081 11.1102 10.0081 10.9784C10.0081 10.8466 10.0604 10.7202 10.1536 10.627L12.7812 8.00043L10.1536 5.37388C10.1074 5.32778 10.0707 5.27301 10.0457 5.21271C10.0207 5.15241 10.0078 5.08777 10.0078 5.02249C10.0078 4.9572 10.0207 4.89256 10.0457 4.83226C10.0707 4.77196 10.1074 4.71719 10.1536 4.67109Z" fill="#D01717"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M2.07031 8.00032C2.07031 7.86868 2.1226 7.74244 2.21568 7.64936C2.30876 7.55629 2.435 7.50399 2.56664 7.50399H12.9894C13.1211 7.50399 13.2473 7.55629 13.3404 7.64936C13.4335 7.74244 13.4858 7.86868 13.4858 8.00032C13.4858 8.13195 13.4335 8.25819 13.3404 8.35127C13.2473 8.44435 13.1211 8.49664 12.9894 8.49664H2.56664C2.435 8.49664 2.30876 8.44435 2.21568 8.35127C2.1226 8.25819 2.07031 8.13195 2.07031 8.00032Z" fill="#D01717"/>
+                </svg>  
+              </a>            
+            </div>
+          </div>
+        </div>
+        <div class="mb-3 d-flex justify-content-between">
+          <div class="d-flex">
+            <img src="assets/image/hp-laptop.png" alt="img" width="100" height="100" /> &nbsp; &nbsp;
+            <div>
+              <p style="width: 70%;">Hp Pavilion 15 11th 500GB Win 10 + 1 Year Warranty</p>
+              <p><span style="color: #FCCF00;">04</span> in Stock</p>
+            </div>
+          </div>
+          <div class="al d-flex">
+            <div class="d-flex">
+              <svg class="pointer" width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.0003 29.8333C23.3641 29.8333 29.3337 23.8638 29.3337 16.5C29.3337 9.13616 23.3641 3.16663 16.0003 3.16663C8.63653 3.16663 2.66699 9.13616 2.66699 16.5C2.66699 23.8638 8.63653 29.8333 16.0003 29.8333Z" fill="#F2F2F2"/>
+                <path d="M10.667 16.5H21.3337" stroke="#D8D8D8" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg> 
+              &nbsp; &nbsp;       
+              <p class="mb-0 al d-flex">{{ 9 || 'N/A' }}</p>
+              &nbsp; &nbsp; 
+              <svg class="pointer" width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.0003 29.8333C23.3641 29.8333 29.3337 23.8638 29.3337 16.5C29.3337 9.13616 23.3641 3.16663 16.0003 3.16663C8.63653 3.16663 2.66699 9.13616 2.66699 16.5C2.66699 23.8638 8.63653 29.8333 16.0003 29.8333Z" fill="#F2F2F2"/>
+                <path d="M16 11.1666V21.8333" stroke="#666666" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.667 16.5H21.3337" stroke="#666666" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>          
+            </div>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <div class="">
+              <!-- uk-toggle="target: #modal-view-more" -->
+              <a routerLink="/seller/products/view">
+                <span style="margin-right: 4px; color: #D01717;">View</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.1536 4.67109C10.1997 4.62487 10.2545 4.5882 10.3148 4.56318C10.3751 4.53816 10.4397 4.52528 10.505 4.52528C10.5703 4.52528 10.6349 4.53816 10.6952 4.56318C10.7555 4.5882 10.8103 4.62487 10.8564 4.67109L13.8344 7.64903C13.8806 7.69513 13.9173 7.7499 13.9423 7.8102C13.9673 7.8705 13.9802 7.93514 13.9802 8.00043C13.9802 8.06571 13.9673 8.13035 13.9423 8.19065C13.9173 8.25095 13.8806 8.30572 13.8344 8.35182L10.8564 11.3298C10.7632 11.423 10.6368 11.4753 10.505 11.4753C10.3732 11.4753 10.2468 11.423 10.1536 11.3298C10.0604 11.2366 10.0081 11.1102 10.0081 10.9784C10.0081 10.8466 10.0604 10.7202 10.1536 10.627L12.7812 8.00043L10.1536 5.37388C10.1074 5.32778 10.0707 5.27301 10.0457 5.21271C10.0207 5.15241 10.0078 5.08777 10.0078 5.02249C10.0078 4.9572 10.0207 4.89256 10.0457 4.83226C10.0707 4.77196 10.1074 4.71719 10.1536 4.67109Z" fill="#D01717"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M2.07031 8.00032C2.07031 7.86868 2.1226 7.74244 2.21568 7.64936C2.30876 7.55629 2.435 7.50399 2.56664 7.50399H12.9894C13.1211 7.50399 13.2473 7.55629 13.3404 7.64936C13.4335 7.74244 13.4858 7.86868 13.4858 8.00032C13.4858 8.13195 13.4335 8.25819 13.3404 8.35127C13.2473 8.44435 13.1211 8.49664 12.9894 8.49664H2.56664C2.435 8.49664 2.30876 8.44435 2.21568 8.35127C2.1226 8.25819 2.07031 8.13195 2.07031 8.00032Z" fill="#D01717"/>
+                </svg>  
+              </a>            
+            </div>
+            &nbsp; &nbsp; &nbsp; 
+            <div class="">
+              <!-- id="js-modal-prompt" uk-toggle="target: #modal-edit-product" -->
+              <a routerLink="/seller/products/add">
+                <span style="margin-right: 4px; color: #D01717;">Edit Details</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.1536 4.67109C10.1997 4.62487 10.2545 4.5882 10.3148 4.56318C10.3751 4.53816 10.4397 4.52528 10.505 4.52528C10.5703 4.52528 10.6349 4.53816 10.6952 4.56318C10.7555 4.5882 10.8103 4.62487 10.8564 4.67109L13.8344 7.64903C13.8806 7.69513 13.9173 7.7499 13.9423 7.8102C13.9673 7.8705 13.9802 7.93514 13.9802 8.00043C13.9802 8.06571 13.9673 8.13035 13.9423 8.19065C13.9173 8.25095 13.8806 8.30572 13.8344 8.35182L10.8564 11.3298C10.7632 11.423 10.6368 11.4753 10.505 11.4753C10.3732 11.4753 10.2468 11.423 10.1536 11.3298C10.0604 11.2366 10.0081 11.1102 10.0081 10.9784C10.0081 10.8466 10.0604 10.7202 10.1536 10.627L12.7812 8.00043L10.1536 5.37388C10.1074 5.32778 10.0707 5.27301 10.0457 5.21271C10.0207 5.15241 10.0078 5.08777 10.0078 5.02249C10.0078 4.9572 10.0207 4.89256 10.0457 4.83226C10.0707 4.77196 10.1074 4.71719 10.1536 4.67109Z" fill="#D01717"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M2.07031 8.00032C2.07031 7.86868 2.1226 7.74244 2.21568 7.64936C2.30876 7.55629 2.435 7.50399 2.56664 7.50399H12.9894C13.1211 7.50399 13.2473 7.55629 13.3404 7.64936C13.4335 7.74244 13.4858 7.86868 13.4858 8.00032C13.4858 8.13195 13.4335 8.25819 13.3404 8.35127C13.2473 8.44435 13.1211 8.49664 12.9894 8.49664H2.56664C2.435 8.49664 2.30876 8.44435 2.21568 8.35127C2.1226 8.25819 2.07031 8.13195 2.07031 8.00032Z" fill="#D01717"/>
+                </svg>  
+              </a>            
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 </div>
