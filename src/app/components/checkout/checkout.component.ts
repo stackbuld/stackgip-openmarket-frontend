@@ -167,7 +167,6 @@ export class CheckoutComponent implements OnInit {
   }
 
   payWithPaystack(ref) {
-    // console.log(this.onlineCartTotal);
     let handler = PaystackPop.setup({
       key: environment.paystackPublicKey, // Replace with your public key
       email: this.checkoutForm.get("email").value,

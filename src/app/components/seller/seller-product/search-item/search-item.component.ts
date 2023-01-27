@@ -41,8 +41,8 @@ export class SearchItemComponent implements OnInit {
       category: ["", []],
       startDate: ["", []],
       endDate: ["", []],
-      minPrice: [10, []],
-      maxPrice: [500000, []],
+      minPrice: [0, []],
+      maxPrice: [500000000000, []],
     })
   }
 

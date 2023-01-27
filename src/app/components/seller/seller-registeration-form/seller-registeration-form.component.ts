@@ -83,12 +83,9 @@ export class SellerRegisterationFormComponent
         if (!error && result && result.event === "success") {
           this.image = result.info.secure_url;
           this.imageName = result.info.original_filename;
-          console.log(this.imageName);
         }
       }
     );
-
-    console.log("Formcontrol",this.sellerRegFormGroup);
   }
 
   sellerRegForm(): void {
@@ -150,7 +147,6 @@ export class SellerRegisterationFormComponent
     //   },
     //   (err) => {
     //     this.isLoading = false;
-    //     console.log(err);
     //   }
     // );
 
@@ -172,7 +168,7 @@ export class SellerRegisterationFormComponent
         },
         (err) => {
           this.isLoading = false;
-          console.log(err);
+          
         }
       );
     }

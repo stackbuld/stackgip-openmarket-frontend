@@ -77,7 +77,6 @@ export class ProfileComponent implements OnInit {
         this.isSubmited = false;
       },
       (err) => {
-        console.log(err);
         this.isSubmited = false;
       }
     );

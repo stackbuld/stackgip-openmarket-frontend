@@ -21,7 +21,7 @@ export class AppComponent {
   count$: Observable<number>;
 
   constructor(private store: Store<AppState>) {
-    console.log(this.count$);
+    
   }
 
   ngOnInit(): void {
@@ -30,8 +30,6 @@ export class AppComponent {
 
   increment() {
     this.store.dispatch(increment());
-
-    console.log("count obser", this.count$);
   }
 
   decrement() {

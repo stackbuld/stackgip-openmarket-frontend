@@ -50,7 +50,6 @@ export class SellerShowCaseProductComponent implements OnInit {
     this.categoryId = categoryId ? categoryId : "";
 
     this.categoryService.getCategoryByUserId(this.sellerId).subscribe((a) => {
-      console.log(a.data);
 
       this.categories = a.data;
     });

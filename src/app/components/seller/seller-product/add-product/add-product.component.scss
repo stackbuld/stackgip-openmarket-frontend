@@ -68,6 +68,28 @@ mat-icon{
     margin-bottom: 10px;
 }
 
+.upload-icn-div {
+    padding: 15px !important; 
+    position: relative; 
+    width: 100px; 
+    height: 100px;
+}
+
+.icn-up {
+    position: absolute; 
+    width: 100px; 
+    height: 100px;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.msg {
+    font-size: 10px;
+    color: red;
+}
+
 .wrapper-style2 {
     border: 1px solid #BDBDBD;
     border-radius: 8px;
@@ -121,8 +143,12 @@ mat-icon{
     margin-right: 10px;
 }
 
-.active-img {
+.active-img, .active-product-image {
     border: 1px solid black !important;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+    min-height: 200px;
 }
 
 .card-name {
@@ -246,6 +272,24 @@ span svg [stroke*='#'] {
     width: 70%;
 }
 
+.read-more {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.btn-add:disabled {
+    opacity: .7;
+}
+
+.select-drop-down {
+    width: 100%;
+    border: 0.8px solid #BDBDBD;
+    border-radius: 5px;
+    padding: 15px 8px;
+    outline: none;
+}
+
 .underline {
     border-bottom: 1px solid #BDBDBD;
 }
@@ -287,6 +331,18 @@ span svg [stroke*='#'] {
     .w-600 {
         width: 100% !important;
     }
+
+    .w-200 {
+        width: 100% !important;
+    }
+
+    .carder {
+        width: 40% !important;
+    }
+
+    .parent-wrapping {
+        justify-content: center !important;
+    }
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
@@ -297,8 +353,19 @@ span svg [stroke*='#'] {
     .w-600 {
         width: 400px !important;
     }
+    .parent-wrapping {
+        justify-content: center !important;
+    }
+    .carder {
+        width: 150px !important;
+    }
 }
 
 @media screen and (min-width: 1024px) and (max-width: 1365px) {
-    
+    .parent-wrapping {
+        justify-content: center !important;
+    }
+    .carder {
+        width: 150px !important;
+    }
 }

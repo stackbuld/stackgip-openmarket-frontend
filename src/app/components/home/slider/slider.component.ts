@@ -20,7 +20,6 @@ export class SliderComponent implements OnInit {
     return this.searchForm.controls;
   }
   search() {
-    console.log("search : ", this.f.text.value);
     if (this.searchForm.valid) {
       location.href = "/products?search=" + this.f.text.value;
     }
