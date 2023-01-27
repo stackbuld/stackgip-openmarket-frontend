@@ -1,3 +1,4 @@
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { ProductModel } from "../../../../models/products.model";
 import { ProductsService } from "../../../../services/products/products.service";
@@ -10,7 +11,7 @@ import uikit from "uikit";
 @Component({
   selector: "app-product-item",
   templateUrl: "./product-item.component.html",
-  styleUrls: ["./product-item.component.css"],
+  styleUrls: ["./product-item.component.scss"],
 })
 export class ProductItemComponent implements OnInit {
   @Output() productIdSend = new EventEmitter();
@@ -23,40 +24,71 @@ export class ProductItemComponent implements OnInit {
   byAscending: boolean = false;
   pageNumber: number;
   totalItemCount: number;
-  maximumItem: number = 4;
+  maximumItem: number = 10;
   defaultPage: number = 1;
   keyword: string = "";
   category: string = "";
   type: string = "All"; //All or Custom
   startDate: string = "";
   endDate: string = "";
-  minValue: number = 10;
-  maxValue: number = 500000;
+  minValue: number = 0;
+  maxValue: number = 500000000000;
+  loading: boolean;
+  loadingStock: boolean;
+  loadingOverview: boolean;
+  lowStock: any;
+  overview: any;
+  stockForm: FormGroup;
+  selectedStock: any;
 
   constructor(
     private productService: ProductsService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private fb: FormBuilder
   ) {
     this.formatDateToLocal = formatDateToLocal;
   }
 
   ngOnInit(): void {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     this.fetchNextProducts(this.defaultPage);
+    this.getLowStockProducts();
+    this.getProductsOverview();
+    this.initStockForm();
   }
 
-  onDelete(productId: number): void {
-    uikit.modal.confirm("Are you sure that you want to remove this ?").then(
-      () => {
-        this.productService.deleteProduct(productId).subscribe((a) => {
-          this.productDetails = this.productDetails.filter(
-            (b) => b.id !== productId
-          );
-        });
-        this.toast.success("product removed successfully");
-      },
-      () => {}
-    );
+  getLowStockProducts = () => {
+    this.loadingStock = true;
+    this.productService.getLowStockProducts().subscribe(res => {
+      this.lowStock = res.data.data;
+      this.loadingStock = false;
+    })
   }
+
+  getProductsOverview() {
+    this.loadingOverview = true;
+    this.productService.getProductsOverviewPerUser(this.user.id).subscribe(res => {
+        this.loadingOverview = false;
+        this.overview = res.data;
+    }, err => {
+      this.loadingOverview = false;
+    })
+  }
+
+  // onDelete(productId: number): void {
+  //   uikit.modal.confirm("Are you sure that you want to remove this ?").then(
+  //     () => {
+  //       // this.productService.deleteProduct(productId).subscribe((a) => {
+  //       //   this.productDetails = this.productDetails.filter(
+  //       //     (b) => b.id !== productId
+  //       //   );
+  //       // });
+  //       this.toast.success("product removed successfullysss");
+  //     },
+  //     () => {}
+  //   );
+  // }
 
   public addProduct(product: ProductModel): void {
     this.productDetails.push(product);
@@ -77,6 +109,7 @@ export class ProductItemComponent implements OnInit {
   }
 
   fetchNextProducts(pageNumber: number) {
+    this.loading = true;
     this.productService
       .getSellerProducts(
         this.user.id,
@@ -94,11 +127,14 @@ export class ProductItemComponent implements OnInit {
       )
       .subscribe(
         (productDetail) => {
+          this.loading = false;
           this.productDetails = productDetail.data.data;
           this.pageNumber = productDetail.data.pager.pageNumber;
           this.totalItemCount = productDetail.data.pager.totalItemCount;
         },
-        (error) => console.error(error)
+        (error) => {
+          this.loading = false;
+        }
       );
   }
 
@@ -115,14 +151,20 @@ export class ProductItemComponent implements OnInit {
     this.fetchNextProducts(this.defaultPage);
   }
 
+  onPageSizeChange(e: any) {
+    if (e.target.value !== '') {
+      this.maximumItem = e.target.value;
+      this.fetchNextProducts(this.defaultPage);
+    }
+  }
+
   onSearchClear(data): void {
     this.keyword = "";
     this.category = "";
     this.startDate = "";
     this.endDate = "";
-    this.minValue = 10;
-    this.maxValue = 500000;
-    console.log('closed!!!');
+    this.minValue = 0;
+    this.maxValue = 500000000000;
     this.fetchNextProducts(this.defaultPage);
   }
 
@@ -130,6 +172,67 @@ export class ProductItemComponent implements OnInit {
     this.productSort = field;
     this.byAscending = asc;
     this.fetchNextProducts(this.defaultPage);
+  }
+
+  initStockForm(): void {
+    this.stockForm = this.fb.group({
+      unit: ["", [Validators.required]],
+    });
+  }
+  
+  setSelectedstock(item: any) {
+    this.selectedStock = item;
+  }
+
+  updateStockUnit(): void {
+    if (this.stockForm.value.unit > this.selectedStock.unit) {
+      this.productService.updateProductUnit(this.selectedStock.id, this.stockForm.value).subscribe((res) => {
+        if (res.status === 'success') {
+          document.getElementById('closeStockModalBtn').click();
+          this.loadingStock = false;
+          this.toast.success(res.message);
+          this.getLowStockProducts();
+          this.initStockForm();
+        } else {
+          this.loadingStock = false;
+          this.toast.error(res.message);
+        }
+      }, (err) => {
+        this.loadingStock = false;
+        this.toast.error(err.message);
+      });
+    } else if (this.stockForm.value.unit === 0) {
+      this.toast.error(`Prouct Unit can not be zero.`);
+    } 
+    else {
+      this.toast.error(`Prouct Unit can not be less than current unit.`);
+    }
+    // if (unit >= 0) {
+      // uikit.modal.confirm(`Are you sure you want to update <strong>${product.name}</strong> unit ?`).then(
+      //   () => {
+      //     this.loadingStock = true;
+      //     const payload = {
+      //       unit: unit
+      //     }
+      //     this.productService.updateProductUnit(product.id, payload).subscribe((res) => {
+      //       if (res.status === 'success') {
+      //         this.loadingStock = false;
+      //         this.toast.success(res.message);
+      //         this.getLowStockProducts();
+      //       } else {
+      //         this.loadingStock = false;
+      //         this.toast.error(res.message);
+      //       }
+      //     });
+      //   }, 
+      //   (err) => {
+      //     this.loadingStock = false;
+      //     this.toast.error(err.message);
+      //   }
+      // );
+    // } else {
+    //   this.toast.error(`Prouct Unit is already zero.`);
+    // }
   }
 
   // sortByUnitLeft(reverse:boolean = false):void{

@@ -64,8 +64,6 @@ export class AppComponent {
 
   increment() {
     this.store.dispatch(increment());
-
-    console.log("count obser", this.count$);
   }
 
   decrement() {

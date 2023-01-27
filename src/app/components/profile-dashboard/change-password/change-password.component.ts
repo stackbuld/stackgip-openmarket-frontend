@@ -42,7 +42,6 @@ export class ChangePasswordComponent implements OnInit {
 
   update() {
     if (this.profileForm.invalid) {
-      console.log(this.profileForm.errors);
       return;
     }
     const updatePassword: IUpdatePassword = {
@@ -54,14 +53,12 @@ export class ChangePasswordComponent implements OnInit {
     this.authService.UpdatePassword(updatePassword).subscribe(
       (a) => {
         this.isSubmited = false;
-        console.log("success", a);
         this.toast.success("password updated successfully");
       },
       (error) => {
         this.isSubmited = false;
 
         this.errors = error.error.errors.map((a) => a.description);
-        console.log("error", error);
       }
     );
   }
