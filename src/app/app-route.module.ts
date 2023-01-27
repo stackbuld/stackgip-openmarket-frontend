@@ -41,7 +41,7 @@ import { SellerDashboardComponent } from "./components/seller/seller-dashboard/s
 import { JoinWaitlistComponent } from "./shared/components/join-waitlist/join-waitlist.component";
 import { SuccessModalComponent } from "./shared/components/success-modal/success-modal.component";
 import { MarketPlaceComponent } from "./shared/components/market-place/market-place.component"
-import { ViewProductComponent } from './components/seller/seller-product/view-product/view-product.component';
+import { ViewProductComponent } from './components/products/view-product/view-product.component';
 
 const route: Routes = [
   {
@@ -134,7 +134,11 @@ const route: Routes = [
             component: AddProductComponent,
           },
           {
-            path: "view",
+            path: "add/:id",
+            component: AddProductComponent,
+          },
+          {
+            path: "view/:id",
             component: ViewProductComponent,
           },
         ],

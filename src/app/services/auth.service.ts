@@ -47,7 +47,6 @@ export class AuthService {
     private jwtHelperService: JwtHelperService
   ) {
     const userData = this.GetSignInData();
-    console.log("user Data", userData);
     if (userData != null) {
       this.isLogin = new BehaviorSubject<boolean>(true);
     } else {

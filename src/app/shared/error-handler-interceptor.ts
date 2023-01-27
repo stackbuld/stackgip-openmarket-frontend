@@ -28,14 +28,12 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error) => {
-        console.log("error is intercept");
         console.error(error);
         this.ngxService.stopAll();
         if (error instanceof HttpErrorResponse) {
           if (error.error instanceof ErrorEvent) {
             console.error("Error Event");
           } else {
-            console.log(`error status : ${error.status} ${error.statusText}`);
             switch (error.status) {
               case 401:
                 this.toast.info("please login to continue");

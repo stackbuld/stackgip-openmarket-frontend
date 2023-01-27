@@ -47,7 +47,7 @@ import { MostSellingProductComponent } from "./components/seller/seller-home/mos
 import { RecommendedProductToSellComponent } from "./components/seller/seller-home/recommended-product-to-sell/recommended-product-to-sell.component";
 import { SellerOrdersComponent } from "./components/seller/seller-orders/seller-orders.component";
 import { AddProductComponent } from "./components/seller/seller-product/add-product/add-product.component";
-import { ViewProductComponent } from "./components/seller/seller-product/view-product/view-product.component";
+import { ViewProductComponent } from "./components/products/view-product/view-product.component";
 import { ListProductComponent } from "./components/home/list-product/list-product.component";
 import { SearchProductComponent } from './components/home/search-product/search-product.component';
 import { EditProductComponent } from './components/seller/seller-product/edit-product/edit-product.component';
@@ -85,7 +85,9 @@ import { SellerDashboardComponent } from './components/seller/seller-dashboard/s
 import { JoinWaitlistComponent } from './shared/components/join-waitlist/join-waitlist.component';
 import { SuccessModalComponent } from './shared/components/success-modal/success-modal.component';
 import { MarketPlaceComponent } from './shared/components/market-place/market-place.component';
-import { CKEditorModule } from 'ckeditor4-angular';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -152,7 +154,7 @@ import { CKEditorModule } from 'ckeditor4-angular';
     SellerDashboardComponent,
     JoinWaitlistComponent,
     SuccessModalComponent,
-    MarketPlaceComponent
+    MarketPlaceComponent,
   ],
   imports: [
     BrowserModule,
@@ -166,6 +168,8 @@ import { CKEditorModule } from 'ckeditor4-angular';
     NgxPaginationModule,
     SocialLoginModule,
     NgxSliderModule,
+    AngularEditorModule,
+    MatPaginatorModule,
     CKEditorModule,
     StoreModule.forRoot(
       { counterReducer },

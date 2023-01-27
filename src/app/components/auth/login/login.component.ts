@@ -81,7 +81,6 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (!this.loginForm.valid) {
-      console.log(this.loginForm.errors);
       return;
     }
     const data: SignInModel = {
@@ -93,7 +92,6 @@ export class LoginComponent implements OnInit {
 
     this.authService.signIn(data).subscribe(
       (a) => {
-        // console.log("signInResponse: " + JSON.stringify(a));
         this.ngxService.stopLoader("loader-01");
         this.authService.SetAuthLocalStorage(a);
 
@@ -109,17 +107,13 @@ export class LoginComponent implements OnInit {
             );
             this.router.navigate(["/"]);
           }
-
-          console.log(a);
         } else {
           if (a.data.isNotAllowed) {
             this.router.navigate(["/confirm-email"]);
           }
         }
-        console.log(a);
       },
       (err) => {
-        console.log("error", err);
         this.errors = [];
         if (err.status === 0) {
           this.errors.push("something went wrong please try");
@@ -151,10 +145,8 @@ export class LoginComponent implements OnInit {
   //       prompt: "select_account",
   //     })
   //     .then((a) => {
-  //       console.log(a);
   //       const currentUser = this.googleAuth.currentUser.get();
   //       const auth = currentUser.getAuthResponse();
-  //       console.log("current user", currentUser);
   //       const token = auth.id_token;
   //       this.authService.GoogleSignIn(token).subscribe((a) => {
   //         this.authService.SetAuthLocalStorage(a);
@@ -164,7 +156,6 @@ export class LoginComponent implements OnInit {
 
   //         this.ngxService.stopLoader("loader-01");
   //         this.authService.isLogin.next(true);
-  //         console.log("Is login observable", this.authService.isLogin);
   //         location.reload();
   //       });
   //     });
@@ -190,7 +181,6 @@ export class LoginComponent implements OnInit {
   //               location.reload();
   //             },
   //             (err) => {
-  //               console.log(err);
   //               this.toast.error(err.error.message);
   //               this.ngxService.stopLoader("loader-01");
   //             }
@@ -200,7 +190,6 @@ export class LoginComponent implements OnInit {
   //         this.toast.error("cant login", "notification");
   //         this.ngxService.stopLoader("loader-01");
   //       }
-  //       console.log(response);
   //     },
   //     { scope: "email,public_profile" }
   //   );
