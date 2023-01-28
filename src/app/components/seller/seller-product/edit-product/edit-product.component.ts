@@ -61,7 +61,6 @@ export class EditProductComponent implements OnInit{
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
-          console.log("Done! Here is the image info: ", result.info);
           this.images.push(result.info.secure_url);
         }
       }
@@ -131,7 +130,6 @@ export class EditProductComponent implements OnInit{
 
   onSubmit():void{
     if (this.form.invalid) {
-      console.log(this.form.errors);
       return;
     }
     const data: CreateProductModel  =  this.getProductUpdatedData();
@@ -147,7 +145,6 @@ export class EditProductComponent implements OnInit{
         this.closed.emit();
       },
       (error) => {
-        console.log("error", error);
       }
      )
   }

@@ -18,6 +18,7 @@ import { IUser } from "src/app/models/IUserModel";
 import { HttpClient } from "@angular/common/http";
 import { ApiAppUrlService } from "../api-app-url.service";
 import { Injectable } from "@angular/core";
+import { retry } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
@@ -100,6 +101,60 @@ export class ProductsService {
     return this.http.get<ProductModel>(this.baseUrl + `products?id=${pid.id}`);
   }
 
+  getProduct(id: any): Observable<any> {
+    return this.http.get(this.baseUrl + `products/${id}`);
+  }
+
+  getLowStockProducts(): Observable<any> {
+    return this.http.get(this.baseUrl + `products/low-stocks`);
+  }
+
+  productOrderSummary(userId: string, productId: any): Observable<any> {
+    return this.http.get(this.baseUrl + `seller/${userId}/products/${productId}/overview`);
+  }
+
+  getProductsOverviewPerUser(userId: string): Observable<any> {
+    return this.http.get(this.baseUrl + `seller/${userId}/overview`);
+  }
+
+  getSubCategories(categoryId: string): Observable<any> {
+    return this.http.get(this.baseUrl + `categories?BaseCategoryId=${categoryId}`);
+  }
+
+  createVariation(payload: any): Observable<any> {
+    return this.http.post(this.baseUrl + `productoption/variations`, payload);
+  }
+
+  getAllCategories(): Observable<any> {
+    return this.http.get(this.baseUrl + `categories`);
+  }
+
+  getVariations(categoryId?: any): Observable<any> {
+    if (categoryId) {
+      return this.http.get(this.baseUrl + `productoption/variations?categoryId=${categoryId}`);
+    } else {
+      return this.http.get(this.baseUrl + `productoption/variations`);
+    }
+  }
+
+  createNewProduct(payload: any): Observable<any> {
+    for (let index = 0; index < payload.variations.length; index++) {
+      const element = payload.variations[index];
+      payload.options.push(element);
+    }
+    delete payload.variations;
+    return this.http.post(this.baseUrl + `products`, payload);
+  }
+
+  updateProduct(payload: any, productId: any): Observable<any> {
+    for (let index = 0; index < payload.variations.length; index++) {
+      const element = payload.variations[index];
+      payload.options.push(element);
+    }
+    delete payload.variations;
+    return this.http.put(this.baseUrl + `products/${productId}`, payload);
+  }
+
   getProductOverview(
     userId: string
     // Type: string,
@@ -134,8 +189,12 @@ export class ProductsService {
     );
   }
 
-  deleteProduct(productId: number) {
+  deleteProduct(productId: number): Observable<any> {
     return this.http.delete(this.baseUrl + `products/${productId}`);
+  }
+
+  updateProductUnit(productId: any, payload: any): Observable<any> {
+    return this.http.put(this.baseUrl + `products/${productId}/unit`, payload);
   }
 
   createProductOption(

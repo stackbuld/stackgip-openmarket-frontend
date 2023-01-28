@@ -4,7 +4,7 @@
             <app-navbar></app-navbar>
         </div>
         <div>
-            <button class="uk-offcanvas-close" type="button" uk-toggle="target: #offcanvas-usage" uk-close [routerLink]="['/landing']">
+            <button class="uk-offcanvas-close" type="button" uk-toggle="target: #offcanvas-usage" uk-close (click)="goBack()">
             </button>
             <div class="waitList-heading">
                 <p>Join waitlist</p>
@@ -14,10 +14,12 @@
 
 
         <div class="waitList-radioBtn">
-            <label for=""><input id="black" type="radio" checked name="" value="" />
+            <label for=""><input id="black" type="radio" checked name="btn" value="" />
                 <span>Seller</span></label>
-            <label for=""><input id="black" type="radio" name="" value="" />
+            <label for=""><input id="black" type="radio" name="btn" value="" />
                 <span>Buyer</span></label>
+                <label for=""><input id="black" type="radio" name="btn" value="" />
+                    <span>Both</span></label>
         </div>
         <div class="group-wrapper">
             <div>

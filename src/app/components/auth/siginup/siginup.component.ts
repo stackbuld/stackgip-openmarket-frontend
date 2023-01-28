@@ -94,7 +94,6 @@ export class SiginupComponent implements OnInit {
         //   password: data.password,
         // } as SignInModel;
         // this.login(signinData);
-        // console.log(d); 
           this.ngxService.stopLoader("loader-01");
         this.message = d.message;
         this.toast.success(d.message, "notification")
@@ -103,7 +102,6 @@ export class SiginupComponent implements OnInit {
       (err) => {
         this.errors = [];
         this.ngxService.stopLoader("loader-01");
-        console.log("error", err);
         this.hasError = true;
         if (err.status == 0) {
           this.errors.push("something went wrong please try again later");
@@ -140,10 +138,8 @@ export class SiginupComponent implements OnInit {
             this.router.navigate(["/confirm-email"]);
           }
         }
-        console.log(a);
       },
       (err) => {
-        console.log("error", err);
         this.errors = [];
         if (err.status === 0) {
           this.errors.push("something went wrong please try");
@@ -172,14 +168,11 @@ export class SiginupComponent implements OnInit {
   //       prompt: "select_account",
   //     })
   //     .then((a) => {
-  //       console.log(a);
   //       const currentUser = this.googleAuth.currentUser.get();
   //       const auth = currentUser.getAuthResponse();
   //       this.ngxService.startLoader("loader-01");
-  //       console.log("current user", currentUser);
   //       const token = auth.id_token;
   //       this.authService.GoogleSignIn(token).subscribe((a) => {
-  //         console.log(a);
 
   //         this.authService.SetAuthLocalStorage(a);
   //         this.toast.success("login successful", "notification");
@@ -190,8 +183,6 @@ export class SiginupComponent implements OnInit {
   //         //
   //         //  this.store.dispatch(SIGNEDIN());
   //         this.authService.isLogin.next(true);
-  //         console.log("Is login observable", this.authService.isLogin);
-  //         console.log(a);
   //         this.ngxService.stopLoader("loader-01");
   //       });
   //     });

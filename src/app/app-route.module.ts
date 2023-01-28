@@ -1,3 +1,4 @@
+import { AddProductComponent } from './components/seller/seller-product/add-product/add-product.component';
 import { SellerOrdersComponent } from "./components/seller/seller-orders/seller-orders.component";
 import { SellerProductComponent } from "./components/seller/seller-product/seller-product.component";
 import { SellerHomeComponent } from "./components/seller/seller-home/seller-home.component";
@@ -39,15 +40,18 @@ import { SellerStoreComponent } from "./components/seller/seller-store/seller-st
 import { SellerDashboardComponent } from "./components/seller/seller-dashboard/seller-dashboard.component";
 import { JoinWaitlistComponent } from "./shared/components/join-waitlist/join-waitlist.component";
 import { SuccessModalComponent } from "./shared/components/success-modal/success-modal.component";
+import { MarketPlaceComponent } from "./shared/components/market-place/market-place.component"
+import { ViewProductComponent } from './components/products/view-product/view-product.component';
 
 const route: Routes = [
   {
     path: "",
     component: LayoutComponent,
     children: [
-      { path: "", component: HomeLandingComponent },
+      { path: "", component: LoginComponent },
+      { path: "landing", component: HomeLandingComponent },
       // { path: "", component: IndexComponent },
-      // { path: "home", component: IndexComponent },
+      { path: "home", component: IndexComponent },
       { path: "forget-password", component: ForgetPasswordComponent },
       { path: "confirm-email", component: AccountConfirmationComponent },
       { path: "confirm", component: AccountConfirmationComponent },
@@ -99,6 +103,7 @@ const route: Routes = [
   { path: "faqs", component: FaqsComponent },
   { path: "contact", component: ContactComponent },
   { path: "features", component: FeaturesComponent },
+  { path: "market-place", component: MarketPlaceComponent },
   { path: "wait-list", component: JoinWaitlistComponent },
   { path: "join", component: SuccessModalComponent },
   { path: "detail", component: OrderDetailComponent },
@@ -118,9 +123,26 @@ const route: Routes = [
       },
       {
         path: "products",
-        component: SellerProductComponent,
+        // component: SellerProductComponent,
+        children: [
+          {
+            path: "",
+            component: SellerProductComponent,
+          },
+          {
+            path: "add",
+            component: AddProductComponent,
+          },
+          {
+            path: "add/:id",
+            component: AddProductComponent,
+          },
+          {
+            path: "view/:id",
+            component: ViewProductComponent,
+          },
+        ],
       },
-
       {
         path: "orders",
         component: SellerOrdersComponent,

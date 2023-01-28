@@ -1,4 +1,9 @@
+import uikit from 'uikit';
+import { ToastrService } from 'ngx-toastr';
+import { ProductsService } from 'src/app/services/products/products.service';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-view-product',
@@ -6,10 +11,157 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./view-product.component.css']
 })
 export class ViewProductComponent implements OnInit {
+  private unsubscribe$ = new Subject<void>();
+  loading = false;
+  loadingSummary: any;
+  previewImg: string;
+  id: any;
+  product: any;
+  variationList: any;
+  user: any;
+  orderDetails: any;
+  variation: any;
+  complimentartProducts: any[] = [];
+  isFullDescription = false;
+  hasFullDesc: boolean;
 
-  constructor() { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private toastservice: ToastrService,
+    private router: Router,
+    private productService: ProductsService) {
+      this.id = this.activatedRoute.snapshot.paramMap.get('id');
+  }
 
   ngOnInit(): void {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.getProduct(this.id);
+    this.getProductOrderSummary();
   }
+
+  getProduct(id: any) {
+    this.loading = true;
+    this.productService.getProduct(id).subscribe(res => {
+      if(res.status === 'success') {
+        this.loading = false;
+        this.product = res.data;
+        this.previewImg = this.product.productImages[0];
+        let variations = [];
+        for (let index = 0; index < this.product.productOptions.length; index++) {
+          const element = this.product.productOptions[index];
+          if (element.isMultiple === true) {
+            this.complimentartProducts.push(element);
+          }
+          if (element.isMultiple === false) {
+            variations.push(element);
+          }
+        }
+        this.setVariation(variations);
+      } 
+    }, err => {
+      this.loading = false;
+      this.toastservice.error(err.message);
+    })
+  }
+
+  getProductOrderSummary() {
+    this.loadingSummary = true;
+    this.productService.productOrderSummary(this.user.id, this.id).subscribe(res => {
+        this.orderDetails = res.data;
+        this.loadingSummary = false;
+    }, err => {
+      this.loadingSummary = false;
+      this.toastservice.error(err.message);
+    })
+  }
+
+  toggleDescription() {
+    this.isFullDescription = !this.isFullDescription;
+  }
+  
+  convertInnerHtmlToString(myHTML: any) {
+    var strippedHtml = myHTML.replace(/<[^>]+>/g, "");
+    if (strippedHtml.length > 700) {
+      this.hasFullDesc = true;
+    } else {
+      this.hasFullDesc = false;
+    }
+    return strippedHtml;
+  }
+
+  updateStockUnit(product: any, unit: any): void {
+    if (unit >= 0) {
+      uikit.modal.confirm(`Are you sure you want to update <strong>${product.name}</strong> unit ?`).then(
+        () => {
+          this.loading = true;
+          const payload = {
+            unit: unit
+          }
+          this.productService.updateProductUnit(product.id, payload).subscribe((res) => {
+            if (res.status === 'success') {
+              this.loading = false;
+              this.toastservice.success(res.message);
+              this.getProduct(this.id);
+            } else {
+              this.loading = false;
+              this.toastservice.error(res.message);
+            }
+          });
+        }, 
+        (err) => {
+          this.loading = false;
+          this.toastservice.error(err.message);
+        }
+      );
+    } else {
+      this.toastservice.error(`Prouct Unit is already zero.`);
+    }
+  }
+
+  deleteProduct(productId: number): void {
+    uikit.modal.confirm("Are you sure that you want to delete product ?").then(
+      () => {
+        this.loading = true;
+        this.productService.deleteProduct(productId).subscribe((res) => {
+          if (res.status === 'success') {
+            this.loading = false;
+            this.toastservice.success(res.message);
+            this.router.navigate(['/seller/products']);
+          } else {
+            this.loading = false;
+            this.toastservice.error(res.message);
+          }
+        });
+      }, 
+      (err) => {
+        this.loading = false;
+        this.toastservice.error(err.message);
+      }
+    );
+  }
+
+  setVariation(list: any) {
+    const result = list.reduce((acc, {title, value}) => {
+      acc[title] ??= {title: title, value: []};
+      if(Array.isArray(value)) // if it's array type then concat 
+        acc[title].value = acc[title].value.concat(value);
+      else
+        acc[title].value.push(value);
+      return acc;
+    }, {});
+
+    this.variationList = Object.values(result);
+  }
+
+  showImg(img: string) {
+    this.previewImg = img;
+  }
+
+  ngOnDestroy(): void {
+		this.unsubscribe$.next();
+		this.unsubscribe$.complete();
+	}
 
 }

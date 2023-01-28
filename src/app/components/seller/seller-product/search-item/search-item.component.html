@@ -33,15 +33,15 @@
           </mat-form-field>
         </div>
         <div class="uk-width-2-5@s">
-              <div class="uk-grid-small uk-grid uk-child-width-1-2@s">
-                  <mat-form-field>
+              <div class="mobile-flex uk-grid-small uk-grid uk-child-width-1-2@s">
+                  <mat-form-field class="input-wrap">
                       <input matInput #refStart type="text" [matDatepicker]="startDate" 
                           (dateChange)="startDateChange(refStart.value)" formControlName="startDate" 
                           placeholder="Start date" readonly (click)="pickStartDate()"> 
                       <mat-datepicker-toggle #startDateToggle matSuffix [for]="startDate"></mat-datepicker-toggle>
                       <mat-datepicker #startDate></mat-datepicker>
                   </mat-form-field>
-                  <mat-form-field>
+                  <mat-form-field class="input-wrap">
                       <input matInput #refEnd type="text" [matDatepicker]="endDate" 
                           (dateChange)="endDateChange(refEnd.value)" formControlName="endDate"
                           placeholder="End date" readonly (click)="pickEndDate()">
@@ -54,20 +54,22 @@
       <div class="uk-grid-small uk-child-width-expand@s" uk-grid>
         <div class="uk-width-3-4@s">
           <div class="uk-grid-small uk-grid uk-child-width-1-2@s">
-            <mat-form-field class="">
+            <mat-form-field class="input-wrap">
               <mat-label>Minimum Price</mat-label>
               <input
-                type="number"
+                type="text"
+                (keypress)="preventLetter($event)"
                 matInput
                 placeholder="10"
                 formControlName="minPrice"
                 (change)="onChangeMinPrice()"
               />
             </mat-form-field>
-            <mat-form-field class="">
+            <mat-form-field class="input-wrap">
               <mat-label>Maximum Price</mat-label>
               <input
-                type="number"
+                type="text"
+                (keypress)="preventLetter($event)"
                 matInput
                 placeholder="500000"
                 formControlName="maxPrice"
@@ -77,11 +79,11 @@
           </div>
         </div>
         <div class="uk-width-1-4@s uk-flex">
-          <button type="submit" style="margin: 0.25em 0;"
+          <button type="submit" style="margin: 0.25em 0; border-radius: 5px; height: 50px;"
             class="uk-button uk-button-secondary uk-width-1-2@s uk-margin-small-right" >
             filter
           </button>
-          <button  (click)="onClear()" type="button" style="margin: 0.25em 0;"
+          <button  (click)="onClear()" type="button" style="margin: 0.25em 0; border-radius: 5px; height: 50px;"
             class="uk-button uk-button-default uk-width-1-2@s" >
             Clear
           </button>

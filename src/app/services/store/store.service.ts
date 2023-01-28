@@ -18,4 +18,9 @@ export class StoreService {
       this.baseUrl + `sellerstores/stores/user/userid?Id=${id}`
     );
   }
+
+  getStoresById(id: string): Observable<any> {
+    return this.http.get(this.baseUrl + `sellerstores/stores/user/${id}`);
+  }
+
 }

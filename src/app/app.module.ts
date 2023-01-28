@@ -3,6 +3,7 @@ import { AppRouteModule } from "./app-route.module";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 
+
 import { AppComponent } from "./app.component";
 import { LayoutComponent } from "./shared/components/layout/layout.component";
 import { HeaderComponent } from "./shared/components/header/header.component";
@@ -84,6 +85,11 @@ import { SellerSidebarComponent } from './components/seller/sidebar/sidebar.comp
 import { SellerDashboardComponent } from './components/seller/seller-dashboard/seller-dashboard.component';
 import { JoinWaitlistComponent } from './shared/components/join-waitlist/join-waitlist.component';
 import { SuccessModalComponent } from './shared/components/success-modal/success-modal.component';
+import { MarketPlaceComponent } from './shared/components/market-place/market-place.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import {MatPaginatorModule} from '@angular/material/paginator';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -148,7 +154,8 @@ import { SuccessModalComponent } from './shared/components/success-modal/success
     SellerSidebarComponent,
     SellerDashboardComponent,
     JoinWaitlistComponent,
-    SuccessModalComponent
+    SuccessModalComponent,
+    MarketPlaceComponent,
   ],
   imports: [
     BrowserModule,
@@ -162,6 +169,9 @@ import { SuccessModalComponent } from './shared/components/success-modal/success
     NgxPaginationModule,
     SocialLoginModule,
     NgxSliderModule,
+    AngularEditorModule,
+    MatPaginatorModule,
+    CKEditorModule,
     StoreModule.forRoot(
       { counterReducer },
       {

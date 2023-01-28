@@ -72,7 +72,6 @@ export class UpdateDeliveryStatusComponent implements OnInit {
 
   onSubmit():void{
     if (this.form.invalid) {
-      console.log(this.form.errors)
       return;
     }
     const status = this.form.get("status").value
