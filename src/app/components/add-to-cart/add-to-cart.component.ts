@@ -1,11 +1,14 @@
-import {ProductWithOptionAndShipmentModel, CreateProductOption} from "./../../models/products.model";
+import {
+  ProductWithOptionAndShipmentModel,
+  CreateProductOption,
+} from "./../../models/products.model";
 import { ProductsService } from "src/app/services/products/products.service";
-import { Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
-import { FormBuilder, FormGroup, FormArray, Validators} from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { FormBuilder, FormGroup, FormArray, Validators } from "@angular/forms";
 import { formatDate } from "./../../helpers/date-format";
-import { numberWithCommas } from './../../helpers/number-format';
-import { debounceTime } from 'rxjs/operators';
-import { ToastrService } from 'ngx-toastr';
+import { numberWithCommas } from "./../../helpers/number-format";
+import { debounceTime } from "rxjs/operators";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-add-to-cart",
@@ -68,7 +71,9 @@ export class AddToCartComponent implements OnInit {
     this.availablePaymentOption = this.product.paymentOptions
       ? this.product.paymentOptions.split(",")
       : [];
-    this.optionForm.get('paymentOption').setValue(this.availablePaymentOption[0]);
+    this.optionForm
+      .get("paymentOption")
+      .setValue(this.availablePaymentOption[0]);
   }
 
   optionArray(): FormArray {
@@ -84,7 +89,9 @@ export class AddToCartComponent implements OnInit {
       });
       itemToAdd.valueChanges
         .pipe(debounceTime(200))
-        .subscribe((data) => this.onOptionValueChanged(data));
+        .subscribe((data) =>
+          this.onOptionValueChanged({ cost: data.cost, title: data.title })
+        );
       this.optionArray().push(itemToAdd);
       this.currentOptions[option] = 0;
       cost = String(cost);
