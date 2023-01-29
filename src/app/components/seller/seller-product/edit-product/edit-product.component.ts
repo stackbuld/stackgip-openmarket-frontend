@@ -14,6 +14,8 @@ import { CatgoryService } from "../../../../services/category/catgory.service";
 import { ToastrService } from "./../../../../services/toastr.service";
 import { getLoggedInUser } from "src/app/helpers/userUtility";
 import { CategoryResponse } from "./../../../../models/CategoryModels";
+import * as CkEditor from "src/assets/js/ckeditor5/build/ckeditor";
+import { editorDefaultConfig } from "src/app/shared/config/ckeditor.config";
 
 declare var cloudinary: any;
 @Component({
@@ -34,12 +36,13 @@ export class EditProductComponent implements OnInit{
   productOptions: CreateProductOption[];
   productShipments: CreateShipmentModel[];
   user = getLoggedInUser();
-
+  public Editor = CkEditor;
+  editorDefaultConfig = editorDefaultConfig;
   constructor(
     private fb: FormBuilder,
     private toast: ToastrService,
     private catgoryService: CatgoryService,
-    private productService: ProductsService, 
+    private productService: ProductsService,
   ) {this.formInit()}
 
   get f() {
@@ -114,7 +117,7 @@ export class EditProductComponent implements OnInit{
         "category":data.category.id,
         "unit":data.unit,
         "paymentOption":[ //Todo: need to reset payment option from api data
-          {method:true, value:"online", label:"Pay Online"}, 
+          {method:true, value:"online", label:"Pay Online"},
           {method:false, value:"ondelivery", label:"Pay On Delivery"}
         ]
       });
@@ -133,7 +136,7 @@ export class EditProductComponent implements OnInit{
       return;
     }
     const data: CreateProductModel  =  this.getProductUpdatedData();
-    this.productService.UpdateProduct(this.productId,data).subscribe( 
+    this.productService.UpdateProduct(this.productId,data).subscribe(
       (a) => {
         // if(!a.data.category)
         // {

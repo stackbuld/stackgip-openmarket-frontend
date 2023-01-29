@@ -1,4 +1,4 @@
-import { AddProductComponent } from './components/seller/seller-product/add-product/add-product.component';
+import { AddProductComponent } from "./components/seller/seller-product/add-product/add-product.component";
 import { SellerOrdersComponent } from "./components/seller/seller-orders/seller-orders.component";
 import { SellerProductComponent } from "./components/seller/seller-product/seller-product.component";
 import { SellerHomeComponent } from "./components/seller/seller-home/seller-home.component";
@@ -40,15 +40,15 @@ import { SellerStoreComponent } from "./components/seller/seller-store/seller-st
 import { SellerDashboardComponent } from "./components/seller/seller-dashboard/seller-dashboard.component";
 import { JoinWaitlistComponent } from "./shared/components/join-waitlist/join-waitlist.component";
 import { SuccessModalComponent } from "./shared/components/success-modal/success-modal.component";
-import { MarketPlaceComponent } from "./shared/components/market-place/market-place.component"
-import { ViewProductComponent } from './components/products/view-product/view-product.component';
+import { MarketPlaceComponent } from "./shared/components/market-place/market-place.component";
+import { ViewProductComponent } from "./components/products/view-product/view-product.component";
 
 const route: Routes = [
   {
     path: "",
     component: LayoutComponent,
     children: [
-      { path: "", component: LoginComponent },
+      { path: "", component: HomeLandingComponent },
       { path: "landing", component: HomeLandingComponent },
       // { path: "", component: IndexComponent },
       { path: "home", component: IndexComponent },
