@@ -1,7 +1,5 @@
-import { Router, ActivatedRoute } from '@angular/router';
-import {
-  CreateProductResponse,
-} from "./../../../../models/products.model";
+import { Router, ActivatedRoute } from "@angular/router";
+import { CreateProductResponse } from "./../../../../models/products.model";
 import { Subject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { FormBuilder, FormGroup, FormArray, Validators } from "@angular/forms";
@@ -11,16 +9,20 @@ import { ProductsService } from "../../../../services/products/products.service"
 import { ToastrService } from "./../../../../services/toastr.service";
 import { getLoggedInUser } from "src/app/helpers/userUtility";
 import { StoreService } from "src/app/services/store/store.service";
-import uikit from 'uikit';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
+import uikit from "uikit";
+// import { AngularEditorConfig } from "@kolkov/angular-editor";
+import * as CkEditor from "src/assets/js/ckeditor5/build/ckeditor";
+import { editorDefaultConfig } from "src/app/shared/config/ckeditor.config";
 
 declare var cloudinary: any;
 @Component({
   selector: "app-add-product",
   templateUrl: "./add-product.component.html",
-  styleUrls: ["./add-product.component.scss","../../../../shared/css/spinner.css"],
+  styleUrls: [
+    "./add-product.component.scss",
+    "../../../../shared/css/spinner.css",
+  ],
 })
-
 export class AddProductComponent implements OnInit {
   private unsubscribe$ = new Subject<void>();
   @Output() closed = new EventEmitter();
@@ -46,6 +48,7 @@ export class AddProductComponent implements OnInit {
   user = getLoggedInUser();
   isPreview = false;
   previewData: any;
+
   complementaryProducts: any[] = [];
   complimentaryIndex: any;
   complementaryImagesStore = [];
@@ -64,59 +67,23 @@ export class AddProductComponent implements OnInit {
   isFullDescription = false;
   hasFullDesc: boolean;
 
-  editorConfig: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    height: '300px',
-    minHeight: '200px',
-    maxHeight: 'auto',
-    width: 'auto',
-    minWidth: '0',
-    translate: 'yes',
-    enableToolbar: true,
-    showToolbar: true,
-    defaultParagraphSeparator: '',
-    defaultFontName: '',
-    defaultFontSize: '',
-    fonts: [
-      { class: 'arial', name: 'Arial' },
-      { class: 'times-new-roman', name: 'Times New Roman' },
-      { class: 'calibri', name: 'Calibri' },
-      { class: 'comic-sans-ms', name: 'Comic Sans MS' },
-    ],
-    customClasses: [
-      {
-        name: 'quote',
-        class: 'quote',
-      },
-      {
-        name: 'redText',
-        class: 'redText',
-      },
-      {
-        name: 'titleText',
-        class: 'titleText',
-        tag: 'h1',
-      },
-    ],
-    uploadWithCredentials: false,
-    sanitize: true,
-    toolbarPosition: 'top',
-    // toolbarHiddenButtons: [['bold', 'italic'], ['fontSize']],
-  };
-  
+  public Editor = CkEditor;
+
+ 
+  editorDefaultConfig = editorDefaultConfig;
+
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private toast: ToastrService,
     private router: Router,
     private productService: ProductsService,
     private storeService: StoreService,
-    private activatedRoute: ActivatedRoute,
-  ){
-    this.productId = this.activatedRoute.snapshot.paramMap.get('id');
+    private activatedRoute: ActivatedRoute
+  ) {
+    this.productId = this.activatedRoute.snapshot.paramMap.get("id");
     this.formInit();
     this.initVariationForm();
-    localStorage.removeItem('compImagesStore');
+    localStorage.removeItem("compImagesStore");
   }
 
   get f() {
@@ -126,9 +93,9 @@ export class AddProductComponent implements OnInit {
   get categoryId() {
     return this.form.get("categoryId");
   }
-  
+
   ngOnInit(): void {
-    if(this.productId !== null) {
+    if (this.productId !== null) {
       this.getProduct(this.productId);
     }
     document.body.scrollTop = 0;
@@ -142,14 +109,14 @@ export class AddProductComponent implements OnInit {
       {
         cloudName: environment.cloudinaryName,
         uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg','jpg','png','gif'],
+        clientAllowedFormats: ["jpeg", "jpg", "png", "gif"],
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
-          if(this.images.length < 4) {
+          if (this.images.length < 4) {
             this.images.push(result.info.secure_url);
             this.productImage = this.images[0];
-            this.form.patchValue({imageUrls: this.images});
+            this.form.patchValue({ imageUrls: this.images });
           }
         }
       }
@@ -158,28 +125,32 @@ export class AddProductComponent implements OnInit {
       {
         cloudName: environment.cloudinaryName,
         uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg','jpg','png','gif'],
+        clientAllowedFormats: ["jpeg", "jpg", "png", "gif"],
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
           let list = [];
-          if (JSON.parse(localStorage.getItem('compImagesStore')) === null) {
+          if (JSON.parse(localStorage.getItem("compImagesStore")) === null) {
             let data = {
               id: this.complimentaryIndex,
-              imageUrl: result.info.secure_url
-            }
+              imageUrl: result.info.secure_url,
+            };
             list.push(data);
-            localStorage.setItem('compImagesStore', JSON.stringify(list));
-            this.complementaryImagesStore = JSON.parse(localStorage.getItem('compImagesStore'));
+            localStorage.setItem("compImagesStore", JSON.stringify(list));
+            this.complementaryImagesStore = JSON.parse(
+              localStorage.getItem("compImagesStore")
+            );
           } else {
-            list = JSON.parse(localStorage.getItem('compImagesStore'));
+            list = JSON.parse(localStorage.getItem("compImagesStore"));
             let data = {
               id: this.complimentaryIndex,
-              imageUrl: result.info.secure_url
-            }
+              imageUrl: result.info.secure_url,
+            };
             list.push(data);
-            localStorage.setItem('compImagesStore', JSON.stringify(list));
-            this.complementaryImagesStore = JSON.parse(localStorage.getItem('compImagesStore'));
+            localStorage.setItem("compImagesStore", JSON.stringify(list));
+            this.complementaryImagesStore = JSON.parse(
+              localStorage.getItem("compImagesStore")
+            );
           }
         }
       }
@@ -193,39 +164,45 @@ export class AddProductComponent implements OnInit {
   }
 
   setComplementaryImageForUpdate(data: any) {
-    localStorage.removeItem('compImagesStore');
+    localStorage.removeItem("compImagesStore");
     for (let index = 0; index < data.productOptions.length; index++) {
       const element = data.productOptions[index];
-      if(element.isMultiple === true) {
+      if (element.isMultiple === true) {
         this.complementaryImagesStore.push(element);
       }
     }
-    localStorage.setItem('compImagesStore', JSON.stringify(this.complementaryImagesStore));
-  }
-  
-  getProduct(id: any) {
-    this.loading = true;
-    this.productService.getProduct(id).subscribe(res => {
-      if(res.status === 'success') {
-        this.loading = false;
-        this.populateProductForm(res.data);
-        this.getSubCategories(res.data.category.id);
-        this.setComplementaryImageForUpdate(res.data);
-        this.newImageListForUpdate = res.data.productImages;
-        this.images = this.newImageListForUpdate;
-        this.productImage = this.images[0];
-        this.form.patchValue({imageUrls: this.images});
-      } else {
-        this.toast.error(res.message);
-        this.loading = false;
-      }
-    }, err => {
-      this.toast.error(err.error.message);
-      this.loading = false;
-    })
+    localStorage.setItem(
+      "compImagesStore",
+      JSON.stringify(this.complementaryImagesStore)
+    );
   }
 
-  formInit():void {
+  getProduct(id: any) {
+    this.loading = true;
+    this.productService.getProduct(id).subscribe(
+      (res) => {
+        if (res.status === "success") {
+          this.loading = false;
+          this.populateProductForm(res.data);
+          this.getSubCategories(res.data.category.id);
+          this.setComplementaryImageForUpdate(res.data);
+          this.newImageListForUpdate = res.data.productImages;
+          this.images = this.newImageListForUpdate;
+          this.productImage = this.images[0];
+          this.form.patchValue({ imageUrls: this.images });
+        } else {
+          this.toast.error(res.message);
+          this.loading = false;
+        }
+      },
+      (err) => {
+        this.toast.error(err.error.message);
+        this.loading = false;
+      }
+    );
+  }
+
+  formInit(): void {
     this.form = this.fb.group({
       userId: [this.user.id, [Validators.required]],
       name: ["", [Validators.required]],
@@ -234,9 +211,9 @@ export class AddProductComponent implements OnInit {
       weight: [null, [Validators.required]],
       previousPrice: [0],
       imageUrls: [null],
-      imageUrl: [''],
-      categoryId: ["",],
-      category: ['', [Validators.required]],
+      imageUrl: [""],
+      categoryId: [""],
+      category: ["", [Validators.required]],
       storeIds: [[], [Validators.required]],
       unit: [null, [Validators.required]],
       variations: this.fb.array([]),
@@ -278,24 +255,28 @@ export class AddProductComponent implements OnInit {
       }
     }
     variationList.forEach((element: any, index: number) => {
-      (<FormArray>this.form.get('variations')).push(this.fb.group({
-        title: [element.title, [Validators.required]],
-        value: [element.value, [Validators.required]],
-        cost: [element.cost, [Validators.required]],
-        shortDescription: [''],
-        imageUrl: [''],
-        isMultiple: false,
-      }))
+      (<FormArray>this.form.get("variations")).push(
+        this.fb.group({
+          title: [element.title, [Validators.required]],
+          value: [element.value, [Validators.required]],
+          cost: [element.cost, [Validators.required]],
+          shortDescription: [""],
+          imageUrl: [""],
+          isMultiple: false,
+        })
+      );
     });
     complimentartProducts.forEach((element: any, index: number) => {
-      (<FormArray>this.form.get('options')).push(this.fb.group({
-        title: [element.title, [Validators.required]],
-        shortDescription: [element.shortDescription , Validators.required], 
-        value: [""],
-        imageUrl: [element.imageUrl],
-        cost: [element.cost, [Validators.required]],
-        isMultiple: true
-      }))
+      (<FormArray>this.form.get("options")).push(
+        this.fb.group({
+          title: [element.title, [Validators.required]],
+          shortDescription: [element.shortDescription, Validators.required],
+          value: [""],
+          imageUrl: [element.imageUrl],
+          cost: [element.cost, [Validators.required]],
+          isMultiple: true,
+        })
+      );
     });
   }
 
@@ -309,79 +290,82 @@ export class AddProductComponent implements OnInit {
   createNewVariation() {
     this.creatingVariation = true;
     this.selectedCategoryId = this.newVariationForm.value.categoryId;
-    this.productService.createVariation(this.newVariationForm.value).subscribe(res => {
-      if(res.status === 'success') {
-        document.getElementById('closeVariationModalBtn').click();
+    this.productService.createVariation(this.newVariationForm.value).subscribe(
+      (res) => {
+        if (res.status === "success") {
+          document.getElementById("closeVariationModalBtn").click();
+          this.creatingVariation = false;
+          this.toast.success(res.message);
+          this.getVariations(this.selectedCategoryId);
+          this.initVariationForm();
+        } else {
+          this.creatingVariation = false;
+          this.toast.success(res.message);
+        }
+      },
+      (err) => {
         this.creatingVariation = false;
-        this.toast.success(res.message);
-        this.getVariations(this.selectedCategoryId);
-        this.initVariationForm();
-      } else {
-        this.creatingVariation = false;
-        this.toast.success(res.message);
+        this.toast.error(err.message);
       }
-    }, err => {
-      this.creatingVariation = false;
-      this.toast.error(err.message);
-    })
+    );
   }
 
   changeUnit = (unit: any, type: string) => {
-    let it = parseInt(unit)
-    if(type === 'add') {
-      this.form.patchValue({'unit': it + 1});
+    let it = parseInt(unit);
+    if (type === "add") {
+      this.form.patchValue({ unit: it + 1 });
       this.previewData.unit = it + 1;
     }
-    if(type === 'minus') {
-      if(it > 1) {
-        this.form.patchValue({'unit': it - 1});
+    if (type === "minus") {
+      if (it > 1) {
+        this.form.patchValue({ unit: it - 1 });
         this.previewData.unit = it - 1;
       }
     }
-  }
+  };
 
-  variations():FormArray {
-    return this.form.get('variations') as FormArray;
+  variations(): FormArray {
+    return this.form.get("variations") as FormArray;
   }
 
   createVariation(): FormGroup {
     return this.fb.group({
-      title: ["",[Validators.required]],
-      value: ["",[Validators.required]],
-      cost: [null,[Validators.required]],
-      shortDescription: [''],
-      imageUrl: [''],
+      title: ["", [Validators.required]],
+      value: ["", [Validators.required]],
+      cost: [null, [Validators.required]],
+      shortDescription: [""],
+      imageUrl: [""],
       isMultiple: false,
     });
   }
-  
-  addVariation():void{ 
+
+  addVariation(): void {
     this.addingVariation = true;
     this.variations().push(this.createVariation());
   }
 
-  removeVariation(index:number):void{
-    if(index === 0) {
+  removeVariation(index: number): void {
+    if (index === 0) {
       this.addingVariation = false;
     }
     this.variations().removeAt(index);
   }
 
-  options():FormArray{
-    return this.form.get('options') as FormArray;
+  options(): FormArray {
+    return this.form.get("options") as FormArray;
   }
 
-  createOptions():FormGroup{
+  createOptions(): FormGroup {
     return this.fb.group({
-      title: ["",[Validators.required]],
-      shortDescription: ["", Validators.required], 
+      title: ["", [Validators.required]],
+      shortDescription: ["", Validators.required],
       value: [""],
       imageUrl: [null],
-      cost: [null,[Validators.required]],
-      isMultiple: true
+      cost: [null, [Validators.required]],
+      isMultiple: true,
     });
   }
-  
+
   showImg(img: string) {
     this.previewImg = img;
   }
@@ -395,34 +379,37 @@ export class AddProductComponent implements OnInit {
     this.options().push(this.createOptions());
   }
 
-  removeOption(index: number):void{
-    this.complementaryImagesStore = JSON.parse(localStorage.getItem('compImagesStore'));
-    if(this.complementaryImagesStore.length === 1) {
+  removeOption(index: number): void {
+    this.complementaryImagesStore = JSON.parse(
+      localStorage.getItem("compImagesStore")
+    );
+    if (this.complementaryImagesStore.length === 1) {
       this.complementaryImagesStore.splice(index, 1);
-      localStorage.removeItem('compImagesStore');
+      localStorage.removeItem("compImagesStore");
       this.addingComplimentaryOptions = false;
     } else {
       this.complementaryImagesStore.splice(index, 1);
-      localStorage.setItem('compImagesStore', JSON.stringify(this.complementaryImagesStore));
+      localStorage.setItem(
+        "compImagesStore",
+        JSON.stringify(this.complementaryImagesStore)
+      );
     }
     this.options().removeAt(index);
   }
-  
-  upload():void{
+
+  upload(): void {
     this.uploadWidget.open();
   }
 
-  removeImage(image_url):void{
-    this.images = this.images.filter(
-      (a) => a !== image_url
-    );
-    this.form.patchValue({imageUrls: this.images});
+  removeImage(image_url): void {
+    this.images = this.images.filter((a) => a !== image_url);
+    this.form.patchValue({ imageUrls: this.images });
     this.productImage = this.images[0];
-    if(this.images.length === 0) {
+    if (this.images.length === 0) {
       this.productImage = null;
     }
   }
-  
+
   uploadComplimentaryImage(index: any): void {
     this.complimentaryIndex = index;
     this.uploadComplimentaryWidget.open();
@@ -431,69 +418,81 @@ export class AddProductComponent implements OnInit {
   removeComplimentaryImage(id: any): void {
     for (let index = 0; index < this.form.value.options.length; index++) {
       const element = this.form.value.options[index];
-      if(index === id) {
-        element.imageUrl = '';
+      if (index === id) {
+        element.imageUrl = "";
       }
     }
   }
-  
+
   getSubCategories(id: any) {
     this.subCategories = [];
-    this.form.value.categoryId = '';
+    this.form.value.categoryId = "";
     this.loadingSubCategories = true;
     this.selectedCategoryId = id;
     this.getVariations(id);
-    this.newVariationForm.patchValue({'categoryId': this.selectedCategoryId})
-    this.productService.getSubCategories(id).subscribe(res => {
-      this.subCategories = res.data;
-      this.getVariations(id);
-      this.loadingSubCategories = false;
-    }, err => {
-      this.toast.error(err.message);
-      this.loadingSubCategories = false;
-    })
+    this.newVariationForm.patchValue({ categoryId: this.selectedCategoryId });
+    this.productService.getSubCategories(id).subscribe(
+      (res) => {
+        this.subCategories = res.data;
+        this.getVariations(id);
+        this.loadingSubCategories = false;
+      },
+      (err) => {
+        this.toast.error(err.message);
+        this.loadingSubCategories = false;
+      }
+    );
   }
 
   getCategories() {
-    this.productService.getAllCategories().subscribe(res => {
-      this.categories = res.data;
-    }, err => {
-      this.toast.error(err.message);
-    })
+    this.productService.getAllCategories().subscribe(
+      (res) => {
+        this.categories = res.data;
+      },
+      (err) => {
+        this.toast.error(err.message);
+      }
+    );
   }
 
   getVariations(categoryId?: any) {
-    this.productService.getVariations(categoryId).subscribe(res => {
-      this.productVariations = res.data.data;
-    }, err => {
-      this.toast.error(err.message);
-    })
+    this.productService.getVariations(categoryId).subscribe(
+      (res) => {
+        this.productVariations = res.data.data;
+      },
+      (err) => {
+        this.toast.error(err.message);
+      }
+    );
   }
 
   getStores(id: any) {
-    this.storeService.getStoresById(id).subscribe(res => {
-      this.stores = res.data;
-    }, err => {
-      this.toast.error(err.message);
-    })
+    this.storeService.getStoresById(id).subscribe(
+      (res) => {
+        this.stores = res.data;
+      },
+      (err) => {
+        this.toast.error(err.message);
+      }
+    );
   }
 
   edit = () => {
     if (this.isSubCatIdEmpty === true) {
-      this.form.patchValue({categoryId: ''});
+      this.form.patchValue({ categoryId: "" });
     }
     if (this.isPreview === true) {
       this.isPreview = false;
     }
-  }
+  };
 
   setVariation(list: any) {
-    const result = list.reduce((acc, {title, value}) => {
-      acc[title] ??= {title: title, value: []};
-      if(Array.isArray(value)) // if it's array type then concat 
+    const result = list.reduce((acc, { title, value }) => {
+      acc[title] ??= { title: title, value: [] };
+      if (Array.isArray(value))
+        // if it's array type then concat
         acc[title].value = acc[title].value.concat(value);
-      else
-        acc[title].value.push(value);
+      else acc[title].value.push(value);
       return acc;
     }, {});
     this.variationList = Object.values(result);
@@ -501,90 +500,106 @@ export class AddProductComponent implements OnInit {
 
   updateProduct = () => {
     this.creatingProduct = true;
-      this.productService.updateProduct(this.form.value, this.productId).subscribe(res => {
-        if(res.status === 'success') {
-          this.toast.success(res.message);
-          this.router.navigate(['/seller/products']);
+    this.productService
+      .updateProduct(this.form.value, this.productId)
+      .subscribe(
+        (res) => {
+          if (res.status === "success") {
+            this.toast.success(res.message);
+            this.router.navigate(["/seller/products"]);
+            this.creatingProduct = false;
+            localStorage.removeItem("compImagesStore");
+            this.complementaryImagesStore = [];
+          } else {
+            this.creatingProduct = false;
+            this.toast.error(res.message);
+          }
+        },
+        (err) => {
           this.creatingProduct = false;
-          localStorage.removeItem('compImagesStore');
-          this.complementaryImagesStore = [];
-        } else {
-          this.creatingProduct = false;
-          this.toast.error(res.message);
+          this.toast.error(err.message);
         }
-      }, err => {
-        this.creatingProduct = false;
-        this.toast.error(err.message);
-    });
-  }
+      );
+  };
 
   toggleDescription() {
     this.isFullDescription = !this.isFullDescription;
   }
 
   convertInnerHtmlToString(myHTML: any) {
-    var strippedHtml = myHTML.replace(/<[^>]+>/g, "");
-    if (strippedHtml.length > 700) {
-      this.hasFullDesc = true;
-    } else {
-      this.hasFullDesc = false;
-    }
-    return strippedHtml;
+    // var strippedHtml = myHTML.replace(/<[^>]+>/g, "");
+    // if (strippedHtml.length > 700) {
+    //   this.hasFullDesc = true;
+    // } else {
+    //   this.hasFullDesc = false;
+    // }
+    // return strippedHtml;
+    return myHTML;
   }
 
   createProduct = () => {
     this.creatingProduct = true;
-    this.productService.createNewProduct(this.form.value).subscribe(res => {
-      if(res.status === 'success') {
-        this.toast.success(res.message);
-        this.router.navigate(['/seller/products']);
+    this.productService.createNewProduct(this.form.value).subscribe(
+      (res) => {
+        if (res.status === "success") {
+          this.toast.success(res.message);
+          this.router.navigate(["/seller/products"]);
+          this.creatingProduct = false;
+          localStorage.removeItem("compImagesStore");
+          this.complementaryImagesStore = [];
+        } else {
+          this.creatingProduct = false;
+          this.toast.error(res.message);
+        }
+      },
+      (err) => {
         this.creatingProduct = false;
-        localStorage.removeItem('compImagesStore');
-        this.complementaryImagesStore = [];
-      } else {
-        this.creatingProduct = false;
-        this.toast.error(res.message);
+        this.toast.error(err.message);
       }
-    }, err => {
-      this.creatingProduct = false;
-      this.toast.error(err.message);
-    });
-  }
+    );
+  };
   isSubCatIdEmpty = false;
   onSubmit = () => {
-    if(this.images.length < 1) {
+    if (this.images.length < 1) {
       this.toast.error("Product Image(s) required");
       return;
     }
-    if(this.images.length < 1) {
+    if (this.images.length < 1) {
       this.toast.error("Product Image(s) required");
       return;
     }
-    if(this.form.value.description === '') {
+    if (this.form.value.description === "") {
       this.toast.error("Enter Product Description to Procees");
       return;
     }
-    if (this.form.value.category !== '' && this.subCategories.length > 0 && this.form.value.categoryId === '') {
+    if (
+      this.form.value.category !== "" &&
+      this.subCategories.length > 0 &&
+      this.form.value.categoryId === ""
+    ) {
       this.toast.error("Select a Sub Category");
       return;
     }
-    if (this.subCategories.length === 0 && this.form.value.category !== '') {
+    if (this.subCategories.length === 0 && this.form.value.category !== "") {
       this.isSubCatIdEmpty = true;
-      this.form.patchValue({categoryId: this.form.value.category});
+      this.form.patchValue({ categoryId: this.form.value.category });
     }
-    if(this.form.valid) {
+    if (this.form.valid) {
       this.setComplementaryProducts();
-      this.form.patchValue({'imageUrl': this.form.value.imageUrls[0]});
+      this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
       this.setVariation(this.form.value.variations);
       this.previewImg = this.form.value.imageUrls[0];
+      console.log("description", this.form.value.description);
       this.previewData = this.form.value;
       this.isPreview = true;
     }
-  }
+  };
 
   setComplementaryProducts() {
-    if(JSON.parse(localStorage.getItem('compImagesStore'))) {
-      this.complementaryImagesStore = JSON.parse(localStorage.getItem('compImagesStore'));
+    if (JSON.parse(localStorage.getItem("compImagesStore"))) {
+      this.complementaryImagesStore = JSON.parse(
+        localStorage.getItem("compImagesStore")
+      );
     } else {
       this.complementaryImagesStore = [];
     }
@@ -605,16 +620,16 @@ export class AddProductComponent implements OnInit {
       () => {
         this.loading = true;
         this.productService.deleteProduct(this.productId).subscribe((res) => {
-          if (res.status === 'success') {
+          if (res.status === "success") {
             this.loading = false;
             this.toast.success(res.message);
-            this.router.navigate(['/seller/products']);
+            this.router.navigate(["/seller/products"]);
           } else {
             this.loading = false;
             this.toast.error(res.message);
           }
         });
-      }, 
+      },
       (err) => {
         this.loading = false;
         this.toast.error(err.message);
@@ -623,7 +638,7 @@ export class AddProductComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-		this.unsubscribe$.next();
-		this.unsubscribe$.complete();
-	}
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 }
