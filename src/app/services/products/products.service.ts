@@ -110,7 +110,9 @@ export class ProductsService {
   }
 
   productOrderSummary(userId: string, productId: any): Observable<any> {
-    return this.http.get(this.baseUrl + `seller/${userId}/products/${productId}/overview`);
+    return this.http.get(
+      this.baseUrl + `seller/${userId}/products/${productId}/overview`
+    );
   }
 
   getProductsOverviewPerUser(userId: string): Observable<any> {
@@ -118,7 +120,9 @@ export class ProductsService {
   }
 
   getSubCategories(categoryId: string): Observable<any> {
-    return this.http.get(this.baseUrl + `categories?BaseCategoryId=${categoryId}`);
+    return this.http.get(
+      this.baseUrl + `categories?BaseCategoryId=${categoryId}`
+    );
   }
 
   createVariation(payload: any): Observable<any> {
@@ -131,7 +135,9 @@ export class ProductsService {
 
   getVariations(categoryId?: any): Observable<any> {
     if (categoryId) {
-      return this.http.get(this.baseUrl + `productoption/variations?categoryId=${categoryId}`);
+      return this.http.get(
+        this.baseUrl + `productoption/variations?categoryId=${categoryId}`
+      );
     } else {
       return this.http.get(this.baseUrl + `productoption/variations`);
     }
