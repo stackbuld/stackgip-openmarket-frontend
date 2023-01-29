@@ -1,38 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>EcommerceApp</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- end of google analytic script -->
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-6BNE3R3PFD"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-<head>
-  <meta charset="utf-8" />
-  <title>EcommerceApp</title>
-  <base href="/" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap"
-    rel="stylesheet" />
-  <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600&display=swap" rel="stylesheet">
+      gtag("config", "G-6BNE3R3PFD");
+    </script>
+    <!-- end of google analytic script -->
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6BNE3R3PFD"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
+    <!-- Start of prefinery script -->
+    <script>
+      prefinery =
+        window.prefinery ||
+        function () {
+          (window.prefinery.q = window.prefinery.q || []).push(arguments);
+        };
+    </script>
+    <script
+      src="https://widget.prefinery.com/widget/v2/oc72xq8p.js"
+      defer
+    ></script>
 
-    gtag('config', 'G-6BNE3R3PFD');
-  </script>
+    <!-- End of prefinery script -->
+  </head>
 
-</head>
+  <body class="mat-typography">
+    <app-root></app-root>
 
-<body class="mat-typography">
-  <app-root></app-root>
-
-  <script src="uikit/dist/js/uikit-icons.min.js"></script>
-  <script src="https://js.paystack.co/v1/inline.js"></script>
-  <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
-</body>
-
+    <!-- <script src="uikit/dist/js/uikit-icons.min.js"></script> -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script
+      src="https://widget.cloudinary.com/v2.0/global/all.js"
+      type="text/javascript"
+    ></script>
+  </body>
 </html>
