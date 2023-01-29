@@ -188,7 +188,6 @@ import { SafeHtmlPipe } from "./shared/pipes/safehtml.pipe";
       maxAge: 25,
       logOnly: environment.production,
     }),
-    CKEditorModule,
   ],
 
   providers: [
