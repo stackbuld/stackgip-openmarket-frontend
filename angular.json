@@ -25,8 +25,7 @@
               "./node_modules/@fortawesome/fontawesome-free/scss/regular.scss",
               "./node_modules/@fortawesome/fontawesome-free/scss/solid.scss",
               "./node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss",
-              "./node_modules/angular-bootstrap-md/assets/scss/mdb.scss",
-              "./node_modules/angular-bootstrap-md/assets/scss/bootstrap/bootstrap.scss",
+
               "src/theme.css",
               "node_modules/uikit/dist/css/uikit.min.css",
               "node_modules/ngx-toastr/toastr.css",

@@ -6,7 +6,7 @@ import { environment } from "./environments/environment";
 import {
   getAllDataFromLocalForage,
   default as localForage,
-} from "ngrx-store-persist";
+} from "ngrx-store-persist2";
 
 if (environment.production) {
   enableProdMode();
