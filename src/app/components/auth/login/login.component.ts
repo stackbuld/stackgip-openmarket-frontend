@@ -14,11 +14,11 @@ import { SignInModel } from "src/app/models/signin-model";
 // import { UIkit } from "uikit";
 import { AuthService } from "src/app/services/auth.service";
 import { ToastrService } from "ngx-toastr";
-import {
-  FacebookLoginProvider,
-  GoogleLoginProvider,
-  SocialAuthService,
-} from "angularx-social-login";
+// import {
+//   FacebookLoginProvider,
+//   GoogleLoginProvider,
+//   SocialAuthService,
+// } from "@abacritt/angularx-social-login";
 import { of, Subscription } from "rxjs";
 import { delay } from "rxjs/operators";
 import { JwtHelperService } from "../../../services/jwt-helper.service";
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
   decodedJwt;
   constructor(
     public authService: AuthService,
-    private socialAuthService: SocialAuthService,
+    // private socialAuthService: SocialAuthService,
     private fb: FormBuilder,
     private toast: ToastrService,
     private router: Router,

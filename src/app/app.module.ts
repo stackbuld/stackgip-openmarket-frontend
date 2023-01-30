@@ -24,7 +24,7 @@ import { StoreModule } from "@ngrx/store";
 import { counterReducer } from "./reducers";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "../environments/environment";
-import { storageSyncMetaReducer } from "ngrx-store-persist";
+import { storageSyncMetaReducer } from "ngrx-store-persist2";
 import { SliderComponent } from "./components/home/slider/slider.component";
 import { IndexComponent } from "./components/home/index/index.component";
 import { ProductsComponent } from "./components/products/products.component";
@@ -63,12 +63,12 @@ import { NgxPaginationModule } from "./shared/pagination/ngx-pagination.module";
 import { InfiniteScrollComponent } from "./shared/infinite-scroll/Infinite-scroll.component";
 import { AddToCartComponent } from "./components/add-to-cart/add-to-cart.component";
 import { SellerRegisterationFormComponent } from "./components/seller/seller-registeration-form/seller-registeration-form.component";
-import {
-  FacebookLoginProvider,
-  GoogleLoginProvider,
-  SocialAuthServiceConfig,
-  SocialLoginModule,
-} from "angularx-social-login";
+// import {
+//   FacebookLoginProvider,
+//   GoogleLoginProvider,
+//   SocialAuthServiceConfig,
+//   SocialLoginModule,
+// } from "@abacritt/angularx-social-login";
 import { NgxSliderModule } from "@angular-slider/ngx-slider";
 import { SearchItemComponent } from "./components/seller/seller-product/search-item/search-item.component";
 import { SellerShowCaseProductComponent } from "./components/seller/sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component";
@@ -172,7 +172,7 @@ import { SafeHtmlPipe } from "./shared/pipes/safehtml.pipe";
     SharedModule,
     NgxSliderModule,
     NgxPaginationModule,
-    SocialLoginModule,
+    // SocialLoginModule,
     NgxSliderModule,
 
     MatPaginatorModule,
@@ -197,22 +197,22 @@ import { SafeHtmlPipe } from "./shared/pipes/safehtml.pipe";
       useClass: ErrorHandlerInterceptor,
       multi: true,
     },
-    {
-      provide: "SocialAuthServiceConfig",
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(environment.googleClientId),
-          },
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider(environment.facebookAppId),
-          },
-        ],
-      } as SocialAuthServiceConfig,
-    },
+    // {
+    //   provide: "SocialAuthServiceConfig",
+    //   useValue: {
+    //     autoLogin: false,
+    //     providers: [
+    //       {
+    //         id: GoogleLoginProvider.PROVIDER_ID,
+    //         provider: new GoogleLoginProvider(environment.googleClientId),
+    //       },
+    //       {
+    //         id: FacebookLoginProvider.PROVIDER_ID,
+    //         provider: new FacebookLoginProvider(environment.facebookAppId),
+    //       },
+    //     ],
+    //   } as SocialAuthServiceConfig,
+    // },
   ],
   bootstrap: [AppComponent],
 })
