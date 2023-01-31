@@ -4,7 +4,7 @@ import { IResponseModel } from "./../shared/models/IResponseModel";
 
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import {Observable, BehaviorSubject, of, Subscription} from "rxjs";
+import { Observable, BehaviorSubject, of, Subscription } from "rxjs";
 import { IUser } from "../models/IUserModel";
 import { ApiAppUrlService } from "./api-app-url.service";
 import {
@@ -17,11 +17,15 @@ import { IForgetModel, IForgetPasswordModel } from "../models/auth-model";
 import { Store } from "@ngrx/store";
 import { AppState } from "../reducers";
 import { LoginAction, LogOutAction } from "../reducers/action/auth.action";
-import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService} from "angularx-social-login";
-import {NgxUiLoaderService} from "ngx-ui-loader";
-import {delay} from "rxjs/operators";
-import {Router} from "@angular/router";
-import {JwtHelperService} from "./jwt-helper.service";
+// import {
+//   FacebookLoginProvider,
+//   GoogleLoginProvider,
+//   SocialAuthService,
+// } from "@abacritt/angularx-social-login";
+import { NgxUiLoaderService } from "ngx-ui-loader";
+import { delay } from "rxjs/operators";
+import { Router } from "@angular/router";
+import { JwtHelperService } from "./jwt-helper.service";
 
 export interface IAuth {
   isLoggedId: boolean;
@@ -42,7 +46,7 @@ export class AuthService {
     private http: HttpClient,
     private store: Store<AppState>,
     private ngxService: NgxUiLoaderService,
-    private socialAuthService: SocialAuthService,
+    // private socialAuthService: SocialAuthService,
     private router: Router,
     private jwtHelperService: JwtHelperService
   ) {
@@ -90,18 +94,18 @@ export class AuthService {
 
   signInWithGoogle(): void {
     this.ngxService.startLoader("loader-01");
-    this.socialAuthService.initState.subscribe(() => {
-      this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
-        .then(data => {
-          this.GoogleSignIn(data.idToken)
-            .subscribe(signInResponse => {
-              this.SetAuthLocalStorage(signInResponse)
-              // this.logoutAndRedirectOnTokenExpiration(signInResponse.data.auth_token.token)
-            })
-          this.router.navigate([""]);
-          this.ngxService.stopLoader("loader-01");
-        });
-    })
+    // this.socialAuthService.initState.subscribe(() => {
+    //   this.socialAuthService
+    //     .signIn(GoogleLoginProvider.PROVIDER_ID)
+    //     .then((data) => {
+    //       this.GoogleSignIn(data.idToken).subscribe((signInResponse) => {
+    //         this.SetAuthLocalStorage(signInResponse);
+    //         // this.logoutAndRedirectOnTokenExpiration(signInResponse.data.auth_token.token)
+    //       });
+    //       this.router.navigate([""]);
+    //       this.ngxService.stopLoader("loader-01");
+    //     });
+    // });
   }
 
   public FacebookSignIn(userId, token): Observable<SiginResponseModel> {
@@ -113,30 +117,34 @@ export class AuthService {
 
   signInWithFacebook(): void {
     this.ngxService.startLoader("loader-01");
-    this.socialAuthService.initState.subscribe(() => {
-      this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID)
-        .then(data => {
-          this.FacebookSignIn(data.id, data.authToken)
-            .subscribe(signInResponse => {
-              this.SetAuthLocalStorage(signInResponse);
-            })
-          this.router.navigate([""]);
-          this.ngxService.stopLoader("loader-01");
-        })
-    })
+    // this.socialAuthService.initState.subscribe(() => {
+    //   this.socialAuthService
+    //     .signIn(FacebookLoginProvider.PROVIDER_ID)
+    //     .then((data) => {
+    //       this.FacebookSignIn(data.id, data.authToken).subscribe(
+    //         (signInResponse) => {
+    //           this.SetAuthLocalStorage(signInResponse);
+    //         }
+    //       );
+    //       this.router.navigate([""]);
+    //       this.ngxService.stopLoader("loader-01");
+    //     });
+    // });
   }
 
   expirationCounter(timeout): void {
     this.tokenSubscription.unsubscribe();
-    this.tokenSubscription = of(null).pipe(delay(timeout)).subscribe(() => {
-      this.Logout();
-      this.router.navigate(["./auth"]);
-    })
+    this.tokenSubscription = of(null)
+      .pipe(delay(timeout))
+      .subscribe(() => {
+        this.Logout();
+        this.router.navigate(["./auth"]);
+      });
   }
 
   logoutAndRedirectOnTokenExpiration(token: string): void {
     this.decodedJwt = this.jwtHelperService.getDecodedAccessToken(token);
-    this.expirationCounter((this.decodedJwt.exp - this.decodedJwt.iat)*1000);
+    this.expirationCounter((this.decodedJwt.exp - this.decodedJwt.iat) * 1000);
   }
 
   public SendForgetPassword(forget: IForgetModel): Observable<IResponseModel> {

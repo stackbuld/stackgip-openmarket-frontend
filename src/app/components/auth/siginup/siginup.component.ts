@@ -8,11 +8,16 @@ import { RegisterModel } from "src/app/models/register-model";
 import { SignInModel } from "src/app/models/signin-model";
 import UIkit from "uikit";
 import { MustMatch } from "src/app/helpers/control-validators";
-import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUser} from "angularx-social-login";
-import {of, Subscription} from "rxjs";
-import {delay} from "rxjs/operators";
-import {JwtHelperService} from "../../../services/jwt-helper.service";
-import {MDCTextField} from '@material/textfield';
+// import {
+//   FacebookLoginProvider,
+//   GoogleLoginProvider,
+//   SocialAuthService,
+//   SocialUser,
+// } from "@abacritt/angularx-social-login";
+import { of, Subscription } from "rxjs";
+import { delay } from "rxjs/operators";
+import { JwtHelperService } from "../../../services/jwt-helper.service";
+import { MDCTextField } from "@material/textfield";
 
 // const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
 
@@ -27,12 +32,12 @@ export class SiginupComponent implements OnInit {
   hasError = false;
   errors: any[];
   googleAuth: any;
-  user: SocialUser;
-  message = '';
+  // user: SocialUser;
+  message = "";
   errorMessage: string;
   constructor(
     public authService: AuthService,
-    private socialAuthService: SocialAuthService,
+    // private socialAuthService: SocialAuthService,
     private fb: FormBuilder,
     private toast: ToastrService,
     private router: Router,
@@ -60,9 +65,9 @@ export class SiginupComponent implements OnInit {
     );
     // {validator: this.ctrlValidator.MustMatch('password', 'confirmPassword')});
 
-    this.socialAuthService.authState.subscribe(user => {
-      this.user = user;
-    })
+    // this.socialAuthService.authState.subscribe((user) => {
+    //   this.user = user;
+    // });
   }
 
   get f() {
@@ -94,9 +99,9 @@ export class SiginupComponent implements OnInit {
         //   password: data.password,
         // } as SignInModel;
         // this.login(signinData);
-          this.ngxService.stopLoader("loader-01");
+        this.ngxService.stopLoader("loader-01");
         this.message = d.message;
-        this.toast.success(d.message, "notification")
+        this.toast.success(d.message, "notification");
         this.hasError = false;
       },
       (err) => {
@@ -105,11 +110,14 @@ export class SiginupComponent implements OnInit {
         this.hasError = true;
         if (err.status == 0) {
           this.errors.push("something went wrong please try again later");
-          this.toast.error("something went wrong please try again later", "notification")
+          this.toast.error(
+            "something went wrong please try again later",
+            "notification"
+          );
         } else {
           this.errors.push(...err.error.message.split(","));
         }
-        this.toast.error(err.error.message, "notification")
+        this.toast.error(err.error.message, "notification");
       }
     );
   }
@@ -123,10 +131,10 @@ export class SiginupComponent implements OnInit {
       (a) => {
         this.ngxService.stopLoader("loader-01");
         this.authService.SetAuthLocalStorage(a);
-        this.authService.logoutAndRedirectOnTokenExpiration(a.data.auth_token)
+        this.authService.logoutAndRedirectOnTokenExpiration(a.data.auth_token);
         if (a.status == "success") {
-             this.message = "login successful";
-             this.hasError = false;
+          this.message = "login successful";
+          this.hasError = false;
           this.toast.success("login successful", "notification");
           if (!a.data.canLogin) {
             this.router.navigate(["/confirm-email"]);

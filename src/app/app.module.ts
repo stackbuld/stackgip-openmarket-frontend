@@ -24,7 +24,7 @@ import { StoreModule } from "@ngrx/store";
 import { counterReducer } from "./reducers";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "../environments/environment";
-import { storageSyncMetaReducer } from "ngrx-store-persist";
+import { storageSyncMetaReducer } from "ngrx-store-persist2";
 import { SliderComponent } from "./components/home/slider/slider.component";
 import { IndexComponent } from "./components/home/index/index.component";
 import { ProductsComponent } from "./components/products/products.component";
@@ -49,45 +49,50 @@ import { SellerOrdersComponent } from "./components/seller/seller-orders/seller-
 import { AddProductComponent } from "./components/seller/seller-product/add-product/add-product.component";
 import { ViewProductComponent } from "./components/products/view-product/view-product.component";
 import { ListProductComponent } from "./components/home/list-product/list-product.component";
-import { SearchProductComponent } from './components/home/search-product/search-product.component';
-import { EditProductComponent } from './components/seller/seller-product/edit-product/edit-product.component';
-import { ProductItemComponent } from './components/seller/seller-product/product-item/product-item.component';
-import { OrderDetailComponent } from './components/seller/seller-orders/order-detail/order-detail.component';
-import { ViewMoreComponent } from './components/seller/seller-product/view-more/view-more.component';
-import { OrderViewMoreComponent } from './components/seller/seller-orders/order-view-more/order-view-more.component';
-import { UpdateDeliveryStatusComponent } from './components/seller/seller-orders/update-delivery-status/update-delivery-status.component';
-import { OrderListComponent } from './components/seller/seller-orders/order-list/order-list.component';
-import { ProductOptionComponent } from './components/seller/seller-product/product-option/product-option.component';
-import { ProductShipmentComponent } from './components/seller/seller-product/product-shipment/product-shipment.component';
-import { NgxPaginationModule } from './shared/pagination/ngx-pagination.module';
-import { InfiniteScrollComponent } from './shared/infinite-scroll/Infinite-scroll.component';
-import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
+import { SearchProductComponent } from "./components/home/search-product/search-product.component";
+import { EditProductComponent } from "./components/seller/seller-product/edit-product/edit-product.component";
+import { ProductItemComponent } from "./components/seller/seller-product/product-item/product-item.component";
+import { OrderDetailComponent } from "./components/seller/seller-orders/order-detail/order-detail.component";
+import { ViewMoreComponent } from "./components/seller/seller-product/view-more/view-more.component";
+import { OrderViewMoreComponent } from "./components/seller/seller-orders/order-view-more/order-view-more.component";
+import { UpdateDeliveryStatusComponent } from "./components/seller/seller-orders/update-delivery-status/update-delivery-status.component";
+import { OrderListComponent } from "./components/seller/seller-orders/order-list/order-list.component";
+import { ProductOptionComponent } from "./components/seller/seller-product/product-option/product-option.component";
+import { ProductShipmentComponent } from "./components/seller/seller-product/product-shipment/product-shipment.component";
+import { NgxPaginationModule } from "./shared/pagination/ngx-pagination.module";
+import { InfiniteScrollComponent } from "./shared/infinite-scroll/Infinite-scroll.component";
+import { AddToCartComponent } from "./components/add-to-cart/add-to-cart.component";
 import { SellerRegisterationFormComponent } from "./components/seller/seller-registeration-form/seller-registeration-form.component";
-import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
-import { NgxSliderModule } from '@angular-slider/ngx-slider';
-import { SearchItemComponent } from './components/seller/seller-product/search-item/search-item.component';
-import { SellerShowCaseProductComponent } from './components/seller/sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
-import { HomeLandingComponent } from './shared/components/home-landing/home-landing.component';
-import { NavbarComponent } from './shared/components/navbar/navbar.component';
-import { FooterComponent } from './shared/components/footer/footer.component';
-import { SellerAgreementComponent } from './components/agreements/seller-agreement/seller-agreement.component';
-import { TermsComponent } from './components/agreements/terms/terms.component';
-import { PrivatePolicyComponent } from './components/agreements/private-policy/private-policy.component';
-import { OurservicesComponent } from './shared/components/ourservices/ourservices.component';
-import { FaqsComponent } from './shared/components/faqs/faqs.component';
-import { ContactComponent } from './shared/components/contact/contact.component';
-import { FeaturesComponent } from './shared/components/features/features.component';
+// import {
+//   FacebookLoginProvider,
+//   GoogleLoginProvider,
+//   SocialAuthServiceConfig,
+//   SocialLoginModule,
+// } from "@abacritt/angularx-social-login";
+import { NgxSliderModule } from "@angular-slider/ngx-slider";
+import { SearchItemComponent } from "./components/seller/seller-product/search-item/search-item.component";
+import { SellerShowCaseProductComponent } from "./components/seller/sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component";
+import { HomeLandingComponent } from "./shared/components/home-landing/home-landing.component";
+import { NavbarComponent } from "./shared/components/navbar/navbar.component";
+import { FooterComponent } from "./shared/components/footer/footer.component";
+import { SellerAgreementComponent } from "./components/agreements/seller-agreement/seller-agreement.component";
+import { TermsComponent } from "./components/agreements/terms/terms.component";
+import { PrivatePolicyComponent } from "./components/agreements/private-policy/private-policy.component";
+import { OurservicesComponent } from "./shared/components/ourservices/ourservices.component";
+import { FaqsComponent } from "./shared/components/faqs/faqs.component";
+import { ContactComponent } from "./shared/components/contact/contact.component";
+import { FeaturesComponent } from "./shared/components/features/features.component";
 
 //Seller Layout
-import { SellerHeaderComponent } from './components/seller/header/header.component';
-import { SellerSidebarComponent } from './components/seller/sidebar/sidebar.component';
-import { SellerDashboardComponent } from './components/seller/seller-dashboard/seller-dashboard.component';
-import { JoinWaitlistComponent } from './shared/components/join-waitlist/join-waitlist.component';
-import { SuccessModalComponent } from './shared/components/success-modal/success-modal.component';
-import { MarketPlaceComponent } from './shared/components/market-place/market-place.component';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { AngularEditorModule } from '@kolkov/angular-editor';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { SellerHeaderComponent } from "./components/seller/header/header.component";
+import { SellerSidebarComponent } from "./components/seller/sidebar/sidebar.component";
+import { SellerDashboardComponent } from "./components/seller/seller-dashboard/seller-dashboard.component";
+import { JoinWaitlistComponent } from "./shared/components/join-waitlist/join-waitlist.component";
+import { SuccessModalComponent } from "./shared/components/success-modal/success-modal.component";
+import { MarketPlaceComponent } from "./shared/components/market-place/market-place.component";
+import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { SafeHtmlPipe } from "./shared/pipes/safehtml.pipe";
 
 @NgModule({
   declarations: [
@@ -155,6 +160,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     JoinWaitlistComponent,
     SuccessModalComponent,
     MarketPlaceComponent,
+    SafeHtmlPipe,
   ],
   imports: [
     BrowserModule,
@@ -166,9 +172,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     SharedModule,
     NgxSliderModule,
     NgxPaginationModule,
-    SocialLoginModule,
+    // SocialLoginModule,
     NgxSliderModule,
-    AngularEditorModule,
+
     MatPaginatorModule,
     CKEditorModule,
     StoreModule.forRoot(
@@ -182,8 +188,6 @@ import {MatPaginatorModule} from '@angular/material/paginator';
       maxAge: 25,
       logOnly: environment.production,
     }),
-
-    
   ],
 
   providers: [
@@ -193,26 +197,22 @@ import {MatPaginatorModule} from '@angular/material/paginator';
       useClass: ErrorHandlerInterceptor,
       multi: true,
     },
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              environment.googleClientId
-            )
-          },
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider(
-              environment.facebookAppId
-            )
-          }
-        ]
-      } as SocialAuthServiceConfig,
-    }
+    // {
+    //   provide: "SocialAuthServiceConfig",
+    //   useValue: {
+    //     autoLogin: false,
+    //     providers: [
+    //       {
+    //         id: GoogleLoginProvider.PROVIDER_ID,
+    //         provider: new GoogleLoginProvider(environment.googleClientId),
+    //       },
+    //       {
+    //         id: FacebookLoginProvider.PROVIDER_ID,
+    //         provider: new FacebookLoginProvider(environment.facebookAppId),
+    //       },
+    //     ],
+    //   } as SocialAuthServiceConfig,
+    // },
   ],
   bootstrap: [AppComponent],
 })
