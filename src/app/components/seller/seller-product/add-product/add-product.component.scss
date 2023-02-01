@@ -119,6 +119,104 @@ mat-icon{
     align-self: center;
 }
 
+.align-items-center {
+    align-items: center;
+}
+
+.ml-3 {
+    margin-left: 15px;
+}
+
+.mt-2 {
+    margin-top: 10px;
+}
+
+.mt-3 {
+    margin-top: 2rem;
+}
+
+.pointer, .cursor-pointer {
+    cursor: pointer;
+}
+
+.mt-5 {
+    margin-top: 3rem;
+}
+
+.p-0 {
+    padding: 0px;
+}
+
+.pl-2 {
+    padding-left: 10px;
+}
+
+.py-0 {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+
+.w-30 {
+    width: 40%;
+}
+
+.mt-2 {
+    margin-top: 5px;
+}
+
+.mr-3 {
+    margin-right: 10px;
+}
+
+.p-5 {
+    padding: 20px;
+}
+
+.p-3 {
+    padding: 10px;
+}
+
+.flex-section-center {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.ml-3 {
+    margin-left: 10px;
+}
+
+.mb-0 {
+    margin-bottom: 0px;
+}
+
+.py-3 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.mr-2 {
+    margin-right: 5px;
+}
+
+.mt-3 {
+    margin-top: 10px;
+}
+
+.mb-3 {
+    margin-bottom: 10px;
+}
+
+.w-70 {
+    width: 60%;
+    margin-left: 10px;
+}
+
 .btn-add {
     background: #000000;
     color: white;
@@ -295,6 +393,14 @@ span svg [stroke*='#'] {
 }
 
 @media screen and (max-width: 767px) {
+    .w-30, .w-70 {
+        width: 100%;
+    }
+
+    .mobile-block {
+        display: block;
+    }
+
     .main {
         display: block !important;
         width: 100% !important;

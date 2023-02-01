@@ -58,8 +58,15 @@ export class AuthService {
     }
   }
 
-  public signIn(signInModel: SignInModel): Observable<SiginResponseModel> {
-    return this.http.post<SiginResponseModel>(
+  // public signIn(signInModel: SignInModel): Observable<SiginResponseModel> {
+  //   return this.http.post<SiginResponseModel>(
+  //     this.api.baseApiUrl + "Auth/Login",
+  //     signInModel
+  //   );
+  // }
+
+  public signIn(signInModel: any): Observable<any> {
+    return this.http.post<any>(
       this.api.baseApiUrl + "Auth/Login",
       signInModel
     );
@@ -177,7 +184,7 @@ export class AuthService {
     localStorage.setItem("user", JSON.stringify(a.data.user));
     localStorage.setItem("role", JSON.stringify(a.data.roles));
     localStorage.setItem("siginResponse", JSON.stringify(a.data));
-    this.store.dispatch(LoginAction(a.data.user));
+    // this.store.dispatch(LoginAction(a.data.user));
   }
 
   public Logout() {
