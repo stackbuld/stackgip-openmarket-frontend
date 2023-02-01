@@ -31,7 +31,9 @@
                 <img src="../../../../assets/image/Frame 51514 (1).svg" alt="">
             </div>
             <div>
-                <div *ngIf="loadingSummary" class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px"></div>
+                <div *ngIf="loadingSummary">
+                    <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+                </div>
                 <p *ngIf="!loadingSummary" class="firstCard-num">{{ dashboardData?.pendingOrders }}</p>
                 <div class="firstCard-text">New Orders</div>
             </div>
@@ -41,7 +43,9 @@
                 <img src="../../../../assets/image/Frame 51514 (2).svg" alt="">
             </div>
             <div>
-                <div *ngIf="loadingSummary" class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px"></div>
+                <div *ngIf="loadingSummary">
+                    <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+                </div>
                 <p *ngIf="!loadingSummary" class="firstCard-num">{{ dashboardData?.totalProducts }}</p>
                 <div class="firstCard-text">Products</div>
             </div>
@@ -51,7 +55,9 @@
                 <img src="../../../../assets/image/Frame 51514 (3).svg" alt="">
             </div>
             <div>
-                <div *ngIf="loadingSummary" class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px"></div>
+                <div *ngIf="loadingSummary">
+                    <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+                </div>
                 <p *ngIf="!loadingSummary" class="firstCard-num">{{ dashboardData?.revenue | currency: '₦' }}</p>
                 <div class="firstCard-text">Total sales</div>
             </div>
@@ -61,7 +67,9 @@
                 <img src="../../../../assets/image/Frame 51514 (4).svg" alt="">
             </div>
             <div>
-                <div *ngIf="loadingSummary" class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px"></div>
+                <div *ngIf="loadingSummary">
+                    <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+                </div>
                 <p *ngIf="!loadingSummary" class="firstCard-num">{{ dashboardData?.totalOrders }}</p>
                 <div class="firstCard-text">Total orders</div>
             </div>
@@ -101,10 +109,6 @@
                                 <p class="mb-0">{{item?.unitSold}} units sold</p>
                             </div>
                             <div class="edit-detail">
-                                <!-- <div class="d-flex">
-                                    <span>View</span>
-                                    <img src="../../../../assets/image/right-arrow.png" alt="">
-                                </div> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -->
                                 <div routerLink="/seller/products/add/{{item?.productId}}" class="d-flex pointer">
                                     <span>Edit Details</span>
                                     <img src="../../../../assets/image/right-arrow.png" alt="">
@@ -115,22 +119,11 @@
                 </tr>
             </tbody>
 
-            <div *ngIf="loading" style="display: flex; align-items: center; justify-content: center; min-height: 300px;">
-                <div class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px">
-                  <span class="sr-only">Loading...</span>
-                </div>
-                &nbsp; &nbsp;
-                <div class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px">
-                  <span class="sr-only">Loading...</span>
-                </div>
-                &nbsp; &nbsp;
-                <div class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px">
-                  <span class="sr-only">Loading...</span>
-                </div>
-                <br />
+            <div *ngIf="loading" style="display: flex; align-items: center; justify-content: center; min-height: 200px;">
+                <img src="/assets/svg/loader-icon.svg" alt="" width="100" height="100" />
             </div>
 
-            <div *ngIf="mostSelling.length === 0 && !loading" class="p-5 d-flex justify-content-center">
+            <div *ngIf="mostSelling.length === 0 && !loading" style="display: flex; justify-content: center; padding: 20px;">
                 <img class="py-5" src="/assets/image/empty-table.svg" alt="empty-table" />
             </div>
         </table>

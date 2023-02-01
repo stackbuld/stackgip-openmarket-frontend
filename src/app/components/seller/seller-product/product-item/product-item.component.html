@@ -10,7 +10,9 @@
         </svg>              
       </div>
       <div class="uk-margin-left">
-        <div *ngIf="loadingOverview" class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px"></div>
+        <div *ngIf="loadingOverview">
+          <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+        </div>
         <h2 *ngIf="!loadingOverview" class="uk-card-title uk-margin-remove-bottom" style="font-weight: 750; font-size: 24px;">{{ overview?.totalProducts }}</h2>
         <p class="mb-0" style="font-weight: 400; font-size: 14px; color: #979797">Total Products</p>
       </div>
@@ -25,7 +27,9 @@
         </svg>                         
       </div>
       <div class="uk-margin-left">
-          <div *ngIf="loadingOverview" class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px"></div>
+          <div *ngIf="loadingOverview">
+            <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+          </div>
           <h2 *ngIf="!loadingOverview" class="uk-card-title uk-margin-remove-bottom" style="font-weight: 750; font-size: 24px;">{{ overview?.revenue | currency: '₦' }}</h2>
           <p class="mb-0" style="font-weight: 400; font-size: 14px; color: #979797">Total Revenue</p>
       </div>
@@ -39,7 +43,9 @@
         </svg>                        
       </div>
       <div class="uk-margin-left">
-        <div *ngIf="loadingOverview" class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px"></div>
+          <div *ngIf="loadingOverview">
+            <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+          </div>
           <h2 *ngIf="!loadingOverview" class="uk-card-title uk-margin-remove-bottom" style="font-weight: 750; font-size: 24px;">{{ overview?.lowStock || 0 }}</h2>
           <p class="mb-0" style="font-weight: 400; font-size: 14px; color: #979797">Products Low on Stock</p>
       </div>
@@ -49,7 +55,9 @@
         <img src="../../../../assets/image/Frame 51514 (4).svg" alt="">                      
       </div>
       <div class="uk-margin-left">
-        <div *ngIf="loadingOverview" class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px"></div>
+          <div *ngIf="loadingOverview">
+            <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+          </div>
           <h2 *ngIf="!loadingOverview" class="uk-card-title uk-margin-remove-bottom" style="font-weight: 750; font-size: 24px;">{{ overview?.pendingOrders || 0 }}</h2>
           <p class="mb-0" style="font-weight: 400; font-size: 14px; color: #979797">Pending orders</p>
       </div>
@@ -102,13 +110,13 @@
       </div>
 
       <div class="mobile-table" *ngIf="productDetails.length > 0 && !loading">
-        <div class="d-flex bottom-bar" *ngFor="let productDetail of productDetails | paginate: { itemsPerPage: maximumItem, currentPage: pageNumber, totalItems:totalItemCount}">
+        <div class="uk-flex bottom-bar" *ngFor="let productDetail of productDetails | paginate: { itemsPerPage: maximumItem, currentPage: pageNumber, totalItems:totalItemCount}">
           <div class="w-20">
             <img class="uk-img product-img" src="{{ productDetail?.imageUrl }}" alt="{{ productDetail?.imageUrl }}" width="100" height="100" />
           </div>
           <div class="w-70">
             <p class=""><strong>{{ productDetail?.name }}</strong></p>
-            <div class="d-flex mb-1">
+            <div class="uk-flex mb-1">
               <p class="unit-style">{{ productDetail?.unit }} Unit left</p> &nbsp; &nbsp;
               <p class="mb-0">{{ productDetail?.unitSold }} Unit sold</p>
             </div>
@@ -116,7 +124,7 @@
             <p>Amount Sold: {{ (productDetail?.price * productDetail?.unit) | currency: '₦' }}</p>
             <div class="btw-justify">
               <p>{{ productDetail?.createdOn | date }}</p>
-              <div class="d-flex">
+              <div class="uk-flex">
                 <a routerLink="/seller/products/view/{{productDetail?.id}}" class="edge2">
                   <span style="margin-right: 4px;">View</span>
                 </a> &nbsp; &nbsp;
@@ -131,24 +139,14 @@
   </div>
 
   <div *ngIf="loading" style="display: flex; align-items: center; justify-content: center; min-height: 300px;">
-    <div class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px">
-      <span class="sr-only">Loading...</span>
+    <div *ngIf="loadingOverview">
+      <img src="/assets/svg/loader-icon.svg" alt="" width="100" height="100" />
     </div>
-    &nbsp; &nbsp;
-    <div class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px">
-      <span class="sr-only">Loading...</span>
-    </div>
-    &nbsp; &nbsp;
-    <div class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px">
-      <span class="sr-only">Loading...</span>
-    </div>
-    <br />
   </div>
-  
-    <div *ngIf="productDetails.length === 0 && !loading" class="p-5 d-flex justify-content-center">
+    <div *ngIf="productDetails.length === 0 && !loading" style="padding: 100px; display: flex; justify-content: center">
       <img src="/assets/image/empty-table.svg" alt="empty-table" />
-  </div>
-    <div *ngIf="productDetails.length > 0 && !loading" class="d-flex p-3 uk-flex uk-flex-right">
+    </div>
+    <div *ngIf="productDetails.length > 0 && !loading" class="uk-flex p-3 uk-flex uk-flex-right">
       <pagination-controls (pageChange)="fetchNextProducts($event)"></pagination-controls>
       &nbsp; &nbsp;
       <div>
@@ -164,10 +162,10 @@
       </div>
     </div>
     <div>
-      <h2 class="heading">Products Low in Stock <span style="color: black;">({{ lowStock?.length }})</span></h2>
+      <h2 class="heading">Products Low in Stock <span style="color: black;">({{ lowStock?.length || 0 }})</span></h2>
       <div *ngIf="!loadingStock && lowStock.length > 0" class="stock-section mt-3">
-        <div *ngFor="let item of lowStock" class="mb-3 d-flex justify-content-between">
-          <div class="d-flex">
+        <div *ngFor="let item of lowStock" class="mb-3 uk-flex space-between">
+          <div class="uk-flex">
             <img src="{{item?.imageUrl}}" alt="item-image" width="100" height="100" /> &nbsp; &nbsp;
             <div>
               <p style="width: 70%;">{{ item?.name }}</p>
@@ -181,9 +179,9 @@
               </p>
             </div>
           </div>
-          <div class="al d-flex mobile-reshape">
-            <div class="d-flex">
-              <span class="d-flex align-items-center mb-0">Update Unit</span>
+          <div class="al uk-flex mobile-reshape">
+            <div class="uk-flex">
+              <span class="uk-flex align-center mb-0">Update Unit</span>
               &nbsp; &nbsp;
               <svg uk-toggle="target: #modal-add-stock" id="js-modal-prompt" (click)="setSelectedstock(item)" class="pointer" width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16.0003 29.8333C23.3641 29.8333 29.3337 23.8638 29.3337 16.5C29.3337 9.13616 23.3641 3.16663 16.0003 3.16663C8.63653 3.16663 2.66699 9.13616 2.66699 16.5C2.66699 23.8638 8.63653 29.8333 16.0003 29.8333Z" fill="#F2F2F2"/>
@@ -219,18 +217,7 @@
       </div>
 
       <div *ngIf="loadingStock" style="display: flex; align-items: center; justify-content: center; min-height: 300px;">
-        <div class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px">
-          <span class="sr-only">Loading...</span>
-        </div>
-        &nbsp; &nbsp;
-        <div class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px">
-          <span class="sr-only">Loading...</span>
-        </div>
-        &nbsp; &nbsp;
-        <div class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px">
-          <span class="sr-only">Loading...</span>
-        </div>
-        <br />
+        <img src="/assets/svg/loader-icon.svg" alt="" width="100" height="100" />
       </div>
     </div>
 </div>
@@ -249,10 +236,12 @@
             <input type="number" formControlName="unit" matInput placeholder="12" required />
           </mat-form-field>
         </div>
-        <div class="d-flex justify-content-center mt-3">
+        <div class="uk-flex center-items mt-3">
           <button (click)="updateStockUnit()" type="submit" class="btn-add" [disabled]="stockForm.invalid">
             <span *ngIf="!loadingStock">Submit</span>
-            <div *ngIf="loadingStock" class="spinner-grow text-dark" role="status" style="width: 25px; height: 25px"></div>
+            <div *ngIf="loadingStock">
+              <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+            </div>
           </button>
         </div>
       </form>

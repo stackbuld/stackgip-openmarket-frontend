@@ -36,8 +36,8 @@ import { JwtHelperService } from "../../../services/jwt-helper.service";
 })
 export class LoginComponent implements OnInit {
   hasError = false;
-  errors: any[];
-  errorMessage: string;
+  errors: any[] = [];
+  errorMessage: string = '';
   loginForm: FormGroup;
   googleAuth: any;
   loading: false;
@@ -69,10 +69,6 @@ export class LoginComponent implements OnInit {
     //   this.loadgoogleLogin();
     // }
 
-    this.hasError = false;
-    this.errors = [];
-    this.errorMessage = "";
-
     this.loginForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required]],
@@ -80,48 +76,35 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    if (!this.loginForm.valid) {
-      return;
-    }
-    const data: SignInModel = {
-      email: this.loginForm.get("email").value,
-      password: this.loginForm.get("password").value,
-    } as SignInModel;
-
     this.ngxService.startLoader("loader-01");
-
-    this.authService.signIn(data).subscribe(
-      (a) => {
-        this.ngxService.stopLoader("loader-01");
-        this.authService.SetAuthLocalStorage(a);
-
-        if (a.status == "success") {
-          this.toast.success("login successful", "notification");
-          this.message = "login successful";
-          this.hasError = false;
-          if (!a.data.canLogin) {
-            this.router.navigate(["/confirm-email"]);
+    this.authService.signIn(this.loginForm.value).subscribe((res) => {
+        if (res.status == "success") {
+          if (res.data.canLogin) {
+            this.ngxService.stopLoader("loader-01");
+            this.authService.SetAuthLocalStorage(res);
+            this.toast.success(res.message);
+            this.router.navigate(['/seller/dashboard']);
           } else {
-            this.authService.logoutAndRedirectOnTokenExpiration(
-              a.data.auth_token
-            );
-            this.router.navigate(["/"]);
-          }
-        } else {
-          if (a.data.isNotAllowed) {
+            this.toast.error('Please confirm your email address');
             this.router.navigate(["/confirm-email"]);
           }
-        }
-      },
-      (err) => {
-        this.errors = [];
-        if (err.status === 0) {
-          this.errors.push("something went wrong please try");
-        } else if (err.status >= 500) {
-          this.errors.push("something went wrong please try");
+          // this.hasError = false;
+          // if (!res.data.canLogin) {
+          //   this.router.navigate(["/confirm-email"]);
+          // } else {
+          //   this.authService.logoutAndRedirectOnTokenExpiration(
+          //     res.data.auth_token
+          //   );
+          //   this.router.navigate(["/"]);
+          // }
         } else {
-          this.errors.push(...err.error.message.split(","));
+          this.ngxService.stopLoader("loader-01");
+          // if (res.data.isNotAllowed) {
+          //   this.router.navigate(["/confirm-email"]);
+          // }
         }
+      }, (err) => {
+        this.toast.error(err.error.message);
         this.ngxService.stopLoader("loader-01");
       }
     );

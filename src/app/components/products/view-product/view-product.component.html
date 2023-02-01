@@ -1,10 +1,10 @@
 <div *ngIf="!loading">
-  <div class="row">
-    <div class="col-md-5 col-sm-12 col-xs-12 col-l-5">
+  <div class="uk-flex mobile-block">
+    <div class="w-30">
       <div class="main-img">
         <img src="{{ previewImg }}" alt="laptop" />
       </div>
-      <div class="mt-3 d-flex">
+      <div class="mt-3 uk-flex">
         <div class="pointer" *ngFor="let item of product?.productImages">
           <img
             [ngClass]="{ 'active-img': previewImg === item }"
@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div class="mobile-space col-md-7 col-sm-12 col-xs-12 col-l-7">
+    <div class="mobile-space w-70">
       <p class="item-name">{{ product?.name || "N/A" }}</p>
       <p class="item-price">{{ product?.price | currency : "₦" }}</p>
 
@@ -44,9 +44,9 @@
 
   <div class="mt-5">
     <p class="gen-st mb-3">Order Summary</p>
-    <div class="mobile-block d-flex">
+    <div class="mobile-block uk-flex">
       <div class="even-flex">
-        <div class="m-right summary-card d-flex">
+        <div class="m-right summary-card uk-flex">
           <svg
             width="70"
             height="70"
@@ -76,7 +76,7 @@
               stroke-linejoin="round"
             />
           </svg>
-          <div class="ml-3 d-flex align-items-center">
+          <div class="ml-3 uk-flex items-center">
             <div>
               <div
                 *ngIf="loadingSummary"
@@ -92,7 +92,7 @@
           </div>
         </div>
 
-        <div class="m-left summary-card d-flex">
+        <div class="m-left summary-card uk-flex">
           <svg
             width="70"
             height="70"
@@ -119,7 +119,7 @@
               fill="black"
             />
           </svg>
-          <div class="ml-3 d-flex align-items-center">
+          <div class="ml-3 uk-flex items-center">
             <div>
               <div
                 *ngIf="loadingSummary"
@@ -137,7 +137,7 @@
       </div>
 
       <div class="even-flex">
-        <div class="m-right summary-card d-flex">
+        <div class="m-right summary-card uk-flex">
           <svg
             width="70"
             height="70"
@@ -172,7 +172,7 @@
               fill="black"
             />
           </svg>
-          <div class="ml-3 d-flex align-items-center">
+          <div class="ml-3 uk-flex items-center">
             <div>
               <div
                 *ngIf="loadingSummary"
@@ -188,7 +188,7 @@
           </div>
         </div>
 
-        <div class="m-left summary-card d-flex">
+        <div class="m-left summary-card uk-flex">
           <svg
             width="70"
             height="70"
@@ -215,7 +215,7 @@
               fill="black"
             />
           </svg>
-          <div class="ml-3 d-flex align-items-center">
+          <div class="ml-3 uk-flex items-center">
             <div>
               <div
                 *ngIf="loadingSummary"
@@ -283,13 +283,13 @@
       </div>
       <div
         *ngIf="complimentartProducts?.length === 0"
-        class="d-flex justify-content-center p-5"
+        class="flex-section-center p-5"
       >
         <p class="p-5">No Complementary Product(s) Available</p>
       </div>
     </div>
 
-    <div class="d-flex justify-content-center mt-4">
+    <div class="flex-section-center">
       <button
         routerLink="/seller/products/add/{{ product?.id }}"
         type="submit"
@@ -330,37 +330,6 @@
   </div>
 </div>
 
-<div
-  *ngIf="loading"
-  style="
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 300px;
-  "
->
-  <div
-    class="spinner-grow text-dark"
-    role="status"
-    style="width: 25px; height: 25px"
-  >
-    <span class="sr-only">Loading...</span>
-  </div>
-  &nbsp; &nbsp;
-  <div
-    class="spinner-grow text-dark"
-    role="status"
-    style="width: 25px; height: 25px"
-  >
-    <span class="sr-only">Loading...</span>
-  </div>
-  &nbsp; &nbsp;
-  <div
-    class="spinner-grow text-dark"
-    role="status"
-    style="width: 25px; height: 25px"
-  >
-    <span class="sr-only">Loading...</span>
-  </div>
-  <br />
+<div *ngIf="loading" style="display: flex; align-items: center; justify-content: center; min-height: 300px;">
+  <img src="/assets/svg/loader-icon.svg" alt="" width="100" height="100" />
 </div>

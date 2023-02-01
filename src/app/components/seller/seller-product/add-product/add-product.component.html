@@ -29,7 +29,7 @@
             required
           />
         </mat-form-field>
-        <div class="d-flex justify-content-end">
+        <div class="uk-flex justify-content-end">
           <p class="add-store-btn">+ Add new store</p>
         </div>
         <mat-form-field class="mb-3 uk-width-expand">
@@ -76,7 +76,7 @@
           </mat-form-field>
           <div
             *ngIf="subCategories?.length === 0 && !loadingSubCategories"
-            class="d-flex justify-content-center align-items-center"
+            class="uk-flex uk-flex-center align-items-center"
           >
             <p style="color: red">No sub categorie(s)</p>
           </div>
@@ -135,7 +135,7 @@
         </div>
         <mat-form-field class="mb-3">
           <mat-label>Weight</mat-label>
-          <div class="d-flex">
+          <div class="uk-flex">
             <input
               type="text"
               required
@@ -161,24 +161,13 @@
 
       <div class="full-width uk-width-1-2 uk-flex uk-flex-center">
         <div
-          class="uk-width-2-3 uk-flex uk-flex-column uk-flex-middle uk-text-center"
+          class="uk-width-2-3 uk-flex uk-flex-column uk-flex-middle uk-uk-align-center"
         >
-          <h3 class="uk-text-center">Upload Pictures of Product</h3>
-          <div
-            class="js-upload p-0"
-            style="position: relative; width: 150px; height: 150px"
-            (click)="upload()"
-          >
+          <h3 class="uk-uk-align-center">Upload Pictures of Product</h3>
+          <div class="js-upload p-0" style="position: relative; width: 150px; height: 150px" (click)="upload()">
             <div class="p-2">
-              <span
-                uk-icon="icon: cloud-upload; ratio: 3"
-                style="
-                  color: #243853;
-                  position: absolute;
-                  top: 20%;
-                  left: 30%; ;
-                "
-              ></span>
+              <span uk-icon="icon: cloud-upload; ratio: 3"
+                style=" color: #243853; position: absolute; top: 20%; left: 30%;"></span>
               <img
                 *ngIf="productImage !== null"
                 src="{{ productImage }}"
@@ -244,8 +233,8 @@
       </div>
     </div>
 
-    <div class="main mt-3 d-flex justify-content-center">
-      <div *ngIf="!addingVariation" class="d-flex justify-content-center">
+    <div class="main mt-3 uk-flex uk-flex-center">
+      <div *ngIf="!addingVariation" class="uk-flex uk-flex-center">
         <button
           aria-label="Add Product Variation"
           (click)="addVariation()"
@@ -264,7 +253,7 @@
       &nbsp; &nbsp; &nbsp; &nbsp;
       <div
         *ngIf="!addingComplimentaryOptions"
-        class="d-flex justify-content-center"
+        class="uk-flex uk-flex-center"
       >
         <button
           aria-label="Add Complementary Variation"
@@ -289,11 +278,11 @@
         *ngFor="let variation of variations()['controls']; let i = index"
       >
         <div class="" [formGroupName]="i">
-          <div class="main d-flex wrapper-style">
+          <div class="main uk-flex wrapper-style">
             <div class="mt-2">
               <p class="number-count">{{ i + 1 }}</p>
             </div>
-            <mat-form-field class="full-width uk-width-1-4">
+            <mat-form-field class="full-width uk-width-1-4 mt-2">
               <mat-label>Title</mat-label>
               <mat-select formControlName="title" required>
                 <mat-option disabled="true"
@@ -307,7 +296,7 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field
-              class="no-mobile-margin full-width uk-width-1-4 uk-margin-left"
+              class="no-mobile-margin full-width uk-width-1-4 uk-margin-left mt-2"
             >
               <mat-label>Value</mat-label>
               <input
@@ -319,7 +308,7 @@
               />
             </mat-form-field>
             <mat-form-field
-              class="no-mobile-margin full-width uk-width-1-4 uk-margin-left"
+              class="no-mobile-margin full-width uk-width-1-4 uk-margin-left mt-2"
             >
               <mat-label>Price </mat-label>
               <input
@@ -341,9 +330,9 @@
           </div>
         </div>
       </div>
-      <div *ngIf="addingVariation" class="d-flex justify-content-center">
+      <div *ngIf="addingVariation" class="uk-flex uk-flex-center">
         <p
-          class="add-store-btn d-flex align-items-center"
+          class="add-store-btn uk-flex align-items-center"
           uk-toggle="target: #modal-add-variation"
           id="js-modal-prompt"
         >
@@ -374,7 +363,7 @@
       >
         <div class="wrapper-style2" [formGroupName]="j">
           <div class="">
-            <div class="main d-flex">
+            <div class="main uk-flex">
               <mat-form-field class="w-400">
                 <mat-label>Product Name</mat-label>
                 <input
@@ -399,7 +388,7 @@
                 />
               </mat-form-field>
             </div>
-            <div class="main d-flex mt-4">
+            <div class="main uk-flex mt-4">
               <div class="">
                 <mat-form-field class="full-width w-600">
                   <mat-label>Short Description</mat-label>
@@ -425,7 +414,7 @@
               <div class="full-width w-200">
                 <div class="">
                   <div
-                    class="upload-icn-div js-upload my-0 uk-text-center d-flex justify-content-center"
+                    class="upload-icn-div js-upload my-0 uk-uk-align-center uk-flex uk-flex-center"
                     (click)="uploadComplimentaryImage(j)"
                   >
                     <span
@@ -439,7 +428,7 @@
                       src="{{ complementaryImagesStore[j]?.imageUrl }}"
                     />
                   </div>
-                  <p class="text-center mb-0 upload-text" style="width: 70%">
+                  <p class="uk-align-center mb-0 upload-text" style="width: 70%">
                     Upload a single pictures of product
                   </p>
                 </div>
@@ -449,8 +438,8 @@
         </div>
       </div>
       <div
-        *ngIf="addingComplimentaryOptions"
-        class="d-flex justify-content-center"
+        *ngIf="addingComplimentaryOptions" style="margin-bottom: 10px;"
+        class="uk-flex uk-flex-center"
       >
         <button
           aria-label="Add Complementary Variation"
@@ -469,7 +458,7 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-center mt-4">
+    <div class="uk-flex uk-flex-center mt-4">
       <button
         type="submit"
         class="btn-add"
@@ -512,12 +501,12 @@
 </div>
 
 <div *ngIf="isPreview">
-  <div class="row">
-    <div class="col-md-5 col-sm-12 col-xs-12 col-l-5">
+  <div class="uk-flex mobile-block">
+    <div class="w-30">
       <div class="main-img">
         <img src="{{ previewImg }}" alt="laptop" />
       </div>
-      <div class="mt-3 d-flex">
+      <div class="mt-3 uk-flex">
         <div class="pointer" *ngFor="let item of previewData?.imageUrls">
           <img
             [ngClass]="{ 'active-img': previewImg === item }"
@@ -532,12 +521,12 @@
         </div>
       </div>
     </div>
-    <div class="mobile-space col-md-7 col-sm-12 col-xs-12 col-l-7">
+    <div class="mobile-space w-70">
       <p class="item-name">{{ previewData?.name || "N/A" }}</p>
       <p class="item-price">{{ previewData?.price | currency : "₦" }}</p>
 
       <p class="gen-st mb-0">Available Units</p>
-      <div class="d-flex">
+      <div class="uk-flex">
         <svg
           (click)="changeUnit(previewData?.unit, 'minus')"
           class="pointer"
@@ -667,13 +656,13 @@
       </div>
       <div
         *ngIf="previewData?.options?.length === 0"
-        class="d-flex justify-content-center p-5"
+        class="uk-flex uk-flex-center p-5"
       >
         <p class="p-5">No Complementary Product(s) Available</p>
       </div>
     </div>
 
-    <div class="d-flex justify-content-center mt-4">
+    <div class="uk-flex uk-flex-center mt-4">
       <button (click)="edit()" type="submit" class="btn-edit">Edit</button>
       &nbsp; &nbsp;
       <button
@@ -794,7 +783,7 @@
       #closeEdit
     ></button>
     <div>
-      <h2 class="mb-3 text-center">Add New Variation</h2>
+      <h2 class="mb-3 uk-align-center">Add New Variation</h2>
       <form [formGroup]="newVariationForm">
         <div class="mb-3 uk-grid-small uk-grid uk-child-width-1-2@s">
           <mat-form-field class="mb-3 uk-width-expand">
@@ -833,7 +822,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="d-flex justify-content-center mt-4">
+        <div class="uk-flex uk-flex-center mt-4">
           <button
             (click)="createNewVariation()"
             type="submit"

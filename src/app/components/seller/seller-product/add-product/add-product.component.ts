@@ -383,18 +383,25 @@ export class AddProductComponent implements OnInit {
     this.complementaryImagesStore = JSON.parse(
       localStorage.getItem("compImagesStore")
     );
-    if (this.complementaryImagesStore.length === 1) {
-      this.complementaryImagesStore.splice(index, 1);
-      localStorage.removeItem("compImagesStore");
-      this.addingComplimentaryOptions = false;
+    if(this.complementaryImagesStore === null) {
+      this.options().removeAt(index);
+      this.complementaryImagesStore = [];
     } else {
-      this.complementaryImagesStore.splice(index, 1);
-      localStorage.setItem(
-        "compImagesStore",
-        JSON.stringify(this.complementaryImagesStore)
-      );
+      if (this.complementaryImagesStore.length === 1) {
+        this.complementaryImagesStore.splice(index, 1);
+        localStorage.removeItem("compImagesStore");
+        this.addingComplimentaryOptions = false;
+        this.options().removeAt(index);
+      } 
+      if (this.complementaryImagesStore.length > 1) {
+        this.complementaryImagesStore.splice(index, 1);
+        localStorage.setItem(
+          "compImagesStore",
+          JSON.stringify(this.complementaryImagesStore)
+        );
+        this.options().removeAt(index);
+      }
     }
-    this.options().removeAt(index);
   }
 
   upload(): void {

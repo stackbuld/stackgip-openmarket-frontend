@@ -18,6 +18,50 @@
     border: 0.5px solid black;
 }
 
+.space-between {
+    justify-content: space-between;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.mb-0 {
+    margin-bottom: 0px;
+}
+
+.flex-section {
+    display: flex;
+}
+
+.p-3 {
+    padding: 5px;
+}
+
+.mb-3 {
+    margin-bottom: 5px;
+}
+
+.mb-1 {
+    margin-bottom: 5px;
+}
+
+.mt-3 {
+    margin-top: 5px;
+}
+
+.p-5 {
+    padding: 20px;
+}
+
+.center-items {
+    justify-content: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
 .firstCard-container>div:nth-child(2) {
     display: flex;
     flex-direction: column;
