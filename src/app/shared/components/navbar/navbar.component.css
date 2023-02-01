@@ -82,6 +82,11 @@ ul {
 .navvy {
   display: none;
 }
+
+.space-ml {
+  margin-left: 10px !important;
+}
+
 @media (min-width: 992px) {
   .navvy {
     display: block;
@@ -93,4 +98,10 @@ ul {
 
 @media (max-width: 1200px) {
 
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .space-ml {
+    margin-left: 20px !important;
+  }
 }
