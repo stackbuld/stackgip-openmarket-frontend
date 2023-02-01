@@ -5,7 +5,8 @@
     "ng": "ng",
     "serve": "ng serve",
     "start": "node server.js",
-    "build": "ng build --configuration production",
+    "build1": "ng build --configuration production",
+    "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
