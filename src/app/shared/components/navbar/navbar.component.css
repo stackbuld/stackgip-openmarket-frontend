@@ -53,6 +53,10 @@
   color: #fff;
 }
 
+.uk-navbar-left {
+  padding-left: 1rem;
+}
+
 .navy {
   display: block;
 }
