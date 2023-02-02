@@ -227,7 +227,6 @@ padding-left: 0.75rem;
   display: flex;
   flex-wrap: wrap;
 }
-
 .bottom-text1 {
   font-family: "Avenir LT Std";
   font-size: 0.875rem;
@@ -279,6 +278,108 @@ padding-left: 0.75rem;
   a {
     color: #fff;
   }
+}
+
+.product-recommendation {
+  display: flex;
+  padding: 0rem 4rem 3rem 4rem;
+  justify-content: space-between;
+}
+
+.product-recommendation .left-group, .product-recommendation .right-group {
+  width: 48%;
+}
+
+@media only screen and (max-width: 767px) {
+  .top-section {
+    margin-top: 2rem;
+  }
+  .product-recommendation {
+    padding: 1rem !important;
+    margin-top: 2rem;
+    display: block;
+  }
+  .text-top {
+    line-height: 30px;
+  }
+  .rena-box-wrapper2, .rena-box-wrapper1 {
+    display: flex !important;
+    justify-content: center !important;
+    .rena-box {
+      padding: 1rem;
+      align-self: center;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .image-group {
+    display: flex;
+    justify-content: end !important;
+  }
+
+  .text-top {
+    line-height: 30px;
+  }
+
+  .product-recommendation {
+    margin-top: 3rem;
+    .image-group {
+      width: auto !important;
+    }
+    .bottom-section {
+      align-items: center;
+      display: flex;
+      justify-content: end;
+    }
+  }
+
+  .product-recommendation .left-group, .product-recommendation .right-group {
+    width: 30%;
+  }
+
+  .last-section .bottom-section {
+    display: flex;
+    align-items: left center !important;
+    .waitList-botton {
+      margin-bottom: 0px !important;
+      margin-left: 0px !important;
+    }
+  }
+  .rena-box-wrapper2, .rena-box-wrapper1 {
+    // padding: 2rem !important;
+    gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    .rena-box {
+      padding: 1rem;
+      align-self: center;
+    }
+  }
+  .rena-box-wrapper2 {
+    padding-left: 15px !important;
+  }
+  .top-segment {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    .top-text {
+      font-size: 1.5rem;
+      line-height: 1.8rem;
+      text-align: left;
+    }
+    .image-three {
+      bottom: -15%;
+      left: 10%;
+    }
+  }
+  .less-margin-top {
+    margin-top: 1rem !important;
+  }
+  
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1365px) {
+  
 }
 
 @media only screen and (min-width: 768px) {
@@ -430,11 +531,11 @@ padding-left: 0.75rem;
   }
 
   .product-recommendation {
-    flex-wrap: nowrap;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    padding: 0rem 1rem;
+    // flex-wrap: nowrap;
+    // flex-direction: row-reverse;
+    // justify-content: space-between;
+    // margin-bottom: 2rem;
+    // padding: 0rem 1rem;
   }
 
   .bottom-section {
@@ -663,8 +764,8 @@ padding-left: 0.75rem;
     padding: 0rem 3rem;
     width: 100%;
   }
-
-  .last-section .bottom-section {
+  
+ .last-section .bottom-section {
     display: flex;
     justify-content: center;
     margin-bottom: 0rem;
@@ -680,7 +781,6 @@ padding-left: 0.75rem;
     width: 50%;
     padding: 0rem 1rem 0rem 0rem;
     gap: 1rem;
-  }
 
   .bottom-heading {
     line-height: 1.25;
@@ -694,8 +794,6 @@ padding-left: 0.75rem;
   .product-recommendation .left-group,
   .product-recommendation .right-group {
     width: 48%;
-
-  }
 
   .buttom-image-wrapper .right-group {
     margin-top: 1rem;
@@ -921,8 +1019,8 @@ padding-left: 0.75rem;
     padding: 0rem 3rem;
     width: 100%;
   }
-
-  .last-section .bottom-section {
+  
+ .last-section .bottom-section {
     display: flex;
     justify-content: center;
     margin-bottom: 0rem;
@@ -938,7 +1036,6 @@ padding-left: 0.75rem;
     width: 50%;
     padding: 0rem 1rem 0rem 0rem;
     gap: 1rem;
-  }
 
   .bottom-heading {
     line-height: 1.25;
@@ -956,8 +1053,6 @@ padding-left: 0.75rem;
   .product-recommendation .left-group,
   .product-recommendation .right-group {
     width: 48%;
-
-  }
 
   .buttom-image-wrapper .right-group {
     margin-top: 1rem;
