@@ -101,7 +101,7 @@
                 </a>
               </p>
               <p>
-                <button class="uk-button uk-width-1-1 login-btn1" type="submit">
+                <button [disabled]="loginForm.invalid" class="uk-button uk-width-1-1 login-btn1" type="submit">
                   Login
                 </button>
               </p>

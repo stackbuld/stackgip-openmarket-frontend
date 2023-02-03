@@ -36,7 +36,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
           } else {
             switch (error.status) {
               case 401:
-                this.toast.info("please login to continue");
+                this.toast.info("Session expired, please login to continue");
                 break;
 
               case 403: //forbidden
@@ -45,7 +45,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
               default:
                 if (!navigator.onLine) {
                   this.message = this.errorService.getServerErrorMessage(error);
-                  this.toast.error("no internet connection");
+                  this.toast.error("No internet connection");
                   break;
                 }
             }

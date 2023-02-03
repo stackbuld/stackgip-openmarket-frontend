@@ -1,18 +1,26 @@
-import { AuthService } from "src/app/services/auth.service";
-import { Injectable } from "@angular/core";
+import { WindowRefService } from './../shared/services/window.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { Injectable } from '@angular/core';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  UrlTree
-} from "@angular/router";
-import { Observable } from "rxjs";
+  UrlTree,
+} from '@angular/router';
+import { Observable } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService) {}
+  window: Window;
+  constructor(
+    private authService: AuthService,
+    private windowRefS: WindowRefService
+  ) {
+    this.window = windowRefS.nativeWindow;
+  }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -29,7 +37,7 @@ export class AuthGuard implements CanActivate {
       isLogin = siginData.canLogin;
     }
     if (!isLogin) {
-      location.href = "/login";
+      this.window.location.href = '/login';
     }
     return isLogin;
   }

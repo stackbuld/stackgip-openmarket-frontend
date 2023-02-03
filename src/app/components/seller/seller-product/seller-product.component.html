@@ -5,9 +5,9 @@
 </button>
 <!-- uk-toggle="target: #modal-add-product" -->
 
-<app-product-item (cp)="cp($event)" 
-  (productIdSend)="editProduct.setProduct($event)" 
-  (viewedMore)="viewMore.setProduct($event)" 
+<app-product-item (cp)="cp($event)"
+  (productIdSend)="editProduct.setProduct($event)"
+  (viewedMore)="viewMore.setProduct($event)"
   #productList>
 </app-product-item>
 
@@ -15,8 +15,8 @@
 <!-- <div id="modal-add-product" class="uk-modal-full" uk-modal>
   <div class="uk-modal-dialog uk-modal-body height-auto">
     <button class="uk-modal-close-full uk-close-large" type="button" uk-close #closeCreate></button>
-    <app-add-product 
-      (closed)="closeAddProductModal()" 
+    <app-add-product
+      (closed)="closeAddProductModal()"
       (added)="productList.addProduct($event)">
     </app-add-product>
   </div>
