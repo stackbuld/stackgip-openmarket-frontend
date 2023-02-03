@@ -4,13 +4,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build-dev": "ng build",
+    "build": "npm run build:ssr",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "dev:ssr": "ng run stackbuld-ecommerce:serve-ssr",
     "serve:ssr": "node dist/stackbuld-ecommerce/server/main.js",
     "build:ssr": "ng build && ng run stackbuld-ecommerce:server",
-    "prerender": "ng run stackbuld-ecommerce:prerender"
+    "prerender": "ng run stackbuld-ecommerce:prerender",
+    "vercel-build": "npm run build:ssr"
   },
   "private": true,
   "dependencies": {
