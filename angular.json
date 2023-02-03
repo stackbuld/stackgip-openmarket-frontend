@@ -17,22 +17,28 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/stackbuld-ecommerce",
+            "outputPath": "dist/stackbuld-ecommerce/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "sass",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "src/styles.sass"
+              "src/styles.sass",
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "./node_modules/animate.css/animate.css",
+              "src/styles.css",
+              "node_modules/uikit/dist/css/uikit.min.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "src/styles-1.css",
+              "src/hover.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/uikit/dist/js/uikit.min.js",
+              "node_modules/hammerjs/hammer.min.js",
+              "node_modules/uikit/dist/js/uikit-icons.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -40,12 +46,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "5mb"
                 }
               ],
               "outputHashing": "all"
@@ -82,21 +88,68 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "sass",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.sass"
             ],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/stackbuld-ecommerce/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "inlineStyleLanguage": "sass"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "stackbuld-ecommerce:build:development",
+              "serverTarget": "stackbuld-ecommerce:server:development"
+            },
+            "production": {
+              "browserTarget": "stackbuld-ecommerce:build:production",
+              "serverTarget": "stackbuld-ecommerce:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": ["/"]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "stackbuld-ecommerce:build:production",
+              "serverTarget": "stackbuld-ecommerce:server:production"
+            },
+            "development": {
+              "browserTarget": "stackbuld-ecommerce:build:development",
+              "serverTarget": "stackbuld-ecommerce:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

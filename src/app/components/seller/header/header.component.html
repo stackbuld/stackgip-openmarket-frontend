@@ -1,0 +1,78 @@
+
+<!-- Menu for mobile screen -->
+  <nav class="uk-navbar-container" uk-navbar>
+    <div class="uk-navbar-left">
+      <ul class="uk-navbar-nav">
+        <li class="uk-active">
+          <a class="" href="#" aria-label="Back to Home">
+            <img
+              src="../../../../assets/image/quality-logo.svg"
+              alt="RENA MARKET"
+              width="100"
+            />
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="uk-navbar-right">
+      <ul class="uk-navbar-nav">
+        <li>
+          <a href="#"> <span uk-navbar-toggle-icon></span></a>
+          <div class="uk-navbar-dropdown">
+            <ul class="uk-nav uk-navbar-dropdown-nav">
+              <li>
+                <a routerLink="/seller">
+                  <img
+                    src="../../../../assets/img/profileIcon.png"
+                    class="uk-padding-small"
+                    alt=""
+                  />
+                  Profile</a
+                >
+              </li>
+              <li>
+                <a routerLink="/seller/orders">
+                  <img
+                    src="../../../../assets/img/ordersIcon.png"
+                    class="uk-padding-small"
+                    alt=""
+                  />
+                  Orders</a
+                >
+              </li>
+              <li>
+                <a routerLink="/seller/products">
+                  <img
+                    src="../../../../assets/img/productIcon.png"
+                    class="uk-padding-small"
+                    alt=""
+                  />
+                  Products</a
+                >
+              </li>
+              <li>
+                <a [routerLink]="['/sellerproduct', loggedInUser.id]"
+                  ><img
+                    src="../../../../assets/img/storeIcon.png"
+                    class="uk-padding-small"
+                    alt=""
+                  />
+                  Store</a
+                >
+              </li>
+              <li>
+                <a routerLink="/seller/products">
+                  <img
+                    src="../../../../assets/img/voucherIcon.png"
+                    class="uk-padding-small"
+                    alt=""
+                  />
+                  Vouchers</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>

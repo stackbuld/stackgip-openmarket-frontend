@@ -1,0 +1,57 @@
+<!--=======  single product  =======-->
+<div class="uk-card uk-card-default uk-card-hover uk-card-small">
+  <div
+    class="uk-card-media-top uk-inline-clip uk-transition-toggle"
+    tabindex="0" style="height: 200px;"
+  >
+    <img
+      src="https://res.cloudinary.com/votel/image/fetch/c_pad,b_auto/{{product.imageUrl}}" 
+      class="uk-transition-scale-up uk-transition-opaque"
+      data-src="https://res.cloudinary.com/votel/image/fetch/c_pad,b_auto/{{product.imageUrl}}"
+      alt="{{product.name}}" 
+    />
+  </div>
+  <div
+    class="uk-card-badge uk-label backgound-dark-green"
+    *ngIf="product.unit <= 0"
+  >
+    out of stock
+  </div>
+  <div class="uk-card-body uk-padding-small">
+    <div class="uk-text-center">
+      <h3 class="uk-card-title uk-margin-small uk-margin-remove">
+        {{ product.name }}
+      </h3>
+      <span
+        class="uk-text-muted uk-text-small"
+        style="text-decoration: line-through"
+        *ngIf="product.price > product.previousPrice"
+      >
+        N{{ numberWithCommas(product.previousPrice) }}
+      </span>
+      |
+      <span class="uk-text-bold">N {{ numberWithCommas(product.price) }}</span>
+      <br />
+    </div>
+    <div class="uk-text-center">
+      <button attr.data-uk-toggle="target: #modal-add-to-cart-{{product.id}}" 
+        class="btn-default btn-default-small uk-margin-small">
+        Add to Cart
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  id="modal-add-to-cart-{{ product.id }}"
+  uk-modal="bg-close: false"
+  class="uk-modal-container"
+>
+  <div class="uk-modal-dialog uk-modal-body">
+    <button class="uk-modal-close-outside" type="button" uk-close #closeAddToCart></button>
+    <app-add-to-cart [productId]="product.id" 
+      (addedToCart)="addToCart($event)"   
+      (closed)="closeAddToCartModal()">
+    </app-add-to-cart>
+  </div>
+</div>

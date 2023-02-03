@@ -1,0 +1,285 @@
+.footer {
+  background:  #fbf9f9;
+  width: 100%;
+}
+
+.default-width {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 3rem;
+}
+
+.footer-logo {
+  display: flex;
+  margin-bottom: 2.5rem;
+  margin-top: 1.25rem;
+}
+
+.footer-logoIcon {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.footer-logoIcon-desktop {
+  display: none;
+}
+
+.footer-head {
+  font-family: 'Avenir LT Std';
+  font-style: normal;
+  font-weight: 750;
+  font-size: 1rem;
+  color: black;
+  margin-bottom: 2.5rem;
+}
+
+.footer-body {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Avenir LT Std';
+  font-size: 0.75rem;
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: 500;
+  margin-bottom: 4rem;
+}
+
+.footer-body p a {
+  color: #333;
+  line-height: 0.25rem;
+}
+
+.first h1 {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 50px;
+  line-height: 68px;
+  color: #333;
+}
+
+.first h2 {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 55px;
+  color: #333;
+}
+
+.first h3 {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  color: #333;
+}
+
+.privacy {
+  margin-top: 30px;
+}
+
+
+.right {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  margin-top: 30px;
+  padding-bottom: 3rem;
+}
+
+.right a {
+  color: #333;
+}
+
+.first h3 {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+}
+
+.first a {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  color: #333;
+}
+
+@media only screen and (min-width: 992px) {
+  
+  .default-width {
+    width: 100%;
+    padding: 0rem 3rem 3rem 3rem;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: center;
+  }
+  
+  .footer-logo {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin: 0rem;
+    height: 100%;
+    gap: 6rem;
+  }
+  
+  .footer-logoIcon {
+    display: none;
+  }
+
+  .footer-logoIcon-desktop {
+    display: flex;
+
+    gap: 1rem;
+    margin-bottom: 0rem;
+  }
+
+  .about-us {
+    display: flex;
+    gap: 8rem;
+    margin-left: auto;
+  }
+  
+  .footer-head {
+    font-size: 1.125rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .footer-body {
+    font-size: 1rem;
+    margin-bottom: 0rem;
+  }
+  
+  .footer-body p a {
+    color: #333;
+    line-height: 0.25rem;
+  }
+  
+  .first h1 {
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 50px;
+    line-height: 68px;
+    color: #333;
+  }
+  
+  .first h2 {
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 40px;
+    line-height: 55px;
+    color: #333;
+  }
+  
+  .first h3 {
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 32px;
+    color: #333;
+  }
+  
+  .privacy {
+    margin-top: 30px;
+  }
+  
+  
+  .right {
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 19px;
+    margin-top: 30px;
+    padding-bottom: 3rem;
+  }
+  
+  .right a {
+    color: #333;
+  }
+  
+  .first h3 {
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 32px;
+  }
+  
+  .first a {
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 32px;
+    color: #333;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+
+  .footer-logoIcon-desktop {
+    display: flex;
+
+    gap: 1rem;
+    margin-bottom: 0rem;
+    margin-left: 3rem;
+  }
+
+  .about-us {
+    display: flex;
+    gap: 10rem;
+    margin-left: 8rem;
+  }
+}
+
+/* @media (max-width: 480px) {
+  .uk-flex {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer {
+    background-color:  #fbf9f9;
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .uk-flex {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+} */
+
+/* @media (max-width: 1200px) {
+  .uk-flex {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+} */

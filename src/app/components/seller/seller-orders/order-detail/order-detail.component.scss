@@ -1,0 +1,475 @@
+.navbar-wrapper {
+  background-color: #fff;
+  padding: 0.25rem 1rem;
+}
+
+.container-wrapper {
+  margin: 1rem 1.25rem;
+}
+
+.order-detail {
+  margin: 2rem 0rem 3rem 0rem;
+}
+
+.order-detail span {
+  color: black;
+  font-family: "Avenir LT Std";
+  font-weight: 400;
+  font-size: 1.25rem;
+}
+
+.uk-card-body {
+  padding: 0rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: none;
+}
+
+.detail-box {
+  background-color: #fafafa;
+  padding: 1rem;
+  border-radius: 0.25rem;
+}
+
+.desktop-view {
+  display: none;
+}
+
+.order-heading {
+  font-family: "Avenir LT Std";
+  font-style: normal;
+  font-weight: 750;
+  font-size: 1rem;
+  color: black;
+}
+
+.order-text {
+  color: black;
+  font-family: "Avenir LT Std";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.75rem;
+  margin: 0rem;
+}
+
+.order-quantity {
+  font-size: 0.625rem;
+  color: #979797;
+  font-family: "Avenir LT Std";
+  font-style: normal;
+  margin: 0rem;
+  span {
+    color: black;
+  }
+}
+
+.item-in-order {
+  display: flex;
+  gap: 0.5rem;
+
+  img {
+    object-fit: cover;
+    width: 4rem;
+  }
+
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: auto;
+
+    button {
+      border-radius: 0.25rem;
+      font-size: 0.625rem;
+      outline: none;
+    }
+
+    :nth-child(1) {
+      background-color: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.35);
+    }
+    :nth-child(2) {
+      background-color: black;
+      color: #fff;
+      border: none;
+    }
+  }
+}
+
+.item-details {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.detail-box {
+  .tracking-info-container {
+    display: flex;
+    flex-direction: column;
+
+    .tracking-box {
+      position: relative;
+      border-left: 1px solid black;
+      padding-left: 1rem;
+
+      .icon-img {
+        position: absolute;
+        top: -0.125rem;
+        left: -0.625rem;
+      }
+
+      .tracking-info {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 3rem;
+
+        .heading {
+          font-family: "Avenir LT Std";
+          font-style: normal;
+          font-weight: bold;
+          font-size: 1rem;
+          color: #000;
+        }
+
+        .tracking-info-detail {
+          font-family: "Avenir LT Std";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 0.875rem;
+          color: #333333;
+          margin: 0rem;
+        }
+      }
+    }
+    :nth-child(4) {
+      border-left: none;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .navbar-wrapper {
+    padding: 0.25rem 1rem;
+  }
+
+  .container-wrapper {
+    margin: 1rem 1.25rem;
+  }
+
+  .order-detail {
+    margin: 2rem 0rem 3rem 0rem;
+  }
+
+  .order-detail span {
+    font-weight: 400;
+    font-size: 1.25rem;
+  }
+
+  .uk-card-body {
+    padding: 0rem;
+    gap: 1.5rem;
+  }
+
+  .detail-box {
+    padding: 1rem;
+  }
+
+  .order-heading {
+    font-weight: 750;
+    font-size: 1rem;
+  }
+
+  .order-text {
+    font-weight: 400;
+    font-size: 0.75rem;
+  }
+
+  .order-quantity {
+    font-size: 0.625rem;
+  }
+
+  .item-in-order {
+    gap: 0.5rem;
+
+    img {
+      width: 4rem;
+    }
+
+    .btn-group {
+      margin-left: auto;
+
+      button {
+        font-size: 0.625rem;
+      }
+    }
+  }
+
+  .detail-box {
+    .tracking-info-container {
+      .tracking-box {
+        padding-left: 1rem;
+
+        .icon-img {
+          top: -0.125rem;
+          left: -0.625rem;
+        }
+
+        .tracking-info {
+          padding-bottom: 3rem;
+
+          .heading {
+            font-size: 1rem;
+          }
+
+          .tracking-info-detail {
+            font-weight: 400;
+            font-size: 0.875rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .navbar-wrapper {
+    padding: 0.25rem 1rem;
+  }
+
+  .container-wrapper {
+    margin: 1rem 1.25rem;
+  }
+
+  .order-detail {
+    margin: 2rem 0rem 3rem 0rem;
+  }
+
+  .order-detail span {
+    font-weight: 400;
+    font-size: 1.25rem;
+  }
+
+  .uk-card-body {
+    padding: 0rem;
+    gap: 2.5rem;
+  }
+
+  .mobile-view {
+    display: none;
+  }
+  .desktop-view {
+    display: flex;
+    flex-direction: column;
+
+    .order-heading {
+      padding-bottom: 4rem;
+    }
+
+
+    .tracking-info-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    .tracking-box:first-child {
+        position: relative;
+        border-top: none;
+      }
+    .tracking-box:first-child::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      right: 0;
+      width: 50%;
+      border-top: 1px solid black;
+    }
+    .tracking-box:last-child {
+        position: relative;
+        border-top: none;
+      }
+    .tracking-box:last-child::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      left: 0;
+      width: 50%;
+      border-top: 1px solid black;
+    }
+
+
+    }
+
+    .tracking-box {
+        position: relative;
+        border-top: 1px solid black;
+        border-left: none;
+        width: 20%;
+        display: flex;
+        justify-content: center;
+        padding: 2rem 0.5rem;
+        height: 7.5rem;
+
+        .heading {
+          font-size: 0.75rem;
+        }
+    }
+
+    .icon-img {
+      position: absolute;
+      top: -0.7rem;
+      
+    }
+
+    .uk-table {
+      width: 80%;
+      margin: 0rem;
+      align-self: center;
+
+      th {
+        text-transform: none;
+      }
+    }
+
+    .uk-table thead tr {
+      border-bottom: 0.1px solid #B9B9B9;
+
+      :last-child {
+        text-align: right;
+      }
+    }
+
+    .uk-table tbody tr {
+      border-bottom: 0.1px solid #B9B9B9;
+
+         :last-child {
+        text-align: right;
+      }
+    }
+
+    .uk-table tbody tr:last-child {
+      border-bottom: none;
+    }
+
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .navbar-wrapper {
+    padding: 0.25rem 1rem;
+  }
+
+  .container-wrapper {
+    margin: 1rem 1.25rem;
+  }
+
+  .order-detail {
+    margin: 2rem 0rem 3rem 0rem;
+  }
+
+  .order-detail span {
+    font-weight: 400;
+    font-size: 1.25rem;
+  }
+
+  .uk-card-body {
+    padding: 0rem;
+    gap: 2.5rem;
+  }
+
+  .mobile-view {
+    display: none;
+  }
+  .desktop-view {
+    display: flex;
+    flex-direction: column;
+
+    .order-heading {
+      padding-bottom: 4rem;
+    }
+
+
+    .tracking-info-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    .tracking-box:first-child {
+        position: relative;
+        border-top: none;
+      }
+    .tracking-box:first-child::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      right: 0;
+      width: 50%;
+      border-top: 1px solid black;
+    }
+    .tracking-box:last-child {
+        position: relative;
+        border-top: none;
+      }
+    .tracking-box:last-child::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      left: 0;
+      width: 50%;
+      border-top: 1px solid black;
+    }
+
+    }
+
+    .tracking-box {
+        position: relative;
+        border-top: 1px solid black;
+        border-left: none;
+        width: 20%;
+        display: flex;
+        justify-content: center;
+        padding: 2rem 0.5rem;
+        height: 7.5rem;
+
+        .heading {
+          font-size: 0.75rem;
+        }
+    }
+
+    .icon-img {
+      position: absolute;
+      top: -0.7rem;
+      
+    }
+
+    .uk-table {
+      width: 80%;
+      margin: 0rem;
+      align-self: center;
+
+      th {
+        text-transform: none;
+      }
+    }
+
+    .uk-table thead tr {
+      border-bottom: 0.1px solid #B9B9B9;
+
+      :last-child {
+        text-align: right;
+      }
+    }
+
+    .uk-table tbody tr {
+      border-bottom: 0.1px solid #B9B9B9;
+
+         :last-child {
+        text-align: right;
+      }
+    }
+
+    .uk-table tbody tr:last-child {
+      border-bottom: none;
+    }
+  }
+}

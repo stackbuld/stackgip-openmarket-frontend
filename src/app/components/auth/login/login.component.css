@@ -1,0 +1,207 @@
+.login-main {
+  width: 100%;
+  min-height: 100vh;
+}
+.login-main .login-flex-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+.login-image-section,
+.login-form-section {
+  width: 50%;
+  height: 100%;
+}
+
+.login-btn1:disabled {
+  opacity: .5;
+}
+
+.login-image-section {
+  height: 100%;
+  background-image: url("/assets/images/login-holding-card.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.login-form-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  padding-top: 2rem;
+}
+.login-form-container {
+  width: 70%;
+}
+.login-back-btn a {
+  color: #333333;
+}
+
+.login-form .mat-input-element {
+  color: #000;
+}
+
+.login-back {
+  display: flex;
+  align-items: center;
+}
+.login-back img {
+  width: 30px;
+  height: 30px;
+  margin-left: 20px;
+}
+.login-form-header {
+  text-align: center;
+  margin-top: 3rem;
+}
+.login-form-header h2 {
+  font-weight: 600;
+  font-size: 2rem;
+}
+.login-form-header p {
+  font-size: 1rem;
+}
+form {
+  width: 343px;
+  margin: 3rem auto;
+}
+.open-market-sm {
+  display: none;
+}
+.login-form-section mat-form-field {
+  width: 343px;
+}
+.login-forgot {
+  margin-left: auto;
+  padding-top: 2px;
+  color: #584dcd;
+}
+.login-btn1 {
+  margin: 20px 0px;
+  height: 54px;
+  width: 343px;
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+  padding-bottom: 10px;
+  color: #fff;
+  background-color: #584dcd;
+}
+#login-or {
+  display: grid;
+  grid-template-columns: 45% 10% 45%;
+  margin: 0 auto;
+  width: 343px;
+}
+.login-hr1 {
+  width: 142px;
+  color: #000;
+  height: 1px;
+  background-color: #000;
+}
+.login-hr2 {
+  width: 142px;
+  color: #000;
+  height: 1px;
+  background-color: #000;
+}
+.login-or {
+  margin-top: -11px;
+  /* padding-right: 10px; */
+  text-align: left;
+}
+#login-btn {
+  display: flex;
+  justify-content: space-between;
+  width: 343px;
+  margin: 0.2rem auto;
+}
+.login-btn2 {
+  display: flex;
+  margin: 20px 0;
+  height: 44px;
+  width: 140px;
+  color: #fff;
+  background-color: #584dcd;
+  border-radius: 6px;
+  padding: 2px;
+  text-align: center;
+  padding-left: 30px;
+  border: solid 0.5px #584dcd;
+  background-color: #f2f2f2;
+  color: #584dcd;
+}
+.login-img-1 {
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+h6.signup-route {
+  text-align: center;
+  padding-top: 20px;
+  font-size: 16px;
+  padding-bottom: 30px;
+}
+@media only screen and (max-width: 769px) {
+  .login-main .login-flex-container {
+    display: block;
+  }
+  .login-image-section,
+  .login-form-section {
+    width: 100%;
+    height: 100%;
+  }
+  .login-image-section {
+    display: none;
+  }
+  .login-form-section {
+    background-image: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.6),
+        rgba(0, 0, 0, 0.6)
+      ),
+      url("/assets/image/Rectangle 165.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: fit-content;
+    min-height: 100vh;
+  }
+  .login-form-container {
+    width: 100%;
+  }
+  .login-form-header h2 {
+    color: #f2f2f2;
+  }
+  .login-form-header p {
+    color: #f2f2f2;
+  }
+  .login-form {
+    width: 95%;
+    max-width: 390px;
+    background: #f2f2f2;
+    margin: 1rem auto;
+    border-radius: 6px;
+    padding: 1rem 1rem;
+  }
+  .login-back-btn {
+    display: none;
+  }
+  form,
+  .login-form-section mat-form-field,
+  .login-btn1,
+  #login-or,
+  #login-btn {
+    width: 100%;
+  }
+  .open-market-sm {
+    display: block;
+    text-align: center;
+    font-weight: 800;
+    font-size: 2rem;
+    margin-top: 1rem;
+  }
+  .open-market-lg {
+    display: none;
+  }
+}
