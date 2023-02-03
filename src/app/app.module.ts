@@ -24,7 +24,7 @@ import { StoreModule } from "@ngrx/store";
 import { counterReducer } from "./reducers";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "../environments/environment";
-import { storageSyncMetaReducer } from "ngrx-store-persist2";
+// import { storageSyncMetaReducer } from "ngrx-store-persist2";
 import { SliderComponent } from "./components/home/slider/slider.component";
 import { IndexComponent } from "./components/home/index/index.component";
 import { ProductsComponent } from "./components/products/products.component";
@@ -163,7 +163,7 @@ import { SafeHtmlPipe } from "./shared/pipes/safehtml.pipe";
     SafeHtmlPipe,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: "serverApp" }),
     BrowserAnimationsModule,
     HttpClientModule,
     AppRouteModule,
@@ -180,7 +180,7 @@ import { SafeHtmlPipe } from "./shared/pipes/safehtml.pipe";
     StoreModule.forRoot(
       { counterReducer },
       {
-        metaReducers: [storageSyncMetaReducer],
+        // metaReducers: [storageSyncMetaReducer],
       }
     ),
 

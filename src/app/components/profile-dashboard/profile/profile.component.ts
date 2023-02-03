@@ -1,30 +1,31 @@
-import { AuthService } from "src/app/services/auth.service";
-import { ToastrService } from "./../../../services/toastr.service";
-import { UserService } from "./../../../services/user/user.service";
-import { getLoggedInUser } from "./../../../helpers/userUtility";
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { nigeriaSates } from "src/app/data/nigeriastates";
-import { IUpdateUser, IUser } from "src/app/models/IUserModel";
+import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from './../../../services/toastr.service';
+import { UserService } from './../../../services/user/user.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { nigeriaSates } from 'src/app/data/nigeriastates';
+import { IUpdateUser, IUser } from 'src/app/models/IUserModel';
 
 @Component({
-  selector: "app-profile",
-  templateUrl: "./profile.component.html",
-  styleUrls: ["./profile.component.css"],
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   states = nigeriaSates.map((a) => a.name);
   isSubmited = false;
 
-  user = getLoggedInUser();
+  user = {} as IUser;
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private toast: ToastrService,
     private authService: AuthService
-  ) {}
+  ) {
+    this.user = this.authService.getLoggedInUser();
+  }
 
   get f() {
     return this.profileForm.controls;
@@ -54,12 +55,12 @@ export class ProfileComponent implements OnInit {
       phoneNumber: ctrl.phoneNumber.value,
       state: ctrl.state.value,
       city: ctrl.state.value,
-      scope: this.user.scope.split(","),
+      scope: this.user.scope.split(','),
     };
     this.isSubmited = true;
     this.userService.updateUser(userProfile).subscribe(
       (a) => {
-        this.toast.success("profile updated");
+        this.toast.success('profile updated');
         const userUpdate: IUser = {
           id: userProfile.id,
           address: userProfile.address,

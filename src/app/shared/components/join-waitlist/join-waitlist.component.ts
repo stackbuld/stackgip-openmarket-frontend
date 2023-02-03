@@ -1,17 +1,17 @@
-import { ReferralUser } from "./../../../models/referraluser.model";
-import { Component, OnInit } from "@angular/core";
-import { Location } from "@angular/common";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { WindowRefService } from "../../services/window.service";
-import * as crypto from "crypto-js";
+import { ReferralUser } from './../../../models/referraluser.model';
+import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { WindowRefService } from '../../services/window.service';
+import * as crypto from 'crypto-js';
 declare var UIkit: any;
 @Component({
-  selector: "app-join-waitlist",
-  templateUrl: "./join-waitlist.component.html",
-  styleUrls: ["./join-waitlist.component.css"],
+  selector: 'app-join-waitlist',
+  templateUrl: './join-waitlist.component.html',
+  styleUrls: ['./join-waitlist.component.css'],
 })
 export class JoinWaitlistComponent implements OnInit {
-  constructor(private location: Location, windowService: WindowRefService) {
+  constructor(windowService: WindowRefService) {
     this.window = windowService.nativeWindow;
   }
   window: Window;
@@ -19,19 +19,19 @@ export class JoinWaitlistComponent implements OnInit {
   showForm = true;
   referralUser: ReferralUser;
   waitListForm = new FormGroup({
-    fullName: new FormControl("", { validators: [Validators.required] }),
-    email: new FormControl("", {
+    fullName: new FormControl('', { validators: [Validators.required] }),
+    email: new FormControl('', {
       validators: [Validators.email, Validators.required],
     }),
-    phoneNumber: new FormControl("", { validators: [Validators.required] }),
-    interest: new FormControl("", { validators: [Validators.required] }),
+    phoneNumber: new FormControl('', { validators: [Validators.required] }),
+    interest: new FormControl('', { validators: [Validators.required] }),
   });
   goBack() {
-    this.location.back();
+    this.window.history.back();
   }
 
   ngOnInit(): void {
-    this.window.prefinery("recordFormImpression");
+    this.window.prefinery('recordFormImpression');
     this.referralUser = {} as ReferralUser;
   }
 
@@ -45,10 +45,10 @@ export class JoinWaitlistComponent implements OnInit {
       };
       this.isLoading = true;
       this.getUser(data.email, (user) => {
-        console.log("returned user", user);
+        console.log('returned user', user);
         if (!user.data) {
-          this.window.prefinery("addUser", data, (record) => {
-            console.log("api result", record);
+          this.window.prefinery('addUser', data, (record) => {
+            console.log('api result', record);
             this.isLoading = false;
             this.referralUser = record as ReferralUser;
             console.log(this.referralUser);
@@ -59,7 +59,7 @@ export class JoinWaitlistComponent implements OnInit {
           this.referralUser = user.data as ReferralUser;
           console.log(this.referralUser);
           this.showForm = false;
-          console.log("user already exist , do something else");
+          console.log('user already exist , do something else');
         }
       });
 
@@ -68,7 +68,7 @@ export class JoinWaitlistComponent implements OnInit {
       // });
     } else {
       const errors = this.waitListForm.errors;
-      console.error("form error", errors);
+      console.error('form error', errors);
       this.isLoading = false;
     }
   }
@@ -77,7 +77,7 @@ export class JoinWaitlistComponent implements OnInit {
     const signature = this.computeHash(email);
 
     this.window.prefinery(
-      "authenticateUser",
+      'authenticateUser',
       {
         email: email,
         signature: signature,
@@ -93,7 +93,7 @@ export class JoinWaitlistComponent implements OnInit {
   }
   computeHash(data: string) {
     const signature = crypto
-      .HmacSHA256(data, "pd9NRpF3vaj5VJQogJsrg3pB")
+      .HmacSHA256(data, 'pd9NRpF3vaj5VJQogJsrg3pB')
       .toString();
 
     return signature;
@@ -103,15 +103,15 @@ export class JoinWaitlistComponent implements OnInit {
     const signature = this.computeHash(email);
 
     this.prefineryAuth(email, () => {
-      console.log("getting user");
+      console.log('getting user');
       this.window.prefinery(
-        "getUser",
+        'getUser',
         {
           email: email,
           signature: signature,
         },
         (user) => {
-          console.log("primnary user", user);
+          console.log('primnary user', user);
           func(user);
         }
       );
@@ -119,19 +119,19 @@ export class JoinWaitlistComponent implements OnInit {
   }
 
   copyLink(link): void {
-    navigator.clipboard.writeText(link);
+    this.window.navigator.clipboard.writeText(link);
     this.initializeNotification();
   }
   initializeNotification() {
     UIkit.notification({
-      message: "Copied!",
-      status: "primary",
-      pos: "top-center",
+      message: 'Copied!',
+      status: 'primary',
+      pos: 'top-center',
       timeout: 700,
     });
   }
 }
 
 function Inject(DOCUMENT: any) {
-  throw new Error("Function not implemented.");
+  throw new Error('Function not implemented.');
 }

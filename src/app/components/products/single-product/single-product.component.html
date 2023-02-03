@@ -5,10 +5,10 @@
     tabindex="0" style="height: 200px;"
   >
     <img
-      src="https://res.cloudinary.com/votel/image/fetch/c_pad,b_auto/{{product.imageUrl}}" 
+      src="https://res.cloudinary.com/votel/image/fetch/c_pad,b_auto/{{product.imageUrl}}"
       class="uk-transition-scale-up uk-transition-opaque"
       data-src="https://res.cloudinary.com/votel/image/fetch/c_pad,b_auto/{{product.imageUrl}}"
-      alt="{{product.name}}" 
+      alt="{{product.name}}"
     />
   </div>
   <div
@@ -34,7 +34,7 @@
       <br />
     </div>
     <div class="uk-text-center">
-      <button attr.data-uk-toggle="target: #modal-add-to-cart-{{product.id}}" 
+      <button attr.data-uk-toggle="target: #modal-add-to-cart-{{product.id}}"
         class="btn-default btn-default-small uk-margin-small">
         Add to Cart
       </button>
@@ -49,8 +49,8 @@
 >
   <div class="uk-modal-dialog uk-modal-body">
     <button class="uk-modal-close-outside" type="button" uk-close #closeAddToCart></button>
-    <app-add-to-cart [productId]="product.id" 
-      (addedToCart)="addToCart($event)"   
+    <app-add-to-cart [productId]="product.id"
+      (addedToCart)="addToCart($event)"
       (closed)="closeAddToCartModal()">
     </app-add-to-cart>
   </div>

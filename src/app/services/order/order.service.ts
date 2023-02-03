@@ -19,7 +19,7 @@ export class OrderService {
       .toFixed(2).toLocaleString();
   }
 
-  getNewOrders(userId:string,pageNumber: number = 1,maxItem = 50): 
+  getNewOrders(userId:string,pageNumber: number = 1,maxItem = 50):
   Observable<OrderResponce>{
     return this.http.get<OrderResponce>(
       this.baseUrl + `seller/${userId}/orders/new/?
@@ -41,8 +41,8 @@ export class OrderService {
     orderId:string,orderStatus:OrderStatus
   ):Observable<OrderResponce>{
     return this.http.put<OrderResponce>(
-      `${this.baseUrl}seller/orders/${orderId}/status`,orderStatus 
-      // `${this.baseUrl}seller/orders/${orderId}/status/${status}`,[] 
+      `${this.baseUrl}seller/orders/${orderId}/status`,orderStatus
+      // `${this.baseUrl}seller/orders/${orderId}/status/${status}`,[]
     );
   }
 }

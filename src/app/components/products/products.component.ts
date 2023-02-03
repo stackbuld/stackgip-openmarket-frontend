@@ -1,12 +1,12 @@
-import { ProductModel } from "./../../models/products.model";
-import { ProductsService } from "../../services/products/products.service";
-import { Component, OnInit } from "@angular/core";
-import { NgxUiLoaderService } from "ngx-ui-loader";
+import { ProductModel } from './../../models/products.model';
+import { ProductsService } from '../../services/products/products.service';
+import { Component, OnInit } from '@angular/core';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
-  selector: "app-products",
-  templateUrl: "./products.component.html",
-  styleUrls: ["./products.component.css"],
+  selector: 'app-products',
+  templateUrl: './products.component.html',
+  styleUrls: ['./products.component.css'],
 })
 export class ProductsComponent implements OnInit {
   constructor(
@@ -19,9 +19,9 @@ export class ProductsComponent implements OnInit {
   hasNextPage: boolean;
 
   ngOnInit(): void {
-    this.ngxService.startLoader("loader-01");
+    this.ngxService.startLoader('loader-01');
     this.fetchNextProducts(1);
-    this.ngxService.stopLoader("loader-01");
+    this.ngxService.stopLoader('loader-01');
   }
 
   fetchNextProducts(pageNumber: number) {

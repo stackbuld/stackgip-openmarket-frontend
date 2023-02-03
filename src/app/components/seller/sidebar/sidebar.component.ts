@@ -1,33 +1,34 @@
-import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
+import { Component, Inject, OnInit } from "@angular/core";
 import { IUser } from "src/app/models/IUserModel";
-import { SellerService } from 'src/app/services/seller/seller.service';
+import { SellerService } from "src/app/services/seller/seller.service";
+import { DOCUMENT } from "@angular/common";
 
 @Component({
-  selector: 'app-seller-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  selector: "app-seller-sidebar",
+  templateUrl: "./sidebar.component.html",
+  styleUrls: ["./sidebar.component.scss"],
 })
 export class SellerSidebarComponent implements OnInit {
   loggedInUser: IUser;
 
   constructor(
     private router: Router,
-    private sellerS: SellerService
-  ) { }
+    private sellerS: SellerService,
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
   ngOnInit(): void {
     this.loggedInUser = this.sellerS.loggedInUser;
   }
 
   cancel = () => {
-    document.getElementById('closeLogoutModalBtn').click();
-  }
+    this.document.getElementById("closeLogoutModalBtn").click();
+  };
 
   logout() {
     localStorage.clear();
-    this.router.navigate(['/login']);
+    this.router.navigate(["/login"]);
     this.cancel();
   }
-
 }

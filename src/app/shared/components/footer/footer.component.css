@@ -120,19 +120,19 @@
 }
 
 @media only screen and (min-width: 992px) {
-  
+
   .default-width {
     width: 100%;
     padding: 0rem 3rem 3rem 3rem;
   }
-  
+
   .content {
     display: flex;
     flex-direction: row;
     gap: 2rem;
     align-items: center;
   }
-  
+
   .footer-logo {
     display: flex;
     justify-content: space-between;
@@ -141,7 +141,7 @@
     height: 100%;
     gap: 6rem;
   }
-  
+
   .footer-logoIcon {
     display: none;
   }
@@ -158,22 +158,22 @@
     gap: 8rem;
     margin-left: auto;
   }
-  
+
   .footer-head {
     font-size: 1.125rem;
     margin-bottom: 2.5rem;
   }
-  
+
   .footer-body {
     font-size: 1rem;
     margin-bottom: 0rem;
   }
-  
+
   .footer-body p a {
     color: #333;
     line-height: 0.25rem;
   }
-  
+
   .first h1 {
     font-family: Avenir;
     font-style: normal;
@@ -182,7 +182,7 @@
     line-height: 68px;
     color: #333;
   }
-  
+
   .first h2 {
     font-family: Avenir;
     font-style: normal;
@@ -191,7 +191,7 @@
     line-height: 55px;
     color: #333;
   }
-  
+
   .first h3 {
     font-family: Avenir;
     font-style: normal;
@@ -200,12 +200,12 @@
     line-height: 32px;
     color: #333;
   }
-  
+
   .privacy {
     margin-top: 30px;
   }
-  
-  
+
+
   .right {
     font-family: Avenir;
     font-style: normal;
@@ -215,11 +215,11 @@
     margin-top: 30px;
     padding-bottom: 3rem;
   }
-  
+
   .right a {
     color: #333;
   }
-  
+
   .first h3 {
     font-family: Avenir;
     font-style: normal;
@@ -227,7 +227,7 @@
     font-size: 20px;
     line-height: 32px;
   }
-  
+
   .first a {
     font-family: Avenir;
     font-style: normal;

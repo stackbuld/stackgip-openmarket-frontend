@@ -158,11 +158,9 @@ body {
   z-index: 99999 !important;
 }
 
-
-
 .mat-button.mat-success,
 .mat-stroked-button.mat-success {
-    color: #155724;
+  color: #155724;
 }
 .mat-button.mat-success:hover,
 .mat-stroked-button.mat-success:hover {
@@ -178,13 +176,12 @@ body {
 }
 
 .mat-icon-button.mat-success {
-  color:#155724;
+  color: #155724;
 }
-
 
 .mat-button.mat-info,
 .mat-stroked-button.mat-info {
-    color: #567280;
+  color: #567280;
 }
 .mat-button.mat-info:hover,
 .mat-stroked-button.mat-info:hover {
@@ -200,7 +197,13 @@ body {
 }
 
 .mat-icon-button.mat-info {
-  color:#567280;
+  color: #567280;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

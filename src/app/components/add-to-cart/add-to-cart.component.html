@@ -97,13 +97,13 @@
       </p>
       <p class="uk-badge uk-background-secondary">{{ product.unit }} left</p>
 
-      <div formArrayName="options" 
+      <div formArrayName="options"
           *ngFor="let option of optionArray()['controls']; let j=index;">
           <div [formGroupName]="j">
             <p>Select {{option.get('title').value}}</p>
             <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
               <label *ngFor="let opt of productOptions[option.get('title').value]">
-                <input class="uk-radio" type="radio"  value="{{opt.cost}}|{{opt.value}}" 
+                <input class="uk-radio" type="radio"  value="{{opt.cost}}|{{opt.value}}"
                   formControlName="cost" />
                 {{opt.value}} (+ NGN {{opt.cost}})
               </label>
@@ -120,7 +120,7 @@
 
         <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
           <label *ngFor="let shipment of product.productShipments">
-            <input class="uk-radio"  formControlName="shipmentOption" 
+            <input class="uk-radio"  formControlName="shipmentOption"
               type="radio" value="{{ shipment.state }}|{{ shipment.city }}|{{shipment.cost}}"/>
             <span *ngIf="shipment.state.toLowerCase() == 'all'">
               Any State (+ NGN{{ shipment.cost.toLocaleString() }})
@@ -137,7 +137,7 @@
       </div>
       <div>
         <p>Available payment type </p>
-        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">  
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
           <label *ngFor="let paymentOption of availablePaymentOption; let i = index">
             <input class="uk-radio" [checked]="i === 0" formControlName="paymentOption" type="radio" [value]="paymentOption" [id]="paymentOption" />
             <span>{{ paymentOption === 'online' ? 'Pay Online' : 'Pay On delivery'}}</span>

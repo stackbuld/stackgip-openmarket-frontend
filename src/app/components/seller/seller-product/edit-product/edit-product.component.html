@@ -51,10 +51,16 @@
    provide full detail of this product</textarea
     >
   </mat-form-field>
-  <mat-form-field class="uk-width-expand" *ngIf="categories$ | async as categories">
+  <mat-form-field
+    class="uk-width-expand"
+    *ngIf="categories$ | async as categories"
+  >
     <mat-label>Category</mat-label>
     <mat-select formControlName="category" required>
-      <mat-option *ngFor="let category of categories.data" [value]="category.id">
+      <mat-option
+        *ngFor="let category of categories.data"
+        [value]="category.id"
+      >
         {{ category.name }}
       </mat-option>
     </mat-select>
@@ -120,11 +126,13 @@
   </div>
   <mat-label>Payment type *</mat-label>
   <div class="uk-grid-small uk-grid uk-child-width-1-2@s">
-    <div *ngFor="let paymentOpt of paymentOption()['controls']; let l = index"
-      formArrayName="paymentOption">
+    <div
+      *ngFor="let paymentOpt of paymentOption()['controls']; let l = index"
+      formArrayName="paymentOption"
+    >
       <div [formGroupName]="l">
         <mat-checkbox formControlName="method">
-          {{paymentOpt.get('label').value}}
+          {{ paymentOpt.get("label").value }}
         </mat-checkbox>
       </div>
     </div>
@@ -133,11 +141,11 @@
 
   <app-product-shipment [shipments]="productShipments" [productId]="productId">
   </app-product-shipment>
-  <hr/>
-  <app-product-option  [options]="productOptions" [productId]="productId">
+  <hr />
+  <app-product-option [options]="productOptions" [productId]="productId">
   </app-product-option>
-  <hr/>
-  
+  <hr />
+
   <div class="js-upload uk-placeholder uk-text-center" (click)="upload()">
     <span uk-icon="icon: cloud-upload"></span>
     <span class="uk-text-middle">Add Photos of Product</span>
@@ -154,12 +162,15 @@
         <img style="max-height: 90px" src="{{ image }}" alt="{{ image }}" />
         <div
           class="uk-position-center uk-overlay uk-overlay-primary"
-          style="padding: 5px; border-radius: 20px" (click)="removeImage(image)">
+          style="padding: 5px; border-radius: 20px"
+          (click)="removeImage(image)"
+        >
           <span
             class="iconify"
             data-icon="ri:delete-bin-6-line"
             data-inline="false"
-            style="color: rgb(177, 55, 55)">
+            style="color: rgb(177, 55, 55)"
+          >
           </span>
         </div>
       </div>

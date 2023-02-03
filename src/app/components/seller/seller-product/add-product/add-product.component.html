@@ -150,13 +150,15 @@
         <!-- <angular-editor [placeholder]="'Enter Description here'" formControlName="description" required
           [config]="editorConfig">
         </angular-editor> -->
-        <ckeditor
+        <textarea class="uk-textarea" formControlName="description" required>
+        </textarea>
+        <!-- <ckeditor
           [editor]="Editor"
           data="<p>Hello, world!</p>"
           formControlName="description"
           required
           [config]="editorDefaultConfig"
-        ></ckeditor>
+        ></ckeditor> -->
       </div>
 
       <div class="full-width uk-width-1-2 uk-flex uk-flex-center">
@@ -164,10 +166,16 @@
           class="uk-width-2-3 uk-flex uk-flex-column uk-flex-middle uk-uk-align-center"
         >
           <h3 class="uk-uk-align-center">Upload Pictures of Product</h3>
-          <div class="js-upload p-0" style="position: relative; width: 150px; height: 150px" (click)="upload()">
+          <div
+            class="js-upload p-0"
+            style="position: relative; width: 150px; height: 150px"
+            (click)="upload()"
+          >
             <div class="p-2">
-              <span uk-icon="icon: cloud-upload; ratio: 3"
-                style=" color: #243853; position: absolute; top: 20%; left: 30%;"></span>
+              <span
+                uk-icon="icon: cloud-upload; ratio: 3"
+                style="color: #243853; position: absolute; top: 20%; left: 30%"
+              ></span>
               <img
                 *ngIf="productImage !== null"
                 src="{{ productImage }}"
@@ -251,10 +259,7 @@
         />
       </div>
       &nbsp; &nbsp; &nbsp; &nbsp;
-      <div
-        *ngIf="!addingComplimentaryOptions"
-        class="uk-flex uk-flex-center"
-      >
+      <div *ngIf="!addingComplimentaryOptions" class="uk-flex uk-flex-center">
         <button
           aria-label="Add Complementary Variation"
           (click)="addProductOption()"
@@ -428,7 +433,10 @@
                       src="{{ complementaryImagesStore[j]?.imageUrl }}"
                     />
                   </div>
-                  <p class="uk-align-center mb-0 upload-text" style="width: 70%">
+                  <p
+                    class="uk-align-center mb-0 upload-text"
+                    style="width: 70%"
+                  >
                     Upload a single pictures of product
                   </p>
                 </div>
@@ -438,7 +446,8 @@
         </div>
       </div>
       <div
-        *ngIf="addingComplimentaryOptions" style="margin-bottom: 10px;"
+        *ngIf="addingComplimentaryOptions"
+        style="margin-bottom: 10px"
         class="uk-flex uk-flex-center"
       >
         <button

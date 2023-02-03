@@ -1,25 +1,30 @@
-import { AppState } from "./reducers/index";
-import { Component, OnInit, Inject } from "@angular/core";
-import { Store, createSelector, createFeatureSelector } from "@ngrx/store";
+import { AppState } from './reducers/index';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 
-import { Observable } from "rxjs";
-import { increment, decrement, reset } from "./reducers/action/actions";
+import { Observable } from 'rxjs';
+import { increment, decrement, reset } from './reducers/action/actions';
 import { DOCUMENT } from '@angular/common';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router, RouterState } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterState,
+} from '@angular/router';
 
 const selectCounter = (state: AppState) => state.count;
 
-export const selectState = createFeatureSelector<AppState>("counterReducer");
+export const selectState = createFeatureSelector<AppState>('counterReducer');
 export const getcount = createSelector(selectState, selectCounter);
-
+declare var gtag: any;
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = "ecommerce-app";
+  title = 'ecommerce-app';
 
   count$: Observable<number>;
 
@@ -28,21 +33,24 @@ export class AppComponent {
     private router: Router,
     private titleService: Title,
     @Inject(DOCUMENT) private document: Document
-    ) {
-      this.handleRouteEvents();
+  ) {
+    this.handleRouteEvents();
     console.log(this.count$);
   }
 
   handleRouteEvents() {
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        const title = this.getTitle(this.router.routerState, this.router.routerState.root).join('-');
+        const title = this.getTitle(
+          this.router.routerState,
+          this.router.routerState.root
+        ).join('-');
         this.titleService.setTitle(title);
         gtag('event', 'page_view', {
           page_title: title,
           page_path: event.urlAfterRedirects,
-          page_location: this.document.location.href
-        })
+          page_location: this.document.location.href,
+        });
       }
     });
   }
