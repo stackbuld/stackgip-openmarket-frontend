@@ -34,7 +34,7 @@ export class ListProductComponent implements OnInit {
     private categoryService: CatgoryService,
     private route: ActivatedRoute,
     private toast: ToastrService,
-    private fb: FormBuilder 
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -55,7 +55,7 @@ export class ListProductComponent implements OnInit {
 
   fetchNextProducts(pageNumber:number){
       this.productService.getProducts(
-        pageNumber, this.maximumItem, this.search, this.categoryId, 
+        pageNumber, this.maximumItem, this.search, this.categoryId,
         this.minValue, this.maxValue
       ).subscribe((products) => {
           this.products = products.data.data;

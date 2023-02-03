@@ -7,7 +7,7 @@
             <mat-label>
               Search keyword
             </mat-label>
-    
+
             <input
               type="text"
               formControlName="keyword"
@@ -35,14 +35,14 @@
         <div class="uk-width-2-5@s">
               <div class="mobile-flex uk-grid-small uk-grid uk-child-width-1-2@s">
                   <mat-form-field class="input-wrap">
-                      <input matInput #refStart type="text" [matDatepicker]="startDate" 
-                          (dateChange)="startDateChange(refStart.value)" formControlName="startDate" 
-                          placeholder="Start date" readonly (click)="pickStartDate()"> 
+                      <input matInput #refStart type="text" [matDatepicker]="startDate"
+                          (dateChange)="startDateChange(refStart.value)" formControlName="startDate"
+                          placeholder="Start date" readonly (click)="pickStartDate()">
                       <mat-datepicker-toggle #startDateToggle matSuffix [for]="startDate"></mat-datepicker-toggle>
                       <mat-datepicker #startDate></mat-datepicker>
                   </mat-form-field>
                   <mat-form-field class="input-wrap">
-                      <input matInput #refEnd type="text" [matDatepicker]="endDate" 
+                      <input matInput #refEnd type="text" [matDatepicker]="endDate"
                           (dateChange)="endDateChange(refEnd.value)" formControlName="endDate"
                           placeholder="End date" readonly (click)="pickEndDate()">
                       <mat-datepicker-toggle #endDateToggle matSuffix [for]="endDate"></mat-datepicker-toggle>

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-
 import { IUser } from 'src/app/models/IUserModel';
 import { GetSeller, ISeller } from 'src/app/models/sellerModel';
 import { ResponseModel } from 'src/app/shared/models/ResponseModel';
