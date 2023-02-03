@@ -1,31 +1,31 @@
-import { UpdateProfileAction } from "./../reducers/action/auth.action";
-import { IUpdatePassword } from "./../models/auth-model";
-import { IResponseModel } from "./../shared/models/IResponseModel";
+import { UpdateProfileAction } from './../reducers/action/auth.action';
+import { IUpdatePassword } from './../models/auth-model';
+import { IResponseModel } from './../shared/models/IResponseModel';
 
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Observable, BehaviorSubject, of, Subscription } from "rxjs";
-import { IUser } from "../models/IUserModel";
-import { ApiAppUrlService } from "./api-app-url.service";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
+import { IUser } from '../models/IUserModel';
+import { ApiAppUrlService } from './api-app-url.service';
 import {
   SignInModel,
   SiginResponseModel,
   ISignIn,
-} from "../models/signin-model";
-import { RegisterModel, RegisterResponseModel } from "../models/register-model";
-import { IForgetModel, IForgetPasswordModel } from "../models/auth-model";
-import { Store } from "@ngrx/store";
-import { AppState } from "../reducers";
-import { LoginAction, LogOutAction } from "../reducers/action/auth.action";
+} from '../models/signin-model';
+import { RegisterModel, RegisterResponseModel } from '../models/register-model';
+import { IForgetModel, IForgetPasswordModel } from '../models/auth-model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../reducers';
+import { LoginAction, LogOutAction } from '../reducers/action/auth.action';
 // import {
 //   FacebookLoginProvider,
 //   GoogleLoginProvider,
 //   SocialAuthService,
 // } from "@abacritt/angularx-social-login";
-import { NgxUiLoaderService } from "ngx-ui-loader";
-import { delay } from "rxjs/operators";
-import { Router } from "@angular/router";
-import { JwtHelperService } from "./jwt-helper.service";
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { delay } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { JwtHelperService } from './jwt-helper.service';
 
 export interface IAuth {
   isLoggedId: boolean;
@@ -35,7 +35,7 @@ export interface IAuth {
 }
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class AuthService {
   public isLogin: BehaviorSubject<boolean>;
@@ -66,34 +66,31 @@ export class AuthService {
   // }
 
   public signIn(signInModel: any): Observable<any> {
-    return this.http.post<any>(
-      this.api.baseApiUrl + "Auth/Login",
-      signInModel
-    );
+    return this.http.post<any>(this.api.baseApiUrl + 'Auth/Login', signInModel);
   }
 
   public register(
     registerModel: RegisterModel
   ): Observable<RegisterResponseModel> {
     return this.http.post<RegisterResponseModel>(
-      this.api.baseApiUrl + "Auth/Register",
+      this.api.baseApiUrl + 'Auth/Register',
       registerModel
     );
   }
 
   public getCurrentUser(): Observable<IUser> {
-    return this.http.get<IUser>(this.api.baseApiUrl + "Auth/current-user");
+    return this.http.get<IUser>(this.api.baseApiUrl + 'Auth/current-user');
   }
 
   public GoogleSignIn(token): Observable<SiginResponseModel> {
     return this.http.post<SiginResponseModel>(
-      this.api.baseApiUrl + "Auth/Google",
+      this.api.baseApiUrl + 'Auth/Google',
       { idToken: token }
     );
   }
 
   signInWithGoogle(): void {
-    this.ngxService.startLoader("loader-01");
+    this.ngxService.startLoader('loader-01');
     // this.socialAuthService.initState.subscribe(() => {
     //   this.socialAuthService
     //     .signIn(GoogleLoginProvider.PROVIDER_ID)
@@ -110,13 +107,13 @@ export class AuthService {
 
   public FacebookSignIn(userId, token): Observable<SiginResponseModel> {
     return this.http.post<SiginResponseModel>(
-      this.api.baseApiUrl + "Auth/Facebook",
+      this.api.baseApiUrl + 'Auth/Facebook',
       { token: token, userId: userId }
     );
   }
 
   signInWithFacebook(): void {
-    this.ngxService.startLoader("loader-01");
+    this.ngxService.startLoader('loader-01');
     // this.socialAuthService.initState.subscribe(() => {
     //   this.socialAuthService
     //     .signIn(FacebookLoginProvider.PROVIDER_ID)
@@ -138,7 +135,7 @@ export class AuthService {
       .pipe(delay(timeout))
       .subscribe(() => {
         this.Logout();
-        this.router.navigate(["./auth"]);
+        this.router.navigate(['./auth']);
       });
   }
 
@@ -149,7 +146,7 @@ export class AuthService {
 
   public SendForgetPassword(forget: IForgetModel): Observable<IResponseModel> {
     return this.http.post<IResponseModel>(
-      this.api.baseApiUrl + "Auth/Password/forgot",
+      this.api.baseApiUrl + 'Auth/Password/forgot',
       forget
     );
   }
@@ -158,14 +155,14 @@ export class AuthService {
     forgetPassword: IForgetPasswordModel
   ): Observable<IResponseModel> {
     return this.http.patch<IResponseModel>(
-      this.api.baseApiUrl + "auth/Password/reset",
+      this.api.baseApiUrl + 'auth/Password/reset',
       forgetPassword
     );
   }
 
   public SendConfirmationEmail(email: string): Observable<IResponseModel> {
     return this.http.get<IResponseModel>(
-      this.api.baseApiUrl + "auth/verification/resend/?email=" + email
+      this.api.baseApiUrl + 'auth/verification/resend/?email=' + email
     );
   }
 
@@ -179,11 +176,11 @@ export class AuthService {
   }
 
   public SetAuthLocalStorage(a: SiginResponseModel) {
-    localStorage.setItem("token", a.data.auth_token);
-    localStorage.setItem("userId", a.data.user.id);
-    localStorage.setItem("user", JSON.stringify(a.data.user));
-    localStorage.setItem("role", JSON.stringify(a.data.roles));
-    localStorage.setItem("siginResponse", JSON.stringify(a.data));
+    localStorage.setItem('token', a.data.auth_token);
+    localStorage.setItem('userId', a.data.user.id);
+    localStorage.setItem('user', JSON.stringify(a.data.user));
+    localStorage.setItem('role', JSON.stringify(a.data.roles));
+    localStorage.setItem('siginResponse', JSON.stringify(a.data));
     // this.store.dispatch(LoginAction(a.data.user));
   }
 
@@ -193,26 +190,32 @@ export class AuthService {
   }
 
   public GetSignInData(): ISignIn {
-    const datastr = localStorage.getItem("siginResponse");
+    const datastr = localStorage.getItem('siginResponse');
     const data = JSON.parse(datastr) as ISignIn;
 
     return data;
+  }
+
+  public getLoggedInUser(): IUser {
+    const user = localStorage.getItem('user');
+    const userJson: IUser = JSON.parse(user);
+    return userJson;
   }
 
   public UpdatePassword(
     updateUser: IUpdatePassword
   ): Observable<IResponseModel> {
     return this.http.patch<IResponseModel>(
-      this.api.baseApiUrl + "auth/password/change",
+      this.api.baseApiUrl + 'auth/password/change',
       updateUser
     );
   }
 
   public UpdateUser(user: IUser) {
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(user));
     const sigin = this.GetSignInData();
     sigin.user = user;
-    localStorage.setItem("siginResponse", JSON.stringify(sigin));
+    localStorage.setItem('siginResponse', JSON.stringify(sigin));
     this.store.dispatch(UpdateProfileAction(user));
   }
 }

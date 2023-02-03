@@ -1,21 +1,21 @@
-import { Component, OnInit } from "@angular/core";
-import { ProductModel, ProductsApiModel } from "src/app/models/products.model";
-import { ProductsService } from "src/app/services/products/products.service";
+import { AuthService } from 'src/app/services/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { ProductModel, ProductsApiModel } from 'src/app/models/products.model';
+import { ProductsService } from 'src/app/services/products/products.service';
 
-import { ICategory } from "src/app/models/CategoryModels";
-import { SellerService } from "src/app/services/seller/seller.service";
-import { ISeller } from "src/app/models/sellerModel";
-import { getLoggedInUser } from "src/app/helpers/userUtility";
-import { CatgoryService } from "src/app/services/category/catgory.service";
-import { IUser } from "src/app/models/IUserModel";
-import { ActivatedRoute, Router } from "@angular/router";
-import { WindowRefService } from "src/app/shared/services/window.service";
+import { ICategory } from 'src/app/models/CategoryModels';
+import { SellerService } from 'src/app/services/seller/seller.service';
+import { ISeller } from 'src/app/models/sellerModel';
+import { CatgoryService } from 'src/app/services/category/catgory.service';
+import { IUser } from 'src/app/models/IUserModel';
+import { ActivatedRoute, Router } from '@angular/router';
+import { WindowRefService } from 'src/app/shared/services/window.service';
 declare var UIkit: any;
 
 @Component({
-  selector: "app-seller-show-case-product",
-  templateUrl: "./seller-show-case-product.component.html",
-  styleUrls: ["./seller-show-case-product.component.css"],
+  selector: 'app-seller-show-case-product',
+  templateUrl: './seller-show-case-product.component.html',
+  styleUrls: ['./seller-show-case-product.component.css'],
 })
 export class SellerShowCaseProductComponent implements OnInit {
   categories: ICategory[] = [];
@@ -36,6 +36,7 @@ export class SellerShowCaseProductComponent implements OnInit {
     private categoryService: CatgoryService,
     private route: ActivatedRoute,
     private router: Router,
+    private authService: AuthService,
     windowService: WindowRefService
   ) {
     this.route.queryParams.subscribe((params) => {
@@ -46,11 +47,11 @@ export class SellerShowCaseProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sellerId = this.route.snapshot.paramMap.get("sellerId");
+    this.sellerId = this.route.snapshot.paramMap.get('sellerId');
     this.sellerUrl = this.window.location.href;
 
-    let categoryId = this.route.snapshot.queryParamMap.get("categoryId");
-    this.categoryId = categoryId ? categoryId : "";
+    let categoryId = this.route.snapshot.queryParamMap.get('categoryId');
+    this.categoryId = categoryId ? categoryId : '';
 
     this.categoryService.getCategoryByUserId(this.sellerId).subscribe((a) => {
       this.categories = a.data;
@@ -68,7 +69,7 @@ export class SellerShowCaseProductComponent implements OnInit {
         userId,
         pageNumber,
         this.maximumItem,
-        "",
+        '',
         this.categoryId
       )
       .subscribe((products: ProductsApiModel) => {
@@ -87,15 +88,14 @@ export class SellerShowCaseProductComponent implements OnInit {
     this.router.navigateByUrl(`/sellerproduct/${this.sellerId}`);
   }
   copySellerLink(): void {
-
     this.window.navigator.clipboard.writeText(this.sellerUrl);
     this.initializeNotification();
   }
   initializeNotification() {
     UIkit.notification({
-      message: "Copied!",
-      status: "primary",
-      pos: "top-center",
+      message: 'Copied!',
+      status: 'primary',
+      pos: 'top-center',
       timeout: 700,
     });
   }

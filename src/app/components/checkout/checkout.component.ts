@@ -18,10 +18,11 @@ import { IUser } from 'src/app/models/IUserModel';
 import { getUser } from 'src/app/reducers/selectors/auth.selector';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { environment } from 'src/environments/environment';
-import { getLoggedInUser } from 'src/app/helpers/userUtility';
+
 import { InvoiceService } from 'src/app/services/invoice/invoice.service';
 import uikit from 'uikit';
 import { WindowRefService } from 'src/app/shared/services/window.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 declare var PaystackPop: any;
 @Component({
@@ -37,7 +38,8 @@ export class CheckoutComponent implements OnInit {
     private notify: ToastrService,
     private invoiceService: InvoiceService,
     private router: Router,
-    windowRefService: WindowRefService
+    windowRefService: WindowRefService,
+    private authService: AuthService
   ) {
     this.window = windowRefService.nativeWindow;
   }
@@ -128,7 +130,7 @@ export class CheckoutComponent implements OnInit {
       });
     });
     const invoiceData: CreateInvoiceModel = {
-      userId: getLoggedInUser().id,
+      userId: this.authService.getLoggedInUser()?.id,
       billingAddress: this.checkoutForm.get('address').value,
       city: this.checkoutForm.get('city').value,
       country: this.checkoutForm.get('country').value,

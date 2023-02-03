@@ -1,17 +1,16 @@
-import { ToastrService } from "./../../../services/toastr.service";
-import { AuthService } from "src/app/services/auth.service";
+import { ToastrService } from './../../../services/toastr.service';
+import { AuthService } from 'src/app/services/auth.service';
 
-import { IUpdatePassword } from "./../../../models/auth-model";
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { nigeriaSates } from "src/app/data/nigeriastates";
-import { MustMatch } from "src/app/helpers/control-validators";
-import { getLoggedInUser } from "src/app/helpers/userUtility";
+import { IUpdatePassword } from './../../../models/auth-model';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { nigeriaSates } from 'src/app/data/nigeriastates';
+import { MustMatch } from 'src/app/helpers/control-validators';
 
 @Component({
-  selector: "app-change-password",
-  templateUrl: "./change-password.component.html",
-  styleUrls: ["./change-password.component.css"],
+  selector: 'app-change-password',
+  templateUrl: './change-password.component.html',
+  styleUrls: ['./change-password.component.css'],
 })
 export class ChangePasswordComponent implements OnInit {
   profileForm: FormGroup;
@@ -30,12 +29,12 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit(): void {
     this.profileForm = this.fb.group(
       {
-        currentPassword: ["", [Validators.required]],
-        password: ["", [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ["", [Validators.required]],
+        currentPassword: ['', [Validators.required]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required]],
       },
       {
-        validators: MustMatch("password", "confirmPassword"),
+        validators: MustMatch('password', 'confirmPassword'),
       }
     );
   }
@@ -45,15 +44,15 @@ export class ChangePasswordComponent implements OnInit {
       return;
     }
     const updatePassword: IUpdatePassword = {
-      currentPassword: this.profileForm.get("currentPassword").value,
-      newPassword: this.profileForm.get("confirmPassword").value,
+      currentPassword: this.profileForm.get('currentPassword').value,
+      newPassword: this.profileForm.get('confirmPassword').value,
     };
     this.isSubmited = true;
     this.errors = [];
     this.authService.UpdatePassword(updatePassword).subscribe(
       (a) => {
         this.isSubmited = false;
-        this.toast.success("password updated successfully");
+        this.toast.success('password updated successfully');
       },
       (error) => {
         this.isSubmited = false;

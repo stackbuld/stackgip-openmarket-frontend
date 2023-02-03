@@ -1,9 +1,10 @@
+import { IUser } from './../../models/IUserModel';
 import { WindowRefService } from './../../shared/services/window.service';
 import {
   formatProductOptions,
   formatShipmentOption,
 } from './../../helpers/productOption';
-import { getLoggedInUser } from './../../helpers/userUtility';
+
 import { InvoiceService } from 'src/app/services/invoice/invoice.service';
 import { InvoiceModel, invoiceStatus } from './../../models/invoice.model';
 import { Component, OnInit } from '@angular/core';
@@ -12,6 +13,7 @@ import { environment } from 'src/environments/environment';
 declare var PaystackPop: any;
 import uikit from 'uikit';
 import { numberWithCommas } from './../../helpers/number-format';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-order-invoice',
@@ -22,7 +24,7 @@ export class OrderInvoiceComponent implements OnInit {
   numberWithCommas: Function = numberWithCommas;
   formatProductOptions: Function = formatProductOptions;
   formatShipmentOption: Function = formatShipmentOption;
-  user = getLoggedInUser();
+  user = {} as IUser;
   invoice: InvoiceModel;
   total: number;
   filterType = invoiceStatus;
@@ -31,9 +33,11 @@ export class OrderInvoiceComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private invoiceService: InvoiceService,
-    windowRefService: WindowRefService
+    windowRefService: WindowRefService,
+    private authService: AuthService
   ) {
     this.window = windowRefService.nativeWindow;
+    this.user = this.authService.getLoggedInUser();
   }
 
   ngOnInit(): void {

@@ -1,3 +1,5 @@
+import { IUser } from './../../../../models/IUserModel';
+import { AuthService } from 'src/app/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CreateProductResponse } from './../../../../models/products.model';
 import { Subject } from 'rxjs';
@@ -7,7 +9,6 @@ import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { ProductsService } from '../../../../services/products/products.service';
 import { ToastrService } from './../../../../services/toastr.service';
-import { getLoggedInUser } from 'src/app/helpers/userUtility';
 import { StoreService } from 'src/app/services/store/store.service';
 import uikit from 'uikit';
 // import { AngularEditorConfig } from "@kolkov/angular-editor";
@@ -46,7 +47,7 @@ export class AddProductComponent implements OnInit {
   states: string[] = nigeriaSates.map((a) => a.name);
   productVariations: any[];
   // productVariations: string[] = variations;
-  user = getLoggedInUser();
+  user = {} as IUser;
   isPreview = false;
   previewData: any;
 
@@ -79,12 +80,14 @@ export class AddProductComponent implements OnInit {
     private productService: ProductsService,
     private storeService: StoreService,
     private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
     @Inject(DOCUMENT) private document: Document
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
     this.formInit();
     this.initVariationForm();
     localStorage.removeItem('compImagesStore');
+    this.user = this.authService.getLoggedInUser();
   }
 
   get f() {

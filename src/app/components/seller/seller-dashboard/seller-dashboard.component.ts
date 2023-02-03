@@ -1,11 +1,10 @@
 import { DashboardService } from './../../../services/dashboard/dashboard.service';
 import { Component, OnInit } from '@angular/core';
-import { getLoggedInUser } from 'src/app/helpers/userUtility';
 
 @Component({
   selector: 'app-seller-dashboard',
   templateUrl: './seller-dashboard.component.html',
-  styleUrls: ['./seller-dashboard.component.css']
+  styleUrls: ['./seller-dashboard.component.css'],
 })
 export class SellerDashboardComponent implements OnInit {
   loadingSummary: boolean;
@@ -14,9 +13,7 @@ export class SellerDashboardComponent implements OnInit {
   mostSelling = [];
   user: any;
 
-  constructor(
-    private dashboardService: DashboardService
-  ) { }
+  constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -26,22 +23,27 @@ export class SellerDashboardComponent implements OnInit {
 
   getDashboardData() {
     this.loadingSummary = true;
-    this.dashboardService.getSellerDashboardSummary(this.user.id).subscribe(res => {
-      this.dashboardData = res.data;
-      this.loadingSummary = false;
-    }, err => {
-      this.loadingSummary = false;
-    });
+    this.dashboardService.getSellerDashboardSummary(this.user.id).subscribe(
+      (res) => {
+        this.dashboardData = res.data;
+        this.loadingSummary = false;
+      },
+      (err) => {
+        this.loadingSummary = false;
+      }
+    );
   }
 
   getMostSelling() {
     this.loading = true;
-    this.dashboardService.getMostSellingProducts(this.user.id).subscribe(res => {
-      this.mostSelling = res.data;
-      this.loading = false;
-    }, err => {
-      this.loading = false;
-    });
+    this.dashboardService.getMostSellingProducts(this.user.id).subscribe(
+      (res) => {
+        this.mostSelling = res.data;
+        this.loading = false;
+      },
+      (err) => {
+        this.loading = false;
+      }
+    );
   }
-
 }
