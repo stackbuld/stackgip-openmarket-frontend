@@ -14,7 +14,7 @@ import { MatDatepickerToggle } from '@angular/material/datepicker'
 })
 export class SearchItemComponent implements OnInit {
   @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>
-  @ViewChild('startDateToggle') startDateToggle: MatDatepickerToggle<any> 
+  @ViewChild('startDateToggle') startDateToggle: MatDatepickerToggle<any>
   @ViewChild('endDateToggle') endDateToggle: MatDatepickerToggle<any>
   @Output() onSearch = new EventEmitter()
   @Output() onSearchClear = new EventEmitter()
@@ -95,9 +95,9 @@ export class SearchItemComponent implements OnInit {
   onClear(){
     // this.searchForm.get('keyword').setValue('')
     // this.searchForm.get('category').setValue('')
-    // this.searchForm.get('startDate').setValue('') 
+    // this.searchForm.get('startDate').setValue('')
     // this.searchForm.get('endDate').setValue('')
-    // this.searchForm.get('minPrice').setValue(50) 
+    // this.searchForm.get('minPrice').setValue(50)
     // this.searchForm.get('maxPrice').setValue(500000)
     // this.categoryItem.nativeElement.innerText = ''
     this.initForm();
@@ -111,7 +111,7 @@ export class SearchItemComponent implements OnInit {
   pickEndDate(){
     const _ = this.endDateToggle._button._elementRef.nativeElement.click()
   }
-  
+
   onSearchSubmit(){
     this.onSearch.emit({
       keyword:this.searchForm.get('keyword').value,

@@ -15,7 +15,7 @@ export class ViewMoreComponent implements OnInit {
   product$:Observable<ProductResponse>;
   formatDate:Function;
 
-  constructor(private productService:ProductsService) { 
+  constructor(private productService:ProductsService) {
     this.formatDate = formatDate;
   }
 

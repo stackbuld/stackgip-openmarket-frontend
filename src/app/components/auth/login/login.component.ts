@@ -37,7 +37,7 @@ import { JwtHelperService } from "../../../services/jwt-helper.service";
 export class LoginComponent implements OnInit {
   hasError = false;
   errors: any[] = [];
-  errorMessage: string = '';
+  errorMessage: string = "";
   loginForm: FormGroup;
   googleAuth: any;
   loading: false;
@@ -59,16 +59,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // if( typeof gapi == 'undefined') {
-    //   let infoToast = this.toast ;
-    //   infoToast.toastOptions.positionClass = "toast-top-center";
-    //   infoToast.toastOptions.timeOut = '10000';
-    //   infoToast.info("poor internet connection, <a onclick='location.reload()'>click here to refresh page</a>");
-
-    // }else{
-    //   this.loadgoogleLogin();
-    // }
-
     this.loginForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required]],
@@ -77,15 +67,16 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.ngxService.startLoader("loader-01");
-    this.authService.signIn(this.loginForm.value).subscribe((res) => {
+    this.authService.signIn(this.loginForm.value).subscribe(
+      (res) => {
         if (res.status == "success") {
           if (res.data.canLogin) {
             this.ngxService.stopLoader("loader-01");
             this.authService.SetAuthLocalStorage(res);
             this.toast.success(res.message);
-            this.router.navigate(['/seller/dashboard']);
+            this.router.navigate(["/seller/dashboard"]);
           } else {
-            this.toast.error('Please confirm your email address');
+            this.toast.error("Please confirm your email address");
             this.router.navigate(["/confirm-email"]);
           }
           // this.hasError = false;
@@ -103,78 +94,11 @@ export class LoginComponent implements OnInit {
           //   this.router.navigate(["/confirm-email"]);
           // }
         }
-      }, (err) => {
+      },
+      (err) => {
         this.toast.error(err.error.message);
         this.ngxService.stopLoader("loader-01");
       }
     );
   }
-
-  // loadgoogleLogin() {
-  //   gapi.load("auth2", () => {
-  //     /* Ready. Make a call to gapi.auth2.init or some other API */
-  //     this.googleAuth = gapi.auth2.init({
-  //       client_id:
-  //         "473446857855-9fmn8dnefe3b9mvm046sdq35echrss1l.apps.googleusercontent.com",
-  //     });
-  //   });
-  // }
-
-  // signInWithGoogle() {
-  //   this.ngxService.startLoader("loader-01");
-  //   this.googleAuth
-  //     .signIn({
-  //       scope: "profile email",
-  //       prompt: "select_account",
-  //     })
-  //     .then((a) => {
-  //       const currentUser = this.googleAuth.currentUser.get();
-  //       const auth = currentUser.getAuthResponse();
-  //       const token = auth.id_token;
-  //       this.authService.GoogleSignIn(token).subscribe((a) => {
-  //         this.authService.SetAuthLocalStorage(a);
-  //         this.toast.success("login successful", "notification");
-
-  //         UIkit.modal("#modal-auth").hide();
-
-  //         this.ngxService.stopLoader("loader-01");
-  //         this.authService.isLogin.next(true);
-  //         location.reload();
-  //       });
-  //     });
-  // }
-
-  // siginWithFacebook() {
-  //   this.ngxService.startLoader("loader-01");
-  //   FB.login(
-  //     (response) => {
-  //       // handle the response
-  //       if (response.status === "connected") {
-  //         this.authService
-  //           .FacebookSignIn(
-  //             response.authResponse.userID,
-  //             response.authResponse.accessToken
-  //           )
-  //           .subscribe(
-  //             (a) => {
-  //               this.authService.SetAuthLocalStorage(a);
-  //               this.authService.isLogin.next(true);
-  //               this.toast.success("login successful");
-  //               this.ngxService.stopLoader("loader-01");
-  //               location.reload();
-  //             },
-  //             (err) => {
-  //               this.toast.error(err.error.message);
-  //               this.ngxService.stopLoader("loader-01");
-  //             }
-  //           );
-  //       } else {
-  //         // cant login
-  //         this.toast.error("cant login", "notification");
-  //         this.ngxService.stopLoader("loader-01");
-  //       }
-  //     },
-  //     { scope: "email,public_profile" }
-  //   );
-  // }
 }

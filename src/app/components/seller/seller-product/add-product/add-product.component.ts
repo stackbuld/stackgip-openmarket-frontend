@@ -1,26 +1,28 @@
-import { Router, ActivatedRoute } from "@angular/router";
-import { CreateProductResponse } from "./../../../../models/products.model";
-import { Subject } from "rxjs";
-import { environment } from "src/environments/environment";
-import { FormBuilder, FormGroup, FormArray, Validators } from "@angular/forms";
-import { Component, OnInit, EventEmitter, Output } from "@angular/core";
-import { nigeriaSates } from "src/app/data/nigeriastates";
-import { ProductsService } from "../../../../services/products/products.service";
-import { ToastrService } from "./../../../../services/toastr.service";
-import { getLoggedInUser } from "src/app/helpers/userUtility";
-import { StoreService } from "src/app/services/store/store.service";
-import uikit from "uikit";
+import { IUser } from './../../../../models/IUserModel';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { CreateProductResponse } from './../../../../models/products.model';
+import { Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
+import { nigeriaSates } from 'src/app/data/nigeriastates';
+import { ProductsService } from '../../../../services/products/products.service';
+import { ToastrService } from './../../../../services/toastr.service';
+import { StoreService } from 'src/app/services/store/store.service';
+import uikit from 'uikit';
 // import { AngularEditorConfig } from "@kolkov/angular-editor";
-import * as CkEditor from "src/assets/js/ckeditor5/build/ckeditor";
-import { editorDefaultConfig } from "src/app/shared/config/ckeditor.config";
+// import * as CkEditor from 'rena-ckeditor5-custom-build/build/ckeditor';
+import { editorDefaultConfig } from 'src/app/shared/config/ckeditor.config';
+import { DOCUMENT } from '@angular/common';
 
 declare var cloudinary: any;
 @Component({
-  selector: "app-add-product",
-  templateUrl: "./add-product.component.html",
+  selector: 'app-add-product',
+  templateUrl: './add-product.component.html',
   styleUrls: [
-    "./add-product.component.scss",
-    "../../../../shared/css/spinner.css",
+    './add-product.component.scss',
+    '../../../../shared/css/spinner.css',
   ],
 })
 export class AddProductComponent implements OnInit {
@@ -45,7 +47,7 @@ export class AddProductComponent implements OnInit {
   states: string[] = nigeriaSates.map((a) => a.name);
   productVariations: any[];
   // productVariations: string[] = variations;
-  user = getLoggedInUser();
+  user = {} as IUser;
   isPreview = false;
   previewData: any;
 
@@ -67,9 +69,8 @@ export class AddProductComponent implements OnInit {
   isFullDescription = false;
   hasFullDesc: boolean;
 
-  public Editor = CkEditor;
+  // public Editor = CkEditor;
 
- 
   editorDefaultConfig = editorDefaultConfig;
 
   constructor(
@@ -78,12 +79,15 @@ export class AddProductComponent implements OnInit {
     private router: Router,
     private productService: ProductsService,
     private storeService: StoreService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
+    @Inject(DOCUMENT) private document: Document
   ) {
-    this.productId = this.activatedRoute.snapshot.paramMap.get("id");
+    this.productId = this.activatedRoute.snapshot.paramMap.get('id');
     this.formInit();
     this.initVariationForm();
-    localStorage.removeItem("compImagesStore");
+    localStorage.removeItem('compImagesStore');
+    this.user = this.authService.getLoggedInUser();
   }
 
   get f() {
@@ -91,15 +95,15 @@ export class AddProductComponent implements OnInit {
   }
 
   get categoryId() {
-    return this.form.get("categoryId");
+    return this.form.get('categoryId');
   }
 
   ngOnInit(): void {
     if (this.productId !== null) {
       this.getProduct(this.productId);
     }
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+    this.document.body.scrollTop = 0;
+    this.document.documentElement.scrollTop = 0;
     this.getCategories();
     this.getStores(this.user.id);
     this.getVariations();
@@ -109,10 +113,10 @@ export class AddProductComponent implements OnInit {
       {
         cloudName: environment.cloudinaryName,
         uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ["jpeg", "jpg", "png", "gif"],
+        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
       },
       (error, result) => {
-        if (!error && result && result.event === "success") {
+        if (!error && result && result.event === 'success') {
           if (this.images.length < 4) {
             this.images.push(result.info.secure_url);
             this.productImage = this.images[0];
@@ -125,31 +129,31 @@ export class AddProductComponent implements OnInit {
       {
         cloudName: environment.cloudinaryName,
         uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ["jpeg", "jpg", "png", "gif"],
+        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
       },
       (error, result) => {
-        if (!error && result && result.event === "success") {
+        if (!error && result && result.event === 'success') {
           let list = [];
-          if (JSON.parse(localStorage.getItem("compImagesStore")) === null) {
+          if (JSON.parse(localStorage.getItem('compImagesStore')) === null) {
             let data = {
               id: this.complimentaryIndex,
               imageUrl: result.info.secure_url,
             };
             list.push(data);
-            localStorage.setItem("compImagesStore", JSON.stringify(list));
+            localStorage.setItem('compImagesStore', JSON.stringify(list));
             this.complementaryImagesStore = JSON.parse(
-              localStorage.getItem("compImagesStore")
+              localStorage.getItem('compImagesStore')
             );
           } else {
-            list = JSON.parse(localStorage.getItem("compImagesStore"));
+            list = JSON.parse(localStorage.getItem('compImagesStore'));
             let data = {
               id: this.complimentaryIndex,
               imageUrl: result.info.secure_url,
             };
             list.push(data);
-            localStorage.setItem("compImagesStore", JSON.stringify(list));
+            localStorage.setItem('compImagesStore', JSON.stringify(list));
             this.complementaryImagesStore = JSON.parse(
-              localStorage.getItem("compImagesStore")
+              localStorage.getItem('compImagesStore')
             );
           }
         }
@@ -164,7 +168,7 @@ export class AddProductComponent implements OnInit {
   }
 
   setComplementaryImageForUpdate(data: any) {
-    localStorage.removeItem("compImagesStore");
+    localStorage.removeItem('compImagesStore');
     for (let index = 0; index < data.productOptions.length; index++) {
       const element = data.productOptions[index];
       if (element.isMultiple === true) {
@@ -172,7 +176,7 @@ export class AddProductComponent implements OnInit {
       }
     }
     localStorage.setItem(
-      "compImagesStore",
+      'compImagesStore',
       JSON.stringify(this.complementaryImagesStore)
     );
   }
@@ -181,7 +185,7 @@ export class AddProductComponent implements OnInit {
     this.loading = true;
     this.productService.getProduct(id).subscribe(
       (res) => {
-        if (res.status === "success") {
+        if (res.status === 'success') {
           this.loading = false;
           this.populateProductForm(res.data);
           this.getSubCategories(res.data.category.id);
@@ -205,15 +209,15 @@ export class AddProductComponent implements OnInit {
   formInit(): void {
     this.form = this.fb.group({
       userId: [this.user.id, [Validators.required]],
-      name: ["", [Validators.required]],
-      description: ["", [Validators.required]],
+      name: ['', [Validators.required]],
+      description: ['', [Validators.required]],
       price: [null, [Validators.required]],
       weight: [null, [Validators.required]],
       previousPrice: [0],
       imageUrls: [null],
-      imageUrl: [""],
-      categoryId: [""],
-      category: ["", [Validators.required]],
+      imageUrl: [''],
+      categoryId: [''],
+      category: ['', [Validators.required]],
       storeIds: [[], [Validators.required]],
       unit: [null, [Validators.required]],
       variations: this.fb.array([]),
@@ -255,23 +259,23 @@ export class AddProductComponent implements OnInit {
       }
     }
     variationList.forEach((element: any, index: number) => {
-      (<FormArray>this.form.get("variations")).push(
+      (<FormArray>this.form.get('variations')).push(
         this.fb.group({
           title: [element.title, [Validators.required]],
           value: [element.value, [Validators.required]],
           cost: [element.cost, [Validators.required]],
-          shortDescription: [""],
-          imageUrl: [""],
+          shortDescription: [''],
+          imageUrl: [''],
           isMultiple: false,
         })
       );
     });
     complimentartProducts.forEach((element: any, index: number) => {
-      (<FormArray>this.form.get("options")).push(
+      (<FormArray>this.form.get('options')).push(
         this.fb.group({
           title: [element.title, [Validators.required]],
           shortDescription: [element.shortDescription, Validators.required],
-          value: [""],
+          value: [''],
           imageUrl: [element.imageUrl],
           cost: [element.cost, [Validators.required]],
           isMultiple: true,
@@ -282,8 +286,8 @@ export class AddProductComponent implements OnInit {
 
   initVariationForm(): void {
     this.newVariationForm = this.fb.group({
-      name: ["", [Validators.required]],
-      categoryId: ["", [Validators.required]],
+      name: ['', [Validators.required]],
+      categoryId: ['', [Validators.required]],
     });
   }
 
@@ -292,8 +296,8 @@ export class AddProductComponent implements OnInit {
     this.selectedCategoryId = this.newVariationForm.value.categoryId;
     this.productService.createVariation(this.newVariationForm.value).subscribe(
       (res) => {
-        if (res.status === "success") {
-          document.getElementById("closeVariationModalBtn").click();
+        if (res.status === 'success') {
+          this.document.getElementById('closeVariationModalBtn').click();
           this.creatingVariation = false;
           this.toast.success(res.message);
           this.getVariations(this.selectedCategoryId);
@@ -312,11 +316,11 @@ export class AddProductComponent implements OnInit {
 
   changeUnit = (unit: any, type: string) => {
     let it = parseInt(unit);
-    if (type === "add") {
+    if (type === 'add') {
       this.form.patchValue({ unit: it + 1 });
       this.previewData.unit = it + 1;
     }
-    if (type === "minus") {
+    if (type === 'minus') {
       if (it > 1) {
         this.form.patchValue({ unit: it - 1 });
         this.previewData.unit = it - 1;
@@ -325,16 +329,16 @@ export class AddProductComponent implements OnInit {
   };
 
   variations(): FormArray {
-    return this.form.get("variations") as FormArray;
+    return this.form.get('variations') as FormArray;
   }
 
   createVariation(): FormGroup {
     return this.fb.group({
-      title: ["", [Validators.required]],
-      value: ["", [Validators.required]],
+      title: ['', [Validators.required]],
+      value: ['', [Validators.required]],
       cost: [null, [Validators.required]],
-      shortDescription: [""],
-      imageUrl: [""],
+      shortDescription: [''],
+      imageUrl: [''],
       isMultiple: false,
     });
   }
@@ -352,14 +356,14 @@ export class AddProductComponent implements OnInit {
   }
 
   options(): FormArray {
-    return this.form.get("options") as FormArray;
+    return this.form.get('options') as FormArray;
   }
 
   createOptions(): FormGroup {
     return this.fb.group({
-      title: ["", [Validators.required]],
-      shortDescription: ["", Validators.required],
-      value: [""],
+      title: ['', [Validators.required]],
+      shortDescription: ['', Validators.required],
+      value: [''],
       imageUrl: [null],
       cost: [null, [Validators.required]],
       isMultiple: true,
@@ -381,22 +385,22 @@ export class AddProductComponent implements OnInit {
 
   removeOption(index: number): void {
     this.complementaryImagesStore = JSON.parse(
-      localStorage.getItem("compImagesStore")
+      localStorage.getItem('compImagesStore')
     );
-    if(this.complementaryImagesStore === null) {
+    if (this.complementaryImagesStore === null) {
       this.options().removeAt(index);
       this.complementaryImagesStore = [];
     } else {
       if (this.complementaryImagesStore.length === 1) {
         this.complementaryImagesStore.splice(index, 1);
-        localStorage.removeItem("compImagesStore");
+        localStorage.removeItem('compImagesStore');
         this.addingComplimentaryOptions = false;
         this.options().removeAt(index);
-      } 
+      }
       if (this.complementaryImagesStore.length > 1) {
         this.complementaryImagesStore.splice(index, 1);
         localStorage.setItem(
-          "compImagesStore",
+          'compImagesStore',
           JSON.stringify(this.complementaryImagesStore)
         );
         this.options().removeAt(index);
@@ -426,14 +430,14 @@ export class AddProductComponent implements OnInit {
     for (let index = 0; index < this.form.value.options.length; index++) {
       const element = this.form.value.options[index];
       if (index === id) {
-        element.imageUrl = "";
+        element.imageUrl = '';
       }
     }
   }
 
   getSubCategories(id: any) {
     this.subCategories = [];
-    this.form.value.categoryId = "";
+    this.form.value.categoryId = '';
     this.loadingSubCategories = true;
     this.selectedCategoryId = id;
     this.getVariations(id);
@@ -486,7 +490,7 @@ export class AddProductComponent implements OnInit {
 
   edit = () => {
     if (this.isSubCatIdEmpty === true) {
-      this.form.patchValue({ categoryId: "" });
+      this.form.patchValue({ categoryId: '' });
     }
     if (this.isPreview === true) {
       this.isPreview = false;
@@ -511,11 +515,11 @@ export class AddProductComponent implements OnInit {
       .updateProduct(this.form.value, this.productId)
       .subscribe(
         (res) => {
-          if (res.status === "success") {
+          if (res.status === 'success') {
             this.toast.success(res.message);
-            this.router.navigate(["/seller/products"]);
+            this.router.navigate(['/seller/products']);
             this.creatingProduct = false;
-            localStorage.removeItem("compImagesStore");
+            localStorage.removeItem('compImagesStore');
             this.complementaryImagesStore = [];
           } else {
             this.creatingProduct = false;
@@ -548,11 +552,11 @@ export class AddProductComponent implements OnInit {
     this.creatingProduct = true;
     this.productService.createNewProduct(this.form.value).subscribe(
       (res) => {
-        if (res.status === "success") {
+        if (res.status === 'success') {
           this.toast.success(res.message);
-          this.router.navigate(["/seller/products"]);
+          this.router.navigate(['/seller/products']);
           this.creatingProduct = false;
-          localStorage.removeItem("compImagesStore");
+          localStorage.removeItem('compImagesStore');
           this.complementaryImagesStore = [];
         } else {
           this.creatingProduct = false;
@@ -568,26 +572,26 @@ export class AddProductComponent implements OnInit {
   isSubCatIdEmpty = false;
   onSubmit = () => {
     if (this.images.length < 1) {
-      this.toast.error("Product Image(s) required");
+      this.toast.error('Product Image(s) required');
       return;
     }
     if (this.images.length < 1) {
-      this.toast.error("Product Image(s) required");
+      this.toast.error('Product Image(s) required');
       return;
     }
-    if (this.form.value.description === "") {
-      this.toast.error("Enter Product Description to Procees");
+    if (this.form.value.description === '') {
+      this.toast.error('Enter Product Description to Procees');
       return;
     }
     if (
-      this.form.value.category !== "" &&
+      this.form.value.category !== '' &&
       this.subCategories.length > 0 &&
-      this.form.value.categoryId === ""
+      this.form.value.categoryId === ''
     ) {
-      this.toast.error("Select a Sub Category");
+      this.toast.error('Select a Sub Category');
       return;
     }
-    if (this.subCategories.length === 0 && this.form.value.category !== "") {
+    if (this.subCategories.length === 0 && this.form.value.category !== '') {
       this.isSubCatIdEmpty = true;
       this.form.patchValue({ categoryId: this.form.value.category });
     }
@@ -596,16 +600,16 @@ export class AddProductComponent implements OnInit {
       this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
       this.setVariation(this.form.value.variations);
       this.previewImg = this.form.value.imageUrls[0];
-      console.log("description", this.form.value.description);
+      console.log('description', this.form.value.description);
       this.previewData = this.form.value;
       this.isPreview = true;
     }
   };
 
   setComplementaryProducts() {
-    if (JSON.parse(localStorage.getItem("compImagesStore"))) {
+    if (JSON.parse(localStorage.getItem('compImagesStore'))) {
       this.complementaryImagesStore = JSON.parse(
-        localStorage.getItem("compImagesStore")
+        localStorage.getItem('compImagesStore')
       );
     } else {
       this.complementaryImagesStore = [];
@@ -623,14 +627,14 @@ export class AddProductComponent implements OnInit {
   }
 
   deleteProduct(): void {
-    uikit.modal.confirm("Are you sure that you want to delete product ?").then(
+    uikit.modal.confirm('Are you sure that you want to delete product ?').then(
       () => {
         this.loading = true;
         this.productService.deleteProduct(this.productId).subscribe((res) => {
-          if (res.status === "success") {
+          if (res.status === 'success') {
             this.loading = false;
             this.toast.success(res.message);
-            this.router.navigate(["/seller/products"]);
+            this.router.navigate(['/seller/products']);
           } else {
             this.loading = false;
             this.toast.error(res.message);

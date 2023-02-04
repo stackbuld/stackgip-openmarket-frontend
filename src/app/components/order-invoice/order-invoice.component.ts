@@ -1,35 +1,47 @@
-import { formatProductOptions, formatShipmentOption } from './../../helpers/productOption';
-import { getLoggedInUser } from "./../../helpers/userUtility";
-import { InvoiceService } from "src/app/services/invoice/invoice.service";
-import { InvoiceModel, invoiceStatus } from "./../../models/invoice.model";
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { environment } from "src/environments/environment";
+import { IUser } from './../../models/IUserModel';
+import { WindowRefService } from './../../shared/services/window.service';
+import {
+  formatProductOptions,
+  formatShipmentOption,
+} from './../../helpers/productOption';
+
+import { InvoiceService } from 'src/app/services/invoice/invoice.service';
+import { InvoiceModel, invoiceStatus } from './../../models/invoice.model';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 declare var PaystackPop: any;
-import uikit from "uikit";
+import uikit from 'uikit';
 import { numberWithCommas } from './../../helpers/number-format';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: "app-order-invoice",
-  templateUrl: "./order-invoice.component.html",
-  styleUrls: ["./order-invoice.component.css"],
+  selector: 'app-order-invoice',
+  templateUrl: './order-invoice.component.html',
+  styleUrls: ['./order-invoice.component.css'],
 })
 export class OrderInvoiceComponent implements OnInit {
-  numberWithCommas:Function = numberWithCommas
-  formatProductOptions:Function = formatProductOptions
-  formatShipmentOption:Function = formatShipmentOption
-  user = getLoggedInUser();
+  numberWithCommas: Function = numberWithCommas;
+  formatProductOptions: Function = formatProductOptions;
+  formatShipmentOption: Function = formatShipmentOption;
+  user = {} as IUser;
   invoice: InvoiceModel;
   total: number;
   filterType = invoiceStatus;
+  window: Window;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private invoiceService: InvoiceService
-  ) {}
+    private invoiceService: InvoiceService,
+    windowRefService: WindowRefService,
+    private authService: AuthService
+  ) {
+    this.window = windowRefService.nativeWindow;
+    this.user = this.authService.getLoggedInUser();
+  }
 
   ngOnInit(): void {
-    let id = this.route.snapshot.paramMap.get("id");
+    let id = this.route.snapshot.paramMap.get('id');
     this.invoiceService.getById(id).subscribe((d) => {
       this.invoice = d.data;
       this.total = 0;
@@ -61,25 +73,24 @@ export class OrderInvoiceComponent implements OnInit {
         <h3> Payment canceled</h3>
         <p>Redirecting you to order page to complete the payment</p>
         </div>`,
-          { "bg-close": false }
+          { 'bg-close': false }
         );
-
 
         // redirect user to orders page
       },
       callback: (response) => {
-        let message = "Payment complete! Reference: " + response.reference;
+        let message = 'Payment complete! Reference: ' + response.reference;
 
         uikit.modal.dialog(
           `<div class="uk-card uk-card-body">
         <h3> Payment complete!</h3>
         <p>Processing your transaction, please wait</p>
         </div>`,
-          { "bg-close": false }
+          { 'bg-close': false }
         );
         this.invoiceService.verifyInvoice(ref).subscribe((a) => {
           // this.router.navigate(["/orders"]);
-          location.href = "/orders";
+          this.window.location.href = '/orders';
         });
 
         // this.invoiceService.verifyInvoice(ref)
