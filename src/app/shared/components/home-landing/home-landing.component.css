@@ -147,20 +147,19 @@
   flex-wrap: nowrap;
   margin-bottom: 2rem;
   padding: 1rem;
+}
 
-  .left-group {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
+.image-group .left-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
-  .right-group {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-
+.image-group .right-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 .bottom-heading {
@@ -215,12 +214,12 @@
 }
 
 .benefit_text {
-font-family: 'Avenir LT Std';
-font-style: normal;
-font-weight: 400;
-font-size: 0.625rem;
-margin: 0rem;
-padding-left: 0.75rem;
+  font-family: 'Avenir LT Std';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.625rem;
+  margin: 0rem;
+  padding-left: 0.75rem;
 }
 
 .product-recommendation {
@@ -275,10 +274,10 @@ padding-left: 0.75rem;
   padding: 0.5rem 1rem;
   width: 75%;
   margin: 2rem 0rem 0rem 0rem;
+}
 
-  a {
-    color: #fff;
-  }
+.bottom-section .waitList-botton a {
+  color: #fff;
 }
 
 @media only screen and (min-width: 768px) {
@@ -365,17 +364,16 @@ padding-left: 0.75rem;
     margin-bottom: 0rem;
     padding: 1rem;
     width: 100%;
+  }
 
-    .left-group {
-      flex-direction: column;
-      gap: 1rem;
-    }
+  .image-group .left-group {
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-    .right-group {
-      flex-direction: column;
-      gap: 1rem;
-    }
-
+  .image-group .right-group {
+    flex-direction: column;
+    gap: 1rem;
   }
 
   .bottom-heading {
@@ -396,37 +394,38 @@ padding-left: 0.75rem;
     margin-bottom: 5.5rem;
     padding: 0rem 1rem;
   }
+
   .benefits {
     padding: 3rem 2rem 5rem 2rem;
     margin-bottom: 7rem;
   }
-  
+
   .waitList_benefit_wrapper {
     padding: 1.25rem;
     margin: 0.5rem 0rem 2.5rem 0rem;
     border-radius: 0.25rem;
-  
+
   }
-  
+
   .referral_benefit_wrapper {
     padding: 1.25rem;
     margin: 0.5rem 0rem 2.5rem 0rem;
     border-radius: 0.25rem;
-  
+
   }
-  
+
   .benefit_heading {
     font-size: 0.9rem;
   }
-  
+
   .benefit_wrapper {
     border-radius: 0.32rem;
   }
-  
+
   .benefit_text {
-  font-size: 0.625rem;
-  margin: 0rem;
-  padding-left: 0.75rem;
+    font-size: 0.625rem;
+    margin: 0rem;
+    padding-left: 0.75rem;
   }
 
   .product-recommendation {
@@ -586,17 +585,16 @@ padding-left: 0.75rem;
     margin-bottom: 0rem;
     padding: 1rem;
     width: 45%;
+  }
 
-    .left-group {
-      flex-direction: column;
-      gap: 1rem;
-    }
+  .image-group .left-group {
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-    .right-group {
-      flex-direction: column;
-      gap: 1rem;
-    }
-
+  .image-group .right-group {
+    flex-direction: column;
+    gap: 1rem;
   }
 
   .bottom-heading {
@@ -626,33 +624,33 @@ padding-left: 0.75rem;
     justify-content: center;
     gap: 2.5rem;
   }
-  
+
   .waitList_benefit_wrapper {
     padding: 1.25rem;
     margin: 0.5rem 0rem 2.5rem 0rem;
     border-radius: 0.25rem;
-  
+
   }
-  
+
   .referral_benefit_wrapper {
     padding: 1.25rem;
     margin: 0.5rem 0rem 2.5rem 0rem;
     border-radius: 0.25rem;
-  
+
   }
-  
+
   .benefit_heading {
     font-size: 0.9rem;
   }
-  
+
   .benefit_wrapper {
     border-radius: 0.32rem;
   }
-  
+
   .benefit_text {
-  font-size: 0.625rem;
-  margin: 0rem;
-  padding-left: 0.75rem;
+    font-size: 0.625rem;
+    margin: 0rem;
+    padding-left: 0.75rem;
   }
 
   .product-recommendation {
@@ -842,17 +840,15 @@ padding-left: 0.75rem;
     margin-bottom: 0rem;
     padding: 1rem;
     width: 35%;
+  }
+  .image-group .left-group {
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-    .left-group {
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .right-group {
-      flex-direction: column;
-      gap: 1rem;
-    }
-
+  .image-group .right-group {
+    flex-direction: column;
+    gap: 1rem;
   }
 
   .bottom-heading {
@@ -884,33 +880,33 @@ padding-left: 0.75rem;
     justify-content: center;
     gap: 2.5rem;
   }
-  
+
   .waitList_benefit_wrapper {
     padding: 1.25rem;
     margin: 0.5rem 0rem 2.5rem 0rem;
     border-radius: 0.25rem;
-  
+
   }
-  
+
   .referral_benefit_wrapper {
     padding: 1.25rem;
     margin: 0.5rem 0rem 2.5rem 0rem;
     border-radius: 0.25rem;
-  
+
   }
-  
+
   .benefit_heading {
     font-size: 0.9rem;
   }
-  
+
   .benefit_wrapper {
     border-radius: 0.32rem;
   }
-  
+
   .benefit_text {
-  font-size: 0.625rem;
-  margin: 0rem;
-  padding-left: 0.75rem;
+    font-size: 0.625rem;
+    margin: 0rem;
+    padding-left: 0.75rem;
   }
 
   .product-recommendation {
@@ -985,9 +981,8 @@ padding-left: 0.75rem;
     padding: 0.5rem 1rem;
     width: 25%;
     margin: 1rem 1rem 3rem 0rem;
-
-    a {
-      text-transform: none;
-    }
+  }
+  .bottom-section .waitList-botton a {
+    text-transform: none;
   }
 }
