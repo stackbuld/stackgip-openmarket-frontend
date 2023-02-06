@@ -15,16 +15,16 @@
         width="120"
       /></a>
 
-      <div style="display: flex; flex-direction: row; width: 60%;">
+      <div  style="display: flex; flex-direction: row; width: 60%;">
         <ul class="uk-navbar-nav">
-          <li>
+          <li class="" data-uk-tooltip title="coming soon">
             <a [routerLink]="['']">
-              <span class="uk-icon uk-margin-small-right"></span>
-              Product
+              <span class="uk-icon uk-margin-small-right" ></span>
+              Marketplace
             </a>
           </li>
           <li>
-            <a [routerLink]="['/landing']">
+            <a [routerLink]="['/landing', {pageSec: 'whybuy'}]">
               <span class="uk-icon uk-margin-small-right"></span>
               Features
             </a>
@@ -110,12 +110,12 @@
           <ul class="mobile-side-menu">
             <li>
               <a [routerLink]="['']">
-                <span class="uk-icon uk-margin-small-right"></span>
-                Product
+                <span class="uk-icon uk-margin-small-right" data-uk-tooltip title=" coming soon"></span>
+                Marketplace
               </a>
             </li>
             <li>
-              <a [routerLink]="['/landing']">
+              <a [routerLink]="['/landing', {pageSec: 'whybuy'}]">
                 <span class="uk-icon uk-margin-small-right"></span>
                 Features
               </a>
