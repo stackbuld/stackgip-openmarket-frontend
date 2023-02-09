@@ -90,9 +90,10 @@ import { SellerDashboardComponent } from "./components/seller/seller-dashboard/s
 import { JoinWaitlistComponent } from "./shared/components/join-waitlist/join-waitlist.component";
 import { SuccessModalComponent } from "./shared/components/success-modal/success-modal.component";
 import { MarketPlaceComponent } from "./shared/components/market-place/market-place.component";
-import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
+// import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { SafeHtmlPipe } from "./shared/pipes/safehtml.pipe";
+
 
 @NgModule({
   declarations: [
@@ -176,7 +177,7 @@ import { SafeHtmlPipe } from "./shared/pipes/safehtml.pipe";
     NgxSliderModule,
 
     MatPaginatorModule,
-    CKEditorModule,
+    // CKEditorModule,
     StoreModule.forRoot(
       { counterReducer },
       {

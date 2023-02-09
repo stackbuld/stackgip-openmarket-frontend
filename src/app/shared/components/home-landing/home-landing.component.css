@@ -11,7 +11,7 @@
 }
 
 .top-section {
-  display: flex;
+  display: flex;letter-spacing: normal;
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
