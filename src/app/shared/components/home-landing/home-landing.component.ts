@@ -1,8 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { NavbarComponent } from "../navbar/navbar.component";
-import { Meta,Title } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: "app-home-landing",
@@ -10,16 +9,18 @@ import { Meta,Title } from '@angular/platform-browser';
   styleUrls: ["./home-landing.component.css"],
 })
 export class HomeLandingComponent implements AfterViewInit, OnInit {
-  constructor(private http: HttpClient, private activeRoute: ActivatedRoute,private meta: Meta, private title: Title) {
+  constructor(private http: HttpClient, private activeRoute: ActivatedRoute, private meta: Meta, private title: Title) {
     this.meta.addTags([
-      {name: 'description', content: 'Rena market home landing page'},
-      {name: 'keywords', content: 'Rena market, Buy online, Sell online, Grow faster'}
+      { name: 'description', content: 'Renamarket best online platform to buy and sell securely with fast same day delivery' },
+      {
+        name: 'keywords', content: 'Rena market, Buy online, Sell online, Grow faster, Buy with crypto, E-commerce accepting Crypto, Fast delivery'
+      }
     ]);
-    this.setTitle('Home landing Page');
+    this.setTitle('Renamarket - Fastest and most secured platform to buy and sell');
   }
-  public setTitle( newTitle: string) {
-    this.title.setTitle( newTitle );
-    }
+  public setTitle(newTitle: string) {
+    this.title.setTitle(newTitle);
+  }
   @ViewChild('container') container: ElementRef<HTMLElement>;
 
   ngOnInit() { }
@@ -27,7 +28,7 @@ export class HomeLandingComponent implements AfterViewInit, OnInit {
   ngAfterViewInit(): void {
 
     this.activeRoute.params.subscribe(param => {
-      if(param.pageSec){
+      if (param.pageSec) {
         const section = this.container.nativeElement.querySelector(`#${param.pageSec}`)
         section?.scrollIntoView()
       }
