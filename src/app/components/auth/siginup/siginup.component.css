@@ -154,6 +154,10 @@ form {
   padding-bottom: 5px;
 }
 
+.mat-mdc-form-field-error {
+  display:inline;
+}
+
 @media only screen and (max-width: 769px) {
   .signup-main .signup-flex-container {
     display: block;
