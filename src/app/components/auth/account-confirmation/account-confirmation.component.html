@@ -5,12 +5,8 @@
         <img class="uk-img" width="300px" src="./assets/svg/auth.svg" />
       </div>
       <h1 class="">Confirm Your Account</h1>
-      <div
-        class="uk-text-center"
-        [class]="{ 'uk-alert-success': success, 'uk-alert-danger': !success }"
-        *ngIf="isSubmited"
-        uk-alert
-      >
+      <div class="uk-text-center" [class]="{ 'uk-alert-success': success, 'uk-alert-danger': !success }"
+        *ngIf="isSubmited" uk-alert>
         <a class="uk-alert-close" uk-close></a>
         <p>{{ message }}</p>
       </div>
@@ -21,15 +17,11 @@
           <div class="text-default uk-padding-small">
             <p class="uk-text-medium">{{ message }}</p>
             <span class="uk-text-muted">
-              logged as {{ userData.user.email }}
+              logged as {{ userData?.user?.email }}
               <a (click)="logout()"> logout</a>
             </span>
           </div>
-          <button
-            class="text-style-1"
-            class="btn-default"
-            (click)="resendConfimation()"
-          >
+          <button class="text-style-1" class="btn-default" (click)="resendConfimation()">
             Resend Confirmation Link
           </button>
 
