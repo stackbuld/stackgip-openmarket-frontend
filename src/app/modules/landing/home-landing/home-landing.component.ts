@@ -6,7 +6,7 @@ import { Meta, Title } from '@angular/platform-browser';
 @Component({
   selector: "app-home-landing",
   templateUrl: "./home-landing.component.html",
-  styleUrls: ["./home-landing.component.css"],
+  styleUrls: ["./home-landing.component.scss"],
 })
 export class HomeLandingComponent implements AfterViewInit, OnInit {
   constructor(private http: HttpClient, private activeRoute: ActivatedRoute, private meta: Meta, private title: Title) {

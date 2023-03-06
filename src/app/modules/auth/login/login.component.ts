@@ -71,21 +71,22 @@ export class LoginComponent implements OnInit {
       (res) => {
         if (res.status == "success") {
           if (res.data.canLogin === true) {
-            if (res.data.user.preferredProfileType.toLowerCase() === 'buyer') {
+            if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
+              this.ngxService.stopLoader("loader-01");
+              this.authService.SetAuthLocalStorage(res);
+              this.toast.success(res.message);
               if (res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' || 
                 res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' || 
                 res.data.user.sellerApprovalStatus.toLowerCase() === 'pending') {
-                  this.ngxService.stopLoader("loader-01");
-                  this.authService.SetAuthLocalStorage(res);
-                  this.toast.success(res.message);
                   this.router.navigate(["/seller/dashboard"]);
               } else {
-                this.ngxService.stopLoader("loader-01");
-                this.toast.error("Access Denied!");
+                this.router.navigate(["/"]);
               }
             } else {
               this.ngxService.stopLoader("loader-01");
-              this.toast.error("Access Denied!");
+              this.authService.SetAuthLocalStorage(res);
+              this.toast.success(res.message);
+              this.router.navigate(["/"]);
             }
           } else {
             this.toast.error("Please confirm your email address");
