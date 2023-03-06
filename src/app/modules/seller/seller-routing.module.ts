@@ -8,9 +8,6 @@ import { DashboardComponent } from './dashboard.component';
 import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
 import { OrderListComponent } from './seller-orders/order-list/order-list.component';
 import { SellerOrdersComponent } from './seller-orders/seller-orders.component';
-import { AddProductComponent } from './seller-product/add-product/add-product.component';
-import { SellerProductComponent } from './seller-product/seller-product.component';
-import { SellerStoreComponent } from './seller-store/seller-store.component';
 import { SellerShowCaseProductComponent } from './sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
 
 const routes: Routes = [
@@ -18,27 +15,6 @@ const routes: Routes = [
       children: [
         { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         { path: 'dashboard', component: SellerDashboardComponent },
-        {
-          path: 'products',
-          children: [
-            {
-              path: '',
-              component: SellerProductComponent,
-            },
-            {
-              path: 'add',
-              component: AddProductComponent,
-            },
-            {
-              path: 'add/:id',
-              component: AddProductComponent,
-            },
-            {
-              path: 'view/:id',
-              component: ViewProductComponent,
-            },
-          ],
-        },
         {
           path: 'orders',
           component: SellerOrdersComponent,
@@ -52,10 +28,6 @@ const routes: Routes = [
             //   component: OrderDetailComponent,
             // },
           ],
-        },
-        {
-          path: 'store',
-          component: SellerStoreComponent,
         },
         {
           path: 'sellerproduct/:sellerId',
@@ -79,6 +51,20 @@ const routes: Routes = [
             },
           ],
         },
+        {
+          path: 'products',
+          loadChildren: () =>
+            import('./seller-product/inventory.module').then(
+              (m) => m.InventoryModule
+            ),
+        },
+        {
+          path: 'store',
+          loadChildren: () =>
+            import('./seller-store/seller-store.module').then(
+              (m) => m.SellerStoreModule
+            ),
+        },
       ]
     },
     {
@@ -86,63 +72,6 @@ const routes: Routes = [
       redirectTo: '/seller/dashboard',
     },
 ];
-
-// {
-//   path: 'seller',
-//   canActivate: [AuthGuard],
-//   component: DashboardComponent,
-//   resolve: { data: sellerApproveStatusApproveRouteResolver },
-//   children: [
-//     {
-//       path: '',
-//       component: SellerDashboardComponent,
-//     },
-//     {
-//       path: 'dashboard',
-//       component: SellerDashboardComponent,
-//     },
-    // {
-    //   path: 'products',
-    //   // component: SellerProductComponent,
-    //   children: [
-    //     {
-    //       path: '',
-    //       component: SellerProductComponent,
-    //     },
-    //     {
-    //       path: 'add',
-    //       component: AddProductComponent,
-    //     },
-    //     {
-    //       path: 'add/:id',
-    //       component: AddProductComponent,
-    //     },
-    //     {
-    //       path: 'view/:id',
-    //       component: ViewProductComponent,
-    //     },
-    //   ],
-    // },
-//     {
-//       path: 'orders',
-//       component: SellerOrdersComponent,
-//       children: [
-//         {
-//           path: '',
-//           component: OrderListComponent,
-//         },
-//         // {
-//         //   path: "detail/:id/:user_id",
-//         //   component: OrderDetailComponent,
-//         // },
-//       ],
-//     },
-//     {
-//       path: 'store',
-//       component: SellerStoreComponent,
-//     },
-//   ],
-// },
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

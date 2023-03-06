@@ -21,7 +21,6 @@ import { TermsComponent } from './terms/terms.component';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ListProductComponent } from './list-product/list-product.component';
-import { OrderDetailComponent } from '../seller/seller-orders/order-detail/order-detail.component';
 import { SellerRegisterationFormComponent } from './seller-registeration-form/seller-registeration-form.component';
 import { OrderComponent } from './order/order.component';
 import { OrderInvoiceComponent } from '../../shared/components/order-invoice/order-invoice.component';

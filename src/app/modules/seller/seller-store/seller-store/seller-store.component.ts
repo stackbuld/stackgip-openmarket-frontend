@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
-import { CreateProductResponse } from "../../../models/products.model";
-import { ProductsService } from "../../../services/products/products.service";
+import { CreateProductResponse } from "../../../../models/products.model";
+import { ProductsService } from "../../../../services/products/products.service";
 
 @Component({
   selector: "app-seller-store",

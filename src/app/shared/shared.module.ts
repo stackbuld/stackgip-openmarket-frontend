@@ -1,3 +1,4 @@
+import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -39,6 +40,7 @@ import { InfiniteScrollComponent } from './infinite-scroll/Infinite-scroll.compo
 // import { ServicesComponent } from './components/services/services.component';
 @NgModule({
   declarations: [
+    SafeHtmlPipe,
     LoaderComponent, 
     SidebarHeaderDisplayComponent,
     NavbarComponent,
@@ -84,7 +86,8 @@ import { InfiniteScrollComponent } from './infinite-scroll/Infinite-scroll.compo
     AddToCartComponent,
     SliderComponent,
     NewProductListComponent,
-    InfiniteScrollComponent
+    InfiniteScrollComponent,
+    SafeHtmlPipe,
   ],
   providers: [
     {
