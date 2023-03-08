@@ -8,7 +8,7 @@
     uk-navbar
   >
     <div class="uk-navbar-left default-width">
-      <a class="uk-navbar-item uk-logo" [routerLink]="['/market-place']"
+      <a class="uk-navbar-item uk-logo" [routerLink]="['/']"
         ><img
         src="../../../../assets/image/quality-logo.svg"
         alt="RENA MARKET"
@@ -54,12 +54,15 @@
         </div> -->
 
       <div class="uk-navbar-right">
-        <!-- <button class="uk-button-default login">
-          <a href="login">Login</a>
-        </button> -->
-        <button class="uk-button uk-button-default uk-text-capitalize waitList" type="button" uk-toggle="target: #offcanvas-usage">
-          <a [routerLink]="['/wait-list']">Join waitlist</a>
-        </button>
+        <div class="the-btns">
+          <button class="uk-button uk-button-default uk-text-capitalize sell-btn" type="button">
+            <a (click)="sell()">Sell</a>
+          </button>
+          &nbsp;
+          <button class="uk-button uk-button-default uk-text-capitalize waitList" type="button">
+            <a [routerLink]="['/wait-list']">Join waitlist</a>
+          </button>
+        </div>
       </div>
     </div>
   </nav>

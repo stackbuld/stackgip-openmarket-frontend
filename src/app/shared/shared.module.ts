@@ -1,3 +1,7 @@
+import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
+import { RouterModule } from '@angular/router';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
@@ -24,10 +28,38 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { SidebarHeaderDisplayComponent } from "./components/sidebar-header-display/sidebar-header-display.component";
 import { WindowRefService } from "./services/window.service";
+import { HeaderComponent } from './components/header/header.component';
+import { SingleProductComponent } from '../modules/landing/products/single-product/single-product.component';
+import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
+import { ProductsComponent } from '../modules/landing/products/products.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { LayoutComponent } from './components/layout/layout.component';
+import { SliderComponent } from './components/slider/slider.component';
+import { NewProductListComponent } from './components/new-product-list/new-product-list.component';
+import { InfiniteScrollComponent } from './infinite-scroll/Infinite-scroll.component';
 // import { ServicesComponent } from './components/services/services.component';
 @NgModule({
-  declarations: [LoaderComponent, SidebarHeaderDisplayComponent],
-  imports: [CommonModule],
+  declarations: [
+    SafeHtmlPipe,
+    LoaderComponent, 
+    SidebarHeaderDisplayComponent,
+    NavbarComponent,
+    FooterComponent,
+    HeaderComponent,
+    SingleProductComponent,
+    AddToCartComponent,
+    LayoutComponent,
+    SliderComponent,
+    NewProductListComponent,
+    InfiniteScrollComponent
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    MatPaginatorModule,
+  ],
   exports: [
     HttpClientJsonpModule,
     MatSliderModule,
@@ -47,6 +79,15 @@ import { WindowRefService } from "./services/window.service";
     MatDatepickerModule,
     MatCheckboxModule,
     SidebarHeaderDisplayComponent,
+    NavbarComponent,
+    FooterComponent,
+    HeaderComponent,
+    SingleProductComponent,
+    AddToCartComponent,
+    SliderComponent,
+    NewProductListComponent,
+    InfiniteScrollComponent,
+    SafeHtmlPipe,
   ],
   providers: [
     {
