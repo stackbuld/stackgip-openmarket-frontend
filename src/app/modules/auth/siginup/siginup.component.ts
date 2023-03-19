@@ -24,12 +24,13 @@ import { MDCTextField } from '@material/textfield';
 @Component({
   selector: 'app-siginup',
   templateUrl: './siginup.component.html',
-  styleUrls: ['./siginup.component.css'],
+  styleUrls: ['./siginup.component.scss', '../login/login.component.scss'],
 })
 export class SiginupComponent implements OnInit {
   tokenSubscription = new Subscription();
   decodedJwt;
   hasError = false;
+  passwordType:  boolean
   errors: any[];
   googleAuth: any;
   // user: SocialUser;
@@ -61,11 +62,11 @@ export class SiginupComponent implements OnInit {
         lastname: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', [Validators.required]],
+        // confirmPassword: ['', [Validators.required]],
       },
-      {
-        validators: MustMatch('password', 'confirmPassword'),
-      }
+      // {
+      //   validators: MustMatch('password', 'confirmPassword'),
+      // }
     );
     // {validator: this.ctrlValidator.MustMatch('password', 'confirmPassword')});
 
@@ -76,6 +77,10 @@ export class SiginupComponent implements OnInit {
 
   get f() {
     return this.registerForm.controls;
+  }
+
+  showPassword() {
+    this.passwordType = !this.passwordType;
   }
 
   submit(): void {

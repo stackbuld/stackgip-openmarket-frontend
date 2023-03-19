@@ -1,154 +1,485 @@
-<!-- <div class="uk-visible@m">
-  <app-seller-header></app-seller-header>
-</div> -->
 <div class="">
-  <div class="top-segment">
-    <div class="top-section">
-      <h1 class="top-text">The marketplace to buy and sell awesome <span class="top-deco">products</span></h1>
-      <p class="box-text">Join the fastest moving online market square that connects millions of sellers and buyers at
-        ease.</p>
-      <button class="uk-button uk-button-default uk-text-capitalize waitList">
-        <a [routerLink]="['/wait-list']">Join the waitlist</a>
+  <nav class="uk-navbar-container lnd-page-pad uk-margin-medium-top uk-margin-medium-bottom display-default">
+      <div uk-navbar>
+        <div class="uk-navbar-left">
+          <img src="/assets/image/quality-logo.svg" alt="RENA MARKET" />
+        </div>
+
+        <div class="uk-navbar-center">
+          <ul class="uk-navbar-nav">
+            <li class="uk-active nav-text"><a href="#">Product</a></li>
+            <li class="nav-text"><a href="#features">Features</a></li>
+            <li class="nav-text"><a href="#about">About</a></li>
+            <li class="nav-text"><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="uk-navbar-right">
+          <div class="">
+            <button class="block-button" type="button">Sign Up</button>
+          </div>
+        </div>
+      </div>
+  </nav>
+
+  <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky" class="ds-none">
+    <div class="uk-navbar-container head" uk-navbar>
+      <div class="uk-navbar-left">
+        <a class="uk-navbar-item uk-logo navy space-ml" [routerLink]="['/']"><img
+            src="/assets/image/quality-logo.svg" alt="RENA MARKET" /></a>
+      </div>
+  
+      <div class="uk-navbar-right">
+        <div class="uk-button uk-button-default navy" uk-toggle="target: #offcanvas-flip"
+          style="border-color: transparent">
+          <div uk-navbar-toggle-icon></div>
+        </div>
+  
+        <div id="offcanvas-flip" uk-offcanvas="overlay: true">
+          <div class="uk-offcanvas-bar">
+            <div class="up-navBar">
+              <div class="uk-navbar-left">
+                <a class="uk-navbar-item uk-logo navy" href="#"><img src="../../../../assets/image/quality-logo.svg"
+                    alt="RENA MARKET" width="90" /></a>
+              </div>
+              <div uk-offcanvas-bar>
+                <button class="uk-offcanvas-close" type="button" uk-close></button>
+              </div>
+            </div>
+  
+  
+            <ul class="mobile-side-menu">
+              <li>
+                <a [routerLink]="['/']">
+                  <span class="uk-icon uk-margin-small-right" data-uk-tooltip title=" coming soon"></span>
+                  Product
+                </a>
+              </li>
+              <li>
+                <a href="#features">
+                  <span class="uk-icon uk-margin-small-right"></span>
+                  Features
+                </a>
+              </li>
+              <li>
+                <a href="#about">
+                  <span class="uk-icon uk-margin-small-right"></span>
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="#contact">
+                  <span class="uk-icon uk-margin-small-right"></span>
+                  Contact
+                </a>
+              </li>
+            </ul>
+            <div class="uk-navbar-right">
+              <button class="uk-button uk-button-default uk-text-capitalize waitList" type="button"
+                uk-toggle="target: #offcanvas-usage">
+                <a [routerLink]="['/wait-list']">Sign Up</a>
+              </button>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <section class="two-sides-sec">
+    <div class="w-50 pl-6">
+      <h1 class="top-text">The Fastest Online <span class="top-deco">Marketplace</span> to Buy and Sell With Ease.</h1>
+      <div class="top-subtext uk-margin-small-bottom">At Renamarket, our goal is to connect buyers and sellers in an instant, create a seamless
+        online shopping experience for customers, and provide the best prices for a variety of products.</div>
+      <button class="uk-button uk-button-default uk-text-capitalize waitList mt-2">
+        Get Started
       </button>
     </div>
-    <div class="image-wrapper">
-      <img class="image-one" src="../../../../assets/image/Rectangle 706.svg" alt="" />
-      <img class="image-two"
-        src="../../../../assets/image/young-woman-shopping-with-colorful-packs-blue-wall_155003-26325 1.svg" alt="" />
-      <img class="image-three" src="../../../../assets/image/Rectangle 703.svg" alt="" />
+    <div class="w-50 display-default">
+      <img class="" src="/assets/image/main-right-img.svg" alt="right-Image" />
     </div>
-  </div>
+  </section>
 
-  <div class="features-wrapper" #container>
-    <h2 class="features-heading less-margin-top" id="whybuy">Why Buy on Rena Market?</h2>
-    <div class="rena-box-wrapper1">
-      <div class="rena-box">
-        <img class="box-image" src="../../../../assets/image/Group 604.svg" alt="">
-        <h4 class="box-heading">Multiple Payment Options</h4>
-        <p class="box-text">We offer multiple payment option, and different currencies, including cryptocurrency and
-          web3 </p>
-      </div>
-      <div class="rena-box">
-        <img class="box-image" src="../../../../assets/image/Group 603.svg" alt="">
-        <h4 class="box-heading">Fast and Same-Day Delivery</h4>
-        <p class="box-text">We offer same-day or next-day delivery when you shop on renamarket</p>
-      </div>
-      <div class="rena-box">
-        <img class="box-image" src="../../../../assets/image/Group 604.svg" alt="" style="margin-bottom: 10px;">
-        <h4 class="box-heading" style="margin-bottom: 5px;">Easy Refund</h4>
-        <p class="box-text">Get refunds as easily as possible with a good reason, without any issue</p>
-      </div>
-      <div class="rena-box">
-        <img class="box-image" src="../../../../assets/image/Group 628.svg" alt="">
-        <h4 class="box-heading">Secured and Trusted</h4>
-        <p class="box-text">We promote trust and quality. We ensure you get quality products and zero tolerance of fraud
-          or deceit.</p>
-      </div>
-    </div>
-  </div>
-  
-  <div class="features-wrapper">
-    <h2 class="features-heading">Why Sell on Rena Market?</h2>
-  </div>
+  <section class="lnd-page-pad">
 
-  <div class="mainer">
-    <div class="boxers">
-      <img class="box-image" src="../../../../assets/image/Group 603.svg" alt="">
-      <h4 class="box-heading">Smooth Logistic</h4>
-      <p class="box-text">We provide seamless and professional logistic to fasten your sales and you dont have to worry
-        about the cost.</p>
-    </div>
-    <div class="boxers">
-      <img class="box-image" src="../../../../assets/image/Group 604.svg" alt="">
-      <h4 class="box-heading">Multi-Currency Payout</h4>
-      <p class="box-text">Get your money in any currency, we offer wide range of currencies and cryptocurrency to cash out from,
-        never get stuck on one currency and beat inflation.</p>
-    </div>
-    <div class="boxers">
-      <img class="box-image" src="../../../../assets/image/Group 604 (1).svg" alt="">
-      <h4 class="box-heading">Sell 10X Faster</h4>
-      <p class="box-text">We ensure your product get seen by the right customer, with our marketing strategy and A.I, we
-        help you sell your product faster.</p>
-    </div>
-    <div class="boxers">
-      <img class="box-image" src="../../../../assets/image/Group 604 (1).svg" alt="">
-      <h4 class="box-heading">Product Recommendation</h4>
-      <p class="box-text">Know what your customer wants, we provide recommendations on what to sell to boost your
-        business, eliminate waste and loss.</p>
-    </div>
-    <div class="boxers">
-      <img src="../../../../assets/image/Group 604.svg" alt="">
-      <h4 class="box-heading">Zero Fee and Free</h4>
-      <p class="box-text">Start Selling for free,  Zero commission, Zero listing, Zero Hidden charges, Just upload
-        product and sell freely</p>
-    </div>
-  </div>
+    <!-- WHY BUY ON REN-MARKET -->
+    <section>
+      <div class="features-wrapper">
+        <h2 class="features-heading">Why Buy on Rena Market?</h2>
+      </div>
 
-  <div class="new-flex">
-    <div class="bottom-section">
-      <h2 class="bottom-heading text-top">Product Recommendation to sell</h2>
-      <p class="bottom-text1">Get amazing product recommendation to sell and for customers to use your product</p>
-    </div>
-    <div class="image-group">
-      <div class="left-group">
-        <img src="../../../../assets/image/Rectangle 707.svg" alt="">
-        <img src="../../../../assets/image/Rectangle 709.svg" alt="">
-      </div>
-      <div class="right-group">
-        <img src="../../../../assets/image/Rectangle 708.svg" alt="">
-        <img src="../../../../assets/image/Rectangle 710.svg" alt="">
-      </div>
-    </div>
-  </div>
-  
-  <div class="benefits">
-    <div class="waitList_benefit">
-      <p class="benefit_heading">Benefits of Joining Waitlist</p>
-      <div class="waitList_benefit_wrapper">
-        <div class="benefit_wrapper">
-          <img src="../../../../assets/image/New Group 603.svg" alt="">
-          <p class="benefit_text">Free delivery on 5 orders</p>
+      <div class="mainer">
+        <div class="boxers">
+          <img class="box-image" src="/assets/icons/verify-green-icon.svg" alt="icon">
+          <h4 class="box-heading">Variety of Products</h4>
+          <p class="box-text">We provide a market for every product and allow buyers find almost anything ranging from
+            consumable to non perishable goods at the best prices.</p>
         </div>
-        <hr>
-        <div class="benefit_wrapper">
-          <img src="../../../../assets/image/New Group 610.svg" alt="">
-          <p class="benefit_text">10% Delivery Discount on your next 5 orders </p>
+        <div class="boxers">
+          <img class="box-image" src="/assets/image/Group 603.svg" alt="icon">
+          <h4 class="box-heading">Ultra-Fast Delivery</h4>
+          <p class="box-text">No more shopping delays! Buy and have your item delivered to you the same day.</p>
         </div>
-      </div>
-    </div>
-    <div class="referral_benefit">
-      <p class="benefit_heading">Benefits of Referrals</p>
-      <div class="referral_benefit_wrapper">
-        <div class="benefit_wrapper">
-          <img src="../../../../assets/image/New Group 611.svg" alt="">
-          <p class="benefit_text">You get 2% of what your referral purchased  </p>
+        <div class="boxers">
+          <img class="box-image" src="/assets/image/Group 604.svg" alt="icon">
+          <h4 class="box-heading">Multiple Payment Options</h4>
+          <p class="box-text">We accept a good range of payment options from credit or debit cards to digital currencies
+            for a more seamless shopping experience</p>
         </div>
-        <hr>
-        <div class="benefit_wrapper">
-          <img src="../../../../assets/image/New Group 604.svg" alt="">
-          <p class="benefit_text">You get 10%  discount on any product for 5 orders </p>
+        <div class="boxers">
+          <img class="box-image" src="/assets/image/Group 604.svg" alt="icon">
+          <h4 class="box-heading">Quick Refunds</h4>
+          <p class="box-text">Full payment refunds are processed within 2 -5 days of purchase on items that meet our
+            refund requirement.</p>
         </div>
-        <hr>
-        <div class="benefit_wrapper">
-          <img src="../../../../assets/image/New Group 610.svg" alt="">
-          <p class="benefit_text">You get  2000 NGN, for every successful referral that signs up</p>
+        <div class="boxers">
+          <img src="/assets/icons/safty-icon.svg" alt="icon">
+          <h4 class="box-heading">Safety</h4>
+          <p class="box-text">We ensure all sellers are checked and verified to avoid fraudulent activities. With our
+            in-built tracking system, you can readily track the status of your order.</p>
         </div>
       </div>
+    </section>
+
+    <!-- WHY SELL ON REN-MARKET -->
+    <section>
+      <div class="features-wrapper">
+        <h2 class="features-heading">Why Sell on Rena Market?</h2>
+      </div>
+
+      <div class="mainer">
+        <div class="boxers">
+          <img class="box-image" src="/assets/image/Group 604.svg" alt="icon">
+          <h4 class="box-heading">Zero Fee & Commission</h4>
+          <p class="box-text">Business owners can sell on Rena market for no cost at all. Simply register, upload your
+            product, and start selling!</p>
+        </div>
+        <div class="boxers">
+          <img class="box-image" src="/assets/image/Group 604 (1).svg" alt="icon">
+          <h4 class="box-heading">Increased Sales and Visibility</h4>
+          <p class="box-text">Offer your unique product to millions of customers on Rena market for increased sales.
+            With
+            our improved artificial intelligence system and data-driven strategy, we will help your customers find you
+            and
+            provide the boost your business needs for growth.</p>
+        </div>
+        <div class="boxers">
+          <img class="box-image" src="/assets/image/Group 603.svg" alt="icons">
+          <h4 class="box-heading">Fast Product Delivery</h4>
+          <p class="box-text">We partner with multiple credible logistics companies to offer cheap and fast delivery
+            services on all products purchased on Renamarket for maximum customer satisfaction.</p>
+        </div>
+        <div class="boxers">
+          <img class="box-image" src="/assets/image/Group 604.svg" alt="icons">
+          <h4 class="box-heading">Flexible Payout Options</h4>
+          <p class="box-text">Get paid for your sales easily on Renamarket with our flexible payment options in local,
+            foreign, or digital currencies.</p>
+        </div>
+        <div class="boxers">
+          <img src="/assets/image/Group 604 (1).svg" alt="icon">
+          <h4 class="box-heading">Product Recommendation</h4>
+          <p class="box-text">Grow your business with our analytic tool that provides up-to-date data on customer search
+            and purchase behaviour, identifies customer demands and makes recommendations on new products to meet their
+            needs.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WAITLIST AND REFERRAL -->
+    <section>
+      <div style="background: #FFF4E5; border-radius: 20px; margin-top: 2rem;">
+        <div class="features-wrapper">
+          <h2 class="features-heading">Refer and Earn Today</h2>
+          <div class="features-subtext">You can make money off the first purchase of every friend you invite to Rena
+            market. The more <br />
+            people you refer, the more money you earn!</div>
+        </div>
+
+        <div class="benefits">
+          <div class="waitList_benefit">
+            <p class="benefit_heading">Benefits of Joining Waitlist</p>
+            <div class="waitList_benefit_wrapper">
+              <div class="benefit_wrapper">
+                <img src="/assets/image/New Group 603.svg" alt="">
+                <p class="benefit_text">Buyers get access to exclusive deals and discounts on a variety of products</p>
+              </div>
+              <hr>
+              <div class="benefit_wrapper">
+                <img src="/assets/image/New Group 611.svg" alt="">
+                <p class="benefit_text">Free technical assistance for sellers from our support team to launch, manage,
+                  and
+                  grow your business on Rena market</p>
+              </div>
+              <hr>
+              <div class="benefit_wrapper">
+                <img src="/assets/image/New Group 610.svg" alt="">
+                <p class="benefit_text">Business insights for sellers on consumer behaviour and purchase patterns.</p>
+              </div>
+              <hr>
+              <div class="benefit_wrapper">
+                <img src="/assets/icons/orange-cash-icon.svg" alt="">
+                <p class="benefit_text">Free business promotion and product marketing for sellers</p>
+              </div>
+            </div>
+          </div>
+          <div class="referral_benefit">
+            <p class="benefit_heading">Benefits of Referrals</p>
+            <div class="waitList_benefit_wrapper">
+              <div class="benefit_wrapper">
+                <img src="../../../../assets/image/New Group 611.svg" alt="">
+                <p class="benefit_text">You get 2000 NGN for every successful signup using your referral link</p>
+              </div>
+              <hr>
+              <div class="benefit_wrapper">
+                <img src="../../../../assets/image/New Group 604.svg" alt="">
+                <p class="benefit_text">You get 10% discount on 5 orders for any product</p>
+              </div>
+              <hr>
+              <div class="benefit_wrapper">
+                <img src="../../../../assets/image/New Group 610.svg" alt="">
+                <p class="benefit_text">You become a part of the Rena market community gaining access to exclusive
+                  information and business insights.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- START SELLING -->
+    <section>
+      <div class="two-sides-sec mt-2">
+        <div class="w-45 order-A">
+          <h2 class="two-sides-header">Start selling today</h2>
+          <p class="two-sides-subtext">Get amazing product recommendation to sell and for customers to use your product
+          </p>
+          <div class="bottom-section mt-2">
+            <button class="uk-button uk-button-default uk-text-capitalize waitList">Sign Up</button>
+          </div>
+        </div>
+        <div class="w-45 order-B">
+          <div>
+            <img src="/assets/images/watch-image.svg" alt="icon-watch">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT US -->
+    <div id="about">
+      <div class="two-sides-sec mt-2">
+        <div class="w-45">
+          <div>
+            <img src="/assets/images/lady-yellow-bag.svg" alt="icon-watch">
+          </div>
+        </div>
+
+        <div class="w-45">
+          <div>
+            <h2 class="two-sides-header">About Us</h2>
+            <p class="two-sides-subtext">Rena market is Nigeria’s fastest retail shopping platform that uses a diverse
+              network system to connect buyers and sellers. We provide a secure network for SMEs to promote their
+              products and grow their business whilst providing a seamless online shopping experience for customers.
+              We cater to a large retail customer base offering products across various categories like phones,
+              computers, electronics, fashion items, baby products, and so much more at the best market prices.
+              We seek to mitigate the risks in business by providing a secure platform, eliminating the problems of
+              delayed delivery, counterfeit products, fraudulent activities, and customer dissatisfaction.
+              Our offering features a user-friendly and secure platform for buyers and sellers to conduct their
+              transactions, a network of verified sellers, a team of trained experts, and a promise of fast delivery
+              services for customer satisfaction.
+              As a company, we are committed to continuously finding innovative ways to improve our quality of service
+              and customers’ shopping experience.</p>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
-  <div class="new-flex-2">
-    <div class="buttom-image-wrapper">
-      <img class="buttom-image-one" src="../../../../assets/image/Rectangle 706.svg" alt="">
-      <img class="buttom-image-two"
-        src="../../../../assets/image/young-black-lady-holding-shopping-bags-feeling-excited_181624-32959 1.svg" alt="">
+
+    <!-- OUR MISSION AND VISION -->
+    <section>
+      <div class="two-sides-sec mt-2">
+        <div class="w-45 order-A">
+          <div>
+            <h2 class="two-sides-header">Our Mission</h2>
+            <p class="two-sides-subtext">To provide fast and easy online shopping experience to customers at the best
+              market prices</p>
+          </div>
+
+          <div class="mt-2">
+            <h2 class="two-sides-header">Our Vision</h2>
+            <p class="two-sides-subtext">To be Africa’s biggest e-commerce hub helping SMEs grow and promote their
+              business on a global scale.
+              To build a network that improves the overall retail shopping experience for customers worldwide.
+              To be a large contributor to the economic growth of Africa.</p>
+          </div>
+
+        </div>
+        <div class="w-45 order-B">
+          <div>
+            <img src="/assets/images/canvas-image.svg" alt="icon-watch">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CULTURE AND VALUES -->
+    <section>
+      <div class="two-sides-sec mt-2">
+        <div class="w-45">
+          <div>
+            <img src="/assets/images/lady-blue-bag.svg" alt="icon-watch">
+          </div>
+        </div>
+
+        <div class="w-45">
+          <div>
+            <h2 class="two-sides-header">Culture and Values</h2>
+            <p class="two-sides-subtext">Rena market is Nigeria’s fastest retail shopping platform that uses a diverse
+              network system to connect buyers and sellers. We provide a secure network for SMEs to promote their
+              products and grow their business whilst providing a seamless online shopping experience for customers.
+              We cater to a large retail customer base offering products across various categories like phones,
+              computers, electronics, fashion items, baby products, and so much more at the best market prices.
+              We seek to mitigate the risks in business by providing a secure platform, eliminating the problems of
+              delayed delivery, counterfeit products, fraudulent activities, and customer dissatisfaction.
+              Our offering features a user-friendly and secure platform for buyers and sellers to conduct their
+              transactions, a network of verified sellers, a team of trained experts, and a promise of fast delivery
+              services for customer satisfaction.
+              As a company, we are committed to continuously finding innovative ways to improve our quality of service
+              and customers’ shopping experience.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FEATURE -->
+    <section id="features">
+      <div class="features-wrapper">
+        <h2 class="features-heading">Features</h2>
+      </div>
+
+      <div class="">
+        <div class="justify-cont-btw ">
+          <div class="justify-cont-btw">
+            <div class="display-center small-box">
+              <img class="small-box-image" src="/assets/icons/one-person-icon.svg" alt="icon">
+              <h4 class="small-box-heading mt-1">User- Friendly Platform</h4>
+              <p class="small-box-subtext">Our platform features the best user experience for both buyers and sellers to
+                perform
+                their business transactions effectively.</p>
+            </div>
+
+            <div class="display-center small-box">
+              <img class="small-box-image" src="/assets/icons/two-person-icon.svg" alt="icon">
+              <h4 class="small-box-heading mt-1">Expert Service Providers</h4>
+              <p class="small-box-subtext">For business owners, we have a team of technical experts ready to help you
+                get started
+                on Renamarket for product promotion and to grow your business. From setting up your brand store, to
+                product listing, and shooting great images for your products to increase sales.</p>
+            </div>
+          </div>
+
+          <div class="justify-cont-btw">
+            <div class="display-center small-box">
+              <img class="small-box-image" src="/assets/icons/arrow-up-icon.svg" alt="icon">
+              <h4 class="small-box-heading mt-1">Brand Analytics</h4>
+              <p class="small-box-subtext">With the Renamarket analytic tools, you can learn how to better serve your
+                customers
+                by analyzing your store’s key metrics like sales, visits, page views, and traffic sources.</p>
+            </div>
+
+            <div class="display-center small-box">
+              <img class="small-box-image" src="/assets/icons/safty-icon.svg" alt="icon">
+              <h4 class="small-box-heading mt-1">Security</h4>
+              <p class="small-box-subtext">We provide a secure network for sellers to promote their business using
+                advanced
+                programming and powerful tools to protect their intellectual property.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="display-center flex-col mt-1">
+          <div class="justify-cont-btw">
+            <div class="display-center small-box">
+              <img class="small-box-image" src="/assets/image/Group 604 (1).svg" alt="icon">
+              <h4 class="small-box-heading mt-1">Quality</h4>
+              <p class="small-box-subtext">Customer satisfaction is our priority and with our network of verified
+                sellers, we
+                make available quality and top-notch products for customers.</p>
+            </div>
+            <div class="display-center small-box">
+              <img class="small-box-image" src="/assets/icons/checked-icon.svg" alt="icon">
+              <h4 class="small-box-heading mt-1">Affordable Pricing</h4>
+              <p class="small-box-subtext">Rena market is the home for a variety of products available for you to shop
+                at the
+                best market prices.</p>
+            </div>
+          </div>
+
+          <div class="justify-cont-btw">
+            <div class="display-center small-box">
+              <img class="small-box-image" src="/assets/image/Group 603.svg" alt="icon">
+              <h4 class="small-box-heading mt-1">Delivery Service</h4>
+              <p class="small-box-subtext">Our core promise to customers is fast and reliable delivery. We boast of
+                well-equipped
+                and trained professionals who make it possible to deliver optimum customer satisfaction.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEED HELP? -->
+    <section id="contact">
+      <div style="background: #000000; border-radius: 20px; margin: 4rem 0rem; padding-bottom: 2.5rem;">
+        <div class="features-wrapper">
+          <h2 class="features-heading" style="color:#ffffff">Need Help?</h2>
+          <div class="features-subtext" style="color:#ffffff">Check our customer support page for complaints <br />
+            and refund policies.</div>
+        </div>
+        <div class="mt-2 display-center">
+          <button class="ouline-button pointer">Contact Us</button>
+        </div>
+      </div>
+    </section>
+
+  </section>
+
+  <!-- JOIN OUR COMMUNITY -->
+  <section class="join-comm">
+    <div>
+      <div class="features-wrapper">
+        <div class="features-heading">Join Our Community</div>
+      </div>
+      <div class="display-center mt-1">
+        <div class="box-text">Join the fastest moving e-commerce platform where buying and selling is made easy and
+          stress- <br />free for you. Subscribe to our mailing list for exclusive resources, deals and bonuses.</div>
+      </div>
+      <div class="display-center mt-2">
+        <div class="mr-1 pointer">
+          <img class="" src="/assets/icons/black-facebook.svg" alt="fb">
+        </div>
+
+        <div class="mr-1 pointer">
+          <img class="" src="/assets/icons/black-twitter.svg" alt="twt">
+        </div>
+
+        <div class="mr-1 pointer">
+          <img class="" src="/assets/icons/black-IG.svg" alt="ig">
+        </div>
+
+        <div class="mr-1 pointer">
+          <img class="" src="/assets/icons/black-youtube.svg" alt="youtube">
+        </div>
+
+        <div>
+          <img class="pointer" src="/assets/icons/black-linkedin.svg" alt="lnk">
+        </div>
+
+      </div>
     </div>
-    <div class="bottom-section">
-      <h2 class="bottom-heading">Grow faster</h2>
-      <p class="bottom-text">Do you want easy-to-use marketing store to grow your business fast? You got it.</p>
-      <button class="uk-button uk-button-default uk-text-capitalize waitList-botton">
-        <a [routerLink]="['/wait-list']">Join the waitlist</a>
-      </button>
-    </div>
-  </div>
+  </section>
 </div>
-<app-footer></app-footer>

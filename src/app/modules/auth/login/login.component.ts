@@ -32,10 +32,11 @@ import { JwtHelperService } from "../../../services/jwt-helper.service";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"],
+  styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
   hasError = false;
+  passwordType:  boolean
   errors: any[] = [];
   errorMessage: string = "";
   loginForm: FormGroup;
@@ -52,7 +53,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private ngxService: NgxUiLoaderService,
     private jwtHelperService: JwtHelperService
-  ) {}
+  ) { }
 
   get f() {
     return this.loginForm.controls;
@@ -65,6 +66,10 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  showPassword() {
+    this.passwordType = !this.passwordType;
+  }
+
   login(): void {
     this.ngxService.startLoader("loader-01");
     this.authService.signIn(this.loginForm.value).subscribe(
@@ -75,10 +80,10 @@ export class LoginComponent implements OnInit {
               this.ngxService.stopLoader("loader-01");
               this.authService.SetAuthLocalStorage(res);
               this.toast.success(res.message);
-              if (res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' || 
-                res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' || 
+              if (res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
+                res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
                 res.data.user.sellerApprovalStatus.toLowerCase() === 'pending') {
-                  this.router.navigate(["/seller/dashboard"]);
+                this.router.navigate(["/seller/dashboard"]);
               } else {
                 this.router.navigate(["/"]);
               }

@@ -6,105 +6,82 @@
         <div class="login-back-btn">
           <a [routerLink]="['']" onclick="UIkit.modal('#modal-auth').hide()">
             <div class="login-back">
-              <img
-                src="https://cdn.iconscout.com/icon/free/png-512/back-arrow-1767531-1502435.png"
-                alt="go-back"
-              />
+              <img src="https://cdn.iconscout.com/icon/free/png-512/back-arrow-1767531-1502435.png" alt="go-back" />
               Go Home
             </div>
           </a>
         </div>
         <div class="login-form-header">
-          <h1 class="open-market-lg">
-            <img
-              src="../../../../assets/logos/Rena-Market-Transparent-WHT-2.png"
-              alt="RENA MARKET"
-              width="200"
-            />
-          </h1>
-          <h2>Welcome Back!</h2>
-          <p>Login into your account...</p>
+          <div class="login-tiltle uk-margin-small-bottom uk-margin-small-top">Welcome Back!</div>
+          <div class="login-subtitle uk-margin-large-bottom">Login into your account...</div>
           <div class="login-form">
-            <h1 class="open-market-sm">
-              <img
-                src="../../../../assets/logos/Rena-Market-Transparent-WHT-2.png"
-                alt="RENA MARKET"
-                width="200"
-              />
-            </h1>
+
             <form [formGroup]="loginForm" (ngSubmit)="login()" id="form">
-              <p>
-                <mat-form-field appearance="outline">
-                  <mat-label>Email Address</mat-label>
-                  <input
-                    matInput
-                    placeholder="example@email.com"
-                    type="email"
-                    formControlName="email"
-                    required
-                  />
-                  <mat-error *ngIf="message != '' && hasError == false">{{
-                    message
-                  }}</mat-error>
-                  <mat-error *ngFor="let i of errors">
-                    {{ i }} <br />
-                  </mat-error>
-                  <mat-error *ngIf="errorMessage != ''">{{
-                    errorMessage
-                  }}</mat-error>
-                  <mat-error
-                    *ngIf="
+
+              <mat-form-field appearance="outline">
+                <mat-label>Email Address</mat-label>
+                <div class="d-flex">
+                  <input matInput placeholder="example@email.com" type="email" formControlName="email" required />
+                <span *ngIf="f.email.valid">
+                  <img src="assets/icons/success-check.svg" alt="check" />
+                </span>
+                </div>
+              </mat-form-field>
+              <Section class="error-sec">
+                <div *ngIf="message != '' && hasError == false">{{
+                  message
+                  }}</div>
+                <div *ngFor="let i of errors">
+                  {{ i }} <br />
+                </div>
+                <div *ngIf="errorMessage != ''">{{
+                  errorMessage
+                  }}</div>
+                <div *ngIf="
                       f.email.invalid && (f.email.dirty || f.email.touched)
-                    "
-                  >
-                    <mat-error *ngIf="f.email.errors.required">
-                      Email required
-                    </mat-error>
-                    <mat-error *ngIf="f.email.errors.email">
-                      Valid email required
-                    </mat-error>
-                  </mat-error>
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field appearance="outline">
-                  <mat-label>Password</mat-label>
-                  <input
-                    matInput
-                    placeholder="********"
-                    type="password"
-                    formControlName="password"
-                    required
-                  />
-                  <mat-error
-                    *ngIf="
+                    ">
+                  <div *ngIf="f.email.errors.required">
+                    Email required
+                  </div>
+                  <div *ngIf="f.email.errors.email">
+                    Valid email required
+                  </div>
+                </div>
+              </Section>
+
+
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <div class="d-flex">
+                  <input matInput placeholder="********" [type]=" passwordType ?  'text' : 'password'" formControlName="password" required />
+                <span (click)="showPassword()">
+                  <img src="assets/icons/eye-open.svg" alt="check" />
+                </span>
+                </div>
+              </mat-form-field>
+
+              <section class="error-sec">
+                <div *ngIf="
                       f.password.invalid &&
                       (f.password.dirty || f.password.touched)
-                    "
-                  >
-                    <mat-error *ngIf="f.password.errors.required">
-                      Password required <br />
-                    </mat-error>
-                    <mat-error *ngIf="f.password.errors.minLength">
-                      Password should be at least 6 characters <br />
-                    </mat-error>
-                  </mat-error>
-                </mat-form-field>
-              </p>
-              <p class="text-right">
-                <a
-                  routerLink="/auth/forget-password"
-                  onclick="UIkit.modal('#modal-auth').hide()"
-                  class="login-forgot"
-                >
-                  Forgot password?
-                </a>
-              </p>
-              <p>
-                <button [disabled]="loginForm.invalid" class="uk-button uk-width-1-1 login-btn1" type="submit">
-                  Login
-                </button>
-              </p>
+                    ">
+                  <div *ngIf="f.password.errors.required">
+                    Password required <br />
+                  </div>
+                  <div *ngIf="f.password.errors.minLength">
+                    Password should be at least 6 characters <br />
+                  </div>
+                </div>
+              </section>
+
+              <div routerLink="/auth/forget-password" onclick="UIkit.modal('#modal-auth').hide()" class="login-forgot">
+                Forgot password?
+              </div>
+
+              <button [disabled]="loginForm.invalid" class="uk-button uk-width-1-1 login-btn1" type="submit">
+                Login
+              </button>
+
             </form>
             <div id="login-or">
               <div class="login-hr1"></div>
@@ -113,30 +90,18 @@
             </div>
 
             <div id="login-btn">
-              <button
-                class="uk-button login-btn2"
-                (click)="this.authService.signInWithGoogle()"
-              >
-                <img
-                  src="https://res.cloudinary.com/mindset/image/upload/v1625917475/google__1_epmkfp.png"
-                  alt=""
-                  class="login-img-1"
-                />
+              <button class="uk-button login-btn2" (click)="this.authService.signInWithGoogle()">
+                <img src="https://res.cloudinary.com/mindset/image/upload/v1625917475/google__1_epmkfp.png" alt=""
+                  class="login-img-1" />
               </button>
-              <button
-                class="uk-button login-btn2"
-                (click)="this.authService.signInWithFacebook()"
-              >
-                <img
-                  src="https://res.cloudinary.com/mindset/image/upload/v1625923180/facebook__uzmrzq.png"
-                  alt=""
-                  class="login-img-1"
-                />
+              <button class="uk-button login-btn2" (click)="this.authService.signInWithFacebook()">
+                <img src="https://res.cloudinary.com/mindset/image/upload/v1625923180/facebook__uzmrzq.png" alt=""
+                  class="login-img-1" />
               </button>
             </div>
-            <h6 class="signup-route">
-              Don't have an account? <a routerLink="/auth/signup">Register</a>
-            </h6>
+            <div class="signup-route">
+              Don't have an account? <a class="fw-500" routerLink="/auth/signup">Register</a>
+            </div>
           </div>
         </div>
       </div>
