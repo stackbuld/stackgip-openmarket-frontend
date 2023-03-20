@@ -3,22 +3,61 @@
   height: 100vh;
 }
 
+.overflow-y-hidden {
+  overflow-y: hidden;
+}
+
+.w-55 {
+  width: 55%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+input[type=radio]#select {
+  accent-color:#000000;
+}
+
+.radio-text{
+  font-weight: 400;
+font-size: 16px;
+line-height: 20px;
+color: #666666
+}
+
+.subText {
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 20px;
+  color: #333333;
+}
+
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
 .form-img,
 .form {
   width: 50%;
-  height: 100%;
+  height: 100vh;
 }
 
 .form-img {
-  min-width: 350px;
-  height: 100%;
-  background-image: url("../../../../assets/images/seller-registration.png");
+  /* min-width: 350px; */
+  height: 100vh;
+  background-image: url("../../../../assets/images/seller-registration.svg");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 .form {
-  height: 100vh !important;
+  height: 90vh !important;
   padding: 50px 30px;
   overflow-y: scroll;
 }
@@ -37,29 +76,41 @@
 
 .go-back {
   cursor: pointer;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
+  padding: 0 2.5rem;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  color: #333333;
 }
 
 .go-back img {
-  width: 20px;
-  display: block;
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
 }
 
 .form-heading {
+  font-weight: 750;
+  font-size: 32px;
+  line-height: 38px;
   text-align: center;
+  color: #333333;
 }
 
-.form-heading .bold {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
+.form-subtext {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  color: #333333;
 }
 
 form {
-  margin-top: 50px;
-  width: 80%;
+  margin-top: 30px;
+  padding: 0 2.5rem;
   margin-inline: auto;
 }
 
@@ -98,19 +149,22 @@ form {
   display: block;
   color: rgba(51, 51, 51, 0.8);
 }
+
 .form-group label.invalid {
   color: red;
 }
 
 .form-group input {
-  border: 2px solid rgba(51, 51, 51, 0.3);
+  /* border: 2px solid rgba(51, 51, 51, 0.3); */
   border-radius: 5px;
-  padding: 13px 20px;
+  /* padding: 13px 20px; */
   width: 100%;
 }
+
 .form-group input:focus {
   outline: none;
 }
+
 .form-group input.ng-invalid.ng-touched {
   border: 2px solid red;
 }
@@ -118,12 +172,14 @@ form {
 .form-group input#logo-input {
   cursor: pointer;
 }
+
 .form-group select {
   border: 2px solid rgba(51, 51, 51, 0.3);
   border-radius: 5px;
   padding: 13px 20px;
   width: 100%;
 }
+
 .form-group select:focus {
   outline: none;
 }
@@ -154,6 +210,7 @@ form {
   margin-top: 20px;
   transition: all 300ms ease-in-out;
 }
+
 .reg-btn:hover {
   background: grey;
 }
@@ -164,6 +221,7 @@ form {
     background: white;
     padding: 50px 0;
   }
+
   .form-container {
     height: 100%;
   }

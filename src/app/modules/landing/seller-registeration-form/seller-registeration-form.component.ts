@@ -103,15 +103,29 @@ export class SellerRegisterationFormComponent
     this.sellerRegFormGroup = this.fb.group({
   userId: ['', Validators.required],
   businessName: ['', Validators.required],
+  businessPhoneNumber: ['', Validators.required],
+  businessEmailAddress: ['', [Validators.required, Validators.email]],
   businessDescription: ['', Validators.required],
   businessAddress: ['', Validators.required],
+  businessCountry: ['', Validators.required],
+  businessCity: ['', Validators.required],
+  businessState: ['', Validators.required],
+  businessType: ['', Validators.required],
   businessLogo: [''],
   businessRegistrationNumber: ['', Validators.required],
-  street: ['', Validators.required],
-  lga: ['', Validators.required],
+
+  personalEmailAddress: ['', [Validators.required, Validators.email]],
+  personalPhoneNumber: ['', Validators.required],
+  personalIDType: ['', Validators.required],
+  personalID: ['', Validators.required],
+  personalIDNumber: ['', Validators.required],
+  dateOfBirth: ['', Validators.required],
+
+  // street: ['', Validators.required],
+  // lga: ['', Validators.required],
   isBusinessRegistered: [true, Validators.required],
-  state: ['', Validators.required],
-  landmark: ['', Validators.required],
+  // state: ['', Validators.required],
+  // landmark: ['', Validators.required],
   applicant: this.applicant
     })
   }
