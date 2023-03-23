@@ -21,7 +21,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ForgetPasswordComponent,
     AccountConfirmationComponent,
     ResetPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    AccountConfirmationComponent,
   ],
   imports: [
     CommonModule,
@@ -33,6 +34,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
-  ]
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}
