@@ -1,5 +1,6 @@
 <div class="">
-  <nav class="uk-navbar-container lnd-page-pad uk-margin-medium-top uk-margin-medium-bottom display-default">
+  <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
+    <nav class="uk-navbar-container lnd-page-pad display-default">
       <div uk-navbar>
         <div class="uk-navbar-left">
           <img src="/assets/image/quality-logo.svg" alt="RENA MARKET" />
@@ -20,21 +21,23 @@
           </div>
         </div>
       </div>
-  </nav>
+    </nav>
+  </div>
+
 
   <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky" class="ds-none">
-    <div class="uk-navbar-container head" uk-navbar>
-      <div class="uk-navbar-left">
-        <a class="uk-navbar-item uk-logo navy space-ml" [routerLink]="['/']"><img
+    <div class="uk-navbar-container head pl-x-md-2" uk-navbar>
+      <div class="uk-navbar-left pl-md-2">
+        <a class="uk-navbar-item uk-logo navy space-ml w-md-90" [routerLink]="['/']"><img
             src="/assets/image/quality-logo.svg" alt="RENA MARKET" /></a>
       </div>
-  
-      <div class="uk-navbar-right">
+
+      <div class="uk-navbar-right pr-md-2">
         <div class="uk-button uk-button-default navy" uk-toggle="target: #offcanvas-flip"
           style="border-color: transparent">
           <div uk-navbar-toggle-icon></div>
         </div>
-  
+
         <div id="offcanvas-flip" uk-offcanvas="overlay: true">
           <div class="uk-offcanvas-bar">
             <div class="up-navBar">
@@ -46,8 +49,8 @@
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
               </div>
             </div>
-  
-  
+
+
             <ul class="mobile-side-menu">
               <li>
                 <a [routerLink]="['/']">
@@ -81,7 +84,7 @@
               </button>
             </div>
           </div>
-  
+
         </div>
       </div>
     </div>
@@ -92,13 +95,14 @@
   <section class="two-sides-sec">
     <div class="w-50 pl-6">
       <h1 class="top-text">The Fastest Online <span class="top-deco">Marketplace</span> to Buy and Sell With Ease.</h1>
-      <div class="top-subtext uk-margin-small-bottom">At Renamarket, our goal is to connect buyers and sellers in an instant, create a seamless
+      <div class="top-subtext uk-margin-small-bottom">At Renamarket, our goal is to connect buyers and sellers in an
+        instant, create a seamless
         online shopping experience for customers, and provide the best prices for a variety of products.</div>
       <button class="uk-button uk-button-default uk-text-capitalize waitList mt-2">
         Get Started
       </button>
     </div>
-    <div class="w-50 display-default">
+    <div class="w-50 pl-6 mt-md-1">
       <img class="" src="/assets/image/main-right-img.svg" alt="right-Image" />
     </div>
   </section>
