@@ -1,0 +1,30 @@
+<div class="delete-dialog-container">
+  <button class="uk-modal-close-default seller-store-modalCloseBtn" type="button" uk-close
+      mat-dialog-close="false"></button>
+  <h1 mat-dialog-title>{{data.title}}</h1>
+  <div mat-dialog-content>
+    <p class="text-center" [innerHTML]="data.subtitle"></p>
+
+    <div class="warning-content">
+      <div class="me-4">
+        <img src="../../../../assets/svg/warning.svg" alt="">
+      </div>
+      <div>
+        <h2 class="danger-message">
+          <strong>
+            Warning
+          </strong>
+        </h2>
+        <span class="danger-message" [innerHTML]="data.message"></span>
+      </div>
+    </div>
+  </div>
+  <div>
+
+    <button mat-dialog-close="false" [innerHTML]="data.cancelButtonText" class="uk-button me-2 cancel-button" type="button">
+    </button>
+
+    <button mat-dialog-close="true" [innerHTML]="data.actionButtonText" class="uk-button action-button" type="button">
+    </button>
+  </div>
+</div>

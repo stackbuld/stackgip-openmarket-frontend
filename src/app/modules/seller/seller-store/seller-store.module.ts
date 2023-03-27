@@ -7,10 +7,13 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxPaginationModule } from 'src/app/shared/pagination/ngx-pagination.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SellerStoreComponent } from './seller-store/seller-store.component';
+import { SellerStoreCreateDialogComponent } from './seller-store-create-dialog/seller-store-create-dialog.component';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 
 @NgModule({
   declarations: [
-    SellerStoreComponent
+    SellerStoreComponent,
+    SellerStoreCreateDialogComponent
   ],
   imports: [
     CommonModule,
@@ -22,6 +25,7 @@ import { SellerStoreComponent } from './seller-store/seller-store.component';
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
+    GooglePlaceModule
   ]
 })
 

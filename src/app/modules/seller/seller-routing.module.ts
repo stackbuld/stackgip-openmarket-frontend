@@ -9,9 +9,10 @@ import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.co
 import { OrderListComponent } from './seller-orders/order-list/order-list.component';
 import { SellerOrdersComponent } from './seller-orders/seller-orders.component';
 import { SellerShowCaseProductComponent } from './sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
+import { BankAccountListComponent } from './bank-account/bank-account-list/bank-account-list.component';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent, 
+  { path: '', component: DashboardComponent,
       children: [
         { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         { path: 'dashboard', component: SellerDashboardComponent },
@@ -32,6 +33,10 @@ const routes: Routes = [
         {
           path: 'sellerproduct/:sellerId',
           component: SellerShowCaseProductComponent,
+        },
+        {
+          path: 'bank-account-list',
+          component: BankAccountListComponent,
         },
         {
           path: 'profile',

@@ -1,0 +1,76 @@
+<!-- This is the seller-edit modal -->
+<div class="edit-store">
+  <div mat-dialog-content class=" seller-store-modal">
+    <button class="uk-modal-close-default seller-store-modalCloseBtn" type="button" uk-close
+      mat-dialog-close="false"></button>
+    <form (submit)="onSave()" [formGroup]="sellerStoreAddressForm" class="uk-form-stacked edit-form">
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Store Name*</label>
+        <div class="uk-form-controls">
+          <input formControlName="streetName" class="uk-input" id="form-stacked-text" type="text"
+            placeholder="Please type your store name" />
+        </div>
+      </div>
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text">Store Address*</label>
+        <div class="uk-form-controls">
+          <input ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places"
+            (onAddressChange)="handleAddressChange($event)" formControlName="fullAddress" class="uk-input"
+            id="form-stacked-text" type="text" placeholder="Please type your store name" />
+        </div>
+      </div>
+      <div class="uk-grid-small" uk-grid>
+        <div class="uk-width-1-2@s">
+          <label class="uk-form-label" for="form-stacked-text">City*</label>
+          <input formControlName="city" class="uk-input" type="text" placeholder="Nigeria" aria-label="100" />
+          <!-- <select formControlName="city" aria-label="Custom controls">
+            <option value="1">--- Enter Your City---</option>
+            <option value="2">Option 02</option>
+            <option value="3">Option 03</option>
+            <option value="4">Option 04</option>
+          </select> -->
+        </div>
+        <div class="uk-width-1-2@s">
+          <label class="uk-form-label" for="form-stacked-text">State*</label>
+          <input formControlName="state" class="uk-input" type="text" placeholder="Nigeria" aria-label="100" />
+          <!-- <select formControlName="state" aria-label="Custom controls">
+            <option value="1">--- Enter Your State ---</option>
+            <option value="2">Option 02</option>
+            <option value="3">Option 03</option>
+            <option value="4">Option 04</option>
+          </select> -->
+        </div>
+      </div>
+      <div class="uk-grid-small" uk-grid>
+        <div class="uk-width-1-2@s">
+          <label for="">Landmark*</label>
+          <input formControlName="landmark" class="uk-input" type="text" placeholder="Please enter Landmark"
+            aria-label="100" />
+        </div>
+        <div class="uk-width-1-2@s">
+          <label for="">Postal Code*</label>
+          <input formControlName="postalCode" class="uk-input" type="text" placeholder="Please enter postal code"
+            aria-label="100" />
+        </div>
+      </div>
+      <div class="uk-grid-small" uk-grid>
+        <div class="uk-width-1-2@s">
+          <label for="">Country*</label>
+          <input formControlName="country" class="uk-input" type="text" placeholder="Nigeria" aria-label="100" />
+        </div>
+        <div class="uk-width-1-2@s">
+          <label for="">Phone Number*</label>
+          <span>+234</span>
+          <input formControlName="contactPhoneNumber" class="uk-input" type="text" placeholder="--- 08012345678---"
+            aria-label="100" />
+        </div>
+      </div>
+
+      <p class="uk-text-center uk-margin-top">
+        <button class="uk-button uk-button-default uk-modal-close" type="submit">
+          Save
+        </button>
+      </p>
+    </form>
+  </div>
+</div>
