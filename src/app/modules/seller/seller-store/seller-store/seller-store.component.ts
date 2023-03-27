@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
+import { SellerStores } from "src/app/models/StoreModels";
 import { DialogService } from "src/app/shared/services/dialog.service";
 import { HelperService } from "src/app/shared/services/helper.service";
 import { SellerStoreService } from "src/app/shared/services/seller-store.service";
@@ -13,7 +14,7 @@ import { SellerStoreCreateDialogComponent } from "../seller-store-create-dialog/
 export class SellerStoreComponent implements OnInit {
   @ViewChild('closeEdit') closeEdit: ElementRef<HTMLElement>;
   cproduct: CreateProductResponse[];
-  sellerStores: import("/Users/seun/Documents/stackbuld/stackgip-openmarket-frontend/src/app/models/StoreModels").SellerStores[];
+  sellerStores: SellerStores[];
 
   constructor(
     private helperService: HelperService,
