@@ -33,7 +33,7 @@ export class SellerService {
     this.loggedInUser = this.authService.getLoggedInUser();
   }
 
-  registerSeller(data: ISeller) {
+  registerSeller(data:any) {
     // const query = `${ this.baseUrl }users/${ this.loggedInUser.id }/seller`;
     const query = `${this.baseUrl}sellers/verification`;
     return this.reqS.post<ResponseModel>(query, data).pipe(
@@ -42,6 +42,7 @@ export class SellerService {
       })
     );
   }
+
   updateUserSellerDetails(val: ResponseModel, data: ISeller): Observable<any> {
     const loggedInUser = this.authService.getLoggedInUser();
     const newData = {
@@ -59,6 +60,7 @@ export class SellerService {
       },
     });
   }
+  
   getSellerById(id: string): Observable<GetSeller> {
     return this.http.get<GetSeller>(this.baseUrl + `users/${id}`);
   }

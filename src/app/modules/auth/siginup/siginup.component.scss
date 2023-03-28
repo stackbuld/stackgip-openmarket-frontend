@@ -19,11 +19,11 @@ h6 {
 .signup-image-section,
 .signup-form-section {
   width: 50%;
-  height: 100%;
+  // height: 100vh;
 }
 
 .signup-image-section {
-  height: 100%;
+  height: 100vh;
   background-image: url("/assets/images/signup-bg.svg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -159,14 +159,14 @@ form {
     display: none;
   }
   .signup-form-section {
-    background-image: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.6),
-        rgba(0, 0, 0, 0.6)
-      ),
-      url("/assets/image/Rectangle 165.png");
-    background-size: cover;
-    background-repeat: no-repeat;
+    // background-image: linear-gradient(
+    //     0deg,
+    //     rgba(0, 0, 0, 0.6),
+    //     rgba(0, 0, 0, 0.6)
+    //   ),
+    //   url("/assets/image/Rectangle 165.png");
+    // background-size: cover;
+    // background-repeat: no-repeat;
     height: fit-content;
     min-height: 100vh;
   }
@@ -180,15 +180,16 @@ form {
     color: #f2f2f2;
   }
   .signup-form {
-    width: 95%;
-    max-width: 390px;
-    background: #f2f2f2;
+    // width: 95%;
+    // max-width: 390px;
+    // background: #f2f2f2;
     margin: 1rem auto;
     border-radius: 6px;
-    padding: 1rem 1rem;
+    padding: 1rem 2rem;
   }
   .signup-back-btn {
-    display: none;
+    display: block;
+    padding: 0 2rem;
   }
   form,
   .signup-form-section mat-form-field,

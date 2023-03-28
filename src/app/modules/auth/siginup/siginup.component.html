@@ -4,6 +4,9 @@
     <div class="signup-form-section">
       <div class="signup-form-container">
         <div class="login-back-btn">
+          <div class="ds-md ">
+            <img src="/assets/image/quality-logo.svg" alt="logo" class="login-logo w-9 uk-margin-small-bottom" />
+          </div>
           <a [routerLink]="['']" onclick="UIkit.modal('#modal-auth').hide()">
             <div class="login-back">
               <img src="https://cdn.iconscout.com/icon/free/png-512/back-arrow-1767531-1502435.png" alt="go-back" />
@@ -15,9 +18,9 @@
           <div class="login-tiltle uk-margin-small-bottom ">Join Us!</div>
           <div class="login-subtitle uk-margin-small-bottom">Create an account</div>
           <div class="signup-form">
-            <h1 class="open-market-sm">
+            <!-- <h1 class="open-market-sm">
               <img src="../../../../assets/logos/Rena-Market-Transparent-WHT-2.png" alt="RENA MARKET" width="200" />
-            </h1>
+            </h1> -->
             <form [formGroup]="registerForm" (ngSubmit)="submit()" id="form">
 
               <mat-form-field appearance="outline">
@@ -85,7 +88,7 @@
               <mat-form-field appearance="outline">
                 <mat-label>Password</mat-label>
                 <div class="d-flex">
-                  <input matInput placeholder="********" type="password" formControlName="password" required />
+                  <input matInput placeholder="********" [type]=" passwordType ?  'text' : 'password'" formControlName="password" required />
                   <span (click)="showPassword()">
                     <img src="assets/icons/eye-open.svg" alt="check" />
                   </span>
