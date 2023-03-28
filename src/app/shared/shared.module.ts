@@ -37,11 +37,14 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { NewProductListComponent } from './components/new-product-list/new-product-list.component';
 import { InfiniteScrollComponent } from './infinite-scroll/Infinite-scroll.component';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { SuccessfulDialogComponent } from './components/successful-dialog/successful-dialog.component';
 // import { ServicesComponent } from './components/services/services.component';
 @NgModule({
   declarations: [
     SafeHtmlPipe,
-    LoaderComponent, 
+    LoaderComponent,
     SidebarHeaderDisplayComponent,
     NavbarComponent,
     FooterComponent,
@@ -51,7 +54,10 @@ import { InfiniteScrollComponent } from './infinite-scroll/Infinite-scroll.compo
     LayoutComponent,
     SliderComponent,
     NewProductListComponent,
-    InfiniteScrollComponent
+    InfiniteScrollComponent,
+    DeleteDialogComponent,
+    ConfirmDialogComponent,
+    SuccessfulDialogComponent
   ],
   imports: [
     CommonModule,
@@ -59,6 +65,7 @@ import { InfiniteScrollComponent } from './infinite-scroll/Infinite-scroll.compo
     ReactiveFormsModule,
     RouterModule,
     MatPaginatorModule,
+    MatDialogModule
   ],
   exports: [
     HttpClientJsonpModule,

@@ -65,8 +65,11 @@ export class AuthService {
   //   );
   // }
 
-  public signIn(signInModel: any): Observable<any> {
-    return this.http.post<any>(this.api.baseApiUrl + 'Auth/Login', signInModel);
+  public signIn(signInModel: any): Observable<SiginResponseModel> {
+    return this.http.post<SiginResponseModel>(
+      this.api.baseApiUrl + 'Auth/Login',
+      signInModel
+    );
   }
 
   public register(

@@ -1,27 +1,27 @@
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 import {
   FormGroup,
   FormControl,
   Validators,
   FormBuilder,
-} from "@angular/forms";
+} from '@angular/forms';
 
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 
-import { NgxUiLoaderService } from "ngx-ui-loader";
-import { SignInModel } from "src/app/models/signin-model";
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { SignInModel } from 'src/app/models/signin-model';
 // import { UIkit } from "uikit";
-import { AuthService } from "src/app/services/auth.service";
-import { ToastrService } from "ngx-toastr";
+import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 // import {
 //   FacebookLoginProvider,
 //   GoogleLoginProvider,
 //   SocialAuthService,
 // } from "@abacritt/angularx-social-login";
-import { of, Subscription } from "rxjs";
-import { delay } from "rxjs/operators";
-import { JwtHelperService } from "../../../services/jwt-helper.service";
+import { of, Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { JwtHelperService } from '../../../services/jwt-helper.service';
 
 // declare var gapi: any;
 
@@ -38,11 +38,11 @@ export class LoginComponent implements OnInit {
   hasError = false;
   passwordType:  boolean
   errors: any[] = [];
-  errorMessage: string = "";
+  errorMessage: string = '';
   loginForm: FormGroup;
   googleAuth: any;
   loading: false;
-  message = "";
+  message = '';
   tokenSubscription = new Subscription();
   decodedJwt;
   constructor(
@@ -61,8 +61,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ["", [Validators.required, Validators.email]],
-      password: ["", [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
     });
   }
 
@@ -71,9 +71,10 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.ngxService.startLoader("loader-01");
+    // this.ngxService.startLoader('loader-01');
     this.authService.signIn(this.loginForm.value).subscribe(
       (res) => {
+<<<<<<< HEAD
         if (res.status == "success") {
           if (res.data.canLogin === true) {
             if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
@@ -87,24 +88,48 @@ export class LoginComponent implements OnInit {
               } else {
                 this.router.navigate(["/"]);
               }
+=======
+        this.ngxService.stopAll();
+        // if (res.status == 'success') {
+
+        if (res.data.canLogin === true) {
+          if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
+            this.ngxService.stopLoader('loader-01');
+            this.authService.SetAuthLocalStorage(res);
+            this.toast.success(res.message);
+            if (
+              res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
+              res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
+              res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
+            ) {
+              this.router.navigate(['/seller/dashboard']);
+>>>>>>> b32885755106a63f1e7ed3548c5cf6ba557ced17
             } else {
-              this.ngxService.stopLoader("loader-01");
-              this.authService.SetAuthLocalStorage(res);
-              this.toast.success(res.message);
-              this.router.navigate(["/"]);
+              this.router.navigate(['/']);
             }
           } else {
-            this.toast.error("Please confirm your email address");
-            this.router.navigate(["/auth/confirm-email"]);
+            this.ngxService.stopLoader('loader-01');
+            this.authService.SetAuthLocalStorage(res);
+            this.toast.success(res.message);
+            this.router.navigate(['/']);
           }
         } else {
-          this.ngxService.stopLoader("loader-01");
-          this.toast.error(res.message);
+          console.log('Please confirm your email address');
+          this.toast.error('Please confirm your email address');
+          this.router.navigate(['/auth/confirm-email']);
         }
+        this.authService.SetAuthLocalStorage(res);
+
+        //}
+        //  else {
+        //   this.ngxService.stopLoader('loader-01');
+        //   this.toast.error(res.message);
+        // }
       },
       (err) => {
         this.toast.error(err.error.message);
-        this.ngxService.stopLoader("loader-01");
+        this.ngxService.stopLoader('loader-01');
+        this.ngxService.stopAll();
       }
     );
   }
