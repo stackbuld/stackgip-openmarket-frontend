@@ -30,12 +30,13 @@ import { JwtHelperService } from '../../../services/jwt-helper.service';
 // declare var  statusChangeCallback: any;
 // end of facebook decla
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
   hasError = false;
+  passwordType:  boolean
   errors: any[] = [];
   errorMessage: string = '';
   loginForm: FormGroup;
@@ -52,7 +53,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private ngxService: NgxUiLoaderService,
     private jwtHelperService: JwtHelperService
-  ) {}
+  ) { }
 
   get f() {
     return this.loginForm.controls;
@@ -63,6 +64,10 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
+  }
+
+  showPassword() {
+    this.passwordType = !this.passwordType;
   }
 
   login(): void {

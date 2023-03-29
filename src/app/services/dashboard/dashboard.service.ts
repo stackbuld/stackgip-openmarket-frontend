@@ -10,7 +10,8 @@ import { Observable } from "rxjs";
 export class DashboardService {
   baseUrl = "";
 
-  constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
+  constructor(
+    private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
 
