@@ -603,8 +603,8 @@ ul {
 
   .features-subtext {
     font-weight: 350;
-    font-size: 12px !important;
-    line-height: 18px !important;
+    font-size: 16px !important;
+    line-height: 21px !important;
     padding: 0 3rem;
   }
 
@@ -614,9 +614,16 @@ ul {
 
   .benefit_text {
     font-weight: 400;
-    font-size: 13px;
-    line-height: 20px;
+    font-size: 16px;
+    line-height: 21px;
     padding-left: 0.75rem;
+  }
+
+  .small-box-subtext {
+    font-weight: 400;
+    font-size: 16px !important;
+    line-height: 21px !important;
+    text-align: center;
   }
 
   .lnd-page-pad {
@@ -629,14 +636,14 @@ ul {
 
   .box-heading {
     font-weight: 500;
-    font-size: 13.81px !important;
+    font-size: 17px !important;
     line-height: 19px !important;
   }
 
   .box-text {
     font-weight: 350;
-    font-size: 10.3575px !important;
-    line-height: 12px !important;
+    font-size: 16px !important;
+    line-height: 21px !important;
   }
 
   .two-sides-sec {
@@ -653,8 +660,8 @@ ul {
     .two-sides-subtext {
       font-family: 'Avenir LT Std';
       font-weight: 350;
-      font-size: 11px;
-      line-height: 13px;
+      font-size: 16px;
+    line-height: 21px;
       text-align: left;
     }
   }
