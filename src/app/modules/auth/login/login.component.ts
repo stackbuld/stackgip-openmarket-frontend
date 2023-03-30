@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    // this.ngxService.startLoader('loader-01');
+    this.ngxService.startLoader('loader-01');
     this.authService.signIn(this.loginForm.value).subscribe(
       (res) => {
         this.ngxService.stopAll();

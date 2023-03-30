@@ -117,7 +117,9 @@ form {
   font-size: 14px;
   line-height: 17px;
   text-align: right;
-  color: #243853
+  color: #243853;
+  width: fit-content;
+  cursor: pointer;
 }
 
 .login-btn1 {
