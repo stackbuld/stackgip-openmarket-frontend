@@ -83,28 +83,30 @@
                   <input type="text" matInput formControlName="businessRegistrationNumber" />
                 </mat-form-field>
 
-                <div (click)="upload()" class="border-form"
+                <div (click)="upload()" class="border-form mb-30"
                   [ngClass]="isBusinessRegistered == false ? 'mb-md-25' : 'w-40'">
-                  <div class="d-flex justify-content-center align-items-center px-8"> Upload Business Logo* <br />
-                    <span *ngIf="imageName" class="upload-text">{{imageName}}</span>
+                  <div *ngIf="!imageName" class="d-flex justify-content-center align-items-center px-8"> Upload Business Logo* 
+                  </div>
+                  <div *ngIf="imageName" class="d-flex justify-content-center align-items-center px-8">
+                    <span  class="upload-text">uploaded -{{imageName}}</span>
                   </div>
                 </div>
               </div>
 
               <div class="d-flex">
-                <mat-form-field appearance="outline" class="form-group w-55">
+                <mat-form-field appearance="outline" class="form-group w-100">
                   <mat-label [ngClass]="{
                       invalid:
                         sellerRegFormGroup.get('businessDescription').invalid &&
                         !sellerRegFormGroup.get('businessDescription').untouched
                     }">Business Description</mat-label>
-                  <input type="text" matInput formControlName="businessDescription" />
+                  <textarea matInput formControlName="businessDescription"></textarea>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="form-group w-40">
+                <!-- <mat-form-field appearance="outline" class="form-group w-40">
                   <mat-label>Business Type</mat-label>
                   <input type="text" matInput formControlName="businessType" />
-                </mat-form-field>
+                </mat-form-field> -->
               </div>
 
 
