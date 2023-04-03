@@ -81,24 +81,24 @@ export class LoginComponent implements OnInit {
           if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
             this.ngxService.stopLoader('loader-01');
             this.authService.SetAuthLocalStorage(res);
-            this.toast.success(res.message);
             if (
               res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
               res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
               res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
             ) {
+              this.toast.success("Login Successful");
               this.router.navigate(['/seller/dashboard']);
             } else {
+              this.toast.success("Login Successful");
               this.router.navigate(['/']);
             }
           } else {
             this.ngxService.stopLoader('loader-01');
             this.authService.SetAuthLocalStorage(res);
-            this.toast.success(res.message);
+            this.toast.success("Login Successful");
             this.router.navigate(['/']);
           }
         } else {
-          console.log('Please confirm your email address');
           this.toast.error('Please confirm your email address');
           this.router.navigate(['/auth/confirm-email']);
         }

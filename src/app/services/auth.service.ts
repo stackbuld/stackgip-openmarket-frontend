@@ -76,7 +76,7 @@ export class AuthService {
     registerModel: RegisterModel
   ): Observable<RegisterResponseModel> {
     return this.http.post<RegisterResponseModel>(
-      this.api.baseApiUrl + 'Auth/Register',
+      this.api.baseApiUrl + 'auth/register',
       registerModel
     );
   }
