@@ -67,6 +67,7 @@ export class SellerRegisterationFormComponent
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
+          this.toast.success("Image uploaded successfully");
           this.image = result.info.secure_url;
           this.imageName = result.info.original_filename;
         }
@@ -99,7 +100,7 @@ export class SellerRegisterationFormComponent
       businessAddress: ['', Validators.required],
       businessState: ['', Validators.required],
       businessRegistrationNumber: ['', Validators.required],
-      businessType: [''],
+      // businessType: [''],
       personalIDType: ['', Validators.required],
       personalIDNumber: ['', Validators.required],
       landmark: [''],
@@ -138,7 +139,7 @@ export class SellerRegisterationFormComponent
       state: this.sellerRegFormGroup.get('businessState').value,
       businessRegistrationNumber: this.isBusinessRegistered === true ? this.sellerRegFormGroup.get('businessRegistrationNumber').value : null,
       businessLogo: this.image,
-      businessType: this.sellerRegFormGroup.get('businessType').value,
+      businessType: '',
       lga: this.sellerRegFormGroup.get('lga').value,
       landmark: this.sellerRegFormGroup.get('landmark').value,
       street: this.sellerRegFormGroup.get('businessAddress').value,

@@ -28,7 +28,7 @@
                 <input matInput placeholder="Jane" type="text" formControlName="firstname" required />
               </mat-form-field>
               <section class="error-sec">
-                <div *ngIf="errorMessage != ''">{{
+                <!-- <div *ngIf="errorMessage != ''">{{
                   errorMessage
                   }}</div>
                 <div class="uk-text-success" *ngIf="message != '' && hasError == false">{{ message
@@ -37,7 +37,7 @@
                   <div *ngFor="let i of errors">
                     {{ i }}
                   </div>
-                </div>
+                </div> -->
                 <div *ngIf="
                       f.firstname.invalid &&
                       (f.firstname.dirty || f.firstname.touched)
@@ -59,6 +59,21 @@
                     ">
                   <div *ngIf="f.lastname.errors.required">
                     lastname required
+                  </div>
+                </div>
+              </section>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Phone Number</mat-label>
+                <input matInput placeholder="08023434567" type="text" formControlName="phoneNumber" required />
+              </mat-form-field>
+              <section class="error-sec">
+                <div *ngIf="
+                      f.phoneNumber.invalid &&
+                      (f.phoneNumber.dirty || f.phoneNumber.touched)
+                    ">
+                  <div *ngIf="f.phoneNumber.errors.required">
+                    Phone Number required
                   </div>
                 </div>
               </section>
@@ -101,7 +116,7 @@
                   (f.password.dirty || f.password.touched)
                 ">
                   <div *ngIf="f.password.errors.required">
-                    Password required <br />
+                    Password required, must contain number, special character, uppercase and lowercase characters <br />
                   </div>
                   <div *ngIf="f.password.errors.minLength">
                     Password should be at least 6 characters <br />
@@ -138,7 +153,7 @@
                 </div>
               </div> -->
 
-              <button class="uk-button uk-width-1-1 signup-btn1" type="submit">
+              <button [disabled]="registerForm.invalid" class="uk-button uk-width-1-1 signup-btn1" type="submit">
                 Sign Up
               </button>
 

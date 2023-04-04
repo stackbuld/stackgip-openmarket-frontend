@@ -30,7 +30,7 @@ export class SiginupComponent implements OnInit {
   tokenSubscription = new Subscription();
   decodedJwt;
   hasError = false;
-  passwordType:  boolean
+  passwordType: boolean
   errors: any[];
   googleAuth: any;
   // user: SocialUser;
@@ -61,8 +61,8 @@ export class SiginupComponent implements OnInit {
         firstname: ['', [Validators.required]],
         lastname: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        // confirmPassword: ['', [Validators.required]],
+        password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/)]],
+        phoneNumber: ['', [Validators.required, Validators.pattern('/((^090)([0-9]{8,}$))|((^070)([0-9]{8,}$))|((^090)([0-9]{8,}$))||((^081)([0-9]{8,}$))|((^080)([0-9]{8,}$))|((^081)([0-9]{8,}$))/'), Validators.minLength(11), Validators.maxLength(11)]],
       },
       // {
       //   validators: MustMatch('password', 'confirmPassword'),
@@ -90,24 +90,17 @@ export class SiginupComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-
-    const data: RegisterModel = {
+    const payload = {
       firstName: this.registerForm.get('firstname').value,
       lastName: this.registerForm.get('lastname').value,
       email: this.registerForm.get('email').value,
+      phoneNumber: this.registerForm.get('phoneNumber').value,
       password: this.registerForm.get('password').value,
-      confirmPassword: this.registerForm.get('confirmPassword').value,
-      // profileImageUrl: "",
-    } as RegisterModel;
+    }
     this.ngxService.startLoader('loader-01');
 
-    this.authService.register(data).subscribe(
+    this.authService.register(payload).subscribe(
       (d) => {
-        // const signinData = {
-        //   email: data.email,
-        //   password: data.password,
-        // } as SignInModel;
-        // this.login(signinData);
         this.ngxService.stopLoader('loader-01');
         this.message = d.message;
         this.toast.success(d.message, 'notification');

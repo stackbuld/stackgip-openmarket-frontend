@@ -25,9 +25,9 @@
                 <mat-label>Email Address</mat-label>
                 <div class="d-flex">
                   <input matInput placeholder="example@email.com" type="email" formControlName="email" required />
-                <span *ngIf="f.email.valid">
-                  <img src="assets/icons/success-check.svg" alt="check" />
-                </span>
+                  <span *ngIf="f.email.valid">
+                    <img src="assets/icons/success-check.svg" alt="check" />
+                  </span>
                 </div>
               </mat-form-field>
               <Section class="error-sec">
@@ -56,10 +56,11 @@
               <mat-form-field appearance="outline">
                 <mat-label>Password</mat-label>
                 <div class="d-flex">
-                  <input matInput placeholder="********" [type]=" passwordType ?  'text' : 'password'" formControlName="password" required />
-                <span (click)="showPassword()">
-                  <img src="assets/icons/eye-open.svg" alt="check" />
-                </span>
+                  <input matInput placeholder="********" [type]=" passwordType ?  'text' : 'password'"
+                    formControlName="password" required />
+                  <span (click)="showPassword()">
+                    <img src="assets/icons/eye-open.svg" alt="check" />
+                  </span>
                 </div>
               </mat-form-field>
 
@@ -77,8 +78,9 @@
                 </div>
               </section>
 
-              <div routerLink="/auth/forget-password" onclick="UIkit.modal('#modal-auth').hide()" class="login-forgot">
-                Forgot password?
+              <div>
+                <div routerLink="/auth/forget-password" onclick="UIkit.modal('#modal-auth').hide()"
+                  class="login-forgot">Forgot password?</div>
               </div>
 
               <button [disabled]="loginForm.invalid" class="uk-button uk-width-1-1 login-btn1" type="submit">
