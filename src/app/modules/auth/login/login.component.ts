@@ -99,6 +99,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/']);
           }
         } else {
+          this.ngxService.stopLoader('loader-01');
           this.toast.error('Please confirm your email address');
           this.router.navigate(['/auth/confirm-email']);
         }

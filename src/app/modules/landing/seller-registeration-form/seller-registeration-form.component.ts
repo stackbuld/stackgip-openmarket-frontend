@@ -19,6 +19,7 @@ import { SellerService } from "src/app/services/seller/seller.service";
 import { ResponseModel } from "src/app/shared/models/ResponseModel";
 import { ToastrService } from "src/app/services/toastr.service";
 import { LocationStrategy } from "@angular/common";
+import { Router } from "@angular/router";
 
 declare var cloudinary: any;
 @Component({
@@ -49,7 +50,8 @@ export class SellerRegisterationFormComponent
     private fb: FormBuilder,
     private sellerS: SellerService,
     private toast: ToastrService,
-    private locationStrategy: LocationStrategy
+    private locationStrategy: LocationStrategy,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -147,9 +149,10 @@ export class SellerRegisterationFormComponent
       applicant: {
         idType: this.sellerRegFormGroup.get('personalIDType').value,
         idNumber: this.sellerRegFormGroup.get('personalIDNumber').value,
-        dateOfBirth: new Date(this.sellerRegFormGroup.get('dateOfBirth').value).toLocaleDateString(),
+        dateOfBirth: new Date(this.sellerRegFormGroup.get('dateOfBirth').value).toISOString(),
       }
     }
+    
 
     if (!this.image) {
       this.toast.error("business logo is required");
@@ -163,10 +166,12 @@ export class SellerRegisterationFormComponent
             this.isLoading = false;
             this.toast.success("Registeration successfully submited");
             this.closeModal(true);
+            this.router.navigate(['/seller/dashboard']);
           }
         },
         (err) => {
           this.isLoading = false;
+          this.toast.error(err.error.message)
         }
       );
     }
