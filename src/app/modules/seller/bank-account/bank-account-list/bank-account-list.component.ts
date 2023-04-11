@@ -12,7 +12,7 @@ import { BankAccountCreateDialogComponent } from '../bank-account-create-dialog/
 })
 export class BankAccountListComponent implements OnInit {
   bankAccountList: SellerStores[];
-
+  isLoading: boolean = true;
   constructor(
     private helperService: HelperService,
     private bankAccountService: BankAccountService,
@@ -20,7 +20,6 @@ export class BankAccountListComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getBankAccountList();
-    this.dialogService.openWithdrawalDialog()
   }
 
   addBankAccount(data) {
@@ -31,10 +30,6 @@ export class BankAccountListComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((response) => {
-        this.dialogService.openSuccessfulDialog(
-          '<p>New bank account have been added</p>',
-          'view'
-        );
         response ? this.getBankAccountList() : null;
       });
   }
@@ -59,10 +54,12 @@ export class BankAccountListComponent implements OnInit {
   }
 
   getBankAccountList() {
+    this.isLoading = true;
     this.bankAccountService
       .getUserBankList(this.helperService.getLoggedInUserId())
       .subscribe((bankAccountList) => {
         this.bankAccountList = bankAccountList;
+        this.isLoading = false;
       });
   }
 }

@@ -38,3 +38,7 @@ body {
 .delete-dialog > mat-dialog-container {
     padding: 0px !important;
 }
+
+.pac-container {
+z-index: 100000000 !important;
+}
