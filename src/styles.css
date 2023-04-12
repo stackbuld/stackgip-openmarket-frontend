@@ -56,4 +56,6 @@ body {
 *::-webkit-scrollbar-thumb {
   background: #C4C4C4;
   border-radius: 50px;
+.pac-container {
+z-index: 100000000 !important;
 }

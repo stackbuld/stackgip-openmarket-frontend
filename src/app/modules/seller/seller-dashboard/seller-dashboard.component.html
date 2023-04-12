@@ -10,7 +10,7 @@
                 <path d="M12 8V12" stroke="#D01717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M12 16H12.01" stroke="#D01717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg> &nbsp;
-            <span class="alert-text" style="color: #D01717;">Your verification failed </span>                
+            <span class="alert-text" style="color: #D01717;">Your verification failed </span>
         </div>
         <div *ngIf="user?.sellerApprovalStatus.toLowerCase() === 'none'">
             <svg class="mb-1" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -18,7 +18,7 @@
                 <path d="M12 8V12" stroke="#D01717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M12 16H12.01" stroke="#D01717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg> &nbsp;
-            <span class="alert-text" style="color: #D01717;">To sell you need to start your verification process, <span [routerLink]="['/seller-form']">click here to start</span> </span>                
+            <span class="alert-text" style="color: #D01717;">To sell you need to start your verification process, <span [routerLink]="['/seller-form']">click here to start</span> </span>
         </div>
         <div *ngIf="user?.sellerApprovalStatus.toLowerCase() === 'pending'">
             <svg class="mb-1" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -26,7 +26,11 @@
                 <path d="M12 8V12" stroke="#ffc400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M12 16H12.01" stroke="#ffc400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg> &nbsp;
-            <span class="alert-text" style="color: #ffc400;">Your  registration is in progress</span>                
+<<<<<<< HEAD
+            <span class="alert-text" style="color: #ffc400;">Your  registration is in progress</span>
+=======
+            <span class="alert-text" style="color: #ffc400;">Your verification is pending</span>
+>>>>>>> origin/seun-development
         </div>
         <div>
             <button routerLink="/seller/products/add" class='addProduct-btn uk-button uk-button-secondary uk-button-small'>Add Product</button>
@@ -134,6 +138,7 @@
             <div *ngIf="mostSelling.length === 0 && !loading" style="display: flex; justify-content: center; padding: 20px;">
                 <img class="py-5" src="/assets/image/empty-table.svg" alt="empty-table" />
             </div>
+
         </table>
     </div>
 
