@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BankAccountService } from 'src/app/shared/services/bank-account.service';
-import { DialogService } from 'src/app/shared/services/dialog.service';
 import { HelperService } from 'src/app/shared/services/helper.service';
 
 @Component({
@@ -19,7 +18,6 @@ export class BankAccountCreateDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialogService: DialogService,
     private bankAccountService: BankAccountService,
     private dialogRef: MatDialogRef<BankAccountCreateDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -53,14 +51,6 @@ export class BankAccountCreateDialogComponent implements OnInit {
 
   get bankCode() {
     return this.bankAccountForm.get('bankCode');
-  }
-
-  get accountNumber() {
-    return this.bankAccountForm.get('accountNumber');
-  }
-
-  get accountName() {
-    return this.bankAccountForm.get('accountName');
   }
 
   onSelectBank() {
@@ -103,23 +93,6 @@ export class BankAccountCreateDialogComponent implements OnInit {
     });
   }
 
-  getAccountName() {
-    if (this.accountNumber.value.length != 10) {
-      return;
-    }
-    this.bankAccountService.validateAccount({
-      bankcode: this.bankCode.value,
-      accountNumber: this.accountNumber.value,
-      countryCode: "NGN"
-    })
-    .subscribe((response: any) => {
-      console.log(response)
-      let accountName = response.data.accountName;
-      this.accountName.patchValue(accountName)
-      this.accountName.updateValueAndValidity()
-    })
-  }
-
   onSave() {
     if (this.mode == 'create') {
       this.onCreate();
@@ -132,10 +105,6 @@ export class BankAccountCreateDialogComponent implements OnInit {
     this.bankAccountService
       .createBankAccount(this.bankAccountForm.value)
       .subscribe((response: any) => {
-        this.dialogService.openSuccessfulDialog(
-          '<p>New bank account have been added</p>',
-          'view'
-        );
         response ? this.dialogRef.close(response) : null;
       });
   }
@@ -144,10 +113,7 @@ export class BankAccountCreateDialogComponent implements OnInit {
     this.bankAccountService
       .updateBankAccount(this.bankAccountForm.value)
       .subscribe((response: any) => {
-        this.dialogService.openSuccessfulDialog(
-          '<p>bank account have updated</p>',
-          'view'
-        );
+        console.log(response);
         response.status == 'success' ? this.dialogRef.close(response) : null;
       });
   }
