@@ -8,7 +8,7 @@ import { NgxPaginationModule } from 'src/app/shared/pagination/ngx-pagination.mo
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SellerStoreComponent } from './seller-store/seller-store.component';
 import { SellerStoreCreateDialogComponent } from './seller-store-create-dialog/seller-store-create-dialog.component';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
-    GooglePlaceModule,
+    GooglePlaceModule
   ]
 })
 

@@ -1,7 +1,7 @@
 <div class="edit-store">
   <div mat-dialog-content class=" seller-store-modal">
     <button class="uk-modal-close-default seller-store-modalCloseBtn" type="button" uk-close
-      [mat-dialog-close]="false"></button>
+      mat-dialog-close="false"></button>
     <form (submit)="onSave()" [formGroup]="bankAccountForm" class="uk-form-stacked edit-form">
       <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-text">Bank Name*</label>
@@ -15,18 +15,18 @@
         </div>
       </div>
       <div class="uk-margin">
-        <label class="uk-form-label" for="form-stacked-text">Bank Account Number*</label>
+        <label class="uk-form-label" for="form-stacked-text">Bank Account Name*</label>
         <div class="uk-form-controls">
 
-          <input (input)="getAccountName()" formControlName="accountNumber" class="uk-input" id="form-stacked-text" type="text"
+          <input formControlName="accountName" class="uk-input" id="form-stacked-text" type="text"
             placeholder="Please type your store name" />
         </div>
       </div>
       <div class="uk-margin">
-        <label class="uk-form-label" for="form-stacked-text">Bank Account Name*</label>
+        <label class="uk-form-label" for="form-stacked-text">Bank Account Number*</label>
         <div class="uk-form-controls">
 
-          <input readonly formControlName="accountName" class="uk-input" id="form-stacked-text" type="text"
+          <input formControlName="accountNumber" class="uk-input" id="form-stacked-text" type="text"
             placeholder="Please type your store name" />
         </div>
       </div>
