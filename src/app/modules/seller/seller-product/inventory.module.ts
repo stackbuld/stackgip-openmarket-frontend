@@ -15,6 +15,7 @@ import { ProductOptionComponent } from './product-option/product-option.componen
 import { SearchItemComponent } from './search-item/search-item.component';
 import { ViewMoreComponent } from './view-more/view-more.component';
 import { ProductShipmentComponent } from './product-shipment/product-shipment.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,8 @@ import { ProductShipmentComponent } from './product-shipment/product-shipment.co
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
+    CKEditorModule
+
   ]
 })
 

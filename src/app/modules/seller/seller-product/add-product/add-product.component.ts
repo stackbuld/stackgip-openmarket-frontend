@@ -15,6 +15,10 @@ import uikit from 'uikit';
 // import * as CkEditor from 'rena-ckeditor5-custom-build/build/ckeditor';
 import { editorDefaultConfig } from 'src/app/shared/config/ckeditor.config';
 import { DOCUMENT } from '@angular/common';
+import { DialogService } from 'src/app/shared/services/dialog.service';
+import { SellerStoreCreateDialogComponent } from '../../seller-store/seller-store-create-dialog/seller-store-create-dialog.component';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 
 declare var cloudinary: any;
 @Component({
@@ -26,9 +30,14 @@ declare var cloudinary: any;
   ],
 })
 export class AddProductComponent implements OnInit {
+  public ClassicEditor = ClassicEditor;
   private unsubscribe$ = new Subject<void>();
   @Output() closed = new EventEmitter();
   @Output() added = new EventEmitter();
+  editorConfig = {
+    toolbar: [],
+    placeholder: 'Product short description',
+  };
   errors: any[];
   errorMessage: string;
   form: FormGroup;
@@ -81,6 +90,7 @@ export class AddProductComponent implements OnInit {
     private storeService: StoreService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
+    private dialogService: DialogService,
     @Inject(DOCUMENT) private document: Document
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -96,6 +106,13 @@ export class AddProductComponent implements OnInit {
 
   get categoryId() {
     return this.form.get('categoryId');
+  }
+
+  onChange({ editor }: ChangeEvent) {
+    const data = editor.getData();
+
+    console.log(data);
+    console.log(this.form.get('description').value);
   }
 
   ngOnInit(): void {
@@ -159,6 +176,15 @@ export class AddProductComponent implements OnInit {
         }
       }
     );
+  }
+
+  addStore() {
+    this.dialogService
+      .openDialog(SellerStoreCreateDialogComponent, false)
+      .afterClosed()
+      .subscribe((response) => {
+        response ? this.getStores(this.user.id) : null;
+      });
   }
 
   preventLetter(evt: any): boolean {
