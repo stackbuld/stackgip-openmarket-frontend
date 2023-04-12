@@ -21,6 +21,11 @@ body {
   height: 100%;
   font-family: 'Avenir' !important;
 }
+
+html, * {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: 'Avenir' !important;
@@ -39,6 +44,18 @@ body {
     padding: 0px !important;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #C4C4C4;
+  border-radius: 50px;
 .pac-container {
 z-index: 100000000 !important;
 }

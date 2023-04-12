@@ -84,55 +84,65 @@ h5 {
   background-color: #FFFFFF;
   border-radius: 8px;
 }
+
 .table-container .table-head-data {
-    display: none;
+  display: none;
 }
+
 .table-container .productWrapper {
-    display: flex;
-    gap: 0.5rem;
-    padding: 1rem;
-    margin: 0.5rem 0rem;
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  margin: 0.5rem 0rem;
 }
+
 .productThumbnail {
-    width: 30%;
+  width: 30%;
 }
+
 .productThumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 0.5rem;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
 }
+
 .productDetails {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    align-items: center !important;
-    justify-content: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center !important;
+  justify-content: flex-start;
 }
+
 .productDesc {
-    display: flex;
-    flex-direction: column;
-    order: 0;
+  display: flex;
+  flex-direction: column;
+  order: 0;
 }
+
 .totalAmt {
-    order: 2;
-    width: 47.5%;
+  order: 2;
+  width: 47.5%;
 }
+
 .totalAmt p {
-    padding: 0px;
-    margin: 0px;
-    font-weight: 750;
+  padding: 0px;
+  margin: 0px;
+  font-weight: 750;
 }
+
 .unitSold {
-    order: 1;
-    font-size: 8px;
+  order: 1;
+  font-size: 8px;
 }
+
 .edit-detail {
-    display: flex;
-    order: 3;
-    width: 47.5%;
-    justify-content: flex-end;
-    font-size: 7px;
+  display: flex;
+  order: 3;
+  width: 47.5%;
+  justify-content: flex-end;
+  font-size: 7px;
 }
 
 .uk-table th {
@@ -176,250 +186,261 @@ h5 {
   width: 15px;
   font-size: 0.35rem;
 }
+
 .alert-div {
-    display: none;
-  }
+  display: none;
+}
+
+
 
 @media only screen and (min-width: 768px) {
-    .alert-div {
-        display: block;
-      }
+  .alert-div {
+    display: block;
+  }
 
   .first-div-container {
     padding-bottom: 28px;
     justify-content: space-between;
     align-items: flex-end;
   }
-  
+
   .alert-img {
     width: 20px;
     height: 20px;
     margin-right: 10px;
   }
-  
+
   .alert-text {
     color: #4CAF50;
     font-weight: 750;
     font-size: 16px;
     font-family: 'Avenir LT Std';
   }
-  
+
   .addProduct-btn {
     font-size: 16px;
   }
-  
+
   .cards-div {
     flex-wrap: wrap;
     gap: 1rem;
   }
-  
+
   .firstCard-container {
     gap: 1rem;
     width: 47.5%;
     padding: 1rem;
   }
-  
+
   .firstCard-img {
     width: 30%;
   }
-  
+
   .firstCard-container>div:nth-child(2) {
     gap: 0.25rem;
   }
-  
+
   .firstCard-num {
     font-size: 1.25rem;
     font-weight: 750;
   }
-  
+
   .firstCard-text {
     font-size: 0.875rem;
   }
-  
+
   h5 {
     font-size: 18px;
     padding: 39px 0px 2px 0px;
   }
-  
+
   .table-container .table-head-data {
-      display: none;
+    display: none;
   }
+
   .table-data-desc {
     color: #333333;
     font-family: 'Avenir LT Std';
     font-size: 16px;
   }
+
   .table-container .productWrapper {
-      display: flex;
-      gap: 1rem;
-      padding: 1rem 2rem;
-      margin: 1rem 0rem;
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    margin: 1rem 0rem;
   }
+
   .productThumbnail {
-      width: 30%;
+    width: 30%;
   }
-  
+
   .productDetails {
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      align-items: flex-end;
-      justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: flex-end;
+    justify-content: flex-start;
   }
+
   .productDesc {
-      order: 0;
+    order: 0;
   }
+
   .totalAmt {
-      order: 2;
-      width: 47.5%;
+    order: 2;
+    width: 47.5%;
   }
-  
+
   .unitSold {
-      order: 1;
-      font-size: 14px;
+    order: 1;
+    font-size: 14px;
   }
+
   .edit-detail {
-      order: 3;
-      width: 47.5%;
+    order: 3;
+    width: 47.5%;
   }
-  
+
   .uk-table th {
     font-size: 16px;
     padding-top: 28px;
   }
-  
+
   .table-data-unit {
     /* width: auto; */
   }
-  
+
   .edit-detail span {
-font-size: 1rem;
+    font-size: 1rem;
   }
 }
+
 @media only screen and (min-width: 992px) {
-    .alert-div {
-        display: block;
-      }
+  .alert-div {
+    display: block;
+  }
 
   .first-div-container {
     padding-bottom: 28px;
     justify-content: space-between;
     align-items: flex-end;
   }
-  
+
   .alert-img {
     width: 20px;
     height: 20px;
     margin-right: 10px;
   }
-  
+
   .alert-text {
     color: #4CAF50;
     font-weight: 750;
     font-size: 16px;
     font-family: 'Avenir LT Std';
   }
-  
+
   .addProduct-btn {
     font-size: 16px;
   }
-  
+
   .cards-div {
     flex-wrap: nowrap;
     gap: 1rem;
   }
-  
+
   .firstCard-container {
     gap: 1rem;
     width: 47.5%;
     padding: 2rem;
   }
-  
+
   .firstCard-img {
     width: 30%;
   }
-  
+
   .firstCard-container>div:nth-child(2) {
     gap: 0.25rem;
   }
-  
+
   .firstCard-num {
     font-size: 1.25rem;
     font-weight: 750;
   }
-  
+
   .firstCard-text {
     font-size: 0.875rem;
   }
-  
+
   h5 {
     font-size: 18px;
     padding: 39px 0px 2px 0px;
   }
 
   .table-container .table-head-data {
-      display: block;
+    display: block;
   }
 
-.table-head-data .table-header {
+  .table-head-data .table-header {
     display: flex;
     padding: 0rem 2rem;
-}
+  }
 
-.table-header th {
+  .table-header th {
     width: 20%;
-}
+  }
 
   .table-container .productWrapper {
-      display: flex;
-      gap: 0rem;
-      padding: 1rem 2rem;
+    display: flex;
+    gap: 0rem;
+    padding: 1rem 2rem;
   }
 
   .productThumbnail {
-      width: 20%;
-      padding-right: 1.5rem;
+    width: 20%;
+    padding-right: 1.5rem;
   }
-  
+
   .productDetails {
-      flex-wrap: nowrap;
-      gap: 0rem;
-      align-items: flex-start;
-      flex-grow: 2;
+    flex-wrap: nowrap;
+    gap: 0rem;
+    align-items: flex-start;
+    flex-grow: 2;
   }
 
   .productDesc {
-      order: 0;
-      width: 25%;
-      padding-left: 0.5rem;
+    order: 0;
+    width: 25%;
+    padding-left: 0.5rem;
   }
 
   .totalAmt {
-      order: 1;
-      width: 25%;
-      padding-left: 0.5rem;
+    order: 1;
+    width: 25%;
+    padding-left: 0.5rem;
   }
-  
+
   .unitSold {
-      order: 2;
-      width: 25%;
-      padding-left: 0.5rem;
+    order: 2;
+    width: 25%;
+    padding-left: 0.5rem;
   }
+
   .edit-detail {
-      order: 3;
-      width: 25%;
-      padding-left: 0.5rem;
+    order: 3;
+    width: 25%;
+    padding-left: 0.5rem;
   }
-  
+
   .uk-table th {
     font-size: 16px;
     padding-top: 28px;
   }
-  
+
   .table-data-unit {
     /* width: auto; */
   }
-  
+
   .edit-detail span {
-font-size: 0.75rem;
+    font-size: 0.75rem;
   }
 }

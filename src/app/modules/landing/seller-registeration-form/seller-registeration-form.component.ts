@@ -19,6 +19,7 @@ import { SellerService } from "src/app/services/seller/seller.service";
 import { ResponseModel } from "src/app/shared/models/ResponseModel";
 import { ToastrService } from "src/app/services/toastr.service";
 import { LocationStrategy } from "@angular/common";
+import { Router } from "@angular/router";
 
 declare var cloudinary: any;
 @Component({
@@ -27,54 +28,39 @@ declare var cloudinary: any;
   styleUrls: ["./seller-registeration-form.component.css"],
 })
 export class SellerRegisterationFormComponent
-  implements OnInit, AfterViewChecked, OnDestroy
-{
+  implements OnInit, AfterViewChecked, OnDestroy {
   @Input() openModal: boolean = false;
-
   @Output() modalStatus = new EventEmitter(null);
+
   image: string;
   imageName: string;
+  imageID: string;
+  imageNameID: string;
   isLoading = false;
   uploadWidget: any;
+  uploadID: any;
   sellerRegFormGroup: FormGroup;
   applicant: FormGroup;
-  idCardTypes = ["NIN", "Voter's Card", "International Passport", "Driver's Licence"];
-  // componentForm = this.fb.group({
-    // registerationStatus: ["registered"],
-    // businessName: ["", [Validators.required]],
-    // businessPhone: ["", [Validators.required]],
-    // businessEmail: ["", [Validators.required, Validators.email]],
-    // businessAddress: ["", [Validators.required]],
-    // businessCountry: ["", [Validators.required]],
-    // businessState: ["", [Validators.required]],
-    // businessCity: ["", [Validators.required]],
-    // businessLogoUrl: [
-    //   "",
-    //   [
-        // Validators.required,
-    //   ],
-    // ],
-    // businessRegistrationNumber: [""],
-    // businessApplicantAddress: ["", [Validators.required]],
-    // businessAddressLandmark: ["", [Validators.required]],
-    // businessApplicantID: ["", [Validators.required]],
-    // businessIDType: ["", [Validators.required]],
-  // });
+  idCardTypes = ["NIN", "BVN"];
   regSeller$: Subscription;
+  user: any;
 
   states = nigeriaSates.map((a) => a.name.toLowerCase());
   constructor(
     private fb: FormBuilder,
     private sellerS: SellerService,
     private toast: ToastrService,
-    private locationStrategy: LocationStrategy
-  ) {}
+    private locationStrategy: LocationStrategy,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.sellerRegForm();
     this.setBusinessCategoryValidators();
     // open modal
     uikit.modal("#seller-modal-full").show();
+
     this.uploadWidget = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
@@ -83,8 +69,23 @@ export class SellerRegisterationFormComponent
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
+          this.toast.success("Image uploaded successfully");
           this.image = result.info.secure_url;
           this.imageName = result.info.original_filename;
+        }
+      }
+    );
+
+    this.uploadID = cloudinary.createUploadWidget(
+      {
+        cloudName: environment.cloudinaryName,
+        uploadPreset: environment.cloudinaryUploadPerset,
+        clientAllowedFormats: ["jpeg", "jpg", "png", "gif"],
+      },
+      (error, result) => {
+        if (!error && result && result.event === "success") {
+          this.imageID = result.info.secure_url;
+          this.imageNameID = result.info.original_filename;
         }
       }
     );
@@ -95,35 +96,32 @@ export class SellerRegisterationFormComponent
   }
 
   sellerRegForm(): void {
-    this.applicant = this.fb.group({
-      idType: ['', Validators.required],
-      idNumber: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
-    })
     this.sellerRegFormGroup = this.fb.group({
-  userId: ['', Validators.required],
-  businessName: ['', Validators.required],
-  businessDescription: ['', Validators.required],
-  businessAddress: ['', Validators.required],
-  businessLogo: [''],
-  businessRegistrationNumber: ['', Validators.required],
-  street: ['', Validators.required],
-  lga: ['', Validators.required],
-  isBusinessRegistered: [true, Validators.required],
-  state: ['', Validators.required],
-  landmark: ['', Validators.required],
-  applicant: this.applicant
+      businessName: ['', Validators.required],
+      businessDescription: ['', Validators.required],
+      businessAddress: ['', Validators.required],
+      businessState: ['', Validators.required],
+      businessRegistrationNumber: ['', Validators.required],
+      // businessType: [''],
+      personalIDType: ['', Validators.required],
+      personalIDNumber: ['', Validators.required],
+      landmark: [''],
+      lga: [''],
+      dateOfBirth: ['', Validators.required],
+      isBusinessRegistered: [true, Validators.required],
     })
   }
 
   ngAfterViewChecked(): void {
-    if (this.sellerRegFormGroup.get("isBusinessRegistered").value == "true") {
+    if (this.sellerRegFormGroup.get("isBusinessRegistered").value == false) {
+      this.sellerRegFormGroup.get("businessRegistrationNumber").disable();
+    } else {
       this.sellerRegFormGroup.get("businessRegistrationNumber").enable();
     }
 
-    if (this.imageName) {
-      this.sellerRegFormGroup.get("businessLogo").setValue(this.imageName);
-    }
+    // if (this.imageName) {
+    //   this.sellerRegFormGroup.get("businessLogo").setValue(this.imageName);
+    // }
   }
 
   // get registerationStatus() {
@@ -135,13 +133,50 @@ export class SellerRegisterationFormComponent
   }
 
   submit() {
-    // if (!this.image) {
-    //   this.toast.error("business logo is required");
-    //   return;
-    // }
+    const payload = {
+      userId: this.user.id,
+      businessName: this.sellerRegFormGroup.get('businessName').value,
+      businessDescription: this.sellerRegFormGroup.get('businessDescription').value,
+      businessAddress: this.sellerRegFormGroup.get('businessAddress').value,
+      state: this.sellerRegFormGroup.get('businessState').value,
+      businessRegistrationNumber: this.isBusinessRegistered === true ? this.sellerRegFormGroup.get('businessRegistrationNumber').value : null,
+      businessLogo: this.image,
+      businessType: '',
+      lga: this.sellerRegFormGroup.get('lga').value,
+      landmark: this.sellerRegFormGroup.get('landmark').value,
+      street: this.sellerRegFormGroup.get('businessAddress').value,
+      isBusinessRegistered: this.sellerRegFormGroup.get('isBusinessRegistered').value,
+      applicant: {
+        idType: this.sellerRegFormGroup.get('personalIDType').value,
+        idNumber: this.sellerRegFormGroup.get('personalIDNumber').value,
+        dateOfBirth: new Date(this.sellerRegFormGroup.get('dateOfBirth').value).toISOString(),
+      }
+    }
+    
 
-    // const sellerData: ISeller = this.componentForm.value;
-    // sellerData.businessLogoUrl = this.image;
+    if (!this.image) {
+      this.toast.error("business logo is required");
+      return;
+    } else {
+      this.isLoading = true;
+
+      this.regSeller$ = this.sellerS.registerSeller(payload).subscribe(
+        (res: { user: IUser; response: ResponseModel }) => {
+          if (res.response.status === "success") {
+            this.isLoading = false;
+            this.toast.success("Registeration successfully submited");
+            this.closeModal(true);
+            this.router.navigate(['/seller/dashboard']);
+          }
+        },
+        (err) => {
+          this.isLoading = false;
+          this.toast.error(err.error.message)
+        }
+      );
+    }
+
+
     // this.isLoading = true;
     // this.regSeller$ = this.sellerS.registerSeller(sellerData).subscribe(
     //   (res: { user: IUser; response: ResponseModel }) => {
@@ -156,28 +191,32 @@ export class SellerRegisterationFormComponent
     //   }
     // );
 
-    if (this.sellerRegFormGroup.invalid) {
-      this.toast.error("Please fill fields appropriately");
-    } else if (!this.image) {
-      this.toast.error("business logo is required");
-    } else {
-      const sellerData: ISeller = this.sellerRegFormGroup.value;
-      sellerData.businessLogo = this.image;
-      this.isLoading = true;
-      this.regSeller$ = this.sellerS.registerSeller(sellerData).subscribe(
-        (res: { user: IUser; response: ResponseModel }) => {
-          if (res.response.status === "success") {
-            this.isLoading = false;
-            this.toast.success("Registeration successfully submited");
-            this.closeModal(true);
-          }
-        },
-        (err) => {
-          this.isLoading = false;
-          
-        }
-      );
-    }
+
+
+
+    // if (this.sellerRegFormGroup.invalid) {
+    //   this.toast.error("Please fill fields appropriately");
+    // } else if (!this.image) {
+    //   this.toast.error("business logo is required");
+    // } else {
+    //   const sellerData: ISeller = this.sellerRegFormGroup.value;
+    //   sellerData.businessLogo = this.image;
+    //   this.isLoading = true;
+
+    //   this.regSeller$ = this.sellerS.registerSeller(sellerData).subscribe(
+    //     (res: { user: IUser; response: ResponseModel }) => {
+    //       if (res.response.status === "success") {
+    //         this.isLoading = false;
+    //         this.toast.success("Registeration successfully submited");
+    //         this.closeModal(true);
+    //       }
+    //     },
+    //     (err) => {
+    //       this.isLoading = false;
+
+    //     }
+    //   );
+    // }
   }
 
   closeModal(isFormSubmit = false) {
@@ -190,6 +229,10 @@ export class SellerRegisterationFormComponent
 
   upload(): void {
     this.uploadWidget.open();
+  }
+
+  uploadIDCard(): void {
+    this.uploadID.open();
   }
 
   ngOnDestroy(): void {
