@@ -69,6 +69,7 @@ export class BankAccountCreateDialogComponent implements OnInit {
       this.bankName.patchValue(value.name);
       this.bankCode.updateValueAndValidity();
       this.bankName.updateValueAndValidity();
+      this.getAccountName()
     });
   }
 
@@ -104,7 +105,7 @@ export class BankAccountCreateDialogComponent implements OnInit {
   }
 
   getAccountName() {
-    if (this.accountNumber.value.length != 10) {
+    if (this.accountNumber.value.length != 10 || this.bankCode.value == "") {
       return;
     }
     this.bankAccountService.validateAccount({
