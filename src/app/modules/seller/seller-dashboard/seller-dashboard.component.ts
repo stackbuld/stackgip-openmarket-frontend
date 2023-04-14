@@ -1,5 +1,6 @@
 import { DashboardService } from '../../../services/dashboard/dashboard.service';
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-seller-dashboard',
@@ -12,13 +13,29 @@ export class SellerDashboardComponent implements OnInit {
   dashboardData: any;
   mostSelling = [];
   user: any;
+  userDetails: any;
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor(
+    private dashboardService: DashboardService,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.getDashboardData();
     this.getMostSelling();
+    this.getUserDetails();
+  }
+
+  getUserDetails() {
+    this.userService.getUserById(this.user.id).subscribe(
+      (res) => {
+        this.userDetails = res.data;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   getDashboardData() {

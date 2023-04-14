@@ -20,6 +20,9 @@ import { DashboardComponent } from './dashboard.component';
 import { ProfileDashboardComponent } from './profile-dashboard/profile-dashboard.component';
 import { ChangePasswordComponent } from './profile-dashboard/change-password/change-password.component';
 import { ProfileComponent } from './profile-dashboard/profile/profile.component';
+import { BankAccountListComponent } from './bank-account/bank-account-list/bank-account-list.component';
+import { BankAccountCreateDialogComponent } from './bank-account/bank-account-create-dialog/bank-account-create-dialog.component';
+import { WithdrawalDialogComponent } from './bank-account/withdrawal-dialog/withdrawal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,10 @@ import { ProfileComponent } from './profile-dashboard/profile/profile.component'
     ProfileDashboardComponent,
     ChangePasswordComponent,
     ProfileComponent,
-    
+    BankAccountListComponent,
+    BankAccountCreateDialogComponent,
+    WithdrawalDialogComponent,
+
   ],
   imports: [
     CommonModule,

@@ -9,3 +9,22 @@ export interface StoreResponse {
   // data: IStore[];
   data: any;
 }
+
+export interface SellerBaseResponse<T> {
+  status: string
+  data: T
+}
+
+export interface SellerStores {
+  fullAddress: string
+  lat: string
+  lng: string
+  city: string
+  state: string
+  country: string
+  isDefault: boolean
+  userId: string
+  contactPhoneNumber: string
+  id: string
+  createdOn: string
+}

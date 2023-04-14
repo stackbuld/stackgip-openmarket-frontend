@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit {
     this.userService.updateUser(userProfile).subscribe(
       (a) => {
         this.toast.success('profile updated');
-        const userUpdate: IUser = {
+        const userUpdate = {
           id: userProfile.id,
           address: userProfile.address,
           alpha2CountryCode: userProfile.alpha2CountryCode,
@@ -73,7 +73,7 @@ export class ProfileComponent implements OnInit {
           firstName: userProfile.firstName,
           lastName: userProfile.lastName,
           profileImageUrl: this.user.profileImageUrl,
-        };
+        } as IUser;
         this.authService.UpdateUser(userUpdate);
         this.isSubmited = false;
       },

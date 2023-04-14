@@ -3,114 +3,146 @@
     <div class="signup-image-section"></div>
     <div class="signup-form-section">
       <div class="signup-form-container">
-        <div class="signup-back-btn">
+        <div class="login-back-btn">
+          <div class="ds-md ">
+            <img src="/assets/image/quality-logo.svg" alt="logo" class="login-logo w-9 uk-margin-small-bottom" />
+          </div>
           <a [routerLink]="['']" onclick="UIkit.modal('#modal-auth').hide()">
-            <div class="signup-back">
+            <div class="login-back">
               <img src="https://cdn.iconscout.com/icon/free/png-512/back-arrow-1767531-1502435.png" alt="go-back" />
               Go Home
             </div>
           </a>
         </div>
         <div class="signup-form-header">
-          <h1 class="open-market-lg">
-            <img src="../../../../assets/logos/Rena-Market-Transparent-WHT-2.png" alt="RENA MARKET" width="200" />
-          </h1>
-          <h2>Join Us!</h2>
-          <p>Create an account</p>
+          <div class="login-tiltle uk-margin-small-bottom ">Join Us!</div>
+          <div class="login-subtitle uk-margin-small-bottom">Create an account</div>
           <div class="signup-form">
-            <h1 class="open-market-sm">
+            <!-- <h1 class="open-market-sm">
               <img src="../../../../assets/logos/Rena-Market-Transparent-WHT-2.png" alt="RENA MARKET" width="200" />
-            </h1>
+            </h1> -->
             <form [formGroup]="registerForm" (ngSubmit)="submit()" id="form">
-              <p>
-                <mat-form-field appearance="outline">
-                  <mat-label>First Name</mat-label>
-                  <input matInput placeholder="Jane" type="text" formControlName="firstname" required />
-                  <mat-error *ngIf="errorMessage != ''">{{
-                    errorMessage
-                    }}</mat-error>
-                  <mat-error class="uk-text-success" *ngIf="message != '' && hasError == false">{{ message
-                    }}</mat-error>
-                  <mat-error *ngIf="hasError">
-                    <mat-error *ngFor="let i of errors">
-                      {{ i }}
-                    </mat-error>
-                  </mat-error>
-                  <mat-error *ngIf="
+
+              <mat-form-field appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input matInput placeholder="Jane" type="text" formControlName="firstname" required />
+              </mat-form-field>
+              <section class="error-sec">
+                <!-- <div *ngIf="errorMessage != ''">{{
+                  errorMessage
+                  }}</div>
+                <div class="uk-text-success" *ngIf="message != '' && hasError == false">{{ message
+                  }}</div>
+                <div *ngIf="hasError">
+                  <div *ngFor="let i of errors">
+                    {{ i }}
+                  </div>
+                </div> -->
+                <div *ngIf="
                       f.firstname.invalid &&
                       (f.firstname.dirty || f.firstname.touched)
                     ">
-                    <mat-error *ngIf="f.firstname.errors.required">
-                      firstname required
-                    </mat-error>
-                  </mat-error>
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field appearance="outline">
-                  <mat-label>Last Name</mat-label>
-                  <input matInput placeholder="Doe" type="text" formControlName="lastname" required />
-                  <mat-error *ngIf="
+                  <div *ngIf="f.firstname.errors.required">
+                    firstname required
+                  </div>
+                </div>
+              </section>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input matInput placeholder="Doe" type="text" formControlName="lastname" required />
+              </mat-form-field>
+              <section class="error-sec">
+                <div *ngIf="
                       f.lastname.invalid &&
                       (f.lastname.dirty || f.lastname.touched)
                     ">
-                    <mat-error *ngIf="f.lastname.errors.required">
-                      lastname required
-                    </mat-error>
-                  </mat-error>
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field appearance="outline">
-                  <mat-label>Email Address</mat-label>
+                  <div *ngIf="f.lastname.errors.required">
+                    lastname required
+                  </div>
+                </div>
+              </section>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Phone Number</mat-label>
+                <input matInput placeholder="08023434567" type="text" formControlName="phoneNumber" required />
+              </mat-form-field>
+              <section class="error-sec">
+                <div *ngIf="
+                      f.phoneNumber.invalid &&
+                      (f.phoneNumber.dirty || f.phoneNumber.touched)
+                    ">
+                  <div *ngIf="f.phoneNumber.errors.required">
+                    Phone Number required
+                  </div>
+                </div>
+              </section>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Email Address</mat-label>
+                <div class="d-flex">
                   <input matInput placeholder="example@email.com" type="email" formControlName="email" required />
-                  <mat-error *ngIf="
+                  <span *ngIf="f.email.valid">
+                    <img src="assets/icons/success-check.svg" alt="check" />
+                  </span>
+                </div>
+              </mat-form-field>
+              <section class="error-sec">
+                <div *ngIf="
                       f.email.invalid && (f.email.dirty || f.email.touched)
                     ">
-                    <mat-error *ngIf="f.email.errors.required">
-                      Email required <br />
-                    </mat-error>
-                    <mat-error *ngIf="f.email.errors.email">
-                      Valid email required
-                    </mat-error>
-                  </mat-error>
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field appearance="outline">
-                  <mat-label>Password</mat-label>
-                  <input matInput placeholder="********" type="password" formControlName="password" required />
-                  <mat-error *ngIf="
-                      f.password.invalid &&
-                      (f.password.dirty || f.password.touched)
-                    ">
-                    <mat-error *ngIf="f.password.errors.required">
-                      Password required <br />
-                    </mat-error>
-                    <mat-error *ngIf="f.password.errors.minLength">
-                      Password should be at least 6 characters <br />
-                    </mat-error>
-                  </mat-error>
-                </mat-form-field>
-              </p>
-              <p>
-                <mat-form-field appearance="outline">
-                  <mat-label>Confirm Password</mat-label>
-                  <input matInput placeholder="********" type="password" formControlName="confirmPassword" required />
-                  <mat-error *ngIf="
+                  <div *ngIf="f.email.errors.required">
+                    Email required <br />
+                  </div>
+                  <div *ngIf="f.email.errors.email">
+                    Valid email required
+                  </div>
+                </div>
+              </section>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <div class="d-flex">
+                  <input matInput placeholder="********" [type]=" passwordType ?  'text' : 'password'" formControlName="password" required />
+                  <span (click)="showPassword()">
+                    <img src="assets/icons/eye-open.svg" alt="check" />
+                  </span>
+                </div>
+                
+              </mat-form-field>
+              <section class="error-sec">
+                <div *ngIf="
+                  f.password.invalid &&
+                  (f.password.dirty || f.password.touched)
+                ">
+                  <div *ngIf="f.password.errors.required">
+                    Password required, must contain number, special character, uppercase and lowercase characters <br />
+                  </div>
+                  <div *ngIf="f.password.errors.minLength">
+                    Password should be at least 6 characters <br />
+                  </div>
+                </div>
+              </section>
+
+              <!-- <mat-form-field appearance="outline">
+                <mat-label>Confirm Password</mat-label>
+                <input matInput placeholder="********" type="password" formControlName="confirmPassword" required />
+              </mat-form-field>
+              <section class="error-sec">
+                <div *ngIf="
                       f.confirmPassword.invalid &&
                       (f.confirmPassword.dirty || f.confirmPassword.touched)
                     ">
-                    <mat-error *ngIf="f.confirmPassword.errors.required">
-                      Confirm Password required <br />
-                    </mat-error>
-                    <mat-error *ngIf="f.confirmPassword.errors.mustMatch">
-                      Confirm Password must match <br />
-                    </mat-error>
-                  </mat-error>
-                </mat-form-field>
-              </p>
-              <div style="margin-bottom: 20px; margin-top: 0px">
+                  <div *ngIf="f.confirmPassword.errors.required">
+                    Confirm Password required <br />
+                  </div>
+                  <div *ngIf="f.confirmPassword.errors.mustMatch">
+                    Confirm Password must match <br />
+                  </div>
+                </div>
+              </section> -->
+
+              <!-- <div style="margin-bottom: 20px; margin-top: 0px">
                 <div style="display: flex; align-items: center">
                   <input type="checkbox" required />
                   <a routerLink="/private-policy" style="margin-left: 10px">Privacy Policy</a>
@@ -119,30 +151,30 @@
                   <input type="checkbox" required /><a routerLink="/terms" style="margin-left: 10px">Terms and
                     Conditions</a>
                 </div>
-              </div>
-              <p>
-                <button class="uk-button uk-width-1-1 signup-btn1" type="submit">
-                  Sign Up
-                </button>
-              </p>
+              </div> -->
+
+              <button [disabled]="registerForm.invalid" class="uk-button uk-width-1-1 signup-btn1" type="submit">
+                Sign Up
+              </button>
+
             </form>
-            <div id="signup-or">
-              <div class="signup-hr1"></div>
-              <div class="signup-or">or</div>
-              <div class="signup-hr2"></div>
+            <div id="login-or">
+              <div class="login-hr1"></div>
+              <div class="login-or">or</div>
+              <div class="login-hr2"></div>
             </div>
 
-            <div id="signup-btn">
-              <button class="uk-button signup-btn2" (click)="this.authService.signInWithGoogle()">
+            <div id="login-btn">
+              <button class="uk-button login-btn2" (click)="this.authService.signInWithGoogle()">
                 <img src="https://res.cloudinary.com/mindset/image/upload/v1625917475/google__1_epmkfp.png" alt=""
-                  class="img-1" />
+                  class="login-img-1" />
               </button>
-              <button class="uk-button signup-btn2" (click)="this.authService.signInWithFacebook()">
+              <button class="uk-button login-btn2" (click)="this.authService.signInWithFacebook()">
                 <img src="https://res.cloudinary.com/mindset/image/upload/v1625923180/facebook__uzmrzq.png" alt=""
-                  class="img-1" />
+                  class="login-img-1" />
               </button>
             </div>
-            <h6>Already registered? <a routerLink="/auth/login">Login</a></h6>
+            <div class="signup-route">Already registered? <a class="fw-500" routerLink="/auth/login">Login</a></div>
           </div>
         </div>
       </div>
