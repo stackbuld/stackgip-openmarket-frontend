@@ -2,7 +2,6 @@ import { LandingRoutingModule } from './landing-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxPaginationModule } from 'src/app/shared/pagination/ngx-pagination.module';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -28,6 +27,7 @@ import { IndexComponent } from './index/index.component';
 import { ProductsComponent } from './products/products.component';
 import { CategoryProductsComponent } from './products/category-products/category-products.component';
 import { CategoryHomeGridComponent } from './category-home-grid/category-home-grid.component';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 @NgModule({
   declarations: [
@@ -62,7 +62,6 @@ import { CategoryHomeGridComponent } from './category-home-grid/category-home-gr
     SharedModule,
     NgxSliderModule,
     NgxPaginationModule,
-    NgxSliderModule,
     MatPaginatorModule,
   ]
 })
