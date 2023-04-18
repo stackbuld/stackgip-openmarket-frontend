@@ -12,6 +12,7 @@
             <li class="nav-text"><a href="#features">Features</a></li>
             <li class="nav-text"><a href="#about">About</a></li>
             <li class="nav-text"><a href="#contact">Contact</a></li>
+            <li class="nav-text" [routerLink]="['/homepage']"><a>Search</a></li>
           </ul>
         </div>
 
@@ -74,6 +75,12 @@
                 <a href="#contact">
                   <span class="uk-icon uk-margin-small-right"></span>
                   Contact
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/homepage']">
+                  <span class="uk-icon uk-margin-small-right"></span>
+                  Search
                 </a>
               </li>
             </ul>
@@ -453,7 +460,8 @@
   </section>
 
   <!-- JOIN OUR COMMUNITY -->
-  <section class="join-comm">
+  <app-landing-footer></app-landing-footer>
+  <!-- <section class="join-comm">
     <div>
       <div class="features-wrapper">
         <div class="features-heading">Join Our Community</div>
@@ -485,5 +493,5 @@
 
       </div>
     </div>
-  </section>
+  </section> -->
 </div>

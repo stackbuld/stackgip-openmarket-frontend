@@ -40,6 +40,10 @@ import { InfiniteScrollComponent } from './infinite-scroll/Infinite-scroll.compo
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { SuccessfulDialogComponent } from './components/successful-dialog/successful-dialog.component';
+import { HomeNavComponent } from './components/home-nav/home-nav.component';
+import { ProductCardComponent } from './components/product-card/product-card.component';
+import { LandingFooterComponent } from './components/landing-footer/landing-footer.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { DataCardsComponent } from './components/data-cards/data-cards.component';
 // import { ServicesComponent } from './components/services/services.component';
 @NgModule({
@@ -59,6 +63,10 @@ import { DataCardsComponent } from './components/data-cards/data-cards.component
     DeleteDialogComponent,
     ConfirmDialogComponent,
     SuccessfulDialogComponent,
+    HomeNavComponent,
+    ProductCardComponent,
+    LandingFooterComponent,
+    SearchBarComponent,
     DataCardsComponent
   ],
   imports: [
@@ -97,6 +105,10 @@ import { DataCardsComponent } from './components/data-cards/data-cards.component
     NewProductListComponent,
     InfiniteScrollComponent,
     SafeHtmlPipe,
+    HomeNavComponent,
+    ProductCardComponent,
+    LandingFooterComponent,
+    SearchBarComponent,
     DataCardsComponent
   ],
   providers: [

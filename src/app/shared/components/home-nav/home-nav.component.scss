@@ -1,0 +1,149 @@
+.txt {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+}
+
+.mobile {
+    display: none;
+}
+
+.center-flex {
+    display: flex;
+    align-items: center;
+}
+
+input {
+    width: 500px;
+    height: 42px;
+    background: #FAFAFA;
+    border: 1px solid #BDBDBD;
+    border-radius: 4px 0px 0px 4px;
+    outline: none !important;
+    padding-left: 35px;
+    padding-right: 10px;
+
+    ::placeholder {
+        font-weight: 350;
+        font-size: 12px;
+        line-height: 14px;
+        color: #828282;
+    }
+}
+
+.input-search {
+    position: relative;
+    .icn-search {
+        position: absolute;
+        left: 0px;
+        top: 10px;
+        left: 10px;
+    }
+}
+
+.search-btn {
+    background: #000000;
+    border-radius: 0px 4px 4px 0px;
+    border: none;
+    outline: none !important;
+    padding: 0rem 1rem;
+}
+
+.main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 8rem;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+// THE MOBILE NAV STYLE
+
+.border-bottom {
+    border-bottom: 1px solid #F2F2F2;
+}
+
+.see-btn {
+    font-weight: 600;
+    font-size: 9px;
+    line-height: 10px;
+    text-decoration-line: underline;
+    color: #FF8B00;
+    display: flex;
+    align-items: center;
+}
+
+.mobile-item {
+    font-weight: 400;
+    font-size: 9.08385px;
+    line-height: 11px;
+    color: #000000;
+}
+
+.mobile-heading {
+    font-weight: 900;
+    font-size: 10px;
+    line-height: 12px;
+    color: #FF8B00;
+}
+
+.flex-inner {
+    width: 100%; 
+    display: flex; 
+    padding: .5rem 1rem;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 767px) {
+    .main {
+        display: none;
+    }
+
+    input {
+        width: 100%;
+    }
+    .input-search {
+        width: 100%;
+    }
+    .search-section {
+        margin: .5rem 0rem;
+    }
+
+    .mobile {
+        display: block;
+    }
+
+    .mobile-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .main {
+        // padding: 1rem;
+        display: none;
+    }
+
+    input {
+        width: 200px;
+    }
+
+    .mobile {
+        display: block;
+    }
+
+    .mobile-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
