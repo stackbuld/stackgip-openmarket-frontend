@@ -8,6 +8,47 @@
     border: none;
 }
 
+.mobile-item {
+    color: black !important;
+}
+
+.range-input {
+    width: 100px !important;
+}
+
+.range-divider {
+    color: black !important;
+    text-align: center;
+}
+
+.mobile-heading {
+    font-weight: 900;
+    font-size: 10px;
+    line-height: 12px;
+    color: #FF8B00 !important;
+}
+
+.tag {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 14px;
+    color: #000000 !important;
+}
+
+.txt-title {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 150%;
+    color: #072755 !important;
+}
+
+.range-in {
+    background: #FAFAFA !important;
+    border: 1px solid #BDBDBD !important;
+    border-radius: 5px;
+    outline: none !important;
+}
+
 .column-switch {
     background: #FFFFFF;
     border: 0.6px solid #B7BECD;
@@ -70,6 +111,16 @@
 .right-section {
     width: 75%;
     margin-left: 2rem;
+}
+
+.apply-btn {
+    background: #000000;
+    border-radius: 6px;
+    outline: none !important;
+    border: none;
+    height: 50px;
+    color: #ffffff;
+    text-align: center;
 }
 
 ::ng-deep {

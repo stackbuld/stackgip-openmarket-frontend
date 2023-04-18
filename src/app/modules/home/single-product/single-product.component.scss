@@ -1,6 +1,15 @@
 .main {
     padding: 2rem 8rem 0rem 8rem;
 
+    .uk-lightbox-items {
+        li {
+            img {
+                width: 100% !important;
+                height: 100% !important;
+            }
+        }
+    }
+
     .top-section {
         display: flex;
         // align-items: center;
@@ -61,7 +70,12 @@
         .left-section {
             width: 50%;
 
+            .img-section {
+                width: 100% !important;
+            }
+
             .main-img {
+                height: 500px;
                 width: 100%;
             }
 
@@ -273,9 +287,50 @@ input[type = 'radio'] {
     text-align: center;
 }
 
+.bottom-element {
+    display: none;
+}
+
+.d-none {
+    display: none !important;
+}
+
 @media screen and (max-width: 767px) {
     .main {
-        padding: 1rem;
+        // padding: 1rem !important;
+
+        .mobile-only-margin-bottom {
+            margin-bottom: 8rem;
+        }
+
+        .main-img {
+            height: 200px !important;
+        }
+
+        .web-btn {
+            display: none;
+        }
+
+        height: calc(100vh - 80px);
+        width: 100vw;
+        // overflow-y: auto;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+         
+         .bottom-element {
+            display: flex;
+            position: absolute;
+            bottom: 0;
+            background-color: white;
+            height: 80px;
+            width: 100%;
+            z-index: 1000;
+         }
+
+        .mobile-pad-1 {
+            padding: 0rem 1rem !important;
+        }
 
         .top-section {
             display: block;
@@ -295,6 +350,16 @@ input[type = 'radio'] {
         }
     }
 
+    .txt-2 {
+        font-size: 12px !important;
+        line-height: 15px !important;
+    }
+
+    .address-name {
+        font-weight: 900 !important;
+        font-size: 16px !important;
+    }
+
     .mobile-block {
         display: block !important;
     }
@@ -306,6 +371,10 @@ input[type = 'radio'] {
 
         .right-section {
             margin-left: 1rem !important;
+        }
+
+        .main-img {
+            height: 400px !important;
         }
     }
 

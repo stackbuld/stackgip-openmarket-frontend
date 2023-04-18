@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './single-product.component.html',
   styleUrls: ['./single-product.component.scss']
 })
-export class SingleProductComponent implements OnInit {
+export class SingleProductComponent implements OnInit{
   currentImgUrl = '/assets/images/item1.png';
   activeImgId = 1;
   isInformation = true;
@@ -69,7 +69,6 @@ export class SingleProductComponent implements OnInit {
   ngOnInit(): void {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-
   }
 
   setImgUrl = (url: string, id: number) => {

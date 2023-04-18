@@ -3,6 +3,10 @@
     display: flex;
     background-color: #ffffff;
 
+    .mobile-view-only {
+        display: none;
+    }
+
     .left-section {
         width: 70%;
         margin-right: 2rem;
@@ -193,6 +197,14 @@
         padding: 1rem;
         display: block;
 
+        .mobile-view-only {
+            display: block;
+        }
+
+        .web-only {
+            display: none;
+        }
+
         .left-section {
             margin-right: 0px;
             width: 100%;
@@ -249,6 +261,14 @@
     .main {
         padding: 1rem;
         display: block;
+
+        .mobile-view-only {
+            display: block;
+        }
+
+        .web-only {
+            display: none;
+        }
 
         .left-section {
             margin-right: 0px;

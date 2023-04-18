@@ -1,11 +1,15 @@
 <div class="main">
-    <img src="/assets/images/home-nav-logo.svg" alt="home-nav" />     
+    <img routerLink="/" src="/assets/images/home-nav-logo.svg" alt="home-nav" />     
     <app-search-bar></app-search-bar>
     <div class="flex">
         <span class="txt pointer">Sell</span> 
             &nbsp; &nbsp; &nbsp;
         <span class="txt pointer">Contact</span>
         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <span routerLink="/homepage/history" class="txt pointer">
+            <img src="/assets/images/orders-iccn.svg" alt="orders-icn" /> 
+        </span> 
+            &nbsp; &nbsp; &nbsp;
         <span class="txt pointer">
             <img src="/assets/images/card-icn.svg" alt="cart-icn" /> 
         </span> 
@@ -223,7 +227,7 @@
             </div>
     
             <div class="center-flex">
-                <svg class="icn-search" width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg (click)="toggleMobileSearchBar()" class="icn-search" width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8.8877 14.25C12.2014 14.25 14.8877 11.5637 14.8877 8.25C14.8877 4.93629 12.2014 2.25 8.8877 2.25C5.57399 2.25 2.8877 4.93629 2.8877 8.25C2.8877 11.5637 5.57399 14.25 8.8877 14.25Z" stroke="#828282" stroke-width="1.01393" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M16.3855 15.7508L13.123 12.4883" stroke="#828282" stroke-width="1.01393" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -235,6 +239,6 @@
         </div>
     </div>
 </div>
-<div class="px-3 mobile">
+<div class="px-3 mobile" *ngIf="isSearch">
     <app-search-bar></app-search-bar>
 </div>

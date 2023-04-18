@@ -109,6 +109,48 @@
             </div>
         </div>
 
+        <div class="right-section p-4 mobile-view-only">
+            <h2>Cart Summary</h2>
+            <div class="mt-3">
+                <p class="uk-flex uk-flex-between">
+                    <span>Subtotal</span>
+                    <span>N 500,000</span>
+                </p>
+    
+                <p class="uk-flex uk-flex-between">
+                    <span>Actual Shipping cost</span>
+                    <span>N 30,000</span>
+                </p>
+    
+                <p class="uk-flex uk-flex-between">
+                    <span>Shipping Discount</span>
+                    <span>N 30,000</span>
+                </p>
+    
+                <p class="uk-flex uk-flex-between">
+                    <span>Items Discount</span>
+                    <span>N 20,000</span>
+                </p>
+    
+                <p class="uk-flex uk-flex-between">
+                    <span>Promo Code</span>
+                    <span>Enter code here</span>
+                </p>
+    
+                <p> A promo code is a combination of letters (case sensitive) and numbers without spacing</p>
+    
+                <div class="w-100 apply-section">
+                    <input type="text" placeholder="Enter code here" />
+                    <button>Apply</button>
+                </div>
+    
+                <div class="uk-flex uk-flex-between">
+                    <p class="big">Total</p>
+                    <p class="big">N 530,000</p>
+                </div>
+            </div>
+        </div>
+
         <div class="payment-section mt-3 p-4">
             <h2>Payment Methods</h2>
             <div class="d-flex align-items-center">
@@ -144,12 +186,12 @@
                 </div>       
             </div>
 
-            <button class="w-100 pay-btn mt-4">Pay</button>
+            <button routerLink="/homepage/details" class="w-100 pay-btn mt-4">Pay</button>
 
             <p class="personal-info mt-3">Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.</p>
         </div>
     </div>
-    <div class="right-section p-4">
+    <div class="web-only right-section p-4">
         <h2>Cart Summary</h2>
         <div class="mt-3">
             <p class="uk-flex uk-flex-between">

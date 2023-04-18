@@ -10,6 +10,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ProductListComponent } from './product-list/product-list.component';
 import { SingleProductComponent } from './single-product/single-product.component';
 import { ProductCheckoutComponent } from './product-checkout/product-checkout.component';
+import { OrderDetailsComponent } from './order-details/order-details.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { ProductCheckoutComponent } from './product-checkout/product-checkout.co
     ProductListComponent,
     SingleProductComponent,
     ProductCheckoutComponent,
+    OrderDetailsComponent,
+    OrderHistoryComponent,
   ],
   imports: [
     CommonModule,
