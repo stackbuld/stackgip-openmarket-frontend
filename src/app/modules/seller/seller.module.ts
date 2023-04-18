@@ -23,6 +23,9 @@ import { ProfileComponent } from './profile-dashboard/profile/profile.component'
 import { BankAccountListComponent } from './bank-account/bank-account-list/bank-account-list.component';
 import { BankAccountCreateDialogComponent } from './bank-account/bank-account-create-dialog/bank-account-create-dialog.component';
 import { WithdrawalDialogComponent } from './bank-account/withdrawal-dialog/withdrawal-dialog.component';
+import { OrderManagementComponent } from './order-management/order-management/order-management.component';
+import { OrderViewComponent } from './order-management/order-view/order-view.component';
+import { ConfirmOrderDialogComponent } from './order-management/confirm-order-dialog/confirm-order-dialog.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +47,9 @@ import { WithdrawalDialogComponent } from './bank-account/withdrawal-dialog/with
     BankAccountListComponent,
     BankAccountCreateDialogComponent,
     WithdrawalDialogComponent,
+    OrderManagementComponent,
+    OrderViewComponent,
+    ConfirmOrderDialogComponent,
 
   ],
   imports: [
