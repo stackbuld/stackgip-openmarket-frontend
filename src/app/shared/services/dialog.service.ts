@@ -4,6 +4,7 @@ import { WithdrawalDialogComponent } from 'src/app/modules/seller/bank-account/w
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
 import { DeleteDialogComponent } from '../components/delete-dialog/delete-dialog.component';
 import { SuccessfulDialogComponent } from '../components/successful-dialog/successful-dialog.component';
+import { ConfirmOrderDialogComponent } from 'src/app/modules/seller/order-management/confirm-order-dialog/confirm-order-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -67,6 +68,12 @@ export class DialogService {
 
   openWithdrawalDialog() {
     return this.dialog.open(WithdrawalDialogComponent,{
+      width: "500px"
+    });
+  }
+
+  openConfirmOrderDialog() {
+    return this.dialog.open(ConfirmOrderDialogComponent,{
       width: "500px"
     });
   }

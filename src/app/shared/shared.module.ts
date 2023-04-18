@@ -40,6 +40,7 @@ import { InfiniteScrollComponent } from './infinite-scroll/Infinite-scroll.compo
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { SuccessfulDialogComponent } from './components/successful-dialog/successful-dialog.component';
+import { DataCardsComponent } from './components/data-cards/data-cards.component';
 // import { ServicesComponent } from './components/services/services.component';
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { SuccessfulDialogComponent } from './components/successful-dialog/succes
     InfiniteScrollComponent,
     DeleteDialogComponent,
     ConfirmDialogComponent,
-    SuccessfulDialogComponent
+    SuccessfulDialogComponent,
+    DataCardsComponent
   ],
   imports: [
     CommonModule,
@@ -95,6 +97,7 @@ import { SuccessfulDialogComponent } from './components/successful-dialog/succes
     NewProductListComponent,
     InfiniteScrollComponent,
     SafeHtmlPipe,
+    DataCardsComponent
   ],
   providers: [
     {
