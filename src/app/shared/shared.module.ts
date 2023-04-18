@@ -44,6 +44,7 @@ import { HomeNavComponent } from './components/home-nav/home-nav.component';
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { LandingFooterComponent } from './components/landing-footer/landing-footer.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { DataCardsComponent } from './components/data-cards/data-cards.component';
 // import { ServicesComponent } from './components/services/services.component';
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     ProductCardComponent,
     LandingFooterComponent,
     SearchBarComponent,
+    DataCardsComponent
   ],
   imports: [
     CommonModule,
@@ -107,6 +109,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     ProductCardComponent,
     LandingFooterComponent,
     SearchBarComponent,
+    DataCardsComponent
   ],
   providers: [
     {

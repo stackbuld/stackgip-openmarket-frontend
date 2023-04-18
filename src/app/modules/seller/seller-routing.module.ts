@@ -10,6 +10,8 @@ import { OrderListComponent } from './seller-orders/order-list/order-list.compon
 import { SellerOrdersComponent } from './seller-orders/seller-orders.component';
 import { SellerShowCaseProductComponent } from './sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
 import { BankAccountListComponent } from './bank-account/bank-account-list/bank-account-list.component';
+import { OrderManagementComponent } from './order-management/order-management/order-management.component';
+import { OrderViewComponent } from './order-management/order-view/order-view.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent,
@@ -22,12 +24,14 @@ const routes: Routes = [
           children: [
             {
               path: '',
-              component: OrderListComponent,
+              component: OrderManagementComponent,
+              // component: OrderListComponent,
             },
-            // {
-            //   path: "detail/:id/:user_id",
-            //   component: OrderDetailComponent,
-            // },
+            {
+              // path: "detail/:id/:user_id",
+              path: "detail",
+              component: OrderViewComponent,
+            },
           ],
         },
         {
@@ -37,6 +41,10 @@ const routes: Routes = [
         {
           path: 'bank-account-list',
           component: BankAccountListComponent,
+        },
+        {
+          path: 'order-management',
+          component: OrderManagementComponent,
         },
         {
           path: 'profile',

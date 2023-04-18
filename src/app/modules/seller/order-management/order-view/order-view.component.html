@@ -1,0 +1,89 @@
+<h1>
+  <span class="me-2" uk-icon="icon: arrow-left; ratio: 2"></span>
+  Order Details
+</h1>
+
+
+<div class="card item-card">
+  <div class="card-body">
+    <h2>
+      Item in order
+    </h2>
+
+    <div class="d-flex justify-content-between">
+      <div>
+        <p>
+          Status: pending
+        </p>
+        <div class="row">
+          <div class="col">
+            <img src="../../../../../assets/image/sneakers.png" class="img-fluid rounded" alt="">
+          </div>
+          <div class="col">
+            <p class="mb-0">
+              Sneakers
+            </p>
+            <p class="mb-0">
+              Quatity:
+              <span class="badge rounded-pill text-bg-light">
+                1 item
+              </span>
+            </p>
+            <p class="mb-0">
+              ₦50,000
+            </p>
+            <p class="mb-0 d-flex align-items-center" >
+              color:
+              <span [style.backgroundColor]="'#ff0000'" class="color-value ms-2"></span> <br>
+
+            </p>
+            <em>Pay online</em><br>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button (click)="onConfirmOrder()" class="uk-button uk-button-secondary uk-button-small me-2" type="button">Accept Order</button>
+      </div>
+
+    </div>
+
+    <h2>Selected Complementary Product</h2>
+    <div class="row row-cols-2">
+      <div>
+        <img src="../../../../../assets/image/sneakers.png" class="img-fluid rounded me-2" alt="">
+        <img src="../../../../../assets/image/sneakers.png" class="img-fluid rounded me-2" alt="">
+        <img src="../../../../../assets/image/sneakers.png" class="img-fluid rounded me-2" alt="">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-2 card receiver-info">
+  <div class="card-body">
+    <h2>
+      Receiver’s Contact Information
+    </h2>
+
+    <p class="mb-0">
+      Name: Pamela Okeke
+    </p>
+    <p class="mb-0">
+      Phone numer: +234906789436
+    </p>
+    <p class="mb-0">
+      Country: Nigeria
+    </p>
+    <p class="mb-0">
+      State: Abuja
+    </p>
+    <p class="mb-0">
+      Address: No 1 Adede Sree, Abuja
+    </p>
+    <p class="mb-0">
+      Expected Delivery Date: 31st March 2023
+    </p>
+    <p class="mb-0">
+      Company Name: DHL Company
+    </p>
+  </div>
+</div>
