@@ -28,7 +28,11 @@ export class HomeLandingComponent implements AfterViewInit, OnInit {
   }
   @ViewChild('container') container: ElementRef<HTMLElement>;
 
-  ngOnInit() { }
+  ngOnInit() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  
+  }
 
   ngAfterViewInit(): void {
 

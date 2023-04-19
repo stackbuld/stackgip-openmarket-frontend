@@ -12,7 +12,7 @@
             <li class="nav-text"><a href="#features">Features</a></li>
             <li class="nav-text"><a href="#about">About</a></li>
             <li class="nav-text"><a href="#contact">Contact</a></li>
-            <li class="nav-text" [routerLink]="['/homepage']"><a>Search</a></li>
+            <!-- <li class="nav-text" [routerLink]="['/homepage']"><a>Search</a></li> -->
           </ul>
         </div>
 
@@ -77,12 +77,12 @@
                   Contact
                 </a>
               </li>
-              <li>
+              <!-- <li>
                 <a [routerLink]="['/homepage']">
                   <span class="uk-icon uk-margin-small-right"></span>
                   Search
                 </a>
-              </li>
+              </li> -->
             </ul>
             <div class="uk-navbar-right">
               <button class="uk-button uk-button-default uk-text-capitalize waitList" type="button"
@@ -105,7 +105,7 @@
       <div class="top-subtext uk-margin-small-bottom">At Renamarket, our goal is to connect buyers and sellers in an
         instant, create a seamless
         online shopping experience for customers, and provide the best prices for a variety of products.</div>
-      <button class="uk-button uk-button-default uk-text-capitalize waitList mt-2">
+      <button routerLink="/wait-list" class="uk-button uk-button-default uk-text-capitalize waitList mt-2">
         Get Started
       </button>
     </div>
@@ -268,7 +268,7 @@
           <p class="two-sides-subtext">Get amazing product recommendation to sell and for customers to use your product
           </p>
           <div class="bottom-section mt-2">
-            <button class="uk-button uk-button-default uk-text-capitalize waitList">Sign Up</button>
+            <button routerLink="/wait-list" class="uk-button uk-button-default uk-text-capitalize waitList">Sign Up</button>
           </div>
         </div>
         <div class="w-45 order-B">
