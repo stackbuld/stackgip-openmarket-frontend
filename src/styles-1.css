@@ -8,7 +8,7 @@
 .uk-navbar-item,
 .uk-navbar-nav > li > a,
 .uk-navbar-toggle {
-  font-family: "Work Sans", sans-serif !important;
+  font-family: 'Avenir';
   min-height: 20px !important;
   text-transform: none;
   font-weight: 500;
@@ -52,7 +52,7 @@ gray color for font #7e7e7e
 }
 
 html {
-  font-family: "Work Sans", sans-serif !important;
+  font-family: 'Avenir';
 }
 
 .uk-h1,
@@ -72,7 +72,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Work Sans", sans-serif !important;
+  font-family: 'Avenir';
 }
 
 .headline {
@@ -92,7 +92,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: "Work Sans", sans-serif !important;
+  font-family: 'Avenir';
 }
 /* button */
 .btn-default {
@@ -100,7 +100,7 @@ body {
   border: solid 2px #0066d0;
   padding: 0.5rem;
   color: #ffffff;
-  font-family: "Work Sans", sans-serif !important;
+  font-family: 'Avenir';
   font-size: medium;
   font-weight: lighter;
   transition: background-color 0.5s;
@@ -205,5 +205,5 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Avenir';
 }

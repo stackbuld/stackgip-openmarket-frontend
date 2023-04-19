@@ -1,0 +1,10 @@
+<div routerLink="/homepage/product/1" class="prod p-2">
+    <img [src]="product?.imgUrl" alt="product-img" class="img" />
+    <div class="py-3">
+        <div class="mb-2 uk-flex uk-flex-between">
+            <p class="mb-0 name">{{product?.name}}</p>
+            <img src="/assets/images/cart-icn-prod.svg" alt="cart-icn-prod" />
+        </div>
+        <p class="price mb-0">{{product?.price | currency: '₦'}}</p>
+    </div>
+</div>

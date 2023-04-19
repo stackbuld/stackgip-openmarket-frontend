@@ -1,0 +1,115 @@
+<div class="login-main">
+  <div class="login-flex-container">
+    <div class="login-image-section"></div>
+    <div class="login-form-section">
+      <div class="login-form-container">
+        <div class="login-back-btn">
+          <div class="ds-md ">
+            <img src="/assets/image/quality-logo.svg" alt="logo" class="login-logo w-9 uk-margin-small-bottom" />
+          </div>
+          <a [routerLink]="['']" onclick="UIkit.modal('#modal-auth').hide()">
+            <div class="login-back">
+              <img src="https://cdn.iconscout.com/icon/free/png-512/back-arrow-1767531-1502435.png" alt="go-back" />
+              Go Home
+            </div>
+          </a>
+        </div>
+        <div class="login-form-header">
+          <div class="login-tiltle uk-margin-small-bottom uk-margin-small-top">Welcome Back!</div>
+          <div class="login-subtitle uk-margin-large-bottom">Login into your account...</div>
+          <div class="login-form">
+
+            <form [formGroup]="loginForm" (ngSubmit)="login()" id="form">
+
+              <mat-form-field appearance="outline">
+                <mat-label>Email Address</mat-label>
+                <div class="d-flex">
+                  <input matInput placeholder="example@email.com" type="email" formControlName="email" required />
+                  <span *ngIf="f.email.valid">
+                    <img src="assets/icons/success-check.svg" alt="check" />
+                  </span>
+                </div>
+              </mat-form-field>
+              <Section class="error-sec">
+                <div *ngIf="message != '' && hasError == false">{{
+                  message
+                  }}</div>
+                <div *ngFor="let i of errors">
+                  {{ i }} <br />
+                </div>
+                <div *ngIf="errorMessage != ''">{{
+                  errorMessage
+                  }}</div>
+                <div *ngIf="
+                      f.email.invalid && (f.email.dirty || f.email.touched)
+                    ">
+                  <div *ngIf="f.email.errors.required">
+                    Email required
+                  </div>
+                  <div *ngIf="f.email.errors.email">
+                    Valid email required
+                  </div>
+                </div>
+              </Section>
+
+
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <div class="d-flex">
+                  <input matInput placeholder="********" [type]=" passwordType ?  'text' : 'password'"
+                    formControlName="password" required />
+                  <span (click)="showPassword()">
+                    <img src="assets/icons/eye-open.svg" alt="check" />
+                  </span>
+                </div>
+              </mat-form-field>
+
+              <section class="error-sec">
+                <div *ngIf="
+                      f.password.invalid &&
+                      (f.password.dirty || f.password.touched)
+                    ">
+                  <div *ngIf="f.password.errors.required">
+                    Password required <br />
+                  </div>
+                  <div *ngIf="f.password.errors.minLength">
+                    Password should be at least 6 characters <br />
+                  </div>
+                </div>
+              </section>
+
+              <div>
+                <div routerLink="/auth/forget-password" onclick="UIkit.modal('#modal-auth').hide()"
+                  class="login-forgot">Forgot password?</div>
+              </div>
+
+              <button [disabled]="loginForm.invalid" class="uk-button uk-width-1-1 login-btn1" type="submit">
+                Login
+              </button>
+
+            </form>
+            <div id="login-or">
+              <div class="login-hr1"></div>
+              <div class="login-or">or</div>
+              <div class="login-hr2"></div>
+            </div>
+
+            <div id="login-btn">
+              <button class="uk-button login-btn2" (click)="this.authService.signInWithGoogle()">
+                <img src="https://res.cloudinary.com/mindset/image/upload/v1625917475/google__1_epmkfp.png" alt=""
+                  class="login-img-1" />
+              </button>
+              <button class="uk-button login-btn2" (click)="this.authService.signInWithFacebook()">
+                <img src="https://res.cloudinary.com/mindset/image/upload/v1625923180/facebook__uzmrzq.png" alt=""
+                  class="login-img-1" />
+              </button>
+            </div>
+            <div class="signup-route">
+              Don't have an account? <a class="fw-500" routerLink="/auth/signup">Register</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

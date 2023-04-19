@@ -1,0 +1,284 @@
+.main {
+    padding: 2rem 8rem;
+    display: flex;
+    background-color: #ffffff;
+
+    .mobile-view-only {
+        display: none;
+    }
+
+    .left-section {
+        width: 70%;
+        margin-right: 2rem;
+
+        .top-left {
+            background: #F8F8F8;
+            border-radius: 5px;
+
+            .name {
+                font-weight: 400;
+                font-size: 18px;
+                line-height: 154%;
+                color: #000000;
+            }
+
+            .ship {
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 19px;
+                color: #333333;
+            }
+
+            .naming {
+                width: 70%;
+            }
+
+            .img-section {
+                margin-right: 1rem;
+            }
+
+            .pricing {
+                width: 30%;
+                margin-left: 1rem;
+            }
+
+            .each-item {
+                border-bottom: 0.5px solid black;
+            }
+
+            .price {
+                font-size: 20px;
+                line-height: 154%;
+                color: #000000;
+            }
+
+            .strike {
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 154%;
+                text-decoration-line: line-through;
+                color: #979797;
+            }
+
+            .percent {
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 154%;
+                color: #D01717;
+            }
+
+            .det-top {
+                border-bottom: 0.3px solid #B9B9B9;
+            }
+
+            .del-add {
+                font-style: normal;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 19px;
+                color: #828282;
+            }
+
+            .del-type {
+                font-style: italic;
+                font-weight: 750;
+                font-size: 14px;
+                line-height: 154%;
+                color: #666666;
+            }
+        }
+
+        .del-btn {
+            display: flex;
+            align-items: center;
+            color: #D01717;
+        }
+
+        .payment-section {
+            background: #F8F8F8;
+            border-radius: 5px;
+            // height: 0px !important;
+
+            input[type = 'radio'] {
+                width: 20px;
+                height: 20px;
+                accent-color: black !important;
+            }
+
+            label {
+                span {
+                    font-weight: 900;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: #000000;
+                }
+            }
+
+            .info-title {
+                font-weight: 900;
+                font-size: 24px;
+                line-height: 33px;
+                color: #92921D;
+            }
+
+            .msg {
+                font-weight: 500;
+                font-size: 20px;
+                line-height: 27px;
+                color: #B6B62E;
+            }
+
+            .info-section {
+                background: #FFFFDF;
+                border-left: 4px solid #EBEB5E;
+            }
+
+            .pay-btn {
+                background: #000000;
+                color: #ffffff;
+                height: 50px;
+                text-align: center;
+                border: none;
+                outline: none !important;
+                border-radius: 4px;
+            }
+
+            .personal-info {
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 22px;
+                color: #6A6B6E;
+            }
+        }
+    }
+
+    .right-section {
+        width: 30%;
+        background: #EDEDED;
+        border-radius: 5px;
+        height: 400px;
+
+        .big {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .apply-section {
+            width: 100%;
+            height: 45px;
+            margin-bottom: 1rem;
+
+            input {
+                width: 75%;
+                background: #EDEDED;
+                height: 45px;
+                outline: none !important;
+                border: 1px solid #B9B9B9;
+                border-radius: 4px 0px 0px 4px;
+                padding: 0rem 10px;
+            }
+
+            button {
+                width: 25%;
+                height: 45px;
+                outline: none !important;
+                border: 1px solid #000000;
+                background: black;
+                text-align: center;
+                color: #ffffff;
+                border-radius: 0px 4px 4px 0px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .main {
+        padding: 1rem;
+        display: block;
+
+        .mobile-view-only {
+            display: block;
+        }
+
+        .web-only {
+            display: none;
+        }
+
+        .left-section {
+            margin-right: 0px;
+            width: 100%;
+
+            .address-payment {
+                display: block !important;
+
+                .del-add {
+                    font-size: 12px;
+                }
+            }
+
+            .content {
+                display: block !important;
+
+                .naming {
+                    width: 100%;
+                    .name {
+                        font-size: 12px;
+                        margin-bottom: 0px !important;
+                    }
+
+                    .ship {
+                        font-size: 10px;
+                        margin-bottom: 0px !important;
+                    }
+                }
+
+                .pricing {
+                    width: 100%;
+                    margin-left: 0px;
+
+                    .price {
+                        font-size: 14px;
+                    }
+
+                    .counter {
+                        margin-top: 0px !important;
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+        }
+
+        .right-section {
+            margin-top: 1rem;
+            width: 100%;
+            height: auto;
+        }
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px)  {
+    .main {
+        padding: 1rem;
+        display: block;
+
+        .mobile-view-only {
+            display: block;
+        }
+
+        .web-only {
+            display: none;
+        }
+
+        .left-section {
+            margin-right: 0px;
+            width: 100%;
+        }
+
+        .right-section {
+            margin-top: 1rem;
+            width: 100%;
+            height: auto;
+        }
+    }
+}
