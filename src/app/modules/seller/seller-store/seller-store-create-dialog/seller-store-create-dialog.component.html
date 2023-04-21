@@ -18,7 +18,7 @@
       </div>
       <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-text">Store Address*</label>
-        <div class="uk-form-controls">
+        <div *ngIf="mode !== 'edit' || (mode === 'edit' && !notReady)" class="uk-form-controls">
           <input
           ngx-google-places-autocomplete
           [options]='options'
@@ -33,6 +33,7 @@
               </small>
             </div>
         </div>
+        <p *ngIf="mode === 'edit' && notReady" (click)="setAddressField()" class="setter">{{setter}}</p>
       </div>
       <div class="uk-grid-small" uk-grid>
         <div class="uk-width-1-2@s">
@@ -56,7 +57,7 @@
       </div>
       <div class="uk-grid-small" uk-grid>
         <div class="uk-width-1-2@s">
-          <label for="">Landmark*</label>
+          <label for="">Landmark</label>
           <input formControlName="landmark" class="uk-input" type="text" placeholder="Please enter Landmark"
              />
             <div *ngIf="landmark.invalid && (landmark.dirty || landmark.touched)">
@@ -91,19 +92,26 @@
           <label for="">Phone Number*</label>
           <!-- <span>+234</span> -->
           <input type="tel" formControlName="contactPhoneNumber" class="uk-input" type="text" placeholder="--- 2348012345678---"
-             />
+            (keypress)="preventLetter($event)"/>
             <div *ngIf="contactPhoneNumber.invalid && (contactPhoneNumber.dirty || contactPhoneNumber.touched)">
               <small class="uk-text-danger" *ngIf="contactPhoneNumber.hasError('required')">
                 Contact phone number is a required field
               </small>
-              <small class="uk-text-danger" *ngIf="contactPhoneNumber.hasError('pattern')">Please enter a valid phone number</small>
+              <!-- <small class="uk-text-danger" *ngIf="contactPhoneNumber.hasError('pattern')">Please enter a valid phone number</small> -->
             </div>
         </div>
       </div>
 
       <p class="uk-text-center uk-margin-top">
         <button class="uk-button uk-button-default uk-modal-close" type="submit">
-          Save
+          <span *ngIf="!loading">
+            <span *ngIf="mode !== 'edit'">Save</span>
+            <span *ngIf="mode === 'edit'">Update</span>
+          </span>
+          <span *ngIf="loading">
+            <span *ngIf="mode !== 'edit'">saving...</span>
+            <span *ngIf="mode === 'edit'">updating...</span>
+          </span>
         </button>
       </p>
     </form>

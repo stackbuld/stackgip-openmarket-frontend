@@ -195,6 +195,12 @@ export class ProductsService {
     );
   }
 
+  getCachedProductById(productId: string): Observable<any> {
+    return this.http.get<any>(
+      this.baseUrl + `products/${productId}/cached`
+    );
+  }
+
   deleteProduct(productId: number): Observable<any> {
     return this.http.delete(this.baseUrl + `products/${productId}`);
   }

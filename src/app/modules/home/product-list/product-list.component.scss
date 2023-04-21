@@ -123,6 +123,10 @@
     text-align: center;
 }
 
+.activeCategory {
+    color: #FF8B00 !important;
+}
+
 ::ng-deep {
     .custom-slider {
       .ngx-slider {
@@ -161,6 +165,10 @@
     .right-section {
         width: 100%;
         margin-left: 0rem !important;
+    }
+
+    .web-only {
+        display: none;
     }
 }
 
