@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ProductsService } from 'src/app/services/products/products.service';
 
 @Component({
   selector: 'app-single-product',
@@ -65,10 +67,37 @@ export class SingleProductComponent implements OnInit{
     }
   ]
   count = 1;
+  productId = null;
+  product = null;
+  loading: boolean;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private productService: ProductsService,
+  ) { }
 
   ngOnInit(): void {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+    this.getParams();
+  }
+
+  getParams = () => {
+    this.activatedRoute.params.subscribe(params => {
+      this.productId = params['id'];
+      this.getProductDetails();
+    });
+  }
+
+  getProductDetails = () => {
+    this.loading = true;
+    const productService$ = this.productService.getCachedProductById(this.productId);
+    productService$.subscribe(res => {
+      this.product = res.data;
+      this.loading = false;
+    }, err => {
+      this.loading = false;
+    })
   }
 
   setImgUrl = (url: string, id: number) => {

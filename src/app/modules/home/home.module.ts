@@ -12,6 +12,7 @@ import { SingleProductComponent } from './single-product/single-product.componen
 import { ProductCheckoutComponent } from './product-checkout/product-checkout.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
+import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
+    NgxShimmerLoadingModule
   ]
 })
 export class HomeModule { }

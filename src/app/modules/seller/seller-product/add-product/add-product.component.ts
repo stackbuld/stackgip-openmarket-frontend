@@ -94,7 +94,6 @@ export class AddProductComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.formInit();
     this.initVariationForm();
     localStorage.removeItem('compImagesStore');
     this.user = this.authService.getLoggedInUser();
@@ -116,6 +115,7 @@ export class AddProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.formInit();
     if (this.productId !== null) {
       this.getProduct(this.productId);
     }
@@ -599,37 +599,40 @@ export class AddProductComponent implements OnInit {
   onSubmit = () => {
     if (this.images.length < 1) {
       this.toast.error('Product Image(s) required');
-      return;
-    }
-    if (this.images.length < 1) {
-      this.toast.error('Product Image(s) required');
-      return;
-    }
-    if (this.form.value.description === '') {
+      // return;
+    } else if (this.form.value.description === '') {
       this.toast.error('Enter Product Description to Procees');
-      return;
-    }
-    if (
+      // return;
+    } else if (
       this.form.value.category !== '' &&
       this.subCategories.length > 0 &&
       this.form.value.categoryId === ''
     ) {
       this.toast.error('Select a Sub Category');
-      return;
+      // return;
+    } else {
+      if (this.subCategories.length === 0 && this.form.value.category !== '') {
+        this.isSubCatIdEmpty = true;
+        this.form.patchValue({ categoryId: this.form.value.category });
+      }
+      console.log('FORM VALUE = ', this.form.value);
+      console.log('validity = ', this.form.valid);
+      
+      if (this.form.valid) {
+        this.setComplementaryProducts();
+        this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
+        this.setVariation(this.form.value.variations);
+        this.previewImg = this.form.value.imageUrls[0];
+        console.log('description == ', this.form.value.description);
+        this.previewData = this.form.value;
+        this.isPreview = true;
+
+
+        console.log('THE previewData = ', this.previewData);
+        console.log('THE previewImg = ', this.previewImg);
+      }
     }
-    if (this.subCategories.length === 0 && this.form.value.category !== '') {
-      this.isSubCatIdEmpty = true;
-      this.form.patchValue({ categoryId: this.form.value.category });
-    }
-    if (this.form.valid) {
-      this.setComplementaryProducts();
-      this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
-      this.setVariation(this.form.value.variations);
-      this.previewImg = this.form.value.imageUrls[0];
-      console.log('description', this.form.value.description);
-      this.previewData = this.form.value;
-      this.isPreview = true;
-    }
+    
   };
 
   setComplementaryProducts() {

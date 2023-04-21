@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Options } from '@angular-slider/ngx-slider';
+import { ProductsService } from 'src/app/services/products/products.service';
+import { ProductModel } from 'src/app/models/products.model';
+import { CatgoryService } from 'src/app/services/category/catgory.service';
 
 @Component({
   selector: 'app-product-list',
@@ -7,51 +10,28 @@ import { Options } from '@angular-slider/ngx-slider';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
+  // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
+  categories: any;
+  products: ProductModel[] = [];
+  totalItemCount: number;
+  maximumItem: number = 10;
+  defaultPage:number = 1;
+  pageNumber: number;
+  search:string = "";
+  categoryId:string = "";
+  minValue: number = 1;
+  maxValue: number = 500000;
+  // options:Options;
+  // form: FormGroup;
+  loadingProducts: boolean;
+  loadingCategories: boolean;
   columnCount = 3;
 
-  products = [
-    {
-      imgUrl: '/assets/images/item1.png',
-      name: 'Polos',
-      price: 7000
-    },
-    {
-      imgUrl: '/assets/images/item2.png',
-      name: 'Sweat Jacket',
-      price: 216700
-    },
-    {
-      imgUrl: '/assets/images/item3.png',
-      name: 'Scarf Top',
-      price: 35900
-    },
-    {
-      imgUrl: '/assets/images/item4.png',
-      name: 'Jean Trousers',
-      price: 17000
-    },
-    {
-      imgUrl: '/assets/images/item5.png',
-      name: '2 Piece',
-      price: 7000
-    },
-    {
-      imgUrl: '/assets/images/item6.png',
-      name: 'Cloth wardrobe',
-      price: 24600
-    },
-    {
-      imgUrl: '/assets/images/item7.png',
-      name: `Baby's Outfit`,
-      price: 2350
-    },
-  ]
-
-  value: number = 700;
-  highValue: number = 7590;
+  // value: number = 700;
+  // highValue: number = 7590;
   options: Options = {
     floor: 0,
-    ceil: 10000
+    ceil: 1000000
   };
 
   distanceValue: number = 35;
@@ -61,10 +41,52 @@ export class ProductListComponent implements OnInit {
     ceil: 200
   };
 
+  constructor(
+    private productService: ProductsService,
+    private categoryService: CatgoryService,
+  ) { }
+
   ngOnInit(): void {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+    this.fetchAllProducts(this.defaultPage);
+    this.fetchCategories();
+  }
 
+  fetchProductsByCategory = (id) => {
+    this.categoryId = id;
+    this.fetchAllProducts(this.defaultPage);
+  }
+
+  resetProducts = () => {
+    this.categoryId = '';
+    this.fetchAllProducts(this.defaultPage);
+  }
+
+  fetchAllProducts = (pageNumber:any) => {
+    this.loadingProducts = true;
+    this.productService.getProducts(
+      pageNumber, this.maximumItem, this.search, this.categoryId,
+      this.minValue, this.maxValue
+    ).subscribe((products) => {
+        this.products = products.data.data;
+        this.pageNumber = products.data.pager.pageNumber;
+        this.totalItemCount = products.data.pager.totalItemCount;
+        this.loadingProducts = false;
+      }, error => {
+        this.loadingProducts = false;
+        // console.error(error)
+      });
+  }
+
+  fetchCategories = () => {
+    this.loadingCategories = true;
+    this.categoryService.GetCategory().subscribe((res) => {
+      this.categories = res.data;
+      this.loadingCategories = false;
+    }, err => {
+      this.loadingCategories = false;
+    });
   }
 
   setColumn(e: any) {

@@ -55,18 +55,18 @@
         <div class="right-section">
             <div class="mobile-pad-1">
                 <p class="name">
-                    Lenovo Ideapad Intel Celeron 1TB HDD 4GB RAM Win 10 PRO + Free Bag + Free Mouse
+                    {{product?.name || 'N/A'}}
                 </p>
                 <p>
-                    <span class="new-price">NGN160,839.04</span>
+                    <span class="new-price">{{product?.price || 'N/A' | currency: 'NGN'}}</span>
                     &nbsp; &nbsp;
-                    <span class="old-price">NGN182,372.00</span>
+                    <span class="old-price">{{product?.previousPrice || 'N/A' | currency: 'NGN'}}</span>
                 </p>
     
                 <div class="flex-center">
-                    <p class="mb-0 items-left">75 Left</p>
+                    <p class="mb-0 items-left">{{product?.unit}} Left</p>
                     &nbsp; &nbsp;
-                    <p class="mb-0 order">100 Orders</p>
+                    <p class="mb-0 order">{{product?.sold || 'N/A'}} Orders</p>
                 </div>
     
                 <div class="mt-4">
@@ -78,8 +78,9 @@
                         </label>
                         &nbsp; &nbsp;
                         <label class="flex-center">
-                            <input type="radio" name="delivery-type" value="delivery" /> &nbsp;
-                            <span>Pay on delivery</span>
+                            <input disabled type="radio" name="delivery-type" value="delivery" /> &nbsp;
+                            <!-- <span>Pay on delivery</span> -->
+                            <span style="color: #C2C2CC;">Pay on delivery</span>
                         </label>
                     </div>
                 </div>
@@ -195,12 +196,7 @@
 
    <div class="mobile-pad-1 mt-3">
         <h2>Product Description</h2>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla lacus sodales urna pretium fames egestas donec. Sed lorem venenatis sit elit ut convallis bibendum. Urna quam amet tristique etiam enim commodo, aliquet vulputate. Leo amet nec aliquam neque porttitor luctus lorem. In nunc netus faucibus elementum amet leo neque. Sem enim mattis eu faucibus nunc. Nam enim dolor mauris, quis amet, aliquam tincidunt tempor. In ut malesuada maecenas aliquam lacus ac, suscipit cursus. Fermentum eu tortor ipsum nisl. Vel amet, mauris fermentum habitasse sed. Neque eget mi tellus etiam felis, tincidunt. Ornare molestie pulvinar eget tortor, dictum tristique.
-            Enim in aliquet quis nulla tortor, quisque faucibus eleifend. Morbi rhoncus tincidunt proin justo, consequat aliquet suspendisse. Non ut et placerat vitae tristique lobortis magnis odio sit. Adipiscing enim semper sed vitae tristique diam. Odio eget odio hendrerit varius nibh nunc, et id. Tristique ut adipiscing viverra eu velit. Nullam scelerisque tellus et blandit amet, velit. In ipsum tempus nisl congue in. Suspendisse vulputate in eu nullam vivamus massa. Amet, nunc eu orci leo. Augue amet condimentum gravida et sollicitudin lacus sagittis cum. Tristique volutpat mattis sollicitudin senectus. Ullamcorper fames semper varius euismod posuere quam nibh feugiat blandit. Eget velit ut suspendisse quis ac viverra varius. Massa congue massa tellus, quam scelerisque tellus volutpat nulla aenean.
-            In tristique sodales aliquam nunc dui semper in accumsan at. Pharetra est dapibus ac dolor. Est, tortor gravida phasellus ante sed mauris fames egestas non. Amet imperdiet quam facilisi mauris quis nibh. Id magna morbi fermentum nibh ultricies auctor accumsan. Convallis ante tellus urna sit id sed. Nulla eu amet risus, tempor, lectus sed sem.
-            Neque integer ipsum urna, nulla. Dictum molestie cursus ante viverra arcu commodo quis. Pharetra auctor tincidunt sed ultrices vestibulum. Dictumst amet vulputate in in integer id. Pretium id diam proin nibh nullam commodo. Quam fringilla non mattis euismod vulputate dolor. Massa tellus ac feugiat sit mattis diam, et. Eu, quis quisque diam fringilla lectus neque volutpat.
-        </p>
+        <p>{{product?.description || 'N/A'}}</p>
    </div>
 
    <div class="mobile-only-margin-bottom mobile-pad-1 mt-5">
