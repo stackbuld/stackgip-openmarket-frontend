@@ -33,9 +33,9 @@ export class ProductListComponent implements OnInit {
     floor: 0,
     ceil: 1000000
   };
-
-  distanceValue: number = 35;
-  distanceHighValue: number = 110;
+  isFilter: boolean;
+  distanceValue: number = 1;
+  distanceHighValue: number = 115;
   distanceOptions: Options = {
     floor: 0,
     ceil: 200
@@ -64,6 +64,11 @@ export class ProductListComponent implements OnInit {
   }
 
   fetchAllProducts = (pageNumber:any) => {
+    if (this.categoryId === '') {
+      this.isFilter = false;
+    } else {
+      this.isFilter = true;
+    }
     this.loadingProducts = true;
     this.productService.getProducts(
       pageNumber, this.maximumItem, this.search, this.categoryId,
@@ -75,7 +80,6 @@ export class ProductListComponent implements OnInit {
         this.loadingProducts = false;
       }, error => {
         this.loadingProducts = false;
-        // console.error(error)
       });
   }
 

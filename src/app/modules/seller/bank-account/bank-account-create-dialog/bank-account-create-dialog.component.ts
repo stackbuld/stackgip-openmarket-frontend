@@ -114,7 +114,6 @@ export class BankAccountCreateDialogComponent implements OnInit {
       countryCode: "NGN"
     })
     .subscribe((response: any) => {
-      console.log(response)
       let accountName = response.data.accountName;
       this.accountName.patchValue(accountName)
       this.accountName.updateValueAndValidity()

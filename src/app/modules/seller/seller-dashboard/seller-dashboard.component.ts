@@ -33,7 +33,7 @@ export class SellerDashboardComponent implements OnInit {
         this.userDetails = res.data;
       },
       (err) => {
-        console.log(err);
+        
       }
     );
   }

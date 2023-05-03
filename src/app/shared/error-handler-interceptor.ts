@@ -13,13 +13,15 @@ import {
 import { Observable, throwError } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 import { NgxUiLoaderService } from "ngx-ui-loader";
+import { Router } from "@angular/router";
 declare var UIkit: any;
 @Injectable()
 export class ErrorHandlerInterceptor implements HttpInterceptor {
   constructor(
     private toast: ToastrService,
     private errorService: ErrorService,
-    private ngxService: NgxUiLoaderService
+    private ngxService: NgxUiLoaderService,
+    private router: Router,
   ) {}
   message = "";
   intercept(
@@ -37,6 +39,9 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
             switch (error.status) {
               case 401:
                 this.toast.info("Session expired, please login to continue");
+                localStorage.clear();
+                sessionStorage.clear();
+                this.router.navigate(['/auth']);
                 break;
 
               case 403: //forbidden

@@ -44,6 +44,10 @@ body {
     padding: 0px !important;
 }
 
+button:disabled {
+  opacity: .6;
+}
+
 .pointer {
   cursor: pointer;
 }

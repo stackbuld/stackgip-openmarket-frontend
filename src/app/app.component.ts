@@ -36,7 +36,6 @@ export class AppComponent {
     @Inject(DOCUMENT) private document: Document
   ) {
     this.handleRouteEvents();
-    console.log(this.count$);
   }
 
   handleRouteEvents() {

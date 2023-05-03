@@ -41,7 +41,6 @@ export class SellerStoreComponent implements OnInit {
     this.sellerStoreService
       .updateSellerStore(sellerStore)
       .subscribe((response: any) => {
-        console.log(response);
         this.getSellerStoreList();
         // response.status == "success" ? this.dialogRef.close(response) : null
       });

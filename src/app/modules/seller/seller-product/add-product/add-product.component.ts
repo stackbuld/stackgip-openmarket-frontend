@@ -109,9 +109,6 @@ export class AddProductComponent implements OnInit {
 
   onChange({ editor }: ChangeEvent) {
     const data = editor.getData();
-
-    console.log(data);
-    console.log(this.form.get('description').value);
   }
 
   ngOnInit(): void {
@@ -615,21 +612,14 @@ export class AddProductComponent implements OnInit {
         this.isSubCatIdEmpty = true;
         this.form.patchValue({ categoryId: this.form.value.category });
       }
-      console.log('FORM VALUE = ', this.form.value);
-      console.log('validity = ', this.form.valid);
       
       if (this.form.valid) {
         this.setComplementaryProducts();
         this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
         this.setVariation(this.form.value.variations);
         this.previewImg = this.form.value.imageUrls[0];
-        console.log('description == ', this.form.value.description);
         this.previewData = this.form.value;
         this.isPreview = true;
-
-
-        console.log('THE previewData = ', this.previewData);
-        console.log('THE previewImg = ', this.previewImg);
       }
     }
     

@@ -1,11 +1,11 @@
-<div routerLink="/homepage/product/{{product?.id}}" class="prod p-2">
+<div (click)="view(product)" class="prod p-2">
     <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
         [src]="product?.imageUrl" alt="product-img" class="img" />
 
-        <div *ngIf="product?.imageUrl === null || product?.imageUrl === ''" 
-            class="img-empty-txt">
-            <p class="text-center mb-0">Image not found</p>
-        </div>
+    <div *ngIf="product?.imageUrl === null || product?.imageUrl === ''" 
+        class="img-empty-txt">
+        <p class="text-center mb-0">Image not found</p>
+    </div>
 
     <div class="py-3">
         <div class="mb-2 uk-flex uk-flex-between">

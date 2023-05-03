@@ -10,8 +10,9 @@
             <img src="/assets/images/orders-iccn.svg" alt="orders-icn" /> 
         </span> 
             &nbsp; &nbsp; &nbsp;
-        <span class="txt pointer">
-            <img src="/assets/images/card-icn.svg" alt="cart-icn" /> 
+        <span routerLink="/homepage/checkout" class="txt pointer cart-tag">
+            <span class="tag">{{cartCount}}</span>
+            <img src="/assets/images/cart-icn.svg" alt="cart-icn" /> 
         </span> 
             &nbsp; &nbsp; &nbsp;
         <span class="txt pointer">
@@ -116,7 +117,10 @@
                     <path d="M16.3855 15.7508L13.123 12.4883" stroke="#828282" stroke-width="1.01393" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 &nbsp; &nbsp; &nbsp; 
-                <img src="/assets/images/card-icn.svg" alt="cart-icn" /> 
+                <span routerLink="/homepage/checkout" class="txt pointer cart-tag">
+                    <span class="tag">{{cartCount}}</span>
+                    <img src="/assets/images/cart-icn.svg" alt="cart-icn" /> 
+                </span> 
                 &nbsp; &nbsp; &nbsp; 
                 <img src="/assets/images/user-icn.svg" alt="user-icn" />
             </div>
