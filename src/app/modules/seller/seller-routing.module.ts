@@ -29,7 +29,7 @@ const routes: Routes = [
             },
             {
               // path: "detail/:id/:user_id",
-              path: "detail",
+              path: "detail/:id",
               component: OrderViewComponent,
             },
           ],

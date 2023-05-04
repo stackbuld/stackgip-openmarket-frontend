@@ -45,21 +45,16 @@ export class JoinWaitlistComponent implements OnInit {
       };
       this.isLoading = true;
       this.getUser(data.email, (user) => {
-        console.log('returned user', user);
         if (!user.data) {
           this.window.prefinery('addUser', data, (record) => {
-            console.log('api result', record);
             this.isLoading = false;
             this.referralUser = record as ReferralUser;
-            console.log(this.referralUser);
             this.showForm = false;
           });
         } else {
           this.isLoading = false;
           this.referralUser = user.data as ReferralUser;
-          console.log(this.referralUser);
           this.showForm = false;
-          console.log('user already exist , do something else');
         }
       });
 
@@ -103,7 +98,6 @@ export class JoinWaitlistComponent implements OnInit {
     const signature = this.computeHash(email);
 
     this.prefineryAuth(email, () => {
-      console.log('getting user');
       this.window.prefinery(
         'getUser',
         {
@@ -111,7 +105,6 @@ export class JoinWaitlistComponent implements OnInit {
           signature: signature,
         },
         (user) => {
-          console.log('primnary user', user);
           func(user);
         }
       );

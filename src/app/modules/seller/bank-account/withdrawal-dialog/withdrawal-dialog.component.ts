@@ -73,7 +73,6 @@ export class WithdrawalDialogComponent implements OnInit {
 
   getBankList() {
     this.bankAccountService.getUserBankList(this.helperService.getLoggedInUserId()).subscribe((bankList) => {
-      console.log(bankList)
       this.bankList = bankList;
     });
   }

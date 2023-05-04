@@ -37,11 +37,9 @@ export class HomeLandingComponent implements AfterViewInit, OnInit {
   ngAfterViewInit(): void {
 
     this.activeRoute.params.subscribe(param => {
-      console.log('param', param.pageSec)
       // alert(param.pageSec)
       if(param.pageSec){
         const section = this.container.nativeElement.querySelector(`#${param.pageSec}`)
-        // console.log(section)
 
         section?.scrollIntoView()
       }
