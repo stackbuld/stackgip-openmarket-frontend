@@ -65,3 +65,6 @@ button:disabled {
 .pac-container {
 z-index: 100000000 !important;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

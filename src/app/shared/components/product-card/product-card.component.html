@@ -1,6 +1,9 @@
 <div (click)="view(product)" class="prod p-2">
-    <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
-        [src]="product?.imageUrl" alt="product-img" class="img" />
+    <!-- <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
+        [src]="product?.imageUrl" class="img" /> -->
+
+        <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
+            src="{{getImageResolution(product?.imageUrl, 200, 200)}}" class="w-100"/>
 
     <div *ngIf="product?.imageUrl === null || product?.imageUrl === ''" 
         class="img-empty-txt">

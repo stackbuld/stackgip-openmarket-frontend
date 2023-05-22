@@ -16,6 +16,13 @@ export const environment = {
   facebookAppId: "824459011487587",
   cloudinaryName: "dimxqjzpr",
   cloudinaryUploadPerset: "unsigned1_openmarket",
+
+  algolia: {
+    appId: 'FFW9XSFVBK',
+    apiKey: '8e009ce54b2cb72e747aad9fb4ca822c',
+    indexName: 'products_index',
+    // urlSync: false
+  }
 };
 
 /*

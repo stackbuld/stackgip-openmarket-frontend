@@ -41,6 +41,8 @@
     "@types/chart.js": "^2.9.37",
     "@types/crypto-js": "^4.1.1",
     "@types/uikit": "^3.14.0",
+    "algoliasearch": "^4.17.0",
+    "angular-instantsearch": "^4.4.1",
     "animate.css": "~4.1.1",
     "bootstrap": "^5.2.3",
     "chart.js": "^4.2.0",

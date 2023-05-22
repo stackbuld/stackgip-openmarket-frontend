@@ -46,7 +46,7 @@ export class ProductsService {
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
       this.baseUrl +
-        `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}&minPrice=${minPrice}&maxPrice=${maxPrice}`
+        `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}&minSalePrice=${minPrice}&maxSalePrice=${maxPrice}`
     );
   }
 
