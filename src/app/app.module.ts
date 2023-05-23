@@ -17,6 +17,7 @@ import { environment } from "../environments/environment";
 import { NgxPaginationModule } from "./shared/pagination/ngx-pagination.module";
 import { NgxSliderModule } from "@angular-slider/ngx-slider";
 import { MatPaginatorModule } from "@angular/material/paginator";
+import { NgAisModule } from 'angular-instantsearch';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MatPaginatorModule } from "@angular/material/paginator";
     // SocialLoginModule,
     MatPaginatorModule,
     // CKEditorModule,
+    NgAisModule.forRoot(),
     StoreModule.forRoot(
       { counterReducer },
       {

@@ -98,7 +98,7 @@
             }
 
             .activeImg {
-                border: 1px solid black;
+                border: 1px solid whitesmoke;
             }
         }
 
@@ -203,6 +203,10 @@
     .img {
         width: 100%;
     }
+}
+
+.obj-fit {
+    object-fit: cover !important;
 }
 
 .img-empty-txt {

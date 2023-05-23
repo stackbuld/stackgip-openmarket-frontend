@@ -9,7 +9,8 @@
             <div *ngIf="!loading" uk-lightbox="pause-on-hover: true; autoplay: true; autoplay-interval: 2000;">
                 <a *ngIf="imgUrls.length > 0" class="img-section p-0 uk-button uk-button-default" [href]="imgUrls[0]?.url" 
                     data-caption="">
-                    <img [src]="currentImgUrl" alt="item1" class="main-img" />
+                    <img src="{{getImageResolution(currentImgUrl, 650, 500)}}" class="w-100" />
+                    <!-- <img [src]="currentImgUrl" class="main-img" /> -->
                 </a>
                 <a *ngIf="imgUrls.length > 1" class="d-none img-section p-0 uk-button uk-button-default" [href]="imgUrls[1]?.url" data-caption=""></a>
                 <a *ngIf="imgUrls.length > 2" class="d-none img-section p-0 uk-button uk-button-default" [href]="imgUrls[2]?.url" data-caption=""></a>
@@ -18,7 +19,8 @@
             <div *ngIf="!loading" class="mt-2 row px-3">
                 <div *ngFor="let item of imgUrls" class="col-3 p-0 pointer"
                     [ngClass]="activeImgId === item?.id ? 'activeImg' : ''">
-                    <img [src]="item?.url" (click)="setImgUrl(item?.url, item?.id)" alt="item1" class="carousel-img" />
+                    <img src="{{getImageResolution(item?.url, 200, 150)}}" class="w-100" (click)="setImgUrl(item?.url, item?.id)" />
+                    <!-- <img [src]="item?.url" (click)="setImgUrl(item?.url, item?.id)" class="carousel-img" /> -->
                 </div>
             </div>
             <div *ngIf="!loading" class="p-3 text-center">
@@ -127,8 +129,8 @@
                 <div *ngIf="!loading">
                     <div class="mt-3" *ngFor="let item of sortedVariationsList">
                         <p class="txt capitalize">{{ item[0]?.title }}:</p>
-                        <div style="display: flex; flex-wrap: wrap">
-                            <p (click)="setSelectedVariation(it)" class="color-tag capitalize mb-0 d-flex align-items-center" *ngFor="let it of item">
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <p (click)="setSelectedVariation(it)" class="color-tag capitalize d-flex align-items-center" *ngFor="let it of item">
                                 <strong>{{it?.value}}</strong> &nbsp;
                                 <span *ngIf="it?.cost > 0" style="font-size: 12px;"> 
                                     + {{it?.cost | currency: '₦'}}
@@ -182,8 +184,7 @@
                         &nbsp; &nbsp;
                         <span *ngIf="currentShippingMethod?.estimatePrices[0]?.logisticLogoUrl !== '' || 
                             currentShippingMethod?.estimatePrices[0]?.logisticLogoUrl !== null">
-                            <img src="{{currentShippingMethod?.estimatePrices[0]?.logisticLogoUrl}}" 
-                                [alt]="currentShippingMethod?.estimatePrices[0]?.logisticName" class="small-logo"/> 
+                            <img src="{{currentShippingMethod?.estimatePrices[0]?.logisticLogoUrl}}" class="small-logo"/> 
                         </span>
                     </span>                   
                     <div class="mt-2 mobile-block flex-center">
@@ -261,7 +262,7 @@
                     <div class="prod p-2" [ngClass]="{'selected-prod': product.isSelected === true}">
                         <!-- <div>
                             <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
-                                [src]="product?.imageUrl" [alt]="product?.title" class="img" />
+                                [src]="product?.imageUrl" class="img" />
 
                             <div *ngIf="product?.imageUrl === null || product?.imageUrl === ''" 
                                 class="img-empty-txt">
@@ -269,8 +270,9 @@
                             </div>
                         </div> -->
                         <div *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" uk-lightbox>
-                            <a class="p-0 uk-button uk-button-default" href="{{product?.imageUrl}}">
-                                <img [src]="product?.imageUrl" [alt]="product?.title" class="img w-100" />
+                            <a class="w-100 p-0 uk-button uk-button-default" href="{{product?.imageUrl}}">
+                                <img src="{{getImageResolution(product?.imageUrl, 200, 150)}}" class="w-100" />
+                                <!-- <img [src]="product?.imageUrl" class="img w-100 obj-fit" /> -->
                             </a>
                         </div>
                         <div *ngIf="product?.imageUrl === null || product?.imageUrl === ''" 
@@ -331,8 +333,10 @@
                     <div (click)="viewExtraProduct(product.id)"
                         class="prod p-2">
                         <div>
+                            <!-- <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
+                                [src]="product?.imageUrl" class="img obj-fit" /> -->
                             <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
-                                [src]="product?.imageUrl" alt="product-img" class="img" />
+                                src="{{getImageResolution(product?.imageUrl, 200, 150)}}" class="w-100" />
 
                             <div *ngIf="product?.imageUrl === null || product?.imageUrl === ''" 
                                 class="img-empty-txt">
@@ -493,8 +497,7 @@
                                 &nbsp; &nbsp;
                                 <span *ngIf="item?.estimatePrices[0]?.logisticLogoUrl !== '' || 
                                     item?.estimatePrices[0]?.logisticLogoUrl !== null">
-                                    <img src="{{item?.estimatePrices[0]?.logisticLogoUrl}}" 
-                                        [alt]="item?.estimatePrices[0]?.logisticName" class="small-logo"/> 
+                                    <img src="{{item?.estimatePrices[0]?.logisticLogoUrl}}" class="small-logo"/> 
                                 </span>
                             </span>
                             <span>Delivered between {{item?.estimatePrices[0]?.deliveryDuration || 'N/A'}}</span>

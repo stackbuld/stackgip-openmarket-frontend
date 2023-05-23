@@ -1,6 +1,21 @@
 <div class="main">
     <img routerLink="/" src="/assets/images/home-nav-logo.svg" alt="home-nav" />     
-    <app-search-bar></app-search-bar>
+    <div (click)="toggleSearch()" class="search-section uk-flex uk-flex-between">
+        <div class="uk-flex">
+            <svg class="icn-search" width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.8877 14.25C12.2014 14.25 14.8877 11.5637 14.8877 8.25C14.8877 4.93629 12.2014 2.25 8.8877 2.25C5.57399 2.25 2.8877 4.93629 2.8877 8.25C2.8877 11.5637 5.57399 14.25 8.8877 14.25Z" stroke="#828282" stroke-width="1.01393" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16.3855 15.7508L13.123 12.4883" stroke="#828282" stroke-width="1.01393" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>                
+            <span class="txt">Search for products...</span>
+        </div>
+        <button class="search-btn">
+            <svg class="icn-search" width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.8877 14.25C12.2014 14.25 14.8877 11.5637 14.8877 8.25C14.8877 4.93629 12.2014 2.25 8.8877 2.25C5.57399 2.25 2.8877 4.93629 2.8877 8.25C2.8877 11.5637 5.57399 14.25 8.8877 14.25Z" stroke="#828282" stroke-width="1.01393" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16.3855 15.7508L13.123 12.4883" stroke="#828282" stroke-width="1.01393" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg> 
+        </button>
+    </div>
+    
     <div class="flex">
         <span class="txt pointer">Sell</span> 
             &nbsp; &nbsp; &nbsp;
@@ -112,7 +127,7 @@
             </div>
     
             <div class="center-flex">
-                <svg (click)="toggleMobileSearchBar()" class="icn-search" width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg (click)="toggleSearch()" class="icn-search" width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8.8877 14.25C12.2014 14.25 14.8877 11.5637 14.8877 8.25C14.8877 4.93629 12.2014 2.25 8.8877 2.25C5.57399 2.25 2.8877 4.93629 2.8877 8.25C2.8877 11.5637 5.57399 14.25 8.8877 14.25Z" stroke="#828282" stroke-width="1.01393" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M16.3855 15.7508L13.123 12.4883" stroke="#828282" stroke-width="1.01393" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -127,6 +142,93 @@
         </div>
     </div>
 </div>
-<div class="px-3 mobile" *ngIf="isSearch">
-    <app-search-bar></app-search-bar>
+
+<div *ngIf="isSearch" class="search-main">
+    <ais-instantsearch [config]="config">
+        <ais-configure [searchParameters]="{ hitsPerPage: 8 }"></ais-configure>
+        <ais-search-box placeholder="Enter search" />
+        <div class="main-panel">
+            <div class="mb-3 d-flex justify-content-end">
+                <span class="pointer" (click)="toggleSearch()">
+                    <img src="/assets/icons/close.png" width="20" height="20" alt="close-icn" />                       
+                </span>
+            </div>
+            <div class="panel">
+                <!-- <div class="left-panel">
+                    <div class="mb-3 d-flex align-items-center">
+                        <span class="search-title">Popular Categories</span>
+                        &nbsp; &nbsp;
+                        <span class="title-line"></span>
+                    </div>
+                    <ais-refinement-list attribute="category.name" searchable />
+                </div> -->
+                <div class="right-panel">
+                    <ais-hits>
+                        <ng-template let-hits="hits" let-results="results">
+                            <p *ngIf="results?.query && hits.length === 0" class="text-center mar-top-bot">
+                                No record found for {{results?.query}}...
+                            </p>
+                            <span *ngIf="results?.query && results?.query?.length > 0">
+                                <span class="mb-3 d-flex align-items-center" *ngIf="hits.length !== 0">
+                                    <span class="search-title">Products for {{results?.query}}</span>
+                                    &nbsp; &nbsp;
+                                    <span class="title-line-two"></span>
+                                </span>
+                                <ol class="ais-Hits-list">
+                                    <li *ngFor="let hit of hits" class="ais-Hits-item">
+                                        <span (click)="viewProduct(hit)" class="pointer">
+                                            <span class="w-100 d-flex justify-content-center">
+                                                <div class="img-cover">
+                                                    <img [src]="hit.imageUrl" class="img" />
+                                                    <!-- <p class="text-center mb-0">loading...</p> -->
+                                                </div>
+                                            </span>
+                                            <div class="pt-2">
+                                                <p class="mb-2 name">
+                                                    <span>{{hit?.name || 'N/A' | slice: 0:50}}</span>
+                                                    <span *ngIf="hit?.name?.length > 50">...</span>
+                                                </p>
+                                                <div class="uk-flex uk-flex-between">
+                                                    <p class="price mb-0">{{hit?.price || 0 | currency: '₦'}}</p>
+                                                    <img src="/assets/images/cart-icn-prod.svg" alt="cart-icn-prod" />
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </li>
+                                </ol>  
+                                <!-- totalPages="5" -->
+                                <div *ngIf="hits.length !== 0" class="mt-3 pl-3 d-flex justify-content-start">
+                                    <ais-pagination padding="5" />
+                                </div>
+                                <div routerLink="/homepage" (click)="toggleSearch()" class="w-100 mt-3 d-flex justify-content-center">
+                                    <button class="see-all-prod">See all Products</button>
+                                </div>
+                            </span>
+                            <!-- <div *ngIf="!results?.query">
+                                <span class="mb-3 d-flex align-items-center" *ngIf="hits.length !== 0">
+                                    <span class="search-title">Quick Access</span>
+                                    &nbsp; &nbsp;
+                                    <span class="title-line-two"></span>
+                                </span>
+                                <div class="tag-section d-flex justify-content-between">
+                                    <div class="img-holder">
+                                        <img class="tag-img" src="/assets/images/banner-tag1.png" alt="tag1">
+                                    </div>
+                                    <div class="img-holder">
+                                        <img class="tag-img" src="/assets/images/banner-tag2.png" alt="tag2">
+                                    </div>
+                                    <div class="img-holder">
+                                        <img class="tag-img" src="/assets/images/banner-tag3.png" alt="tag3">
+                                    </div>
+                                    <div class="img-holder">
+                                        <img class="tag-img" src="/assets/images/banner-tag4.png" alt="tag4">
+                                    </div>
+                                </div>
+                            </div>            -->
+                        </ng-template>
+                    </ais-hits>
+                </div>
+            </div>
+        </div>
+    </ais-instantsearch>
 </div>

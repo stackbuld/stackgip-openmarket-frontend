@@ -7,6 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
+import { ImageResolutionService } from 'src/app/helpers/image-resolution.service';
 
 @Component({
   selector: 'app-single-product',
@@ -62,6 +63,7 @@ export class SingleProductComponent implements OnInit{
     private userService: UserService,
     private router: Router,
     private applocal: AppLocalStorage,
+    public imageResolutionService: ImageResolutionService,
   ) { }
 
   ngOnInit(): void {
@@ -86,6 +88,7 @@ export class SingleProductComponent implements OnInit{
     this.getParams();
     if (localStorage.getItem('shippingAddress')) {
       let address = JSON.parse(localStorage.getItem('shippingAddress'));
+      // let address = this.applocal.getFromStorage('shippingAddress');
       this.currentAddress = address;
       this.populateAddressForm(address);
       this.getShippingEstimate();
@@ -139,6 +142,10 @@ export class SingleProductComponent implements OnInit{
     });
   }
 
+  getImageResolution(url: string, width: any, height: any) {
+    return `https://res.cloudinary.com/votel/image/fetch/c_fill,g_auto,h_500,w_650/b_auto:border,c_pad,h_${height},w_${width}/q_auto:best/${url}`
+  }
+
   getParams = () => {
     this.activatedRoute.params.subscribe(params => {
       this.productId = params['id'];
@@ -159,7 +166,9 @@ export class SingleProductComponent implements OnInit{
           url: element,
           id: index
         }
-        this.imgUrls.push(item);
+        if(this.imgUrls.length !== 4) {
+          this.imgUrls.push(item);
+        }
       }
       for (let index = 0; index < res.data.productOptions.length; index++) {
         const element = res.data.productOptions[index];
