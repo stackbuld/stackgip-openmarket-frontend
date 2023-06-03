@@ -41,7 +41,8 @@
               "node_modules/uikit/dist/js/uikit.min.js",
               "node_modules/hammerjs/hammer.min.js",
               "node_modules/uikit/dist/js/uikit-icons.min.js"
-            ]
+            ],
+            "aot": true
           },
           "configurations": {
             "production": {
