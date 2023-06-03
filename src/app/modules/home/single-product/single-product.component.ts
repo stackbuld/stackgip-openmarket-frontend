@@ -100,6 +100,12 @@ export class SingleProductComponent implements OnInit{
     return ImageResolutionUtility.getImageResolution(url, width, height);
   }
 
+  viewProduct = (id: any) => {
+    this.router.navigate(['/homepage/product', id]);
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
   populateAddressForm = (data: any) => {
     this.setter = data.fullAddress;
     this.addressForm = new FormGroup({
@@ -515,10 +521,6 @@ export class SingleProductComponent implements OnInit{
     } else {
       this.toastService.warning('Please login to view addresses', 'WARNING');
     }
-  }
-
-  viewExtraProduct = (id: any) => {
-    // this.router.navigate([`/homepage/product/${id}`]);
   }
 
   resetModalView = () => {
