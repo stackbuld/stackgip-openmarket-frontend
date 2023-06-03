@@ -44,6 +44,10 @@ body {
     padding: 0px !important;
 }
 
+button:disabled {
+  opacity: .6;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -61,3 +65,6 @@ body {
 .pac-container {
 z-index: 100000000 !important;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

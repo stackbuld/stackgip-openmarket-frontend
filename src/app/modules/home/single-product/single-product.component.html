@@ -1,32 +1,46 @@
 <div class="main">
     <div class="top-section">
         <div class="mobile-pad-1 left-section">
-            <!-- <img [src]="currentImgUrl" alt="item1" class="main-img" /> -->
-            <div uk-lightbox="pause-on-hover: true; autoplay: true; autoplay-interval: 2000;">
-                <a class="img-section p-0 uk-button uk-button-default" [href]="imgUrls[0].url" 
+            <!-- <div *ngIf="loading" class="d-flex justify-content-center">
+                <ngx-shimmer-loading shape="square" width="500px"></ngx-shimmer-loading>
+            </div> -->
+            <img *ngIf="loading" [src]="temporaryDetails?.imageUrl" class="main-img" />
+
+            <div *ngIf="!loading" uk-lightbox="pause-on-hover: true; autoplay: true; autoplay-interval: 2000;">
+                <a *ngIf="imgUrls.length > 0" class="img-section p-0 uk-button uk-button-default" [href]="imgUrls[0]?.url" 
                     data-caption="">
-                    <img [src]="currentImgUrl" alt="item1" class="main-img" />
+                    <img src="{{getImageResolution(currentImgUrl, 650, 500)}}" class="w-100" />
+                    <!-- <img [src]="currentImgUrl" class="main-img" /> -->
                 </a>
-                <a class="d-none img-section p-0 uk-button uk-button-default" [href]="imgUrls[1].url" data-caption=""></a>
-                <a class="d-none img-section p-0 uk-button uk-button-default" [href]="imgUrls[2].url" data-caption=""></a>
-                <a class="d-none img-section p-0 uk-button uk-button-default" [href]="imgUrls[3].url" data-caption=""></a>
+                <a *ngIf="imgUrls.length > 1" class="d-none img-section p-0 uk-button uk-button-default" [href]="imgUrls[1]?.url" data-caption=""></a>
+                <a *ngIf="imgUrls.length > 2" class="d-none img-section p-0 uk-button uk-button-default" [href]="imgUrls[2]?.url" data-caption=""></a>
+                <a *ngIf="imgUrls.length > 3" class="d-none img-section p-0 uk-button uk-button-default" [href]="imgUrls[3]?.url" data-caption=""></a>
             </div>
-            <div class="mt-2 row px-3">
+            <div *ngIf="!loading" class="mt-2 row px-3">
                 <div *ngFor="let item of imgUrls" class="col-3 p-0 pointer"
                     [ngClass]="activeImgId === item?.id ? 'activeImg' : ''">
-                    <img [src]="item?.url" (click)="setImgUrl(item?.url, item?.id)" alt="item1" class="" />
+                    <img src="{{getImageResolution(item?.url, 200, 150)}}" class="w-100" (click)="setImgUrl(item?.url, item?.id)" />
+                    <!-- <img [src]="item?.url" (click)="setImgUrl(item?.url, item?.id)" class="carousel-img" /> -->
                 </div>
             </div>
-            <div class="p-3 text-center">
-                <span>
+            <div *ngIf="!loading" class="p-3 text-center">
+                <span *ngIf="imgUrls.length > 0">
+                    <svg *ngIf="activeImgId === 0" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="4.61364" cy="4.61364" r="4.61364" fill="black"/>
+                    </svg>        
+                    <svg *ngIf="activeImgId !== 0" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="5.29528" cy="4.61364" r="4.61364" fill="#D9D9D9"/>
+                    </svg>
+                </span>  
+                <span *ngIf="imgUrls.length > 1">
                     <svg *ngIf="activeImgId === 1" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="4.61364" cy="4.61364" r="4.61364" fill="black"/>
                     </svg>        
                     <svg *ngIf="activeImgId !== 1" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="5.29528" cy="4.61364" r="4.61364" fill="#D9D9D9"/>
                     </svg>
-                </span>  
-                <span>
+                </span> 
+                <span *ngIf="imgUrls.length > 2">
                     <svg *ngIf="activeImgId === 2" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="4.61364" cy="4.61364" r="4.61364" fill="black"/>
                     </svg>        
@@ -34,19 +48,11 @@
                         <circle cx="5.29528" cy="4.61364" r="4.61364" fill="#D9D9D9"/>
                     </svg>
                 </span> 
-                <span>
+                <span *ngIf="imgUrls.length > 3">
                     <svg *ngIf="activeImgId === 3" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="4.61364" cy="4.61364" r="4.61364" fill="black"/>
                     </svg>        
                     <svg *ngIf="activeImgId !== 3" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="5.29528" cy="4.61364" r="4.61364" fill="#D9D9D9"/>
-                    </svg>
-                </span> 
-                <span>
-                    <svg *ngIf="activeImgId === 4" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="4.61364" cy="4.61364" r="4.61364" fill="black"/>
-                    </svg>        
-                    <svg *ngIf="activeImgId !== 4" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="5.29528" cy="4.61364" r="4.61364" fill="#D9D9D9"/>
                     </svg>
                 </span>                                               
@@ -54,23 +60,42 @@
         </div>
         <div class="right-section">
             <div class="mobile-pad-1">
-                <p class="name">
-                    Lenovo Ideapad Intel Celeron 1TB HDD 4GB RAM Win 10 PRO + Free Bag + Free Mouse
+                <p *ngIf="!loading" class="name">
+                    {{product?.name || 'N/A'}}
                 </p>
-                <p>
-                    <span class="new-price">NGN160,839.04</span>
+                
+                <div *ngIf="loading" class="w-100 name">
+                    {{temporaryDetails?.name}}
+                    <!-- <ngx-shimmer-loading height="30px"></ngx-shimmer-loading> -->
+                </div>
+
+                <p *ngIf="!loading">
+                    <span class="new-price">{{productPrice | currency: 'NGN'}}</span>
                     &nbsp; &nbsp;
-                    <span class="old-price">NGN182,372.00</span>
+                    <span *ngIf="product?.previousPrice > 0" class="old-price">{{product?.previousPrice | currency: 'NGN'}}</span>
                 </p>
+
+                <p *ngIf="loading">
+                    <span class="new-price">{{temporaryDetails?.price | currency: 'NGN'}}</span>
+                    &nbsp; &nbsp;
+                    <span *ngIf="temporaryDetails?.previousPrice > 0" class="old-price">{{temporaryDetails?.previousPrice | currency: 'NGN'}}</span>
+                </p>
+
+                <!-- <div *ngIf="loading" class="w-100">
+                    <ngx-shimmer-loading height="50px"></ngx-shimmer-loading>
+                </div> -->
     
-                <div class="flex-center">
-                    <p class="mb-0 items-left">75 Left</p>
-                    &nbsp; &nbsp;
-                    <p class="mb-0 order">100 Orders</p>
+                <div>
+                    <p *ngIf="!loading" class="mb-0 items-left">{{product?.unit}} Left</p>
+                    <p *ngIf="loading" class="mb-0 items-left">{{temporaryDetails?.unit}} Left</p>
+                    <!-- <p *ngIf="loading" class="mb-0 items-left d-flex align-items-center">
+                        &nbsp; <span class="spinner-grow text-dark" role="status" style="width: 15px; height: 15px">
+                        </span> &nbsp; Left
+                    </p> -->
                 </div>
     
                 <div class="mt-4">
-                    <p class="txt">Available payment type:</p>
+                    <p class="txt">Available Payment Type:</p>
                     <div class="flex-center">
                         <label class="flex-center">
                             <input type="radio" checked name="delivery-type" value="online" /> &nbsp;
@@ -78,8 +103,9 @@
                         </label>
                         &nbsp; &nbsp;
                         <label class="flex-center">
-                            <input type="radio" name="delivery-type" value="delivery" /> &nbsp;
-                            <span>Pay on delivery</span>
+                            <input disabled type="radio" name="delivery-type" value="delivery" /> &nbsp;
+                            <!-- <span>Pay on delivery</span> -->
+                            <span style="color: #C2C2CC;">Pay on delivery</span>
                         </label>
                     </div>
                 </div>
@@ -99,38 +125,73 @@
                         </svg>                                              
                     </div>
                 </div>
-    
-                <div class="mt-3">
-                    <p class="txt">Color:</p>
-                    <div class="flex-center">
-                        <p class="color-tag">Black</p>                                             
-                        <p class="color-tag">Blue</p>                                             
-                        <p class="color-tag">Yellow</p>                                                                                    
+
+                <div *ngIf="!loading">
+                    <div class="mt-3" *ngFor="let item of sortedVariationsList">
+                        <p class="txt capitalize">{{ item[0]?.title }}:</p>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <p (click)="setSelectedVariation(it)" class="color-tag capitalize d-flex align-items-center" *ngFor="let it of item">
+                                <strong>{{it?.value}}</strong> &nbsp;
+                                <span *ngIf="it?.cost > 0" style="font-size: 12px;"> 
+                                    + {{it?.cost | currency: '₦'}}
+                                </span> &nbsp;
+                                <span *ngIf="it?.isSelected">
+                                    <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M50.0007 91.6673C73.0125 91.6673 91.6673 73.0125 91.6673 50.0007C91.6673 26.9888 73.0125 8.33398 50.0007 8.33398C26.9888 8.33398 8.33398 26.9888 8.33398 50.0007C8.33398 73.0125 26.9888 91.6673 50.0007 91.6673Z" fill="#219653"/>
+                                        <path d="M69.8707 32.5737C71.4408 30.8914 74.0774 30.8005 75.7597 32.3706C77.442 33.9408 77.533 36.5774 75.9628 38.2597L46.7961 69.5097C45.2728 71.1419 42.7336 71.2832 41.0384 69.8302L26.4551 57.3302C24.7079 55.8327 24.5056 53.2022 26.0032 51.455C27.5008 49.7079 30.1312 49.5055 31.8784 51.0031L43.4292 60.9038L69.8707 32.5737Z" fill="#219653"/>
+                                    </svg> 
+                                </span>                            
+                            </p>
+                        </div>
                     </div>
                 </div>
+
+                <div *ngIf="loading" class="w-100">
+                    <br>
+                    <ngx-shimmer-loading height="20px" width="70px"></ngx-shimmer-loading>
+                    <br>
+                    <ngx-shimmer-loading height="70px"></ngx-shimmer-loading>
+                </div>
     
-                <div class="mt-3 mobile-block flex-center">
+                <div *ngIf="currentAddress !== null" 
+                    class="mt-3 mobile-block flex-center">
                     <span>Ship to</span>
                     &nbsp; &nbsp;
                     <img src="/assets/images/location-icn.svg" alt="location-icn"/>     
                     &nbsp;
-                    <span class="mb-0 txt">
-                        <strong>Opposite Samaritan Hospital, Suleja, Niger State</strong>
+                    <!-- uk-toggle="target: #information-modal"  -->
+                    <span (click)="openAddressModal()" class="pointer mb-0 txt">
+                        <strong>{{currentAddress?.fullAddress || 'N/A'}}</strong>
                     </span>  
                     &nbsp;
-                    <p class="mb-0 change-yel" (click)="resetModalView()" uk-toggle="target: #information-modal">Change</p>           
+                    <!-- uk-toggle="target: #information-modal" -->
+                    <p class="mb-0 change-yel" (click)="openAddressModal()">Change</p>           
+                </div>
+
+                <div *ngIf="currentAddress === null" class="mt-3 mobile-block flex-center">
+                    <p class="loading mb-0">No Delivery Address Yet</p>
+                    &nbsp;
+                    <p class="mb-0 change-yel" (click)="resetModalView()" uk-toggle="target: #information-modal">Add or Select Address</p>  
                 </div>
     
-                <div class="mt-4">
-                    <p class="msg">Shipping: Starting from NGN 3000</p>
+                <div *ngIf="!loadingShippingEstimate && currentShippingMethod !== null" class="mt-4">
+                    <p uk-toggle="target: #shipping-modal" class="msg pointer">Shipping: Starting from 
+                        {{currentShippingMethod?.estimatePrices[0]?.startingPrice || 0 | currency: 'NGN'}}
+                    </p>
     
                     <span class="flex-center">
-                        <span class="txt">Starting from Abuja Station to Samaritan hospital via CMK </span>
+                        <span class="txt">Via {{currentShippingMethod?.estimatePrices[0]?.logisticName || 'N/A'}}</span>
                         &nbsp; &nbsp;
-                        <img src="/assets/images/tagger-img.svg" alt="tagger-img"/> 
+                        <span *ngIf="currentShippingMethod?.estimatePrices[0]?.logisticLogoUrl !== '' || 
+                            currentShippingMethod?.estimatePrices[0]?.logisticLogoUrl !== null">
+                            <img src="{{currentShippingMethod?.estimatePrices[0]?.logisticLogoUrl}}" class="small-logo"/> 
+                        </span>
                     </span>                   
                     <div class="mt-2 mobile-block flex-center">
-                        <span class="txt mb-0">Delivered between Tuesday 8 Nov and Tuesday 15 Nov</span>
+                        <span uk-toggle="target: #shipping-modal" class="pointer txt mb-0">
+                            Delivered between 
+                            {{currentShippingMethod?.estimatePrices[0]?.deliveryDuration || 'N/A'}}
+                        </span>
                         &nbsp; &nbsp;
                         <span uk-toggle="target: #shipping-modal" class="pointer flex-center">
                             <span class="change-red">Change shipping mode</span> &nbsp;
@@ -140,28 +201,49 @@
                         </span>
                     </div>
                 </div>
+
+                <div *ngIf="loadingShippingEstimate" class="py-3">
+                    <p class="loading mb-0">
+                        <span>Fetching Shipping Estimate...</span>
+                        <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+                    </p>
+                </div>
+
+                <div *ngIf="!loadingShippingEstimate && currentShippingMethod === null" class="py-3">
+                    <p class="loading mb-0">Select a delivery address to see shipping options</p>
+                </div>
             </div>
             <div class="mt-4 uk-flex uk-flex-between web-btn">
-                <button class="add-btn">Add to Cart</button>
+                <button [disabled]="addingItemToCart" (click)="addToCart()" class="add-btn">
+                    <span *ngIf="!addingItemToCart">Add to Cart</span>
+                    <span *ngIf="addingItemToCart">
+                        <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+                    </span>
+                </button>
                 <button routerLink="/homepage/checkout" class="view-btn">
                     View items in cart
                 </button>
             </div>
 
             <div class="p-3 uk-flex uk-flex-between bottom-element">
-                <button class="add-btn">Add to Cart</button>
+                <button [disabled]="addingItemToCart" (click)="addToCart()" class="add-btn">
+                    <span *ngIf="!addingItemToCart">Add to Cart</span>
+                    <span *ngIf="addingItemToCart">
+                        <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+                    </span>
+                </button>
                 <button routerLink="/homepage/checkout" class="view-btn">
                     View items in cart
                 </button>
             </div>
 
-            <div class="mobile-pad-1">
-                <p routerLink="/homepage/checkout" class="mb-0 mt-3 view-item-btn">View Items in cart</p>
+            <div class="mobile-pad-1 mt-3">
+                <span routerLink="/homepage" class="mb-0 mt-3 view-item-btn">Continue Shopping</span>
             </div>
         </div>
     </div>
 
-    <div class="mobile-pad-1 mt-5">
+    <div *ngIf="complimentaryProductsList.length > 0" class="mobile-pad-1 mt-5">
         <div class="uk-flex uk-flex-between">
             <h2>Complementary Products</h2>
             <p class="txt mb-0 pointer">
@@ -174,17 +256,48 @@
         </div>
         <div data-uk-slider="autoplay: true; finite: false; autoplay-interval: 2000; pause-on-hover: true;">
             <ul class="uk-slider-items">
-                <div *ngFor="let product of products" 
+                <div *ngFor="let product of complimentaryProductsList" 
                     class="uk-width-1-4@l uk-width-1-2">
-                    <div routerLink="/homepage/product/1" 
-                        class="prod p-2">
-                        <img [src]="product?.imgUrl" alt="product-img" class="img" />
-                        <div class="py-3">
-                            <p class="mb-1 name">{{product?.name}}</p>
-                            <p class="price mb-2">{{product?.price | currency: '₦'}}</p>
-                            <span>
-                                <img src="/assets/images/card-icn.svg" alt="card-icn" width="20" height="20" /> &nbsp;
+                    <!-- (dblclick)="setSelectedComplementaryProduct(product)" -->
+                    <div class="prod p-2" [ngClass]="{'selected-prod': product.isSelected === true}">
+                        <!-- <div>
+                            <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
+                                [src]="product?.imageUrl" class="img" />
+
+                            <div *ngIf="product?.imageUrl === null || product?.imageUrl === ''" 
+                                class="img-empty-txt">
+                                <p class="text-center mb-0">Image not found</p>
+                            </div>
+                        </div> -->
+                        <div *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" uk-lightbox>
+                            <a class="w-100 p-0 uk-button uk-button-default" href="{{product?.imageUrl}}">
+                                <img src="{{getImageResolution(product?.imageUrl, 200, 150)}}" class="w-100" />
+                                <!-- <img [src]="product?.imageUrl" class="img w-100 obj-fit" /> -->
+                            </a>
+                        </div>
+                        <div *ngIf="product?.imageUrl === null || product?.imageUrl === ''" 
+                            class="img-empty-txt">
+                            <p class="text-center mb-0">Image not found</p>
+                        </div>
+                        <div (click)="setSelectedComplementaryProduct(product)" class="py-3">
+                            <p class="mb-1 name">
+                                <span>{{product?.title || 'N/A' | slice: 0:30}}</span>
+                                <span *ngIf="product?.title?.length > 30">...</span>
+                            </p>
+                            <p class="price">{{product?.cost | currency: '₦'}}</p>
+                            <span *ngIf="!product.isSelected">
+                                <img src="/assets/images/cart-icn.svg" alt="cart-icn" width="20" height="20" /> &nbsp;
                                 <span>Select</span>
+                            </span>
+                            <span *ngIf="product.isSelected" 
+                                class="d-flex align-items-center">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2.96484 5.92969H4.94149H20.7546" stroke="#D01717" stroke-width="1.6505" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M18.7779 5.92985V19.7663C18.7779 20.2906 18.5696 20.7933 18.199 21.164C17.8283 21.5347 17.3255 21.743 16.8013 21.743H6.91805C6.39381 21.743 5.89104 21.5347 5.52035 21.164C5.14966 20.7933 4.94141 20.2906 4.94141 19.7663V5.92985M7.90637 5.92985V3.9532C7.90637 3.42897 8.11462 2.9262 8.48531 2.55551C8.85601 2.18482 9.35877 1.97656 9.88301 1.97656H13.8363C14.3605 1.97656 14.8633 2.18482 15.234 2.55551C15.6047 2.9262 15.8129 3.42897 15.8129 3.9532V5.92985" stroke="#D01717" stroke-width="1.6505" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9.88281 10.8716V16.8015" stroke="#D01717" stroke-width="1.6505" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M13.8369 10.8716V16.8015" stroke="#D01717" stroke-width="1.6505" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg> &nbsp;
+                                <span class="remove">Remove</span>
                             </span>
                         </div>
                     </div>
@@ -195,12 +308,11 @@
 
    <div class="mobile-pad-1 mt-3">
         <h2>Product Description</h2>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla lacus sodales urna pretium fames egestas donec. Sed lorem venenatis sit elit ut convallis bibendum. Urna quam amet tristique etiam enim commodo, aliquet vulputate. Leo amet nec aliquam neque porttitor luctus lorem. In nunc netus faucibus elementum amet leo neque. Sem enim mattis eu faucibus nunc. Nam enim dolor mauris, quis amet, aliquam tincidunt tempor. In ut malesuada maecenas aliquam lacus ac, suscipit cursus. Fermentum eu tortor ipsum nisl. Vel amet, mauris fermentum habitasse sed. Neque eget mi tellus etiam felis, tincidunt. Ornare molestie pulvinar eget tortor, dictum tristique.
-            Enim in aliquet quis nulla tortor, quisque faucibus eleifend. Morbi rhoncus tincidunt proin justo, consequat aliquet suspendisse. Non ut et placerat vitae tristique lobortis magnis odio sit. Adipiscing enim semper sed vitae tristique diam. Odio eget odio hendrerit varius nibh nunc, et id. Tristique ut adipiscing viverra eu velit. Nullam scelerisque tellus et blandit amet, velit. In ipsum tempus nisl congue in. Suspendisse vulputate in eu nullam vivamus massa. Amet, nunc eu orci leo. Augue amet condimentum gravida et sollicitudin lacus sagittis cum. Tristique volutpat mattis sollicitudin senectus. Ullamcorper fames semper varius euismod posuere quam nibh feugiat blandit. Eget velit ut suspendisse quis ac viverra varius. Massa congue massa tellus, quam scelerisque tellus volutpat nulla aenean.
-            In tristique sodales aliquam nunc dui semper in accumsan at. Pharetra est dapibus ac dolor. Est, tortor gravida phasellus ante sed mauris fames egestas non. Amet imperdiet quam facilisi mauris quis nibh. Id magna morbi fermentum nibh ultricies auctor accumsan. Convallis ante tellus urna sit id sed. Nulla eu amet risus, tempor, lectus sed sem.
-            Neque integer ipsum urna, nulla. Dictum molestie cursus ante viverra arcu commodo quis. Pharetra auctor tincidunt sed ultrices vestibulum. Dictumst amet vulputate in in integer id. Pretium id diam proin nibh nullam commodo. Quam fringilla non mattis euismod vulputate dolor. Massa tellus ac feugiat sit mattis diam, et. Eu, quis quisque diam fringilla lectus neque volutpat.
-        </p>
+        <p *ngIf="!loading">{{product?.description || 'N/A'}}</p>
+        <div *ngIf="loading" class="w-100">
+            <br>
+            <ngx-shimmer-loading height="50px"></ngx-shimmer-loading>
+        </div>
    </div>
 
    <div class="mobile-only-margin-bottom mobile-pad-1 mt-5">
@@ -218,12 +330,25 @@
             <ul class="uk-slider-items">
                 <div *ngFor="let product of products" 
                     class="uk-width-1-4@l uk-width-1-2">
-                    <div routerLink="/homepage/product/1" 
+                    <div (click)="viewExtraProduct(product.id)"
                         class="prod p-2">
-                        <img [src]="product?.imgUrl" alt="product-img" class="img" />
+                        <div>
+                            <!-- <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
+                                [src]="product?.imageUrl" class="img obj-fit" /> -->
+                            <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
+                                src="{{getImageResolution(product?.imageUrl, 200, 150)}}" class="w-100" />
+
+                            <div *ngIf="product?.imageUrl === null || product?.imageUrl === ''" 
+                                class="img-empty-txt">
+                                <p class="text-center mb-0">Image not found</p>
+                            </div>
+                        </div>
                         <div class="py-3">
-                            <p class="name">{{product?.name}}</p>
-                            <p class="price mb-0">{{product?.price | currency: '₦'}}</p>
+                            <p class="name">
+                                <span>{{product?.name || 'N/A' | slice: 0:30}}</span>
+                                <span *ngIf="product?.name?.length > 30">...</span>
+                            </p>
+                            <p class="price mb-0">{{product?.price || 0 | currency: '₦'}}</p>
                         </div>
                     </div>
                 </div>
@@ -231,6 +356,10 @@
         </div>
    </div>
 </div>
+
+<button class="d-none" id="openShippingModalBtn" uk-toggle="target: #shipping-modal"></button>  
+<button class="d-none" id="openAddressModalBtn" uk-toggle="target: #information-modal"></button>  
+<button id="closeAddressFormDialog" class="d-none" uk-toggle="target: #information-modal"></button> 
 
 <div id="information-modal" uk-modal>
     <div *ngIf="isInformation" class="uk-modal-dialog uk-modal-body">
@@ -242,28 +371,40 @@
             </svg>                
         </div>
         <div class="mt-4">
-            <p (click)="toggleModalView()" class="select-existing">Select existing delivery location </p>
-            <form class="mt-3">
+            <span (click)="toggleModalView()" class="select-existing">Select existing delivery location </span>
+            <form [formGroup]="addressForm" class="mt-3">
                 <div class="w-100">
-                    <input class="w-100 input-field" type="text" placeholder="Select delivery location " />
+                    <div *ngIf="!isEditAddress || (isEditAddress && !notReady)">
+                        <input ngx-google-places-autocomplete
+                            [options]='options' #placesRef="ngx-places"
+                            (onAddressChange)="handleAddressChange($event)"
+                            class="w-100 input-field" type="text" 
+                            placeholder="Select delivery location"
+                        />
+                    </div>
+                    <p *ngIf="isEditAddress && notReady" (click)="setAddressField()" class="setter">{{setter}}</p>
                 </div>
                 <div class="mt-3 row">
                     <div class="col-6">
-                        <input class="w-100 input-field" type="text" placeholder="Receiver's First Name" />
+                        <input class="w-100 input-field" type="text" placeholder="Contact Person First Name" 
+                            formControlName="firstname"/>
                     </div>
                     <div class="col-6">
-                        <input class="w-100 input-field" type="text" placeholder="Receiver's Last Name" />
+                        <input class="w-100 input-field" type="text" placeholder="Contact Person Last Name" 
+                            formControlName="lastname"/>
                     </div>
                 </div>
                 <div class="mt-3 w-100">
-                    <input class="w-100 input-field" type="text" placeholder="Add receiver's Phone Number" />
+                    <input class="w-100 input-field" type="text" placeholder="Contact Person Phone Number"
+                        (keypress)="preventLetter($event)" formControlName="contactPhoneNumber"/>
                 </div>
                 <div class="mt-4 row">
-                    <!-- <div class="col-6">
-                        <button class="w-100 add-new-btn">Add New Address</button>
-                    </div> -->
                     <div class="col-12">
-                        <button class="w-100 apply-btn">Apply</button>
+                        <button [disabled]="addressForm.invalid || loadingAddress" (click)="applyAddress()" 
+                            class="w-100 apply-btn">
+                            <span *ngIf="!loadingAddress">Apply</span>
+                            <span *ngIf="loadingAddress">Loading...</span>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -284,44 +425,55 @@
                 <path d="M5.50098 5.50024L16.501 16.5002" stroke="#979797" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>                
         </div>
-        <div class="mt-4">
-            <div class="each-address">
-                <label class="p-3 w-100 pointer flex-center">
-                    <p class="mb-0 w-80">
-                        <span class="address-name">Tosin Oloni</span> <br>
-                        <span>23, Olusegun Obasanjo, Apapa, Badagri</span> <br>
-                        <span>Lekki, Lagos State</span> <br>
-                        <span>+2348077756759</span>
-                    </p>
-                    <div class="w-20 d-flex justify-content-end">
-                        <input checked name="address" type="radio" />
+        <div *ngIf="addresses.length > 0">
+            <div *ngFor="let item of addresses" class="mt-4">
+                <div class="each-address">
+                    <label (click)="setSelectedAddress(item)" class="p-3 w-100 pointer flex-center">
+                        <p class="mb-0 w-80">
+                            <span class="address-name">{{item?.firstname || 'N/A'}} {{item?.lastname || 'N/A'}}</span> <br>
+                            <span>{{item?.fullAddress || 'N/A'}}</span> <br>
+                            <span>{{item?.city || 'N/A'}}, {{item?.state || 'N/A'}}</span> <br>
+                            <span>{{item?.contactPhoneNumber || 'N/A'}}</span>
+                        </p>
+                        <div class="w-20 d-flex justify-content-end">
+                            <input [checked]="item?.isSelected" name="address" type="radio" />
+                        </div>
+                    </label>
+                    <div class="actions-top">
+                        <div>
+                            <span *ngIf="item.isDefault" class="isDefault">
+                                Default Address
+                            </span>
+                            <span *ngIf="!item.isDefault" (click)="setDefaultAddress(item)" 
+                                class="default-txt">Set as Default
+                            </span>
+                        </div>
+                        <div>
+                            <span *ngIf="!deletingAddress" (click)="deleteAddress(item?.id)" class="delete-add">Delete</span>
+                            <span *ngIf="deletingAddress && deleteId === item?.id" class="default-txt">Deleting...</span>
+                        </div>
                     </div>
-                </label>
-                <p class="mb-0 default-txt">Set as Default</p>
+                </div>
             </div>
 
-            <div class="mt-3 each-address">
-                <label class="p-3 w-100 pointer flex-center">
-                    <p class="mb-0 w-80">
-                        <span class="address-name">Segun Sunday</span> <br>
-                        <span>4, Fagbohun street, Iju, Ajuwon</span> <br>
-                        <span>Ikeja, Lagos State</span> <br>
-                        <span>+23490676759</span>
-                    </p>
-                    <div class="w-20 d-flex justify-content-end">
-                        <input name="address" type="radio" />
-                    </div>
-                </label>
-                <p class="mb-0 default-txt">Set as Default</p>
+            <!-- <div class="d-flex justify-content-end mt-3" *ngIf="addresses.length > 0">
+                <p class="mb-0 pointer">Prev</p>
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                <p class="mb-0 pointer">Next</p>
+            </div> -->
+
+            <div class="w-100 mt-4 col-12">
+                <button (click)="setCurrentAddress()" class="w-100 apply-btn">Apply</button>
             </div>
         </div>
 
-        <div class="w-100 mt-4 col-12">
-            <button class="w-100 apply-btn">Apply</button>
+        <div *ngIf="addresses.length === 0" class="p-5">
+            <p class="text-center loading p-5">No Address available</p>
         </div>
     </div>
 </div>
 
+<button id="closeShippingMethodDialog" class="d-none" uk-toggle="target: #shipping-modal"></button> 
 <div id="shipping-modal" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
         <div class="uk-flex uk-flex-between">
@@ -331,60 +483,40 @@
                 <path d="M5.50098 5.50024L16.501 16.5002" stroke="#979797" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>                
         </div>
-        <div class="mt-4">
-            <div class="each-shipping">
-                <label class="p-3 w-100 pointer flex-center">
-                    <div class="w-10 d-flex">
-                        <input name="shipping" type="radio" />
-                    </div>
-                    <p class="mb-0 w-90">
-                        <span class="address-name">Shipping: Starting from NGN 3000</span> <br>
-                        <span class="my-1 flex-center">
-                            <span class="txt-2">from Abuja Station to Samaritan hospital via CMK </span>
-                            &nbsp; &nbsp;
-                            <img src="/assets/images/tagger-img.svg" alt="tagger-img"/> 
-                        </span>
-                        <span class="txt-2">Delivered between Tuesday 8 Nov and Tuesday 15 Nov</span>
-                    </p>
-                </label>
+        <div *ngIf="shippingMethods.length > 0">
+            <div class="mt-4">
+                <div *ngFor="let item of shippingMethods" class="mt-3 each-shipping">
+                    <label (click)="setSelectedShippingMethod(item)" class="p-3 w-100 pointer flex-center">
+                        <div class="w-10 d-flex">
+                            <input [checked]="item?.isSelected" name="shipping" type="radio" />
+                        </div>
+                        <p class="mb-0 w-90">
+                            <span class="address-name">Shipping: Starting from {{item?.estimatePrices[0]?.startingPrice || 0 | currency: 'NGN'}}</span> <br>
+                            <span class="my-1 flex-center">
+                                <span>Via {{item?.estimatePrices[0]?.logisticName || 'N/A'}}</span>
+                                &nbsp; &nbsp;
+                                <span *ngIf="item?.estimatePrices[0]?.logisticLogoUrl !== '' || 
+                                    item?.estimatePrices[0]?.logisticLogoUrl !== null">
+                                    <img src="{{item?.estimatePrices[0]?.logisticLogoUrl}}" class="small-logo"/> 
+                                </span>
+                            </span>
+                            <span>Delivered between {{item?.estimatePrices[0]?.deliveryDuration || 'N/A'}}</span>
+                        </p>
+                    </label>
+                </div>
             </div>
 
-            <div class="mt-3 each-shipping">
-                <label class="p-3 w-100 pointer flex-center">
-                    <div class="w-10 d-flex">
-                        <input checked name="shipping" type="radio" />
-                    </div>
-                    <p class="mb-0 w-90">
-                        <span class="address-name">Shipping: Starting from NGN 1500</span> <br>
-                        <span class="my-1 flex-center">
-                            <span>from Abuja Station to Old NEPA via GSO </span>
-                            &nbsp; &nbsp;
-                            <img src="/assets/images/tagger-img.svg" alt="tagger-img"/> 
-                        </span>
-                        <span>Delivered between Friday 4 Nov and Saturday 20 Nov</span>
-                    </p>
-                </label>
-            </div>
-
-            <div class="mt-3 each-shipping">
-                <label class="p-3 w-100 pointer flex-center">
-                    <div class="w-10 d-flex">
-                        <input name="shipping" type="radio" />
-                    </div>
-                    <p class="mb-0 w-90">
-                        <span class="address-name">Free Shipping</span> <br>
-                        <span class="my-1 flex-center">
-                            <span>from Abuja Station to Suleja Station via FedEx</span>
-                            &nbsp; &nbsp;
-                            <img src="/assets/images/tagger-img.svg" alt="tagger-img"/> 
-                        </span>
-                        <span>Delivered between Tuesday 15 Nov and Wednesday 30 Nov</span>
-                    </p>
-                </label>
+            <div class="w-100 mt-4 col-12">
+                <button (click)="setShippingMethod()" class="w-100 apply-btn">Apply</button>
             </div>
         </div>
-        <div class="w-100 mt-4 col-12">
-            <button class="w-100 apply-btn">Apply</button>
+
+        <div *ngIf="loadingShippingEstimate" class="p-5">
+            <p class="text-center loading p-5">Loading shipping method(s)...</p>
+        </div>
+
+        <div *ngIf="shippingMethods.length === 0 && !loadingShippingEstimate" class="p-5">
+            <p class="text-center loading p-5">No shipping method(s) available</p>
         </div>
     </div>
 </div>

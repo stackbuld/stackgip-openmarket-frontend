@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppLocalStorage } from 'src/app/helpers/local-storage';
 
 @Component({
   selector: 'app-product-card',
@@ -7,4 +9,19 @@ import { Component, Input } from '@angular/core';
 })
 export class ProductCardComponent {
   @Input() product: any;
+
+  constructor(
+    private appLocal: AppLocalStorage,
+    private router: Router,
+  ) { }
+
+  view = (item: any) => {
+    this.appLocal.messageSource.next(item);
+    this.appLocal.productViewed.next('productViewed');
+    this.router.navigate([`/homepage/product/${item.id}`]);
+  }
+
+  getImageResolution(url: string, width: any, height: any) {
+    return `https://res.cloudinary.com/votel/image/fetch/c_fill,g_auto,h_${height},w_${width}/b_auto:border,c_pad,h_${height},w_${width}/q_auto:best/${url}`
+  }
 }

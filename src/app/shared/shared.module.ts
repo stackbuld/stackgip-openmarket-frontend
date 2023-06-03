@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
-import { MatInputModule } from "@angular/material/input";
+import { MatInput, MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatSliderModule } from "@angular/material/slider";
 import { LoaderComponent } from "./components/loader/loader.component";
@@ -46,6 +46,8 @@ import { LandingFooterComponent } from './components/landing-footer/landing-foot
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { DataCardsComponent } from './components/data-cards/data-cards.component';
 // import { ServicesComponent } from './components/services/services.component';
+import { NgAisModule } from 'angular-instantsearch';
+
 @NgModule({
   declarations: [
     SafeHtmlPipe,
@@ -67,7 +69,7 @@ import { DataCardsComponent } from './components/data-cards/data-cards.component
     ProductCardComponent,
     LandingFooterComponent,
     SearchBarComponent,
-    DataCardsComponent
+    DataCardsComponent,
   ],
   imports: [
     CommonModule,
@@ -75,7 +77,10 @@ import { DataCardsComponent } from './components/data-cards/data-cards.component
     ReactiveFormsModule,
     RouterModule,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    NgAisModule,
+    MatAutocompleteModule,
+    MatInputModule
   ],
   exports: [
     HttpClientJsonpModule,
@@ -109,7 +114,7 @@ import { DataCardsComponent } from './components/data-cards/data-cards.component
     ProductCardComponent,
     LandingFooterComponent,
     SearchBarComponent,
-    DataCardsComponent
+    DataCardsComponent,
   ],
   providers: [
     {

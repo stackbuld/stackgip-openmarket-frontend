@@ -14,6 +14,9 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
 export class SellerStoreCreateDialogComponent implements OnInit {
   mode: string = 'create';
   private phonePattern = /^234[789][01]\d{8}$/;
+  setter = 'Please type your store name';
+  notReady = true;
+  loading: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -31,6 +34,10 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     // componentRestrictions: { country: 'NG' },
   };
 
+  setAddressField = () => {
+    this.notReady = false;
+  }
+
   ngOnInit(): void {
     // this.sellerStoreAddressForm = this.fb.group({
     //   id: [''],
@@ -43,7 +50,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     //   postalCode: ['', [Validators.required]],
     //   state: ['', [Validators.required]],
     //   country: ['', [Validators.required]],
-    //   isDefault: ['', [Validators.required]],
+    //   isDefault: [''],
     //   userId: ['', [Validators.required]],
     //   contactPhoneNumber: ['', [Validators.required, Validators.pattern(this.phonePattern)]],
     // });
@@ -95,7 +102,6 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   }
 
   public handleAddressChange(address: Address) {
-    // Do some stuff
     let postalCode = address.address_components.filter((element) => {
       return element.types.includes('postal_code');
     });
@@ -125,10 +131,11 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.landmark.patchValue(landmark[0].long_name);
     this.sellerStoreAddressForm.updateValueAndValidity();
   }
-
+  
   checkMode() {
     if (this.data) {
       this.mode = 'edit';
+      this.setter = this.data.fullAddress;
       this.sellerStoreAddressForm = this.fb.group({
         id: [this.data.id, Validators.required],
         storeName: [this.data.storeName, [Validators.required]],
@@ -141,12 +148,10 @@ export class SellerStoreCreateDialogComponent implements OnInit {
         postalCode: [this.data.postalCode, [Validators.required]],
         state: [this.data.state, [Validators.required]],
         country: [this.data.country, [Validators.required]],
-        isDefault: [this.data.isDefault, [Validators.required]],
+        isDefault: [this.data.isDefault],
         userId: [this.data.userId, [Validators.required]],
-        contactPhoneNumber: [
-          this.data.contactPhoneNumber,
-          [Validators.required, Validators.pattern(this.phonePattern)],
-        ],
+        contactPhoneNumber: [this.data.contactPhoneNumber, [Validators.required]]
+        // Validators.pattern(this.phonePattern)
       });
       return;
     }
@@ -162,12 +167,10 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       postalCode: ['', [Validators.required]],
       state: ['', [Validators.required]],
       country: ['', [Validators.required]],
-      isDefault: ['', [Validators.required]],
+      isDefault: [false],
       userId: [this.helperService.getLoggedInUserId(), [Validators.required]],
-      contactPhoneNumber: [
-        '',
-        [Validators.required, Validators.pattern(this.phonePattern)],
-      ],
+      contactPhoneNumber: ['', [Validators.required]],
+      // Validators.pattern(this.phonePattern)
     });
   }
 
@@ -184,18 +187,32 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   }
 
   onCreate() {
+    this.loading = true;
     this.sellerStoreService
       .createSellerStore(this.sellerStoreAddressForm.value)
       .subscribe((response: any) => {
+        this.loading = false;
         response.status == 'success' ? this.dialogRef.close(response) : null;
-      });
+    }, err => {
+      this.loading = false;
+    });
+  }
+
+  preventLetter(evt: any): boolean {
+    var charCode = evt.which ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+    return true;
   }
 
   onEdit() {
+    this.loading = true;
     this.sellerStoreService
       .updateSellerStore(this.sellerStoreAddressForm.value)
       .subscribe((response: any) => {
+        this.loading = false;
         response.status == 'success' ? this.dialogRef.close(response) : null;
+      }, err => {
+        this.loading = false;
       });
   }
 }
