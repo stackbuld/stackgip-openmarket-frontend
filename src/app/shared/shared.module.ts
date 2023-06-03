@@ -12,8 +12,8 @@ import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
 } from '@angular/material/form-field';
 import { MatLabel } from '@angular/material/form-field';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule, PLATFORM_ID } from '@angular/core';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 import { HttpClientJsonpModule } from '@angular/common/http';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
@@ -48,6 +48,12 @@ import { DataCardsComponent } from './components/data-cards/data-cards.component
 // import { ServicesComponent } from './components/services/services.component';
 import { NgAisModule } from 'angular-instantsearch';
 import { LazyLoadImagesDirective } from './directives/lazy-load-Images.directive';
+
+import { InjectionToken } from '@angular/core';
+
+export const DOCUMENT_TOKEN = new InjectionToken<Document>('Document');
+export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
+
 @NgModule({
   declarations: [
     SafeHtmlPipe,
@@ -124,6 +130,28 @@ import { LazyLoadImagesDirective } from './directives/lazy-load-Images.directive
       useValue: { appearance: 'outline' },
     },
     WindowRefService,
+    {
+      provide: DOCUMENT_TOKEN,
+      useFactory: (platformId: any, document: any) => {
+        if (isPlatformBrowser(platformId)) {
+          return document;
+        } else {
+          return {};
+        }
+      },
+      deps: [PLATFORM_ID, DOCUMENT],
+    },
+    {
+      provide: WINDOW_TOKEN,
+      useFactory: (platformId: any) => {
+        if (isPlatformBrowser(platformId)) {
+          return window;
+        } else {
+          return {};
+        }
+      },
+      deps: [PLATFORM_ID],
+    },
   ],
 })
 export class SharedModule {}

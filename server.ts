@@ -28,6 +28,11 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
+  // Serve ngsw-worker.js
+  server.get('/ngsw-worker.js', (req, res) => {
+    res.sendFile(join(distFolder, 'ngsw-worker.js'));
+  });
+
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
