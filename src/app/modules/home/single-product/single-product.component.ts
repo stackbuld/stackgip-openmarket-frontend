@@ -7,7 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
-import { ImageResolutionService } from 'src/app/helpers/image-resolution.service';
+import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
 
 @Component({
   selector: 'app-single-product',
@@ -63,7 +63,6 @@ export class SingleProductComponent implements OnInit{
     private userService: UserService,
     private router: Router,
     private applocal: AppLocalStorage,
-    public imageResolutionService: ImageResolutionService,
   ) { }
 
   ngOnInit(): void {
@@ -97,18 +96,15 @@ export class SingleProductComponent implements OnInit{
     }
   }
 
-//   {
-//     "firstname": "Kehinde",
-//     "lastname": "Onyekuwuluje",
-//     "fullAddress": "Ikeja General Hospital Road, Ikeja GRA 101233, Lagos, Nigeria",
-//     "lat": 6.5910288,
-//     "lng": 3.3423427,
-//     "city": "Ikeja",
-//     "state": "Lagos",
-//     "country": "NG",
-//     "userId": null,
-//     "contactPhoneNumber": "09034719389"
-// }
+  getImageResolution = (url: string, width: number, height: number) => {
+    return ImageResolutionUtility.getImageResolution(url, width, height);
+  }
+
+  viewProduct = (id: any) => {
+    this.router.navigate(['/homepage/product', id]);
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
 
   populateAddressForm = (data: any) => {
     this.setter = data.fullAddress;
@@ -140,10 +136,6 @@ export class SingleProductComponent implements OnInit{
       userId: new FormControl(null),
       contactPhoneNumber: new FormControl('', Validators.required),
     });
-  }
-
-  getImageResolution(url: string, width: any, height: any) {
-    return `https://res.cloudinary.com/votel/image/fetch/c_fill,g_auto,h_500,w_650/b_auto:border,c_pad,h_${height},w_${width}/q_auto:best/${url}`
   }
 
   getParams = () => {
@@ -529,10 +521,6 @@ export class SingleProductComponent implements OnInit{
     } else {
       this.toastService.warning('Please login to view addresses', 'WARNING');
     }
-  }
-
-  viewExtraProduct = (id: any) => {
-    // this.router.navigate([`/homepage/product/${id}`]);
   }
 
   resetModalView = () => {

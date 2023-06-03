@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 
 @Component({
@@ -21,7 +22,7 @@ export class ProductCardComponent {
     this.router.navigate([`/homepage/product/${item.id}`]);
   }
 
-  getImageResolution(url: string, width: any, height: any) {
-    return `https://res.cloudinary.com/votel/image/fetch/c_fill,g_auto,h_${height},w_${width}/b_auto:border,c_pad,h_${height},w_${width}/q_auto:best/${url}`
+  getImageResolution = (url: string, width: number, height: number) => {
+    return ImageResolutionUtility.getImageResolution(url, width, height);
   }
 }
