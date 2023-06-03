@@ -30,6 +30,7 @@
     "@angular/platform-browser-dynamic": "^15.1.3",
     "@angular/platform-server": "^15.1.3",
     "@angular/router": "^15.1.3",
+    "@angular/service-worker": "^15.1.3",
     "@material/checkbox": "^14.0.0",
     "@material/textfield": "^14.0.0",
     "@mobiscroll/angular-lite": "^4.10.9",
