@@ -50,7 +50,6 @@ import { ConfirmOrderDialogComponent } from './order-management/confirm-order-di
     OrderManagementComponent,
     OrderViewComponent,
     ConfirmOrderDialogComponent,
-
   ],
   imports: [
     CommonModule,
@@ -62,6 +61,6 @@ import { ConfirmOrderDialogComponent } from './order-management/confirm-order-di
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
-  ]
+  ],
 })
-export class SellerModule { }
+export class SellerModule {}

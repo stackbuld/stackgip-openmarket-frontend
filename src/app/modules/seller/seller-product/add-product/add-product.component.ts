@@ -11,14 +11,10 @@ import { ProductsService } from '../../../../services/products/products.service'
 import { ToastrService } from '../../../../services/toastr.service';
 import { StoreService } from 'src/app/services/store/store.service';
 import uikit from 'uikit';
-// import { AngularEditorConfig } from "@kolkov/angular-editor";
-// import * as CkEditor from 'rena-ckeditor5-custom-build/build/ckeditor';
-import { editorDefaultConfig } from 'src/app/shared/config/ckeditor.config';
+
 import { DOCUMENT } from '@angular/common';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SellerStoreCreateDialogComponent } from '../../seller-store/seller-store-create-dialog/seller-store-create-dialog.component';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 
 declare var cloudinary: any;
 @Component({
@@ -30,7 +26,6 @@ declare var cloudinary: any;
   ],
 })
 export class AddProductComponent implements OnInit {
-  public ClassicEditor = ClassicEditor;
   private unsubscribe$ = new Subject<void>();
   @Output() closed = new EventEmitter();
   @Output() added = new EventEmitter();
@@ -78,9 +73,7 @@ export class AddProductComponent implements OnInit {
   isFullDescription = false;
   hasFullDesc: boolean;
 
-  // public Editor = CkEditor;
 
-  editorDefaultConfig = editorDefaultConfig;
 
   constructor(
     private fb: FormBuilder,
@@ -105,10 +98,6 @@ export class AddProductComponent implements OnInit {
 
   get categoryId() {
     return this.form.get('categoryId');
-  }
-
-  onChange({ editor }: ChangeEvent) {
-    const data = editor.getData();
   }
 
   ngOnInit(): void {
@@ -612,7 +601,7 @@ export class AddProductComponent implements OnInit {
         this.isSubCatIdEmpty = true;
         this.form.patchValue({ categoryId: this.form.value.category });
       }
-      
+
       if (this.form.valid) {
         this.setComplementaryProducts();
         this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
@@ -622,7 +611,6 @@ export class AddProductComponent implements OnInit {
         this.isPreview = true;
       }
     }
-    
   };
 
   setComplementaryProducts() {
