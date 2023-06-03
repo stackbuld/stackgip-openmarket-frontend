@@ -26,7 +26,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.webmanifest"
+              "src/manifest.webmanifest",
+              "src/robot.txt"
             ],
             "styles": [
               "node_modules/angular-instantsearch/bundles/instantsearch.min.css",
@@ -151,7 +152,26 @@
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "routes": ["/"]
+            "browserTarget": "stackbuld-ecommerce:build:production",
+            "serverTarget": "stackbuld-ecommerce:server:production",
+            "routes": ["/landing"]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "stackbuld-ecommerce:build:production",
+              "serverTarget": "stackbuld-ecommerce:server:production"
+            },
+            "development": {
+              "browserTarget": "stackbuld-ecommerce:build:development",
+              "serverTarget": "stackbuld-ecommerce:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "app-shell": {
+          "builder": "@angular-devkit/build-angular:app-shell",
+          "options": {
+            "route": "shell"
           },
           "configurations": {
             "production": {
