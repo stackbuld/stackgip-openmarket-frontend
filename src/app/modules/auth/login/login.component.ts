@@ -23,6 +23,8 @@ import { of, Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { JwtHelperService } from '../../../services/jwt-helper.service';
 
+declare const FB: any
+
 // declare var gapi: any;
 
 // facebook declarations
@@ -45,6 +47,7 @@ export class LoginComponent implements OnInit {
   message = '';
   tokenSubscription = new Subscription();
   decodedJwt;
+  private _ngZone: any;
   constructor(
     public authService: AuthService,
     // private socialAuthService: SocialAuthService,
@@ -69,6 +72,22 @@ export class LoginComponent implements OnInit {
   showPassword() {
     this.passwordType = !this.passwordType;
   }
+
+  async facebookLogin() {
+    FB.login(async (result:any) => {
+        await this.authService.LoginWithFacebook(result.authResponse.accessToken).subscribe(
+          (x:any) => {
+            this._ngZone.run(() => {
+              this.router.navigate(['/logout']);
+            })},
+          (error:any) => {
+              console.log(error);
+            }
+          );  
+    }, { scope: 'email' });
+    
+  }
+
 
   login(): void {
     this.ngxService.startLoader('loader-01');
