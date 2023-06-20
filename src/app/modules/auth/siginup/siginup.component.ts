@@ -20,6 +20,7 @@ import { delay } from 'rxjs/operators';
 import { JwtHelperService } from '../../../services/jwt-helper.service';
 import { MDCTextField } from '@material/textfield';
 // const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
+declare const FB: any
 
 @Component({
   selector: 'app-siginup',
@@ -37,6 +38,8 @@ export class SiginupComponent implements OnInit {
   message = '';
   errorMessage: string;
   window: Window;
+  FB: any
+  private _ngZone: any;
   constructor(
     public authService: AuthService,
     // private socialAuthService: SocialAuthService,
@@ -123,6 +126,21 @@ export class SiginupComponent implements OnInit {
         this.toast.error(err.error.message, 'notification');
       }
     );
+  }
+
+  async facebookLogin() {
+    FB.login(async (result:any) => {
+        await this.authService.LoginWithFacebook(result.authResponse.accessToken).subscribe(
+          (x:any) => {
+            this._ngZone.run(() => {
+              this.router.navigate(['/logout']);
+            })},
+          (error:any) => {
+              console.log(error);
+            }
+          );  
+    }, { scope: 'email' });
+    
   }
 
   login(signInModel: SignInModel) {
