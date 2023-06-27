@@ -1,0 +1,165 @@
+.main {
+    padding: 2rem 8rem;
+    background: #ffffff;
+
+    .nav-items {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 29px;
+        color: #000000;
+        cursor: pointer;
+        margin-bottom: 0px !important;
+    }
+      
+    .comp-img2 {
+        width: 200px;
+        height: 170px;
+    }
+    
+    .nocomp-img2 {
+        width: 200px;
+        font-size: 10px;
+        color: #C0C0C0;
+        height: 170px;
+        border: 1px solid #C0C0C0;
+        border-radius: 5px;
+    }
+
+    .active-tab-item {
+        font-weight: 900;
+        font-size: 18px;
+        border-bottom: 2px solid black;
+    }
+
+    .unit {
+        background: rgba(88, 77, 205, 0.1);
+        border-radius: 10px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+        color: #000000;
+    }
+
+    .value {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        color: #000000;
+        padding-right: 5px;
+    }
+
+    .view-btn {
+        border: none;
+        outline: none;
+        padding: .5rem 1rem;
+        color: #ffffff;
+        background: #000000;
+        border-radius: 5px;
+    }
+
+    .label {
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 22px;
+        color: #5A5A5A;
+        padding-right: 5px;
+    }
+
+    .w-20 {
+        width: 20%;
+    }
+
+    .w-10 {
+        width: 10%;
+    }
+
+    .w-15 {
+        width: 15%;
+    }
+
+    .border-bottom {
+        border-bottom: 1px solid #E7E5E5;
+    }
+
+    .table {
+        background: #FAFAFA;
+        border-radius: 5px;
+        padding: 1.5rem;
+    }
+
+    .mobile-only {
+        display: none !important;
+    }
+
+    .w-70 {
+        width: 70%;
+    }
+
+    .w-30 {
+        width: 30%;
+    }
+
+    .display {
+        display: flex;
+        width: 100% !important;
+    }
+}
+
+
+@media screen and (max-width: 767px) {
+    .main {
+        padding: 1rem;
+        
+        .table-value {
+            display: block !important;
+
+            .value {
+                width: 100%;
+            }
+        }
+
+        .mobile-full {
+            width: 100% !important;
+            height: 200px !important;
+        }
+
+        .web-only {
+            display: none !important;
+        }
+
+        .mobile-only {
+            display: block !important;
+        }
+
+        .unit {
+            border-radius: 5px;
+            font-size: 12px;
+            line-height: 13px;
+        }
+
+        .table {
+            padding: .5rem !important;
+        }
+
+        .comp-img2, .nocomp-img2 {
+            height: 130px !important;
+        }
+
+        .val-prod-name {
+            width: 160px !important;
+        }
+    }
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px)  {
+    .main {
+        padding: 1rem;
+
+        .unit {
+            font-size: 10px;
+        }
+    }
+
+}

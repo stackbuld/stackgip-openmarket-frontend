@@ -1,65 +1,49 @@
-<div
-  uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky"
-  class="navvy"
->
-  <nav
-    class="uk-navbar-container uk-margin head"
-    style="height: 80px"
-    uk-navbar
-  >
+<div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky" class="navvy">
+  <nav class="uk-navbar-container uk-margin head" style="height: 80px" uk-navbar>
     <div class="uk-navbar-left default-width">
-      <a class="uk-navbar-item uk-logo" href="#" style="color: white"
-        ><img
-          src="../../../../assets/logos/Rena-Market-Transaprent-BLK-2.png"
-          alt="RENA MARKET"
-          width="120"
-      /></a>
+      <a class="uk-navbar-item uk-logo" [routerLink]="['/']"><img src="../../../../assets/image/quality-logo.svg"
+          alt="RENA MARKET" width="120" /></a>
 
-      <div style="display: flex; flex-direction: row; width: 60%; color: white">
+      <div style="display: flex; flex-direction: row; width: 60%;">
         <ul class="uk-navbar-nav">
-          <li>
+          <li class="" data-uk-tooltip title="coming soon">
             <a [routerLink]="['']">
               <span class="uk-icon uk-margin-small-right"></span>
-              Market Place
+              Marketplace
             </a>
           </li>
           <li>
-            <a href="/features">
+            <a [routerLink]="['/', {pageSec: 'features'}]">
               <span class="uk-icon uk-margin-small-right"></span>
               Features
             </a>
           </li>
+
           <li>
-            <a href="/faqs">
-              <span class="uk-icon uk-margin-small-right"></span>
-              FAQs
-            </a>
-          </li>
-          <li>
-            <a href="#">
+            <a [routerLink]="['/', {pageSec: 'about'}]">
               <span class="uk-icon uk-margin-small-right"></span>
               About
             </a>
           </li>
           <li>
-            <a href="/contact">
+            <a [routerLink]="['/', {pageSec: 'contact'}]">
               <span class="uk-icon uk-margin-small-right"></span>
               Contact
             </a>
           </li>
         </ul>
       </div>
-      <!-- <div class="uk-navbar-item">
-            <div>Some <a href="#">Link</a></div>
-        </div> -->
 
       <div class="uk-navbar-right">
-        <button class="uk-button-default login">
-          <a href="login">Login</a>
-        </button>
-        <button class="uk-button uk-button-default uk-text-capitalize signup">
-          <a href="signup">Sign Up</a>
-        </button>
+        <div class="the-btns">
+          <button class="uk-button uk-button-default uk-text-capitalize sell-btn" type="button">
+            <a (click)="sell()">Sell</a>
+          </button>
+          &nbsp;
+          <button class="uk-button uk-button-default uk-text-capitalize waitList" type="button">
+            <a [routerLink]="['/wait-list']">Join waitlist</a>
+          </button>
+        </div>
       </div>
     </div>
   </nav>
@@ -67,54 +51,47 @@
 
 <!-- mobile  -->
 
-<div
-  uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky"
-  class="navy"
->
+<div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky" class="navy">
   <div class="uk-navbar-container head" uk-navbar>
     <div class="uk-navbar-left">
-      <a class="uk-navbar-item uk-logo navy" href="#"
-        ><img
-          src="../../../../assets/logos/Rena-Market-Transaprent-BLK-2.png"
-          alt="RENA MARKET"
-          width="120"
-      /></a>
+      <a class="uk-navbar-item uk-logo navy space-ml" [routerLink]="['/market-place']"><img
+          src="../../../../assets/image/quality-logo.svg" alt="RENA MARKET" width="90" /></a>
     </div>
 
     <div class="uk-navbar-right">
-      <div
-        class="uk-button uk-button-default navy"
-        uk-toggle="target: #offcanvas-flip"
-        style="border-color: transparent"
-      >
+      <div class="uk-button uk-button-default navy" uk-toggle="target: #offcanvas-flip"
+        style="border-color: transparent">
         <div uk-navbar-toggle-icon></div>
       </div>
 
       <div id="offcanvas-flip" uk-offcanvas="overlay: true">
         <div class="uk-offcanvas-bar">
-          <button class="uk-offcanvas-close" type="button" uk-close></button>
+          <div class="up-navBar">
+            <div class="uk-navbar-left">
+              <a class="uk-navbar-item uk-logo navy" href="#"><img src="../../../../assets/image/quality-logo.svg"
+                  alt="RENA MARKET" width="90" /></a>
+            </div>
+            <div uk-offcanvas-bar>
+              <button class="uk-offcanvas-close" type="button" uk-close></button>
+            </div>
+          </div>
+
 
           <ul class="mobile-side-menu">
             <li>
               <a [routerLink]="['']">
-                <span class="uk-icon uk-margin-small-right"></span>
-                Market Place
+                <span class="uk-icon uk-margin-small-right" data-uk-tooltip title=" coming soon"></span>
+                Marketplace
               </a>
             </li>
             <li>
-              <a [routerLink]="['/features']">
+              <a [routerLink]="['/landing', {pageSec: 'whybuy'}]">
                 <span class="uk-icon uk-margin-small-right"></span>
                 Features
               </a>
             </li>
             <li>
-              <a [routerLink]="['/faqs']">
-                <span class="uk-icon uk-margin-small-right"></span>
-                FAQs
-              </a>
-            </li>
-            <li>
-              <a [routerLink]="['']">
+              <a [routerLink]="['/landing']">
                 <span class="uk-icon uk-margin-small-right"></span>
                 About
               </a>
@@ -126,7 +103,14 @@
               </a>
             </li>
           </ul>
+          <div class="uk-navbar-right">
+            <button class="uk-button uk-button-default uk-text-capitalize waitList" type="button"
+              uk-toggle="target: #offcanvas-usage">
+              <a [routerLink]="['/wait-list']">Join waitlist</a>
+            </button>
+          </div>
         </div>
+
       </div>
     </div>
   </div>

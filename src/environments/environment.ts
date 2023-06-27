@@ -7,6 +7,8 @@ export const environment = {
   identityApi: "https://dev-identity.renamarkets.com/api/v1/",
   // identityApi: "http://localhost:59906/api/v1/",
   ecommerceApi: "https://dev-ecommerce.renamarkets.com/api/v1/",
+  storeApi: "https://dev-ecommerce.renamarkets.com/api/",
+  walletApi: "https://dev-wallet-container-app.agreeablewater-fe9b1d2c.northeurope.azurecontainerapps.io/",
   // ecommerceApi: "http://localhost:57889/api/v1/",
   paystackPublicKey: "pk_test_8e75de0f0e2bba17ee0b37ed227e176b92b52d0b",
   googleClientId:
@@ -14,6 +16,13 @@ export const environment = {
   facebookAppId: "824459011487587",
   cloudinaryName: "dimxqjzpr",
   cloudinaryUploadPerset: "unsigned1_openmarket",
+
+  algolia: {
+    appId: 'FFW9XSFVBK',
+    apiKey: '8e009ce54b2cb72e747aad9fb4ca822c',
+    indexName: 'products_index',
+    // urlSync: false
+  }
 };
 
 /*

@@ -1,5 +1,5 @@
-import { ResponseModel } from "./../shared/models/ResponseModel";
-export interface IUserModel { }
+import { ResponseModel } from './../shared/models/ResponseModel';
+export interface IUserModel {}
 export interface IUser {
   id: string;
   firstName?: any;
@@ -12,6 +12,18 @@ export interface IUser {
   phoneNumber: string;
   city: string;
   scope: string;
+  preferredProfileType: string;
+  businessName: string;
+  businessAddress: string;
+  businessEmail: string;
+  businessPhone: string;
+  businessCountryCode: string;
+  businessState: string;
+  businessCity: string;
+  businessLogoUrl: string;
+  businessRegistrationNumber: string;
+  isSellerApproved: boolean;
+  sellerApprovalStatus: string;
 }
 
 export interface IUserResponse extends ResponseModel {
