@@ -24,7 +24,6 @@ export class BankAccountService {
     this.http
       .get(`${this.baseUrl}api/v1/bankaccount/user/${userId}`)
       .subscribe((res: any) => {
-        console.log(res);
         this.userBankList = res.data;
         this.userBankListListener.next(this.userBankList);
       });
@@ -36,7 +35,6 @@ export class BankAccountService {
     this.http
       .get(`${this.baseUrl}api/v1/bankaccount/banks/${countryCode}`)
       .subscribe((res: any) => {
-        console.log(res);
         this.bankList = res.data;
         this.bankListListener.next(this.bankList);
       });

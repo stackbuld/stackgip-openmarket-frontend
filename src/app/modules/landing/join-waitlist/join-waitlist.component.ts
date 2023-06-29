@@ -27,11 +27,11 @@ export class JoinWaitlistComponent implements OnInit {
     interest: new FormControl('', { validators: [Validators.required] }),
   });
   goBack() {
-    this.window.history.back();
+    this.window?.history?.back();
   }
 
   ngOnInit(): void {
-    this.window.prefinery('recordFormImpression');
+    this.window?.prefinery('recordFormImpression');
     this.referralUser = {} as ReferralUser;
   }
 
@@ -45,21 +45,16 @@ export class JoinWaitlistComponent implements OnInit {
       };
       this.isLoading = true;
       this.getUser(data.email, (user) => {
-        console.log('returned user', user);
         if (!user.data) {
-          this.window.prefinery('addUser', data, (record) => {
-            console.log('api result', record);
+          this.window?.prefinery('addUser', data, (record) => {
             this.isLoading = false;
             this.referralUser = record as ReferralUser;
-            console.log(this.referralUser);
             this.showForm = false;
           });
         } else {
           this.isLoading = false;
           this.referralUser = user.data as ReferralUser;
-          console.log(this.referralUser);
           this.showForm = false;
-          console.log('user already exist , do something else');
         }
       });
 
@@ -76,7 +71,7 @@ export class JoinWaitlistComponent implements OnInit {
   prefineryAuth(email: string, func: Function) {
     const signature = this.computeHash(email);
 
-    this.window.prefinery(
+    this.window?.prefinery(
       'authenticateUser',
       {
         email: email,
@@ -103,15 +98,13 @@ export class JoinWaitlistComponent implements OnInit {
     const signature = this.computeHash(email);
 
     this.prefineryAuth(email, () => {
-      console.log('getting user');
-      this.window.prefinery(
+      this.window?.prefinery(
         'getUser',
         {
           email: email,
           signature: signature,
         },
         (user) => {
-          console.log('primnary user', user);
           func(user);
         }
       );
@@ -119,7 +112,7 @@ export class JoinWaitlistComponent implements OnInit {
   }
 
   copyLink(link): void {
-    this.window.navigator.clipboard.writeText(link);
+    this.window?.navigator?.clipboard?.writeText(link);
     this.initializeNotification();
   }
   initializeNotification() {

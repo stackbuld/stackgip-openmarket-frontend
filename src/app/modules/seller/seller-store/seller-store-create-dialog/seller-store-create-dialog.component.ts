@@ -102,8 +102,6 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   }
 
   public handleAddressChange(address: Address) {
-    console.log('ADDRESS === ', address);
-    // Do some stuff
     let postalCode = address.address_components.filter((element) => {
       return element.types.includes('postal_code');
     });

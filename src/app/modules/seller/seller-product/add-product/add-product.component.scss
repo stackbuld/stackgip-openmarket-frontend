@@ -416,7 +416,7 @@ span svg [stroke*='#'] {
 
     .del-mobile {
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
     }
 
     .upload-text {

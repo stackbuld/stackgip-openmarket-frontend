@@ -27,7 +27,7 @@
 }
 
 .login-btn1:disabled {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .login-image-section {
@@ -187,8 +187,6 @@ form {
   // font-size: 16px;
   // line-height: 19px;
   text-align: center;
-
-
 }
 
 .login-img-1 {
@@ -228,8 +226,8 @@ form {
     display: block;
   }
 
-  .w-9{
-    width: 90px
+  .w-9 {
+    width: 90px;
   }
 
   .login-tiltle {
@@ -317,5 +315,13 @@ form {
 
   .open-market-lg {
     display: none;
+  }
+
+  #login-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
   }
 }

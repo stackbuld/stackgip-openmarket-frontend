@@ -146,6 +146,14 @@ form {
   display:inline;
 }
 
+#login-btn {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
 @media only screen and (max-width: 769px) {
   .signup-main .signup-flex-container {
     display: block;
@@ -207,6 +215,13 @@ form {
   }
   .open-market-lg {
     display: none;
+  }
+  #login-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
   }
 }
 

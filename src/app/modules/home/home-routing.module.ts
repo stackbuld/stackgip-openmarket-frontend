@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProductListComponent } from './product-list/product-list.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
+import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, 
@@ -13,8 +14,9 @@ const routes: Routes = [
         { path: '', component: ProductListComponent},
         { path: 'product/:id', component: SingleProductComponent},
         { path: 'checkout', component: ProductCheckoutComponent},
-        { path: 'details', component: OrderDetailsComponent},
+        { path: 'details/:id', component: OrderDetailsComponent},
         { path: 'history', component: OrderHistoryComponent},
+        { path: 'payment-confirmation', component: PaymentConfirmationComponent},
       ]
     },
 ];

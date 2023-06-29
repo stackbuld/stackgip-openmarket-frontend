@@ -36,7 +36,6 @@ export class AppComponent {
     @Inject(DOCUMENT) private document: Document
   ) {
     this.handleRouteEvents();
-    console.log(this.count$);
   }
 
   handleRouteEvents() {
@@ -47,11 +46,11 @@ export class AppComponent {
           this.router.routerState.root
         ).join('-');
         this.titleService.setTitle(title);
-        gtag('event', 'page_view', {
-          page_title: title,
-          page_path: event.urlAfterRedirects,
-          page_location: this.document.location.href,
-        });
+        // gtag('event', 'page_view', {
+        //   page_title: title,
+        //   page_path: event.urlAfterRedirects,
+        //   page_location: this.document.location.href,
+        // });
       }
     });
   }

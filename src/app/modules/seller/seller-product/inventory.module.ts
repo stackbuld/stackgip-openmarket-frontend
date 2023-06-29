@@ -15,7 +15,6 @@ import { ProductOptionComponent } from './product-option/product-option.componen
 import { SearchItemComponent } from './search-item/search-item.component';
 import { ViewMoreComponent } from './view-more/view-more.component';
 import { ProductShipmentComponent } from './product-shipment/product-shipment.component';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
@@ -27,7 +26,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     SearchItemComponent,
     ProductOptionComponent,
     ProductItemComponent,
-    ViewMoreComponent
+    ViewMoreComponent,
   ],
   imports: [
     CommonModule,
@@ -39,9 +38,6 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
-    CKEditorModule
-
-  ]
+  ],
 })
-
-export class InventoryModule { }
+export class InventoryModule {}
