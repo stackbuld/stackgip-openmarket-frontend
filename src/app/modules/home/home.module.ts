@@ -13,6 +13,8 @@ import { ProductCheckoutComponent } from './product-checkout/product-checkout.co
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
     ProductCheckoutComponent,
     OrderDetailsComponent,
     OrderHistoryComponent,
+    PaymentConfirmationComponent,
   ],
   imports: [
     CommonModule,
@@ -32,7 +35,8 @@ import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
-    NgxShimmerLoadingModule
+    NgxShimmerLoadingModule,
+    GooglePlaceModule
   ]
 })
 export class HomeModule { }

@@ -11,6 +11,7 @@ import {
   CreateProductOptionResponse,
   ProductShipmentResponse,
   CreateShipmentModel,
+  SingleProductResponse,
 } from "../../models/products.model";
 import { Observable } from "rxjs";
 import { CategoryResponse } from "./../../models/CategoryModels";
@@ -45,7 +46,7 @@ export class ProductsService {
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
       this.baseUrl +
-        `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}&minPrice=${minPrice}&maxPrice=${maxPrice}`
+        `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}&minSalePrice=${minPrice}&maxSalePrice=${maxPrice}`
     );
   }
 
@@ -105,6 +106,34 @@ export class ProductsService {
     return this.http.get(this.baseUrl + `products/${id}`);
   }
 
+  getCart(payload: any): Observable<any> {
+    if (payload.key === 'user') {
+      return this.http.get(this.baseUrl + `cart?userId=${payload.id}`);
+    } else {
+      return this.http.get(this.baseUrl + `cart?referenceId=${payload.id}`);
+    }
+  }
+
+  deleteCartItem(payload: any): Observable<any> {
+    if (payload.key === 'user') {
+      return this.http.delete(this.baseUrl + `cart?userId=${payload.id}&productId=${payload.productId}`);
+    } else {
+      return this.http.delete(this.baseUrl + `cart?referenceId=${payload.id}&productId=${payload.productId}`);
+    }
+  }
+
+  getPaymentMethods(): Observable<any> {
+    return this.http.get(this.baseUrl + `cart/payment-methods`);
+  }
+
+  makePayment(payload: any): Observable<any> {
+    return this.http.post(this.baseUrl + `cart/pay`, payload);
+  }
+
+  updateCartItemUnit(payload: any): Observable<any> {
+    return this.http.put(this.baseUrl + `cart/update-unit`, payload);
+  }
+
   getLowStockProducts(): Observable<any> {
     return this.http.get(this.baseUrl + `products/low-stocks`);
   }
@@ -127,6 +156,10 @@ export class ProductsService {
 
   createVariation(payload: any): Observable<any> {
     return this.http.post(this.baseUrl + `productoption/variations`, payload);
+  }
+
+  addToCart(payload: any): Observable<any> {
+    return this.http.post(this.baseUrl + `cart`, payload);
   }
 
   getAllCategories(): Observable<any> {
@@ -195,7 +228,7 @@ export class ProductsService {
     );
   }
 
-  getCachedProductById(productId: string): Observable<any> {
+  getCachedProductById(productId: string): Observable<SingleProductResponse> {
     return this.http.get<any>(
       this.baseUrl + `products/${productId}/cached`
     );

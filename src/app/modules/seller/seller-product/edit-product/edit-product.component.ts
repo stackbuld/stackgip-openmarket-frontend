@@ -15,8 +15,6 @@ import { CatgoryService } from '../../../../services/category/catgory.service';
 import { ToastrService } from '../../../../services/toastr.service';
 
 import { CategoryResponse } from '../../../../models/CategoryModels';
-// import * as CkEditor from 'rena-ckeditor5-custom-build/build/ckeditor';
-import { editorDefaultConfig } from 'src/app/shared/config/ckeditor.config';
 import { AuthService } from 'src/app/services/auth.service';
 
 declare var cloudinary: any;
@@ -38,8 +36,6 @@ export class EditProductComponent implements OnInit {
   productOptions: CreateProductOption[];
   productShipments: CreateShipmentModel[];
   user = {} as IUser;
-  // public Editor = CkEditor;
-  editorDefaultConfig = editorDefaultConfig;
   constructor(
     private fb: FormBuilder,
     private toast: ToastrService,

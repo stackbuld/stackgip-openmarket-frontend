@@ -2,8 +2,8 @@ import { UpdateProfileAction } from './../reducers/action/auth.action';
 import { IUpdatePassword } from './../models/auth-model';
 import { IResponseModel } from './../shared/models/IResponseModel';
 
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, NgZone } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
 import { IUser } from '../models/IUserModel';
 import { ApiAppUrlService } from './api-app-url.service';
@@ -41,6 +41,7 @@ export class AuthService {
   public isLogin: BehaviorSubject<boolean>;
   tokenSubscription = new Subscription();
   decodedJwt;
+  private path = "https://localhost:44393/api/Auth/";
   constructor(
     private api: ApiAppUrlService,
     private http: HttpClient,
@@ -48,7 +49,8 @@ export class AuthService {
     private ngxService: NgxUiLoaderService,
     // private socialAuthService: SocialAuthService,
     private router: Router,
-    private jwtHelperService: JwtHelperService
+    private jwtHelperService: JwtHelperService,
+    private httpClient: HttpClient,
   ) {
     const userData = this.GetSignInData();
     if (userData != null) {
@@ -90,6 +92,11 @@ export class AuthService {
       this.api.baseApiUrl + 'Auth/Google',
       { idToken: token }
     );
+  }
+
+  LoginWithFacebook(credentials: string): Observable<any> {
+    const header = new HttpHeaders().set('Content-type', 'application/json');
+    return this.httpClient.post(this.path + "LoginWithFacebook", JSON.stringify(credentials), { headers: header, withCredentials: true });
   }
 
   signInWithGoogle(): void {
