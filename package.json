@@ -39,6 +39,7 @@
     "@nguniversal/express-engine": "^15.1.0",
     "@types/chart.js": "^2.9.37",
     "@types/crypto-js": "^4.1.1",
+    "@types/google-one-tap": "^1.2.2",
     "@types/uikit": "^3.14.0",
     "algoliasearch": "^4.17.1",
     "angular-instantsearch": "^4.4.1",

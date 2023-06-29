@@ -2892,6 +2892,11 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/google-one-tap@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@types/google-one-tap/-/google-one-tap-1.2.2.tgz#366d7252e867fbbac440eefd7482ab547d6f99be"
+  integrity sha512-7uAOjukbJnzJ5P8fKPSy7QDrbLbCEyUrSH/M4K+8wnk+cbSxE3t2MmrLPX7ejUl8rDZv3oUl0/uwQRlIIrLMBA==
+
 "@types/google.maps@^3.45.3":
   version "3.53.2"
   resolved "https://registry.yarnpkg.com/@types/google.maps/-/google.maps-3.53.2.tgz#ba921cc7900b72d4f58538a770a99bfadd9952a2"
