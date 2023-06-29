@@ -19,6 +19,8 @@ import { of, Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { JwtHelperService } from '../../../services/jwt-helper.service';
 import { MDCTextField } from '@material/textfield';
+import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
+import { environment } from 'src/environments/environment';
 // const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
 declare const FB: any
 
@@ -40,6 +42,7 @@ export class SiginupComponent implements OnInit {
   window: Window;
   FB: any
   private _ngZone: any;
+  private clientId = environment.googleClientId;
   constructor(
     public authService: AuthService,
     // private socialAuthService: SocialAuthService,
@@ -76,7 +79,64 @@ export class SiginupComponent implements OnInit {
     // this.socialAuthService.authState.subscribe((user) => {
     //   this.user = user;
     // });
+    // @ts-ignore
+    window.onGoogleLibraryLoad = () => {
+      // @ts-ignore
+      google.accounts.id.initialize({
+        client_id: this.clientId,
+        callback: this.handleGoogleSignup.bind(this),
+        auto_select: false,
+        cancel_on_tap_outside: true
+      });
+      // @ts-ignore
+      google.accounts.id.renderButton(
+      // @ts-ignore
+      document.getElementById("buttonDiv"),
+        { theme: "outline", size: "large", width: 100,text: "signup_with"} 
+      );
+      // @ts-ignore
+      google.accounts.id.prompt((notification: PromptMomentNotification) => {});
+    };
   }
+  async handleGoogleSignup(response: CredentialResponse) {
+    console.log("Response",response);
+    this.ngxService.startLoader('loader-01');
+    await this.authService.LoginWithGoogle(response.credential).subscribe(
+
+      (res) => {
+        this.ngxService.stopAll();
+        if (res.data.canLogin === true) {
+          if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
+            this.ngxService.stopLoader('loader-01');
+            this.authService.SetAuthLocalStorage(res);
+            if (
+              res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
+              res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
+              res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
+            ) {
+              this.toast.success("Signup Successful");
+              this.router.navigate(['/seller/dashboard']);
+            } else {
+              this.toast.success("Signup Successful");
+              this.router.navigate(['/']);
+            }
+          } else {
+            console.log('helllllo')
+            this.ngxService.stopLoader('loader-01');
+            this.authService.SetAuthLocalStorage(res);
+            this.toast.success("Signup Successful");
+            this.router.navigate(['/homepage']);
+          }
+        } 
+        this.authService.SetAuthLocalStorage(res);
+      },
+      (err) => {
+        this.toast.error(err.error.message);
+        this.ngxService.stopLoader('loader-01');
+        this.ngxService.stopAll();
+      }
+      );  
+}
 
   get f() {
     return this.registerForm.controls;
@@ -128,15 +188,45 @@ export class SiginupComponent implements OnInit {
     );
   }
 
-  async facebookLogin() {
+  async facebookSignup() {
     FB.login(async (result:any) => {
-        await this.authService.LoginWithFacebook(result.authResponse.accessToken).subscribe(
-          (x:any) => {
-            this._ngZone.run(() => {
-              this.router.navigate(['/logout']);
-            })},
-          (error:any) => {
-              console.log(error);
+      console.log("Result",result)
+      let token = result.authResponse.accessToken;
+      let userId = result.authResponse.userID;
+      this.ngxService.startLoader('loader-01');
+        await this.authService.LoginWithFacebook(token, userId ).subscribe(
+
+ (res) => {
+              this.ngxService.stopAll();
+              if (res.data.canLogin === true) {
+                if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
+                  this.ngxService.stopLoader('loader-01');
+                  this.authService.SetAuthLocalStorage(res);
+                  if (
+                    res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
+                    res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
+                    res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
+                  ) {
+                    this.toast.success("Signup Successful");
+                    this.router.navigate(['/seller/dashboard']);
+                  } else {
+                    this.toast.success("Signup Successful");
+                    this.router.navigate(['/']);
+                  }
+                } else {
+                  console.log('helllllo')
+                  this.ngxService.stopLoader('loader-01');
+                  this.authService.SetAuthLocalStorage(res);
+                  this.toast.success("Signup Successful");
+                  this.router.navigate(['/homepage']);
+                }
+              }
+              this.authService.SetAuthLocalStorage(res);
+            },
+            (err) => {
+              this.toast.error(err.error.message);
+              this.ngxService.stopLoader('loader-01');
+              this.ngxService.stopAll();
             }
           );  
     }, { scope: 'email' });
