@@ -21,6 +21,7 @@ import { JwtHelperService } from '../../../services/jwt-helper.service';
 import { MDCTextField } from '@material/textfield';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { environment } from 'src/environments/environment';
+import { AuthHelperService } from 'src/app/shared/services/auth-helper.service';
 // const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
 declare const FB: any
 
@@ -51,7 +52,8 @@ export class SiginupComponent implements OnInit {
     private router: Router,
     private ngxService: NgxUiLoaderService,
     private jwtHelperService: JwtHelperService,
-    windowRefService: WindowRefService
+    windowRefService: WindowRefService,
+    private authHelperService: AuthHelperService,
   ) {
     this.window = windowRefService.nativeWindow;
   }
@@ -80,7 +82,7 @@ export class SiginupComponent implements OnInit {
     //   this.user = user;
     // });
     // @ts-ignore
-    window.onGoogleLibraryLoad = () => {
+    this.window.onGoogleLibraryLoad = () => {
       // @ts-ignore
       google.accounts.id.initialize({
         client_id: this.clientId,
@@ -98,37 +100,13 @@ export class SiginupComponent implements OnInit {
       google.accounts.id.prompt((notification: PromptMomentNotification) => {});
     };
   }
+
   async handleGoogleSignup(response: CredentialResponse) {
-    console.log("Response",response);
     this.ngxService.startLoader('loader-01');
     await this.authService.LoginWithGoogle(response.credential).subscribe(
 
       (res) => {
-        this.ngxService.stopAll();
-        if (res.data.canLogin === true) {
-          if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
-            this.ngxService.stopLoader('loader-01');
-            this.authService.SetAuthLocalStorage(res);
-            if (
-              res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
-              res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
-              res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
-            ) {
-              this.toast.success("Signup Successful");
-              this.router.navigate(['/seller/dashboard']);
-            } else {
-              this.toast.success("Signup Successful");
-              this.router.navigate(['/']);
-            }
-          } else {
-            console.log('helllllo')
-            this.ngxService.stopLoader('loader-01');
-            this.authService.SetAuthLocalStorage(res);
-            this.toast.success("Signup Successful");
-            this.router.navigate(['/homepage']);
-          }
-        } 
-        this.authService.SetAuthLocalStorage(res);
+        this.authHelperService.handleAuthResponse(res,'signup', 'google');
       },
       (err) => {
         this.toast.error(err.error.message);
@@ -197,32 +175,7 @@ export class SiginupComponent implements OnInit {
         await this.authService.LoginWithFacebook(token, userId ).subscribe(
 
  (res) => {
-              this.ngxService.stopAll();
-              if (res.data.canLogin === true) {
-                if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
-                  this.ngxService.stopLoader('loader-01');
-                  this.authService.SetAuthLocalStorage(res);
-                  if (
-                    res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
-                    res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
-                    res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
-                  ) {
-                    this.toast.success("Signup Successful");
-                    this.router.navigate(['/seller/dashboard']);
-                  } else {
-                    this.toast.success("Signup Successful");
-                    this.router.navigate(['/']);
-                  }
-                } else {
-                  console.log('helllllo')
-                  this.ngxService.stopLoader('loader-01');
-                  this.authService.SetAuthLocalStorage(res);
-                  this.toast.success("Signup Successful");
-                  this.router.navigate(['/homepage']);
-                }
-              }
-              this.authService.SetAuthLocalStorage(res);
-            },
+  this.authHelperService.handleAuthResponse(res,'signup', 'facebook');            },
             (err) => {
               this.toast.error(err.error.message);
               this.ngxService.stopLoader('loader-01');
