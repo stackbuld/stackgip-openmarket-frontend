@@ -63,10 +63,9 @@ export class LoginComponent implements OnInit {
     private ngxService: NgxUiLoaderService,
     private jwtHelperService: JwtHelperService,
     windowRefService: WindowRefService,
-    private authHelperService: AuthHelperService,
+    private authHelperService: AuthHelperService
   ) {
     this.window = windowRefService.nativeWindow;
-
   }
 
   get f() {
@@ -97,13 +96,17 @@ export class LoginComponent implements OnInit {
       // @ts-ignore
       google.accounts.id.prompt((notification: PromptMomentNotification) => {});
     };
+
+    FB.getLoginStatus(function (response) {
+      console.log('facebook log, ', response);
+    });
   }
 
   async handleGoogleAuth(response: CredentialResponse) {
     this.ngxService.startLoader('loader-01');
     await this.authService.LoginWithGoogle(response.credential).subscribe(
       (res) => {
-        this.authHelperService.handleAuthResponse(res,'signin', 'google');
+        this.authHelperService.handleAuthResponse(res, 'signin', 'google');
       },
       (err) => {
         this.toast.error(err.error.message);
@@ -120,12 +123,19 @@ export class LoginComponent implements OnInit {
   async facebookLogin() {
     FB.login(
       async (result: any) => {
+        if(!result.authResponse){
+          return;
+        }
         let token = result.authResponse.accessToken;
         let userId = result.authResponse.userID;
         this.ngxService.startLoader('loader-01');
         await this.authService.LoginWithFacebook(token, userId).subscribe(
           (res) => {
-            this.authHelperService.handleAuthResponse(res,'signin', 'facebook');
+            this.authHelperService.handleAuthResponse(
+              res,
+              'signin',
+              'facebook'
+            );
           },
           (err) => {
             this.toast.error(err.error.message);
@@ -133,8 +143,8 @@ export class LoginComponent implements OnInit {
             this.ngxService.stopAll();
           }
         );
-      },
-      { scope: 'email' }
+      }
+      // { scope: 'email' }
     );
   }
 
@@ -142,8 +152,8 @@ export class LoginComponent implements OnInit {
     this.ngxService.startLoader('loader-01');
     this.authService.signIn(this.loginForm.value).subscribe(
       (res) => {
-         this.authHelperService.handleAuthResponse(res,'signin', 'login');
-        },
+        this.authHelperService.handleAuthResponse(res, 'signin', 'login');
+      },
       (err) => {
         this.toast.error(err.error.message);
         this.ngxService.stopLoader('loader-01');

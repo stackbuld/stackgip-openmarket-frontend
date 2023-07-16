@@ -1,8 +1,8 @@
-import { environment } from "./../../environments/environment";
-import { Injectable } from "@angular/core";
+import { environment } from './../../environments/environment';
+import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ApiAppUrlService {
   public baseApiUrl = environment.identityApi;
