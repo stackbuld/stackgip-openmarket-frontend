@@ -26,6 +26,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { delay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { JwtHelperService } from './jwt-helper.service';
+import { ToastrService } from 'ngx-toastr';
 
 export interface IAuth {
   isLoggedId: boolean;
@@ -41,7 +42,6 @@ export class AuthService {
   public isLogin: BehaviorSubject<boolean>;
   tokenSubscription = new Subscription();
   decodedJwt;
-  private path = "https://localhost:44393/api/Auth/";
   constructor(
     private api: ApiAppUrlService,
     private http: HttpClient,
@@ -50,7 +50,7 @@ export class AuthService {
     // private socialAuthService: SocialAuthService,
     private router: Router,
     private jwtHelperService: JwtHelperService,
-    private httpClient: HttpClient,
+    private toast: ToastrService
   ) {
     const userData = this.GetSignInData();
     if (userData != null) {
@@ -95,17 +95,19 @@ export class AuthService {
   }
 
   LoginWithGoogle(credentials: string): Observable<any> {
-
     const header = new HttpHeaders().set('Content-type', 'application/json');
-    return this.httpClient.post(this.api.baseApiUrl + 'auth/google', {idToken: credentials});
+    return this.http.post(this.api.baseApiUrl + 'auth/google', {
+      idToken: credentials,
+    });
   }
 
   LoginWithFacebook(token: string, userId: string): Observable<any> {
-
-    console.log(this.api.baseApiUrl,"Path")
+    console.log(this.api.baseApiUrl, 'Path');
     const header = new HttpHeaders().set('Content-type', 'application/json');
-    return this.httpClient.post(this.api.baseApiUrl + "auth/facebook",{token: token, userId: userId} );
-
+    return this.http.post(this.api.baseApiUrl + 'auth/facebook', {
+      token: token,
+      userId: userId,
+    });
   }
 
   signInWithGoogle(): void {
