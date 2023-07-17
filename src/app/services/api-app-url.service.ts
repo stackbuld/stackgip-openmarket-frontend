@@ -8,6 +8,6 @@ export class ApiAppUrlService {
   public baseApiUrl = environment.identityApi;
   public ecommerceBaseUrl = environment.ecommerceApi;
   public storeBaseUrl = environment.storeApi;
-
+  public notificationBaseUrl = environment.notificationApi;
   constructor() {}
 }
