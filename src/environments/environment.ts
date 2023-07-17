@@ -10,8 +10,9 @@ export const environment = {
   // ecommerceApi: 'https://localhost:57800/api/v1/',
 
   storeApi: 'https://dev-ecommerce.renamarkets.com/api/',
-  walletApi:
-    'https://dev-wallet-container-app.agreeablewater-fe9b1d2c.northeurope.azurecontainerapps.io/',
+  walletApi: 'https://dev-wallet.renamarkets.com/',
+  notificationApi: 'https://dev-notification.renamarkets.com/',
+
   // ecommerceApi: "http://localhost:57889/api/v1/",
   paystackPublicKey: 'pk_test_8e75de0f0e2bba17ee0b37ed227e176b92b52d0b',
   googleClientId:
