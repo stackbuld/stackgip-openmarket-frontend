@@ -12,7 +12,7 @@
     "dev:ssr": "ng run stackbuld-ecommerce:serve-ssr",
     "serve:ssr": "node dist/stackbuld-ecommerce/server/main.js",
     "prerender": "ng run stackbuld-ecommerce:prerender --no-guess-routes --routes / ",
-    "build:ssr": "ng build && ng run stackbuld-ecommerce:server:production && yarn run prerender",
+    "build:ssr": "ng build --configuration production && ng run stackbuld-ecommerce:server:production && yarn run prerender",
     "vercel-build": "yarn run build:ssr"
   },
   "private": true,
@@ -62,6 +62,7 @@
     "ngx-ui-loader": "^13.0.0",
     "rxjs": "~7.8.0",
     "rxjs-compat": "^6.6.7",
+    "rxjs-websockets": "^9.0.0",
     "sweetalert": "^2.1.2",
     "symbol-observable": "^4.0.0",
     "tslib": "^2.5.0",
