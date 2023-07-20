@@ -1,0 +1,28 @@
+.socialModalContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    padding: 2rem 1rem;
+    gap: 2rem;
+    width: 100%;
+
+    .btnGroup {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+
+        button {
+            text-transform: none
+        };
+        .googleDiv {
+            width: 500px;
+            display: flex;
+            justify-content: center;
+            background-color: black;
+        };
+      
+    }
+}
