@@ -27,6 +27,7 @@ import { delay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { JwtHelperService } from './jwt-helper.service';
 import { ToastrService } from 'ngx-toastr';
+import uikit from 'uikit'; 
 
 export interface IAuth {
   isLoggedId: boolean;
@@ -92,6 +93,17 @@ export class AuthService {
       this.api.baseApiUrl + 'Auth/Google',
       { idToken: token }
     );
+  }
+  public showSharedLoginModal (){
+    uikit.modal('#login-modal').show();
+  }
+
+  public showSharedSocialModal (){
+    uikit.modal('#social-modal').show();
+  }
+
+  public showSharedSignupModal (){
+    uikit.modal('#signup-modal').show();
   }
 
   LoginWithGoogle(credentials: string): Observable<any> {

@@ -371,7 +371,7 @@
             </svg>                
         </div>
         <div class="mt-4">
-            <span (click)="toggleModalView()" class="select-existing">Select existing delivery location </span>
+            <span (click)="toggleSocialModal()" class="select-existing">Sign to use saved delivery addresses</span>
             <form [formGroup]="addressForm" class="mt-3">
                 <div class="w-100">
                     <div *ngIf="!isEditAddress || (isEditAddress && !notReady)">

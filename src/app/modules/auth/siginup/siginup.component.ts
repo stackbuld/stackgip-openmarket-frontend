@@ -94,7 +94,7 @@ export class SiginupComponent implements OnInit {
       google.accounts.id.renderButton(
       // @ts-ignore
       document.getElementById("buttonDiv"),
-        { theme: "outline", size: "large", width: 100,text: "signup_with"} 
+        { size: "large", width: 100,text: "signup_with"} 
       );
       // @ts-ignore
       google.accounts.id.prompt((notification: PromptMomentNotification) => {});
