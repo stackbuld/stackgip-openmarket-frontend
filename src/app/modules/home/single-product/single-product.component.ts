@@ -66,7 +66,7 @@ export class SingleProductComponent implements OnInit {
     private cartService: CartService,
     private userService: UserService,
     private router: Router,
-    private applocal: AppLocalStorage
+    private applocal: AppLocalStorage,
     private authService: AuthService,
   ) {}
 
