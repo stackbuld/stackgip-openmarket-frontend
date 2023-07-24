@@ -8,7 +8,7 @@ import { UserService } from 'src/app/services/user/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
-import { IUser } from '../../../models/IUserModel';
+import { AuthService } from 'src/app/services/auth.service';import { IUser } from '../../../models/IUserModel';
 import { CartService } from '../../../services/cart/cart.service';
 
 @Component({
@@ -66,7 +66,8 @@ export class SingleProductComponent implements OnInit {
     private cartService: CartService,
     private userService: UserService,
     private router: Router,
-    private applocal: AppLocalStorage
+    private applocal: AppLocalStorage,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -599,6 +600,18 @@ export class SingleProductComponent implements OnInit {
     if (this.count > 1) {
       this.count--;
     }
+  };
+  toggleSocialModal = () => {
+    // if(this.user !== null) {
+    //   this.isSocialModal = false;
+    // }
+    this.authService.showSharedSocialModal();
+  }
+  toggleLoginModal = () => {
+    this.authService.showSharedLoginModal();
+  };
+  toggleSignupModal = () => {
+    this.authService.showSharedSignupModal();
   };
 
   toggleModalView = () => {
