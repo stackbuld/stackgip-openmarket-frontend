@@ -14,15 +14,30 @@
         gap: 1rem;
         width: 100%;
 
+        .google-btn, .facebook-btn, .email-btn {
+            width: 100%;
+        }
+        .google-btn {
+            display: flex;
+            justify-content: center;
+        }
+
         button {
             text-transform: none
         };
         .googleDiv {
-            width: 500px;
+            width: 100%;
             display: flex;
             justify-content: center;
             background-color: black;
         };
+    .facebook-btn, .email-btn {
+            padding: 0.25rem;
+
+            img {
+                width: 2.5rem;
+            }
+        }
       
     }
 }
