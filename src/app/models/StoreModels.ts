@@ -28,3 +28,17 @@ export interface SellerStores {
   id: string
   createdOn: string
 }
+
+export interface CartAddress {
+  id?:          string;
+  firstname:          string;
+  lastname:           string;
+  fullAddress:        string;
+  lat:                string;
+  lng:                string;
+  city:               string;
+  state:              string;
+  country:            string;
+  userId?:             string;
+  contactPhoneNumber: string;
+}

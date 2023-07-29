@@ -14,6 +14,7 @@ import {
   MakeCartPaymentRequestModel,
   MakeCartPaymentResponseModel,
 } from './model/cart-payment-model';
+import {GetShippingPriceEstimateRequest, GetShippingPriceEstimateResponse} from './model/logistic.model';
 
 @Injectable({
   providedIn: 'root',
@@ -88,5 +89,26 @@ export class CartService {
       this.baseUrl + `cart`,
       payload
     );
+  }
+
+
+  createAddress(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}useraddress`, payload);
+  }
+
+  fetchUserAddresses(userId: any): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}useraddress/users/${userId}`);
+  }
+
+  setDefaultAddress(payload: any, id: string): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}useraddress/${id}`, payload);
+  }
+
+  deleteAddress(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}useraddress/${id}`);
+  }
+
+  getShippingEstimate(payload: GetShippingPriceEstimateRequest): Observable<GetShippingPriceEstimateResponse> {
+    return this.http.post<GetShippingPriceEstimateResponse>(`${this.baseUrl}shipping/price-estimates`, payload);
   }
 }
