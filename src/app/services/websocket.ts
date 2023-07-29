@@ -1,27 +1,32 @@
 import { Injectable } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { retryWhen, tap, delay } from 'rxjs/operators';
+import {retry, tap, delay, switchMap} from 'rxjs/operators';
+import {AuthService} from './auth.service';
+import {BehaviorSubject, Observable, ObservableInput} from 'rxjs';
+import {NotificationResponseModel} from '../models/notificationResponse.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebsocketService {
 
-  private socket$: WebSocketSubject<any>;
-
-  public connect(): WebSocketSubject<any> {
+  constructor() {
+  }
+  private socket$: WebSocketSubject<NotificationResponseModel> | null = null;
+  public getSocket(url): WebSocketSubject<NotificationResponseModel> {
     if (!this.socket$ || this.socket$.closed) {
-      this.socket$ = this.getNewWebSocket();
+      this.socket$ = this.createWebSocket(url);
     }
     return this.socket$;
   }
 
-  private getWebSocketUrl(){
-
+  private createWebSocket(url):  WebSocketSubject<NotificationResponseModel> {
+     return   this.connectToWebsocket(url);
   }
-  private getNewWebSocket() {
-    return webSocket({
-      url: 'ws://your-websocket-url',
+
+  private  connectToWebsocket(wssurl){
+    const websocket =  webSocket<NotificationResponseModel>({
+      url: wssurl,
       openObserver: {
         next: () => {
           console.log('WebSocket connection established');
@@ -30,28 +35,41 @@ export class WebsocketService {
       closeObserver: {
         next: () => {
           console.log('WebSocket connection closed');
+          this.socket$ = null; // Reset the socket when the connection is closed to allow reconnection.
+          this.reconnect(wssurl); // Try to reconnect immediately.
         }
       },
-    }).pipe(
-      tap({
-        error: () => console.log('WebSocket connection failed'),
-      }),
-      retryWhen(errors =>
-        errors.pipe(
-          tap(val => console.log(`WebSocket connection lost. Attempting to reconnect...`)),
-          delay(1000)
-        )
-      )
-    );
+    });
+    websocket
+      .pipe(
+        tap({
+          error: (err) => console.log('WebSocket connection failed', err),
+        }),
+        retry({
+          delay: (errors, retryCount)=> errors.pipe(
+            tap(val => console.log(`WebSocket connection lost. Attempting to reconnect ${retryCount} times...`)),
+            delay(1000)
+          )
+        }),
+      );
+
+    return websocket;
   }
 
-  sendMessage(msg: any) {
-    this.connect().next(msg);
+  private reconnect(url) {
+    if (!this.socket$ || this.socket$.closed) {
+      this.socket$ = this.createWebSocket(url);
+    }
+  }
+
+  sendMessage(url: string,msg: any) {
+    this.getSocket(url).next(msg);
   }
 
   closeConnection() {
     if (this.socket$) {
       this.socket$.complete();
+      this.socket$ = null;
     }
   }
 }
