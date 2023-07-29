@@ -50,6 +50,9 @@ import { NgAisModule } from 'angular-instantsearch';
 import { LazyLoadImagesDirective } from './directives/lazy-load-Images.directive';
 
 import { InjectionToken } from '@angular/core';
+import { LoginModalComponent } from './modals/login-modal/login-modal.component';
+import { SignupModalComponent } from './modals/signup-modal/signup-modal.component';
+import { SocialModalComponent } from './modals/social-modal/social-modal.component';
 
 export const DOCUMENT_TOKEN = new InjectionToken<Document>('Document');
 export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
@@ -77,6 +80,9 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     SearchBarComponent,
     DataCardsComponent,
     LazyLoadImagesDirective,
+    LoginModalComponent,
+    SignupModalComponent,
+    SocialModalComponent,
   ],
   imports: [
     CommonModule,
@@ -123,6 +129,9 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     SearchBarComponent,
     DataCardsComponent,
     LazyLoadImagesDirective,
+    LoginModalComponent,
+    SignupModalComponent,
+    SocialModalComponent,
   ],
   providers: [
     {
