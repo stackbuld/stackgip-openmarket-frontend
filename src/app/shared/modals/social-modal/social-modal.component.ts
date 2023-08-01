@@ -4,7 +4,6 @@ import { WindowRefService } from '../../services/window.service';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { AuthService } from 'src/app/services/auth.service';
-import { AuthHelperService } from 'src/app/shared/services/auth-helper.service';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -24,7 +23,6 @@ constructor(
   windowRefService: WindowRefService,
   private ngxService: NgxUiLoaderService,
   public authService: AuthService,
-  private authHelperService: AuthHelperService,
   private toast: ToastrService,
 
 ){
@@ -57,7 +55,7 @@ constructor(
     this.ngxService.startLoader('loader-01');
     await this.authService.LoginWithGoogle(response.credential).subscribe(
       (res) => {
-        this.authHelperService.handleAuthResponse(res,'signin', 'google');
+        this.authService.handleAuthResponse(res,'signin', 'google');
       },
       (err) => {
         this.toast.error(err.error.message);
@@ -75,7 +73,7 @@ constructor(
         this.ngxService.startLoader('loader-01');
         await this.authService.LoginWithFacebook(token, userId).subscribe(
           (res) => {
-            this.authHelperService.handleAuthResponse(res,'signin', 'facebook');
+            this.authService.handleAuthResponse(res,'signin', 'facebook');
           },
           (err) => {
             this.toast.error(err.error.message);

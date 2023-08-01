@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AppLocalStorage {
     cartCount: BehaviorSubject<any> = new BehaviorSubject('');
+    currentUser: BehaviorSubject<any> = new BehaviorSubject('');
     messageSource: BehaviorSubject<any> = new BehaviorSubject('');
     productViewed: BehaviorSubject<any> = new BehaviorSubject('');
 

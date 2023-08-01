@@ -21,7 +21,6 @@ import { JwtHelperService } from '../../../services/jwt-helper.service';
 import { MDCTextField } from '@material/textfield';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { environment } from 'src/environments/environment';
-import { AuthHelperService } from 'src/app/shared/services/auth-helper.service';
 // const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
 declare const FB: any
 
@@ -53,7 +52,6 @@ export class SiginupComponent implements OnInit {
     private ngxService: NgxUiLoaderService,
     private jwtHelperService: JwtHelperService,
     windowRefService: WindowRefService,
-    private authHelperService: AuthHelperService,
   ) {
     this.window = windowRefService.nativeWindow;
   }
@@ -106,7 +104,7 @@ export class SiginupComponent implements OnInit {
     await this.authService.LoginWithGoogle(response.credential).subscribe(
 
       (res) => {
-        this.authHelperService.handleAuthResponse(res,'signup', 'google');
+        this.authService.handleAuthResponse(res,'signup', 'google');
       },
       (err) => {
         this.toast.error(err.error.message);
@@ -175,7 +173,7 @@ export class SiginupComponent implements OnInit {
         await this.authService.LoginWithFacebook(token, userId ).subscribe(
 
  (res) => {
-  this.authHelperService.handleAuthResponse(res,'signup', 'facebook');            },
+  this.authService.handleAuthResponse(res,'signup', 'facebook');            },
             (err) => {
               this.toast.error(err.error.message);
               this.ngxService.stopLoader('loader-01');
