@@ -484,7 +484,7 @@ export class SingleProductComponent implements OnInit {
             const selectedAddressIndex = this.addresses.findIndex(
               (address) => address.id === this.currentAddress.id
             );
-  
+
             if (selectedAddressIndex !== -1) {
               this.addresses[selectedAddressIndex].isSelected = true;
             }
@@ -519,9 +519,10 @@ export class SingleProductComponent implements OnInit {
       this.addresses = [];
     }
   };
-    
+
 
   getShippingEstimate = () => {
+    this.setRequestId();
     this.loadingShippingEstimate = true;
     const payload = {
       productId: this.productId,
