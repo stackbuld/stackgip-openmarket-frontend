@@ -9,7 +9,6 @@ import { SignInModel } from 'src/app/models/signin-model';
 import { Subscription } from 'rxjs';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { environment } from 'src/environments/environment';
-import { AuthHelperService } from 'src/app/shared/services/auth-helper.service';
 declare const FB: any
 
 
@@ -37,7 +36,6 @@ export class SignupModalComponent implements OnInit {
     private router: Router,
     private ngxService: NgxUiLoaderService,
     windowRefService: WindowRefService,
-    private authHelperService: AuthHelperService,
   ) {
     this.window = windowRefService.nativeWindow;
   }
@@ -82,7 +80,7 @@ export class SignupModalComponent implements OnInit {
     await this.authService.LoginWithGoogle(response.credential).subscribe(
 
       (res) => {
-        this.authHelperService.handleAuthResponse(res,'signup', 'google');
+        this.authService.handleAuthResponse(res,'signup', 'google');
       },
       (err) => {
         this.toast.error(err.error.message);
@@ -151,7 +149,7 @@ async facebookSignup() {
       await this.authService.LoginWithFacebook(token, userId ).subscribe(
 
 (res) => {
-this.authHelperService.handleAuthResponse(res,'signup', 'facebook');            },
+this.authService.handleAuthResponse(res,'signup', 'facebook');            },
           (err) => {
             this.toast.error(err.error.message);
             this.ngxService.stopLoader('loader-01');

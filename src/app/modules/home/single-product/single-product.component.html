@@ -171,11 +171,11 @@
                 <div *ngIf="currentAddress === null" class="mt-3 mobile-block flex-center">
                     <p class="loading mb-0">No Delivery Address Yet</p>
                     &nbsp;
-                    <p class="mb-0 change-yel" (click)="resetModalView()" uk-toggle="target: #information-modal">Add or Select Address</p>
+                    <p class="mb-0 change-yel" (click)="resetModalView();" uk-toggle="target: #information-modal">Add or Select Address</p>
                 </div>
 
 <!--                <div *ngIf="loadingShippingStatus !='not_started' && currentShippingMethod !== null" class="mt-4">-->
-                  <div class="mt-4">
+                  <div class="mt-4" *ngIf="currentShippingMethod !== null">
                     <p uk-toggle="target: #shipping-modal" class="msg pointer">Shipping: Starting from
                         {{currentShippingMethod?.startingPrice || 0 | currency: 'NGN'}}
                     </p>
@@ -203,15 +203,17 @@
                     </div>
                 </div>
 
-<!--                <div *ngIf="" class="py-3">-->
-<!--                    <p class="loading mb-0">-->
-<!--                        <span>Fetching Shipping Estimate...</span>-->
-<!--                        <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />-->
-<!--                    </p>-->
-<!--                </div>-->
+               <div *ngIf="loadingShippingEstimate && currentShippingMethod === null" class="py-3">
+                   <span class="loading mb-0" uk-toggle="target: #shipping-modal">
+                       <span class="info">Fetching Shipping Estimate...</span>
+                       <img src="/assets/svg/loader-icon.svg" alt="" width="30" height="30" />
+                   </span>
+               </div>
 
                 <div *ngIf="!loadingShippingEstimate && currentShippingMethod === null" class="py-3">
-                    <p class="loading mb-0">Select a delivery address to see shipping options</p>
+                    <p class="mb-0 info" (click)="resetModalView();" uk-toggle="target: #information-modal">
+                        Select a delivery address to see shipping options
+                    </p>
                 </div>
             </div>
             <div class="mt-4 uk-flex uk-flex-between web-btn">
@@ -372,7 +374,12 @@
             </svg>
         </div>
         <div class="mt-4">
-            <span (click)="toggleSocialModal()" class="select-existing">Sign in to use your saved delivery address</span>
+            <span (click)="toggleSocialModal()" class="select-existing" *ngIf="user === null">
+                Sign in to use your saved delivery address
+            </span>
+            <span (click)="isInformation = false" class="select-existing" *ngIf="user !== null">
+                Use existing address
+            </span>
             <form [formGroup]="addressForm" class="mt-3">
                 <div class="w-100">
                     <div *ngIf="!isEditAddress || (isEditAddress && !notReady)">
@@ -463,13 +470,27 @@
                 <p class="mb-0 pointer">Next</p>
             </div> -->
 
+            <div class="pointer my-3">
+                <span (click)="isInformation = true">
+                    + Add Address
+                </span>
+            </div>
+
             <div class="w-100 mt-4 col-12">
                 <button (click)="setCurrentAddress()" class="w-100 apply-btn">Apply</button>
             </div>
         </div>
 
-        <div *ngIf="addresses.length === 0" class="p-5">
-            <p class="text-center loading p-5">No Address available</p>
+        <div *ngIf="addresses.length === 0">
+            <div class="pointer my-3">
+                <span (click)="isInformation = true">
+                    + Add Address
+                </span>
+            </div>
+            
+            <div class="p-5">
+                <p class="text-center loading">No Address available</p>
+            </div>
         </div>
     </div>
 </div>
@@ -484,8 +505,8 @@
                 <path d="M5.50098 5.50024L16.501 16.5002" stroke="#979797" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </div>
-        <div *ngIf="shippingMethods.length > 0">
-            <div class="mt-4">
+        <div>
+            <div class="mt-4" *ngIf="shippingMethods.length > 0">
                 <div *ngFor="let item of shippingMethods" class="mt-3 each-shipping">
                     <label (click)="setSelectedShippingMethod(item)" class="p-3 w-100 pointer flex-center">
                         <div class="w-10 d-flex">
@@ -507,13 +528,21 @@
                 </div>
             </div>
 
-            <div class="w-100 mt-4 col-12">
+            <div *ngIf="loadingShippingStatus !== 'completed' && loadingShippingEstimate 
+                && shippingMethods.length > 0" class="">
+                <p class="text-center loading p-2">Loading more shipping method(s)
+                    <img src="/assets/svg/loader-icon.svg" alt="" width="30" height="30" />
+                </p>
+            </div>
+
+            <div class="w-100 mt-4 col-12" *ngIf="shippingMethods.length > 0">
                 <button (click)="setShippingMethod()" class="w-100 apply-btn">Apply</button>
             </div>
         </div>
 
-        <div *ngIf="loadingShippingEstimate" class="p-5">
-            <p class="text-center loading p-5">Loading shipping method(s)...</p>
+        <div *ngIf="loadingShippingEstimate && shippingMethods.length === 0" class="p-5">
+            <p class="text-center loading p-5">Loading shipping method(s) 
+                <img src="/assets/svg/loader-icon.svg" alt="" width="30" height="30" /></p>
         </div>
 
         <div *ngIf="shippingMethods.length === 0 && !loadingShippingEstimate" class="p-5">

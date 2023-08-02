@@ -48,13 +48,21 @@ export class HomeNavComponent implements OnInit {
     private productService: ProductsService,
     private cartService: CartService,
     private toastService: ToastrService,
-    private router: Router
+    private router: Router,
+    private applocal: AppLocalStorage,
   ) {
     this.referenceId = localStorage.getItem('referenceId');
-    this.user = JSON.parse(localStorage.getItem('user'));
+    // this.user = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit(): void {
+    this.appLocalStorage.currentUser.subscribe((res) => {
+      if (res) {
+        this.user = res;
+      } else {
+        this.user = JSON.parse(localStorage.getItem('user'));
+      }
+    });
     this.appLocalStorage.productViewed.subscribe((res) => {
       this.isSearch = false;
     });
@@ -71,6 +79,26 @@ export class HomeNavComponent implements OnInit {
         this.cartCount = it === -1 ? 0 : it;
       }
     });
+  }
+
+  closeSidebar = () => {
+    document.getElementById('closeSidebarBtn')!.click();
+  }
+
+  credentials = () => {
+    return this.user;
+  }
+
+  cancel = () => {
+    document.getElementById("closeLogoutModalBtn")!.click();
+  };
+
+  logout() {
+    localStorage.clear();
+    sessionStorage.clear();
+    this.applocal.currentUser.next(null);
+    this.router.navigate(["/"]);
+    this.cancel();
   }
 
   viewProduct = (item: any) => {
