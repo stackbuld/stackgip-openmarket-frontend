@@ -7,6 +7,7 @@ import algoliasearch from 'algoliasearch/lite';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { CartService } from '../../../services/cart/cart.service';
+import { IUser } from 'src/app/models/IUserModel';
 
 const searchClient = algoliasearch(
   environment.algolia.appId,
@@ -32,7 +33,7 @@ export class HomeNavComponent implements OnInit {
   isSearch = false;
   categories: any;
   cartCount = 0;
-  user: any;
+  user: IUser;
   referenceId: any;
 
   // algolia: {

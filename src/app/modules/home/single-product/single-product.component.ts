@@ -124,7 +124,7 @@ export class SingleProductComponent implements OnInit {
   }
 
   setRequestId = () => {
-    const toHash = cryptoJs.MD5(this.currentAddress.fullAddress);
+    const toHash = cryptoJs.MD5(this.currentAddress?.fullAddress);
     this.requestId = `view-product-page-${this.productId}:${this.authService.getUserReferenceNumber()}:${toHash}`
   }
 
@@ -530,19 +530,19 @@ export class SingleProductComponent implements OnInit {
       referenceId: this.authService.getUserReferenceNumber(),
       requestId: this.requestId,
       userAddress: {
-        customerPhoneNumber: this.currentAddress.contactPhoneNumber,
-        firstName: this.currentAddress.firstname,
-        lastName: this.currentAddress.lastname,
-        fullAddress: this.currentAddress.fullAddress,
-        streetName: this.currentAddress.fullAddress,
-        state: this.currentAddress.state,
-        city: this.currentAddress.city,
-        town: this.currentAddress.city,
-        countryCode: this.currentAddress.country,
+        customerPhoneNumber: this.currentAddress?.contactPhoneNumber,
+        firstName: this.currentAddress?.firstname,
+        lastName: this.currentAddress?.lastname,
+        fullAddress: this.currentAddress?.fullAddress,
+        streetName: this.currentAddress?.fullAddress,
+        state: this.currentAddress?.state,
+        city: this.currentAddress?.city,
+        town: this.currentAddress?.city,
+        countryCode: this.currentAddress?.country,
         lga: '',
         zipCode: '',
-        lat: this.currentAddress.lat,
-        lng: this.currentAddress.lng,
+        lat: this.currentAddress?.lat,
+        lng: this.currentAddress?.lng,
       } ,
     } as GetShippingPriceEstimateRequest;
     const cartService$ = this.cartService.getShippingEstimate(payload);

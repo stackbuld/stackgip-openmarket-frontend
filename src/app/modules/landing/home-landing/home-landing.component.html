@@ -14,10 +14,10 @@
 
         <div class="uk-navbar-center">
           <ul class="uk-navbar-nav">
-            <li class="uk-active nav-text"><a href="#">Product</a></li>
-            <li class="nav-text"><a href="#features">Features</a></li>
-            <li class="nav-text"><a href="#about">About</a></li>
-            <li class="nav-text"><a href="#contact">Contact</a></li>
+            <li class="uk-active nav-text"><a routerLink="/homepage">Product</a></li>
+            <li class="nav-text"><a href="/learn-more#features">Features</a></li>
+            <li class="nav-text"><a href="/learn-more#about">About</a></li>
+            <li class="nav-text"><a href="/learn-more#contact">Contact</a></li>
             <!-- <li class="nav-text" [routerLink]="['/homepage']"><a>Search</a></li> -->
           </ul>
         </div>
@@ -85,7 +85,7 @@
 
             <ul class="mobile-side-menu">
               <li>
-                <a [routerLink]="['/']">
+                <a [routerLink]="['/homepage']">
                   <span
                     class="uk-icon uk-margin-small-right"
                     data-uk-tooltip
@@ -95,19 +95,19 @@
                 </a>
               </li>
               <li>
-                <a href="#features">
+                <a href="/learn-more#features">
                   <span class="uk-icon uk-margin-small-right"></span>
                   Features
                 </a>
               </li>
               <li>
-                <a href="#about">
+                <a href="/learn-more#about">
                   <span class="uk-icon uk-margin-small-right"></span>
                   About
                 </a>
               </li>
               <li>
-                <a href="#contact">
+                <a href="/learn-more#contact">
                   <span class="uk-icon uk-margin-small-right"></span>
                   Contact
                 </a>
