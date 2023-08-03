@@ -294,7 +294,59 @@
           <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
         </span>
         &nbsp; &nbsp; &nbsp;
-        <img src="/assets/images/user-icn.svg" alt="user-icn" />
+        <!-- <img src="/assets/images/user-icn.svg" alt="user-icn" /> -->
+        <div class="uk-inline">
+          <span class="txt pointer flex-align">
+            <img src="/assets/images/user-icn.svg" alt="user-icn" /> 
+            <!-- &nbsp; -->
+            <!-- <span>Account</span> -->
+          </span>
+          <div uk-dropdown="mode: click" class="d-down">
+            <span *ngIf="(credentials()?.preferredProfileType?.toLowerCase() !== 'buyer' && 
+              credentials()?.preferredProfileType?.toLowerCase() !== 'seller') || 
+                user === null">
+              <span class="pointer" routerLink="/auth">
+                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign In              
+              </span> 
+              <br> <br>
+              <span class="pointer" routerLink="/auth/signup">
+                <img src="/assets/icons/nav/sign-up.svg" /> &nbsp; Sign Up              
+              </span>
+            </span>
+  
+            <span *ngIf="credentials()?.preferredProfileType?.toLowerCase() === 'buyer'">
+              <span class="pointer" routerLink="/homepage/history">
+                <img src="/assets/images/user-icn.svg"  /> &nbsp; My Account              
+              </span> 
+              <br> <br>
+              <span class="pointer" routerLink="/homepage/history">
+                <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Orders             
+              </span> 
+              <br> <br>
+              <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
+                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout              
+              </span>
+            </span>
+  
+            <span *ngIf="credentials()?.preferredProfileType?.toLowerCase() === 'seller'">
+              <span class="pointer" routerLink="/seller/dashboard">
+                <img src="/assets/images/user-icn.svg"  /> &nbsp; Dashboard             
+              </span> 
+              <br> <br>
+              <span class="pointer" routerLink="/seller/orders">
+                <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Sales             
+              </span> 
+              <br> <br>
+              <span class="pointer" routerLink="/seller/store">
+                <img src="/assets/icons/nav/store.svg"  /> &nbsp; My Store             
+              </span> 
+              <br> <br>
+              <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
+                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout              
+              </span>
+            </span>
+          </div>
+      </div>
       </div>
     </div>
   </div>
