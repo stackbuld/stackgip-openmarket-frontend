@@ -20,6 +20,7 @@ import { ResponseModel } from 'src/app/shared/models/ResponseModel';
 import { ToastrService } from 'src/app/services/toastr.service';
 import { LocationStrategy } from '@angular/common';
 import { Router } from '@angular/router';
+import {AuthService} from '../../../services/auth.service';
 
 declare var cloudinary: any;
 @Component({
@@ -52,15 +53,21 @@ export class SellerRegisterationFormComponent
     private sellerS: SellerService,
     private toast: ToastrService,
     private locationStrategy: LocationStrategy,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('user'));
+    this.authService.isLogin.subscribe(a=> {
+      if(a){
+        this.user = JSON.parse(localStorage.getItem('user')) as IUser;
+      }
+    })
+
+
     this.sellerRegForm();
     this.setBusinessCategoryValidators();
 
-    uikit.modal('#seller-modal-full').show();
 
     this.uploadWidget = cloudinary.createUploadWidget(
       {
@@ -134,6 +141,10 @@ export class SellerRegisterationFormComponent
   }
 
   submit() {
+    if(!this.user?.id){
+      this.authService.showSharedLoginModal();
+      return;
+    }
     const payload = {
       userId: this.user.id,
       businessName: this.sellerRegFormGroup.get('businessName').value,

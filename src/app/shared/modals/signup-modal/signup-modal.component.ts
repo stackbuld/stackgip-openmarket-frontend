@@ -68,7 +68,7 @@ export class SignupModalComponent implements OnInit {
       google.accounts.id.renderButton(
       // @ts-ignore
       document.getElementById("buttonDiv"),
-        { theme: "outline", size: "large", width: 100, text: "signup_with"} 
+        { theme: "outline", size: "large", width: 100, text: "signup_with"}
       );
       // @ts-ignore
       google.accounts.id.prompt((notification: PromptMomentNotification) => {});
@@ -87,7 +87,7 @@ export class SignupModalComponent implements OnInit {
         this.ngxService.stopLoader('loader-01');
         this.ngxService.stopAll();
       }
-      );  
+      );
 }
 
 get f() {
@@ -155,9 +155,9 @@ this.authService.handleAuthResponse(res,'signup', 'facebook');            },
             this.ngxService.stopLoader('loader-01');
             this.ngxService.stopAll();
           }
-        );  
+        );
   }, { scope: 'email' });
-  
+
 }
 
 login(signInModel: SignInModel) {
@@ -197,4 +197,8 @@ login(signInModel: SignInModel) {
   );
 }
 
+  toggleSignupModal() {
+
+    this.authService.showSharedSocialModal();
+  }
 }
