@@ -2,7 +2,7 @@ import { UpdateProfileAction } from './../reducers/action/auth.action';
 import { IUpdatePassword } from './../models/auth-model';
 import {GetWssUrlResponse, IResponseModel} from './../shared/models/IResponseModel';
 
-import { Injectable, NgZone } from '@angular/core';
+import {ChangeDetectorRef, Injectable, NgZone} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable, BehaviorSubject, of, Subscription, firstValueFrom} from 'rxjs';
 import { IUser } from '../models/IUserModel';
@@ -25,6 +25,7 @@ import { JwtHelperService } from './jwt-helper.service';
 import { ToastrService } from 'ngx-toastr';
 import uikit from 'uikit';
 import { AppLocalStorage } from '../helpers/local-storage';
+import {WindowRefService} from '../shared/services/window.service';
 
 export interface IAuth {
   isLoggedId: boolean;
@@ -92,19 +93,29 @@ export class AuthService {
       { idToken: token }
     );
   }
-  public showSharedLoginModal (){
-    uikit.modal('#login-modal').show();
-  }
+
 
   public hideSharedLoginModal () {
     uikit.modal('#login-modal').hide();
   }
+  public hideSharedSocialModal () {
+    uikit.modal('#social-modal').hide();
+  }
 
+  public showSharedLoginModal (){
+    this.hideSharedSignupModal();
+    this.hideSharedSocialModal();
+    uikit.modal('#login-modal').show();
+  }
   public showSharedSocialModal (){
+    this.hideSharedSignupModal();
+    this.hideSharedLoginModal();
     uikit.modal('#social-modal').show();
   }
 
   public showSharedSignupModal (){
+    this.hideSharedLoginModal();
+    this.hideSharedSocialModal()
     uikit.modal('#signup-modal').show();
   }
 
@@ -334,6 +345,8 @@ export class AuthService {
           if(this.currentUrl.includes('auth')) {
             this.router.navigate(['/seller/dashboard']);
           } else {
+
+
             this.hideSharedLoginModal();
           }
         } else {
@@ -355,7 +368,7 @@ export class AuthService {
         }
       }
     }
-   
+    this.isLogin.next(true);
     this.SetAuthLocalStorage(res);
   }
 
