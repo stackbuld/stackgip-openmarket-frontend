@@ -2,7 +2,7 @@ import { UpdateProfileAction } from './../reducers/action/auth.action';
 import { IUpdatePassword } from './../models/auth-model';
 import {GetWssUrlResponse, IResponseModel} from './../shared/models/IResponseModel';
 
-import {ChangeDetectorRef, Injectable, NgZone} from '@angular/core';
+import { Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable, BehaviorSubject, of, Subscription, firstValueFrom} from 'rxjs';
 import { IUser } from '../models/IUserModel';
@@ -25,7 +25,6 @@ import { JwtHelperService } from './jwt-helper.service';
 import { ToastrService } from 'ngx-toastr';
 import uikit from 'uikit';
 import { AppLocalStorage } from '../helpers/local-storage';
-import {WindowRefService} from '../shared/services/window.service';
 
 export interface IAuth {
   isLoggedId: boolean;
