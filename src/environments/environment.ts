@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   identityApi: 'https://dev-identity.renamarkets.com/api/v1/',
   // identityApi: 'http://localhost:59906/api/v1/',
-  // ecommerceApi: 'https://dev-ecommerce.renamarkets.com/api/v1/',
-  ecommerceApi: 'https://localhost:57800/api/v1/',
+  ecommerceApi: 'https://dev-ecommerce.renamarkets.com/api/v1/',
+  // ecommerceApi: 'https://localhost:57800/api/v1/',
 
   storeApi: 'https://dev-ecommerce.renamarkets.com/api/',
   walletApi: 'https://dev-wallet.renamarkets.com/',
