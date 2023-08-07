@@ -773,19 +773,10 @@ export class SingleProductComponent implements OnInit {
 
   getCustomerCart = () => {
     let cart$;
-    if (this.user !== null) {
-      const payload = {
-        key: 'user',
-        id: this.user.id,
-      };
-      cart$ = this.cartService.getCart(payload);
-    } else {
-      const payload = {
-        key: 'reference',
-        id: this.referenceId,
-      };
-      cart$ = this.cartService.getCart(payload);
-    }
+    const userId = this.user?.id ?? '';
+    const reference = this.referenceId ?? ''
+    cart$ = this.cartService.getCart(userId, reference);
+
     cart$.subscribe(
       (res) => {
         if (res.status === 'success') {
