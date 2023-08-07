@@ -7,6 +7,8 @@ import algoliasearch from 'algoliasearch/lite';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { CartService } from '../../../services/cart/cart.service';
+import { IUser } from 'src/app/models/IUserModel';
+import {AuthService} from '../../../services/auth.service';
 
 const searchClient = algoliasearch(
   environment.algolia.appId,
@@ -32,7 +34,7 @@ export class HomeNavComponent implements OnInit {
   isSearch = false;
   categories: any;
   cartCount = 0;
-  user: any;
+  user: IUser;
   referenceId: any;
 
   // algolia: {
@@ -48,13 +50,23 @@ export class HomeNavComponent implements OnInit {
     private productService: ProductsService,
     private cartService: CartService,
     private toastService: ToastrService,
-    private router: Router
+    private router: Router,
+    private applocal: AppLocalStorage,
+    private authService: AuthService
   ) {
-    this.referenceId = localStorage.getItem('referenceId');
-    this.user = JSON.parse(localStorage.getItem('user'));
+
+    // this.user = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit(): void {
+    this.referenceId = this.authService.getUserReferenceNumber();
+    this.appLocalStorage.currentUser.subscribe((res) => {
+      if (res) {
+        this.user = res;
+      } else {
+        this.user = JSON.parse(localStorage.getItem('user'));
+      }
+    });
     this.appLocalStorage.productViewed.subscribe((res) => {
       this.isSearch = false;
     });
@@ -71,6 +83,26 @@ export class HomeNavComponent implements OnInit {
         this.cartCount = it === -1 ? 0 : it;
       }
     });
+  }
+
+  closeSidebar = () => {
+    document.getElementById('closeSidebarBtn')!.click();
+  }
+
+  credentials = () => {
+    return this.user;
+  }
+
+  cancel = () => {
+    document.getElementById("closeLogoutModalBtn")!.click();
+  };
+
+  logout() {
+    localStorage.clear();
+    sessionStorage.clear();
+    this.applocal.currentUser.next(null);
+    this.router.navigate(["/"]);
+    this.cancel();
   }
 
   viewProduct = (item: any) => {
@@ -90,19 +122,9 @@ export class HomeNavComponent implements OnInit {
 
   getCustomerCart = () => {
     let cart$;
-    if (this.user !== null) {
-      const payload = {
-        key: 'user',
-        id: this.user.id,
-      };
-      cart$ = this.cartService.getCart(payload);
-    } else {
-      const payload = {
-        key: 'reference',
-        id: this.referenceId,
-      };
-      cart$ = this.cartService.getCart(payload);
-    }
+    const userId = this.user?.id ?? '';
+    const reference = this.referenceId ?? ''
+    cart$ = this.cartService.getCart(userId, reference);
     cart$.subscribe(
       (res) => {
         if (res.status === 'success') {

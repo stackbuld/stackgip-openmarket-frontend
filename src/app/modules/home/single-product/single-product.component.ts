@@ -21,6 +21,8 @@ import {
 import {NotificationResponseModel} from '../../../models/notificationResponse.model';
 import * as lodash  from 'lodash';
 import {forEach} from 'lodash';
+import * as cryptoJs from 'crypto-js';
+
 @Component({
   selector: 'app-single-product',
   templateUrl: './single-product.component.html',
@@ -99,19 +101,31 @@ export class SingleProductComponent implements OnInit {
       }
     });
      this.referenceId  = this.authService.getUserReferenceNumber();
-    this.user = JSON.parse(localStorage.getItem('user') as string) as IUser;
+    // this.user = JSON.parse(localStorage.getItem('user') as string) as IUser;
+    this.applocal.currentUser.subscribe((res) => {
+      if (res) {
+        this.user = res as IUser;
+        this.fetchUserAddresses();
+      } else {
+        this.user = JSON.parse(localStorage.getItem('user') as string) as IUser;
+      }
+    });
     this.getParams();
-    this.requestId = `view-product-page-${this.productId}:${this.authService.getUserReferenceNumber()}`
 
     if (localStorage.getItem('shippingAddress')) {
       const address = JSON.parse(
         localStorage.getItem('shippingAddress') as string
       );
-      // let address = this.applocal.getFromStorage('shippingAddress');
       this.currentAddress = address;
+      this.setRequestId();
       this.populateAddressForm(address);
       this.getShippingEstimate();
     }
+  }
+
+  setRequestId = () => {
+    const toHash = cryptoJs.MD5(this.currentAddress?.fullAddress);
+    this.requestId = `view-product-page-${this.productId}:${this.authService.getUserReferenceNumber()}:${toHash}`
   }
 
   async connectToWebsocket(){
@@ -121,8 +135,6 @@ export class SingleProductComponent implements OnInit {
    });
   }
   processRealTimeShippingPrice(notificationResponse: NotificationResponseModel){
-
-    console.log('notification recieved', notificationResponse);
     if(notificationResponse.requestId === this.requestId){
       if(notificationResponse.notificationType === 'GET_LOGISTIC_PRICES_COMPLETED'){
         this.loadingShippingEstimate = false;
@@ -155,7 +167,6 @@ export class SingleProductComponent implements OnInit {
         }
         this.orderAndSelectDefaultShippingMethod();
       }
-      console.log('currentShippingMethod', this.currentShippingMethod)
     }
 
   }
@@ -165,6 +176,7 @@ export class SingleProductComponent implements OnInit {
 
   viewProduct = (id: any) => {
     this.router.navigate(['/homepage/product', id]);
+    this.getShippingEstimate();
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   };
@@ -291,21 +303,6 @@ export class SingleProductComponent implements OnInit {
       }
     }
   };
-
-  // setSelectedVariation = (item: any) => {
-  //   for (let index = 0; index < this.allVariationsList.length; index++) {
-  //     const element = this.allVariationsList[index];
-  //     if (element.id === item.id) {
-  //       if (!element.isSelected) {
-  //         element.isSelected = true;
-  //         this.selectedVariations.push(element);
-  //       } else {
-  //         element.isSelected = false;
-  //         this.selectedVariations = this.deleteSelectedItem(this.selectedVariations, element.id);
-  //       }
-  //     }
-  //   }
-  // }
 
   setSelectedComplementaryProduct = (item: any) => {
     for (
@@ -477,20 +474,43 @@ export class SingleProductComponent implements OnInit {
       cartService$.subscribe(
         (res) => {
           this.addresses = res.data.data;
-          if (this.addresses.length > 0) {
+          const storedAddress = localStorage.getItem('shippingAddress');
+          if (storedAddress) {
+            const parsedStoredAddress = JSON.parse(storedAddress);
+            this.addresses.forEach((element) => {
+              element.isSelected = false;
+            });
+            this.currentAddress = parsedStoredAddress;
+            const selectedAddressIndex = this.addresses.findIndex(
+              (address) => address.id === this.currentAddress.id
+            );
+
+            if (selectedAddressIndex !== -1) {
+              this.addresses[selectedAddressIndex].isSelected = true;
+            }
+          } else {
+            let defaultAddressFound = false;
             for (let index = 0; index < this.addresses.length; index++) {
               const element = this.addresses[index];
               element.isSelected = false;
-              if (!localStorage.getItem('shippingAddress')) {
-                if (element.isDefault) {
-                  this.currentAddress = element;
-                  element.isSelected = true;
-                }
+              if (element.isDefault) {
+                this.currentAddress = element;
+                element.isSelected = true;
+                defaultAddressFound = true;
+                this.getShippingEstimate();
+                // loadingShippingEstimate && currentShippingMethod === null
               }
             }
-          } else {
-            this.currentAddress = null;
+            if (!defaultAddressFound) {
+              this.currentAddress = null;
+            }
           }
+          this.addresses.forEach((address) => {
+            if (address.id !== this.currentAddress?.id) {
+              address.isSelected = false;
+            }
+          });
+          this.setRequestId();
           this.getShippingEstimate();
         },
         (error) => {}
@@ -500,7 +520,9 @@ export class SingleProductComponent implements OnInit {
     }
   };
 
+
   getShippingEstimate = () => {
+    this.setRequestId();
     this.loadingShippingEstimate = true;
     const payload = {
       productId: this.productId,
@@ -508,30 +530,31 @@ export class SingleProductComponent implements OnInit {
       referenceId: this.authService.getUserReferenceNumber(),
       requestId: this.requestId,
       userAddress: {
-        customerPhoneNumber: this.currentAddress.contactPhoneNumber,
-        firstName: this.currentAddress.firstname,
-        lastName: this.currentAddress.lastname,
-        fullAddress: this.currentAddress.fullAddress,
-        streetName: this.currentAddress.fullAddress,
-        state: this.currentAddress.state,
-        city: this.currentAddress.city,
-        town: this.currentAddress.city,
-        countryCode: this.currentAddress.country,
+        customerPhoneNumber: this.currentAddress?.contactPhoneNumber,
+        firstName: this.currentAddress?.firstname,
+        lastName: this.currentAddress?.lastname,
+        fullAddress: this.currentAddress?.fullAddress,
+        streetName: this.currentAddress?.fullAddress,
+        state: this.currentAddress?.state,
+        city: this.currentAddress?.city,
+        town: this.currentAddress?.city,
+        countryCode: this.currentAddress?.country,
         lga: '',
         zipCode: '',
-        lat: this.currentAddress.lat,
-        lng: this.currentAddress.lng,
+        lat: this.currentAddress?.lat,
+        lng: this.currentAddress?.lng,
       } ,
     } as GetShippingPriceEstimateRequest;
     const cartService$ = this.cartService.getShippingEstimate(payload);
     cartService$.subscribe(
       (res) => {
-        this.loadingShippingEstimate = true;
+        this.loadingShippingEstimate = false;
         this.shippingMethods = (res.data as GetShippingPriceEstimateData[]).flatMap(a=>a.estimatePrices) ;
         this.loadingShippingStatus = 'in_progress';
         // if (this.currentShippingMethod === null) {
         //   this.orderAndSelectDefaultShippingMethod();
         // }
+        this.connectToWebsocket();
       },
       (error) => {
         this.loadingShippingEstimate = false;
@@ -540,15 +563,13 @@ export class SingleProductComponent implements OnInit {
   };
 
   orderAndSelectDefaultShippingMethod(){
-    const orderedShippingMethods = lodash.orderBy(this.shippingMethods, (item) => {
-      return item.startingPrice;
-    });
-    const hasSelected = orderedShippingMethods.some(a=>a.isSelected);
+    this.shippingMethods.sort((a, b) => a.startingPrice - b.startingPrice);
+    const hasSelected = this.shippingMethods.some(a=>a.isSelected);
     if(!hasSelected){
-      if(orderedShippingMethods[0]){
-        orderedShippingMethods[0].isSelected = true;
-        this.currentShippingMethod = orderedShippingMethods[0];
-        this.selectedShippingMethod = orderedShippingMethods[0];
+      if(this.shippingMethods[0]){
+        this.shippingMethods[0].isSelected = true;
+        this.currentShippingMethod = this.shippingMethods[0];
+        this.selectedShippingMethod = this.shippingMethods[0];
       }
     };
   }
@@ -622,7 +643,7 @@ export class SingleProductComponent implements OnInit {
         );
         this.currentAddress = this.addressForm.value;
         this.getShippingEstimate();
-        this.toastService.success('Address saved', 'SUCCESS');
+        this.toastService.success('Address saved!', 'SUCCESS');
         document.getElementById('closeAddressFormDialog').click();
       }
     } else {
@@ -669,9 +690,14 @@ export class SingleProductComponent implements OnInit {
   };
 
   openAddressModal = () => {
-    this.resetModalView();
     if (this.currentAddress !== null) {
       this.isEditAddress = true;
+    }
+    if(this.user !== null) {
+      this.isInformation = false;
+    } else {
+      // this.resetModalView();
+      this.isInformation = true;
     }
     const element = document.getElementById('openAddressModalBtn');
     element.click();
@@ -747,19 +773,10 @@ export class SingleProductComponent implements OnInit {
 
   getCustomerCart = () => {
     let cart$;
-    if (this.user !== null) {
-      const payload = {
-        key: 'user',
-        id: this.user.id,
-      };
-      cart$ = this.cartService.getCart(payload);
-    } else {
-      const payload = {
-        key: 'reference',
-        id: this.referenceId,
-      };
-      cart$ = this.cartService.getCart(payload);
-    }
+    const userId = this.user?.id ?? '';
+    const reference = this.referenceId ?? ''
+    cart$ = this.cartService.getCart(userId, reference);
+
     cart$.subscribe(
       (res) => {
         if (res.status === 'success') {

@@ -2,7 +2,7 @@ import { UpdateProfileAction } from './../reducers/action/auth.action';
 import { IUpdatePassword } from './../models/auth-model';
 import {GetWssUrlResponse, IResponseModel} from './../shared/models/IResponseModel';
 
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable, BehaviorSubject, of, Subscription, firstValueFrom} from 'rxjs';
 import { IUser } from '../models/IUserModel';
@@ -19,11 +19,12 @@ import { AppState } from '../reducers';
 import { LoginAction, LogOutAction } from '../reducers/action/auth.action';
 import { v4 as uuidv4 } from 'uuid';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { delay } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { delay, filter } from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
 import { JwtHelperService } from './jwt-helper.service';
 import { ToastrService } from 'ngx-toastr';
 import uikit from 'uikit';
+import { AppLocalStorage } from '../helpers/local-storage';
 
 export interface IAuth {
   isLoggedId: boolean;
@@ -36,6 +37,7 @@ export interface IAuth {
   providedIn: 'root',
 })
 export class AuthService {
+  currentUrl: string = '';
   public isLogin: BehaviorSubject<boolean>;
   tokenSubscription = new Subscription();
   decodedJwt;
@@ -44,6 +46,7 @@ export class AuthService {
     private http: HttpClient,
     private store: Store<AppState>,
     private ngxService: NgxUiLoaderService,
+    private applocal: AppLocalStorage,
     // private socialAuthService: SocialAuthService,
     private router: Router,
     private jwtHelperService: JwtHelperService,
@@ -55,6 +58,9 @@ export class AuthService {
     } else {
       this.isLogin = new BehaviorSubject<boolean>(false);
     }
+    router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => (this.currentUrl = event.url));
   }
 
   // public signIn(signInModel: SignInModel): Observable<SiginResponseModel> {
@@ -86,16 +92,34 @@ export class AuthService {
       { idToken: token }
     );
   }
-  public showSharedLoginModal (){
-    uikit.modal('#login-modal').show();
+
+
+  public hideSharedLoginModal () {
+    uikit.modal('#login-modal').hide();
+  }
+  public hideSharedSocialModal () {
+    uikit.modal('#social-modal').hide();
   }
 
+  public showSharedLoginModal (){
+    this.hideSharedSignupModal();
+    this.hideSharedSocialModal();
+    uikit.modal('#login-modal').show();
+  }
   public showSharedSocialModal (){
+    this.hideSharedSignupModal();
+    this.hideSharedLoginModal();
     uikit.modal('#social-modal').show();
   }
 
   public showSharedSignupModal (){
+    this.hideSharedLoginModal();
+    this.hideSharedSocialModal()
     uikit.modal('#signup-modal').show();
+  }
+
+  public hideSharedSignupModal (){
+    uikit.modal('#signup-modal').hide();
   }
 
   LoginWithGoogle(credentials: string): Observable<any> {
@@ -260,8 +284,8 @@ export class AuthService {
   public async  getWebSocketUrl(): Promise<string> {
     const referenceId = this.getUserReferenceNumber();
     const userId = this.getLoggedInUser()?.id?? '';
-    // const cachedUrl = this.getLocalStorageItemWithExpiry('notificationWssUrl');
-    const cachedUrl = '';
+    const cachedUrl = this.getLocalStorageItemWithExpiry('notificationWssUrl');
+    // const cachedUrl = '';
 
     if(!cachedUrl){
       const path = this.api.notificationBaseUrl+`negotiate?referenceId=${referenceId}&userId=${userId}`;
@@ -296,6 +320,55 @@ export class AuthService {
     }
 
     return item.value;
+  }
+
+  async handleAuthResponse(res: any, accessType: string, authType: string) {
+    this.ngxService.stopAll();
+    if (accessType === 'signin' && authType === 'login' && res.data.canLogin === false) {
+      this.ngxService.stopLoader('loader-01');
+          this.toast.error('Please confirm your email address');
+          this.router.navigate(['/auth/confirm-email']);
+          return;
+    }
+    if (res.data.canLogin === true) {
+      this.applocal.currentUser.next(res.data.user);
+      if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
+        this.ngxService.stopLoader('loader-01');
+        this.SetAuthLocalStorage(res);
+        if (
+          res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
+          res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
+          res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
+        ) {
+          this.toast.success(`${accessType === 'signin'? 'Login': 'Signup'} Successful`);
+          if(this.currentUrl.includes('auth')) {
+            this.router.navigate(['/seller/dashboard']);
+          } else {
+
+
+            this.hideSharedLoginModal();
+          }
+        } else {
+          this.toast.success(`${accessType === 'signin'? 'Login': 'Signup'} Successful`);
+          if(this.currentUrl.includes('auth')) {
+            this.router.navigate(['/']);
+          } else {
+            this.hideSharedLoginModal();
+          }
+        }
+      } else {
+        this.ngxService.stopLoader('loader-01');
+        this.SetAuthLocalStorage(res);
+        this.toast.success(`${accessType === 'signin'? 'Login': 'Signup'} Successful`);
+        if(this.currentUrl.includes('auth')) {
+          authType === 'login'? this.router.navigate(['/']): this.router.navigate(['/homepage'])
+        } else {
+          this.hideSharedLoginModal();
+        }
+      }
+    }
+    this.isLogin.next(true);
+    this.SetAuthLocalStorage(res);
   }
 
 

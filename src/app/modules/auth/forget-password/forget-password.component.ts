@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { IForgetModel } from 'src/app/models/auth-model';
 
@@ -9,19 +9,29 @@ import { IForgetModel } from 'src/app/models/auth-model';
   styleUrls: ['./forget-password.component.css']
 })
 export class ForgetPasswordComponent implements OnInit {
+  isLoading: boolean;
+  formGroup: FormGroup;
+  message = '';
+  success = false;
+  isSubmited = false;
+  
+  get f() {
+    return this.formGroup.controls; 
+  }
 
-
-formGroup: FormGroup;
-message = '';
-success = false;
-isSubmited = false;
-get f() {return this.formGroup.controls; }
-  constructor(private fb: FormBuilder, private authService : AuthService ) {  }
+  constructor(
+    private fb: FormBuilder, 
+    private authService : AuthService 
+  ) { }
 
 
   ngOnInit(): void {
-    this.formGroup = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+    this.initForm();
+  }
+
+  initForm = () => {
+    this.formGroup = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email])
     });
   }
 
@@ -29,17 +39,23 @@ get f() {return this.formGroup.controls; }
     this.isSubmited = true;
     if(!this.formGroup.valid) {
       this.success = false;
-      this.message = 'please enter a valid email address';
+      this.message = 'Please enter a valid email address';
       return;
     }
     const email = this.formGroup.get('email').value;
     const model = {
           email
         } as IForgetModel;
-    this.authService.SendForgetPassword(model)
-        .subscribe( a=> {
-          this.success = true;
-          this.message = 'password reset link has been sent to ' + email;
-        });
+    this.isLoading = true;
+    this.authService.SendForgetPassword(model).subscribe(res => {
+      if(res) {
+        this.success = true;
+        this.isLoading = false;
+        this.message = 'A password reset link has been sent to ' + this.formGroup.value.email;
+        this.initForm();
+      }
+    }, err => {
+      this.isLoading = false;
+    });
   }
 }

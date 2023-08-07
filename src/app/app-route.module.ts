@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 const route: Routes = [
+  { path: '', redirectTo: 'homepage', pathMatch: 'full' },
   {
     path: '',
     loadChildren: () =>
