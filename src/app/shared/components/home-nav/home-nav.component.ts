@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { CartService } from '../../../services/cart/cart.service';
 import { IUser } from 'src/app/models/IUserModel';
+import {AuthService} from '../../../services/auth.service';
 
 const searchClient = algoliasearch(
   environment.algolia.appId,
@@ -51,12 +52,14 @@ export class HomeNavComponent implements OnInit {
     private toastService: ToastrService,
     private router: Router,
     private applocal: AppLocalStorage,
+    private authService: AuthService
   ) {
-    this.referenceId = localStorage.getItem('referenceId');
+
     // this.user = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit(): void {
+    this.referenceId = this.authService.getUserReferenceNumber();
     this.appLocalStorage.currentUser.subscribe((res) => {
       if (res) {
         this.user = res;
@@ -119,19 +122,9 @@ export class HomeNavComponent implements OnInit {
 
   getCustomerCart = () => {
     let cart$;
-    if (this.user !== null) {
-      const payload = {
-        key: 'user',
-        id: this.user.id,
-      };
-      cart$ = this.cartService.getCart(payload);
-    } else {
-      const payload = {
-        key: 'reference',
-        id: this.referenceId,
-      };
-      cart$ = this.cartService.getCart(payload);
-    }
+    const userId = this.user?.id ?? '';
+    const reference = this.referenceId ?? ''
+    cart$ = this.cartService.getCart(userId, reference);
     cart$.subscribe(
       (res) => {
         if (res.status === 'success') {
