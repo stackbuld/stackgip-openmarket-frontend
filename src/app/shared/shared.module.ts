@@ -53,6 +53,10 @@ import { InjectionToken } from '@angular/core';
 import { LoginModalComponent } from './modals/login-modal/login-modal.component';
 import { SignupModalComponent } from './modals/signup-modal/signup-modal.component';
 import { SocialModalComponent } from './modals/social-modal/social-modal.component';
+import { CustomDropdownComponent } from './components/custom-dropdown/custom-dropdown.component';
+import { NgxOtpInputModule } from 'ngx-otp-input';
+import { NgOtpInputModule } from 'ng-otp-input';
+import { PopupComponent } from './components/popup/popup.component';
 
 export const DOCUMENT_TOKEN = new InjectionToken<Document>('Document');
 export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
@@ -83,6 +87,8 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     LoginModalComponent,
     SignupModalComponent,
     SocialModalComponent,
+    CustomDropdownComponent,
+    PopupComponent,
   ],
   imports: [
     CommonModule,
@@ -92,8 +98,10 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     MatPaginatorModule,
     MatDialogModule,
     NgAisModule,
+    NgOtpInputModule,
     MatAutocompleteModule,
     MatInputModule,
+    NgxOtpInputModule,
   ],
   exports: [
     HttpClientJsonpModule,
@@ -132,6 +140,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     LoginModalComponent,
     SignupModalComponent,
     SocialModalComponent,
+    CustomDropdownComponent,
   ],
   providers: [
     {
