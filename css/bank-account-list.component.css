@@ -1,0 +1,52 @@
+.seller-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+}
+
+.seller-btn {
+  background: #000000;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: #ffffff;
+  padding: 10px 25px;
+  text-transform: capitalize;
+}
+
+.seller-right {
+  text-align: right;
+  padding: 20px 0px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .seller-btn {
+    font-size: 12px;
+    line-height: 14px;
+    padding: 10px 15px !important;
+  }
+}
+.store-grid h6 {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 900 !important;
+  font-size: 16px;
+  line-height: 22px;
+  color: #000000;
+}
+
+@media only screen and (max-width: 1024px) {
+  .store-grid h6 {
+    font-size: 14px;
+  }
+}
+.value {
+  font-family: "Avenir";
+  font-style: normal;
+  font-weight: 300 !important;
+  font-size: 16px;
+  line-height: 25px;
+  color: var(--black);
+}/*# sourceMappingURL=bank-account-list.component.css.map */

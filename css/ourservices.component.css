@@ -1,0 +1,230 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500&display=swap");
+.back {
+  width: 100%;
+}
+.back.yellow-back {
+  background: #fccf00;
+}
+.back .default-width {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 4rem 0;
+}
+.back .default-width .img,
+.back .default-width .text {
+  width: 50%;
+}
+.back .default-width .img {
+  text-align: center;
+  margin-right: 1rem;
+}
+.back .default-width .text {
+  max-width: 450px;
+}
+.back .default-width .text h1 {
+  font-family: roboto;
+  font-weight: 800;
+  font-size: 45px;
+  line-height: normal;
+}
+.back .default-width .text h2 {
+  font-family: Avenir;
+  font-size: 24px;
+}
+.back .default-width .text button {
+  width: 147px;
+  height: 40px;
+  background: #584dcd;
+  border-radius: 6px;
+  outline: none;
+  color: #fff;
+  border: none;
+  margin-top: 29px;
+}
+
+@media (max-width: 640px) {
+  .back .default-width {
+    flex-direction: column;
+  }
+  .back .default-width .img,
+  .back .default-width .text {
+    width: 90%;
+  }
+  .back .default-width .text {
+    max-width: 100%;
+  }
+  .back .default-width .text h1 {
+    font-size: 36px;
+  }
+  .back .default-width .text h2 {
+    font-size: 20px;
+  }
+}
+/* .default-width {
+  width: 90%;
+  margin: 0 auto;
+}
+.uk-flex {
+  display: flex;
+  justify-content: space-around;
+}
+.back {
+  background-color: #f2f2f2;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+.back2 {
+  background-color: #fccf00;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+.test {
+  margin-left: 158px;
+  margin-top: 30px;
+  color: #333;
+  width: 450px;
+}
+.test2 {
+  margin-top: 30px;
+  color: #333;
+  width: 450px;
+}
+.test2 img {
+  margin-left: 158px;
+}
+.text {
+  margin-top: 40px;
+}
+h1 {
+  font-family: roboto;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 45px;
+  line-height: 61px;
+  width: 450px;
+}
+p {
+  font-family: roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  width: 412px;
+  color: #333;
+}
+
+h2 {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 33px;
+  width: 697px;
+}
+
+button {
+  width: 147px;
+  height: 40px;
+  background: #584dcd;
+  border-radius: 6px;
+  outline: none;
+  color: #fff;
+  border: none;
+  margin-top: 29px;
+}
+
+@media (max-width: 480px) {
+  .uk-flex {
+    display: flex;
+    flex-direction: column;
+  }
+  .test {
+    margin-left: 10px;
+    width: 300px;
+  }
+  .test2 img {
+    margin-left: 0px;
+    width: 350px;
+  }
+
+  p {
+    width: 80%;
+    font-size: 20px;
+  }
+  h2 {
+    width: 320px;
+    font-size: 16px;
+  }
+  h1 {
+    width: 80%;
+    font-size: 36px;
+  }
+  .gen {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  .uk-flex {
+    display: flex;
+    flex-direction: column;
+  }
+  .test {
+    margin-left: 10px;
+    width: 300px;
+  }
+  .test2 img {
+    margin-left: 0px;
+    width: 350px;
+  }
+
+  p {
+    width: 350px;
+    font-size: 20px;
+  }
+  h2 {
+    width: 350px;
+    font-size: 16px;
+  }
+  h1 {
+    width: 350px;
+    font-size: 36px;
+  }
+  .gen {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 380px) {
+  .uk-flex {
+    display: flex;
+    flex-direction: column;
+  }
+  .test {
+    margin-left: 10px;
+    width: 300px;
+  }
+  .test2 img {
+    margin-left: 0px;
+  }
+
+  p {
+    width: 90%;
+    font-size: 20px;
+  }
+  h2 {
+    width: 90%;
+    font-size: 16px;
+  }
+  h1 {
+    width: 90%;
+    font-size: 36px;
+  }
+  .gen {
+    overflow: hidden;
+  }
+} *//*# sourceMappingURL=ourservices.component.css.map */
