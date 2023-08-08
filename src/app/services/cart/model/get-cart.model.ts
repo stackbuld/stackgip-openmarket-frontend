@@ -81,6 +81,7 @@ export interface Product {
   paymentOptions: string;
   id: string;
   createdOn: string;
+  previousPrice: number;
 }
 
 export interface ShippingCost {

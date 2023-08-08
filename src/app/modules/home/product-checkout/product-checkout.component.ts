@@ -12,6 +12,7 @@ import {
 } from '../../../services/cart/model/get-cart.model';
 import { Observable } from 'rxjs';
 import {WindowRefService} from '../../../shared/services/window.service';
+import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
   selector: 'app-product-checkout',
@@ -33,7 +34,7 @@ export class ProductCheckoutComponent implements OnInit {
   deletingCartItem: boolean;
 
   constructor(
-    private productService: ProductsService,
+    private footerService: FooterService,
     private cartService: CartService,
     private toastService: ToastrService,
     private applocal: AppLocalStorage,
@@ -43,7 +44,7 @@ export class ProductCheckoutComponent implements OnInit {
   ngOnInit(): void {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-
+    this.footerService.setShowFooter(true);
     this.user = JSON.parse(localStorage.getItem('user') as string);
     this.referenceId = localStorage.getItem('referenceId') as string;
 

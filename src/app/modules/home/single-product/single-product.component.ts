@@ -22,6 +22,7 @@ import {NotificationResponseModel} from '../../../models/notificationResponse.mo
 import * as lodash  from 'lodash';
 import {forEach} from 'lodash';
 import * as cryptoJs from 'crypto-js';
+import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
   selector: 'app-single-product',
@@ -49,7 +50,6 @@ export class SingleProductComponent implements OnInit {
   loadingAddress: boolean;
   addingItemToCart: boolean;
   currentAddress: CartAddress = null;
-  selectedAddress: any;
   selectedShippingMethod: GetShippingEstimatePrice;
   shippingMethods: GetShippingEstimatePrice[] = [];
   currentShippingMethod : GetShippingEstimatePrice = null;
@@ -76,9 +76,8 @@ export class SingleProductComponent implements OnInit {
     private toastService: ToastrService,
     private activatedRoute: ActivatedRoute,
     private productService: ProductsService,
-
+    private footerService: FooterService,
     private cartService: CartService,
-    private userService: UserService,
     private router: Router,
     private applocal: AppLocalStorage,
     private authService: AuthService,
@@ -100,6 +99,7 @@ export class SingleProductComponent implements OnInit {
           this.applocal.getFromStorage('temporaryDetails');
       }
     });
+    this.footerService.setShowFooter(true);
      this.referenceId  = this.authService.getUserReferenceNumber();
     // this.user = JSON.parse(localStorage.getItem('user') as string) as IUser;
     this.applocal.currentUser.subscribe((res) => {
@@ -402,12 +402,12 @@ export class SingleProductComponent implements OnInit {
   };
 
   setSelectedAddress = (item: any) => {
-    this.selectedAddress = item;
+    this.currentAddress = item;
   };
 
   setCurrentAddress = () => {
     this.currentShippingMethod = null;
-    this.currentAddress = this.selectedAddress;
+    // this.currentAddress = this.selectedAddress;
     for (let index = 0; index < this.addresses.length; index++) {
       const element = this.addresses[index];
       element.isSelected = false;

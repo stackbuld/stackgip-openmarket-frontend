@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Options } from '@angular-slider/ngx-slider';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductModel } from 'src/app/models/products.model';
 import { CatgoryService } from 'src/app/services/category/catgory.service';
+import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
   selector: 'app-product-list',
@@ -16,7 +17,7 @@ export class ProductListComponent implements OnInit {
   totalItemCount: number;
   maximumItem: number = 10;
   defaultPage:number = 1;
-  pageNumber: number;
+  pageNumber: number = 0;
   search:string = "";
   categoryId:string = "";
   minValue: number = 1;
@@ -24,8 +25,10 @@ export class ProductListComponent implements OnInit {
   // options:Options;
   // form: FormGroup;
   loadingProducts: boolean;
+  loadingMoreProducts: boolean;
   loadingCategories: boolean;
   columnCount = 3;
+  canLoadMore = true;
 
   // value: number = 700;
   // highValue: number = 7590;
@@ -44,11 +47,13 @@ export class ProductListComponent implements OnInit {
   constructor(
     private productService: ProductsService,
     private categoryService: CatgoryService,
+    private footerService: FooterService,
   ) { }
 
   ngOnInit(): void {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+    this.footerService.setShowFooter(false);
     this.fetchAllProducts(this.defaultPage);
     this.fetchCategories();
   }
@@ -69,17 +74,25 @@ export class ProductListComponent implements OnInit {
     } else {
       this.isFilter = true;
     }
-    this.loadingProducts = true;
+    if(pageNumber === 1) {
+      this.loadingProducts = true;
+    }
     this.productService.getProducts(
       pageNumber, this.maximumItem, this.search, this.categoryId,
       this.minValue, this.maxValue
     ).subscribe((products) => {
-        this.products = products.data.data;
-        this.pageNumber = products.data.pager.pageNumber;
-        this.totalItemCount = products.data.pager.totalItemCount;
+      this.products = this.products.concat(products.data.data);
+        // this.products = products.data.data;
+        // this.pageNumber = products.data.pager.pageNumber;
+        // this.totalItemCount = products.data.pager.totalItemCount;
         this.loadingProducts = false;
+        this.loadingProducts = false;
+        if (!products.data.pager.hasNextPage) {
+          this.canLoadMore = false;
+        }
       }, error => {
-        this.loadingProducts = false;
+        this.loadingMoreProducts = false;
+        this.loadingMoreProducts = false;
       });
   }
 
@@ -91,6 +104,23 @@ export class ProductListComponent implements OnInit {
     }, err => {
       this.loadingCategories = false;
     });
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll() {
+    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+    const documentHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
+
+    if (scrollPosition + windowHeight >= documentHeight) {
+      if(this.canLoadMore) {
+        this.pageNumber++;
+        this.loadingMoreProducts = true;
+        this.fetchAllProducts(this.pageNumber);
+      } else {
+        this.loadingMoreProducts = false;
+      }
+    }
   }
 
   setColumn(e: any) {
