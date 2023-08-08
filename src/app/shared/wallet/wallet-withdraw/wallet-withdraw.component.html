@@ -6,13 +6,17 @@
         <div><app-custom-dropdown [bankLists]="bankLists" [chosenBank]="selectedBankDetails" placeholder="Please type your bank name" [controls]="bankDetailsForm.controls['bankCode']" (newBankEvent)="changeBank($event)"></app-custom-dropdown></div>
     </div>
     <div class="card-row"><p>Bank Account Number</p>
-        <input type="text" class="custom-input" formControlName="accountNumber" placeholder="Enter your account number" (blur)="getAccountName()"></div>
+        <input type="text" class="custom-input" formControlName="accountNumber" placeholder="Enter your account number" (blur)="getAccountName()">
+    </div>
         
             <div class="card-row"><p>Bank Account Name</p>
         <input type="text" readonly class="custom-input" formControlName="accountName" placeholder="Enter your account name"></div>
          
         <div class="card-row"><p>Enter Withdrawal Amount</p>
-        <input type="text" ng-required="true" class="custom-input" formControlName="amount" placeholder="0.00"></div>
+        <input type="number" ng-required="true" (blur)="validateAmount()" class="custom-input" formControlName="amount" placeholder="0.00">
+    </div>
+
+    <div class="error" *ngIf="errorMsg">{{errorMsg}}</div>
         
         
     </div>
@@ -29,7 +33,7 @@
                 <p>OTP</p>
             </div>
         </div>
-        <button  class="uk-button uk-button-secondary item button" [disabled]="withdrawLoading || bankDetailsForm.invalid" 
+        <button  class="uk-button uk-button-secondary item button" [disabled]="withdrawLoading || bankDetailsForm.invalid || errorMsg || 1 > bankDetailsForm.value.amount || bankDetailsForm.value.amount > walletDetails.availableAmount" 
         (click)="sendWithdrawalOtp()">
            
                <span *ngIf="!withdrawLoading"> Withdraw</span>
@@ -44,7 +48,7 @@
         <h2 class="uk-modal-title">OTP</h2>
         
         <ng-otp-input (onInputChange)="handeOtpChange($event)" [config]="{length:6}" #ngotp></ng-otp-input>
-         <p>Resend otp</p>
+         <a (click)="sendWithdrawalOtp()">Resend otp</a>
             <div class="action-button">
                 <button class="uk-button uk-button-secondary relative" type="button" (click)="handleWithdraw()">
                     <span *ngIf="!withdrawLoading">Confirm</span>
@@ -69,12 +73,12 @@
         
         <p>{{serverResponse}}</p>
             <div class="action-button uk-flex uk-flex-between">
-                <button class="uk-button uk-button-secondary sm-btn uk-modal-close-default" type="button" routerLink="/seller/dashboard">
-                    <span ng-hide="withdrawLoading === true">Back to home</span>
+                <button class="uk-button uk-button-secondary sm-btn uk-modal-close-default" type="button" routerLink="../">
+                    <span>Back to Wallet</span>
                     
                 </button>
-                <button class="uk-button uk-button-default sm-btn uk-modal-close-default" type="button" routerLink="/seller/wallet">
-                    <span ng-hide="withdrawLoading === true">Back to Wallet</span>
+                <button class="uk-button uk-button-default sm-btn uk-modal-close-default" type="button">
+                    <span>Continue</span>
                     
                 </button>
             </div>

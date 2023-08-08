@@ -25,6 +25,7 @@ loading: boolean;
   bankId: string;
   bankLists: any[] = [];
   serverResponse: string;
+  errorMsg=null
   walletDetails: any;
   bankDetailsForm: FormGroup;
   @ViewChild('ngotp') ngOtp: NgOtpInputComponent
@@ -229,6 +230,17 @@ loading: boolean;
     console.log(value);
   }
 
+  validateAmount() {
+    if (this.bankDetailsForm.value.amount > this.walletDetails.availableAmount) {
+     this.errorMsg = "Insufficient Funds"
+    } else if (!(this.bankDetailsForm.value.amount > 1)) {
+      this.errorMsg = `Minimum withdrawal must be atleast ${this.walletDetails.currencyCode} 1`
+    }
+    else{
+      this.errorMsg = null
+   }
+  }
+
   handleWithdraw(): void{
     
 
@@ -238,14 +250,14 @@ loading: boolean;
     }
     this.withdrawLoading = true
     this.walletService.requestWithdrawal({
-      amount: this.bankDetailsForm.value.amount,
+      amount: this.bankDetailsForm.value.amount as string,
       walletId: this.walletDetails.id,
       bankaccountId: this.selectedBankDetails.id,
       currencyCode: this.walletDetails.currencyCode,
       otp: this.otpInput
     }).subscribe(
       (res) => {
-        this.ngOtp.setValue("")
+        this.ngOtp.setValue([])
         this.withdrawLoading = false
         uikit.modal('#modal-withdrawal').hide();
         

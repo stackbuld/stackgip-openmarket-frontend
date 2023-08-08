@@ -1,5 +1,14 @@
 @import "../../../../mixins";
 
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 .card-container.uk-card {
     margin-top: 2.5rem;
     width: 100%;
@@ -12,6 +21,13 @@
     }
 }
 
+.error {
+    font-size: 0.75rem;
+    margin-inline: auto;
+    margin-top: 2rem;
+    width: fit-content;
+    color: rgba(255, 0, 0, 0.721);
+}
 .uk-modal-body {
     max-width: 25rem !important;
 
@@ -42,10 +58,17 @@
     flex-direction: column;
     padding-inline: 1rem;
 
-    p {
+    p,
+        a {
         margin-top: 1.5rem;
+        
     }
 
+                                                                                                                                                                                                                                                                a {
+                                                                                                                                                                                                                                                                    text-decoration: underline;
+                                                                                                                                                                                                                                                                    cursor: pointer;
+                                                                                                                                
+                                                                                                                                                                                                                                                                }
     h2 {
         margin-bottom: 1.5rem;
     }
