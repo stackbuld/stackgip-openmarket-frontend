@@ -19,13 +19,6 @@ export class WalletService {
        this.baseUrl = api.walletBaseUrl;
   }
 
-//   updateUser(userInfo: IUpdateUser): Observable<IResponseModel> {
-//     return this.http.put<IResponseModel>(
-//       this.api.baseApiUrl + "users",
-//       userInfo
-//     );
-//   }
-
   getWallet(): Observable<IWalletResponse> {
       console.log("Pre-api part")
     return this.http.get<IWalletResponse>(this.baseUrl + `wallet/user`);
@@ -63,29 +56,6 @@ export class WalletService {
     this.userWalletData.next(data)
   }
 
-//   getUserById(userId:string):
-//   Observable<IUserResponse>{
-//     return this.http.get<IUserResponse>(
-//       this.api.baseApiUrl + `wallet/${userId}`
-//     );
-//   }
 
- 
-
-//   fetchUserAddresses(userId: any): Observable<any> {
-//     return this.http.get<any>(`${this.api.ecommerceBaseUrl}useraddress/users/${userId}`);
-//   }
-
-//   setDefaultAddress(payload: any, id: string): Observable<any> {
-//     return this.http.put<any>(`${this.api.ecommerceBaseUrl}useraddress/${id}`, payload);
-//   }
-
-//   deleteAddress(id: string): Observable<any> {
-//     return this.http.delete<any>(`${this.api.ecommerceBaseUrl}useraddress/${id}`);
-//   }
-
-//   getShippingEstimate(payload: any): Observable<any> {
-//     return this.http.post<any>(`${this.api.ecommerceBaseUrl}shipping/price-estimates`, payload);
-//   }
 
 }
