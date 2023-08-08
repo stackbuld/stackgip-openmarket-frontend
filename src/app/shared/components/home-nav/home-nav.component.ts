@@ -90,7 +90,7 @@ export class HomeNavComponent implements OnInit {
   }
 
   credentials = () => {
-    return this.user;
+    return this.user || null;
   }
 
   cancel = () => {

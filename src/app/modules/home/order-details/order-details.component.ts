@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from 'express';
 import { ToastrService } from 'ngx-toastr';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
+import { FooterService } from 'src/app/services/footer.service';
 import { OrderService } from 'src/app/services/order/order.service';
 
 @Component({
@@ -27,6 +28,7 @@ export class OrderDetailsComponent implements OnInit {
 
   constructor(
     private appLocal: AppLocalStorage,
+    private footerService: FooterService,
   ) {
     this.getDetails();
   }
@@ -34,7 +36,7 @@ export class OrderDetailsComponent implements OnInit {
   ngOnInit(): void {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-
+    this.footerService.setShowFooter(true);
   }
 
   getDetails = () => {
