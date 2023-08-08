@@ -14,9 +14,9 @@ export class WalletComponent {
   loading: boolean;
   currentRoute: string[] = [];
   user: IUser;
-  escrowFunds: IWallet;
-  cashbackFunds: IWallet;
-  mainFunds: IWallet;
+  escrowFunds?: IWallet;
+  cashbackFunds?: IWallet;
+  mainFunds?: IWallet;
 
   constructor(
     private router: Router,
