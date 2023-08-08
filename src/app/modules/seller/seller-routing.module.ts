@@ -12,6 +12,7 @@ import { SellerShowCaseProductComponent } from './sellershowcaseproduct/seller-s
 import { BankAccountListComponent } from './bank-account/bank-account-list/bank-account-list.component';
 import { OrderManagementComponent } from './order-management/order-management/order-management.component';
 import { OrderViewComponent } from './order-management/order-view/order-view.component';
+// import { SellerWalletComponent } from './seller-wallet/seller-wallet.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent,
@@ -76,6 +77,13 @@ const routes: Routes = [
           loadChildren: () =>
             import('./seller-store/seller-store.module').then(
               (m) => m.SellerStoreModule
+            ),
+        },
+        {
+          path: 'wallet',
+          loadChildren: () =>
+            import('../../shared/wallet/wallet.module').then(
+              (m) => m.WalletModule
             ),
         },
       ]

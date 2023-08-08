@@ -1,0 +1,124 @@
+.head {
+  color: white;
+}
+
+.default-width {
+  margin: 0 auto;
+  width: 90%;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
+.up-navBar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.uk-offcanvas-close {
+  margin-top: 1.5rem;
+  margin-right: 1rem;
+  color: black;
+}
+
+.uk-offcanvas-bar {
+  background-color: #fff;
+  width: 100%;
+}
+
+.uk-button {
+  padding: 0rem !important;
+}
+
+.login {
+  font-family: Avenir;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: #ffb55e;
+  text-transform: capitalize;
+  margin-right: 10px;
+  outline: none;
+  border: none;
+}
+
+.waitList {
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 0px 10px;
+  background: black;
+  border-radius: 6px;
+  width: 150px;
+  text-transform: none !important;
+}
+.waitList a {
+  color: #fff;
+}
+
+.sell-btn {
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin: 0px 10px;
+  background: black;
+  border-radius: 6px;
+  width: 100px;
+  text-transform: none !important;
+}
+.sell-btn a {
+  color: #fff;
+}
+
+.uk-navbar-left {
+  padding-left: 1rem;
+}
+
+.navy {
+  display: block;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+.mobile-side-menu {
+  margin-top: 2rem;
+  font-weight: 400;
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+}
+
+.mobile-side-menu li {
+  padding: 0.4rem 0;
+  margin: 1.5rem 0rem;
+}
+
+.mobile-side-menu li a {
+  font-family: "Avenir LT Std";
+  color: black;
+}
+
+.mobile-side-menu li a:hover {
+  color: #584dcd;
+}
+
+.navvy {
+  display: none;
+}
+
+.the-btns {
+  display: flex;
+}
+
+@media (min-width: 992px) {
+  .navvy {
+    display: block;
+  }
+  .navy {
+    display: none;
+  }
+}/*# sourceMappingURL=navbar.component.css.map */

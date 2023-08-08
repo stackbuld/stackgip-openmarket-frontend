@@ -1,0 +1,126 @@
+<div class="sub-section uk-flex">
+    <button
+        class="uk-button uk-button-secondary button"
+        type="button" routerLink="./withdraw"
+        >
+        <img src="../../../../assets/icons/cash-outline-light.svg" alt="" width="20" height="20" />
+            Withdraw
+    </button>
+     <button
+        class="uk-button uk-button-default button"
+        type="button" routerLink="/seller/products/add"
+        >
+        <img src="../../../../assets/icons/cash-outline-dark.svg" alt="" width="20" height="20" />
+            Fund Wallet
+    </button>
+</div>
+
+<div class="action-section uk-flex">
+    <div class="card-container uk-flex uk-flex-column uk-card uk-card-default uk-card-body">
+         <div class="send card-img">
+                <img src="../../../../assets/image/send.svg" alt="">
+            </div>
+            <div class="uk-flex uk-flex-column uk-flex-middle"><p class="action-text">Send Money</p>
+            <small>Coming soon</small></div>
+    </div>
+    <div class="card-container uk-flex uk-flex-column uk-card uk-card-default uk-card-body">
+        <div class="money card-img">
+                <img src="../../../../assets/image/money.svg" alt="">
+            </div>
+            <div class="uk-flex uk-flex-column uk-flex-middle"><p class="action-text">Buy Airtime</p>
+            <small>Coming soon</small></div>
+    </div>
+    <div class="card-container uk-flex uk-flex-column uk-card uk-card-default uk-card-body">
+        <div class="wifi card-img">
+                <img src="../../../../assets/image/wifi.svg" alt="">
+            </div>
+            <div class="uk-flex uk-flex-column uk-flex-middle"><p class="action-text">Buy Data</p>
+            <small>Coming soon</small></div>
+    </div>
+</div>
+
+<div class="transactions-section transactions-section-md">
+    <div class="uk-flex uk-flex-between">
+        <h2 class="title">Recent Transactions</h2>
+    <div class="uk-flex filters">
+        <div class="sort">
+            <select name="month" #month required>
+                <option [ngValue]="null" [disabled]="true" >Sort by Date</option>
+                <option value="1">January</option>
+       </select>
+        </div>
+       <div class="filter">
+        <select name="month" #month required>
+                <option [ngValue]="null" [disabled]="true" >Filter</option>
+                <option value="1">January</option>
+       </select>
+       </div>
+    </div>
+    </div>
+
+    <div class="card-container card-container-md hide-for-mobile uk-card uk-card-default uk-card-body">
+        <table>
+            <thead>
+                <tr>
+            <th>Transaction ID</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Category</th>
+            <th>Status</th>
+        </tr>
+            </thead>
+            <div *ngIf="loadingTransactions">
+             <span class="loader" uk-spinner="ratio: 1">
+            </span>
+        </div>
+
+            <tbody>
+                <tr *ngFor="let item of transactionsList?.items">
+                    <td>{{item.id}}</td>
+                    <td>₦{{item.amount}}</td>
+                    <td><p>{{ formatDate(item?.createdAt) }}</p>
+                        <p>{{ formatTime(item?.createdAt) }}</p>
+                    </td>
+                    <td>{{item.transactionTypeEnum}}</td>
+                    <td>{{item.transactionCategory}}</td>
+                    <td>{{item.withdrawalRequests?.status}}</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="card-container-sm">
+         
+        <div class="card-container" *ngIf="loadingTransactions">
+             <span class="loader" uk-spinner="ratio: 1">
+            </span>
+        </div>
+
+         <div *ngIf="!loadingTransactions">
+            <div class="card-container uk-flex uk-flex-between relative uk-card uk-card-default uk-card-body" *ngFor="let item of transactionsList?.items">
+           
+           
+                <div>
+                <p class="transaction-hash">
+                Transaction ID: <span>{{item.id}}</span>
+                </p>
+                <h3 class="transaction-title">{{item.transactionCategory}}</h3>
+                <p class="transaction-type">{{item.transactionTypeEnum}}</p>
+                <p class="transaction-date">{{ formatDate(item?.createdAt) }}, <small>{{ formatTime(item?.createdAt) }}</small></p>
+            </div>
+            <div class="uk-flex h-full uk-flex-column uk-flex-between">
+                <p class="transaction-status">{{item.withdrawalRequests?.status}}</p>
+                <p class="transaction-amount">₦{{item.amount}}</p>
+            </div>
+            </div>
+         </div>
+        
+         
+    </div>
+   
+</div>
+
+
