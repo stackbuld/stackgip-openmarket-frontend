@@ -56,11 +56,15 @@
     width: 100%;
     justify-content: center;
     margin-top: 1rem;
+    position: relative;
     display: flex;
     justify-content: center;
     column-gap: 12px;
 
 
+    .uk-modal-close-default {
+            position: relative !important;
+        }
     button {
         width: 70%;
         margin-inline: auto;

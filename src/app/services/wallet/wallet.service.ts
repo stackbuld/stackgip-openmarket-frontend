@@ -35,6 +35,10 @@ export class WalletService {
     return this.http.get<IWalletResponse>(this.baseUrl + `bankaccount/banks/NGN`);
   }
   
+   getTransactions(): Observable<IWalletResponse> {
+    return this.http.get<IWalletResponse>(this.baseUrl + `payments/transactions`);
+  }
+  
   getAccountName(body): Observable<any> {
     return this.http.post<any>(this.baseUrl + `bankaccount/banks/validate-account`, body);
     }
@@ -44,7 +48,7 @@ export class WalletService {
       }
   
    sendOtp(): Observable<any> {
-    return this.http.post<any>(this.baseUrl + `wallet/withdrawal-request-otp`, {});
+    return this.http.post<any>(this.baseUrl + `wallet/withdrawal-request-otp`, null);
    }
   
   addToAccountsLists(body): Observable<any> {

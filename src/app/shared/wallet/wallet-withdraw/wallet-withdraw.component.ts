@@ -1,4 +1,4 @@
-import { Component, SimpleChanges } from '@angular/core';
+import { Component, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxOtpInputConfig } from 'ngx-otp-input';
@@ -7,6 +7,8 @@ import { WalletService } from '../../../services/wallet/wallet.service';
 import { OtpService } from '../../components/otp/service/otp.service';
 import { PopupComponent } from '../../components/popup/popup.component';
 import uikit from 'uikit';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { NgOtpInputComponent } from 'ng-otp-input';
 
 @Component({
   selector: 'app-wallet-withdraw',
@@ -25,6 +27,7 @@ loading: boolean;
   serverResponse: string;
   walletDetails: any;
   bankDetailsForm: FormGroup;
+  @ViewChild('ngotp') ngOtp: NgOtpInputComponent
 
   otpInputConfig: NgxOtpInputConfig = {
     otpLength: 6,
@@ -38,15 +41,16 @@ loading: boolean;
       inputError: 'my-super-error-class',
     },
   };
-  // escrowFunds: IWallet;
+ 
   
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
     private walletService: WalletService,
+    private ngxService: NgxUiLoaderService,
     private otpService: OtpService,
   ) { 
-    // this.getBankAccount()
+    
   }
 
   ngOnInit(): void {
@@ -126,13 +130,14 @@ loading: boolean;
     }
   
   getAccountName() {
+    this.ngxService.startLoader('loader-01');
     this.walletService.getAccountName({
       bankCode: this.bankDetailsForm.value.bankCode,
       accountNumber: this.bankDetailsForm.value.accountNumber,
       countryCode: "NGN"
     }).subscribe(
        (res) => {
-        
+        this.ngxService.stopAllLoader('loader-01')
         this.bankDetailsForm.patchValue({
           accountName: res.data.accountName
         })
@@ -145,14 +150,17 @@ loading: boolean;
   }
 
   sendWithdrawalOtp() {
-    this.withdrawLoading = true
+   
 
     if (!this.bankDetailsForm.value.accountName || !this.bankDetailsForm.value.accountNumber) {
       return
     }
 
-    if (!this.bankDetails.find((detail: any) => detail.accountNumber === this.bankDetailsForm.value.accountNumber)) {
+    this.withdrawLoading = true
+    this.ngxService.startLoader('loader-01');
+    if (!this.bankDetails || !this.bankDetails.find((detail: any) => detail.accountNumber === this.bankDetailsForm.value.accountNumber)) {
 
+      
       const { bankName, bankCode, accountNumber, accountName } = this.bankDetailsForm.value;
       this.walletService.addToAccountsLists({
         bankName: bankName,
@@ -162,20 +170,24 @@ loading: boolean;
         userId: this.user.id
       }).subscribe(
         (res) => {
-          this.selectedBankDetails.id = res.data.id;
+          console.log(res)
+          this.selectedBankDetails= res.data;
         this.walletService.sendOtp().subscribe(
       (res) => {
-        this.withdrawLoading = false
+            this.withdrawLoading = false
+            this.ngxService.stopAllLoader('loader-01')
         uikit.modal('#modal-withdrawal').show();
       },
       (err) => {
         console.log(err)
         this.withdrawLoading = false
+        this.ngxService.stopAllLoader('loader-01')
       }
     );
       },
       (err) => {
         console.log(err)
+        this.ngxService.stopAllLoader('loader-01')
         this.withdrawLoading = false
       }
     );
@@ -183,11 +195,13 @@ loading: boolean;
     else {
       this.walletService.sendOtp().subscribe(
       (res) => {
-        this.withdrawLoading = false
+          this.withdrawLoading = false
+          this.ngxService.stopAllLoader('loader-01')
         uikit.modal('#modal-withdrawal').show();
       },
       (err) => {
         console.log(err)
+        this.ngxService.stopAllLoader('loader-01')
         this.withdrawLoading = false
       }
     );
@@ -195,13 +209,6 @@ loading: boolean;
     
   }
   
-
-  // openModal(modalTemplate: TemplateRef<any>) {
-  //   console.log("I was clicked")
-  //   this.otpService.open(modalTemplate).subscribe((action) => {
-  //     console.log("action", action)
-  //   })
-  // }
 
     openModal() {
     
@@ -238,6 +245,7 @@ loading: boolean;
       otp: this.otpInput
     }).subscribe(
       (res) => {
+        this.ngOtp.setValue("")
         this.withdrawLoading = false
         uikit.modal('#modal-withdrawal').hide();
         
@@ -258,21 +266,5 @@ loading: boolean;
     );
   }
 
-  // private generateDataFormGroup(data: any) {
-  //   return this.fb.group({
-  //     bankName: this.fb.control({ value: data.bankName, disabled: true }),
-  //     accountName: this.fb.control({
-  //       value: data.accountName,
-  //       disabled: true,
-  //     }),
-  //     accountNumber: this.fb.control({
-  //       value: data.accountNumber,
-  //       disabled: true,
-  //     }),
-  //     amount: this.fb.control({
-  //       value: "",
-  //       disabled: false,
-  //     }),
-  //   });
-  // }
+ 
 }

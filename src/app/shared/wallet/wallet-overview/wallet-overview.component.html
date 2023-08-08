@@ -70,117 +70,53 @@
             <th>Status</th>
         </tr>
             </thead>
+            <div *ngIf="loadingTransactions">
+             <span class="loader" uk-spinner="ratio: 1">
+            </span>
+        </div>
+
             <tbody>
-                <tr>
-                    <td>Invoice-#2309</td>
-                    <td>₦25,000</td>
+                <tr *ngFor="let item of transactionsList?.items">
+                    <td>{{item.id}}</td>
+                    <td>₦{{item.amount}}</td>
                     <td>12 Mar 2023, 12:03</td>
-                    <td>Credit</td>
-                    <td>Airtime Purchase</td>
-                    <td>Pending</td>
+                    <td>{{item.transactionTypeEnum}}</td>
+                    <td>{{item.transactionCategory}}</td>
+                    <td>{{item.withdrawalRequests?.status}}</td>
                 </tr>
-                <tr>
-                    <td>Invoice-#2309</td>
-                    <td>₦25,000</td>
-                    <td>12 Mar 2023, 12:03</td>
-                    <td>Debit</td>
-                    <td>Withdraw</td>
-                    <td>Pending</td>
-                </tr>
-                <tr>
-                    <td>Invoice-#2309</td>
-                    <td>₦25,000</td>
-                    <td>12 Mar 2023, 12:03</td>
-                    <td>Credit</td>
-                    <td>Funding</td>
-                    <td>Pending</td>
-                </tr>
-                <tr>
-                    <td>Invoice-#2309</td>
-                    <td>₦25,000</td>
-                    <td>12 Mar 2023, 12:03</td>
-                    <td>Credit</td>
-                    <td>Sales revenue</td>
-                    <td>Pending</td>
-                </tr>
-                <tr>
-                    <td>Invoice-#2309</td>
-                    <td>₦25,000</td>
-                    <td>12 Mar 2023, 12:03</td>
-                    <td>Credit</td>
-                    <td>Deposit</td>
-                    <td>Pending</td>
-                </tr>
-                <tr>
-                    <td>Invoice-#2309</td>
-                    <td>₦25,000</td>
-                    <td>12 Mar 2023, 12:03</td>
-                    <td>Credit</td>
-                    <td>Frozen-to-main-balance</td>
-                    <td>Pending</td>
-                </tr>
+                
             </tbody>
         </table>
     </div>
 
 
     <div class="card-container-sm">
-         <div class="card-container uk-flex uk-flex-between uk-card uk-card-default uk-card-body">
-            <div>
+         
+        <div class="card-container" *ngIf="loadingTransactions">
+             <span class="loader" uk-spinner="ratio: 1">
+            </span>
+        </div>
+
+         <div *ngIf="!loadingTransactions">
+            <div class="card-container uk-flex uk-flex-between relative uk-card uk-card-default uk-card-body" *ngFor="let item of transactionsList?.items">
+           
+           
+                <div>
                 <p class="transaction-hash">
-                Transaction ID: Invoice-#2310
+                Transaction ID: <span>{{item.id}}</span>
                 </p>
-                <h3 class="transaction-title">Airtime Purchase</h3>
-                <p class="transaction-type">Credit</p>
+                <h3 class="transaction-title">{{item.transactionCategory}}</h3>
+                <p class="transaction-type">{{item.transactionTypeEnum}}</p>
                 <p class="transaction-date">24 Jan 2023, <small>17:56</small></p>
             </div>
             <div class="uk-flex h-full uk-flex-column uk-flex-between">
-                <p class="transaction-status">Pending</p>
-                <p class="transaction-amount">₦25,000</p>
+                <p class="transaction-status">{{item.withdrawalRequests?.status}}</p>
+                <p class="transaction-amount">₦{{item.amount}}</p>
             </div>
-        </div>
-         <div class="card-container uk-flex uk-flex-between uk-card uk-card-default uk-card-body">
-            <div>
-                <p class="transaction-hash">
-                Transaction ID: Invoice-#2310
-                </p>
-                <h3 class="transaction-title">Airtime Purchase</h3>
-                <p class="transaction-type">Credit</p>
-                <p class="transaction-date">24 Jan 2023, <small>17:56</small></p>
             </div>
-            <div class="uk-flex uk-flex-column uk-flex-between">
-                <p class="transaction-status">Pending</p>
-                <p class="transaction-amount">₦25,000</p>
-            </div>
-        </div>
-        <div class="card-container uk-flex uk-flex-between uk-card uk-card-default uk-card-body">
-            <div>
-                <p class="transaction-hash">
-                Transaction ID: Invoice-#2310
-                </p>
-                <h3 class="transaction-title">Airtime Purchase</h3>
-                <p class="transaction-type">Credit</p>
-                <p class="transaction-date">24 Jan 2023, <small>17:56</small></p>
-            </div>
-            <div class="uk-flex h-full uk-flex-column uk-flex-between">
-                <p class="transaction-status">Pending</p>
-                <p class="transaction-amount">₦25,000</p>
-            </div>
-        </div>
-        <div class="card-container uk-flex h-fit uk-flex-between uk-card uk-card-default uk-card-body">
-            <div>
-                <p class="transaction-hash">
-                Transaction ID: Invoice-#2310
-                </p>
-                <h3 class="transaction-title">Airtime Purchase</h3>
-                <p class="transaction-type">Credit</p>
-                <p class="transaction-date">24 Jan 2023, <small>17:56</small></p>
-            </div>
-            <div class="uk-flex uk-flex-column uk-flex-between">
-                <p class="transaction-status">Pending</p>
-                <p class="transaction-amount">₦25,000</p>
-            </div>
-        </div>
+         </div>
+        
+         
     </div>
    
 </div>
