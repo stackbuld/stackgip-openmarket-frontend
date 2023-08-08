@@ -12,8 +12,7 @@ export const environment = {
   storeApi: 'https://dev-ecommerce.renamarkets.com/api/',
   walletApi: 'https://dev-wallet.renamarkets.com/api/v1/',
   notificationApi: 'https://dev-notification.renamarkets.com/',
-
-  // ecommerceApi: "http://localhost:57889/api/v1/",
+  // notificationApi: 'https://localhost:7030/',
   paystackPublicKey: 'pk_test_8e75de0f0e2bba17ee0b37ed227e176b92b52d0b',
   googleClientId:
     '966209242791-ic7l4c7e00ltgb83hcnfe47fvrjfklbc.apps.googleusercontent.com',

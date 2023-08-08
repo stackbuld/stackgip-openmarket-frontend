@@ -1,10 +1,10 @@
 import { UpdateProfileAction } from './../reducers/action/auth.action';
 import { IUpdatePassword } from './../models/auth-model';
-import { IResponseModel } from './../shared/models/IResponseModel';
+import {GetWssUrlResponse, IResponseModel} from './../shared/models/IResponseModel';
 
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
+import {Observable, BehaviorSubject, of, Subscription, firstValueFrom} from 'rxjs';
 import { IUser } from '../models/IUserModel';
 import { ApiAppUrlService } from './api-app-url.service';
 import {
@@ -17,17 +17,14 @@ import { IForgetModel, IForgetPasswordModel } from '../models/auth-model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { LoginAction, LogOutAction } from '../reducers/action/auth.action';
-// import {
-//   FacebookLoginProvider,
-//   GoogleLoginProvider,
-//   SocialAuthService,
-// } from "@abacritt/angularx-social-login";
+import { v4 as uuidv4 } from 'uuid';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { delay } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { delay, filter } from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
 import { JwtHelperService } from './jwt-helper.service';
 import { ToastrService } from 'ngx-toastr';
-import uikit from 'uikit'; 
+import uikit from 'uikit';
+import { AppLocalStorage } from '../helpers/local-storage';
 
 export interface IAuth {
   isLoggedId: boolean;
@@ -40,6 +37,7 @@ export interface IAuth {
   providedIn: 'root',
 })
 export class AuthService {
+  currentUrl: string = '';
   public isLogin: BehaviorSubject<boolean>;
   tokenSubscription = new Subscription();
   decodedJwt;
@@ -48,10 +46,11 @@ export class AuthService {
     private http: HttpClient,
     private store: Store<AppState>,
     private ngxService: NgxUiLoaderService,
+    private applocal: AppLocalStorage,
     // private socialAuthService: SocialAuthService,
     private router: Router,
     private jwtHelperService: JwtHelperService,
-    private toast: ToastrService
+    private toast: ToastrService,
   ) {
     const userData = this.GetSignInData();
     if (userData != null) {
@@ -59,6 +58,9 @@ export class AuthService {
     } else {
       this.isLogin = new BehaviorSubject<boolean>(false);
     }
+    router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => (this.currentUrl = event.url));
   }
 
   // public signIn(signInModel: SignInModel): Observable<SiginResponseModel> {
@@ -84,26 +86,40 @@ export class AuthService {
     );
   }
 
-  public getCurrentUser(): Observable<IUser> {
-    return this.http.get<IUser>(this.api.baseApiUrl + 'Auth/current-user');
-  }
-
   public GoogleSignIn(token): Observable<SiginResponseModel> {
     return this.http.post<SiginResponseModel>(
       this.api.baseApiUrl + 'Auth/Google',
       { idToken: token }
     );
   }
-  public showSharedLoginModal (){
-    uikit.modal('#login-modal').show();
+
+
+  public hideSharedLoginModal () {
+    uikit.modal('#login-modal').hide();
+  }
+  public hideSharedSocialModal () {
+    uikit.modal('#social-modal').hide();
   }
 
+  public showSharedLoginModal (){
+    this.hideSharedSignupModal();
+    this.hideSharedSocialModal();
+    uikit.modal('#login-modal').show();
+  }
   public showSharedSocialModal (){
+    this.hideSharedSignupModal();
+    this.hideSharedLoginModal();
     uikit.modal('#social-modal').show();
   }
 
   public showSharedSignupModal (){
+    this.hideSharedLoginModal();
+    this.hideSharedSocialModal()
     uikit.modal('#signup-modal').show();
+  }
+
+  public hideSharedSignupModal (){
+    uikit.modal('#signup-modal').hide();
   }
 
   LoginWithGoogle(credentials: string): Observable<any> {
@@ -117,9 +133,20 @@ export class AuthService {
     console.log(this.api.baseApiUrl, 'Path');
     const header = new HttpHeaders().set('Content-type', 'application/json');
     return this.http.post(this.api.baseApiUrl + 'auth/facebook', {
-      token: token,
-      userId: userId,
+      token,
+      userId,
     });
+  }
+
+  getUserReferenceNumber(): string{
+    let reference = '';
+    if (localStorage.getItem('referenceId') === null) {
+      reference =  uuidv4();
+      localStorage.setItem('referenceId', reference)
+    } else {
+      reference = localStorage.getItem('referenceId') as string;
+    }
+    return reference;
   }
 
   signInWithGoogle(): void {
@@ -141,7 +168,7 @@ export class AuthService {
   public FacebookSignIn(userId, token): Observable<SiginResponseModel> {
     return this.http.post<SiginResponseModel>(
       this.api.baseApiUrl + 'Auth/Facebook',
-      { token: token, userId: userId }
+      { token, userId }
     );
   }
 
@@ -253,4 +280,96 @@ export class AuthService {
     localStorage.setItem('siginResponse', JSON.stringify(sigin));
     this.store.dispatch(UpdateProfileAction(user));
   }
+
+  public async  getWebSocketUrl(): Promise<string> {
+    const referenceId = this.getUserReferenceNumber();
+    const userId = this.getLoggedInUser()?.id?? '';
+    const cachedUrl = this.getLocalStorageItemWithExpiry('notificationWssUrl');
+    // const cachedUrl = '';
+
+    if(!cachedUrl){
+      const path = this.api.notificationBaseUrl+`negotiate?referenceId=${referenceId}&userId=${userId}`;
+      const wssUrlResponse = await firstValueFrom(this.http.get<GetWssUrlResponse>(path));
+      if(wssUrlResponse?.wssUrl){
+        this.setLocalStorageItemWithExpiry('notificationWssUrl',wssUrlResponse?.wssUrl, 60*24 )
+        return  wssUrlResponse?.wssUrl
+      }
+     throw new Error('unable to retrieve wss url');
+    }else {
+     return  cachedUrl;
+    }
+  }
+  setLocalStorageItemWithExpiry(key, value: string, expiryInMinutes) {
+    const now = new Date();
+    const item = {
+      value,
+      expiry: now.getTime() + expiryInMinutes * 60 * 1000
+    };
+    localStorage.setItem(key, JSON.stringify(item));
+  }
+
+// Function to get a localStorage item with expiration handling
+  getLocalStorageItemWithExpiry<T>(key): string {
+    const item = JSON.parse(localStorage.getItem(key));
+    if (!item) return null;
+
+    const now = new Date();
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key);
+      return null;
+    }
+
+    return item.value;
+  }
+
+  async handleAuthResponse(res: any, accessType: string, authType: string) {
+    this.ngxService.stopAll();
+    if (accessType === 'signin' && authType === 'login' && res.data.canLogin === false) {
+      this.ngxService.stopLoader('loader-01');
+          this.toast.error('Please confirm your email address');
+          this.router.navigate(['/auth/confirm-email']);
+          return;
+    }
+    if (res.data.canLogin === true) {
+      this.applocal.currentUser.next(res.data.user);
+      if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
+        this.ngxService.stopLoader('loader-01');
+        this.SetAuthLocalStorage(res);
+        if (
+          res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
+          res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
+          res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
+        ) {
+          this.toast.success(`${accessType === 'signin'? 'Login': 'Signup'} Successful`);
+          if(this.currentUrl.includes('auth')) {
+            this.router.navigate(['/seller/dashboard']);
+          } else {
+
+
+            this.hideSharedLoginModal();
+          }
+        } else {
+          this.toast.success(`${accessType === 'signin'? 'Login': 'Signup'} Successful`);
+          if(this.currentUrl.includes('auth')) {
+            this.router.navigate(['/']);
+          } else {
+            this.hideSharedLoginModal();
+          }
+        }
+      } else {
+        this.ngxService.stopLoader('loader-01');
+        this.SetAuthLocalStorage(res);
+        this.toast.success(`${accessType === 'signin'? 'Login': 'Signup'} Successful`);
+        if(this.currentUrl.includes('auth')) {
+          authType === 'login'? this.router.navigate(['/']): this.router.navigate(['/homepage'])
+        } else {
+          this.hideSharedLoginModal();
+        }
+      }
+    }
+    this.isLogin.next(true);
+    this.SetAuthLocalStorage(res);
+  }
+
+
 }

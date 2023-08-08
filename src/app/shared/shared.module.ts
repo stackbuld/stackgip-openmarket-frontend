@@ -57,6 +57,7 @@ import { CustomDropdownComponent } from './components/custom-dropdown/custom-dro
 import { NgxOtpInputModule } from 'ngx-otp-input';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { PopupComponent } from './components/popup/popup.component';
+import { LoginPopUpModalComponent } from './components/login-pop-up-modal/login-pop-up-modal.component';
 
 export const DOCUMENT_TOKEN = new InjectionToken<Document>('Document');
 export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
@@ -89,6 +90,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     SocialModalComponent,
     CustomDropdownComponent,
     PopupComponent,
+    LoginPopUpModalComponent,
   ],
   imports: [
     CommonModule,
@@ -141,6 +143,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     SignupModalComponent,
     SocialModalComponent,
     CustomDropdownComponent,
+    LoginPopUpModalComponent
   ],
   providers: [
     {

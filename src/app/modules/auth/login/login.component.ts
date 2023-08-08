@@ -25,7 +25,6 @@ import { JwtHelperService } from '../../../services/jwt-helper.service';
 import { environment } from 'src/environments/environment';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { WindowRefService } from '../../../shared/services/window.service';
-import { AuthHelperService } from 'src/app/shared/services/auth-helper.service';
 
 declare const FB: any;
 
@@ -63,7 +62,6 @@ export class LoginComponent implements OnInit {
     private ngxService: NgxUiLoaderService,
     private jwtHelperService: JwtHelperService,
     windowRefService: WindowRefService,
-    private authHelperService: AuthHelperService
   ) {
     this.window = windowRefService.nativeWindow;
   }
@@ -106,7 +104,7 @@ export class LoginComponent implements OnInit {
     this.ngxService.startLoader('loader-01');
     await this.authService.LoginWithGoogle(response.credential).subscribe(
       (res) => {
-        this.authHelperService.handleAuthResponse(res, 'signin', 'google');
+        this.authService.handleAuthResponse(res, 'signin', 'google');
       },
       (err) => {
         this.toast.error(err.error.message);
@@ -131,7 +129,7 @@ export class LoginComponent implements OnInit {
         this.ngxService.startLoader('loader-01');
         await this.authService.LoginWithFacebook(token, userId).subscribe(
           (res) => {
-            this.authHelperService.handleAuthResponse(
+            this.authService.handleAuthResponse(
               res,
               'signin',
               'facebook'
@@ -152,7 +150,7 @@ export class LoginComponent implements OnInit {
     this.ngxService.startLoader('loader-01');
     this.authService.signIn(this.loginForm.value).subscribe(
       (res) => {
-        this.authHelperService.handleAuthResponse(res, 'signin', 'login');
+        this.authService.handleAuthResponse(res, 'signin', 'login');
       },
       (err) => {
         this.toast.error(err.error.message);

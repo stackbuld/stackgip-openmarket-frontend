@@ -14,6 +14,7 @@ import {
   MakeCartPaymentRequestModel,
   MakeCartPaymentResponseModel,
 } from './model/cart-payment-model';
+import {GetShippingPriceEstimateRequest, GetShippingPriceEstimateResponse} from './model/logistic.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,19 +25,10 @@ export class CartService {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
 
-  getCart(payload: {
-    key: string;
-    id: string;
-  }): Observable<GetCartResponseModel> {
-    if (payload.key === 'user') {
-      return this.http.get<GetCartResponseModel>(
-        this.baseUrl + `cart?userId=${payload.id}`
-      );
-    } else {
-      return this.http.get<GetCartResponseModel>(
-        this.baseUrl + `cart?referenceId=${payload.id}`
-      );
-    }
+  getCart(userId: string, referenceId: string): Observable<GetCartResponseModel> {
+    return this.http.get<GetCartResponseModel>(
+      this.baseUrl + `cart?userId=${userId}&referenceId=${referenceId}`
+    );
   }
 
   deleteCartItem(payload: {
@@ -88,5 +80,26 @@ export class CartService {
       this.baseUrl + `cart`,
       payload
     );
+  }
+
+
+  createAddress(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}useraddress`, payload);
+  }
+
+  fetchUserAddresses(userId: any): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}useraddress/users/${userId}`);
+  }
+
+  setDefaultAddress(payload: any, id: string): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}useraddress/${id}`, payload);
+  }
+
+  deleteAddress(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}useraddress/${id}`);
+  }
+
+  getShippingEstimate(payload: GetShippingPriceEstimateRequest): Observable<GetShippingPriceEstimateResponse> {
+    return this.http.post<GetShippingPriceEstimateResponse>(`${this.baseUrl}shipping/price-estimates`, payload);
   }
 }
