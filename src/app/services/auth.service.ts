@@ -2,7 +2,7 @@ import { UpdateProfileAction } from './../reducers/action/auth.action';
 import { IUpdatePassword } from './../models/auth-model';
 import {GetWssUrlResponse, IResponseModel} from './../shared/models/IResponseModel';
 
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable, BehaviorSubject, of, Subscription, firstValueFrom} from 'rxjs';
 import { IUser } from '../models/IUserModel';
@@ -92,19 +92,29 @@ export class AuthService {
       { idToken: token }
     );
   }
-  public showSharedLoginModal (){
-    uikit.modal('#login-modal').show();
-  }
+
 
   public hideSharedLoginModal () {
     uikit.modal('#login-modal').hide();
   }
+  public hideSharedSocialModal () {
+    uikit.modal('#social-modal').hide();
+  }
 
+  public showSharedLoginModal (){
+    this.hideSharedSignupModal();
+    this.hideSharedSocialModal();
+    uikit.modal('#login-modal').show();
+  }
   public showSharedSocialModal (){
+    this.hideSharedSignupModal();
+    this.hideSharedLoginModal();
     uikit.modal('#social-modal').show();
   }
 
   public showSharedSignupModal (){
+    this.hideSharedLoginModal();
+    this.hideSharedSocialModal()
     uikit.modal('#signup-modal').show();
   }
 
@@ -334,6 +344,8 @@ export class AuthService {
           if(this.currentUrl.includes('auth')) {
             this.router.navigate(['/seller/dashboard']);
           } else {
+
+
             this.hideSharedLoginModal();
           }
         } else {
@@ -355,7 +367,7 @@ export class AuthService {
         }
       }
     }
-   
+    this.isLogin.next(true);
     this.SetAuthLocalStorage(res);
   }
 

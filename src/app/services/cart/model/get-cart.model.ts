@@ -74,6 +74,7 @@ export interface Logistic {
 export interface Product {
   name: string;
   price: number;
+  previousPrice?: number;
   categoryId: string;
   category: null;
   imageUrl: string;

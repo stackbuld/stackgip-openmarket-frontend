@@ -13,6 +13,8 @@ import {
 import { Observable } from 'rxjs';
 import {WindowRefService} from '../../../shared/services/window.service';
 import { FooterService } from 'src/app/services/footer.service';
+import {AuthService} from '../../../services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-product-checkout',
@@ -24,7 +26,7 @@ export class ProductCheckoutComponent implements OnInit {
   cartItems: CartItem[] = [];
   user: IUser = null;
   referenceId: string = '';
-  paymentMethods: any[] = [];
+  paymentMethods: CartPaymentMethod[] = [];
   paymentMethod: CartPaymentMethod = {} as CartPaymentMethod;
   loadingPaymentMethods: boolean;
   loadingUnitUpdate: boolean;
@@ -38,38 +40,39 @@ export class ProductCheckoutComponent implements OnInit {
     private cartService: CartService,
     private toastService: ToastrService,
     private applocal: AppLocalStorage,
-    private windowService: WindowRefService
+    private windowService: WindowRefService,
+    private  authService: AuthService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(true);
+    this.init();
+    this.authService.isLogin.subscribe(a=>{
+      if(a){
+        this.init();
+      }
+    })
+
+  }
+  init(){
     this.user = JSON.parse(localStorage.getItem('user') as string);
-    this.referenceId = localStorage.getItem('referenceId') as string;
+    this.referenceId = this.authService.getUserReferenceNumber();
 
     if (this.referenceId !== null || this.user !== null) {
       this.getCustomerCart();
       this.getPaymentMethods();
     }
   }
-
   getCustomerCart = () => {
     this.loadingCart = true;
     let cart$: Observable<GetCartResponseModel>;
-    if (this.user !== null) {
-      const payload = {
-        key: 'user',
-        id: this.user.id,
-      };
-      cart$ = this.cartService.getCart(payload);
-    } else {
-      const payload = {
-        key: 'reference',
-        id: this.referenceId,
-      };
-      cart$ = this.cartService.getCart(payload);
-    }
+    const userId = this.user?.id ?? '';
+    const reference = this.referenceId ?? ''
+    cart$ = this.cartService.getCart(userId, reference);
+
 
     cart$.subscribe(
       (res) => {
@@ -221,6 +224,7 @@ export class ProductCheckoutComponent implements OnInit {
     if (this.cartItems.length > 0) {
       if (this.paymentMethod === null) {
         this.toastService.warning('Kindly select a payment method', 'MESSAGE');
+
       } else {
         if (this.user !== null) {
           this.loadingPayment = true;
@@ -234,6 +238,8 @@ export class ProductCheckoutComponent implements OnInit {
           productService$.subscribe(
             (res) => {
               if (res.status === 'success') {
+                console.log("payment response",res)
+                // this.router.navigateByUrl(res.data.redirectUrl);
                 this.windowService.nativeWindow.window.open(res.data.redirectUrl);
                 this.loadingPayment = false;
               } else {
@@ -247,6 +253,7 @@ export class ProductCheckoutComponent implements OnInit {
             }
           );
         } else {
+          this.authService.showSharedSocialModal();
           this.toastService.warning('Please login to make payment', 'MESSAGE');
         }
       }

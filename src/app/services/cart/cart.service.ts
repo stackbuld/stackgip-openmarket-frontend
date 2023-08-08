@@ -25,19 +25,10 @@ export class CartService {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
 
-  getCart(payload: {
-    key: string;
-    id: string;
-  }): Observable<GetCartResponseModel> {
-    if (payload.key === 'user') {
-      return this.http.get<GetCartResponseModel>(
-        this.baseUrl + `cart?userId=${payload.id}`
-      );
-    } else {
-      return this.http.get<GetCartResponseModel>(
-        this.baseUrl + `cart?referenceId=${payload.id}`
-      );
-    }
+  getCart(userId: string, referenceId: string): Observable<GetCartResponseModel> {
+    return this.http.get<GetCartResponseModel>(
+      this.baseUrl + `cart?userId=${userId}&referenceId=${referenceId}`
+    );
   }
 
   deleteCartItem(payload: {

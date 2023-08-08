@@ -63,15 +63,35 @@
                     {{ item?.product?.name || "N/A" }}
                   </p>
 
-                  <b
+                  <div class="uk-flex">
+                    <div  *ngFor="let varation of item.varations">
+                      <span  class="color-tag capitalize d-flex align-items-center"  >
+                        <strong>{{varation?.value}}</strong> &nbsp;
+                        <span *ngIf="varation?.cost > 0" style="font-size: 12px;">
+                                        + {{varation?.cost | currency: '₦'}}
+                        </span> &nbsp;
+                         <span>
+                                    <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M50.0007 91.6673C73.0125 91.6673 91.6673 73.0125 91.6673 50.0007C91.6673 26.9888 73.0125 8.33398 50.0007 8.33398C26.9888 8.33398 8.33398 26.9888 8.33398 50.0007C8.33398 73.0125 26.9888 91.6673 50.0007 91.6673Z" fill="#219653"/>
+                                        <path d="M69.8707 32.5737C71.4408 30.8914 74.0774 30.8005 75.7597 32.3706C77.442 33.9408 77.533 36.5774 75.9628 38.2597L46.7961 69.5097C45.2728 71.1419 42.7336 71.2832 41.0384 69.8302L26.4551 57.3302C24.7079 55.8327 24.5056 53.2022 26.0032 51.455C27.5008 49.7079 30.1312 49.5055 31.8784 51.0031L43.4292 60.9038L69.8707 32.5737Z" fill="#219653"/>
+                                    </svg>
+                         </span>
+                     </span>
+
+                    </div>
+                  </div>
+
+
+
+                  <p class="uk-margin"
                     *ngIf="
                       item?.complementaryProducts &&
                       item?.complementaryProducts?.length > 0
                     "
-                    >Selected Complementary Items</b
-                  >
+                    >Selected Complementary Items
+                  </p>
 
-                  <ul
+                  <ul class="uk-margin-small uk-margin-remove-top"
                     *ngIf="
                       item?.complementaryProducts &&
                       item?.complementaryProducts?.length > 0
@@ -82,13 +102,7 @@
                       {{ complProd?.cost | currency : "NGN" }}
                     </li>
                   </ul>
-                  <p class="ship">
-                    Estimated Shipping cost:
-                    {{
-                      item?.logistic?.estimateShippingCost || 0
-                        | currency : "NGN"
-                    }}
-                  </p>
+
                 </div>
                 <div class="d-flex justify-content-end pricing">
                   <div>
@@ -173,9 +187,21 @@
                   </div>
                 </div>
               </div>
+              <div>
+                     <span class="uk-text-small">
+                  Est. Shipping: (might be less)
+                       {{
+                       item?.logistic?.estimateShippingCost || 0
+                         | currency : "NGN"
+                       }}
+                </span> <br>
+                <span class="uk-text-small"> Destination: {{item.destination.fullAddress}}</span> <br>
+              </div>
               <div
                 class="w-100 address-payment mt-2 py-2 d-flex align-items-center justify-content-between"
               >
+
+
                 <span>
                   <span>Via {{ item?.logistic?.logisticName || "N/A" }}</span>
                   &nbsp;
@@ -277,7 +303,7 @@
             class="d-flex align-items-center"
           >
             <input type="radio" name="payment-method" /> &nbsp; &nbsp;
-            <span>{{ item?.name }}</span> &nbsp; &nbsp; &nbsp; &nbsp;
+            <span>{{ item?.name }} </span> &nbsp; &nbsp; &nbsp; &nbsp;
           </label>
         </div>
 
@@ -286,7 +312,7 @@
           (click)="makePayment()"
           class="w-100 pay-btn mt-4"
         >
-          <span *ngIf="!loadingPayment">Pay</span>
+          <span *ngIf="!loadingPayment">Complete Purchase </span>
           <span *ngIf="loadingPayment">
             <img
               src="/assets/svg/loader-icon.svg"
