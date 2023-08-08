@@ -18,6 +18,12 @@ export class WalletOverviewComponent {
   }
 
 
+  formatDate(date: string) {
+  return `${new Date(date).toDateString()}`
+  }
+  formatTime(date: string) {
+    return `${new Date(date).toLocaleTimeString()}`
+  }
 
   getTransactions() {
         this.loadingTransactions = true

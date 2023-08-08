@@ -79,7 +79,9 @@
                 <tr *ngFor="let item of transactionsList?.items">
                     <td>{{item.id}}</td>
                     <td>₦{{item.amount}}</td>
-                    <td>12 Mar 2023, 12:03</td>
+                    <td><p>{{ formatDate(item?.createdAt) }}</p>
+                        <p>{{ formatTime(item?.createdAt) }}</p>
+                    </td>
                     <td>{{item.transactionTypeEnum}}</td>
                     <td>{{item.transactionCategory}}</td>
                     <td>{{item.withdrawalRequests?.status}}</td>
@@ -107,7 +109,7 @@
                 </p>
                 <h3 class="transaction-title">{{item.transactionCategory}}</h3>
                 <p class="transaction-type">{{item.transactionTypeEnum}}</p>
-                <p class="transaction-date">24 Jan 2023, <small>17:56</small></p>
+                <p class="transaction-date">{{ formatDate(item?.createdAt) }}, <small>{{ formatTime(item?.createdAt) }}</small></p>
             </div>
             <div class="uk-flex h-full uk-flex-column uk-flex-between">
                 <p class="transaction-status">{{item.withdrawalRequests?.status}}</p>
