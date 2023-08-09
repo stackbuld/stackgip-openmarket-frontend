@@ -10,6 +10,10 @@
     display: none;
 }
 
+.web-only {
+    display: inline;
+}
+
 .center-flex {
     display: flex;
     align-items: center;
@@ -392,6 +396,10 @@ input {
         display: none;
     }
 
+    .web-only {
+        display: none;
+    }
+
     input {
         width: 100%;
     }
@@ -478,6 +486,10 @@ input {
 
     input {
         width: 200px;
+    }
+
+    .web-only {
+        display: none;
     }
 
     .mobile {

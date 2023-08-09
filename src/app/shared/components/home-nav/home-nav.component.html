@@ -57,7 +57,7 @@
   <div class="flex">
     <span class="txt pointer" routerLink="/seller-form">Sell</span>
     &nbsp; &nbsp; &nbsp;
-    <span class="txt pointer" routerLink="/learn-more">Learn More</span>
+    <span class="txt pointer" routerLink="/learn-more">Learn more</span>
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
     <!-- <span routerLink="/homepage/history" class="txt pointer">
       <img src="/assets/images/orders-iccn.svg" alt="orders-icn" />
@@ -68,15 +68,15 @@
       <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
     </span>
     &nbsp; &nbsp; &nbsp;
-    <div class="uk-inline">
-        <span class="txt pointer flex-align">
+    <div class="uk-inline web-only">
+        <span class="txt pointer flex-align uk-button" type="button">
           <img src="/assets/images/user-icn.svg" alt="user-icn" /> &nbsp;
           <span>Account</span>
         </span>
         <div uk-dropdown="mode: click" class="d-down">
           <span *ngIf="credentials() === null">
             <span class="pointer" routerLink="/auth">
-              <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign In              
+              <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign Inx          
             </span> 
             <br> <br>
             <span class="pointer" routerLink="/auth/signup">
@@ -93,7 +93,8 @@
               <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Orders             
             </span> 
             <br> <br>
-            <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
+            <span class="pointer" >
+              <!-- uk-toggle="target: #logout-modal" id="js-modal-prompt" -->
               <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout              
             </span>
           </span>
@@ -111,7 +112,8 @@
               <img src="/assets/icons/nav/store.svg"  /> &nbsp; My Store             
             </span> 
             <br> <br>
-            <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
+            <span class="pointer" >
+              <!-- uk-toggle="target: #logout-modal" id="js-modal-prompt" -->
               <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout              
             </span>
           </span>
@@ -183,7 +185,8 @@
                     <span class="text-black">My Store </span>          
                   </span> 
                   <br>
-                  <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
+                  <span class="pointer" >
+                    <!-- uk-toggle="target: #logout-modal" id="js-modal-prompt" -->
                     <img src="/assets/icons/nav/sign-in.svg" width="20" height="20" /> &nbsp;          
                     <span class="text-black">Logout</span>      
                   </span>
@@ -192,7 +195,7 @@
                 <span *ngIf="credentials() === null">
                   <span class="pointer" routerLink="/auth">
                     <img src="/assets/icons/nav/sign-in.svg" width="20" height="20" /> &nbsp;    
-                    <span class="text-black">Sign In  </span>           
+                    <span class="text-black">Sign Iny  </span>           
                   </span> 
                   <br>
                   <span class="pointer" routerLink="/auth/signup">
@@ -212,7 +215,8 @@
                     <span class="text-black">Orders </span>          
                   </span> 
                   <br>
-                  <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
+                  <span class="pointer" >
+                    <!-- uk-toggle="target: #logout-modal" id="js-modal-prompt" -->
                     <img src="/assets/icons/nav/sign-in.svg" width="20" height="20" /> &nbsp;      
                     <span class="text-black">Logout </span>          
                   </span>
@@ -292,13 +296,13 @@
         &nbsp; &nbsp; &nbsp;
         <!-- <img src="/assets/images/user-icn.svg" alt="user-icn" /> -->
         <div class="uk-inline">
-          <span class="txt pointer flex-align">
+          <span class="txt pointer flex-align uk-button" type="button">
             <img src="/assets/images/user-icn.svg" alt="user-icn" /> 
           </span>
           <div uk-dropdown="mode: click" class="d-down">
             <span *ngIf="credentials() === null">
               <span class="pointer" routerLink="/auth">
-                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign In
+                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign Inz
               </span> 
               <br> <br>
               <span class="pointer" routerLink="/auth/signup">
@@ -315,7 +319,8 @@
                 <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Orders        
               </span> 
               <br> <br>
-              <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
+              <span class="pointer" >
+                <!-- uk-toggle="target: #logout-modal" id="js-modal-prompt" -->
                 <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout              
               </span>
             </span>
@@ -333,7 +338,8 @@
                 <img src="/assets/icons/nav/store.svg"  /> &nbsp; My Store             
               </span> 
               <br> <br>
-              <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
+              <span class="pointer" >
+                <!-- uk-toggle="target: #logout-modal" id="js-modal-prompt" -->
                 <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout              
               </span>
             </span>
@@ -459,7 +465,7 @@
   </ais-instantsearch>
 </div>
 
-<div id="logout-modal" uk-modal="bg-close: false">
+<!-- <div id="logout-modal" uk-modal="bg-close: false">
   <div class="uk-modal-dialog uk-modal-body">
     <button class="hide uk-modal-close-outside" id="closeLogoutModalBtn" type="button" uk-close #closeEdit></button>
     <div>
@@ -475,4 +481,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
