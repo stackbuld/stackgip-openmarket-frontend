@@ -74,9 +74,7 @@
           <span>Account</span>
         </span>
         <div uk-dropdown="mode: click" class="d-down">
-          <span *ngIf="(credentials()?.preferredProfileType?.toLowerCase() !== 'buyer' && 
-            credentials()?.preferredProfileType?.toLowerCase() !== 'seller') || 
-              user === null">
+          <span *ngIf="credentials() === null">
             <span class="pointer" routerLink="/auth">
               <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign In              
             </span> 
@@ -86,7 +84,7 @@
             </span>
           </span>
 
-          <span *ngIf="credentials()?.preferredProfileType?.toLowerCase() === 'buyer'">
+          <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'buyer'">
             <span class="pointer" routerLink="/homepage/history">
               <img src="/assets/images/user-icn.svg"  /> &nbsp; My Account              
             </span> 
@@ -100,7 +98,7 @@
             </span>
           </span>
 
-          <span *ngIf="credentials()?.preferredProfileType?.toLowerCase() === 'seller'">
+          <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'seller'">
             <span class="pointer" routerLink="/seller/dashboard">
               <img src="/assets/images/user-icn.svg"  /> &nbsp; Dashboard             
             </span> 
@@ -169,7 +167,7 @@
               <div class="py-2 border-bottom">
                 <p class="mobile-heading">ACCOUNT</p>
 
-                <span *ngIf="credentials()?.preferredProfileType?.toLowerCase() === 'seller'">
+                <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'seller'">
                   <span class="pointer" routerLink="/seller/dashboard">
                     <img src="/assets/images/user-icn.svg" width="20" height="20" /> &nbsp; 
                     <span class="text-black">Dashboard</span>             
@@ -191,9 +189,7 @@
                   </span>
                 </span>
 
-                <span *ngIf="(credentials()?.preferredProfileType?.toLowerCase() !== 'buyer' && 
-                  credentials()?.preferredProfileType?.toLowerCase() !== 'seller') || 
-                    user === null">
+                <span *ngIf="credentials() === null">
                   <span class="pointer" routerLink="/auth">
                     <img src="/assets/icons/nav/sign-in.svg" width="20" height="20" /> &nbsp;    
                     <span class="text-black">Sign In  </span>           
@@ -205,7 +201,7 @@
                   </span>
                 </span>
 
-                <span *ngIf="credentials()?.preferredProfileType?.toLowerCase() === 'buyer'">
+                <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'buyer'">
                   <span class="pointer" routerLink="/homepage/history" (click)="closeSidebar()">
                     <img src="/assets/images/user-icn.svg" width="20" height="20" /> &nbsp;  
                     <span class="text-black">My Account </span>             
@@ -298,15 +294,11 @@
         <div class="uk-inline">
           <span class="txt pointer flex-align">
             <img src="/assets/images/user-icn.svg" alt="user-icn" /> 
-            <!-- &nbsp; -->
-            <!-- <span>Account</span> -->
           </span>
           <div uk-dropdown="mode: click" class="d-down">
-            <span *ngIf="(credentials()?.preferredProfileType?.toLowerCase() !== 'buyer' && 
-              credentials()?.preferredProfileType?.toLowerCase() !== 'seller') || 
-                user === null">
+            <span *ngIf="credentials() === null">
               <span class="pointer" routerLink="/auth">
-                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign In              
+                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign In
               </span> 
               <br> <br>
               <span class="pointer" routerLink="/auth/signup">
@@ -314,13 +306,13 @@
               </span>
             </span>
   
-            <span *ngIf="credentials()?.preferredProfileType?.toLowerCase() === 'buyer'">
+            <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'buyer'">
               <span class="pointer" routerLink="/homepage/history">
                 <img src="/assets/images/user-icn.svg"  /> &nbsp; My Account              
               </span> 
               <br> <br>
               <span class="pointer" routerLink="/homepage/history">
-                <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Orders             
+                <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Orders        
               </span> 
               <br> <br>
               <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
@@ -328,7 +320,7 @@
               </span>
             </span>
   
-            <span *ngIf="credentials()?.preferredProfileType?.toLowerCase() === 'seller'">
+            <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'seller'">
               <span class="pointer" routerLink="/seller/dashboard">
                 <img src="/assets/images/user-icn.svg"  /> &nbsp; Dashboard             
               </span> 
@@ -342,7 +334,7 @@
               </span> 
               <br> <br>
               <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
-                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout              
+                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; rten123              
               </span>
             </span>
           </div>

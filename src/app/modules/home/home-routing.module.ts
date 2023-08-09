@@ -16,7 +16,16 @@ const routes: Routes = [
         { path: 'checkout', component: ProductCheckoutComponent},
         { path: 'details/:id', component: OrderDetailsComponent},
         { path: 'history', component: OrderHistoryComponent},
-        { path: 'payment-confirmation', component: PaymentConfirmationComponent},
+        { path: 'payment-confirmation', component: PaymentConfirmationComponent },
+        {
+          path: 'wallet',
+        loadChildren: () =>
+      import('../../shared/wallet/wallet.module').then((m) => m.WalletModule),
+        },
+        {
+      path: '**',
+      redirectTo: '/home',
+    },
       ]
     },
 ];

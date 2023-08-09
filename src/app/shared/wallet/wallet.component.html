@@ -1,0 +1,44 @@
+<div class="seller-wallet-page">
+    <div class="uk-flex balance-row">
+    <div class="card-container uk-flex uk-card uk-card-default uk-card-body">
+            <div class="withdrawcard-img">
+                <img src="../../../../assets/image/withdraw-wallet.svg" alt="">
+            </div>
+            <div class="withdrawcard-info">
+                <p  class="card-title">Withdrawable Balance</p>
+                <div *ngIf="loading">
+          <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+        </div>
+                <h3 *ngIf="!loading" class="card-balance">&#8358;{{mainFunds?.availableAmount.toLocaleString()}}</h3>
+            </div>
+</div>
+
+    <div *ngIf="currentRoute?.includes('seller')" class="card-container uk-flex uk-card uk-card-default uk-card-body">
+            <div class="withdrawcard-img">
+                <img src="../../../../assets/image/withdraw-wallet.svg" alt="">
+            </div>
+            <div class="withdrawcard-info">
+                <p  class="card-title">Escrow Funds</p>
+                 <div *ngIf="loading">
+          <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+        </div>
+                <h3 *ngIf="!loading" class="card-balance">&#8358;{{escrowFunds?.availableAmount.toLocaleString()}}</h3>
+            </div>
+    </div>
+    <div *ngIf="!currentRoute?.includes('seller')" class="card-container uk-flex uk-card uk-card-default uk-card-body">
+            <div class="withdrawcard-img">
+                <img src="../../../../assets/image/withdraw-wallet.svg" alt="">
+            </div>
+            <div class="withdrawcard-info">
+                <p  class="card-title">Cashback Funds</p>
+                 <div *ngIf="loading">
+          <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
+        </div>
+                <h3 *ngIf="!loading" class="card-balance">&#8358;{{cashbackFunds?.availableAmount.toLocaleString()}}</h3>
+            </div>
+    </div>
+
+</div>
+
+<router-outlet></router-outlet>
+</div>

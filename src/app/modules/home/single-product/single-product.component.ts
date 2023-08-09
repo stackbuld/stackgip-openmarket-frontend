@@ -22,6 +22,7 @@ import {NotificationResponseModel} from '../../../models/notificationResponse.mo
 import * as lodash  from 'lodash';
 import {forEach} from 'lodash';
 import * as cryptoJs from 'crypto-js';
+import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
   selector: 'app-single-product',
@@ -49,7 +50,6 @@ export class SingleProductComponent implements OnInit {
   loadingAddress: boolean;
   addingItemToCart: boolean;
   currentAddress: CartAddress = null;
-  selectedAddress: any;
   selectedShippingMethod: GetShippingEstimatePrice;
   shippingMethods: GetShippingEstimatePrice[] = [];
   currentShippingMethod : GetShippingEstimatePrice = null;
@@ -76,9 +76,8 @@ export class SingleProductComponent implements OnInit {
     private toastService: ToastrService,
     private activatedRoute: ActivatedRoute,
     private productService: ProductsService,
-
+    private footerService: FooterService,
     private cartService: CartService,
-    private userService: UserService,
     private router: Router,
     private applocal: AppLocalStorage,
     private authService: AuthService,
@@ -100,6 +99,7 @@ export class SingleProductComponent implements OnInit {
           this.applocal.getFromStorage('temporaryDetails');
       }
     });
+    this.footerService.setShowFooter(true);
      this.referenceId  = this.authService.getUserReferenceNumber();
     // this.user = JSON.parse(localStorage.getItem('user') as string) as IUser;
     this.applocal.currentUser.subscribe((res) => {
@@ -402,12 +402,12 @@ export class SingleProductComponent implements OnInit {
   };
 
   setSelectedAddress = (item: any) => {
-    this.selectedAddress = item;
+    this.currentAddress = item;
   };
 
   setCurrentAddress = () => {
     this.currentShippingMethod = null;
-    this.currentAddress = this.selectedAddress;
+    // this.currentAddress = this.selectedAddress;
     for (let index = 0; index < this.addresses.length; index++) {
       const element = this.addresses[index];
       element.isSelected = false;
@@ -468,57 +468,57 @@ export class SingleProductComponent implements OnInit {
     );
   };
 
-  fetchUserAddresses = () => {
-    if (this.user !== null) {
-      const cartService$ = this.cartService.fetchUserAddresses(this.user.id);
-      cartService$.subscribe(
-        (res) => {
-          this.addresses = res.data.data;
-          const storedAddress = localStorage.getItem('shippingAddress');
-          if (storedAddress) {
-            const parsedStoredAddress = JSON.parse(storedAddress);
-            this.addresses.forEach((element) => {
-              element.isSelected = false;
-            });
-            this.currentAddress = parsedStoredAddress;
-            const selectedAddressIndex = this.addresses.findIndex(
-              (address) => address.id === this.currentAddress.id
-            );
+  // fetchUserAddresses = () => {
+  //   if (this.user !== null) {
+  //     const cartService$ = this.cartService.fetchUserAddresses(this.user.id);
+  //     cartService$.subscribe(
+  //       (res) => {
+  //         this.addresses = res.data.data;
+  //         const storedAddress = localStorage.getItem('shippingAddress');
+  //         if (storedAddress) {
+  //           const parsedStoredAddress = JSON.parse(storedAddress);
+  //           this.addresses.forEach((element) => {
+  //             element.isSelected = false;
+  //           });
+  //           this.currentAddress = parsedStoredAddress;
+  //           const selectedAddressIndex = this.addresses.findIndex(
+  //             (address) => address.id === this.currentAddress.id
+  //           );
 
-            if (selectedAddressIndex !== -1) {
-              this.addresses[selectedAddressIndex].isSelected = true;
-            }
-          } else {
-            let defaultAddressFound = false;
-            for (let index = 0; index < this.addresses.length; index++) {
-              const element = this.addresses[index];
-              element.isSelected = false;
-              if (element.isDefault) {
-                this.currentAddress = element;
-                element.isSelected = true;
-                defaultAddressFound = true;
-                this.getShippingEstimate();
-                // loadingShippingEstimate && currentShippingMethod === null
-              }
-            }
-            if (!defaultAddressFound) {
-              this.currentAddress = null;
-            }
-          }
-          this.addresses.forEach((address) => {
-            if (address.id !== this.currentAddress?.id) {
-              address.isSelected = false;
-            }
-          });
-          this.setRequestId();
-          this.getShippingEstimate();
-        },
-        (error) => {}
-      );
-    } else {
-      this.addresses = [];
-    }
-  };
+  //           if (selectedAddressIndex !== -1) {
+  //             this.addresses[selectedAddressIndex].isSelected = true;
+  //           }
+  //         } else {
+  //           let defaultAddressFound = false;
+  //           for (let index = 0; index < this.addresses.length; index++) {
+  //             const element = this.addresses[index];
+  //             element.isSelected = false;
+  //             if (element.isDefault) {
+  //               this.currentAddress = element;
+  //               element.isSelected = true;
+  //               defaultAddressFound = true;
+  //               this.getShippingEstimate();
+  //               // loadingShippingEstimate && currentShippingMethod === null
+  //             }
+  //           }
+  //           if (!defaultAddressFound) {
+  //             this.currentAddress = null;
+  //           }
+  //         }
+  //         this.addresses.forEach((address) => {
+  //           if (address.id !== this.currentAddress?.id) {
+  //             address.isSelected = false;
+  //           }
+  //         });
+  //         this.setRequestId();
+  //         this.getShippingEstimate();
+  //       },
+  //       (error) => {}
+  //     );
+  //   } else {
+  //     this.addresses = [];
+  //   }
+  // };
 
 
   getShippingEstimate = () => {
@@ -621,6 +621,8 @@ export class SingleProductComponent implements OnInit {
                 'Address created successfully',
                 'SUCCESS'
               );
+              localStorage.setItem('shippingAddress', JSON.stringify(this.addressForm.value));
+              this.currentAddress = this.addressForm.value;
               this.fetchUserAddresses();
               this.loadingAddress = false;
               document.getElementById('closeAddressFormDialog').click();
@@ -795,4 +797,53 @@ export class SingleProductComponent implements OnInit {
       }
     );
   };
+  
+  fetchUserAddresses = () => {
+    if (this.user !== null) {
+      const cartService$ = this.cartService.fetchUserAddresses(this.user.id);
+      cartService$.subscribe(
+        (res) => {
+          this.addresses = res.data.data;
+          const storedAddress = localStorage.getItem('shippingAddress');
+          if (storedAddress) {
+            const parsedStoredAddress = JSON.parse(storedAddress);
+            this.currentAddress = parsedStoredAddress;
+            this.addresses.forEach((element) => {
+              element.isSelected = this.areAddressesEqual(element, this.currentAddress);
+            });
+          } else {
+            let defaultAddressFound = false;
+            for (let index = 0; index < this.addresses.length; index++) {
+              const element = this.addresses[index];
+              element.isSelected = false;
+              if (element.isDefault) {
+                this.currentAddress = element;
+                element.isSelected = true;
+                defaultAddressFound = true;
+                this.getShippingEstimate();
+              }
+            }
+            if (!defaultAddressFound) {
+              this.currentAddress = null;
+            }
+          }
+          this.setRequestId();
+          this.getShippingEstimate();
+        },
+        (error) => {}
+      );
+    } else {
+      this.addresses = [];
+    }
+  };
+  
+  areAddressesEqual = (address1: any, address2: any): boolean => {
+    return (
+      address1.fullAddress === address2.fullAddress &&
+      address1.city === address2.city &&
+      address1.state === address2.state &&
+      address1.country === address2.country
+    );
+  };
+  
 }

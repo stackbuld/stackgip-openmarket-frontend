@@ -90,7 +90,7 @@ export class HomeNavComponent implements OnInit {
   }
 
   credentials = () => {
-    return this.user;
+    return this.user || null;
   }
 
   cancel = () => {
@@ -100,9 +100,9 @@ export class HomeNavComponent implements OnInit {
   logout() {
     localStorage.clear();
     sessionStorage.clear();
+    this.cancel();
     this.applocal.currentUser.next(null);
     this.router.navigate(["/"]);
-    this.cancel();
   }
 
   viewProduct = (item: any) => {
