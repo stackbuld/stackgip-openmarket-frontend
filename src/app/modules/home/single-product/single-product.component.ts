@@ -88,15 +88,15 @@ export class SingleProductComponent implements OnInit {
 
   ) {
     this.initAddressForm();
-
+    this.currentShippingMethod = new BehaviorSubject<GetShippingEstimatePrice>(null);
   }
 
    ngOnInit() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-    // await this.connectToWebsocket();
+    this.connectToWebsocket();
 
-   this.currentShippingMethod = new BehaviorSubject<GetShippingEstimatePrice>(null);
+
     this.applocal.messageSource.subscribe((res) => {
       if (res) {
         this.temporaryDetails = res;
@@ -391,6 +391,7 @@ export class SingleProductComponent implements OnInit {
   };
 
   setShippingMethod = () => {
+    console.log("setShippingMethod called with current shipping method. prev, curr ", this.currentShippingMethod,  this.selectedShippingMethod )
     this.currentShippingMethod.next(this.selectedShippingMethod);
     for (let index = 0; index < this.shippingMethods.length; index++) {
       const element = this.shippingMethods[index];
@@ -578,11 +579,14 @@ export class SingleProductComponent implements OnInit {
     if(!hasSelected){
       if(this.shippingMethods[0]){
         this.shippingMethods[0].isSelected = true;
+        console.log("orderAndSelectDefaultShippingMethod hasselected = true called with selected shipping method, prev, current ",  this.currentShippingMethod.value, this.shippingMethods[0] )
         this.currentShippingMethod.next(this.shippingMethods[0]);
         this.selectedShippingMethod = this.shippingMethods[0];
       }
     };
-    if(!this.currentShippingMethod){
+    if(!this.currentShippingMethod.value){
+      console.log("orderAndSelectDefaultShippingMethod currentShippingMethod = false called with selected shipping method, prev, current ",  this.currentShippingMethod.value, this.shippingMethods[0] )
+
       this.currentShippingMethod.next(this.shippingMethods[0]);
       this.selectedShippingMethod = this.shippingMethods[0];
     }

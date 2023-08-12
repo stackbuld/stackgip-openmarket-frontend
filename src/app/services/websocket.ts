@@ -57,6 +57,7 @@ export class WebsocketService {
   }
 
   private reconnect(url) {
+    console.log("reconnecting to websocket");
     if (!this.socket$ || this.socket$.closed) {
       this.socket$ = this.createWebSocket(url);
     }
