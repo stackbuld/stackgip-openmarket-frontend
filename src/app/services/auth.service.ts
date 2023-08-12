@@ -19,7 +19,7 @@ import { AppState } from '../reducers';
 import { LoginAction, LogOutAction } from '../reducers/action/auth.action';
 import { v4 as uuidv4 } from 'uuid';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { delay, filter } from 'rxjs/operators';
+import {delay, filter, tap} from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 import { JwtHelperService } from './jwt-helper.service';
 import { ToastrService } from 'ngx-toastr';
@@ -280,8 +280,27 @@ export class AuthService {
     localStorage.setItem('siginResponse', JSON.stringify(sigin));
     this.store.dispatch(UpdateProfileAction(user));
   }
+  //
+  // public async  getWebSocketUrl(): Promise<string> {
+  //   const referenceId = this.getUserReferenceNumber();
+  //   const userId = this.getLoggedInUser()?.id?? '';
+  //   const cachedUrl = this.getLocalStorageItemWithExpiry('notificationWssUrl');
+  //   // const cachedUrl = '';
+  //
+  //   if(!cachedUrl){
+  //     const path = this.api.notificationBaseUrl+`negotiate?referenceId=${referenceId}&userId=${userId}`;
+  //     const wssUrlResponse = await firstValueFrom(this.http.get<GetWssUrlResponse>(path));
+  //     if(wssUrlResponse?.wssUrl){
+  //       this.setLocalStorageItemWithExpiry('notificationWssUrl',wssUrlResponse?.wssUrl, 60*24 )
+  //       return  wssUrlResponse?.wssUrl
+  //     }
+  //    throw new Error('unable to retrieve wss url');
+  //   }else {
+  //    return  cachedUrl;
+  //   }
+  // }
 
-  public async  getWebSocketUrl(): Promise<string> {
+  public  getWebSocketUrl(): Observable<GetWssUrlResponse> {
     const referenceId = this.getUserReferenceNumber();
     const userId = this.getLoggedInUser()?.id?? '';
     const cachedUrl = this.getLocalStorageItemWithExpiry('notificationWssUrl');
@@ -289,14 +308,13 @@ export class AuthService {
 
     if(!cachedUrl){
       const path = this.api.notificationBaseUrl+`negotiate?referenceId=${referenceId}&userId=${userId}`;
-      const wssUrlResponse = await firstValueFrom(this.http.get<GetWssUrlResponse>(path));
-      if(wssUrlResponse?.wssUrl){
-        this.setLocalStorageItemWithExpiry('notificationWssUrl',wssUrlResponse?.wssUrl, 60*24 )
-        return  wssUrlResponse?.wssUrl
-      }
-     throw new Error('unable to retrieve wss url');
+      const wssUrlResponse =  this.http.get<GetWssUrlResponse>(path);
+      wssUrlResponse.pipe(tap(a=> {
+        this.setLocalStorageItemWithExpiry('notificationWssUrl',a?.wssUrl, 60*24 )
+      }))
+      return wssUrlResponse;
     }else {
-     return  cachedUrl;
+      return  of( {wssUrl: cachedUrl} as GetWssUrlResponse) ;
     }
   }
   setLocalStorageItemWithExpiry(key, value: string, expiryInMinutes) {
