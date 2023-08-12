@@ -76,43 +76,43 @@
         <div uk-dropdown="mode: click" class="d-down">
           <span *ngIf="credentials() === null">
             <span class="pointer" routerLink="/auth">
-              <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign In              
-            </span> 
+              <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign In
+            </span>
             <br> <br>
             <span class="pointer" routerLink="/auth/signup">
-              <img src="/assets/icons/nav/sign-up.svg" /> &nbsp; Sign Up              
+              <img src="/assets/icons/nav/sign-up.svg" /> &nbsp; Sign Up
             </span>
           </span>
 
           <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'buyer'">
             <span class="pointer" routerLink="/homepage/history">
-              <img src="/assets/images/user-icn.svg"  /> &nbsp; My Account              
-            </span> 
+              <img src="/assets/images/user-icn.svg"  /> &nbsp; My Account
+            </span>
             <br> <br>
             <span class="pointer" routerLink="/homepage/history">
-              <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Orders             
-            </span> 
+              <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Orders
+            </span>
             <br> <br>
             <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
-              <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout              
+              <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout
             </span>
           </span>
 
           <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'seller'">
             <span class="pointer" routerLink="/seller/dashboard">
-              <img src="/assets/images/user-icn.svg"  /> &nbsp; Dashboard             
-            </span> 
+              <img src="/assets/images/user-icn.svg"  /> &nbsp; Dashboard
+            </span>
             <br> <br>
             <span class="pointer" routerLink="/seller/orders">
-              <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Sales             
-            </span> 
+              <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Sales
+            </span>
             <br> <br>
             <span class="pointer" routerLink="/seller/store">
-              <img src="/assets/icons/nav/store.svg"  /> &nbsp; My Store             
-            </span> 
+              <img src="/assets/icons/nav/store.svg"  /> &nbsp; My Store
+            </span>
             <br> <br>
             <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
-              <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout              
+              <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout
             </span>
           </span>
         </div>
@@ -169,52 +169,52 @@
 
                 <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'seller'">
                   <span class="pointer" routerLink="/seller/dashboard">
-                    <img src="/assets/images/user-icn.svg" width="20" height="20" /> &nbsp; 
-                    <span class="text-black">Dashboard</span>             
-                  </span> 
+                    <img src="/assets/images/user-icn.svg" width="20" height="20" /> &nbsp;
+                    <span class="text-black">Dashboard</span>
+                  </span>
                   <br>
                   <span class="pointer" routerLink="/seller/orders">
-                    <img src="/assets/images/orders-iccn.svg" width="20" height="20" /> &nbsp;  
-                    <span class="text-black">Sales</span>             
-                  </span> 
+                    <img src="/assets/images/orders-iccn.svg" width="20" height="20" /> &nbsp;
+                    <span class="text-black">Sales</span>
+                  </span>
                   <br>
                   <span class="pointer" routerLink="/seller/store">
-                    <img src="/assets/icons/nav/store.svg" width="20" height="20" /> &nbsp;    
-                    <span class="text-black">My Store </span>          
-                  </span> 
+                    <img src="/assets/icons/nav/store.svg" width="20" height="20" /> &nbsp;
+                    <span class="text-black">My Store </span>
+                  </span>
                   <br>
                   <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
-                    <img src="/assets/icons/nav/sign-in.svg" width="20" height="20" /> &nbsp;          
-                    <span class="text-black">Logout</span>      
+                    <img src="/assets/icons/nav/sign-in.svg" width="20" height="20" /> &nbsp;
+                    <span class="text-black">Logout</span>
                   </span>
                 </span>
 
                 <span *ngIf="credentials() === null">
                   <span class="pointer" routerLink="/auth">
-                    <img src="/assets/icons/nav/sign-in.svg" width="20" height="20" /> &nbsp;    
-                    <span class="text-black">Sign In  </span>           
-                  </span> 
+                    <img src="/assets/icons/nav/sign-in.svg" width="20" height="20" /> &nbsp;
+                    <span class="text-black">Sign In  </span>
+                  </span>
                   <br>
                   <span class="pointer" routerLink="/auth/signup">
-                    <img src="/assets/icons/nav/sign-up.svg" width="20" height="20" /> &nbsp;      
-                    <span class="text-black">Sign Up </span>          
+                    <img src="/assets/icons/nav/sign-up.svg" width="20" height="20" /> &nbsp;
+                    <span class="text-black">Sign Up </span>
                   </span>
                 </span>
 
                 <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'buyer'">
                   <span class="pointer" routerLink="/homepage/history" (click)="closeSidebar()">
-                    <img src="/assets/images/user-icn.svg" width="20" height="20" /> &nbsp;  
-                    <span class="text-black">My Account </span>             
-                  </span> 
+                    <img src="/assets/images/user-icn.svg" width="20" height="20" /> &nbsp;
+                    <span class="text-black">My Account </span>
+                  </span>
                   <br>
                   <span class="pointer" routerLink="/homepage/history" (click)="closeSidebar()">
-                    <img src="/assets/images/orders-iccn.svg" width="20" height="20" /> &nbsp;     
-                    <span class="text-black">Orders </span>          
-                  </span> 
+                    <img src="/assets/images/orders-iccn.svg" width="20" height="20" /> &nbsp;
+                    <span class="text-black">Orders </span>
+                  </span>
                   <br>
                   <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
-                    <img src="/assets/icons/nav/sign-in.svg" width="20" height="20" /> &nbsp;      
-                    <span class="text-black">Logout </span>          
+                    <img src="/assets/icons/nav/sign-in.svg" width="20" height="20" /> &nbsp;
+                    <span class="text-black">Logout </span>
                   </span>
                 </span>
               </div>
@@ -293,48 +293,48 @@
         <!-- <img src="/assets/images/user-icn.svg" alt="user-icn" /> -->
         <div class="uk-inline">
           <span class="txt pointer flex-align">
-            <img src="/assets/images/user-icn.svg" alt="user-icn" /> 
+            <img src="/assets/images/user-icn.svg" alt="user-icn" />
           </span>
-          <div uk-dropdown="mode: click" class="d-down">
+          <div uk-dropdown class="d-down">
             <span *ngIf="credentials() === null">
               <span class="pointer" routerLink="/auth">
                 <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign In
-              </span> 
+              </span>
               <br> <br>
               <span class="pointer" routerLink="/auth/signup">
-                <img src="/assets/icons/nav/sign-up.svg" /> &nbsp; Sign Up              
+                <img src="/assets/icons/nav/sign-up.svg" /> &nbsp; Sign Up
               </span>
             </span>
-  
+
             <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'buyer'">
               <span class="pointer" routerLink="/homepage/history">
-                <img src="/assets/images/user-icn.svg"  /> &nbsp; My Account              
-              </span> 
+                <img src="/assets/images/user-icn.svg"  /> &nbsp; My Account
+              </span>
               <br> <br>
               <span class="pointer" routerLink="/homepage/history">
-                <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Orders        
-              </span> 
+                <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Orders
+              </span>
               <br> <br>
               <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
-                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout              
+                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout
               </span>
             </span>
-  
+
             <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'seller'">
               <span class="pointer" routerLink="/seller/dashboard">
-                <img src="/assets/images/user-icn.svg"  /> &nbsp; Dashboard             
-              </span> 
+                <img src="/assets/images/user-icn.svg"  /> &nbsp; Dashboard
+              </span>
               <br> <br>
               <span class="pointer" routerLink="/seller/orders">
-                <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Sales             
-              </span> 
+                <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Sales
+              </span>
               <br> <br>
               <span class="pointer" routerLink="/seller/store">
-                <img src="/assets/icons/nav/store.svg"  /> &nbsp; My Store             
-              </span> 
+                <img src="/assets/icons/nav/store.svg"  /> &nbsp; My Store
+              </span>
               <br> <br>
               <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
-                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; rten123              
+                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout
               </span>
             </span>
           </div>

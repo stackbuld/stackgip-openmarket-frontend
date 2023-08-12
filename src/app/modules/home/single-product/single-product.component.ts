@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
@@ -23,6 +23,8 @@ import * as lodash  from 'lodash';
 import {forEach} from 'lodash';
 import * as cryptoJs from 'crypto-js';
 import { FooterService } from 'src/app/services/footer.service';
+import {WebSocketSubject} from 'rxjs/webSocket';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'app-single-product',
@@ -52,10 +54,11 @@ export class SingleProductComponent implements OnInit {
   currentAddress: CartAddress = null;
   selectedShippingMethod: GetShippingEstimatePrice;
   shippingMethods: GetShippingEstimatePrice[] = [];
-  currentShippingMethod : GetShippingEstimatePrice = null;
+  // currentShippingMethod : GetShippingEstimatePrice = null;
+  currentShippingMethod :  BehaviorSubject<GetShippingEstimatePrice>;
   deletingAddress: boolean;
   loadingShippingEstimate: boolean;
-  loadingShippingStatus : 'not_started'|'in_progress'| 'completed' = 'not_started';
+  loadingShippingStatus : 'not_started'|'request_started'|'in_progress'| 'completed' = 'not_started';
   deleteId: any;
   referenceId = '';
   cart: null;
@@ -71,7 +74,7 @@ export class SingleProductComponent implements OnInit {
     types: ['address'],
     componentRestrictions: { country: 'NG' },
   };
-
+  socket$ : WebSocketSubject<NotificationResponseModel>
   constructor(
     private toastService: ToastrService,
     private activatedRoute: ActivatedRoute,
@@ -82,14 +85,18 @@ export class SingleProductComponent implements OnInit {
     private applocal: AppLocalStorage,
     private authService: AuthService,
     private webSocketService: WebsocketService,
+
   ) {
     this.initAddressForm();
+    this.currentShippingMethod = new BehaviorSubject<GetShippingEstimatePrice>(null);
   }
 
-  async ngOnInit() {
+   ngOnInit() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-    await this.connectToWebsocket();
+    this.connectToWebsocket();
+
+
     this.applocal.messageSource.subscribe((res) => {
       if (res) {
         this.temporaryDetails = res;
@@ -128,11 +135,13 @@ export class SingleProductComponent implements OnInit {
     this.requestId = `view-product-page-${this.productId}:${this.authService.getUserReferenceNumber()}:${toHash}`
   }
 
-  async connectToWebsocket(){
-   const url =  await this.authService.getWebSocketUrl();
-   this.webSocketService.getSocket(url).subscribe(a=> {
-      this.processRealTimeShippingPrice(a);
-   });
+   connectToWebsocket(){
+    this.authService.getWebSocketUrl().subscribe(res=> {
+      this.webSocketService.getSocket(res.wssUrl).subscribe(a=> {
+        this.processRealTimeShippingPrice(a);
+
+      });
+    })
   }
   processRealTimeShippingPrice(notificationResponse: NotificationResponseModel){
     if(notificationResponse.requestId === this.requestId){
@@ -145,8 +154,8 @@ export class SingleProductComponent implements OnInit {
         const hasSelected = this.shippingMethods.some(a=>a.isSelected);
         if(hasSelected){
           for (const shipping of shippingEsitmateData) {
-            if(shipping.logisticCode === this.currentShippingMethod?.logisticCode){
-               shipping.isSelected =  this.currentShippingMethod?.isSelected;
+            if(shipping.logisticCode === this.currentShippingMethod.value?.logisticCode){
+               shipping.isSelected =  this.currentShippingMethod.value?.isSelected;
             }
           }
         }
@@ -382,17 +391,18 @@ export class SingleProductComponent implements OnInit {
   };
 
   setShippingMethod = () => {
-    this.currentShippingMethod = this.selectedShippingMethod;
+    console.log("setShippingMethod called with current shipping method. prev, curr ", this.currentShippingMethod,  this.selectedShippingMethod )
+    this.currentShippingMethod.next(this.selectedShippingMethod);
     for (let index = 0; index < this.shippingMethods.length; index++) {
       const element = this.shippingMethods[index];
       element.isSelected = false;
       if (
         element.startingPrice ===
-          this.currentShippingMethod.startingPrice &&
+          this.currentShippingMethod.value.startingPrice &&
         element.logisticName ===
-          this.currentShippingMethod?.logisticName &&
+          this.currentShippingMethod.value.logisticName &&
         element.logisticLogoUrl ===
-          this.currentShippingMethod.logisticLogoUrl
+          this.currentShippingMethod.value.logisticLogoUrl
       ) {
         element.isSelected = true;
       }
@@ -406,7 +416,8 @@ export class SingleProductComponent implements OnInit {
   };
 
   setCurrentAddress = () => {
-    this.currentShippingMethod = null;
+    console.log("get current address called");
+    this.currentShippingMethod.next(null);
     // this.currentAddress = this.selectedAddress;
     for (let index = 0; index < this.addresses.length; index++) {
       const element = this.addresses[index];
@@ -548,9 +559,9 @@ export class SingleProductComponent implements OnInit {
     const cartService$ = this.cartService.getShippingEstimate(payload);
     cartService$.subscribe(
       (res) => {
-        this.loadingShippingEstimate = false;
+       this.loadingShippingEstimate = false;
         this.shippingMethods = (res.data as GetShippingPriceEstimateData[]).flatMap(a=>a.estimatePrices) ;
-        this.loadingShippingStatus = 'in_progress';
+        this.loadingShippingStatus = 'request_started';
         // if (this.currentShippingMethod === null) {
         //   this.orderAndSelectDefaultShippingMethod();
         // }
@@ -568,10 +579,18 @@ export class SingleProductComponent implements OnInit {
     if(!hasSelected){
       if(this.shippingMethods[0]){
         this.shippingMethods[0].isSelected = true;
-        this.currentShippingMethod = this.shippingMethods[0];
+        console.log("orderAndSelectDefaultShippingMethod hasselected = true called with selected shipping method, prev, current ",  this.currentShippingMethod.value, this.shippingMethods[0] )
+        this.currentShippingMethod.next(this.shippingMethods[0]);
         this.selectedShippingMethod = this.shippingMethods[0];
       }
     };
+    if(!this.currentShippingMethod.value){
+      console.log("orderAndSelectDefaultShippingMethod currentShippingMethod = false called with selected shipping method, prev, current ",  this.currentShippingMethod.value, this.shippingMethods[0] )
+
+      this.currentShippingMethod.next(this.shippingMethods[0]);
+      this.selectedShippingMethod = this.shippingMethods[0];
+    }
+    console.log( "current shipping method",this.currentShippingMethod.value);
   }
 
   public handleAddressChange(address: Address) {
@@ -709,7 +728,7 @@ export class SingleProductComponent implements OnInit {
     if (this.currentAddress === null) {
       const element = document.getElementById('openAddressModalBtn');
       element.click();
-    } else if (this.currentShippingMethod === null) {
+    } else if (this.currentShippingMethod.value === null) {
       document.getElementById('openShippingModalBtn').click();
     } else {
       this.addingItemToCart = true;
@@ -721,16 +740,16 @@ export class SingleProductComponent implements OnInit {
           currencyCode: 'NGN',
           productId: this.productId,
           unit: this.count,
-          logisticCode: this.currentShippingMethod.logisticCode,
+          logisticCode: this.currentShippingMethod.value.logisticCode,
           logistic: {
-            logisticId: this.currentShippingMethod.logisticCode,
-            logisticCode: this.currentShippingMethod.logisticCode,
+            logisticId: this.currentShippingMethod.value.logisticCode,
+            logisticCode: this.currentShippingMethod.value.logisticCode,
             logisticLogo:
-              this.currentShippingMethod.logisticLogoUrl,
+              this.currentShippingMethod.value.logisticLogoUrl,
             logisticName:
-              this.currentShippingMethod.logisticName,
+              this.currentShippingMethod.value.logisticName,
             estimateShippingCost:
-              this.currentShippingMethod.startingPrice,
+              this.currentShippingMethod.value.startingPrice,
           },
           paymentOption: 'online',
           destination: {
@@ -797,7 +816,7 @@ export class SingleProductComponent implements OnInit {
       }
     );
   };
-  
+
   fetchUserAddresses = () => {
     if (this.user !== null) {
       const cartService$ = this.cartService.fetchUserAddresses(this.user.id);
@@ -836,7 +855,7 @@ export class SingleProductComponent implements OnInit {
       this.addresses = [];
     }
   };
-  
+
   areAddressesEqual = (address1: any, address2: any): boolean => {
     return (
       address1.fullAddress === address2.fullAddress &&
@@ -845,5 +864,5 @@ export class SingleProductComponent implements OnInit {
       address1.country === address2.country
     );
   };
-  
+
 }
