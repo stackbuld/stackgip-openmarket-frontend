@@ -25,6 +25,7 @@ import * as cryptoJs from 'crypto-js';
 import { FooterService } from 'src/app/services/footer.service';
 import {WebSocketSubject} from 'rxjs/webSocket';
 import {BehaviorSubject} from 'rxjs';
+import {WindowRefService} from '../../../shared/services/window.service';
 
 @Component({
   selector: 'app-single-product',
@@ -85,15 +86,15 @@ export class SingleProductComponent implements OnInit {
     private applocal: AppLocalStorage,
     private authService: AuthService,
     private webSocketService: WebsocketService,
-
+    private  windowRef: WindowRefService
   ) {
     this.initAddressForm();
     this.currentShippingMethod = new BehaviorSubject<GetShippingEstimatePrice>(null);
   }
 
    ngOnInit() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+     this.windowRef.nativeWindow.document.body.scrollTop = 0;
+     this.windowRef.nativeWindow.document.documentElement.scrollTop = 0;
     this.connectToWebsocket();
 
 
