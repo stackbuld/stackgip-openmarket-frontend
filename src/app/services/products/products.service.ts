@@ -11,40 +11,41 @@ import {
   CreateProductOptionResponse,
   ProductShipmentResponse,
   CreateShipmentModel,
-} from "../../models/products.model";
-import { Observable } from "rxjs";
-import { CategoryResponse } from "./../../models/CategoryModels";
-import { IUser } from "src/app/models/IUserModel";
-import { HttpClient } from "@angular/common/http";
-import { ApiAppUrlService } from "../api-app-url.service";
-import { Injectable } from "@angular/core";
+  SingleProductResponse,
+} from '../../models/products.model';
+import { Observable } from 'rxjs';
+import { CategoryResponse } from './../../models/CategoryModels';
+import { IUser } from 'src/app/models/IUserModel';
+import { HttpClient } from '@angular/common/http';
+import { ApiAppUrlService } from '../api-app-url.service';
+import { Injectable } from '@angular/core';
+import { retry } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ProductsService {
-  baseUrll = "";
-  baseUrl = "";
+  baseUrl = '';
 
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
 
   public GetCategory(): Observable<CategoryResponse> {
-    return this.http.get<CategoryResponse>(this.baseUrll + "categories");
+    return this.http.get<CategoryResponse>(this.baseUrl + 'categories');
   }
 
   getProducts(
     pageNumber: number = 1,
     maxItem = 50,
-    search = "",
-    categoryId = "",
+    search = '',
+    categoryId = '',
     minPrice = 10,
     maxPrice = 500000
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
       this.baseUrl +
-        `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}&minPrice=${minPrice}&maxPrice=${maxPrice}`
+        `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}&minSalePrice=${minPrice}&maxSalePrice=${maxPrice}`
     );
   }
 
@@ -52,14 +53,14 @@ export class ProductsService {
     userId: string,
     pageNumber: number = 1,
     maxItem = 50,
-    search = "",
-    categoryId = "",
+    search = '',
+    categoryId = '',
     min = 10,
     max = 500000,
-    type = "All",
-    startDate = "",
-    endDate = "",
-    productSort = "Date",
+    type = 'All',
+    startDate = '',
+    endDate = '',
+    productSort = 'Date',
     byAscending = false
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
@@ -81,7 +82,7 @@ export class ProductsService {
     product: CreateProductModel
   ): Observable<CreateProductResponse> {
     return this.http.post<CreateProductResponse>(
-      this.baseUrl + "products",
+      this.baseUrl + 'products',
       product
     );
   }
@@ -100,6 +101,66 @@ export class ProductsService {
     return this.http.get<ProductModel>(this.baseUrl + `products?id=${pid.id}`);
   }
 
+  getProduct(id: any): Observable<any> {
+    return this.http.get(this.baseUrl + `products/${id}`);
+  }
+
+  getLowStockProducts(): Observable<any> {
+    return this.http.get(this.baseUrl + `products/low-stocks`);
+  }
+
+  productOrderSummary(userId: string, productId: any): Observable<any> {
+    return this.http.get(
+      this.baseUrl + `seller/${userId}/products/${productId}/overview`
+    );
+  }
+
+  getProductsOverviewPerUser(userId: string): Observable<any> {
+    return this.http.get(this.baseUrl + `seller/${userId}/overview`);
+  }
+
+  getSubCategories(categoryId: string): Observable<any> {
+    return this.http.get(
+      this.baseUrl + `categories?BaseCategoryId=${categoryId}`
+    );
+  }
+
+  createVariation(payload: any): Observable<any> {
+    return this.http.post(this.baseUrl + `productoption/variations`, payload);
+  }
+
+  getAllCategories(): Observable<any> {
+    return this.http.get(this.baseUrl + `categories`);
+  }
+
+  getVariations(categoryId?: any): Observable<any> {
+    if (categoryId) {
+      return this.http.get(
+        this.baseUrl + `productoption/variations?categoryId=${categoryId}`
+      );
+    } else {
+      return this.http.get(this.baseUrl + `productoption/variations`);
+    }
+  }
+
+  createNewProduct(payload: any): Observable<any> {
+    for (let index = 0; index < payload.variations.length; index++) {
+      const element = payload.variations[index];
+      payload.options.push(element);
+    }
+    delete payload.variations;
+    return this.http.post(this.baseUrl + `products`, payload);
+  }
+
+  updateProduct(payload: any, productId: any): Observable<any> {
+    for (let index = 0; index < payload.variations.length; index++) {
+      const element = payload.variations[index];
+      payload.options.push(element);
+    }
+    delete payload.variations;
+    return this.http.put(this.baseUrl + `products/${productId}`, payload);
+  }
+
   getProductOverview(
     userId: string
     // Type: string,
@@ -111,7 +172,7 @@ export class ProductsService {
     );
   }
 
-  getMostSelling(userId: string = ""): Observable<MostSellingResponse> {
+  getMostSelling(userId: string = ''): Observable<MostSellingResponse> {
     return this.http.get<MostSellingResponse>(
       this.baseUrl + `seller/${userId}/most-selling`
     );
@@ -134,8 +195,16 @@ export class ProductsService {
     );
   }
 
-  deleteProduct(productId: number) {
+  getCachedProductById(productId: string): Observable<SingleProductResponse> {
+    return this.http.get<any>(this.baseUrl + `products/${productId}/cached`);
+  }
+
+  deleteProduct(productId: number): Observable<any> {
     return this.http.delete(this.baseUrl + `products/${productId}`);
+  }
+
+  updateProductUnit(productId: any, payload: any): Observable<any> {
+    return this.http.put(this.baseUrl + `products/${productId}/unit`, payload);
   }
 
   createProductOption(

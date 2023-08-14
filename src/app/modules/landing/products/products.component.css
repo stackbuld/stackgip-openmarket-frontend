@@ -1,0 +1,11 @@
+p.loading-history{
+    font-size: 10pt;
+    color: rgba(134,134,134,1);
+    background: rgba(255,255,255,1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.46668;
+    font-weight: 400;
+    font-variant-ligatures: common-ligatures;
+}

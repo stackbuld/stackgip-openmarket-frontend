@@ -1,0 +1,23 @@
+<div (click)="view(product)" class="prod p-2">
+    <!-- <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
+        [src]="product?.imageUrl" class="img" /> -->
+
+        <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
+            src="{{getImageResolution(product?.imageUrl, 200, 200)}}" class="w-100"/>
+
+    <div *ngIf="product?.imageUrl === null || product?.imageUrl === ''" 
+        class="img-empty-txt">
+        <p class="text-center mb-0">Image not found</p>
+    </div>
+
+    <div class="py-3">
+        <div class="mb-2 uk-flex uk-flex-between">
+            <p class="mb-0 name">
+                <span>{{product?.name || 'N/A' | slice: 0:30}}</span>
+                <span *ngIf="product?.name?.length > 30">...</span>
+            </p>
+            <img src="/assets/images/cart-icn-prod.svg" alt="cart-icn-prod" />
+        </div>
+        <p class="price mb-0">{{product?.price || 0 | currency: '₦'}}</p>
+    </div>
+</div>

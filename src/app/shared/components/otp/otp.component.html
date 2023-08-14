@@ -1,0 +1,26 @@
+<!-- <div class="modal">
+    <h2 class="modal-header">
+        Input Otp
+
+       
+    </h2>
+    <div class="modal-content">
+         <ngx-otp-input [config]="otpInputConfig" (otpChange)="handeOtpChange($event)" (fill)="handleFillEvent($event)">
+</ngx-otp-input>
+        <ng-content></ng-content>
+        <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{length:5}"></ng-otp-input>
+        <form [formGroup]="otpForm" (ngSubmit)="login()" id="form">
+        <input
+  *ngFor="let input of inputs.controls"
+  [formControl]="controls"
+  type="text"
+  inputmode="numeric"
+/>
+</form>
+    </div>
+    <div class="modal-footer">
+        <button>Submit</button>
+    </div>
+</div>
+
+<div class="modal-backdrop" (click) ="close()"></div> -->

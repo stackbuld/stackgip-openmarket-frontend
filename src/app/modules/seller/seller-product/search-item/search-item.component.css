@@ -1,0 +1,10 @@
+
+
+@media screen and (max-width: 768px) {
+    .input-wrap {
+        width: 50% !important;
+    }
+    .mobile-flex {
+        display: flex !important;
+    }
+}

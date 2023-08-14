@@ -1,3 +1,6 @@
 {
-  "cSpell.words": ["signup", "whatsapp"]
+  "cSpell.words": ["signup", "whatsapp"],
+  "angular.log": "verbose",
+  "angular.forceStrictTemplates": true,
+  "angular.trace.server": "messages"
 }

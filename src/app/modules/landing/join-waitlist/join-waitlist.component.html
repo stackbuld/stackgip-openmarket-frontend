@@ -1,0 +1,216 @@
+<div class="wrapper-container" id="offcanvas-usage">
+  <div uk-offcanvas-bar>
+    <div *ngIf="showForm">
+      <div class="waitList-nav">
+        <app-navbar></app-navbar>
+      </div>
+      <div>
+        <button
+          class="uk-offcanvas-close"
+          type="button"
+          uk-toggle="target: #offcanvas-usage"
+          uk-close
+          (click)="goBack()"
+        ></button>
+        <div class="waitList-heading">
+          <p>Join waitlist</p>
+        </div>
+      </div>
+      <form [formGroup]="waitListForm" (ngSubmit)="submit()">
+        <p
+          *ngIf="waitListForm.controls.interest.invalid"
+          class="uk-text-danger"
+        >
+          Select interest
+        </p>
+        <div class="waitList-radioBtn">
+          <label for="seller"
+            ><input
+              formControlName="interest"
+              type="radio"
+              checked="checked"
+              name="interest"
+              id="seller"
+              value="seller"
+              class="uk-radio"
+              [class.uk-form-danger]="waitListForm.controls.interest.invalid"
+            />
+            <span>Seller</span></label
+          >
+          <label for=""
+            ><input
+              formControlName="interest"
+              type="radio"
+              name="interest"
+              id="buyer"
+              value="buyer"
+              class="uk-radio"
+              [class.uk-form-danger]="waitListForm.controls.interest.invalid"
+            />
+            <span>Buyer</span></label
+          >
+          <label for="both"
+            ><input
+              formControlName="interest"
+              type="radio"
+              name="interest"
+              id="both"
+              value="both"
+              class="uk-radio"
+              [class.uk-form-danger]="waitListForm.controls.interest.invalid"
+            />
+            <span>Both</span></label
+          >
+        </div>
+        <div class="group-wrapper">
+          <div>
+            <label for="fullname"
+              >Full Name
+              <span
+                *ngIf="
+                  waitListForm.controls.fullName.invalid &&
+                  waitListForm.controls.fullName.touched
+                "
+                class="uk-text-small uk-text-danger"
+              >
+                Enter fullname
+              </span>
+            </label>
+
+            <input
+              type="text"
+              name="fullname"
+              formControlName="fullName"
+              placeholder="Enter Full Name"
+              class="uk-input"
+              [class.uk-form-danger]="
+                waitListForm.controls.fullName.touched &&
+                waitListForm.controls.fullName.invalid
+              "
+            />
+          </div>
+          <div>
+            <label for="email"
+              >Email Address
+
+              <span
+                *ngIf="
+                  waitListForm.controls.email.invalid &&
+                  waitListForm.controls.email.touched
+                "
+                class="uk-text-small uk-text-danger"
+              >
+                Enter Email
+              </span>
+            </label>
+
+            <input
+              type="email"
+              name="email"
+              formControlName="email"
+              placeholder="Enter Email Address"
+              class="uk-input"
+              [class.uk-form-danger]="
+                waitListForm.controls.email.touched &&
+                waitListForm.controls.email.invalid
+              "
+            />
+          </div>
+          <div>
+            <label for="phone"
+              >Phone Number
+              <span
+                *ngIf="
+                  waitListForm.controls.phoneNumber.invalid &&
+                  waitListForm.controls.phoneNumber.touched
+                "
+                class="uk-text-small uk-text-danger"
+              >
+                Enter Phone
+              </span>
+            </label>
+            <input
+              type="tel"
+              name="phone"
+              formControlName="phoneNumber"
+              placeholder="Enter Phone Number"
+              class="uk-input"
+              [class.uk-form-danger]="
+                waitListForm.controls.phoneNumber.touched &&
+                waitListForm.controls.phoneNumber.invalid
+              "
+            />
+          </div>
+
+          <div>
+            <button
+              class="uk-button uk-button-secondary joinBtn"
+              type="submit"
+              [disabled]="!waitListForm.valid || isLoading"
+            >
+              Join Wait List
+              <img
+                *ngIf="isLoading"
+                src="assets/svg/loader-icon.svg"
+                width="50"
+                height="50"
+              />
+              <!-- <a [routerLink]="['/join']">Join</a> -->
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="!showForm">
+      <div>
+        <img
+          class="uk-align-center"
+          src="../../../../assets/image/Done.svg"
+          alt=""
+        />
+      </div>
+      <div>
+        <p class="uk-text-lead">
+          Hello <span>{{ referralUser?.profile?.first_name }}</span
+          >, Thank you for joining the waitlist
+        </p>
+        <ul class="uk-list uk-list-striped">
+          <li>
+            Your Referral Link :
+            <a
+              class="uk-icon-link uk-margin-small-right"
+              uk-icon="copy"
+              (click)="copyLink(referralUser?.referral_link)"
+            ></a>
+
+            <a href="{{ referralUser?.referral_link }}">{{
+              referralUser.referral_link
+            }}</a>
+          </li>
+          <li>
+            No of Referral:
+            <span class="uk-badge uk-background-secondary">
+              {{ referralUser?.referrals }}</span
+            >
+          </li>
+          <li>
+            <span> Full name: </span>
+            <span>
+              {{ referralUser?.profile?.first_name }}
+              {{ referralUser?.profile?.last_name }}</span
+            >
+          </li>
+          <li></li>
+        </ul>
+      </div>
+      <div>
+        <a
+          class="uk-button uk-button-secondary joinBtn"
+          [routerLink]="['/landing']"
+        >
+          Back To Home
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

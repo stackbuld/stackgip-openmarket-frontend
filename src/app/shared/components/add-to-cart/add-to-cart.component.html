@@ -1,0 +1,167 @@
+
+<!--=======  add to  cart  =======-->
+<div class="" *ngIf="product">
+  <div class="uk-child-width-1-2@s" uk-grid>
+    <div uk-slideshow="animation: push">
+      <div
+        class="uk-position-relative uk-visible-toggle uk-light"
+        tabindex="-1"
+      >
+        <ul class="uk-slideshow-items">
+          <li *ngFor="let images of product.productImages">
+            <img src="{{ images }}" alt="" uk-cover />
+          </li>
+        </ul>
+
+        <a
+          class="uk-position-center-left uk-position-small uk-hidden-hover"
+          href="#"
+          uk-slidenav-previous
+          uk-slideshow-item="previous"
+        ></a>
+        <a
+          class="uk-position-center-right uk-position-small uk-hidden-hover"
+          href="#"
+          uk-slidenav-next
+          uk-slideshow-item="next"
+        ></a>
+      </div>
+
+      <ul class="uk-slideshow-nav uk-dotnav uk-flex-center uk-margin"></ul>
+    </div>
+    <!-- <div
+      class="uk-position-relative uk-visible-toggle uk-light"
+      tabindex="-1"
+      uk-slideshow
+    >
+      <ul class="uk-slideshow-items">
+        <li>
+          <img
+            src="{{ product.imageUrl }}"
+            data-src="{{ product.imageUrl }}"
+            width="800"
+            height="400"
+            alt=""
+            uk-cover
+          />
+        </li>
+        <li>
+          <img
+            src="{{ product.imageUrl }}"
+            data-src="{{ product.imageUrl }}"
+            width="800"
+            height="400"
+            alt=""
+            uk-cover
+          />
+        </li>
+        <li *ngFor="let imageUrl of product.productImages">
+          <img
+            src="{{ imageUrl }}"
+            data-src="{{ imageUrl }}"
+            width="800"
+            height="400"
+            alt=""
+            uk-cover
+          />
+        </li>
+      </ul>
+      <a
+        class="uk-position-center-left uk-position-small uk-hidden-hover"
+        href="#"
+        uk-slidenav-previous
+        uk-slideshow-item="previous"
+      >
+      </a>
+      <a
+        class="uk-position-center-right uk-position-small uk-hidden-hover"
+        href="#"
+        uk-slidenav-next
+        uk-slideshow-item="next"
+      >
+      </a>
+    </div> -->
+
+    <div [formGroup]="optionForm">
+      <h1 class="uk-text-bold uk-text-lead">
+        {{ product.name.toUpperCase() }}
+      </h1>
+      <small>{{ product.category.name }}</small>
+      <p class="uk-text-bold uk-text-lead">
+        NGN{{ product.price.toLocaleString() }}
+        <span
+          class="uk-text-muted uk-text-small"
+          style="text-decoration: line-through"
+          >| {{ product.previousPrice.toLocaleString() }}</span
+        >
+      </p>
+      <p class="uk-badge uk-background-secondary">{{ product.unit }} left</p>
+
+      <div formArrayName="options"
+          *ngFor="let option of optionArray()['controls']; let j=index;">
+          <div [formGroupName]="j">
+            <p>Select {{option.get('title').value}}</p>
+            <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+              <label *ngFor="let opt of productOptions[option.get('title').value]">
+                <input class="uk-radio" type="radio"  value="{{opt.cost}}|{{opt.value}}"
+                  formControlName="cost" />
+                {{opt.value}} (+ NGN {{opt.cost}})
+              </label>
+            </div>
+          </div>
+      </div>
+      <div *ngIf="product.productShipments.length > 0">
+        <p>
+          Select a Prefred Shipping Location <br />
+          <small class="uk-text-small uk-text muted uk-text-meta">
+            location where items can be shipped
+          </small>
+        </p>
+
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+          <label *ngFor="let shipment of product.productShipments">
+            <input class="uk-radio"  formControlName="shipmentOption"
+              type="radio" value="{{ shipment.state }}|{{ shipment.city }}|{{shipment.cost}}"/>
+            <span *ngIf="shipment.state.toLowerCase() == 'all'">
+              Any State (+ NGN{{ shipment.cost.toLocaleString() }})
+              <small>{{ shipment.description }}</small>
+            </span>
+            <span>
+              {{ shipment.state }} / {{ shipment.city }} (+ NGN{{
+                shipment.cost.toLocaleString()
+              }})
+              <small>{{ shipment.description }}</small>
+            </span>
+          </label>
+        </div>
+      </div>
+      <div>
+        <p>Available payment type </p>
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+          <label *ngFor="let paymentOption of availablePaymentOption; let i = index">
+            <input class="uk-radio" [checked]="i === 0" formControlName="paymentOption" type="radio" [value]="paymentOption" [id]="paymentOption" />
+            <span>{{ paymentOption === 'online' ? 'Pay Online' : 'Pay On delivery'}}</span>
+          </label>
+        </div>
+      </div>
+      <div class="uk-margin">
+        <label>Quantity</label>
+        <input type="number" class="uk-input" value="1" min="1"
+          placeholder="Add quantity" formControlName="quantity"
+        />
+      </div>
+      <div class="uk-margin">
+        <button class="uk-button uk-button-primary" (click)="addToCart()">
+            Add to cart (NGN {{numberWithCommas(totalPrice)}})
+        </button>
+        <button class="uk-button uk-button-secondary" (click)="close()">Continue shopping</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h2>Product Description</h2>
+    <div class="uk-text uk-text-meta">
+      {{ product.description }}
+    </div>
+  </div>
+</div>

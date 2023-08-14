@@ -1,0 +1,49 @@
+<div class="edit-store">
+  <div mat-dialog-content class=" seller-store-modal">
+    <button class="uk-modal-close-default seller-store-modalCloseBtn" type="button" uk-close
+      mat-dialog-close="false"></button>
+    <form (submit)="onSave()" [formGroup]="bankAccountForm" class="uk-form-stacked edit-form">
+      <div class="uk-margin">
+        <label class="uk-form-label" >Select New or Existing Account*</label>
+        <div class="uk-form-controls">
+          <select formControlName="bank" aria-label="Custom controls">
+            <option value="">Select New or Existing Account</option>
+            <option *ngFor="let bank of bankList" [ngValue]="bank">{{bank.bankName}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="uk-margin">
+        <label class="uk-form-label" >Bank Account Name*</label>
+        <div class="uk-form-controls">
+
+          <input formControlName="accountName" class="uk-input" id="form-stacked-text" type="text"
+            placeholder="Enter your account name" />
+        </div>
+      </div>
+
+      <div class="uk-margin">
+        <label class="uk-form-label" >Bank Account Number*</label>
+        <div class="uk-form-controls">
+
+          <input formControlName="accountNumber" class="uk-input" id="form-stacked-text" type="text"
+            placeholder="Enter your account number" />
+        </div>
+      </div>
+
+      <div class="uk-margin">
+        <label class="uk-form-label" >Enter Amount*</label>
+        <div class="uk-form-controls">
+
+          <input formControlName="amount" class="uk-input" id="form-stacked-text" type="text"
+            placeholder="0.00" />
+        </div>
+      </div>
+
+      <p class="uk-text-center uk-margin-top">
+        <button class="uk-button uk-button-default uk-modal-close" type="submit">
+          continue
+        </button>
+      </p>
+    </form>
+  </div>
+</div>

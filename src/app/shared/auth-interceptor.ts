@@ -24,15 +24,14 @@ export class AuthInterceptor implements HttpInterceptor {
     let authReq = req.clone();
     const identityUrl = authReq.url.search(this.api.baseApiUrl);
     const ecommerceUrl = authReq.url.search(this.api.ecommerceBaseUrl);
-    if (identityUrl >= 0 || ecommerceUrl >= 0) {
+    const walletUrl = authReq.url.search(this.api.walletBaseUrl);
+    if (identityUrl >= 0 || ecommerceUrl >= 0 || walletUrl >=0) {
       if (token) {
         authReq = req.clone({
           headers: req.headers.set("Authorization", "Bearer " + token),
         });
       }
     }
-
-    console.log("request cloned", authReq);
     return next.handle(authReq);
   }
 }

@@ -1,0 +1,39 @@
+<div class="edit-store">
+  <div mat-dialog-content class=" seller-store-modal">
+    <button class="uk-modal-close-default seller-store-modalCloseBtn" type="button" uk-close
+      mat-dialog-close="false"></button>
+      <h2>
+        Confirm Order
+      </h2>
+    <form (submit)="onSave()" class="uk-form-stacked edit-form">
+      <div class="uk-margin">
+        <div uk-form-custom>
+          <input type="file" aria-label="Custom controls">
+          <button class="uk-button uk-button-default" type="button" tabindex="-1">Select</button>
+      </div>
+      </div>
+      <div class="uk-margin">
+        <label class="uk-form-label" >Serial Number(Optional)</label>
+        <div class="uk-form-controls">
+          <input class="uk-input" id="form-stacked-text" type="text"
+            placeholder="Enter your account name" />
+        </div>
+      </div>
+
+      <div class="uk-margin">
+        <label class="uk-form-label" >Additional Details</label>
+        <div class="uk-form-controls">
+          <textarea rows="5" class="uk-input" type="text"
+            placeholder="Enter your account number"></textarea>
+
+        </div>
+      </div>
+
+      <p class="uk-text-center uk-margin-top">
+        <button class="uk-button uk-button-default uk-modal-close" type="submit">
+          continue
+        </button>
+      </p>
+    </form>
+  </div>
+</div>

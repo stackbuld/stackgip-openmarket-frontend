@@ -1,0 +1,167 @@
+body {
+  background-color: #fff;
+}
+
+.wrapper-container {
+  margin: 0.5rem 1.25rem;
+  background: #fff;
+}
+
+.waitList-nav {
+  margin: 0rem 1rem;
+}
+
+.uk-offcanvas-close {
+  display: block;
+  top: 7rem;
+  right: 2.625rem;
+  color: black;
+}
+
+.waitList-heading {
+  font-family: "Avenir LT Std";
+  font-style: normal;
+  font-weight: 750;
+  font-size: 1.1rem;
+  color: black;
+  display: flex;
+  justify-content: center;
+  margin: 3rem 0rem 1.5rem 0rem;
+}
+
+.waitList-radioBtn {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.waitList-radioBtn input {
+  color: black;
+  margin-right: 0.25rem;
+}
+
+.waitList-radioBtn label input[type="radio"]#black {
+  accent-color: black;
+}
+
+.group-wrapper label {
+  display: block;
+  color: #424242;
+  font-weight: 400;
+}
+.group-wrapper input {
+  color: #424242;
+  border-radius: 0.3rem;
+  width: 100%;
+  padding: 0.5rem 0.85rem;
+  margin: 0.25rem 0rem 2rem 0rem;
+  outline: none;
+}
+
+.joinBtn {
+  background: black;
+  border-radius: 0.3rem;
+  width: 100%;
+  padding: 0.5rem 0.85rem;
+  color: #fff;
+}
+.joinBtn:disabled {
+  background: #616161;
+  border-color: ;
+}
+
+.joinBtn a {
+  color: #fff;
+}
+
+@media only screen and (min-width: 768px) {
+  .wrapper-container {
+    margin: 0.5rem 1.25rem;
+  }
+
+  .waitList-nav {
+    margin: 0rem 1rem;
+  }
+
+  .uk-offcanvas-close {
+    display: block;
+    top: 7rem;
+    right: 2.625rem;
+    color: black;
+  }
+
+  .waitList-heading {
+    font-size: 1.1rem;
+    margin: 3rem 0rem 1.5rem 0rem;
+  }
+
+  .waitList-radioBtn {
+    margin-bottom: 1rem;
+  }
+
+  .waitList-radioBtn input {
+    margin-right: 0.25rem;
+  }
+
+  .group-wrapper input {
+    padding: 0.5rem 0.85rem;
+    margin: 0.25rem 0rem 2rem 0rem;
+  }
+
+  .joinBtn {
+    padding: 0.5rem 0.85rem;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .wrapper-container {
+    margin: 2.5rem 20rem;
+  }
+
+  .waitList-nav {
+    display: none;
+  }
+
+  .uk-offcanvas-close {
+    display: block;
+    margin-right: 20rem;
+    margin-top: 1.5rem;
+    color: black;
+  }
+
+  .waitList-heading {
+    font-size: 1.1rem;
+    margin: 3rem 0rem 1.5rem 0rem;
+  }
+
+  .waitList-radioBtn {
+    margin-bottom: 1rem;
+  }
+
+  .waitList-radioBtn input {
+    margin-right: 0.25rem;
+  }
+
+  .group-wrapper input {
+    padding: 0.5rem 0.85rem;
+    margin: 0.25rem 0rem 2rem 0rem;
+  }
+
+  .joinBtn {
+    padding: 0.5rem 0.85rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .wrapper-container {
+    margin: 2.5rem 30rem;
+  }
+
+  .uk-offcanvas-close {
+    display: block;
+    margin-right: 30rem;
+    margin-top: 1.5rem;
+    color: black;
+  }
+}
