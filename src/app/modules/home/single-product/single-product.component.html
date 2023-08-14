@@ -175,7 +175,7 @@
                 </div>
 
 <!--                <div *ngIf="loadingShippingStatus !='not_started' && currentShippingMethod !== null" class="mt-4">-->
-                  <div class="mt-4" > <!--*ngIf="currentShippingMethod !== null"-->
+                  <div class="mt-4"  *ngIf="loadingShippingStatus == 'in_progress' || loadingShippingStatus == 'completed' && currentShippingMethod !== null"> <!--*ngIf="currentShippingMethod !== null"-->
                     <p uk-toggle="target: #shipping-modal" class="msg pointer">Shipping: Starting from
                         {{currentShippingMethod?.value?.startingPrice || 0 | currency: 'NGN'}}
                     </p>
@@ -202,10 +202,10 @@
                         </span>
                     </div>
                 </div>
-
-               <div *ngIf="loadingShippingStatus === 'request_started'  && currentShippingMethod?.value === null" class="py-3">
+                                                      <!--&& currentShippingMethod?.value === null-->
+               <div *ngIf="loadingShippingStatus === 'request_started' || loadingShippingStatus == 'in_progress' " class="py-3">
                    <span class="loading mb-0" uk-toggle="target: #shipping-modal">
-                       <span class="info">Fetching Shipping Estimate...</span>
+                       <span class="info">We're fetching more shipping methods...</span>
                        <img src="/assets/svg/loader-icon.svg" alt="" width="30" height="30" />
                    </span>
                </div>
@@ -215,9 +215,9 @@
 <!--                        Select a delivery address to see shipping options-->
 <!--                    </p>-->
 <!--                </div>-->
-              <div *ngIf="loadingShippingStatus == 'not_started' && currentShippingMethod?.value === null" class="py-3">
+              <div *ngIf="currentAddress == null" class="py-3">
                 <p class="mb-0 info" (click)="resetModalView();" uk-toggle="target: #information-modal">
-                  Select a delivery address to see shipping options
+                  Enter your delivery address, to see available shipping options
                 </p>
               </div>
             </div>
@@ -533,19 +533,19 @@
                 </div>
             </div>
 
-            <div *ngIf="loadingShippingStatus !== 'completed' && loadingShippingEstimate
-                && shippingMethods.length > 0" class="">
-                <p class="text-center loading p-2">Loading more shipping method(s)
-                    <img src="/assets/svg/loader-icon.svg" alt="" width="30" height="30" />
-                </p>
-            </div>
+                <div *ngIf="loadingShippingStatus !== 'completed' && loadingShippingEstimate
+                    && shippingMethods.length > 0" class="">
+                    <p class="text-center loading p-2">Loading more shipping method(s)
+                        <img src="/assets/svg/loader-icon.svg" alt="" width="30" height="30" />
+                    </p>
+                </div>
 
-            <div class="w-100 mt-4 col-12" *ngIf="shippingMethods.length > 0">
-                <button (click)="setShippingMethod()" class="w-100 apply-btn">Apply</button>
-            </div>
+                <div class="w-100 mt-4 col-12" *ngIf="shippingMethods.length > 0">
+                    <button (click)="setShippingMethod()" class="w-100 apply-btn">Apply</button>
+                </div>
         </div>
 
-        <div *ngIf="loadingShippingEstimate && shippingMethods.length === 0" class="p-5">
+        <div *ngIf="loadingShippingStatus === 'in_progress'" class="p-5">
             <p class="text-center loading p-5">Loading shipping method(s)
                 <img src="/assets/svg/loader-icon.svg" alt="" width="30" height="30" /></p>
         </div>

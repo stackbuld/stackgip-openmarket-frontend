@@ -51,7 +51,7 @@
   outline: none !important;
 }
 .main .top-section .change-yel {
-  font-style: italic;
+  /*font-style: italic;*/
   font-weight: 800;
   font-size: 10px;
   line-height: 154%;
