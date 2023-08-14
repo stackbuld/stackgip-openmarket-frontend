@@ -1,4 +1,24 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.err-sec {
+  div {
+    text-align: left;
+    color: rgba(0, 128, 0, 0.853);
+  }
+
+  .error {
+    color: red;
+  }
+}
 h6 {
     text-align: center;
     padding: 40px;

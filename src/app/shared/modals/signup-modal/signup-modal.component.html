@@ -36,7 +36,7 @@
                   </div>
                 </section>
 
-                <mat-form-field appearance="outline">
+                <!-- <mat-form-field appearance="outline">
                   <mat-label>Phone Number</mat-label>
                   <input matInput placeholder="08023434567" type="text" formControlName="phoneNumber" required />
                 </mat-form-field>
@@ -49,7 +49,33 @@
                       Phone Number required
                     </div>
                   </div>
-                </section>
+                </section> -->
+
+                <mat-form-field appearance="outline">
+                <mat-label>Phone Number</mat-label>
+                <div class="uk-flex">
+                  <div class="dropdown-icon uk-flex" type="button"  *ngIf="(f.phoneNumber.value)
+                    "> +234
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 9L12 15L18 9" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                 </div>
+                <input matInput placeholder="08023434567" pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$" type="number" formControlName="phoneNumber" required />
+                </div>
+              </mat-form-field>
+              <section class="error-sec">
+                <div *ngIf="
+                      f.phoneNumber.invalid &&
+                      (f.phoneNumber.dirty || f.phoneNumber.touched)
+                    ">
+                  <div *ngIf="f.phoneNumber.errors.required">
+                    Phone Number required
+                  </div>
+                  <div *ngIf="f.phoneNumber.errors.pattern">
+                    Phone Number must be valid
+                  </div>
+                </div>
+              </section>
 
                 <mat-form-field appearance="outline">
                   <mat-label>Email Address</mat-label>
@@ -83,7 +109,7 @@
                   </div>
 
                 </mat-form-field>
-                <section class="error-sec">
+                <!-- <section class="error-sec">
                   <div *ngIf="
                     f.password.invalid &&
                     (f.password.dirty || f.password.touched)
@@ -95,7 +121,28 @@
                       Password should be at least 6 characters <br />
                     </div>
                   </div>
-                </section>
+                </section> -->
+
+                 <section>
+                <div *ngIf="f.password.value" class="err-sec">
+                   <div [ngClass]="minLengthValid ? '': 'error'">
+                    Password should be at least 6 characters <br />
+                  </div>
+                  <div [ngClass]="requiresUppercaseValid ? '': 'error'">
+                    Password must contain Uppercase letter<br />
+                  </div>
+                  <div [ngClass]="requiresLowercaseValid ? '': 'error'">
+                    Password must contain Lowercase letter<br />
+                  </div>
+                  <div [ngClass]="requiresDigitValid ? '': 'error'">
+                    Password must contain a number <br />
+                  </div>
+                  <div [ngClass]="requiresSpecialCharsValid ? '': 'error'">
+                    Password must contain special character<br />
+                  </div>
+                </div>
+               
+              </section>
 
                 <button [disabled]="registerForm.invalid" class="uk-button uk-width-1-1 signup-btn1" type="submit">
                   Sign Up
