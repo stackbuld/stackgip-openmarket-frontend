@@ -97,7 +97,7 @@ export class SingleProductComponent implements OnInit {
      this.windowRef.nativeWindow.document.documentElement.scrollTop = 0;
     this.connectToWebsocket();
 
-
+    console.log("shippingMethods", this.shippingMethods);
     this.applocal.messageSource.subscribe((res) => {
       if (res) {
         this.temporaryDetails = res;
