@@ -1,0 +1,20 @@
+<div class="dashboard-title uk-margin-bottom">Update Delivery Status</div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-form-field class="uk-width-expand">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status" required>
+      <mat-option value="paid" *ngIf="showPaid()">Paid</mat-option>
+      <mat-option value="confirmed" *ngIf="showConfirmed()">Confirmed</mat-option>
+      <mat-option value="canceled" *ngIf="showCanceled()">Canceled</mat-option>
+      <mat-option value="refunded" *ngIf="showRefunded()">Refunded</mat-option>
+      <mat-option value="deliver" *ngIf="showDeliver()">Deliver</mat-option>
+      <mat-option value="intransit" *ngIf="showIntransit()">Intransit</mat-option>
+      <mat-option value="pending" *ngIf="showPending()">Pending</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button class="btn-default" type="submit" 
+    [class.spinner]="form.get('loading').value" 
+    [disabled]="form.get('loading').value">
+    Update
+  </button>
+</form>

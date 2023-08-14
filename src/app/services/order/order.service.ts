@@ -3,7 +3,6 @@ import { ApiAppUrlService } from "../api-app-url.service";
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { OrderResponce, Order, OrderApiModel,OrderStatus } from "./../../models/order.model";
-import { IApiResponseModel } from "src/app/models/products.model";
 
 @Injectable({
   providedIn: 'root'
@@ -20,36 +19,11 @@ export class OrderService {
       .toFixed(2).toLocaleString();
   }
 
-  getNewOrders(userId:string,pageNumber: number = 1,maxItem = 50):
+  getNewOrders(userId:string,pageNumber: number = 1,maxItem = 50): 
   Observable<OrderResponce>{
     return this.http.get<OrderResponce>(
       this.baseUrl + `seller/${userId}/orders/new/?
       pageNumber=${pageNumber}&maxItem=${maxItem}`
-    );
-  }
-
-  getOrderDashboardOverview(userId: string): Observable<IApiResponseModel>{
-    return this.http.get<IApiResponseModel>(this.baseUrl + `seller/${userId}/orders/overview`);
-  }
-
-  fetchAllOrders(
-    pageNumber: number = 1,
-    maxItem = 10,
-    sellerId = "",
-    buyerId = "",
-    paymentReferenceId = "",
-    type = '',
-    startDate = '',
-    endDate = '',
-    dateType = '',
-    orderStatus = '',
-    deliveryStatus = '',
-    paymentStatus = '',
-    search = '',
-  ): Observable<OrderApiModel> {
-    return this.http.get<OrderApiModel>(
-      this.baseUrl +
-        `order?pageNumber=${pageNumber}&maxItem=${maxItem}&sellerId=${sellerId}&paymentReferenceId=${paymentReferenceId}&buyerId=${buyerId}&type=${type}&startDate=${startDate}&endDate=${endDate}&dateType=${dateType}&orderStatus=${orderStatus}&deliveryStatus=${deliveryStatus}&paymentStatus=${paymentStatus}&search=${search}`
     );
   }
 
@@ -63,16 +37,12 @@ export class OrderService {
     );
   }
 
-  acceptRejectOrder(payload):Observable<OrderResponce> {
-    return this.http.post<OrderResponce>(`${this.baseUrl}order/accept-decline`, payload);
-  }
-
   UpdateStatus(
     orderId:string,orderStatus:OrderStatus
   ):Observable<OrderResponce>{
     return this.http.put<OrderResponce>(
-      `${this.baseUrl}seller/orders/${orderId}/status`,orderStatus
-      // `${this.baseUrl}seller/orders/${orderId}/status/${status}`,[]
+      `${this.baseUrl}seller/orders/${orderId}/status`,orderStatus 
+      // `${this.baseUrl}seller/orders/${orderId}/status/${status}`,[] 
     );
   }
 }

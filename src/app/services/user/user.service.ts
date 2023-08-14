@@ -22,12 +22,10 @@ export class UserService {
     return this.http.get<IUserResponse>("auth/getcurrentuser");
   }
 
-  getUserById(userId:string):
+  getUserById(userId:string): 
   Observable<IUserResponse>{
     return this.http.get<IUserResponse>(
       this.api.baseApiUrl + `users/${userId}`
     );
   }
-
-
 }
