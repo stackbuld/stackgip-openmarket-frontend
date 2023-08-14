@@ -1,0 +1,29 @@
+<div class="uk-cover-container uk-height-medium uk-box-shadow-large">
+  <canvas width="1600" height="500"></canvas>
+  <img
+    src="https://source.unsplash.com/1600x500/?ecommerce, buy , sell, africa, nigeria, nature"
+    class=""
+    alt=""
+    uk-cover
+  />
+
+  <div
+    class="uk-position-center-left uk-position-large uk-width-1-1 uk-width-1-2@s uk-overlay backgound-transparent-dark-green"
+  >
+    <h1 class="text-white">Rena Market</h1>
+    <h2 class="text-white">Connecting Seller and Buyers</h2>
+    <form
+      [formGroup]="searchForm"
+      (ngSubmit)="search()"
+      class="uk-search uk-search-default uk-width-expand backgound-white"
+    >
+      <a uk-search-icon></a>
+      <input
+        class="uk-search-input uk-width-expand"
+        type="search"
+        placeholder="Search for products"
+        formControlName="text"
+      />
+    </form>
+  </div>
+</div>

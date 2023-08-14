@@ -1,0 +1,135 @@
+<div class="uk-card uk-card-default uk-card-body uk-margin-small">
+    <h1>ORDER INVOICE DETAIL</h1>
+    <div class="uk-grid uk-child-width-1-2@s" *ngIf="invoice">
+      <div *ngIf="user$ | async as user">
+      <!-- <div> -->
+        <p>
+          Invoice No <span>#{{ invoice.id }}</span>
+        </p>
+        <p>Date <span>21 feb, 2020</span></p>
+        <h3>Customer Information</h3>
+        <p>
+          Name : <span>{{ user.data.firstName + " " + user.data.lastName }}</span>
+        </p>
+        <p>
+          Phone : <span>{{ user.data.phoneNumber }}</span>
+        </p>
+        <h3>Billing Address</h3>
+        <p>
+          Country : <span>{{ invoice.country }}</span>
+        </p>
+        <p>
+          State : <span>{{ invoice.state }}</span>
+        </p>
+        <p>
+          Address : <span>{{ invoice.billingAddress }}</span>
+        </p>
+        <h3>Additional Infomation</h3>
+        <p></p>
+      </div>
+      <div>
+        <h3>Status: {{ invoice.status }}</h3>
+        <h3>Reference No: {{ invoice.transReferenceNo }}</h3>
+        <!--<button
+          *ngIf="
+            invoice.status.toLocaleLowerCase() !=
+            filterType.paid.toLocaleLowerCase()
+          "
+          class="uk-button uk-button-default backgound-dark-green uk-button-small uk-align-right uk-text-right"
+          (click)="pay(invoice.id)"
+        >
+          Pay now
+        </button>-->
+        <h3>Cost Summary</h3>
+        <!-- <p>Total Item Cost: NGN 40,09902</p> -->
+        <!-- <p>Shipping cost: NGN 3,000</p>
+        <p>Discount: NGN 2000</p> -->
+        <p>
+          <b>Total: NGN {{ total.toLocaleString() }}</b>
+        </p>
+      </div>
+    </div>
+    <div class="uk-margin-top" *ngIf="invoice">
+      <hr />
+      <h1 class="uk-text-bold">ITEMS</h1>
+      <div class="">
+        <table class="uk-table uk-table-small uk-table-responsive uk-table-divider uk-table-divider">
+          <thead>
+            <tr>
+              <th>Order No</th>
+              <th>Item</th>
+              <th>Name</th>
+              <th>Option</th>
+              <th>Shipment</th>
+              <th>Unit</th>
+              <th>Cost</th>
+              <th>Payment Option</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of invoice.orders">
+                <td>{{ order.id }}</td>
+                <td>
+                    <div>
+                      <img class="uk-img" width="100" src="{{ order.product.imageUrl }}"/>
+                    </div>
+                </td>
+                <td>{{ order.product.name }}</td>
+                <td [innerHtml]="formatProductOptions(order.options)"></td>
+                <td>{{formatShipmentOption(order.shipments)}}</td>
+                <td>{{ order.unit }}</td>
+                <td>NGN {{ order.price.toLocaleString() }}</td>
+                <td>{{ order.paymentOption }}</td>
+                <td>{{ order.status }}</td>
+                <td>
+                    <div class="uk-inline">
+                        <button class="uk-button uk-button-default" type="button">
+                            Action
+                        </button>
+                        <div uk-dropdown="mode: click" style="z-index:99">
+                            <ul class="uk-list uk-list-divider" style="z-index:99">
+                                <li>
+                                    <a uk-toggle="target: #modal-view-more" 
+                                        (click)="setViewMore(order)">
+                                        View More
+                                    </a>
+                                </li>
+                                <li *ngIf="isUpdatable(order.status)">
+                                    <a uk-toggle="target: #modal-update-delivery-status"
+                                        (click)="setOrderId(order.id,order.status)">
+                                        Update Delivery Status
+                                    </a>
+                                </li>
+                                <li *ngIf="order.status === 'intransit'">
+                                  <a (click)="updateLocation(order.id)">Update Location</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+<div>
+
+<!-- This is the modal with the outside close button -->
+<div id="modal-view-more" uk-modal="bg-close: false">
+  <div class="uk-modal-dialog uk-modal-body">
+    <button class="uk-modal-close-outside" type="button" uk-close></button>
+    <app-order-view-more></app-order-view-more>
+  </div>
+</div>
+
+<!-- This is the modal with the outside close button -->
+<div id="modal-update-delivery-status" uk-modal="bg-close: false">
+  <div class="uk-modal-dialog uk-modal-body">
+    <button class="uk-modal-close-outside" type="button" uk-close #closeUpdateStatus>
+    </button>
+    <app-update-delivery-status (closed)="closeUpdateStatusModal()">
+    </app-update-delivery-status>
+  </div>
+</div>
