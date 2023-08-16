@@ -344,7 +344,14 @@ export class AuthService {
     this.ngxService.stopAll();
     if (accessType === 'signin' && authType === 'login' && res.data.canLogin === false) {
       this.ngxService.stopLoader('loader-01');
-          this.toast.error('Please confirm your email address');
+      this.toast.error('Please confirm your email address');
+      
+      if (this.currentUrl.includes('seller-form')) { 
+        this.hideSharedLoginModal();
+        this.isLogin.next(true);
+        this.SetAuthLocalStorage(res);
+        return;
+      }
           this.router.navigate(['/auth/confirm-email']);
           return;
     }
@@ -362,8 +369,6 @@ export class AuthService {
           if(this.currentUrl.includes('auth')) {
             this.router.navigate(['/seller/dashboard']);
           } else {
-
-
             this.hideSharedLoginModal();
           }
         } else {
@@ -372,6 +377,7 @@ export class AuthService {
             this.router.navigate(['/']);
           } else {
             this.hideSharedLoginModal();
+            this.hideSharedSignupModal()
           }
         }
       } else {
