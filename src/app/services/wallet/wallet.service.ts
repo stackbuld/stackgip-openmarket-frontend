@@ -1,5 +1,5 @@
 import { IResponseModel } from "./../../shared/models/IResponseModel";
-import { IBankAccount, IWalletResponse } from "../../models/wallet.model"
+import { IBankAccount, IRequestResponse, ITransactionsResponse, IWalletResponse } from "../../models/wallet.model"
 import { BehaviorSubject, Observable } from "rxjs";
 import { IUpdateUser, IUserResponse } from "./../../models/IUserModel";
 import { HttpClient } from "@angular/common/http";
@@ -28,8 +28,11 @@ export class WalletService {
     return this.http.get<IWalletResponse>(this.baseUrl + `bankaccount/banks/NGN`);
   }
   
-   getTransactions(): Observable<IWalletResponse> {
-    return this.http.get<IWalletResponse>(this.baseUrl + `payments/transactions`);
+   getTransactions(): Observable<ITransactionsResponse> {
+    return this.http.get<ITransactionsResponse>(this.baseUrl + `payments/transactions`);
+   }
+     getRequests(): Observable<IRequestResponse> {
+    return this.http.get<IRequestResponse>(this.baseUrl + `wallet/withdrawal-requests`);
   }
   
   getAccountName(body): Observable<any> {

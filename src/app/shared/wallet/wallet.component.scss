@@ -3,8 +3,11 @@
 .seller-wallet-page {
     max-width: 69rem;
     margin-inline: auto;
-
+    margin-bottom: 0.5rem;
     overflow: hidden;
+@include breakpoint-down(small) {
+        padding-inline: 1rem;
+    }
 }
 
 .balance-row {

@@ -12,7 +12,30 @@
 // .h-48 {
 //     height: 12rem;
 // }
+.uk-tab {
+    margin: 0 !important;
 
+    ul {
+        margin: 0;
+    }
+}
+
+.tabs {
+    @include breakpoint-down(small) {
+        width: 70%;
+        display: flex;
+
+        li {
+            flex: 1;
+        }
+
+                .title {
+                    word-wrap: break-word;
+                    font-size: 0.7rem;
+                    line-height: 1rem;
+                }
+                }
+                }
 .loader {
     margin-left: auto;
     margin-right: auto;
@@ -38,6 +61,7 @@
     border-radius: 8px;
     width: 12.75rem;
     line-height: 1rem;
+    max-height: 3.3rem;
     text-transform: capitalize;
     padding: 0.8rem 1rem;
 
@@ -138,9 +162,10 @@
     .title {
         font-weight: 400;
         color: #243853;
+        margin: 0;
 
         @include breakpoint-down(small) {
-            font-size: 1rem;
+            font-size: 0.7rem;
         }
     }
 

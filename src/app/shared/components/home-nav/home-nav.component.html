@@ -63,11 +63,16 @@
       <img src="/assets/images/orders-iccn.svg" alt="orders-icn" />
     </span>
     &nbsp; &nbsp; &nbsp; -->
+    
     <span routerLink="/homepage/checkout" class="txt pointer cart-tag">
       <span class="tag">{{ cartCount }}</span>
       <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
     </span>
     &nbsp; &nbsp; &nbsp;
+    <span class="txt pointer flex-align" routerLink="/homepage/wallet">
+                Wallet
+              </span>
+              &nbsp; &nbsp; &nbsp;
     <div class="uk-inline">
         <span class="txt pointer flex-align">
           <img src="/assets/images/user-icn.svg" alt="user-icn" /> &nbsp;
@@ -162,6 +167,7 @@
                 <span class="mobile-item" routerLink="/seller-form">Sell</span>
                 <br />
                 <span class="mobile-item" routerLink="/learn-more">Learn More</span>
+                
               </div>
 
               <div class="py-2 border-bottom">
@@ -171,6 +177,11 @@
                   <span class="pointer" routerLink="/seller/dashboard">
                     <img src="/assets/images/user-icn.svg" width="20" height="20" /> &nbsp;
                     <span class="text-black">Dashboard</span>
+                  </span>
+                  <br>
+                  <span class="pointer" routerLink="/homepage/wallet">
+                    <img src="/assets/icons/cash-outline-dark.svg" width="20" height="20" /> &nbsp;
+                    <span class="text-black">Wallet </span>
                   </span>
                   <br>
                   <span class="pointer" routerLink="/seller/orders">
@@ -291,6 +302,7 @@
         </span>
         &nbsp; &nbsp; &nbsp;
         <!-- <img src="/assets/images/user-icn.svg" alt="user-icn" /> -->
+        
         <div class="uk-inline">
           <span class="txt pointer flex-align">
             <img src="/assets/images/user-icn.svg" alt="user-icn" />
@@ -315,6 +327,7 @@
                 <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Orders
               </span>
               <br> <br>
+              
               <span class="pointer" uk-toggle="target: #logout-modal" id="js-modal-prompt">
                 <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout
               </span>
@@ -325,6 +338,7 @@
                 <img src="/assets/images/user-icn.svg"  /> &nbsp; Dashboard
               </span>
               <br> <br>
+              
               <span class="pointer" routerLink="/seller/orders">
                 <img src="/assets/images/orders-iccn.svg"  /> &nbsp; Sales
               </span>

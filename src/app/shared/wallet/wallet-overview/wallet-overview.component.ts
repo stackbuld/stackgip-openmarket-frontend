@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IRequestResponse, Requests, TransactionsResponse } from 'src/app/models/wallet.model';
 import { WalletService } from 'src/app/services/wallet/wallet.service';
 
 @Component({
@@ -8,13 +9,17 @@ import { WalletService } from 'src/app/services/wallet/wallet.service';
 })
 export class WalletOverviewComponent {
 
-  transactionsList: any;
+  transactionsList: TransactionsResponse;
+  withdrawalRequests: Requests;
   loadingTransactions: boolean;
+  loadingRequests: boolean;
+  tab = 1;
 
   constructor(private walletService: WalletService){}
 
   ngOnInit(): void { 
     this.getTransactions()
+    this.getWithdrawalRequests()
   }
 
 
@@ -29,14 +34,31 @@ export class WalletOverviewComponent {
         this.loadingTransactions = true
     this.walletService.getTransactions().subscribe(
       (res) => {
-        console.log(res)
+        
         this.loadingTransactions= false
         this.transactionsList = res.data
       },
       (err) => {
+        this.loadingTransactions= false
         console.log(err)
         
       }
     );
-    }
+  }
+  
+  getWithdrawalRequests() {
+    this.loadingRequests = false
+    this.walletService.getRequests().subscribe(
+      (res: IRequestResponse) => {
+        console.log(res.data)
+        this.loadingRequests= false
+        this.withdrawalRequests = res.data
+      },
+      (err) => {
+        this.loadingRequests= false
+        console.log(err)
+        
+      }
+    );
+  }
 }
