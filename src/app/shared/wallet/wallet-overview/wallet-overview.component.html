@@ -8,10 +8,13 @@
     </button>
      <button
         class="uk-button uk-button-default button"
-        type="button" routerLink="/seller/products/add"
+        disabled
+        type="button"
         >
-        <img src="../../../../assets/icons/cash-outline-dark.svg" alt="" width="20" height="20" />
-            Fund Wallet
+        <div><img src="../../../../assets/icons/cash-outline-dark.svg" alt="" width="20" height="20" />
+            Fund Wallet 
+            </div>
+             <small>Coming soon!!</small>
     </button>
 </div>
 
@@ -41,7 +44,16 @@
 
 <div class="transactions-section transactions-section-md">
     <div class="uk-flex uk-flex-between">
-        <h2 class="title">Recent Transactions</h2>
+        <ul uk-tab class="tabs">
+
+      <li tabindex="0" role="tab"
+      (click)="tab=1" (keyup.enter)="tab=1" class="uk-active"><a><h2 class="title">Recent Transactions</h2></a></li>
+      <li tabindex="0" role="tab"
+      (click)="tab=2" (keyup.enter)="tab=2"><a><h2 class="title">Withdrawal Requests</h2></a></li>
+      
+    </ul>
+    
+        
     <div class="uk-flex filters">
         <div class="sort">
             <select name="month" #month required>
@@ -59,7 +71,7 @@
     </div>
 
     <div class="card-container card-container-md hide-for-mobile uk-card uk-card-default uk-card-body">
-        <table>
+        <table *ngIf="tab === 1">
             <thead>
                 <tr>
             <th>Transaction ID</th>
@@ -88,11 +100,39 @@
                 </tr>
                 
             </tbody>
+            
+        </table>
+
+        <table *ngIf="tab === 2">
+            <thead>
+                <tr>
+            <th>Transaction ID</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Status</th>
+            </tr>
+            </thead>
+             <div *ngIf="loadingRequests">
+             <span class="loader" uk-spinner="ratio: 1">
+            </span>
+        </div>
+            <tbody>
+                <tr *ngFor="let item of withdrawalRequests?.items">
+                    <td>{{item.id}}</td>
+                    <td>₦{{item.amount}}</td>
+                    <td><p>{{ formatDate(item?.createdAt) }}</p>
+                        <p>{{ formatTime(item?.createdAt) }}</p>
+                    </td>
+                    <td>{{item.status}}</td>
+                </tr>
+                
+            </tbody>
         </table>
     </div>
 
+    
 
-    <div class="card-container-sm">
+    <div class="card-container-sm" *ngIf="tab === 1">
          
         <div class="card-container" *ngIf="loadingTransactions">
              <span class="loader" uk-spinner="ratio: 1">
@@ -113,6 +153,35 @@
             </div>
             <div class="uk-flex h-full uk-flex-column uk-flex-between">
                 <p class="transaction-status">{{item.withdrawalRequests?.status}}</p>
+                <p class="transaction-amount">₦{{item.amount}}</p>
+            </div>
+            </div>
+         </div>
+        
+         
+    </div>
+
+
+    <div class="card-container-sm" *ngIf="tab === 2">
+         
+        <div class="card-container" *ngIf="loadingRequests">
+             <span class="loader" uk-spinner="ratio: 1">
+            </span>
+        </div>
+
+         <div *ngIf="!loadingRequests">
+            <div class="card-container uk-flex uk-flex-between relative uk-card uk-card-default uk-card-body" *ngFor="let item of withdrawalRequests?.items">
+           
+           
+                <div>
+                <p class="transaction-hash">
+                Transaction ID: <span>{{item.id}}</span>
+                </p>
+               
+                <p class="transaction-date">{{ formatDate(item?.createdAt) }}, <small>{{ formatTime(item?.createdAt) }}</small></p>
+            </div>
+            <div class="uk-flex h-full uk-flex-column uk-flex-between">
+                <p class="transaction-status">{{item.status}}</p>
                 <p class="transaction-amount">₦{{item.amount}}</p>
             </div>
             </div>
