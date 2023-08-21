@@ -382,12 +382,14 @@ export class AuthService {
         }
       } else {
         this.ngxService.stopLoader('loader-01');
+        this.isLogin.next(true);
         this.SetAuthLocalStorage(res);
         this.toast.success(`${accessType === 'signin'? 'Login': 'Signup'} Successful`);
         if(this.currentUrl.includes('auth')) {
           authType === 'login'? this.router.navigate(['/']): this.router.navigate(['/homepage'])
         } else {
           this.hideSharedLoginModal();
+          this.hideSharedSignupModal()
         }
       }
     }
