@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { WindowRefService } from '../../../shared/services/window.service';
 import uikit from 'uikit';
 import { AuthService } from 'src/app/services/auth.service';
@@ -10,6 +10,7 @@ import { SignInModel } from 'src/app/models/signin-model';
 import { Subscription } from 'rxjs';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { environment } from 'src/environments/environment';
+import { countryCodes } from 'src/app/data/countryCodes';
 declare const FB: any
 
 
@@ -26,6 +27,9 @@ export class SignupModalComponent implements OnInit {
   errors: any[];
   googleAuth: any;
   message = '';
+  @ViewChild('target') target: ElementRef
+  selectedCode: string = "NG";
+  codeList: any;
   errorMessage: string;
   window: Window;
   FB: any
@@ -44,7 +48,9 @@ export class SignupModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.hasError = false;
+    this.codeList = countryCodes;
     this.errors = [];
+    console.log(countryCodes)
     this.errorMessage = '';
     this.message = '';
     this.registerForm = this.fb.group(
@@ -141,6 +147,11 @@ get f() {
     return !this.registerForm.controls["password"].hasError("requiresSpecialChars");
   }
 
+    handleSelect(_, item) {
+    this.target.nativeElement.classList.toggle('uk-open')
+    // this.el.nativeElement.querySelector(".uk-drop").classList.remove(".uk-open")
+    this.selectedCode = item.code
+  }
 showPassword() {
   this.passwordType = !this.passwordType;
 }
@@ -163,11 +174,12 @@ submit(): void {
 
   this.authService.register(payload).subscribe(
     (d) => {
-      this.ngxService.stopLoader('loader-01');
-      this.message = d.message;
-      this.toast.success(d.message, 'notification');
-      uikit.modal('#signup-modal').hide()
-      uikit.modal("#confirm-seller-signup").show()
+      // this.ngxService.stopLoader('loader-01');
+      // this.message = d.message;
+      // this.toast.success(d.message, 'notification');
+      // uikit.modal('#signup-modal').hide()
+      this.authService.handleAuthResponse(d,'signup', 'register');
+      // uikit.modal("#confirm-seller-signup").show()
       // this.router.navigateByUrl('auth/confirm-email')
       this.hasError = false;
     },

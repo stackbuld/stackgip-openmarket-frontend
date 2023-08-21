@@ -19,6 +19,7 @@ import { SellerService } from 'src/app/services/seller/seller.service';
 import { ResponseModel } from 'src/app/shared/models/ResponseModel';
 import { ToastrService } from 'src/app/services/toastr.service';
 import { LocationStrategy } from '@angular/common';
+import { countryCodes } from '../../../data/countryCodes';
 import { Router } from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
 
@@ -58,6 +59,8 @@ export class SellerRegisterationFormComponent
   ) {}
 
   ngOnInit(): void {
+
+    console.log(countryCodes)
     this.authService.isLogin.subscribe(a=> {
       if(a){
         this.user = JSON.parse(localStorage.getItem('user')) as IUser;
@@ -140,6 +143,9 @@ export class SellerRegisterationFormComponent
     return this.sellerRegFormGroup.get('isBusinessRegistered')?.value;
   }
 
+  openModalForMe() {
+    this.authService.showSharedSignupModal();
+  }
   submit() {
     console.log(this.user)
     if(!this.user?.id){

@@ -51,18 +51,39 @@
                   </div>
                 </section> -->
 
+                <div class="time-picker-component">
                 <mat-form-field appearance="outline">
                 <mat-label>Phone Number</mat-label>
-                <div class="uk-flex">
-                  <div class="dropdown-icon uk-flex" type="button"  *ngIf="(f.phoneNumber.value)
-                    "> +234
+                <!-- <div class="uk-flex icon-section">
+                  <div class="dropdown-icon uk-flex" type="button"
+                    >
+                   
+                    +234
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path d="M6 9L12 15L18 9" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                  </div>
-                <input matInput placeholder="08023434567" pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$" type="number" formControlName="phoneNumber" required />
-                </div>
+                  <div uk-dropdown="boundary: !contain; shift: false; flip: false; mode: click; target: !.contain; stretch: x; pos: bottom-left; auto-update: false"  class="uk-dropdown dropdown" #target>
+        
+                  <ng-template [ngIf]="codeList?.length > 0">
+                    <div class="dropdown-contents">
+                      <div *ngFor="let item of codeList" [ngClass]="item?.abbr?.toLowerCase() === selectedCode?.toLowerCase() ? 'contents-item contents-item-selected mb-1' : 'contents-item mb-1'" (click)="handleSelect($event, item)">
+                        <p>{{item.abbr}}</p>
+                      </div>
+                    </div>
+                  </ng-template>
+                  </div> -->
+                  
+                <input matInput #myInput placeholder="08023434567" pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$" type="number" formControlName="phoneNumber" required />
+                <!-- </div> -->
+                <!-- <div class="country-code" matPrefix>
+                  <mat-select #template name="ampm">
+          <mat-option value="AM">AM</mat-option>
+          <mat-option value="PM">PM</mat-option>
+     </mat-select>
+                </div> -->
               </mat-form-field>
+              </div>
               <section class="error-sec">
                 <div *ngIf="
                       f.phoneNumber.invalid &&
