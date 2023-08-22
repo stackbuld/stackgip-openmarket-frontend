@@ -105,8 +105,8 @@ export class ProductsService {
     return this.http.get(this.baseUrl + `products/${id}`);
   }
 
-  getLowStockProducts(): Observable<any> {
-    return this.http.get(this.baseUrl + `products/low-stocks`);
+  getLowStockProducts(userId: string): Observable<any> {
+    return this.http.get(this.baseUrl + `seller/${userId}/low-stocks`);
   }
 
   productOrderSummary(userId: string, productId: any): Observable<any> {

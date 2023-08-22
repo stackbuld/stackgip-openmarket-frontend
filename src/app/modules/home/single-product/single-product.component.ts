@@ -557,6 +557,7 @@ export class SingleProductComponent implements OnInit {
         lng: this.currentAddress?.lng,
       } ,
     } as GetShippingPriceEstimateRequest;
+    this.loadingShippingStatus = 'request_started';
     const cartService$ = this.cartService.getShippingEstimate(payload);
     cartService$.subscribe(
       (res) => {
