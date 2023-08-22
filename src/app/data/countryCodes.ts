@@ -7,4 +7,4 @@ const formatCode = (code) => {
     return "+" + code
 }
 
-export const countryCodes = Object.keys(codes).map((val: string) => ({abbr: val, code: formatCode(codes[val])}))
+export const countryCodes = Object.keys(codes).sort().map((val: string) => ({abbr: val, code: formatCode(codes[val])}))

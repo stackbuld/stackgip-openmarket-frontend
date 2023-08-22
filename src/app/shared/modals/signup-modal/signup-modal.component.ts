@@ -26,12 +26,17 @@ export class SignupModalComponent implements OnInit {
   passwordType: boolean
   errors: any[];
   googleAuth: any;
-  message = '';
+  message = '';selectedValue: string;  
   @ViewChild('target') target: ElementRef
   selectedCode: string = "NG";
   codeList: any;
   errorMessage: string;
   window: Window;
+  foods= [  
+    {value: 'steak-0', viewValue: 'Steak'},  
+    {value: 'pizza-1', viewValue: 'Pizza'},  
+    {value: 'tacos-2', viewValue: 'Tacos'}  
+  ];  
   FB: any
   private clientId = environment.googleClientId;
   constructor(

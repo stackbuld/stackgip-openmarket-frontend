@@ -76,12 +76,17 @@
                   
                 <input matInput #myInput placeholder="08023434567" pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$" type="number" formControlName="phoneNumber" required />
                 <!-- </div> -->
-                <!-- <div class="country-code" matPrefix>
-                  <mat-select #template name="ampm">
-          <mat-option value="AM">AM</mat-option>
-          <mat-option value="PM">PM</mat-option>
-     </mat-select>
-                </div> -->
+                <div class="country-code" matPrefix>
+                  <!-- <mat-select #template>
+                  <mat-option [value]="item.code" *ngFor="let item of codeList">{{item.abbr}}</mat-option>
+              </mat-select> -->
+
+              <mat-select [(ngModel)]="selectedValue" name="food">  
+      <mat-option *ngFor="let food of foods" [value]="food.value">  
+        {{food.viewValue}}  
+      </mat-option>  
+    </mat-select>  
+                </div>
               </mat-form-field>
               </div>
               <section class="error-sec">
@@ -145,7 +150,7 @@
                 </section> -->
 
                  <section>
-                <div *ngIf="f.password.value" class="err-sec">
+                <div *ngIf="(f.password.value && f.password.invalid) || f.password.dirty || f.password.touched" class="err-sec">
                    <div [ngClass]="minLengthValid ? '': 'error'">
                     Password should be at least 6 characters <br />
                   </div>
