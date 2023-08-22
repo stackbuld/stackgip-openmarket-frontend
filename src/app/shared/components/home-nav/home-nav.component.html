@@ -69,10 +69,7 @@
       <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
     </span>
     &nbsp; &nbsp; &nbsp;
-    <span class="txt pointer flex-align" routerLink="/homepage/wallet">
-                Wallet
-              </span>
-              &nbsp; &nbsp; &nbsp;
+    
     <div class="uk-inline">
         <span class="txt pointer flex-align">
           <img src="/assets/images/user-icn.svg" alt="user-icn" /> &nbsp;
@@ -80,6 +77,7 @@
         </span>
         <div uk-dropdown="mode: click" class="d-down">
           <span *ngIf="credentials() === null">
+            
             <span class="pointer" routerLink="/auth">
               <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign In
             </span>
@@ -90,6 +88,11 @@
           </span>
 
           <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'buyer'">
+            <span class="pointer" routerLink="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'buyer' ? '/homepage/wallet' : '/seller/wallet'">
+              <img src="/assets/icons/cash-outline-dark.svg" style="scale: 1.4;"/> &nbsp;
+                Wallet
+              </span>
+              <br><br>
             <span class="pointer" routerLink="/homepage/history">
               <img src="/assets/images/user-icn.svg"  /> &nbsp; My Account
             </span>
@@ -179,7 +182,7 @@
                     <span class="text-black">Dashboard</span>
                   </span>
                   <br>
-                  <span class="pointer" routerLink="/homepage/wallet">
+                  <span class="pointer" routerLink="/seller/wallet">
                     <img src="/assets/icons/cash-outline-dark.svg" width="20" height="20" /> &nbsp;
                     <span class="text-black">Wallet </span>
                   </span>
@@ -213,6 +216,11 @@
                 </span>
 
                 <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'buyer'">
+                  <span class="pointer" routerLink="/homepage/wallet">
+                    <img src="/assets/icons/cash-outline-dark.svg" style="scale: 1.4;"/> &nbsp;
+                      Wallet
+                  </span>
+                  <br>
                   <span class="pointer" routerLink="/homepage/history" (click)="closeSidebar()">
                     <img src="/assets/images/user-icn.svg" width="20" height="20" /> &nbsp;
                     <span class="text-black">My Account </span>

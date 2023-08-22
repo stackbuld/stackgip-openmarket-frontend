@@ -10,7 +10,7 @@
                   <mat-label>First Name</mat-label>
                   <input matInput placeholder="Jane" type="text" formControlName="firstname" required />
                 </mat-form-field>
-                <section class="error-sec">
+                <section class="err-sec">
                   <div *ngIf="
                         f.firstname.invalid &&
                         (f.firstname.dirty || f.firstname.touched)
@@ -25,77 +25,50 @@
                   <mat-label>Last Name</mat-label>
                   <input matInput placeholder="Doe" type="text" formControlName="lastname" required />
                 </mat-form-field>
-                <section class="error-sec">
+                <section class="err-sec">
                   <div *ngIf="
                         f.lastname.invalid &&
                         (f.lastname.dirty || f.lastname.touched)
                       ">
-                    <div *ngIf="f.lastname.errors.required">
+                    <p *ngIf="f.lastname.errors.required">
                       lastname required
-                    </div>
+                    </p>
                   </div>
                 </section>
-
-                <!-- <mat-form-field appearance="outline">
-                  <mat-label>Phone Number</mat-label>
-                  <input matInput placeholder="08023434567" type="text" formControlName="phoneNumber" required />
-                </mat-form-field>
-                <section class="error-sec">
-                  <div *ngIf="
-                        f.phoneNumber.invalid &&
-                        (f.phoneNumber.dirty || f.phoneNumber.touched)
-                      ">
-                    <div *ngIf="f.phoneNumber.errors.required">
-                      Phone Number required
-                    </div>
-                  </div>
-                </section> -->
 
                 <div class="time-picker-component">
                 <mat-form-field appearance="outline">
                 <mat-label>Phone Number</mat-label>
-                <!-- <div class="uk-flex icon-section">
-                  <div class="dropdown-icon uk-flex" type="button"
-                    >
-                   
-                    +234
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M6 9L12 15L18 9" stroke="#25282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                 </div>
-                  <div uk-dropdown="boundary: !contain; shift: false; flip: false; mode: click; target: !.contain; stretch: x; pos: bottom-left; auto-update: false"  class="uk-dropdown dropdown" #target>
-        
-                  <ng-template [ngIf]="codeList?.length > 0">
-                    <div class="dropdown-contents">
-                      <div *ngFor="let item of codeList" [ngClass]="item?.abbr?.toLowerCase() === selectedCode?.toLowerCase() ? 'contents-item contents-item-selected mb-1' : 'contents-item mb-1'" (click)="handleSelect($event, item)">
-                        <p>{{item.abbr}}</p>
-                      </div>
-                    </div>
-                  </ng-template>
-                  </div> -->
+                
                   
                 <input matInput #myInput placeholder="08023434567" pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$" type="number" formControlName="phoneNumber" required />
-                <!-- </div> -->
-                <!-- <div class="country-code" matPrefix>
-                  <mat-select #template name="ampm">
-          <mat-option value="AM">AM</mat-option>
-          <mat-option value="PM">PM</mat-option>
-     </mat-select>
-                </div> -->
+                <div class="country-code" matPrefix>
+              
+                <mat-select (change)="changeOption($event)"
+                  formControlName="countryCode">  
+                  <mat-select-trigger>
+                    {{f.countryCode.value}}
+                  </mat-select-trigger>
+                  <mat-option *ngFor="let el of codeList" [value]="el.code">  
+                  {{el.abbr}}   {{el.code}}  
+                  </mat-option>  
+                </mat-select>  
+                </div>
               </mat-form-field>
               </div>
-              <section class="error-sec">
+              <section class="err-sec">
                 <div *ngIf="
                       f.phoneNumber.invalid &&
                       (f.phoneNumber.dirty || f.phoneNumber.touched)
                     ">
-                  <div *ngIf="f.phoneNumber.errors.required">
+                  <p *ngIf="f.phoneNumber.errors.required">
                     Phone Number required
-                  </div>
-                  <div *ngIf="f.phoneNumber.errors.pattern">
+                  </p>
+                  <p *ngIf="f.phoneNumber.errors.pattern && (f.phoneNumber.dirty || f.phoneNumber.touched)">
                     Phone Number must be valid
-                  </div>
+                  </p>
                 </div>
+                
               </section>
 
                 <mat-form-field appearance="outline">
@@ -107,16 +80,16 @@
                     </span>
                   </div>
                 </mat-form-field>
-                <section class="error-sec">
+                <section class="err-sec">
                   <div *ngIf="
                         f.email.invalid && (f.email.dirty || f.email.touched)
                       ">
-                    <div *ngIf="f.email.errors.required">
+                    <p *ngIf="f.email.errors.required && (f.email.dirty || f.email.touched)">
                       Email required <br />
-                    </div>
-                    <div *ngIf="f.email.errors.email">
+                    </p>
+                    <p *ngIf="f.email.errors.email && (f.email.dirty || f.email.touched)">
                       Valid email required
-                    </div>
+                    </p>
                   </div>
                 </section>
 
@@ -130,35 +103,23 @@
                   </div>
 
                 </mat-form-field>
-                <!-- <section class="error-sec">
-                  <div *ngIf="
-                    f.password.invalid &&
-                    (f.password.dirty || f.password.touched)
-                  ">
-                    <div *ngIf="f.password.errors.required">
-                      Password required, must contain number, special character, uppercase and lowercase characters <br />
-                    </div>
-                    <div *ngIf="f.password.errors.minLength">
-                      Password should be at least 6 characters <br />
-                    </div>
-                  </div>
-                </section> -->
+               
 
                  <section>
-                <div *ngIf="f.password.value" class="err-sec">
-                   <div [ngClass]="minLengthValid ? '': 'error'">
+                <div *ngIf="(f.password.value && f.password.invalid) && f.password.dirty && f.password.touched" class="err-sec">
+                   <div [ngClass]="!minLengthValid ? '': 'no-error'">
                     Password should be at least 6 characters <br />
                   </div>
-                  <div [ngClass]="requiresUppercaseValid ? '': 'error'">
+                  <div [ngClass]="!requiresUppercaseValid ? '': 'no-error'">
                     Password must contain Uppercase letter<br />
                   </div>
-                  <div [ngClass]="requiresLowercaseValid ? '': 'error'">
+                  <div [ngClass]="!requiresLowercaseValid ? '': 'no-error'">
                     Password must contain Lowercase letter<br />
                   </div>
-                  <div [ngClass]="requiresDigitValid ? '': 'error'">
+                  <div [ngClass]="!requiresDigitValid ? '': 'no-error'">
                     Password must contain a number <br />
                   </div>
-                  <div [ngClass]="requiresSpecialCharsValid ? '': 'error'">
+                  <div [ngClass]="!requiresSpecialCharsValid ? '': 'no-error'">
                     Password must contain special character<br />
                   </div>
                 </div>
