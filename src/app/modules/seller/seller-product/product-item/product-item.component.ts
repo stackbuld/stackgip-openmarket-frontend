@@ -66,7 +66,7 @@ export class ProductItemComponent implements OnInit {
 
   getLowStockProducts = () => {
     this.loadingStock = true;
-    this.productService.getLowStockProducts().subscribe((res) => {
+    this.productService.getLowStockProducts(this.user.id).subscribe((res) => {
       this.lowStock = res.data.data;
       this.loadingStock = false;
     });
