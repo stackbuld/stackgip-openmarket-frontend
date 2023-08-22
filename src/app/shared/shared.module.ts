@@ -54,7 +54,6 @@ import { LoginModalComponent } from './modals/login-modal/login-modal.component'
 import { SignupModalComponent } from './modals/signup-modal/signup-modal.component';
 import { SocialModalComponent } from './modals/social-modal/social-modal.component';
 import { CustomDropdownComponent } from './components/custom-dropdown/custom-dropdown.component';
-import { CountryCodesDropdownComponent } from './components/countrycodes-dropdown/countrycodes-dropdown.component';
 import { NgxOtpInputModule } from 'ngx-otp-input';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { PopupComponent } from './components/popup/popup.component';
@@ -90,7 +89,6 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     SignupModalComponent,
     SocialModalComponent,
     CustomDropdownComponent,
-    CountryCodesDropdownComponent,
     PopupComponent,
     LoginPopUpModalComponent,
   ],

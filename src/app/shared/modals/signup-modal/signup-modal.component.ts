@@ -26,16 +26,14 @@ export class SignupModalComponent implements OnInit {
   passwordType: boolean
   errors: any[];
   googleAuth: any;
-  message = '';selectedValue: string;  
-  @ViewChild('target') target: ElementRef
-  selectedCode: string = "NG";
+  message = '';
   codeList: any;
   errorMessage: string;
   window: Window;
   foods= [  
-    {value: 'steak-0', viewValue: 'Steak'},  
-    {value: 'pizza-1', viewValue: 'Pizza'},  
-    {value: 'tacos-2', viewValue: 'Tacos'}  
+    {value: '0', label: 'Steak'},  
+    {value: '1', label: 'Pizza'},  
+    {value: '2', label: 'Tacos'}  
   ];  
   FB: any
   private clientId = environment.googleClientId;
@@ -62,6 +60,7 @@ export class SignupModalComponent implements OnInit {
       {
         firstname: ['', [Validators.required]],
         lastname: ['', [Validators.required]],
+        countryCode: ['+234'],
         email: ['', [Validators.required, Validators.email]],
         password: ['', Validators.compose(
           [
@@ -105,6 +104,10 @@ export class SignupModalComponent implements OnInit {
     };
   };
 
+  changeOption(e: any) {
+    console.log(e.target.value)
+    this.registerForm?.patchValue({countryCodes: e.target.value});
+  }
   async handleGoogleSignup(response: CredentialResponse) {
     this.ngxService.startLoader('loader-01');
     await this.authService.LoginWithGoogle(response.credential).subscribe(
@@ -152,11 +155,6 @@ get f() {
     return !this.registerForm.controls["password"].hasError("requiresSpecialChars");
   }
 
-    handleSelect(_, item) {
-    this.target.nativeElement.classList.toggle('uk-open')
-    // this.el.nativeElement.querySelector(".uk-drop").classList.remove(".uk-open")
-    this.selectedCode = item.code
-  }
 showPassword() {
   this.passwordType = !this.passwordType;
 }
@@ -172,7 +170,7 @@ submit(): void {
     firstName: this.registerForm.get('firstname').value,
     lastName: this.registerForm.get('lastname').value,
     email: this.registerForm.get('email').value,
-    phoneNumber: "+234" + (this.registerForm.get('phoneNumber').value).toString(),
+    phoneNumber: (this.registerForm.get('countryCode').value).toString() + (this.registerForm.get('phoneNumber').value).toString(),
     password: this.registerForm.get('password').value,
   }
   this.ngxService.startLoader('loader-01');

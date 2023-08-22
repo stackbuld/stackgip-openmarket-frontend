@@ -10,15 +10,17 @@ input[type=number] {
 }
 
 .err-sec {
+  margin-bottom: 1rem;
   div {
     text-align: left;
-    color: rgba(0, 128, 0, 0.853);
-  }
-
-  .error {
     color: red;
   }
+
+  .no-error {
+    color: rgba(0, 128, 0, 0.853);
+  }
 }
+
 h6 {
     text-align: center;
     padding: 40px;
@@ -246,8 +248,22 @@ h6 {
 }
 .country-code{
   width: 4rem;
+  padding-left: .5rem;
   background-color: #f2f2f2;
 }
 .time-picker-component .mat-form-field-infix {
   display: inherit;
 }
+
+:host ::ng-deep mat-form-field .mat-form-field-infix {
+        width: unset;
+      }
+::ng-deep .mat-select-panel {
+    // min-width: 100% !important;
+    width: 140rem !important;
+}
+
+  .mat-select-value {
+    // max-width: 100%;
+    width: 140px;
+  } 
