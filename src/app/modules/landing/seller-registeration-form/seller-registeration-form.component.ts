@@ -181,10 +181,7 @@ export class SellerRegisterationFormComponent
       },
     };
 
-    if (!this.image) {
-      this.toast.error('business logo is required');
-      return;
-    } else if (this.sellerRegFormGroup.get('personalIDType')?.value === "NIN" && !this.imageID) {
+    if (this.sellerRegFormGroup.get('personalIDType')?.value === "NIN" && !this.imageID) {
       this.toast.error('NIN slip image is required');
       return;
     }else {
