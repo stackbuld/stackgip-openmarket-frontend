@@ -145,8 +145,9 @@
                         sellerRegFormGroup.get('dateOfBirth').invalid &&
                         !sellerRegFormGroup.get('dateOfBirth').untouched
                     }">Date Of Birth</mat-label>
-                  <input matInput type="date" formControlName="dateOfBirth" [matDatepicker]="picker" placeholder="Choose a date">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <input matInput formControlName="dateOfBirth" (click)="picker.open()" [matDatepicker]="picker" placeholder="Choose a date">
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
                 

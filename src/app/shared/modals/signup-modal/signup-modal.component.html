@@ -107,19 +107,19 @@
 
                  <section>
                 <div *ngIf="(f.password.value && f.password.invalid) && f.password.dirty && f.password.touched" class="err-sec">
-                   <div [ngClass]="!minLengthValid ? '': 'no-error'">
+                   <div *ngIf="!minLengthValid" [ngClass]="!minLengthValid ? '': 'no-error'">
                     Password should be at least 6 characters <br />
                   </div>
-                  <div [ngClass]="!requiresUppercaseValid ? '': 'no-error'">
+                  <div *ngIf="!requiresUppercaseValid" [ngClass]="!requiresUppercaseValid ? '': 'no-error'">
                     Password must contain Uppercase letter<br />
                   </div>
-                  <div [ngClass]="!requiresLowercaseValid ? '': 'no-error'">
+                  <div *ngIf="!requiresLowercaseValid" [ngClass]="!requiresLowercaseValid ? '': 'no-error'">
                     Password must contain Lowercase letter<br />
                   </div>
-                  <div [ngClass]="!requiresDigitValid ? '': 'no-error'">
+                  <div *ngIf="!requiresDigitValid" [ngClass]="!requiresDigitValid ? '': 'no-error'">
                     Password must contain a number <br />
                   </div>
-                  <div [ngClass]="!requiresSpecialCharsValid ? '': 'no-error'">
+                  <div *ngIf="!requiresSpecialCharsValid" [ngClass]="!requiresSpecialCharsValid ? '': 'no-error'">
                     Password must contain special character<br />
                   </div>
                 </div>

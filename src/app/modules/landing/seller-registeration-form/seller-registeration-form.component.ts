@@ -23,11 +23,13 @@ import { countryCodes } from '../../../data/countryCodes';
 import { Router } from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
 
+
 declare var cloudinary: any;
 @Component({
   selector: 'app-seller-registeration-form',
   templateUrl: './seller-registeration-form.component.html',
   styleUrls: ['./seller-registeration-form.component.css'],
+  
 })
 export class SellerRegisterationFormComponent
   implements OnInit, AfterViewChecked, OnDestroy
@@ -147,7 +149,8 @@ export class SellerRegisterationFormComponent
     this.authService.showSharedSignupModal();
   }
   submit() {
-    console.log(this.user)
+    // console.log(this.sellerRegFormGroup)
+    // return;
     if(!this.user?.id){
       this.authService.showSharedLoginModal();
       return;
@@ -162,7 +165,7 @@ export class SellerRegisterationFormComponent
         this.isBusinessRegistered === true
           ? this.sellerRegFormGroup.get('businessRegistrationNumber')?.value
           : null,
-      businessLogo: this.image,
+      ...(this.image && ({businessLogo: this.image,})),
       businessType: '',
       lga: this.sellerRegFormGroup.get('lga')?.value,
       landmark: this.sellerRegFormGroup.get('landmark')?.value,
