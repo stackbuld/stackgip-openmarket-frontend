@@ -88,12 +88,20 @@
           </span>
 
           <span *ngIf="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'buyer'">
-            <span class="pointer" routerLink="credentials() !== null && credentials()?.preferredProfileType?.toLowerCase() === 'buyer' ? '/homepage/wallet' : '/seller/wallet'">
-              <img src="/assets/icons/cash-outline-dark.svg" style="scale: 1.4;"/> &nbsp;
+            <span class="pointer" *ngIf="credentials()?.preferredProfileType?.toLowerCase() === 'seller'" routerLink="/seller/wallet">
+              <img src="/assets/icons/cash-outline-dark.svg" style="scale: 1.8; margin-inline: 6px;"/> &nbsp;
                 Wallet
               </span>
+              <span class="pointer" *ngIf="credentials()?.preferredProfileType?.toLowerCase() === 'buyer'" routerLink="/homepage/wallet">
+              <img src="/assets/icons/cash-outline-dark.svg" style="scale: 1.8; margin-inline: 6px;"/> &nbsp;
+                Wallet
+              </span>
+               <!-- <span class="pointer" routerLink="credentials()?.preferredProfileType?.toLowerCase() === 'buyer' ? /homepage/wallet : /seller/wallet">
+              <img src="/assets/icons/cash-outline-dark.svg" style="scale: 1.4;"/> &nbsp;
+                Wallet
+              </span> -->
               <br><br>
-            <span class="pointer" routerLink="/homepage/history">
+            <span class="pointer" routerLink="/homepage">
               <img src="/assets/images/user-icn.svg"  /> &nbsp; My Account
             </span>
             <br> <br>
