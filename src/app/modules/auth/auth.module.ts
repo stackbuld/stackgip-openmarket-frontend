@@ -12,6 +12,8 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxPaginationModule } from 'src/app/shared/pagination/ngx-pagination.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     NgxSliderModule,
     NgxPaginationModule,
     NgxSliderModule,
+    MatInputModule,
+    MatSelectModule,
     MatPaginatorModule,
   ],
 })

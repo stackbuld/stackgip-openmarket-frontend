@@ -3,6 +3,7 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { IUser } from "src/app/models/IUserModel";
 import { SellerService } from "src/app/services/seller/seller.service";
 import { DOCUMENT } from "@angular/common";
+import { AppLocalStorage } from "src/app/helpers/local-storage";
 
 @Component({
   selector: "app-seller-sidebar",
@@ -14,6 +15,7 @@ export class SellerSidebarComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private appLocal: AppLocalStorage,
     private sellerS: SellerService,
     @Inject(DOCUMENT) private document: Document
   ) {}
@@ -28,7 +30,9 @@ export class SellerSidebarComponent implements OnInit {
 
   logout() {
     localStorage.clear();
-    this.router.navigate(["/auth/login"]);
+    sessionStorage.clear();
     this.cancel();
+    this.appLocal.currentUser.next(null);
+    this.router.navigate(["/auth/login"]);
   }
 }

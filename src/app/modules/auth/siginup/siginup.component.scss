@@ -248,3 +248,35 @@ form {
 input[type="checkbox"] {
   width: 20px;
 }
+
+.uk-dropdown{
+  width: 100px !important;
+  
+}
+.mb-1 {
+    margin-bottom: .2rem;
+}
+
+.mdc-menu-surface.mat-mdc-select-panel{
+  width: 5rem;
+}
+.country-code{
+  width: 4rem;
+  padding-left: .5rem;
+}
+.time-picker-component .mat-form-field-infix {
+  display: inherit;
+}
+
+:host ::ng-deep mat-form-field .mat-form-field-infix {
+        width: unset;
+      }
+::ng-deep .mat-select-panel {
+    // min-width: 100% !important;
+    width: 140rem !important;
+}
+
+  .mat-select-value {
+    // max-width: 100%;
+    width: 140px;
+  } 
