@@ -105,7 +105,6 @@ export class SignupModalComponent implements OnInit {
   };
 
   changeOption(e: any) {
-    console.log(e.target.value)
     this.registerForm?.patchValue({countryCodes: e.target.value});
   }
   async handleGoogleSignup(response: CredentialResponse) {

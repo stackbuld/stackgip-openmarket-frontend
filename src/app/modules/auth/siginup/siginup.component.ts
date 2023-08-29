@@ -21,6 +21,7 @@ import { JwtHelperService } from '../../../services/jwt-helper.service';
 import { MDCTextField } from '@material/textfield';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { environment } from 'src/environments/environment';
+import { countryCodes } from 'src/app/data/countryCodes';
 // const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
 declare const FB: any
 
@@ -35,6 +36,7 @@ export class SiginupComponent implements OnInit {
   hasError = false;
   passwordType: boolean
   errors: any[];
+  codeList: any;
   passwordError = {
       hasNumber: true,
       minLength: true,
@@ -66,12 +68,14 @@ export class SiginupComponent implements OnInit {
     this.hasError = false;
     this.errors = [];
     this.errorMessage = '';
+    this.codeList = countryCodes;
     this.message = '';
     this.registerForm = this.fb.group(
       {
         firstname: ['', [Validators.required]],
         lastname: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
+        countryCode: ['+234'],
         // password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/)]],
         password: ['', Validators.compose(
           [
@@ -146,6 +150,11 @@ export class SiginupComponent implements OnInit {
       );  
 }
 
+    changeOption(e: any) {
+    console.log(e.target.value)
+    this.registerForm?.patchValue({countryCodes: e.target.value});
+  }
+  
   get f() {
     return this.registerForm.controls;
   }
@@ -191,13 +200,12 @@ export class SiginupComponent implements OnInit {
       return;
     }
     const payload = {
-      firstName: this.registerForm.get('firstname').value,
-      lastName: this.registerForm.get('lastname').value,
-      email: this.registerForm.get('email').value,
-      // phoneNumber: this.registerForm.get('phoneNumber').value,
-      phoneNumber: "+234" + (this.registerForm.get('phoneNumber').value).toString(),
-      password: this.registerForm.get('password').value,
-    }
+    firstName: this.registerForm.get('firstname').value,
+    lastName: this.registerForm.get('lastname').value,
+    email: this.registerForm.get('email').value,
+    phoneNumber: (this.registerForm.get('countryCode').value).toString() + (this.registerForm.get('phoneNumber').value).toString(),
+    password: this.registerForm.get('password').value,
+  }
     this.ngxService.startLoader('loader-01');
 
     this.authService.register(payload).subscribe(
