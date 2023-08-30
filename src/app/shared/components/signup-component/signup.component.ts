@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { WindowRefService } from '../../../shared/services/window.service';
+import { WindowRefService } from '../../services/window.service';
 import uikit from 'uikit';
 import { AuthService } from 'src/app/services/auth.service';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ToastrService } from 'src/app/services/toastr.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { SignInModel } from 'src/app/models/signin-model';
-import { Subscription } from 'rxjs';
+import { Subscription, filter } from 'rxjs';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { environment } from 'src/environments/environment';
 import { countryCodes } from 'src/app/data/countryCodes';
@@ -15,13 +15,14 @@ declare const FB: any
 
 
 @Component({
-  selector: 'app-signup-modal',
-  templateUrl: './signup-modal.component.html',
-  styleUrls: ['./signup-modal.component.scss']
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.scss']
 })
-export class SignupModalComponent implements OnInit {
+export class SignupComponent implements OnInit {
   tokenSubscription = new Subscription();
   decodedJwt;
+  currentUrl: string = '';
   hasError = false;
   passwordType: boolean
   errors: any[];
@@ -46,6 +47,9 @@ export class SignupModalComponent implements OnInit {
     windowRefService: WindowRefService,
   ) {
     this.window = windowRefService.nativeWindow;
+     router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => (this.currentUrl = event.url));
   }
   registerForm: FormGroup;
 
@@ -80,7 +84,7 @@ export class SignupModalComponent implements OnInit {
           })
           ]
         )],
-        // phoneNumber: ['', [Validators.required, Validators.pattern('/((^090)([0-9]{8,}$))|((^070)([0-9]{8,}$))|((^090)([0-9]{8,}$))||((^081)([0-9]{8,}$))|((^080)([0-9]{8,}$))|((^081)([0-9]{8,}$))/'), Validators.minLength(11), Validators.maxLength(11)]],
+        
         phoneNumber: ['', [Validators.required, Validators.maxLength(10)]],
       },
     );
@@ -105,6 +109,7 @@ export class SignupModalComponent implements OnInit {
   };
 
   changeOption(e: any) {
+    console.log(e.target.value)
     this.registerForm?.patchValue({countryCodes: e.target.value});
   }
   async handleGoogleSignup(response: CredentialResponse) {
@@ -121,6 +126,7 @@ export class SignupModalComponent implements OnInit {
       }
       );
 }
+
 
 get f() {
   return this.registerForm.controls;
@@ -261,8 +267,8 @@ login(signInModel: SignInModel) {
 }
 
   toggleSignupModal() {
-
-    this.authService.showSharedSocialModal();
+    this.currentUrl.includes("seller-form") ? this.authService.showSharedLoginModal(): this.router.navigate(['/auth/login'])
+ 
   }
 
 

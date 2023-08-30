@@ -14,6 +14,7 @@ import { NgxPaginationModule } from 'src/app/shared/pagination/ngx-pagination.mo
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { SignupModule } from 'src/app/shared/components/signup-component/signup.module';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     MatSelectModule,
     MatPaginatorModule,
+    SignupModule,
   ],
 })
 export class AuthModule {}

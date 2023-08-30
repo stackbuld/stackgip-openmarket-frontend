@@ -10,7 +10,7 @@
                   <mat-label>First Name</mat-label>
                   <input matInput placeholder="Jane" type="text" formControlName="firstname" required />
                 </mat-form-field>
-                <section class="err-sec">
+                <section class="error-sec">
                   <div *ngIf="
                         f.firstname.invalid &&
                         (f.firstname.dirty || f.firstname.touched)
@@ -25,7 +25,7 @@
                   <mat-label>Last Name</mat-label>
                   <input matInput placeholder="Doe" type="text" formControlName="lastname" required />
                 </mat-form-field>
-                <section class="err-sec">
+                <section class="error-sec">
                   <div *ngIf="
                         f.lastname.invalid &&
                         (f.lastname.dirty || f.lastname.touched)
@@ -56,7 +56,7 @@
                 </div>
               </mat-form-field>
               </div>
-              <section class="err-sec">
+              <section class="error-sec">
                 <div *ngIf="
                       f.phoneNumber.invalid &&
                       (f.phoneNumber.dirty || f.phoneNumber.touched)
@@ -80,7 +80,7 @@
                     </span>
                   </div>
                 </mat-form-field>
-                <section class="err-sec">
+                <section class="error-sec">
                   <div *ngIf="
                         f.email.invalid && (f.email.dirty || f.email.touched)
                       ">
@@ -106,7 +106,7 @@
                
 
                  <section>
-                <div *ngIf="(f.password.value && f.password.invalid) && f.password.dirty && f.password.touched" class="err-sec">
+                <div *ngIf="(f.password.value && f.password.invalid) && f.password.dirty && f.password.touched" class="error-sec">
                    <div *ngIf="!minLengthValid" [ngClass]="!minLengthValid ? '': 'no-error'">
                     Password should be at least 6 characters <br />
                   </div>

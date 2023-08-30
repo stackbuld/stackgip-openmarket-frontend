@@ -102,8 +102,8 @@ export class HomeNavComponent implements OnInit {
   logout() {
     localStorage.clear();
     sessionStorage.clear();
-    this.cancel();
     this.applocal.currentUser.next(null);
+    this.cancel();
     this.router.navigate(["/"]);
   }
 
