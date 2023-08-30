@@ -213,7 +213,8 @@ export class SiginupComponent implements OnInit {
         this.ngxService.stopLoader('loader-01');
         this.message = d.message;
         this.toast.success(d.message, 'notification');
-        this.router.navigateByUrl('auth/confirm-email')
+        this.toast.error('Please confirm your email address');
+        this.router.navigateByUrl('homepage')
         this.hasError = false;
       },
       (err) => {
