@@ -15,6 +15,12 @@ import { ProductOptionComponent } from './product-option/product-option.componen
 import { SearchItemComponent } from './search-item/search-item.component';
 import { ViewMoreComponent } from './view-more/view-more.component';
 import { ProductShipmentComponent } from './product-shipment/product-shipment.component';
+import { CreateProductComponent } from './create-product/create-product.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgxEditorModule } from 'ngx-editor';
+import { NgxTextEditorModule } from 'ngx-text-editor';
+// import { NgxEditorModule } from 'ngx-editor';
 
 @NgModule({
   declarations: [
@@ -27,6 +33,7 @@ import { ProductShipmentComponent } from './product-shipment/product-shipment.co
     ProductOptionComponent,
     ProductItemComponent,
     ViewMoreComponent,
+    CreateProductComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +45,10 @@ import { ProductShipmentComponent } from './product-shipment/product-shipment.co
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgxEditorModule,
+    NgxTextEditorModule
   ],
 })
 export class InventoryModule {}

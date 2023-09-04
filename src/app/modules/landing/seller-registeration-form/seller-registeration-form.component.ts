@@ -119,7 +119,7 @@ export class SellerRegisterationFormComponent
       personalIDType: ['', Validators.required],
       personalIDNumber: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
       landmark: [''],
-      lga: [''],
+      lga: ['', Validators.required],
       dateOfBirth: ['', Validators.required],
       isBusinessRegistered: [true, Validators.required],
     });
@@ -165,7 +165,7 @@ export class SellerRegisterationFormComponent
         this.isBusinessRegistered === true
           ? this.sellerRegFormGroup.get('businessRegistrationNumber')?.value
           : null,
-      ...(this.image && ({businessLogo: this.image,})),
+      // ...(this.image && ({businessLogo: this.image,})),
       businessType: '',
       lga: this.sellerRegFormGroup.get('lga')?.value,
       landmark: this.sellerRegFormGroup.get('landmark')?.value,

@@ -1,0 +1,1075 @@
+<div *ngIf="!isPreview">
+  <h1 class="uk-margin-bottom">
+    Product(s) Information
+  </h1>
+
+  
+    <form [formGroup]="form">
+        <div class="content-container body-add">
+    <!-- <div class="main uk-flex uk-flex-wrap uk-flex-wrap-around"> -->
+      <div class="full-width form-content">
+        <div class="uk-width-expand input-sec">
+         <div for="name" class="label">Product Name</div>
+         <mat-form-field class="mb-3 uk-width-expand">
+           
+          <!-- <mat-label>
+            Product name
+            <span *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)">
+              <span
+                class="uk-text-warning"
+                style="font-size: smaller"
+                *ngIf="f.name.errors.required"
+              >
+                Product Name required <br
+              /></span>
+            </span>
+          </mat-label> -->
+
+          <input
+            type="text"
+            formControlName="name"
+            matInput
+            placeholder="eg Samsung s11"
+            formControlName="name"
+            required
+          />
+        </mat-form-field>
+        </div>
+        <!-- <div class="uk-flex justify-content-end">
+          <p (click)="addStore()" class="add-store-btn">+ Add new store</p>
+        </div> -->
+        <div class="uk-width-expand input-sec">
+         <div for="name" class="label">Store Address</div>
+         <mat-form-field class="mb-3 uk-width-expand">
+          <!-- <mat-label>Store Address</mat-label> -->
+          <mat-select formControlName="storeIds" multiple required>
+            <mat-option disabled="true">Select</mat-option>
+            <mat-option *ngFor="let store of stores" [(value)]="store.id">
+              {{ store.fullAddress }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        </div>
+        
+         <div class="uk-width-expand input-sec">
+          <div for="name" class="label">Category</div>
+          <mat-form-field class="mb-3 uk-width-expand">
+            <mat-label>Category</mat-label>
+            <mat-select
+              (valueChange)="getSubCategories($event)"
+              formControlName="category"
+              required
+            >
+              <mat-option disabled="true">Select</mat-option>
+              <mat-option
+                *ngFor="let category of categories"
+                [(value)]="category.id"
+              >
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          </div>
+          <div class="uk-width-expand input-sec">
+          <div for="name" class="label">Sub Category</div>
+           <mat-form-field
+            class="mb-3 uk-width-expand"
+          >
+          <!-- <mat-form-field
+            class="uk-width-expand"
+            *ngIf="subCategories?.length > 0 && !loadingSubCategories"
+          > -->
+            <mat-label>Sub Category</mat-label>
+            <mat-select formControlName="categoryId">
+              <mat-option disabled="true">Select</mat-option>
+              <mat-option
+                *ngFor="let item of subCategories"
+                [(value)]="item.id"
+              >
+                {{ item?.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          </div>
+          <div
+            *ngIf="subCategories?.length === 0 && !loadingSubCategories"
+            class="uk-flex uk-flex-center align-items-center"
+          >
+            <p style="color: red">No sub categorie(s)</p>
+          </div>
+        
+        <div class="mb-3 uk-grid uk-child-width-1-2@s">
+            <div class="uk-width-expand input-sec">
+          <div for="name" class="label">Price</div>
+           <mat-form-field
+            class="uk-width-expand"
+          >
+        
+            <input
+              (keypress)="preventLetter($event)"
+              type="text"
+              matInput
+              formControlName="price"
+              placeholder="eg 1000"
+              formControlName="price"
+              required
+            />
+          </mat-form-field>
+            </div>
+            <div class="uk-width-expand input-sec">
+          <div for="name" class="label">Available Units</div>
+           <mat-form-field
+            class="uk-width-expand"
+          >
+         
+            
+            <input
+              (keypress)="preventLetter($event)"
+              type="text"
+              formControlName="unit"
+              matInput
+              placeholder="200"
+              formControlName="unit"
+              required
+            />
+          </mat-form-field>
+            </div>
+        </div>
+         <div class="mb-3 uk-grid uk-grid-row-small uk-child-width-1-2@s">
+         <div class="uk-width-expand input-sec">
+          <div for="name" class="label">Weight</div>
+           <mat-form-field
+            class="uk-width-expand"
+          >
+          <mat-label>Weight</mat-label>
+          <div class="uk-flex">
+            <input
+              type="text"
+              required
+              formControlName="weight"
+              matInput
+              placeholder="eg 2000"
+              formControlName="weight"
+            />
+            <span class="pl-2 py-0 kg-border">KG</span>
+          </div>
+        </mat-form-field>
+         </div>
+         <div class="uk-width-expand input-sec">
+         <div for="name" class="label">Pickup Method</div>
+         <mat-form-field class="mb-3 uk-width-expand">
+          <!-- <mat-label>Store Address</mat-label> -->
+          <mat-select formControlName="storeIds" multiple required>
+            <mat-option disabled="true">Select pickup method</mat-option>
+            <mat-option *ngFor="let store of stores" [(value)]="store.id">
+              {{ store.fullAddress }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        </div>
+      </div>
+      </div>
+       <div class="uk-width-expand input-sec NgxEditor__Wrapper">
+          <div for="name" class="label">Description</div>
+                  <mat-form-field class="full-width w-600">
+                  
+                  <textarea
+                    type="text"
+                    required
+                    matInput
+                    rows="10"
+                    placeholder="Please provide a detailed Description"
+                    formControlName="shortDescription"
+                  ></textarea>
+                </mat-form-field>
+       
+       </div>
+       <div class="mb-3 uk-width-expand uk-width-1-2@s input-sec">
+        <div for="name" class="label">File Upload</div>
+         <div class="border-form mb-30 d-flex align-items-center"
+                     >
+                     <button (click)="upload()">
+                      Add file
+                     </button>
+                  <div class="d-flex justify-content-center align-items-center px-8"> Accepts Images or Videos*
+                  </div>
+                  <!-- <div *ngIf="imageName" class="d-flex justify-content-center align-items-center px-8">
+                    <span  class="upload-text">uploaded -{{imageName}}</span>
+                  </div> -->
+                </div>
+
+                <div class="error-txt" *ngIf="imageErr">{{imageErr}}</div>
+                <div
+            class="uk-margin uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid-small uk-grid"
+          >
+            <div class="uk-margin-small-bottom" *ngFor="let image of images">
+              <div class="uk-inline uk-dark" style="cursor: pointer">
+                <img
+                  [ngClass]="{ 'active-product-image': productImage === image }"
+                  style="width: 200px; height: 100px; object-fit: cover"
+                  src="{{ image }}"
+                  alt="{{ image }}"
+                  (click)="toggleActiveProductImage(image)"
+                />
+              </div>
+              <div (click)="removeImage(image)">
+                <span
+                  class="iconify"
+                  data-icon="ri:delete-bin-6-line"
+                  data-inline="false"
+                  style="
+                    color: rgb(177, 55, 55);
+                    width: 20px;
+                    height: 20px;
+                    cursor: pointer;
+                  "
+                >
+                </span>
+              </div>
+            </div>
+            
+          </div>
+      </div>
+
+      
+      
+       <div *ngIf="!(addingVariation || addingComplimentaryOptions)" class="action-btn-container uk-flex">
+        
+        <div *ngIf="!addingComplimentaryOptions" class="action-btn flex-1">
+            <button
+          aria-label="Add Complementary Variation"
+          (click)="addEditOption()"
+          class="the-btn"
+          type="button"
+        >
+          + Add Related Items <small>(i.e items together with main Product)</small>
+        </button>
+         &nbsp;
+        <img
+          src="assets/image/btn-tool-tip.svg"
+          alt="tootip"
+          matTooltip="Add Other products Related to this Product"
+        />
+        </div>
+        
+        <div *ngIf="!addingVariation" class="action-btn flex-1">
+            <button
+          aria-label="Add Product Variation"
+          (click)="addVariation()"
+          class="the-btn"
+          type="button"
+        >
+          + Add Variation <small>(i.e Products' different color, size and price)</small>
+        </button>
+         &nbsp;
+        <img
+          src="assets/image/btn-tool-tip.svg"
+          alt="tootip"
+          matTooltip="Add Variations of the Product"
+        />
+        </div>
+       
+      </div>
+    <!-- </div> -->
+    </div>
+
+    <div *ngIf="addingComplimentaryOptions || addingVariation || form.value.options.length > 0" class="content-container">
+        <div *ngIf="addingComplimentaryOptions" class="mt-5 uk-flex uk-flex-column flex-1">
+            <h2>
+                Related Item(s) Information
+            </h2>
+        <p class="sub-text">Add related products' name, description and price</p>
+        <div class="body-add flex-1">
+      
+     
+
+      <hr />
+
+      
+        <div
+            
+            
+        >
+        <div class="wrapper-style2" [formGroup]="editProps">
+          <div>
+            <div class="mb-3 uk-grid uk-child-width-1-2@s">
+            <div class="uk-width-expand input-sec">
+          <div for="name" class="label">Product Name</div>
+              <mat-form-field class="uk-width-expand">
+                
+                <input
+                  type="text"
+                  matTooltip="Provide Product Title"
+                  matInput
+                  placeholder="Type info here"
+                  formControlName="title"
+                  required
+                />
+              </mat-form-field>
+                </div>
+              
+            <div class="uk-width-expand input-sec">
+          <div for="name" class="label">Item Price</div>
+              <mat-form-field class="uk-width-expand">
+                
+                <input
+                  type="text"
+                  matInput
+                  (keypress)="preventLetter($event)"
+                  matTooltip="Enter cost for this product"
+                  placeholder="&#8358; 0.00"
+                  formControlName="cost"
+                />
+              </mat-form-field>
+            </div>
+            </div>
+            <div class="mb-3 uk-grid-small uk-child-width-1-2@s">
+            <div class="uk-width-1-2 input-sec">
+          <div for="name" class="label">Available Units</div>
+              <mat-form-field class="uk-width-expand">
+                
+                <input
+                  type="text"
+                  matTooltip="Provide Product Title"
+                  matInput
+                  (keypress)="preventLetter($event)"
+                  placeholder="Type info here"
+                  formControlName="units"
+                  required
+                />
+              </mat-form-field>
+                </div>
+                <div class="uk-width-1-2"></div>
+            </div>
+            <div class="main uk-flex mt-4">
+              <div class="uk-width-1-2 input-sec">
+                <div for="name" class="label">Description</div>
+                <mat-form-field class="full-width w-600">
+                  
+                  <textarea
+                    type="text"
+                    required
+                    matInput
+                    rows="10"
+                    placeholder="Please provide a detailed Description"
+                    formControlName="shortDescription"
+                  ></textarea>
+                </mat-form-field>
+                
+              </div>
+            </div>
+            <div class="uk-width-expand uk-width-1-2@s input-sec">
+        <div for="name" class="label">File Upload</div>
+         <div class="border-form mb-30 d-flex align-items-center"
+                     >
+                     <button (click)="uploadRelatedImage()">
+                      Add file
+                     </button>
+                  <div class="d-flex justify-content-center align-items-center px-8"> Accepts Images or Videos*
+                  </div>
+                  <!-- <div *ngIf="imageName" class="d-flex justify-content-center align-items-center px-8">
+                    <span  class="upload-text">uploaded -{{imageName}}</span>
+                  </div> -->
+                </div>
+                     <div class="error-txt" *ngIf="imageErr">{{imageErr}}</div>
+                <div
+            class="uk-margin uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid-small uk-grid"
+          >
+            <div class="uk-margin-small-bottom" *ngFor="let image of relatedImages">
+              <div class="uk-inline uk-dark" style="cursor: pointer">
+                <img
+                  [ngClass]="{ 'active-product-image': productImage === image }"
+                  style="width: 200px; height: 100px; object-fit: cover"
+                  src="{{ image }}"
+                  alt="{{ image }}"
+                  (click)="toggleActiveProductImage(image)"
+                />
+              </div>
+              <div (click)="removeRelatedImage(image)">
+                <span
+                  class="iconify"
+                  data-icon="ri:delete-bin-6-line"
+                  data-inline="false"
+                  style="
+                    color: rgb(177, 55, 55);
+                    width: 20px;
+                    height: 20px;
+                    cursor: pointer;
+                  "
+                >
+                </span>
+              </div>
+            </div>
+            
+          </div>
+      </div>
+              <div class="del-save-btn mt-4">
+                    <button (click)="removeEditOption()" class="small-btn del-btn">
+                        Delete
+                    </button>
+                    <button (click)="addProductOption()" class="small-btn save-btn">
+                        Save
+                    </button>
+                 
+                </div>
+              
+            
+          </div>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+
+    <div class="uk-flex uk-flex-column flex-1" *ngIf="form.value.options.length > 0">
+            
+        <div class="body-add flex-1">
+          <table class="full-width">
+            <thead>
+              <tr>
+                <th style="width: 12%;">DISPLAY</th>
+                <th style="width: 20%;">PRODUCT NAME</th>
+                <th style="width: 40%;">DESCRIPTION</th>
+                <th style="width: 8%;">UNIT</th>
+                <th style="width: 8%;">PRICE</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr *ngFor="let row of options().value; let index=index" class="table-row">
+                <td>{{ row.title }}</td>
+                 <td>{{ row.title }}</td>
+                  
+                  <td class="desc">
+                    <span class="icon-container">{{ row.shortDescription }}</span>
+                  </td>
+                  <td>{{ row.units }}</td>
+                  <td>&#8358; {{ row.cost }}</td>
+                  <td style="width: 38px;">
+                    <span class="icon-container" (click)="editRelated(index)">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="feather feather-edit" fill="none" height="16px" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 25 25" width="16px"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </span>
+                  </td>
+                  <td style="width: 38px;">
+                    <span class="icon-container" (click)="removeRelated(index)">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="16px" height="16px"><path d="M 10 2 L 9 3 L 3 3 L 3 5 L 4.109375 5 L 5.8925781 20.255859 L 5.8925781 20.263672 C 6.023602 21.250335 6.8803207 22 7.875 22 L 16.123047 22 C 17.117726 22 17.974445 21.250322 18.105469 20.263672 L 18.107422 20.255859 L 19.890625 5 L 21 5 L 21 3 L 15 3 L 14 2 L 10 2 z M 6.125 5 L 17.875 5 L 16.123047 20 L 7.875 20 L 6.125 5 z"/></svg>
+                    </span>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+
+    <div *ngIf="addingVariation" class="mt-5 uk-flex uk-flex-column flex-1">
+        <h2>
+    Variation(s) Information
+  </h2>
+  <p class="sub-text">Add product's color, size and price variations</p>
+        <div class="body-add flex-1">
+      <div
+        
+        
+      >
+        <div class="" [formGroup]="variationProps">
+          <div class="main wrapper-style">
+            <!-- <div class="mt-2">
+              <p class="number-count">{{ i + 1 }}</p>
+            </div> -->
+            <div class="uk-grid uk-grid-row-small uk-child-width-1-2@s">
+            <div class="">
+                <div for="name" class="label">Variation </div>
+            <mat-form-field class="full-width uk-width-1-4 mt-2">
+              
+              <mat-select formControlName="title" required>
+                <mat-option disabled="true"
+                  >--- Select Variation ---</mat-option
+                >
+                <mat-option
+                  *ngFor="let item of productVariations"
+                  value="{{ item?.name?.toLowerCase() }}"
+                  >{{ item?.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            </div>
+           <div>
+             <div for="name" class="label">Variation Value</div>
+            <mat-form-field
+              class="no-mobile-margin full-width uk-width-1-4 mt-2"
+            >
+              
+              <input
+                type="text"
+                matInput
+                placeholder="--- Add Value---"
+                formControlName="value"
+                required
+              />
+            </mat-form-field>
+           </div>
+            </div>
+            <div class="uk-grid uk-grid-row-small uk-child-width-1-2@s">
+            <div><div for="name" class="label">Variation Price</div>
+            <mat-form-field
+              class="no-mobile-margin uk-width-expand"
+            >
+              
+               <input
+                  type="text"
+                  matInput
+                  (keypress)="preventLetter($event)"
+                  matTooltip="Enter cost for this product"
+                  placeholder="&#8358; 0.00"
+                  formControlName="cost"
+                  required
+                />
+            </mat-form-field></div>
+            <div>
+                <div for="name" class="label">Variation Unit</div>
+            <mat-form-field
+              class="no-mobile-margin uk-width-expand"
+            >
+              
+               <input
+                  type="text"
+                  matInput
+                  required
+                  (keypress)="preventLetter($event)"
+                  matTooltip="Enter unit for this product"
+                  placeholder="0"
+                  formControlName="cost"
+                />
+            </mat-form-field>
+            </div>
+            
+            </div>
+            <div class="uk-width-expand uk-width-1-2@s input-sec">
+        <div for="name" class="label">File Upload</div>
+         <div class="border-form mb-30 d-flex align-items-center"
+                     >
+                     <button (click)="uploadComplimentaryImage()">
+                      Add file
+                     </button>
+                  <div class="d-flex justify-content-center align-items-center px-8"> Accepts Images or Videos*
+                  </div>
+                  <!-- <div *ngIf="imageName" class="d-flex justify-content-center align-items-center px-8">
+                    <span  class="upload-text">uploaded -{{imageName}}</span>
+                  </div> -->
+                </div>
+                     <div class="error-txt" *ngIf="imageErr">{{imageErr}}</div>
+                <div
+            class="uk-margin uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid-small uk-grid"
+          >
+            <div class="uk-margin-small-bottom" *ngFor="let image of variationImages">
+              <div class="uk-inline uk-dark" style="cursor: pointer">
+                <img
+                  [ngClass]="{ 'active-product-image': productImage === image }"
+                  style="width: 200px; height: 100px; object-fit: cover"
+                  src="{{ image }}"
+                  alt="{{ image }}"
+                  (click)="toggleActiveProductImage(image)"
+                />
+              </div>
+              <!-- <div (click)="removeImage(image)">
+                <span
+                  class="iconify"
+                  data-icon="ri:delete-bin-6-line"
+                  data-inline="false"
+                  style="
+                    color: rgb(177, 55, 55);
+                    width: 20px;
+                    height: 20px;
+                    cursor: pointer;
+                  "
+                >
+                </span>
+              </div> -->
+            </div>
+            
+          </div>
+       </div>
+           <div class="del-save-btn mt-4">
+                    <button (click)="removeEditVariation()" class="small-btn del-btn">
+                        Delete
+                    </button>
+                    <button (click)="addProductVariation()" class="small-btn save-btn">
+                        Save
+                    </button>
+                 
+                </div>
+          </div>
+        </div>
+      </div>
+      
+      </div>
+
+      
+    </div>
+
+    
+
+    
+    
+
+    <div *ngIf="(addingVariation || addingComplimentaryOptions)" class="action-btn-container uk-flex">
+        
+        <div *ngIf="!addingComplimentaryOptions" class="action-btn flex-1">
+            <button
+          aria-label="Add Complementary Variation"
+          (click)="addEditOption()"
+          class="the-btn"
+          type="button"
+        >
+          + Add Related Items <small>(i.e items together with main Product)</small>
+        </button>
+         &nbsp;
+        <img
+          src="assets/image/btn-tool-tip.svg"
+          alt="tootip"
+          matTooltip="Add Other products Related to this Product"
+        />
+        </div>
+        
+        <div *ngIf="!addingVariation" class="action-btn flex-1">
+            <button
+          aria-label="Add Product Variation"
+          (click)="addVariation()"
+          class="the-btn"
+          type="button"
+        >
+          + Add Variation <small>(i.e Products' different color, size and price)</small>
+        </button>
+         &nbsp;
+        <img
+          src="assets/image/btn-tool-tip.svg"
+          alt="tootip"
+          matTooltip="Add Variations of the Product"
+        />
+        </div>
+    </div>
+      </div>
+
+
+       <div class="uk-flex content-container uk-flex-column flex-1" *ngIf="form.value.variations.length > 0">
+            
+        <div class="body-add flex-1">
+          <table class="full-width">
+            <thead>
+              <tr>
+                <th style="width: 20%;">VARIANT TYPE</th>
+                <th style="width: 12%;">COLOR</th>
+                
+                <th style="width: 40%;">UNIT</th>
+                <th style="width: 8%;">PRICE</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr *ngFor="let row of variations().value; let index=index" class="table-row">
+                
+                 <td>{{ row.title }}</td>
+                  
+                  <td class="desc">
+                    {{ row.value }}
+                  </td>
+                  <td>{{ row.unit }}</td>
+                  <td>&#8358; {{ row.cost }}</td>
+                  <td style="width: 38px;">
+                    <span class="icon-container" (click)="editVariation(index)">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="feather feather-edit" fill="none" height="16px" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 25 25" width="16px"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </span>
+                  </td>
+                  <td style="width: 38px;">
+                    <span class="icon-container" (click)="removeVariation(index)">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="16px" height="16px"><path d="M 10 2 L 9 3 L 3 3 L 3 5 L 4.109375 5 L 5.8925781 20.255859 L 5.8925781 20.263672 C 6.023602 21.250335 6.8803207 22 7.875 22 L 16.123047 22 C 17.117726 22 17.974445 21.250322 18.105469 20.263672 L 18.107422 20.255859 L 19.890625 5 L 21 5 L 21 3 L 15 3 L 14 2 L 10 2 z M 6.125 5 L 17.875 5 L 16.123047 20 L 7.875 20 L 6.125 5 z"/></svg>
+                    </span>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+    
+    <div class="uk-flex uk-flex-center mt-4">
+      <button
+        (click)="onSubmit()"
+        type="submit"
+        class="btn-add"
+        [class.spinner]="loading"
+        [disabled]="loading"
+      >
+        Preview & Save
+      </button>
+      
+      <button
+        (click)="onSubmit()"
+        type="submit"
+        class="btn-add btn-light"
+        [class.spinner]="loading"
+        [disabled]="loading"
+      >
+        Save in Drafts
+      </button>
+    </div>
+    </form>
+  
+</div>
+
+
+<div *ngIf="isPreview" class="content-container">
+  <div class="uk-flex mobile-block">
+    <div class="flex-1">
+      <div class="main-img">
+        <!-- <img src="{{ previewImg }}" alt="previewImg" /> -->
+        <img src="https://res.cloudinary.com/dimxqjzpr/image/upload/v1693800071/openmarket/qcs3jzo9uuondy9jse45.jpg" alt="previewImg">
+      </div>
+      <div class="mt-4 uk-flex">
+        <div class="pointer" *ngFor="let item of previewData?.imageUrls">
+          <img
+            [ngClass]="{ 'active-img': previewImg === item }"
+            (click)="showImg(item)"
+            src="{{ item }}"
+            alt="laptop"
+            width="100"
+            height="70"
+            class="mr-2"
+            style="width: 150px; height: 100px; object-fit: cover"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="mobile-space flex-1 overview">
+     <div>
+       <p class="item-label">Product Name</p>
+      <p class="item-name mt-2">Apple</p>
+     </div>
+      <!-- <p class="item-name">{{ previewData?.name || "N/A" }}</p> -->
+
+      <!-- <p class="item-price">{{ previewData?.price | currency : "₦" }}</p> -->
+      <div class="mt-4">
+        <p class="item-label">Price</p>
+        <p class="item-price mt-2">{{ 20000 | currency : "NGN " }}</p>
+      </div>
+
+      <div class="mt-4">
+        <p class="item-label">
+          Colors
+        </p>
+        <div class="uk-flex mt-2 uk-flex-middle">
+          <div class="icon-container mr-2 uk-flex">
+            <div class="color-name">Blue</div>
+            <div class="extra-cost">
+              <small>Extra cost</small>
+              <p>+ ₦1,000</p>
+            </div>
+          </div>
+          <div class="icon-container mr-2 uk-flex">
+            <div class="color-name">Blue</div>
+            <div class="extra-cost">
+              <small>Extra cost</small>
+              <p>+ ₦1,000</p>
+            </div>
+          </div>
+          <div class="icon-container mr-2 uk-flex">
+            <div class="color-name">Blue</div>
+            <div class="extra-cost">
+              <small>Extra cost</small>
+              <p>+ ₦1,000</p>
+            </div>
+          </div>
+          <div class="icon-container mr-2 uk-flex">
+            <div class="color-name">Blue</div>
+            <div class="extra-cost">
+              <small>Extra cost</small>
+              <p>+ ₦1,000</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <p class="gen-st item-label">Available Units</p>
+      <div class="uk-flex mt-2 uk-flex-middle">
+        <svg
+          (click)="changeUnit(previewData?.unit, 'minus')"
+          class="pointer"
+          width="32"
+          height="33"
+          viewBox="0 0 32 33"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16.0003 29.8333C23.3641 29.8333 29.3337 23.8638 29.3337 16.5C29.3337 9.13616 23.3641 3.16663 16.0003 3.16663C8.63653 3.16663 2.66699 9.13616 2.66699 16.5C2.66699 23.8638 8.63653 29.8333 16.0003 29.8333Z"
+            fill="#F2F2F2"
+          />
+          <path
+            d="M10.667 16.5H21.3337"
+            stroke="#D8D8D8"
+            stroke-width="1.39167"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        &nbsp; &nbsp;
+        <p class="num mb-0 my-0">{{ previewData?.unit || "N/A" }}</p>
+        &nbsp; &nbsp;
+        <svg
+          (click)="changeUnit(previewData?.unit, 'add')"
+          class="pointer"
+          width="32"
+          height="33"
+          viewBox="0 0 32 33"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16.0003 29.8333C23.3641 29.8333 29.3337 23.8638 29.3337 16.5C29.3337 9.13616 23.3641 3.16663 16.0003 3.16663C8.63653 3.16663 2.66699 9.13616 2.66699 16.5C2.66699 23.8638 8.63653 29.8333 16.0003 29.8333Z"
+            fill="#F2F2F2"
+          />
+          <path
+            d="M16 11.1666V21.8333"
+            stroke="#666666"
+            stroke-width="1.39167"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M10.667 16.5H21.3337"
+            stroke="#666666"
+            stroke-width="1.39167"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+
+      <div class="mt-3 uk-flex icon-container overview-img-wrapper">
+        <div class="icon-container mr-2">
+          <img src="https://res.cloudinary.com/dimxqjzpr/image/upload/v1693800071/openmarket/qcs3jzo9uuondy9jse45.jpg" alt="">
+        </div>
+        <div class="icon-container mr-2">
+          <img src="https://res.cloudinary.com/dimxqjzpr/image/upload/v1693800071/openmarket/qcs3jzo9uuondy9jse45.jpg" alt="">
+        </div>
+        <div class="icon-container mr-2">
+          <img src="https://res.cloudinary.com/dimxqjzpr/image/upload/v1693800071/openmarket/qcs3jzo9uuondy9jse45.jpg" alt="">
+        </div>
+        <div class="icon-container">
+          <img src="https://res.cloudinary.com/dimxqjzpr/image/upload/v1693800071/openmarket/qcs3jzo9uuondy9jse45.jpg" alt="">
+        </div>
+      </div>
+      </div>
+
+      <div class="mt-3" *ngFor="let item of variationList">
+        <p class="gen-st mb-0 capitalize">{{ item?.title }}</p>
+        <div style="display: flex; flex-wrap: wrap">
+          <span class="mt-2 mr-2 value" *ngFor="let it of item?.value">{{
+            it
+          }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <div>
+      <h1 class="mb-3 heading">Product Description</h1>
+      
+      <div class="desc icon-container">
+        <a
+        class="uk-button uk-button-text uk-button-primary uk-margin"
+        (click)="toggleDescription()"
+      >
+        {{ !isFullDescription ? "Read less" : "Read more" }}</a
+      >
+      <!-- <div
+        [innerHtml]="previewData?.description"
+        class="description py-3"
+        [hidden]="isFullDescription"
+      ></div> -->
+      <div
+        [innerHtml]="previewData?.description"
+        class="description py-3"
+      ></div>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <h1 class="mb-3 heading">Related Item(s)</h1>
+      
+        <div style="display: flex; flex-wrap: wrap; column-gap: 2rem;" class="parent-wrapping">
+          
+            <div>
+              <img
+                src="https://res.cloudinary.com/dimxqjzpr/image/upload/v1693800071/openmarket/qcs3jzo9uuondy9jse45.jpg"
+                alt="laptop"
+                style="width: 180px; height: 240px; object-fit: cover"
+              />
+              <div class="p-2">
+                <p class="card-name" style="word-wrap: break-word">
+                 Computer mouse
+                </p>
+                <p class="card-price" style="word-wrap: break-word">
+                  {{ 3000 | currency : "₦" }}
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <img
+                src="https://res.cloudinary.com/dimxqjzpr/image/upload/v1693800071/openmarket/qcs3jzo9uuondy9jse45.jpg"
+                alt="laptop"
+                style="width: 180px; height: 240px; object-fit: cover"
+              />
+              <div class="p-2">
+                <p class="card-name" style="word-wrap: break-word">
+                 Computer mouse
+                </p>
+                <p class="card-price" style="word-wrap: break-word">
+                  {{ 3000 | currency : "₦" }}
+                </p>
+              </div>
+            </div>
+          
+        </div>
+      
+      <!-- <div *ngIf="previewData?.options?.length == 0" class="p-3">
+        <div style="display: flex; flex-wrap: wrap" class="parent-wrapping">
+          <div *ngFor="let item of previewData?.options" class="mr-3 carder">
+            <div *ngIf="item?.isMultiple === true">
+              <img
+                src="{{ item?.imageUrl }}"
+                alt="laptop"
+                style="width: 150px; height: 100px; object-fit: cover"
+              />
+              <div class="p-2">
+                <p class="card-name" style="word-wrap: break-word">
+                  {{ item?.title }}
+                </p>
+                <p class="card-price" style="word-wrap: break-word">
+                  {{ item?.cost | currency : "₦" }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div
+        *ngIf="previewData?.options?.length === 0"
+        class="uk-flex uk-flex-center p-5"
+      >
+        <p class="p-5">No Complementary Product(s) Available</p>
+      </div> -->
+    </div>
+
+    <div class="uk-flex uk-flex-center mt-5">
+      <button (click)="edit()" type="submit" class="btn-edit">Edit</button>
+      &nbsp; &nbsp;
+      <button
+        *ngIf="productId === null"
+        (click)="createProduct()"
+        type="submit"
+        class="btn-submit"
+      >
+        <div
+          *ngIf="creatingProduct"
+          style="display: flex; align-items: center; justify-content: center"
+        >
+          <div
+            class="spinner-grow text-dark"
+            role="status"
+            style="width: 15px; height: 15px"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          &nbsp; &nbsp;
+          <div
+            class="spinner-grow text-dark"
+            role="status"
+            style="width: 15px; height: 15px"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          &nbsp; &nbsp;
+          <div
+            class="spinner-grow text-dark"
+            role="status"
+            style="width: 15px; height: 15px"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          <br />
+        </div>
+        <span *ngIf="!creatingProduct"> Save & Continue</span>
+      </button>
+
+      <button
+        *ngIf="productId !== null"
+        (click)="updateProduct()"
+        type="submit"
+        class="btn-submit"
+      >
+        <div
+          *ngIf="creatingProduct"
+          style="display: flex; align-items: center; justify-content: center"
+        >
+          <div
+            class="spinner-grow text-dark"
+            role="status"
+            style="width: 15px; height: 15px"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          &nbsp; &nbsp;
+          <div
+            class="spinner-grow text-dark"
+            role="status"
+            style="width: 15px; height: 15px"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          &nbsp; &nbsp;
+          <div
+            class="spinner-grow text-dark"
+            role="status"
+            style="width: 15px; height: 15px"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          <br />
+        </div>
+        <span *ngIf="!creatingProduct"> Update</span>
+      </button>
+      &nbsp; &nbsp;
+      <span
+        *ngIf="productId !== null"
+        (click)="deleteProduct()"
+        class="pointer"
+      >
+        <svg
+          width="50"
+          height="50"
+          viewBox="0 0 25 25"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M13.9701 7.02247H11.9648C11.9648 6.75656 12.0705 6.50154 12.2585 6.31352C12.4465 6.12549 12.7015 6.01986 12.9674 6.01986C13.2334 6.01986 13.4884 6.12549 13.6764 6.31352C13.8644 6.50154 13.9701 6.75656 13.9701 7.02247ZM14.9727 7.02247C14.9727 6.49065 14.7614 5.98062 14.3853 5.60457C14.0093 5.22852 13.4993 5.01726 12.9674 5.01726C12.4356 5.01726 11.9256 5.22852 11.5496 5.60457C11.1735 5.98062 10.9622 6.49065 10.9622 7.02247H6.95182C6.81887 7.02247 6.69136 7.07528 6.59735 7.16929C6.50334 7.26331 6.45052 7.39081 6.45052 7.52377C6.45052 7.65672 6.50334 7.78423 6.59735 7.87824C6.69136 7.97225 6.81887 8.02507 6.95182 8.02507H7.51729L8.72543 16.8861C8.80737 17.4866 9.1041 18.037 9.5607 18.4356C10.0173 18.8341 10.6028 19.0537 11.2089 19.0537H14.726C15.3321 19.0537 15.9176 18.8341 16.3742 18.4356C16.8308 18.037 17.1275 17.4866 17.2095 16.8861L18.4176 8.02507H18.9831C19.116 8.02507 19.2435 7.97225 19.3375 7.87824C19.4316 7.78423 19.4844 7.65672 19.4844 7.52377C19.4844 7.39081 19.4316 7.26331 19.3375 7.16929C19.2435 7.07528 19.116 7.02247 18.9831 7.02247H14.9727ZM13.9701 10.5316C13.9701 10.3986 14.0229 10.2711 14.1169 10.1771C14.2109 10.0831 14.3384 10.0303 14.4714 10.0303C14.6043 10.0303 14.7318 10.0831 14.8258 10.1771C14.9198 10.2711 14.9727 10.3986 14.9727 10.5316V15.5446C14.9727 15.6776 14.9198 15.8051 14.8258 15.8991C14.7318 15.9931 14.6043 16.0459 14.4714 16.0459C14.3384 16.0459 14.2109 15.9931 14.1169 15.8991C14.0229 15.8051 13.9701 15.6776 13.9701 15.5446V10.5316ZM11.4635 10.0303C11.3306 10.0303 11.2031 10.0831 11.1091 10.1771C11.0151 10.2711 10.9622 10.3986 10.9622 10.5316V15.5446C10.9622 15.6776 11.0151 15.8051 11.1091 15.8991C11.2031 15.9931 11.3306 16.0459 11.4635 16.0459C11.5965 16.0459 11.724 15.9931 11.818 15.8991C11.912 15.8051 11.9648 15.6776 11.9648 15.5446V10.5316C11.9648 10.3986 11.912 10.2711 11.818 10.1771C11.724 10.0831 11.5965 10.0303 11.4635 10.0303ZM16.2159 16.7507C16.1667 17.111 15.9887 17.4412 15.7147 17.6802C15.4408 17.9193 15.0896 18.0511 14.726 18.0511H11.2089C10.8451 18.0513 10.4937 17.9197 10.2195 17.6806C9.94541 17.4415 9.76723 17.1111 9.71801 16.7507L8.52892 8.02507H17.406L16.2159 16.7507Z"
+            fill="#000000"
+          />
+          <rect
+            x="-0.200521"
+            y="0.200521"
+            width="23.6615"
+            height="23.6615"
+            rx="3.8099"
+            transform="matrix(-1 0 0 1 24.599 0.00423431)"
+            stroke="#000000"
+            stroke-width="0.401042"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</div>
