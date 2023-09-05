@@ -67,47 +67,55 @@
   <app-search-item (onSearch)="onSearch($event)" (onSearchClear)="onSearchClear($event)"></app-search-item>
   <div class="uk-margin-top">
     <h2>Inventory</h2>
-      <div class="table-header">
-        <p class="w-20">Product Image/Name</p>
-        <p>Price (₦)</p>
-        <p>
+   
+
+      <table class="uk-visible@s" style="width: 100%;">
+        <thead class="table-header">
+        <tr>
+          <th class="w-30">Product Image/Name</th>
+        <th>Price (₦)</th>
+        <th>
           <span class="unit-caption">Unit Available</span>
-        </p>
-        <p>
+        </th>
+        <th>
           <span class="unit-caption">Unit Sold</span> 
-        </p>
-        <p>Revenue</p>
-        <p>
+        </th>
+        <th>Revenue</th>
+        <th>
           <span id="created-at">Date posted</span>  
-        </p>
-        <p>View</p>
-        <p>Action</p>
-      </div>
-      <div class="web-table" *ngIf="productDetails.length > 0 && !loading">
-        <div class="table-sect" *ngFor="let productDetail of productDetails | paginate: { itemsPerPage: maximumItem, currentPage: pageNumber, totalItems:totalItemCount}">
-          <div class="w-20 uk-flex uk-flex-middle">
+        </th>
+        <th>View</th>
+        <th>Action</th>
+        </tr>
+      </thead>
+    
+        <tbody *ngIf="productDetails.length > 0 && !loading">
+        <tr *ngFor="let productDetail of productDetails | paginate: { itemsPerPage: maximumItem, currentPage: pageNumber, totalItems:totalItemCount}">
+          <td class="uk-flex uk-flex-middle">
             <img class="uk-img product-img" src="{{ productDetail?.imageUrl }}" alt="{{ productDetail?.imageUrl }}" width="100" height="100" />
             <span class="uk-margin-left">
               <strong>{{ productDetail?.name }}</strong>
             </span>
-          </div>
-          <p class="mb-0">{{ productDetail?.price | currency: '₦' }}</p>
-          <p class="mb-0">{{ productDetail?.unit }}</p>
-          <p class="mb-0">{{ productDetail?.unitSold }}</p>
-          <p class="mb-0">{{ (productDetail?.price * productDetail?.unit) | currency: '₦' }}</p>
-          <p class="mb-0">{{ productDetail?.createdOn | date: 'short' }}</p>
-          <p>
+          </td>
+          <td><p class="mb-0">{{ productDetail?.price | currency: '₦' }}</p></td>
+          <td><p class="mb-0">{{ productDetail?.unit }}</p></td>
+          <td><p class="mb-0">{{ productDetail?.unitSold }}</p></td>
+          <td><p class="mb-0">{{ (productDetail?.price * productDetail?.unit) | currency: '₦' }}</p></td>
+          <td><p class="mb-0">{{ productDetail?.createdOn | date: 'short' }}</p></td>
+          <td><p>
             <a routerLink="/seller/products/view/{{productDetail?.id}}" class="edge2">
               <span style="margin-right: 4px;">View</span>
             </a>            
-          </p>
-          <p>
+          </p></td>
+          <td><p>
             <a class="edge" routerLink="/seller/products/add/{{productDetail?.id}}">
               <span style="margin-right: 4px;">Edit</span>
             </a>            
-          </p>
-        </div>
-      </div>
+          </p></td>
+        </tr>
+      </tbody>
+      
+      </table>
 
       <div class="mobile-table" *ngIf="productDetails.length > 0 && !loading">
         <div class="uk-flex bottom-bar" *ngFor="let productDetail of productDetails | paginate: { itemsPerPage: maximumItem, currentPage: pageNumber, totalItems:totalItemCount}">
