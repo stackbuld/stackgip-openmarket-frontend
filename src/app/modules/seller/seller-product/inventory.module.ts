@@ -19,7 +19,7 @@ import { CreateProductComponent } from './create-product/create-product.componen
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxEditorModule } from 'ngx-editor';
-import { NgxTextEditorModule } from 'ngx-text-editor';
+// import { NgxTextEditorModule } from 'ngx-text-editor';
 // import { NgxEditorModule } from 'ngx-editor';
 
 @NgModule({
@@ -48,7 +48,7 @@ import { NgxTextEditorModule } from 'ngx-text-editor';
     MatFormFieldModule,
     MatInputModule,
     NgxEditorModule,
-    NgxTextEditorModule
+    // NgxTextEditorModule
   ],
 })
 export class InventoryModule {}
