@@ -40,6 +40,9 @@
         </div> -->
         <div class="uk-width-expand input-sec">
          <div for="name" class="label">Store Address</div>
+         <div class="uk-flex justify-content-end pointer">
+          <p (click)="addStore()" class="add-store-btn">+ Add new store</p>
+        </div>
          <mat-form-field class="mb-3 uk-width-expand">
           <!-- <mat-label>Store Address</mat-label> -->
           <mat-select formControlName="storeIds" multiple required>
@@ -161,9 +164,7 @@
           <!-- <mat-label>Store Address</mat-label> -->
           <mat-select formControlName="storeIds" multiple required>
             <mat-option disabled="true">Select pickup method</mat-option>
-            <mat-option *ngFor="let store of stores" [(value)]="store.id">
-              {{ store.fullAddress }}
-            </mat-option>
+           
           </mat-select>
         </mat-form-field>
         </div>
@@ -695,7 +696,7 @@
       <button
         (click)="onSubmit()"
         type="submit"
-        class="btn-add"
+        class="btn-add mr-2"
         [class.spinner]="loading"
         [disabled]="loading"
       >
@@ -742,14 +743,14 @@
     <div class="mobile-space flex-1 overview">
      <div>
        <p class="item-label">Product Name</p>
-      <p class="item-name mt-2">Apple</p>
+      <p class="item-name mt-2">{{form.value.name}}</p>
      </div>
       <!-- <p class="item-name">{{ previewData?.name || "N/A" }}</p> -->
 
       <!-- <p class="item-price">{{ previewData?.price | currency : "₦" }}</p> -->
       <div class="mt-4">
         <p class="item-label">Price</p>
-        <p class="item-price mt-2">{{ 20000 | currency : "NGN " }}</p>
+        <p class="item-price mt-2">{{ form.value.price | currency : "NGN " }}</p>
       </div>
 
       <div class="mt-4">
@@ -877,17 +878,18 @@
       <h1 class="mb-3 heading">Product Description</h1>
       
       <div class="desc icon-container">
-        <a
+        <!-- <a
         class="uk-button uk-button-text uk-button-primary uk-margin"
         (click)="toggleDescription()"
       >
         {{ !isFullDescription ? "Read less" : "Read more" }}</a
-      >
+      > -->
       <!-- <div
         [innerHtml]="previewData?.description"
         class="description py-3"
         [hidden]="isFullDescription"
       ></div> -->
+      <div class="description py-3">{{ form.value.shortDescription}}</div>
       <div
         [innerHtml]="previewData?.description"
         class="description py-3"
@@ -916,18 +918,18 @@
               </div>
             </div>
 
-            <div>
+            <div *ngFor="let item of form.value.options.value;">
               <img
-                src="https://res.cloudinary.com/dimxqjzpr/image/upload/v1693800071/openmarket/qcs3jzo9uuondy9jse45.jpg"
+                src="{{ item.imageUrl }}"
                 alt="laptop"
                 style="width: 180px; height: 240px; object-fit: cover"
               />
               <div class="p-2">
                 <p class="card-name" style="word-wrap: break-word">
-                 Computer mouse
+                 {{item.title}}
                 </p>
                 <p class="card-price" style="word-wrap: break-word">
-                  {{ 3000 | currency : "₦" }}
+                  {{ item.cost | currency : "₦" }}
                 </p>
               </div>
             </div>

@@ -136,7 +136,7 @@ export class CreateProductComponent implements OnInit {
       {
         cloudName: environment.cloudinaryName,
         uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
+        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif', 'mp4'],
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
