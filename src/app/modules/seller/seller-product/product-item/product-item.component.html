@@ -67,47 +67,7 @@
   <app-search-item (onSearch)="onSearch($event)" (onSearchClear)="onSearchClear($event)"></app-search-item>
   <div class="uk-margin-top">
     <h2>Inventory</h2>
-      <!-- <div class="table-header">
-        <p class="w-20">Product Image/Name</p>
-        <p>Price (₦)</p>
-        <p>
-          <span class="unit-caption">Unit Available</span>
-        </p>
-        <p>
-          <span class="unit-caption">Unit Sold</span> 
-        </p>
-        <p>Revenue</p>
-        <p>
-          <span id="created-at">Date posted</span>  
-        </p>
-        <p>View</p>
-        <p>Action</p>
-      </div>
-      <div class="web-table" *ngIf="productDetails.length > 0 && !loading">
-        <div class="table-sect" *ngFor="let productDetail of productDetails | paginate: { itemsPerPage: maximumItem, currentPage: pageNumber, totalItems:totalItemCount}">
-          <div class="w-20 uk-flex uk-flex-middle">
-            <img class="uk-img product-img" src="{{ productDetail?.imageUrl }}" alt="{{ productDetail?.imageUrl }}" width="100" height="100" />
-            <span class="uk-margin-left">
-              <strong>{{ productDetail?.name }}</strong>
-            </span>
-          </div>
-          <p class="mb-0">{{ productDetail?.price | currency: '₦' }}</p>
-          <p class="mb-0">{{ productDetail?.unit }}</p>
-          <p class="mb-0">{{ productDetail?.unitSold }}</p>
-          <p class="mb-0">{{ (productDetail?.price * productDetail?.unit) | currency: '₦' }}</p>
-          <p class="mb-0">{{ productDetail?.createdOn | date: 'short' }}</p>
-          <p>
-            <a routerLink="/seller/products/view/{{productDetail?.id}}" class="edge2">
-              <span style="margin-right: 4px;">View</span>
-            </a>            
-          </p>
-          <p>
-            <a class="edge" routerLink="/seller/products/add/{{productDetail?.id}}">
-              <span style="margin-right: 4px;">Edit</span>
-            </a>            
-          </p>
-        </div>
-      </div> -->
+   
 
       <table style="width: 100%;">
         <thead class="table-header">
