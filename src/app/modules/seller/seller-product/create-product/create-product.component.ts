@@ -777,6 +777,7 @@ export class CreateProductComponent implements OnInit {
   };
   isSubCatIdEmpty = false;
   onSubmit = () => {
+    console.log(this.form)
     if (this.images.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
