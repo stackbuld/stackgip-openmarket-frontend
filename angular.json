@@ -40,7 +40,8 @@
               "src/hover.css",
               "src/styles-1.css",
               "src/styles.scss",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": [
               "node_modules/uikit/dist/js/uikit.min.js",

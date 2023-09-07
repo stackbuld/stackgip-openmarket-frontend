@@ -32,6 +32,8 @@ import uikit from 'uikit';
 import { DOCUMENT } from '@angular/common';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SellerStoreCreateDialogComponent } from '../../seller-store/seller-store-create-dialog/seller-store-create-dialog.component';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+
 
 
 declare var cloudinary: any;
@@ -41,13 +43,65 @@ declare var cloudinary: any;
   styleUrls: ['./create-product.component.scss']
 })
 export class CreateProductComponent implements OnInit {
+
+
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+      spellcheck: true,
+      height: 'auto',
+      minHeight: '15rem',
+      maxHeight: 'auto',
+      width: 'auto',
+      minWidth: '10rem',
+      translate: 'yes',
+      enableToolbar: true,
+      showToolbar: true,
+      placeholder: 'Product short description...',
+      defaultParagraphSeparator: '',
+      defaultFontName: '',
+      defaultFontSize: '',
+      fonts: [
+        {class: 'arial', name: 'Arial'},
+        {class: 'times-new-roman', name: 'Times New Roman'},
+        {class: 'calibri', name: 'Calibri'},
+        {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+      ],
+      toolbarHiddenButtons: [
+  [
+    'strikeThrough',
+    'subscript',
+    'superscript',
+    'colorPicker',
+    'justifyFull',
+    'outdent',
+    'eyedrop'
+  ],
+  [
+    'textColor',
+    'backgroundColor',
+    'customClasses',
+    'link',
+    'unlink',
+    'insertImage',
+    'insertVideo',
+    'insertHorizontalRule',
+    'removeFormat',
+    'toggleEditorMode'
+  ]
+],
+    
+    uploadWithCredentials: false,
+    sanitize: true,
+    toolbarPosition: 'top',
+   
+};
   private unsubscribe$ = new Subject<void>();
   @Output() closed = new EventEmitter();
   @Output() added = new EventEmitter();
-  editorConfig = {
-    toolbar: [],
-    placeholder: 'Product short description',
-  };
+  // editorConfig = {
+  //   toolbar: [],
+  //   placeholder: 'Product short description',
+  // };
   errors: any[];
   errorMessage: string;
   form: FormGroup;
@@ -553,6 +607,12 @@ export class CreateProductComponent implements OnInit {
     if (this.images.length === 0) {
       this.productImage = null;
     }
+  }
+
+  removeVariationImage(image_url): void{
+    this.imageErr = null
+    this.variationImages = this.variationImages.filter((a) => a !== image_url);
+    this.variationProps.patchValue({imageUrl: image_url})
   }
 
   removeRelatedImage(image_url): void {
