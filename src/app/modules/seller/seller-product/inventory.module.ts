@@ -18,6 +18,7 @@ import { ProductShipmentComponent } from './product-shipment/product-shipment.co
 import { CreateProductComponent } from './create-product/create-product.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
+    AngularEditorModule,
   ],
 })
 export class InventoryModule {}

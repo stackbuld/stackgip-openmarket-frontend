@@ -100,7 +100,7 @@
           <td><p class="mb-0">{{ productDetail?.price | currency: '₦' }}</p></td>
           <td><p class="mb-0">{{ productDetail?.unit }}</p></td>
           <td><p class="mb-0">{{ productDetail?.unitSold }}</p></td>
-          <td><p class="mb-0">{{ (productDetail?.price * productDetail?.unit) | currency: '₦' }}</p></td>
+          <td><p class="mb-0">{{ productDetail?.revenue | currency: '₦' }}</p></td>
           <td><p class="mb-0">{{ productDetail?.createdOn | date: 'short' }}</p></td>
           <td><p>
             <a routerLink="/seller/products/view/{{productDetail?.id}}" class="edge2">
@@ -129,7 +129,7 @@
               <p class="mb-0">{{ productDetail?.unitSold }} Unit sold</p>
             </div>
             <p>Price: {{ productDetail?.price | currency: '₦' }}</p>
-            <p>Amount Sold: {{ (productDetail?.price * productDetail?.unit) | currency: '₦' }}</p>
+            <p>Amount Sold: {{ productDetail?.revenue | currency: '₦' }}</p>
             <div class="btw-justify">
               <p>{{ productDetail?.createdOn | date }}</p>
               <div class="uk-flex">

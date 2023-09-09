@@ -40,7 +40,8 @@
               "src/hover.css",
               "src/styles-1.css",
               "src/styles.scss",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
             "scripts": [
               "node_modules/uikit/dist/js/uikit.min.js",
