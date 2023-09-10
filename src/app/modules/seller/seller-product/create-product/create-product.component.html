@@ -69,7 +69,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="uk-width-expand input-sec">
+          <div *ngIf="!(subCategories?.length === 0 && !loadingSubCategories)" class="uk-width-expand input-sec">
             <div for="name" class="label">Sub Category</div>
             <mat-form-field class="uk-width-expand">
               <!-- <mat-form-field
@@ -88,12 +88,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div
-            *ngIf="subCategories?.length === 0 && !loadingSubCategories"
-            class="uk-flex uk-flex-center align-items-center"
-          >
-            <p style="color: red">No sub categorie(s)</p>
-          </div>
+         
         </div>
         <div class="mb-3 uk-grid block-up uk-grid-row-small uk-child-width-1-2@s input-sec">
           <div class="uk-width-expand input-sec">
