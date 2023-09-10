@@ -84,6 +84,9 @@
         <th>
           <span id="created-at">Date posted</span>  
         </th>
+        <th>
+          <span id="status">Status</span>  
+        </th>
         <th>View</th>
         <th>Action</th>
         </tr>
@@ -102,6 +105,7 @@
           <td><p class="mb-0">{{ productDetail?.unitSold }}</p></td>
           <td><p class="mb-0">{{ productDetail?.revenue | currency: '₦' }}</p></td>
           <td><p class="mb-0">{{ productDetail?.createdOn | date: 'short' }}</p></td>
+          <td><p class="mb-0 badge" [ngClass]="productDetail?.status.toLowerCase() === 'rejected' ? 'badge-red' : productDetail?.status.toLowerCase() === 'publish' ? 'badge-green' : productDetail?.status.toLowerCase() === 'review' ? 'bagde-yellow' : productDetail?.status.toLowerCase() === 'draft' ? 'bagde-blue' : '' ">{{ productDetail?.status }}</p></td>
           <td><p>
             <a routerLink="/seller/products/view/{{productDetail?.id}}" class="edge2">
               <span style="margin-right: 4px;">View</span>
