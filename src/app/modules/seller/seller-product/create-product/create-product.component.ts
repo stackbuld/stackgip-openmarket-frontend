@@ -90,11 +90,23 @@ export class CreateProductComponent implements OnInit {
   ]
 ],
     
+    
     uploadWithCredentials: false,
     sanitize: true,
     toolbarPosition: 'top',
    
-};
+  };
+  pickupOptions: [{
+    name: 'None'
+  }, {
+    name: 'Bike'
+    }, {
+    'Car'
+    }, {
+    name: 'Van'
+    }, {
+    name: 'Truck'
+  }];
   private unsubscribe$ = new Subject<void>();
   @Output() closed = new EventEmitter();
   @Output() added = new EventEmitter();
@@ -341,6 +353,8 @@ export class CreateProductComponent implements OnInit {
       weight: [null, [Validators.required]],
       previousPrice: [0],
       imageUrls: [null],
+      pickupOption: ["none"],
+      publishOption: [""],
       imageUrl: [''],
       categoryId: [''],
       category: ['', [Validators.required]],
@@ -363,6 +377,8 @@ export class CreateProductComponent implements OnInit {
       weight: [data.weight, [Validators.required]],
       previousPrice: [data.previousPrice],
       imageUrls: [null],
+      pickupOption: [data.pickupOption, [Validators.required]],
+      publishOption: [data.publishOption],
       imageUrl: [data.imageUrl],
       categoryId: [data.categoryId, [Validators.required]],
       category: [data.category.id, [Validators.required]],
@@ -478,12 +494,25 @@ export class CreateProductComponent implements OnInit {
   }
   // this method is to add the variation to the variation variable of the main form
 
-    addProductVariation(): void {
-    this.addingVariation = false;
-    this.variations().push(this.variationProps);
-    console.log(this.options().value)
-    // this.editProps.reset()
+  addProductVariation(): void {
+      
+    let invalid = false
+    Object.keys(this.variationProps.controls)
+      .forEach(field => {
+        let control = this.variationProps.get(field)
+        if (control.invalid) {
+          invalid = true
+        }
+      })
+    
+    if (!invalid) {
+      this.addingVariation = false;
+      this.variations().push(this.variationProps);
+      // this.editProps.reset()
+    } else {
+      this.toast.error("All required fields must be valid")
     }
+  }
   
   // this method is to close the variation of products card
   removeVariation(index: number): void {
@@ -509,12 +538,10 @@ export class CreateProductComponent implements OnInit {
   createOptions(): FormGroup {
     return this.fb.group({
       title: ['', [Validators.required]],
-      shortDescription: ['', Validators.required],
-      value: [''],
-      units: [''],
-      imageUrl: [null],
+      shortDescription: [''],
+      units: ['', Validators.required],
+      imageUrl: [null, Validators.required],
       cost: [null, [Validators.required]],
-      isMultiple: true,
     });
   }
 
@@ -536,10 +563,22 @@ export class CreateProductComponent implements OnInit {
 
   // this method is to add the complimentary/related products card to the options variable of the main form
   addProductOption(): void {
-    this.addingComplimentaryOptions = false;
+    let invalid = false
+    Object.keys(this.editProps.controls)
+      .forEach(field => {
+    let control = this.editProps.get(field)
+        if (control.invalid) {
+        invalid = true
+        }
+      })
+    
+    if (!invalid) {
+      this.addingComplimentaryOptions = false;
     this.options().push(this.editProps);
-    console.log(this.options().value)
-    // this.editProps.reset()
+    } else {
+      this.toast.error(`All required fields must be valid`)
+    }
+    
   }
 
   // this method is to close the complimentary/related products card
@@ -777,7 +816,6 @@ export class CreateProductComponent implements OnInit {
   };
   isSubCatIdEmpty = false;
   onSubmit = () => {
-    console.log(this.form)
     if (this.images.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
