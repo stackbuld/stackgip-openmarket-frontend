@@ -69,7 +69,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div *ngIf="!(subCategories?.length === 0 && !loadingSubCategories)" class="uk-width-expand input-sec">
+          <div *ngIf="subCategories?.length > 0" class="uk-width-expand input-sec">
             <div for="name" class="label">Sub Category</div>
             <mat-form-field class="uk-width-expand">
               <!-- <mat-form-field
@@ -141,9 +141,19 @@
           <div class="uk-width-expand input-sec">
             <div for="name" class="label">Pickup Method</div>
             <mat-form-field class="mb-3 uk-width-expand">
-              <!-- <mat-label>Store Address</mat-label> -->
-              <mat-select formControlName="storeIds" multiple required>
+              <mat-select formControlName="pickupOption" required>
                 <mat-option disabled="true">Select pickup method</mat-option>
+                <mat-option [value]="'none'">None</mat-option>
+                <mat-option [value]="'bike'">Bike</mat-option>
+                <mat-option [value]="'car'">Car</mat-option>
+                <mat-option [value]="'van'">Van</mat-option>
+                <mat-option [value]="'truck'">Truck</mat-option>
+                <!-- <mat-option
+                  *ngFor="let pickup of pickupOptions" 
+                  [(value)]="pickup.name"
+                >
+                  {{ pickup?.name }}
+                </mat-option> -->
               </mat-select>
             </mat-form-field>
           </div>
@@ -394,6 +404,7 @@
                         matTooltip="Enter cost for this product"
                         placeholder="&#8358; 0.00"
                         formControlName="cost"
+                        required
                       />
                     </mat-form-field>
                   </div>
@@ -417,18 +428,8 @@
                 </div>
                 <div class="main uk-flex mt-4 mb-2">
                   <div class="editor">
-                    <div for="name" class="label">Description</div>
-                    <!-- <mat-form-field class="full-width w-600">
-                  
-                  <textarea
-                    type="text"
-                    required
-                    matInput
-                    rows="10"
-                    placeholder="Please provide a detailed Description"
-                    formControlName="shortDescription"
-                  ></textarea>
-                </mat-form-field> -->
+                    <div for="name" class="label">Description <small>(optional)</small></div>
+                   
 
                     <angular-editor
                       id="subeditor"
@@ -735,7 +736,7 @@
                   </div>
                 </div>
                 <div class="uk-width-expand uk-width-1-2@s input-sec">
-                  <div for="name" class="label">File Upload</div>
+                  <div for="name" class="label">File Upload<small>(optional)</small></div>
                   <div class="border-form mb-30 d-flex align-items-center">
                     <button (click)="uploadComplimentaryImage()">
                       Add file
