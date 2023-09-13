@@ -479,7 +479,7 @@ export class CreateProductComponent implements OnInit {
     return this.fb.group({
       title: ['', [Validators.required]],
       value: ['', [Validators.required]],
-      cost: [null, [Validators.required]],
+      cost: ['', [Validators.required]],
       imageUrl: [''],
       unit: ['', Validators.required],
     });
@@ -500,6 +500,7 @@ export class CreateProductComponent implements OnInit {
     Object.keys(this.variationProps.controls)
       .forEach(field => {
         let control = this.variationProps.get(field)
+        console.log(control.invalid)
         if (control.invalid) {
           invalid = true
         }
