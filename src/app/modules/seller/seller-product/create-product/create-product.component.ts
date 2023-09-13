@@ -842,7 +842,6 @@ export class CreateProductComponent implements OnInit {
         this.setVariation(this.form.value.variations);
         this.previewImg = this.form.value.imageUrls[0];
         this.previewData = this.form.value;
-        this.isPreview = true;
       }
     }
     this.productService.createNewProduct(this.form.value).subscribe(
