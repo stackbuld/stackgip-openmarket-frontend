@@ -43,6 +43,7 @@ export class ProductItemComponent implements OnInit {
   overview: any;
   stockForm: FormGroup;
   selectedStock: any;
+  tab = 1;
 
   constructor(
     private productService: ProductsService,

@@ -163,17 +163,7 @@
         >
           <div class="editor">
             <div for="name" class="label">Description</div>
-            <!-- <mat-form-field class="full-width w-600">
-                  
-                  <textarea
-                    type="text"
-                    required
-                    matInput
-                    rows="10"
-                    placeholder="Please provide a detailed Description"
-                    formControlName="shortDescription"
-                  ></textarea>
-                </mat-form-field> -->
+          
 
             <angular-editor
               id="maineditor"
@@ -193,9 +183,7 @@
               >
                 Accepts Images or Videos*
               </div>
-              <!-- <div *ngIf="imageName" class="d-flex justify-content-center align-items-center px-8">
-                    <span  class="upload-text">uploaded -{{imageName}}</span>
-                  </div> -->
+              
             </div>
 
             <div class="error-txt" *ngIf="imageErr">{{ imageErr }}</div>
@@ -228,8 +216,8 @@
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="10"
+                    width="18"
+                    height="18"
                     viewBox="0 0 10 10"
                     fill="none"
                   >
@@ -487,8 +475,8 @@
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="10"
-                          height="10"
+                          width="18"
+                          height="18"
                           viewBox="0 0 10 10"
                           fill="none"
                         >
@@ -788,8 +776,8 @@
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="10"
-                          height="10"
+                          width="18"
+                          height="18"
                           viewBox="0 0 10 10"
                           fill="none"
                         >
@@ -1021,7 +1009,7 @@
       </button>
 
       <button
-        (click)="onSubmit()"
+        (click)="onSubmit(true)"
         type="submit"
         class="btn-add btn-light"
         [class.spinner]="loading"
@@ -1176,8 +1164,8 @@
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="10"
-                  height="10"
+                  width="18"
+                  height="18"
                   viewBox="0 0 10 10"
                   fill="none"
                 >
