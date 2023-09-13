@@ -523,7 +523,7 @@ export class CreateProductComponent implements OnInit {
   editVariation(index: number): void {
     this.addingComplimentaryOptions = true
     this.variationProps.patchValue({ ...this.variations().value[index] })
-    this.removeRelated(index)
+    this.removeVariation(index)
   }
 
   removeEditVariation(): void {
