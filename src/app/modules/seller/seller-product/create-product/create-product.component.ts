@@ -794,29 +794,78 @@ export class CreateProductComponent implements OnInit {
   }
 
   createProduct = () => {
-    console.log(this.form.value)
-    // this.creatingProduct = true;
-    // this.productService.createNewProduct(this.form.value).subscribe(
-    //   (res) => {
-    //     if (res.status === 'success') {
-    //       this.toast.success(res.message);
-    //       this.router.navigate(['/seller/products']);
-    //       this.creatingProduct = false;
-    //       localStorage.removeItem('compImagesStore');
-    //       this.complementaryImagesStore = [];
-    //     } else {
-    //       this.creatingProduct = false;
-    //       this.toast.error(res.message);
-    //     }
-    //   },
-    //   (err) => {
-    //     this.creatingProduct = false;
-    //     this.toast.error(err.message);
-    //   }
-    // );
+    this.creatingProduct = true;
+    this.productService.createNewProduct(this.form.value).subscribe(
+      (res) => {
+        if (res.status === 'success') {
+          this.toast.success(res.message);
+          this.router.navigate(['/seller/products']);
+          this.creatingProduct = false;
+          localStorage.removeItem('compImagesStore');
+          this.complementaryImagesStore = [];
+        } else {
+          this.creatingProduct = false;
+          this.toast.error(res.message);
+        }
+      },
+      (err) => {
+        this.creatingProduct = false;
+        this.toast.error(err.message);
+      }
+    );
+  };
+
+    saveAsDraft = () => {
+      this.creatingProduct = true;
+      if (this.images.length < 1) {
+      this.toast.error('Product Image(s) required');
+      // return;
+    } else if (this.form.value.description === '') {
+      this.toast.error('Enter Product Description to Procees');
+      // return;
+    } else if (
+      this.form.value.category !== '' &&
+      this.subCategories.length > 0 &&
+      this.form.value.categoryId === ''
+    ) {
+      this.toast.error('Select a Sub Category');
+      // return;
+    } else {
+      if (this.subCategories.length === 0 && this.form.value.category !== '') {
+        this.isSubCatIdEmpty = true;
+        this.form.patchValue({ categoryId: this.form.value.category });
+      }
+
+      if (this.form.valid) {
+        // this.setComplementaryProducts();
+        this.form.patchValue({ imageUrl: this.form.value.imageUrls[0], publishOption: 'draft' });
+        this.setVariation(this.form.value.variations);
+        this.previewImg = this.form.value.imageUrls[0];
+        this.previewData = this.form.value;
+        this.isPreview = true;
+      }
+    }
+    this.productService.createNewProduct(this.form.value).subscribe(
+      (res) => {
+        if (res.status === 'success') {
+          this.toast.success(res.message);
+          this.router.navigate(['/seller/products']);
+          this.creatingProduct = false;
+          localStorage.removeItem('compImagesStore');
+          this.complementaryImagesStore = [];
+        } else {
+          this.creatingProduct = false;
+          this.toast.error(res.message);
+        }
+      },
+      (err) => {
+        this.creatingProduct = false;
+        this.toast.error(err.message);
+      }
+    );
   };
   isSubCatIdEmpty = false;
-  onSubmit = (publish = false) => {
+  onSubmit = () => {
     if (this.images.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
@@ -838,7 +887,7 @@ export class CreateProductComponent implements OnInit {
 
       if (this.form.valid) {
         // this.setComplementaryProducts();
-        this.form.patchValue({ imageUrl: this.form.value.imageUrls[0], publishOption: publish && "published" || 'draft' });
+        this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
         this.setVariation(this.form.value.variations);
         this.previewImg = this.form.value.imageUrls[0];
         this.previewData = this.form.value;
