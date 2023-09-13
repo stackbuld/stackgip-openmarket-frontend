@@ -794,28 +794,29 @@ export class CreateProductComponent implements OnInit {
   }
 
   createProduct = () => {
-    this.creatingProduct = true;
-    this.productService.createNewProduct(this.form.value).subscribe(
-      (res) => {
-        if (res.status === 'success') {
-          this.toast.success(res.message);
-          this.router.navigate(['/seller/products']);
-          this.creatingProduct = false;
-          localStorage.removeItem('compImagesStore');
-          this.complementaryImagesStore = [];
-        } else {
-          this.creatingProduct = false;
-          this.toast.error(res.message);
-        }
-      },
-      (err) => {
-        this.creatingProduct = false;
-        this.toast.error(err.message);
-      }
-    );
+    console.log(this.form.value)
+    // this.creatingProduct = true;
+    // this.productService.createNewProduct(this.form.value).subscribe(
+    //   (res) => {
+    //     if (res.status === 'success') {
+    //       this.toast.success(res.message);
+    //       this.router.navigate(['/seller/products']);
+    //       this.creatingProduct = false;
+    //       localStorage.removeItem('compImagesStore');
+    //       this.complementaryImagesStore = [];
+    //     } else {
+    //       this.creatingProduct = false;
+    //       this.toast.error(res.message);
+    //     }
+    //   },
+    //   (err) => {
+    //     this.creatingProduct = false;
+    //     this.toast.error(err.message);
+    //   }
+    // );
   };
   isSubCatIdEmpty = false;
-  onSubmit = () => {
+  onSubmit = (publish = false) => {
     if (this.images.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
@@ -837,7 +838,7 @@ export class CreateProductComponent implements OnInit {
 
       if (this.form.valid) {
         // this.setComplementaryProducts();
-        this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
+        this.form.patchValue({ imageUrl: this.form.value.imageUrls[0], publishOption: publish && "published" || 'draft' });
         this.setVariation(this.form.value.variations);
         this.previewImg = this.form.value.imageUrls[0];
         this.previewData = this.form.value;
