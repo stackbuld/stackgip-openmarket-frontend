@@ -831,7 +831,7 @@ export class CreateProductComponent implements OnInit {
 
     saveAsDraft = () => {
       this.creatingProduct = true;
-      if (this.images.length < 1) {
+      if (this.images?.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
     } else if (this.form.value.description === '') {
@@ -839,13 +839,13 @@ export class CreateProductComponent implements OnInit {
       // return;
     } else if (
       this.form.value.category !== '' &&
-      this.subCategories.length > 0 &&
+      this.subCategories?.length > 0 &&
       this.form.value.categoryId === ''
     ) {
       this.toast.error('Select a Sub Category');
       // return;
     } else {
-      if (this.subCategories.length === 0 && this.form.value.category !== '') {
+      if (this.subCategories?.length === 0 && this.form.value.category !== '') {
         this.isSubCatIdEmpty = true;
         this.form.patchValue({ categoryId: this.form.value.category });
       }
@@ -853,12 +853,9 @@ export class CreateProductComponent implements OnInit {
       if (this.form.valid) {
         // this.setComplementaryProducts();
         this.form.patchValue({ imageUrl: this.form.value.imageUrls[0], publishOption: 'draft' });
-        this.setVariation(this.form.value.variations);
-        this.previewImg = this.form.value.imageUrls[0];
-        this.previewData = this.form.value;
-      }
-    }
-    this.productService.createNewProduct(this.form.value).subscribe(
+        
+
+        this.productService.createNewProduct(this.form.value).subscribe(
       (res) => {
         if (res.status === 'success') {
           this.toast.success(res.message);
@@ -876,6 +873,9 @@ export class CreateProductComponent implements OnInit {
         this.toast.error(err.message);
       }
     );
+      }
+    }
+    
   };
   isSubCatIdEmpty = false;
   onSubmit = () => {
