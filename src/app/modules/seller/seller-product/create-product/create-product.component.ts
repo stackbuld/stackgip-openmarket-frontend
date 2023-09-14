@@ -33,6 +33,7 @@ import { DOCUMENT } from '@angular/common';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SellerStoreCreateDialogComponent } from '../../seller-store/seller-store-create-dialog/seller-store-create-dialog.component';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
 
 
 
@@ -40,7 +41,8 @@ declare var cloudinary: any;
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
-  styleUrls: ['./create-product.component.scss']
+  styleUrls: ['./create-product.component.scss'],
+  providers: [SafeHtmlPipe]
 })
 export class CreateProductComponent implements OnInit {
 
@@ -168,13 +170,15 @@ export class CreateProductComponent implements OnInit {
   productId = null;
   isFullDescription = false;
   hasFullDesc: boolean;
-  imageErr: string
+  imageErr: string;
+  previewDesc: any
 
 
   constructor(
     private fb: FormBuilder,
     private toast: ToastrService,
     private router: Router,
+    private safeHtml: SafeHtmlPipe,
     private productService: ProductsService,
     private storeService: StoreService,
     private activatedRoute: ActivatedRoute,
@@ -875,7 +879,6 @@ export class CreateProductComponent implements OnInit {
   };
   isSubCatIdEmpty = false;
   onSubmit = () => {
-    console.log(this.variationList)
     if (this.images.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
@@ -902,6 +905,7 @@ export class CreateProductComponent implements OnInit {
         this.previewImg = this.form.value.imageUrls[0];
         this.previewData = this.form.value;
         this.isPreview = true;
+        this.previewDesc = this.safeHtml.transform(this.form.value.shortDescription)
       }
     }
   };
