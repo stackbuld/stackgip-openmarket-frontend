@@ -69,7 +69,10 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div *ngIf="subCategories?.length > 0" class="uk-width-expand input-sec">
+          <div
+            *ngIf="subCategories?.length > 0"
+            class="uk-width-expand input-sec"
+          >
             <div for="name" class="label">Sub Category</div>
             <mat-form-field class="uk-width-expand">
               <!-- <mat-form-field
@@ -88,9 +91,10 @@
               </mat-select>
             </mat-form-field>
           </div>
-         
         </div>
-        <div class="mb-3 uk-grid block-up uk-grid-row-small uk-child-width-1-2@s input-sec">
+        <div
+          class="mb-3 uk-grid block-up uk-grid-row-small uk-child-width-1-2@s input-sec"
+        >
           <div class="uk-width-expand input-sec">
             <div for="name" class="label">Price</div>
             <mat-form-field class="uk-width-expand">
@@ -120,7 +124,9 @@
             </mat-form-field>
           </div>
         </div>
-        <div class="mb-3 uk-grid block-up uk-grid-row-small uk-child-width-1-2@s">
+        <div
+          class="mb-3 uk-grid block-up uk-grid-row-small uk-child-width-1-2@s"
+        >
           <div class="uk-width-expand input-sec">
             <div for="name" class="label">Weight</div>
             <mat-form-field class="uk-width-expand">
@@ -163,7 +169,6 @@
         >
           <div class="editor">
             <div for="name" class="label">Description</div>
-          
 
             <angular-editor
               id="maineditor"
@@ -183,7 +188,6 @@
               >
                 Accepts Images or Videos*
               </div>
-              
             </div>
 
             <div class="error-txt" *ngIf="imageErr">{{ imageErr }}</div>
@@ -416,8 +420,9 @@
                 </div>
                 <div class="main uk-flex mt-4 mb-2">
                   <div class="editor">
-                    <div for="name" class="label">Description <small>(optional)</small></div>
-                   
+                    <div for="name" class="label">
+                      Description <small>(optional)</small>
+                    </div>
 
                     <angular-editor
                       id="subeditor"
@@ -663,7 +668,16 @@
             </div> -->
                 <div class="uk-grid uk-grid-row-small uk-child-width-1-2@s">
                   <div class="">
-                    <div for="name" class="label">Variation</div>
+                    <div class="uk-flex uk-flex-between">
+                      <div for="name" class="label">Variation</div>
+                    <p
+                      class="add-store-btn uk-flex align-items-center"
+                      uk-toggle="target: #modal-add-variation"
+                      id="js-modal-prompt"
+                    >
+                      + Add new variation
+                    </p>
+                    </div>
                     <mat-form-field class="full-width uk-width-1-4 mt-2">
                       <mat-select formControlName="title" required>
                         <mat-option disabled="true"
@@ -724,7 +738,9 @@
                   </div>
                 </div>
                 <div class="uk-width-expand uk-width-1-2@s input-sec">
-                  <div for="name" class="label">File Upload<small>(optional)</small></div>
+                  <div for="name" class="label">
+                    File Upload<small>(optional)</small>
+                  </div>
                   <div class="border-form mb-30 d-flex align-items-center">
                     <button (click)="uploadComplimentaryImage()">
                       Add file
@@ -1064,14 +1080,16 @@
       <div class="mt-4">
         <p class="item-label">Color</p>
         <div class="uk-flex mt-2 uk-flex-middle">
-          <div class="icon-container mr-2 uk-flex" *ngFor="let item of variationList">
-            <div class="color-name">{{item.value}}</div>
+          <div
+            class="icon-container mr-2 uk-flex"
+            *ngFor="let item of variationList"
+          >
+            <div class="color-name">{{ item.value }}</div>
             <div class="extra-cost">
               <small>Extra cost</small>
-              <p>+ {{item.value}}</p>
+              <p>+ {{ item.value }}</p>
             </div>
           </div>
-          
         </div>
       </div>
 
@@ -1223,8 +1241,6 @@
           </div>
         </div>
       </div>
-
-      
     </div>
   </div>
 
@@ -1278,34 +1294,6 @@
           </div>
         </div>
       </div>
-
-      <!-- <div *ngIf="previewData?.options?.length == 0" class="p-3">
-        <div style="display: flex; flex-wrap: wrap" class="parent-wrapping">
-          <div *ngFor="let item of previewData?.options" class="mr-3 carder">
-            <div *ngIf="item?.isMultiple === true">
-              <img
-                src="{{ item?.imageUrl }}"
-                alt="laptop"
-                style="width: 150px; height: 100px; object-fit: cover"
-              />
-              <div class="p-2">
-                <p class="card-name" style="word-wrap: break-word">
-                  {{ item?.title }}
-                </p>
-                <p class="card-price" style="word-wrap: break-word">
-                  {{ item?.cost | currency : "₦" }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-      <!-- <div
-        *ngIf="previewData?.options?.length === 0"
-        class="uk-flex uk-flex-center p-5"
-      >
-        <p class="p-5">No Complementary Product(s) Available</p>
-      </div> -->
     </div>
 
     <div class="uk-flex uk-flex-center mt-5">
@@ -1415,6 +1403,63 @@
           />
         </svg>
       </span>
+    </div>
+  </div>
+</div>
+
+<div id="modal-add-variation" uk-modal="bg-close: false">
+  <div class="uk-modal-dialog uk-modal-body">
+    <button
+      class="uk-modal-close-outside"
+      id="closeVariationModalBtn"
+      type="button"
+      uk-close
+      #closeEdit
+    ></button>
+    <div>
+      <h2 class="mb-3 uk-align-center">Add New Variation</h2>
+      <form [formGroup]="newVariationForm">
+        <div class="mb-3 uk-grid-small uk-grid uk-child-width-1-2@s">
+          <mat-form-field class="mb-3 uk-width-expand">
+            <mat-label>
+              Variation Name
+              <span *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)">
+                <span
+                  class="uk-text-warning"
+                  style="font-size: smaller"
+                  *ngIf="f.name.errors.required"
+                >
+                  Variation Name required <br />
+                </span>
+              </span>
+            </mat-label>
+            <input
+              type="text"
+              formControlName="name"
+              matInput
+              placeholder="eg Samsung s11"
+              formControlName="name"
+              required
+            />
+          </mat-form-field>
+        </div>
+        <div class="uk-flex uk-flex-center mt-4">
+          <button
+            (click)="createNewVariation()"
+            type="submit"
+            class="btn-add"
+            [disabled]="newVariationForm.invalid"
+          >
+            <span *ngIf="!creatingVariation">Submit</span>
+            <div
+              *ngIf="creatingVariation"
+              class="spinner-grow text-dark"
+              role="status"
+              style="width: 25px; height: 25px"
+            ></div>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
