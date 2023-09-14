@@ -133,10 +133,10 @@ export class ProductsService {
     return this.http.get(this.baseUrl + `categories`);
   }
 
-  getVariations(categoryId?: any): Observable<any> {
-    if (categoryId) {
+  getVariations(userId?: any): Observable<any> {
+    if (userId) {
       return this.http.get(
-        this.baseUrl + `productoption/variations?categoryId=${categoryId}`
+        this.baseUrl + `productoption/variations?userId=${userId}`
       );
     } else {
       return this.http.get(this.baseUrl + `productoption/variations`);

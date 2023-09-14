@@ -45,6 +45,16 @@ declare var cloudinary: any;
 export class CreateProductComponent implements OnInit {
 
 
+  previewEditorConfig: AngularEditorConfig = {
+    editable: false,
+    showToolbar: false,
+    enableToolbar: false,
+    height: 'auto',
+      minHeight: '15rem',
+      maxHeight: 'auto',
+      width: 'auto',
+      minWidth: '10rem',
+  }
   editorConfig: AngularEditorConfig = {
     editable: true,
       spellcheck: true,
@@ -430,20 +440,20 @@ export class CreateProductComponent implements OnInit {
   initVariationForm(): void {
     this.newVariationForm = this.fb.group({
       name: ['', [Validators.required]],
-      categoryId: ['', [Validators.required]],
+      // categoryId: ['', [Validators.required]],
     });
   }
 
   createNewVariation() {
     this.creatingVariation = true;
-    this.selectedCategoryId = this.newVariationForm.value.categoryId;
+    // this.selectedCategoryId = this.newVariationForm.value.categoryId;
     this.productService.createVariation(this.newVariationForm.value).subscribe(
       (res) => {
         if (res.status === 'success') {
           this.document.getElementById('closeVariationModalBtn').click();
           this.creatingVariation = false;
           this.toast.success(res.message);
-          this.getVariations(this.selectedCategoryId);
+          this.getVariations();
           this.initVariationForm();
         } else {
           this.creatingVariation = false;
@@ -686,12 +696,12 @@ export class CreateProductComponent implements OnInit {
     this.form.value.categoryId = '';
     this.loadingSubCategories = true;
     this.selectedCategoryId = id;
-    this.getVariations(id);
+    this.getVariations();
     this.newVariationForm.patchValue({ categoryId: this.selectedCategoryId });
     this.productService.getSubCategories(id).subscribe(
       (res) => {
         this.subCategories = res.data;
-        this.getVariations(id);
+        this.getVariations();
         this.loadingSubCategories = false;
       },
       (err) => {
@@ -712,8 +722,8 @@ export class CreateProductComponent implements OnInit {
     );
   }
 
-  getVariations(categoryId?: any) {
-    this.productService.getVariations(categoryId).subscribe(
+  getVariations() {
+    this.productService.getVariations(this.user.id).subscribe(
       (res) => {
         this.productVariations = res.data.data;
       },
