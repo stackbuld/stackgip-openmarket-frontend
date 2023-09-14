@@ -1261,10 +1261,17 @@
         [hidden]="isFullDescription"
       ></div> -->
         <div class="description py-3">{{ form.value.shortDescription }}</div>
-        <div
+        <!-- <angular-editor
+              id="previewEditor"
+              [config]="previewEditorConfig"
+              (value)="previewData?.description"
+            >
+            
+          </angular-editor> -->
+        <!-- <div
           [innerHtml]="previewData?.description"
           class="description py-3"
-        ></div>
+        ></div> -->
       </div>
     </div>
 

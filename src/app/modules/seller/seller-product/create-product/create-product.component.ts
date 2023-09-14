@@ -45,6 +45,16 @@ declare var cloudinary: any;
 export class CreateProductComponent implements OnInit {
 
 
+  previewEditorConfig: AngularEditorConfig = {
+    editable: false,
+    showToolbar: false,
+    enableToolbar: false,
+    height: 'auto',
+      minHeight: '15rem',
+      maxHeight: 'auto',
+      width: 'auto',
+      minWidth: '10rem',
+  }
   editorConfig: AngularEditorConfig = {
     editable: true,
       spellcheck: true,
