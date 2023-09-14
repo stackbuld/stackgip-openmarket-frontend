@@ -22,6 +22,10 @@ const routes: Routes = [
         component: CreateProductComponent,
       },
       {
+        path: 'create/:id',
+        component: CreateProductComponent,
+      },
+      {
         path: 'add/:id',
         component: AddProductComponent,
       },
