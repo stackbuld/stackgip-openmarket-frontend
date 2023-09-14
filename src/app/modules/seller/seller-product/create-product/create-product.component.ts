@@ -386,7 +386,7 @@ export class CreateProductComponent implements OnInit {
     this.form = this.fb.group({
       userId: [this.user.id],
       name: [data.name, [Validators.required]],
-      description: [data.description, [Validators.required]],
+      shortDescription: [data.description, [Validators.required]],
       price: [data.price, [Validators.required]],
       weight: [data.weight, [Validators.required]],
       previousPrice: [data.previousPrice],
@@ -420,6 +420,7 @@ export class CreateProductComponent implements OnInit {
           title: [element.title, [Validators.required]],
           value: [element.value, [Validators.required]],
           cost: [element.cost, [Validators.required]],
+          unit: [element.unit, [Validators.required]],
           imageUrl: [''],
           isMultiple: false,
         })
