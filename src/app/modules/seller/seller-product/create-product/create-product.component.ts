@@ -416,7 +416,6 @@ export class CreateProductComponent implements OnInit {
           title: [element.title, [Validators.required]],
           value: [element.value, [Validators.required]],
           cost: [element.cost, [Validators.required]],
-          shortDescription: [''],
           imageUrl: [''],
           isMultiple: false,
         })
@@ -876,6 +875,7 @@ export class CreateProductComponent implements OnInit {
   };
   isSubCatIdEmpty = false;
   onSubmit = () => {
+    console.log(this.variationList)
     if (this.images.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
