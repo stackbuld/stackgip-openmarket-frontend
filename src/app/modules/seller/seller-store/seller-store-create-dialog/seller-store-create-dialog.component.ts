@@ -31,7 +31,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   @ViewChild('placesRef') placesRef: GooglePlaceDirective;
   options = {
     types: ['address'],
-    // componentRestrictions: { country: 'NG' },
+    componentRestrictions: { country: 'NG' },
   };
 
   setAddressField = () => {

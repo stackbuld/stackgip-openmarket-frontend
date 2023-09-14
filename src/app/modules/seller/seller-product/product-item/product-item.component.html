@@ -239,31 +239,116 @@
       </li>
     </ul>
 
-    <table class="uk-visible@s" style="width: 100%" *ngIf="tab === 1">
-      <thead class="table-header">
-        <tr>
-          <th class="w-30">Product Image/Name</th>
-          <th>Price (₦)</th>
-          <th>
-            <span class="unit-caption">Unit Available</span>
-          </th>
-          <th>
-            <span class="unit-caption">Unit Sold</span>
-          </th>
-          <th>Revenue</th>
-          <th>
-            <span id="created-at">Date posted</span>
-          </th>
-          <th>
-            <span id="status">Status</span>
-          </th>
-          <th>View</th>
-          <th>Action</th>
-        </tr>
-      </thead>
+    <div *ngIf="tab === 1">
+      <table class="uk-visible@s" style="width: 100%">
+        <thead class="table-header">
+          <tr>
+            <th class="w-30">Product Image/Name</th>
+            <th>Price (₦)</th>
+            <th>
+              <span class="unit-caption">Unit Available</span>
+            </th>
+            <th>
+              <span class="unit-caption">Unit Sold</span>
+            </th>
+            <th>Revenue</th>
+            <th>
+              <span id="created-at">Date posted</span>
+            </th>
+            <th>
+              <span id="status">Status</span>
+            </th>
+            <th>View</th>
+            <th>Action</th>
+          </tr>
+        </thead>
 
-      <tbody *ngIf="productDetails.length > 0 && !loading">
-        <tr
+        <tbody *ngIf="productDetails.length > 0 && !loading">
+          <tr
+            *ngFor="
+              let productDetail of productDetails
+                | paginate
+                  : {
+                      itemsPerPage: maximumItem,
+                      currentPage: pageNumber,
+                      totalItems: totalItemCount
+                    }
+            "
+          >
+            <td class="uk-flex uk-flex-middle">
+              <img
+                class="uk-img product-img"
+                src="{{ productDetail?.imageUrl }}"
+                alt="{{ productDetail?.imageUrl }}"
+                width="100"
+                height="100"
+              />
+              <span class="uk-margin-left">
+                <strong>{{ productDetail?.name }}</strong>
+              </span>
+            </td>
+            <td>
+              <p class="mb-0">{{ productDetail?.price | currency : "₦" }}</p>
+            </td>
+            <td>
+              <p class="mb-0">{{ productDetail?.unit }}</p>
+            </td>
+            <td>
+              <p class="mb-0">{{ productDetail?.unitSold }}</p>
+            </td>
+            <td>
+              <p class="mb-0">{{ productDetail?.revenue | currency : "₦" }}</p>
+            </td>
+            <td>
+              <p class="mb-0">
+                {{ productDetail?.createdOn | date : "short" }}
+              </p>
+            </td>
+            <td>
+              <p
+                class="mb-0 badge"
+                [ngClass]="
+                  productDetail?.status.toLowerCase() === 'rejected'
+                    ? 'badge-red'
+                    : productDetail?.status.toLowerCase() === 'publish'
+                    ? 'badge-green'
+                    : productDetail?.status.toLowerCase() === 'review'
+                    ? 'bagde-yellow'
+                    : productDetail?.status.toLowerCase() === 'draft'
+                    ? 'bagde-blue'
+                    : ''
+                "
+              >
+                {{ productDetail?.status }}
+              </p>
+            </td>
+            <td>
+              <p>
+                <a
+                  routerLink="/seller/products/view/{{ productDetail?.id }}"
+                  class="edge2"
+                >
+                  <span style="margin-right: 4px">View</span>
+                </a>
+              </p>
+            </td>
+            <td>
+              <p>
+                <a
+                  class="edge"
+                  routerLink="/seller/products/add/{{ productDetail?.id }}"
+                >
+                  <span style="margin-right: 4px">Edit</span>
+                </a>
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="mobile-table" *ngIf="productDetails.length > 0 && !loading">
+        <div
+          class="uk-flex bottom-bar"
           *ngFor="
             let productDetail of productDetails
               | paginate
@@ -274,7 +359,7 @@
                   }
           "
         >
-          <td class="uk-flex uk-flex-middle">
+          <div class="w-20">
             <img
               class="uk-img product-img"
               src="{{ productDetail?.imageUrl }}"
@@ -282,120 +367,46 @@
               width="100"
               height="100"
             />
-            <span class="uk-margin-left">
-              <strong>{{ productDetail?.name }}</strong>
-            </span>
-          </td>
-          <td>
-            <p class="mb-0">{{ productDetail?.price | currency : "₦" }}</p>
-          </td>
-          <td>
-            <p class="mb-0">{{ productDetail?.unit }}</p>
-          </td>
-          <td>
-            <p class="mb-0">{{ productDetail?.unitSold }}</p>
-          </td>
-          <td>
-            <p class="mb-0">{{ productDetail?.revenue | currency : "₦" }}</p>
-          </td>
-          <td>
-            <p class="mb-0">{{ productDetail?.createdOn | date : "short" }}</p>
-          </td>
-          <td>
-            <p
-              class="mb-0 badge"
-              [ngClass]="
-                productDetail?.status.toLowerCase() === 'rejected'
-                  ? 'badge-red'
-                  : productDetail?.status.toLowerCase() === 'publish'
-                  ? 'badge-green'
-                  : productDetail?.status.toLowerCase() === 'review'
-                  ? 'bagde-yellow'
-                  : productDetail?.status.toLowerCase() === 'draft'
-                  ? 'bagde-blue'
-                  : ''
-              "
-            >
-              {{ productDetail?.status }}
-            </p>
-          </td>
-          <td>
-            <p>
-              <a
-                routerLink="/seller/products/view/{{ productDetail?.id }}"
-                class="edge2"
-              >
-                <span style="margin-right: 4px">View</span>
-              </a>
-            </p>
-          </td>
-          <td>
-            <p>
-              <a
-                class="edge"
-                routerLink="/seller/products/add/{{ productDetail?.id }}"
-              >
-                <span style="margin-right: 4px">Edit</span>
-              </a>
-            </p>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="mobile-table" *ngIf="productDetails.length > 0 && !loading">
-      <div
-        class="uk-flex bottom-bar"
-        *ngFor="
-          let productDetail of productDetails
-            | paginate
-              : {
-                  itemsPerPage: maximumItem,
-                  currentPage: pageNumber,
-                  totalItems: totalItemCount
-                }
-        "
-      >
-        <div class="w-20">
-          <img
-            class="uk-img product-img"
-            src="{{ productDetail?.imageUrl }}"
-            alt="{{ productDetail?.imageUrl }}"
-            width="100"
-            height="100"
-          />
-        </div>
-        <div class="w-70">
-          <p class="">
-            <strong>{{ productDetail?.name }}</strong>
-          </p>
-          <div class="uk-flex mb-1">
-            <p class="unit-style">{{ productDetail?.unit }} Unit left</p>
-            &nbsp; &nbsp;
-            <p class="mb-0">{{ productDetail?.unitSold }} Unit sold</p>
           </div>
-          <p>Price: {{ productDetail?.price | currency : "₦" }}</p>
-          <p>Amount Sold: {{ productDetail?.revenue | currency : "₦" }}</p>
-          <div class="btw-justify">
-            <p>{{ productDetail?.createdOn | date }}</p>
-            <div class="uk-flex">
-              <a
-                routerLink="/seller/products/view/{{ productDetail?.id }}"
-                class="edge2"
-              >
-                <span style="margin-right: 4px">View</span>
-              </a>
+          <div class="w-70">
+            <p class="">
+              <strong>{{ productDetail?.name }}</strong>
+            </p>
+            <div class="uk-flex mb-1">
+              <p class="unit-style">{{ productDetail?.unit }} Unit left</p>
               &nbsp; &nbsp;
-              <a
-                class="edge"
-                routerLink="/seller/products/add/{{ productDetail?.id }}"
-              >
-                <span style="margin-right: 4px">Edit</span>
-              </a>
+              <p class="mb-0">{{ productDetail?.unitSold }} Unit sold</p>
+            </div>
+            <p>Price: {{ productDetail?.price | currency : "₦" }}</p>
+            <p>Amount Sold: {{ productDetail?.revenue | currency : "₦" }}</p>
+            <div class="btw-justify">
+              <p>{{ productDetail?.createdOn | date }}</p>
+              <div class="uk-flex">
+                <a
+                  routerLink="/seller/products/view/{{ productDetail?.id }}"
+                  class="edge2"
+                >
+                  <span style="margin-right: 4px">View</span>
+                </a>
+                &nbsp; &nbsp;
+                <a
+                  class="edge"
+                  routerLink="/seller/products/add/{{ productDetail?.id }}"
+                >
+                  <span style="margin-right: 4px">Edit</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+
+    <div *ngIf="tab === 2" class="full-width uk-flex uk-flex-center mt-4">
+      No data available
+    </div>
+    <div *ngIf="tab === 3" class="full-width uk-flex uk-flex-center mt-4">
+      No data available
     </div>
   </div>
 
