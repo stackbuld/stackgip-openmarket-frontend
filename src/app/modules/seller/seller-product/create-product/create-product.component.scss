@@ -130,11 +130,23 @@ h2, p{
 .action-btn{
     padding: 2rem 0;
 
+    @include breakpoint-down(small){
+        padding: .2rem 0;
+    }
+
 
     &-container{
         
         border-top: 2px solid #f4f4f4;
         border-bottom: 2px solid #f4f4f4;
+
+        @include breakpoint-up(medium){
+            display: flex;
+
+            & > div:nth-child(2){
+                padding-left: 2rem;
+            }
+        }
 
 
         & > div:first-child{
@@ -143,7 +155,7 @@ h2, p{
 
         & > div:nth-child(2){
             border-left: 1.5px solid #f4f4f4;
-            padding-left: 2rem;
+            
         }
     }
 }
