@@ -835,15 +835,18 @@ export class CreateProductComponent implements OnInit {
       if (this.images?.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
-    } else if (this.form.value.description === '') {
+    } else if (this.form.value.shortDescription === '') {
       this.toast.error('Enter Product Description to Procees');
       // return;
     } else if (
-      this.form.value.category !== '' &&
-      this.subCategories?.length > 0 &&
-      this.form.value.categoryId === ''
+      this.form.value.category == ''
     ) {
-      this.toast.error('Select a Sub Category');
+      this.toast.error('Select a Category');
+      // return;
+    } else if (
+      this.form.invalid
+    ) {
+      this.toast.error('All required fields must be available');
       // return;
     } else {
       if (this.subCategories?.length === 0 && this.form.value.category !== '') {
@@ -880,18 +883,21 @@ export class CreateProductComponent implements OnInit {
   };
   isSubCatIdEmpty = false;
   onSubmit = () => {
-    if (this.images.length < 1) {
+    if (this.images?.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
-    } else if (this.form.value.description === '') {
+    } else if (this.form.value.shortDescription === '') {
       this.toast.error('Enter Product Description to Procees');
       // return;
     } else if (
-      this.form.value.category !== '' &&
-      this.subCategories.length > 0 &&
-      this.form.value.categoryId === ''
+      this.form.value.category == ''
     ) {
-      this.toast.error('Select a Sub Category');
+      this.toast.error('Select a Category');
+      // return;
+    } else if (
+      this.form.invalid
+    ) {
+      this.toast.error('All required fields must be available');
       // return;
     } else {
       if (this.subCategories.length === 0 && this.form.value.category !== '') {
