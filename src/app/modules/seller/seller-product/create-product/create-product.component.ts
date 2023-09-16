@@ -810,22 +810,23 @@ export class CreateProductComponent implements OnInit {
 
   createProduct = () => {
     this.creatingProduct = true;
+    this.form.removeControl('publishOption')
     this.productService.createNewProduct(this.form.value).subscribe(
       (res) => {
         if (res.status === 'success') {
-          this.toast.success(res.message);
+          this.toast.success('Product added successfully');
           this.router.navigate(['/seller/products']);
           this.creatingProduct = false;
           localStorage.removeItem('compImagesStore');
           this.complementaryImagesStore = [];
         } else {
           this.creatingProduct = false;
-          this.toast.error(res.message);
+          this.toast.error('Something went wrong');
         }
       },
       (err) => {
         this.creatingProduct = false;
-        this.toast.error(err.message);
+        this.toast.error('Something went wrong');
       }
     );
   };
@@ -862,19 +863,19 @@ export class CreateProductComponent implements OnInit {
         this.productService.createNewProduct(this.form.value).subscribe(
       (res) => {
         if (res.status === 'success') {
-          this.toast.success(res.message);
+          this.toast.success('Product saved as draft Successful!');
           this.router.navigate(['/seller/products']);
           this.creatingProduct = false;
           localStorage.removeItem('compImagesStore');
           this.complementaryImagesStore = [];
         } else {
           this.creatingProduct = false;
-          this.toast.error(res.message);
+          this.toast.error('Something went wrong');
         }
       },
       (err) => {
         this.creatingProduct = false;
-        this.toast.error(err.message);
+        this.toast.error('Something went wrong');
       }
     );
       }
