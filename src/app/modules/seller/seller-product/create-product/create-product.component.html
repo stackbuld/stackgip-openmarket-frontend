@@ -149,11 +149,11 @@
             <mat-form-field class="mb-3 uk-width-expand">
               <mat-select formControlName="pickupOption" required>
                 <mat-option disabled="true">Select pickup method</mat-option>
-                <mat-option [value]="'none'">None</mat-option>
-                <mat-option [value]="'bike'">Bike</mat-option>
-                <mat-option [value]="'car'">Car</mat-option>
-                <mat-option [value]="'van'">Van</mat-option>
-                <mat-option [value]="'truck'">Truck</mat-option>
+                <mat-option [value]="'None'">None</mat-option>
+                <mat-option [value]="'Bike'">Bike</mat-option>
+                <mat-option [value]="'Car'">Car</mat-option>
+                <mat-option [value]="'Van'">Van</mat-option>
+                <mat-option [value]="'Truck'">Truck</mat-option>
                 <!-- <mat-option
                   *ngFor="let pickup of pickupOptions" 
                   [(value)]="pickup.name"
@@ -207,7 +207,7 @@
                       'active-product-image': productImage === image
                     }"
                     style="width: 200px; height: 100px; object-fit: cover"
-                    src="{{ image.substr(0, image.lastIndexOf('.')) + '.jpg' }}"
+                    src="{{ image?.substr(0, image.lastIndexOf('.')) + '.jpg' }}"
                     alt="{{ image }}"
                     (click)="toggleActiveProductImage(image)"
                   />
@@ -215,7 +215,7 @@
                 <div
                   class="overlay"
                   *ngIf="
-                    !(1 + image.substring(image.lastIndexOf('.')) == 'mp4')
+                    !(1 + image?.substring(image.lastIndexOf('.')) == 'mp4')
                   "
                 >
                   <svg
@@ -245,7 +245,7 @@
                 </div>
                 <div
                   class="overlay"
-                  *ngIf="image.substring(1 + image.lastIndexOf('.')) == 'mp4'"
+                  *ngIf="image?.substring(1 + image.lastIndexOf('.')) == 'mp4'"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -463,7 +463,7 @@
                           }"
                           style="width: 200px; height: 100px; object-fit: cover"
                           src="{{
-                            image.substr(0, image.lastIndexOf('.')) + '.jpg'
+                            image?.substr(0, image.lastIndexOf('.')) + '.jpg'
                           }}"
                           alt="{{ image }}"
                           (click)="toggleActiveProductImage(image)"
@@ -473,7 +473,7 @@
                         class="overlay"
                         *ngIf="
                           !(
-                            1 + image.substring(image.lastIndexOf('.')) ==
+                            1 + image?.substring(image.lastIndexOf('.')) ==
                             'mp4'
                           )
                         "
@@ -506,7 +506,7 @@
                       <div
                         class="overlay"
                         *ngIf="
-                          image.substring(1 + image.lastIndexOf('.')) == 'mp4'
+                          image?.substring(1 + image.lastIndexOf('.')) == 'mp4'
                         "
                       >
                         <svg
@@ -776,7 +776,7 @@
                             object-fit: contain;
                           "
                           src="{{
-                            image.substr(0, image.lastIndexOf('.')) + '.jpg'
+                            image?.substr(0, image.lastIndexOf('.')) + '.jpg'
                           }}"
                           alt="{{ image }}"
                         />
@@ -785,7 +785,7 @@
                         class="overlay"
                         *ngIf="
                           !(
-                            1 + image.substring(image.lastIndexOf('.')) ==
+                            1 + image?.substring(image.lastIndexOf('.')) ==
                             'mp4'
                           )
                         "
@@ -819,7 +819,7 @@
                       <div
                         class="overlay"
                         *ngIf="
-                          image.substring(1 + image.lastIndexOf('.')) == 'mp4'
+                          image?.substring(1 + image.lastIndexOf('.')) == 'mp4'
                         "
                       >
                         <svg
@@ -1044,9 +1044,9 @@
         <!-- <img src="{{ previewImg }}" alt="previewImg" /> -->
         <img
           src="{{
-            previewData?.imageUrls[0].substr(
+            previewData?.imageUrls[0]?.substr(
               0,
-              previewData?.imageUrls[0].lastIndexOf('.')
+              previewData?.imageUrls[0]?.lastIndexOf('.')
             ) + '.jpg'
           }}"
           alt="previewImg"
@@ -1153,12 +1153,12 @@
               style="cursor: pointer"
             >
               <img
-                src="{{ item.substr(0, item.lastIndexOf('.')) + '.jpg' }}"
-                alt=""
+                src="{{ item?.substr(0, item.lastIndexOf('.')) + '.jpg' }}"
+                alt="product video"
               />
               <div
                 class="overlay"
-                *ngIf="!(1 + item.substring(item.lastIndexOf('.')) == 'mp4')"
+                *ngIf="!(1 + item?.substring(item.lastIndexOf('.')) == 'mp4')"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -1187,7 +1187,7 @@
               </div>
               <div
                 class="overlay"
-                *ngIf="item.substring(1 + item.lastIndexOf('.')) == 'mp4'"
+                *ngIf="item?.substring(1 + item.lastIndexOf('.')) == 'mp4'"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -1256,9 +1256,10 @@
         class="parent-wrapping"
       >
         <div *ngFor="let item of form.value.options">
-          <img
+          <div *ngIf="item.value.isMultiple">
+            <img
             src="{{
-              item.imageUrl[0].substr(0, item.imageUrl[0].lastIndexOf('.')) +
+              item?.imageUrl[0]?.substr(0, item.imageUrl[0].lastIndexOf('.')) +
                 '.jpg'
             }}"
             alt="laptop"
@@ -1271,6 +1272,7 @@
             <p class="card-price" style="word-wrap: break-word">
               {{ item.cost | currency : "₦" }}
             </p>
+          </div>
           </div>
         </div>
       </div>
