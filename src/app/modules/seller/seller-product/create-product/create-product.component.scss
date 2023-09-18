@@ -15,6 +15,7 @@
     background-color: white;
     border: 2px solid #d4d4d4;
     border-radius: 12px;
+    overflow-x: auto;
     @include breakpoint-up(medium){
     padding: 2rem;
     }
@@ -120,7 +121,8 @@ h2, p{
     }
 
     @include breakpoint-down(small){
-        font-size: .375rem;
+        font-size: .75rem;
+        margin-inline: auto;
         padding: .5rem .25rem;
     }
     
@@ -131,7 +133,9 @@ h2, p{
     padding: 2rem 0;
 
     @include breakpoint-down(small){
-        padding: .2rem 0;
+        padding: .5rem 0;
+        display: flex;
+        justify-content: center;
     }
 
 
@@ -254,12 +258,25 @@ h2, p{
     }
 
 table{
+  
+    
+//     overflow-x: auto;
+//     width: 100%;
+    white-space: nowrap;
+
+//     tbody {
+//     width: 99%;
+// }
+
+
 
     th, td{
 
         &:first-child{
         padding-left: 1rem;
         }
+
+        padding-inline: .5rem;
     }
     td{
         position: relative;
