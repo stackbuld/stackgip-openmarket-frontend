@@ -225,21 +225,26 @@
       <li
         tabindex="0"
         role="tab"
-        (click)="tab = 1"
+        (click)="tab = 1; fetchNextProducts(pageNumber)"
         (keyup.enter)="tab = 1"
         class="uk-active"
       >
         <a><p class="title">All</p></a>
       </li>
-      <li tabindex="0" role="tab" (click)="tab = 2" (keyup.enter)="tab = 2">
+      <li
+        tabindex="0"
+        role="tab"
+        (click)="tab = 2; getDrafts()"
+        (keyup.enter)="tab = 2"
+      >
         <a><p class="title">Draft</p></a>
       </li>
-      <li tabindex="0" role="tab" (click)="tab = 2" (keyup.enter)="tab = 2">
+      <li tabindex="0" role="tab" (click)="tab = 3; getPublished()" (keyup.enter)="tab = 2">
         <a><p class="title">Published</p></a>
       </li>
     </ul>
 
-    <div *ngIf="tab === 1">
+    <div>
       <table class="uk-visible@s" style="width: 100%">
         <thead class="table-header">
           <tr>
@@ -402,12 +407,12 @@
       </div>
     </div>
 
-    <div *ngIf="tab === 2" class="full-width uk-flex uk-flex-center mt-4">
+    <!-- <div *ngIf="tab === 2" class="full-width uk-flex uk-flex-center mt-4">
       No data available
     </div>
     <div *ngIf="tab === 3" class="full-width uk-flex uk-flex-center mt-4">
       No data available
-    </div>
+    </div> -->
   </div>
 
   <div
@@ -419,7 +424,7 @@
       min-height: 300px;
     "
   >
-    <div *ngIf="loadingOverview">
+    <div>
       <img src="/assets/svg/loader-icon.svg" alt="" width="100" height="100" />
     </div>
   </div>
@@ -550,7 +555,7 @@
           &nbsp; &nbsp; &nbsp;
           <div class="">
             <a
-              routerLink="/seller/products/add/{{ item?.id }}"
+              routerLink="/seller/products/create/{{ item?.id }}"
               style="text-decoration: none"
             >
               <span style="margin-right: 4px; color: #d01717"
