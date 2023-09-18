@@ -1031,7 +1031,37 @@
         [class.spinner]="loading"
         [disabled]="loading"
       >
-        Save in Drafts
+        <div
+          *ngIf="creatingProduct"
+          style="display: flex; align-items: center; justify-content: center"
+        >
+          <div
+            class="spinner-grow text-dark"
+            role="status"
+            style="width: 15px; height: 15px"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          &nbsp; &nbsp;
+          <div
+            class="spinner-grow text-dark"
+            role="status"
+            style="width: 15px; height: 15px"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          &nbsp; &nbsp;
+          <div
+            class="spinner-grow text-dark"
+            role="status"
+            style="width: 15px; height: 15px"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          <br />
+        </div>
+        <span *ngIf="!creatingProduct"> Save in Drafts</span>
+        
       </button>
     </div>
   </form>
