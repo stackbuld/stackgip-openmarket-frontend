@@ -257,7 +257,7 @@ export class CreateProductComponent implements OnInit {
         if (this.images.length < 4) {
             this.relatedImages.push(result.info.secure_url);
             // this.productImage = this.images[0];
-            this.editProps.patchValue({ imageUrl: this.relatedImages });
+            this.editProps.patchValue({ imageUrl: result.info.secure_url });
           }
         }
       }
@@ -341,7 +341,7 @@ export class CreateProductComponent implements OnInit {
     this.form = this.fb.group({
       userId: [this.user.id, [Validators.required]],
       name: ['', [Validators.required]],
-      shortDescription: ['', [Validators.required]],
+      description: ['', [Validators.required]],
       price: [null, [Validators.required]],
       weight: [null, [Validators.required]],
       previousPrice: [0],
@@ -364,7 +364,7 @@ export class CreateProductComponent implements OnInit {
     this.form = this.fb.group({
       userId: [this.user.id],
       name: [data.name, [Validators.required]],
-      shortDescription: [data.description, [Validators.required]],
+      description: [data.description, [Validators.required]],
       price: [data.price, [Validators.required]],
       weight: [data.weight, [Validators.required]],
       previousPrice: [data.previousPrice],
@@ -373,6 +373,7 @@ export class CreateProductComponent implements OnInit {
       imageUrl: [data.imageUrl],
       categoryId: [data.categoryId, [Validators.required]],
       category: [data.categoryId, [Validators.required]],
+      videoUrls: [data.videoUrls],
       storeIds: [sellerStoreIds, [Validators.required]],
       unit: [data.unit, [Validators.required]],
       variations: this.fb.array([]),
@@ -404,6 +405,7 @@ export class CreateProductComponent implements OnInit {
           unit: [element.unit, [Validators.required]],
           imageUrl: [''],
           isMultiple: false,
+          ...(element.id && {id: element.id} )
         })
       );
     });
@@ -412,11 +414,12 @@ export class CreateProductComponent implements OnInit {
         this.fb.group({
           title: [element.title, [Validators.required]],
           shortDescription: [element.shortDescription, Validators.required],
-          value: [''],
-          units: [''],
+          value: [""],
+          unit: [element.unit],
           imageUrl: [element.imageUrl],
           cost: [element.cost, [Validators.required]],
           isMultiple: true,
+          ...(element.id && {id: element.id} )
         })
       );
     });
@@ -538,7 +541,8 @@ export class CreateProductComponent implements OnInit {
     return this.fb.group({
       title: ['', [Validators.required]],
       shortDescription: [''],
-      units: ['', Validators.required],
+      value: [''],
+      unit: ['', Validators.required],
       imageUrl: [null, Validators.required],
       cost: [null, [Validators.required]],
       isMultiple: true,
@@ -762,7 +766,7 @@ export class CreateProductComponent implements OnInit {
   updateProduct = () => {
     this.creatingProduct = true;
     this.productService
-      .updateProduct({...this.form.value}, this.productId)
+      .updateProduct({...this.form.value, publishOption: "Review", "videoUrls": [],}, this.productId)
       .subscribe(
         (res) => {
           if (res.status === 'success') {
@@ -800,7 +804,7 @@ export class CreateProductComponent implements OnInit {
 
   createProduct = () => {
     this.creatingProduct = true;
-    this.productService.createNewProduct(this.form.value).subscribe(
+    this.productService.createNewProduct({...this.form.value, publishOption: 'Review'}).subscribe(
       (res) => {
         if (res.status === 'success') {
           this.toast.success('Product added successfully');
@@ -825,7 +829,7 @@ export class CreateProductComponent implements OnInit {
       if (this.images?.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
-    } else if (this.form.value.shortDescription === '') {
+    } else if (this.form.value.description === '') {
       this.toast.error('Enter Product Description to Procees');
       // return;
     } else if (
@@ -850,7 +854,7 @@ export class CreateProductComponent implements OnInit {
         this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
         
 
-        this.productService.createNewProduct({...this.form.value, publishOption: 'draft'}).subscribe(
+        this.productService.createNewProduct({...this.form.value, publishOption: 'Draft', ...(this.productId && {draftProductId: this.productId}) }).subscribe(
       (res) => {
         if (res.status === 'success') {
           this.toast.success('Product saved as draft Successful!');
@@ -878,7 +882,7 @@ export class CreateProductComponent implements OnInit {
     if (this.images?.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
-    } else if (this.form.value.shortDescription === '') {
+    } else if (this.form.value.description === '') {
       this.toast.error('Enter Product Description to Procees');
       // return;
     } else if (
@@ -904,7 +908,7 @@ export class CreateProductComponent implements OnInit {
         this.previewImg = this.form.value.imageUrls[0];
         this.previewData = this.form.value;
         this.isPreview = true;
-        this.previewDesc = this.safeHtml.transform(this.form.value.shortDescription)
+        this.previewDesc = this.safeHtml.transform(this.form.value.description)
       }
     }
   };

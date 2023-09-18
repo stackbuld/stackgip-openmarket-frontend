@@ -173,7 +173,7 @@
             <angular-editor
               id="maineditor"
               [config]="editorConfig"
-              formControlName="shortDescription"
+              formControlName="description"
             ></angular-editor>
           </div>
         </div>
@@ -605,13 +605,19 @@
                 *ngFor="let row of options().value; let index = index"
                 class="table-row"
               >
-                <td>{{ row.title }}</td>
+                <td><img
+            src="{{row.imageUrl}}"
+            alt="tootip"
+            width="24px"
+            height="24px"
+            matTooltip="Pair your product with related items by suggesting products that go well together"
+          /></td>
                 <td>{{ row.title }}</td>
 
                 <td class="desc">
                   <span class="icon-container">{{ row.shortDescription }}</span>
                 </td>
-                <td>{{ row.units }}</td>
+                <td>{{ row.unit }}</td>
                 <td>&#8358; {{ row.cost }}</td>
                 <td style="width: 38px">
                   <span class="icon-container" (click)="editRelated(index)">
@@ -1286,10 +1292,10 @@
         class="parent-wrapping"
       >
         <div *ngFor="let item of form.value.options">
-          <div *ngIf="item.value.isMultiple">
+          <div *ngIf="!item.value.isMultiple">
             <img
             src="{{
-              item?.imageUrl[0]?.substr(0, item.imageUrl[0].lastIndexOf('.')) +
+              item?.imageUrl.substr(0, item.imageUrl.lastIndexOf('.')) +
                 '.jpg'
             }}"
             alt="laptop"
