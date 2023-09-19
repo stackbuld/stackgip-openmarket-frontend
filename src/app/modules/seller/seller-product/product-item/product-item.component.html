@@ -313,15 +313,12 @@
               <p
                 class="mb-0 badge"
                 [ngClass]="
-                  productDetail?.status.toLowerCase() === 'rejected'
-                    ? 'badge-red'
-                    : productDetail?.status.toLowerCase() === 'publish'
-                    ? 'badge-green'
-                    : productDetail?.status.toLowerCase() === 'review'
-                    ? 'bagde-yellow'
-                    : productDetail?.status.toLowerCase() === 'draft'
-                    ? 'bagde-blue'
-                    : ''
+                  {
+                    'badge-red': productDetail?.status.toLowerCase() === 'rejected',
+                    'badge-blue': productDetail?.status.toLowerCase() === 'draft',
+                    'badge-yellow': productDetail?.status.toLowerCase() === 'review',
+                    'badge-green': productDetail?.status.toLowerCase() === 'publish',
+                  }
                 "
               >
                 {{ productDetail?.status }}
