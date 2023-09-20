@@ -1,5 +1,9 @@
 @import "config";
 
+.personal-information-container {
+  padding-bottom: 60px;
+}
+
 .profile-banner {
   position: relative;
   background: #000;
@@ -76,7 +80,7 @@
 
     &#cancel {
       background: transparent;
-      border: 1px solid $border-line-color;
+      border: 1px solid $input-border;
       color: $black;
       margin-right: 10px;
     }
@@ -96,47 +100,74 @@
     margin-bottom: 40px;
   }
 
+  &.phone-number {
+    border-top: 1px solid $input-border;
+    padding-top: 30px;
+  }
+
   &-label {
     color: $bold-text-color;
     font-weight: bold;
-    white-space: nowrap;
-    // width: 50px;
+    width: 30%;
+    margin-right: 10px;
 
     & #bio-hint {
-      width: 30%;
-      word-break: break-all;
-
-      & p {
-        font-size: 8px;
-        color: $normal-text-color;
-      }
+      //   width: 30%;
+      line-height: 1.1;
+      color: $normal-text-color;
+      font-size: 10px;
     }
   }
 
   &-inputs {
+    position: relative;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
 
+    & .input-alert {
+      position: absolute;
+      left: 0;
+      bottom: -25px;
+      color: $error;
+      margin-top: 8px;
+      white-space: nowrap;
+    }
+
     & .input-group {
-      position: relative;
-      & input {
-        border: 1px solid $border-line-color;
+      width: 50%;
+
+      & .input-o,
+      textarea {
+        border: 1px solid $input-border;
         padding: 10px 15px;
         border-radius: 8px;
         width: 100%;
+
+        &#first-name {
+          margin-right: 15px;
+        }
 
         &:focus {
           outline: none;
         }
       }
 
-      & p {
-        position: absolute;
-        left: 0;
-        bottom: -35px;
-        color: $error;
-        margin-top: 8px;
+      &.textarea {
+        width: 70%;
+      }
+
+      &.contact {
+        position: relative;
+
+        & i {
+          position: absolute;
+          top: 50%;
+          right: 10px;
+          transform: translateY(-50%);
+          color: $normal-text-color;
+        }
       }
     }
 

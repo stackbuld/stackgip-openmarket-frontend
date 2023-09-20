@@ -67,10 +67,20 @@
 
           <div class="information-group-inputs">
             <div class="input-group">
-              <input type="text" id="first-name" placeholder="First Name" />
+              <input
+                type="text"
+                class="input-o"
+                id="first-name"
+                placeholder="First Name"
+              />
             </div>
             <div class="input-group">
-              <input type="text" id="last-name" placeholder="Last Name" />
+              <input
+                type="text"
+                class="input-o"
+                id="last-name"
+                placeholder="Last Name"
+              />
             </div>
           </div>
         </div>
@@ -80,10 +90,15 @@
 
           <div class="information-group-inputs">
             <div class="input-group">
-              <input type="text" id="" placeholder="myemail@gmail.com" />
-              <p class="input-alert">
-                You haven’t verified your email address.
-              </p>
+              <input
+                type="text"
+                id=""
+                placeholder="myemail@gmail.com"
+                class="input-o"
+              />
+            </div>
+            <div class="input-alert">
+              You haven’t verified your email address.
             </div>
             <button>Verify Email</button>
           </div>
@@ -93,18 +108,20 @@
           <div class="information-group-label">
             Bio
             <div id="bio-hint">
-              <p>Write a short description of your brand and products</p>
+              Write a short description of your brand and products
             </div>
           </div>
 
           <div class="information-group-inputs">
-            <textarea
-              name=""
-              id=""
-              cols="30"
-              rows="10"
-              placeholder="Please provide a detailed description"
-            ></textarea>
+            <div class="input-group textarea">
+              <textarea
+                name=""
+                id=""
+                cols="20"
+                rows="10"
+                placeholder="Please provide a detailed description"
+              ></textarea>
+            </div>
           </div>
         </div>
 
@@ -112,8 +129,10 @@
           <div class="information-group-label">State</div>
 
           <div class="information-group-inputs">
-            <input type="text" placeholder="Abuja" />
-            <i class="fa fa-angle-down"></i>
+            <div class="input-group contact">
+              <input type="text" placeholder="Abuja" class="input-o" />
+              <i class="fa fa-angle-down"></i>
+            </div>
           </div>
         </div>
 
@@ -121,8 +140,29 @@
           <div class="information-group-label">Country</div>
 
           <div class="information-group-inputs">
-            <input type="text" placeholder="Nigeria" />
-            <i class="fa fa-angle-down"></i>
+            <div class="input-group contact">
+              <input type="text" placeholder="Nigeria" class="input-o" />
+              <i class="fa fa-angle-down"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="information-group phone-number">
+          <div class="information-group-label">Phone Number</div>
+
+          <div class="information-group-inputs">
+            <div class="input-group">
+              <input
+                type="text"
+                id=""
+                placeholder="myemail@gmail.com"
+                class="input-o"
+              />
+            </div>
+            <div class="input-alert">
+              You need to verify this new number via an OTP
+            </div>
+            <button>Verify Number</button>
           </div>
         </div>
       </form>

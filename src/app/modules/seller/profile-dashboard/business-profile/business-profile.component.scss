@@ -1,0 +1,148 @@
+@import "config";
+.business-information-container {
+  padding-bottom: 60px;
+}
+
+.information-group {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+
+  &:not(:last-child) {
+    margin-bottom: 60px;
+  }
+
+  &-label {
+    color: $bold-text-color;
+    font-weight: bold;
+    width: 50%;
+    margin-right: 10px;
+  }
+
+  &-inputs {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    &.social-links {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    & .input-alert {
+      position: absolute;
+      left: 0;
+      bottom: -25px;
+      color: $error;
+      margin-top: 8px;
+    }
+
+    & .input-group {
+      width: 60%;
+
+      & .input-o {
+        border: 1px solid $input-border;
+        padding: 10px 15px;
+        border-radius: 8px;
+        width: 100%;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      &.contact {
+        position: relative;
+
+        & i {
+          position: absolute;
+          top: 50%;
+          right: 10px;
+          transform: translateY(-50%);
+          color: $normal-text-color;
+        }
+      }
+    }
+
+    & button {
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      background: $black;
+      color: $white;
+      white-space: nowrap;
+    }
+  }
+
+  //   &.name-group {
+  //     justify-content: space-between;
+
+  //     &-inputs {
+  //       width: 100%;
+  //     }
+  //   }
+}
+
+.information-group-inputs-social-links {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+
+  & .input-group {
+    position: relative;
+    width: 60%;
+    height: 41px;
+
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+
+    & .social-input {
+      border: 1px solid $input-border;
+      padding: 0px 50px;
+      border-radius: 8px;
+      width: 100%;
+      height: 100%;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    & .social-icon {
+      position: absolute;
+      left: 0px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-right: 1px solid $input-border;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+
+      & i {
+        color: $normal-text-color;
+        font-size: 20px;
+      }
+    }
+
+    .trash-icon {
+      position: absolute;
+      right: 0px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-left: 1px solid $input-border;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+    }
+  }
+}
