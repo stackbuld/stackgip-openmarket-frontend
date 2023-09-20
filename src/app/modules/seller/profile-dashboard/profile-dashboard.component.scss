@@ -1,0 +1,44 @@
+@import "config";
+
+#profile-heading {
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.profile-content {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.profile-content-btn-main {
+  margin: 0;
+  border: 1px solid $border-line-color;
+  padding: 0px 0px;
+  border-radius: 9px;
+  border-top-right-radius: 20px;
+  overflow: hidden;
+}
+
+.profile-btn {
+  list-style: none;
+  font-size: 16px;
+  padding: 15px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: $normal-text-color;
+
+  &.active {
+    color: $bold-text-color;
+    border-right: 2px solid black;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $border-line-color;
+  }
+}
+
+.profile-content-main {
+  width: 100%;
+  padding-left: 30px;
+}

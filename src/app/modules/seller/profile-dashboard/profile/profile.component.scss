@@ -1,0 +1,160 @@
+@import "config";
+
+.profile-banner {
+  position: relative;
+  background: #000;
+  height: 177px;
+  width: 100%;
+  border-radius: 12px;
+  border-top-right-radius: 70px;
+  z-index: 8;
+
+  &-hints {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    right: 10px;
+    bottom: 10px;
+
+    &-text {
+      color: $white;
+      margin-right: 10px;
+      font-weight: lighter;
+    }
+
+    &-icon {
+      border: 1px solid $white;
+      border-radius: 4px;
+      padding: 3px;
+    }
+  }
+}
+
+.profile-photo {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 40px;
+  z-index: 10;
+  margin-top: -40px;
+}
+
+.profile-photo-container {
+  display: flex;
+  align-items: flex-end;
+
+  & .profile-photo-main {
+    border: 4px solid $white;
+    border-radius: 50%;
+    margin-right: 10px;
+
+    & img {
+      width: 100%;
+    }
+  }
+
+  & .profile-photo-text {
+    color: $normal-text-color;
+    transform: translateY(-20px);
+  }
+}
+
+.profile-photo-btns {
+  transform: translateY(-20px);
+
+  & button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+
+    &#save {
+      background: $black;
+      color: $white;
+    }
+
+    &#cancel {
+      background: transparent;
+      border: 1px solid $border-line-color;
+      color: $black;
+      margin-right: 10px;
+    }
+  }
+}
+
+.profile-information-content {
+  margin-top: 30px;
+}
+
+.information-group {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+
+  &:not(:last-child) {
+    margin-bottom: 40px;
+  }
+
+  &-label {
+    color: $bold-text-color;
+    font-weight: bold;
+    white-space: nowrap;
+    // width: 50px;
+
+    & #bio-hint {
+      width: 30%;
+      word-break: break-all;
+
+      & p {
+        font-size: 8px;
+        color: $normal-text-color;
+      }
+    }
+  }
+
+  &-inputs {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    & .input-group {
+      position: relative;
+      & input {
+        border: 1px solid $border-line-color;
+        padding: 10px 15px;
+        border-radius: 8px;
+        width: 100%;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      & p {
+        position: absolute;
+        left: 0;
+        bottom: -35px;
+        color: $error;
+        margin-top: 8px;
+      }
+    }
+
+    & button {
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      background: $black;
+      color: $white;
+      white-space: nowrap;
+    }
+  }
+
+  //   &.name-group {
+  //     justify-content: space-between;
+
+  //     &-inputs {
+  //       width: 100%;
+  //     }
+  //   }
+}

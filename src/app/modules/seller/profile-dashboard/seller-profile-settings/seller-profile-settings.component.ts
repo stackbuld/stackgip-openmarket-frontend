@@ -9,10 +9,10 @@ import { MustMatch } from 'src/app/helpers/control-validators';
 
 @Component({
   selector: 'app-change-password',
-  templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.css'],
+  templateUrl: './seller-profile-settings.component.html',
+  styleUrls: ['./seller-profile-settings.component.css'],
 })
-export class ChangePasswordComponent implements OnInit {
+export class SellerProfileSettingsComponent implements OnInit {
   profileForm: FormGroup;
 
   isSubmited = false;

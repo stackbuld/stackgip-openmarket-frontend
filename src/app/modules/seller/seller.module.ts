@@ -18,7 +18,7 @@ import { SellerHomeComponent } from './seller-home/seller-home.component';
 import { SellerShowCaseProductComponent } from './sellershowcaseproduct/seller-show-case-product/seller-show-case-product.component';
 import { DashboardComponent } from './dashboard.component';
 import { ProfileDashboardComponent } from './profile-dashboard/profile-dashboard.component';
-import { ChangePasswordComponent } from './profile-dashboard/change-password/change-password.component';
+import { SellerProfileSettingsComponent } from './profile-dashboard/seller-profile-settings/seller-profile-settings.component';
 import { ProfileComponent } from './profile-dashboard/profile/profile.component';
 import { BankAccountListComponent } from './bank-account/bank-account-list/bank-account-list.component';
 import { BankAccountCreateDialogComponent } from './bank-account/bank-account-create-dialog/bank-account-create-dialog.component';
@@ -26,6 +26,8 @@ import { WithdrawalDialogComponent } from './bank-account/withdrawal-dialog/with
 import { OrderManagementComponent } from './order-management/order-management/order-management.component';
 import { OrderViewComponent } from './order-management/order-view/order-view.component';
 import { ConfirmOrderDialogComponent } from './order-management/confirm-order-dialog/confirm-order-dialog.component';
+import { BusinessProfileComponent } from './profile-dashboard/business-profile/business-profile.component';
+import { SellerKycComponent } from './profile-dashboard/seller-kyc/seller-kyc.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,7 @@ import { ConfirmOrderDialogComponent } from './order-management/confirm-order-di
     SellerSidebarComponent,
     DashboardComponent,
     ProfileDashboardComponent,
-    ChangePasswordComponent,
+    SellerProfileSettingsComponent,
     ProfileComponent,
     BankAccountListComponent,
     BankAccountCreateDialogComponent,
@@ -50,6 +52,8 @@ import { ConfirmOrderDialogComponent } from './order-management/confirm-order-di
     OrderManagementComponent,
     OrderViewComponent,
     ConfirmOrderDialogComponent,
+    BusinessProfileComponent,
+    SellerKycComponent,
   ],
   imports: [
     CommonModule,

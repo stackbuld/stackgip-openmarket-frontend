@@ -42,6 +42,9 @@
               "src/styles.sass",
               "src/styles.css"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/assets/base-styles"]
+            },
             "scripts": [
               "node_modules/uikit/dist/js/uikit.min.js",
               "node_modules/hammerjs/hammer.min.js",

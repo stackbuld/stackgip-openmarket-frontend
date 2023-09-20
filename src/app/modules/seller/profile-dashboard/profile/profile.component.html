@@ -1,104 +1,131 @@
-<div class="uk-container">
-  <div
-    class="uk-margin uk-padding uk-padding-top-remove uk-card uk-card-default"
-  >
-    <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
-      <div class="uk-grid uk-child-width-1-2@s">
-        <div>
-          <span
-            *ngIf="
-              f.firstname.invalid && (f.firstname.dirty || f.firstname.touched)
-            "
-          >
-            <span class="uk-text-warning" *ngIf="f.firstname.errors.required">
-              firstname required
-            </span>
+<div class="personal-information-container">
+  <div class="personal-information-main">
+    <div class="profile-photos">
+      <div class="profile-banner">
+        <div class="profile-banner-hints">
+          <div class="profile-banner-hints-text">Cover Photo</div>
+          <span class="profile-banner-hints-icon">
+            <svg
+              width="21"
+              height="20"
+              viewBox="0 0 21 20"
+              stroke="#fff"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M13.16 3.37625C14.0437 3.71125 14.3141 4.87792 14.6755 5.25292C15.0369 5.62792 15.554 5.75542 15.8401 5.75542C17.3609 5.75542 18.5938 6.92958 18.5938 8.37708V13.2063C18.5938 15.1479 16.94 16.7229 14.9012 16.7229H6.09875C4.05912 16.7229 2.40625 15.1479 2.40625 13.2063V8.37708C2.40625 6.92958 3.63913 5.75542 5.15988 5.75542C5.44513 5.75542 5.96225 5.62792 6.3245 5.25292C6.68588 4.87792 6.95538 3.71125 7.83913 3.37625C8.72375 3.04125 12.2762 3.04125 13.16 3.37625Z"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M15.3086 7.91667H15.3164"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M13.281 10.9402C13.281 9.47685 12.0359 8.29102 10.4994 8.29102C8.9629 8.29102 7.71777 9.47685 7.71777 10.9402C7.71777 12.4035 8.9629 13.5893 10.4994 13.5893C12.0359 13.5893 13.281 12.4035 13.281 10.9402Z"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </span>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>First Name</mat-label>
-            <input formControlName="firstname" type="text" matInput />
-          </mat-form-field>
         </div>
-        <div>
-          <span
-            *ngIf="
-              f.lastname.invalid && (f.lastname.dirty || f.lastname.touched)
-            "
-          >
-            <span class="uk-text-warning" *ngIf="f.lastname.errors.required">
-              Lastname required
-            </span>
-          </span>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>Last Name</mat-label>
-            <input formControlName="lastname" type="text" matInput required />
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>Email</mat-label>
-            <input type="email" value="{{ user.email }}" matInput disabled />
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>Phone number</mat-label>
-            <input formControlName="phoneNumber" type="tel" matInput required />
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="uk-grid uk-child-width-1-3@s uk-margin-remove-top">
-        <div>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>Country</mat-label>
-            <mat-select formControlName="country" required>
-              <mat-option value="ng">Nigeria</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>State</mat-label>
-            <mat-select formControlName="state" required>
-              <mat-option>Select</mat-option>
-
-              <mat-option
-                *ngFor="let state of states"
-                value="{{ state.toLowerCase() }}"
-                >{{ state }}</mat-option
-              >
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>City / town</mat-label>
-            <input formControlName="city" type="text" matInput required />
-          </mat-form-field>
-        </div>
-      </div>
-      <div>
-        <mat-form-field class="uk-width-expand">
-          <mat-label>Address</mat-label>
-          <textarea
-            matInput
-            placeholder="Delivery Address  ......"
-            required
-            formControlName="address"
-          ></textarea>
-        </mat-form-field>
       </div>
 
-      <div class="uk-text-center">
-        <button
-          [disabled]="profileForm.invalid || isSubmited"
-          type="submit"
-          class="uk-button uk-button-primary"
-        >
-          <img *ngIf="isSubmited" width="30" src="assets/svg/loader-icon.svg" />
-          Save
-        </button>
+      <div class="profile-photo">
+        <div class="profile-photo-container">
+          <div class="profile-photo-main">
+            <img src="assets/images/seller-image.png" alt="" />
+          </div>
+
+          <div class="profile-photo-text">
+            Update your photo and personal details
+          </div>
+        </div>
+
+        <div class="profile-photo-btns">
+          <button id="cancel">Cancel</button>
+          <button id="save">Save</button>
+        </div>
       </div>
-    </form>
+    </div>
+
+    <div class="profile-information-content">
+      <form>
+        <div class="information-group name-group">
+          <div class="information-group-label">Full Name</div>
+
+          <div class="information-group-inputs">
+            <div class="input-group">
+              <input type="text" id="first-name" placeholder="First Name" />
+            </div>
+            <div class="input-group">
+              <input type="text" id="last-name" placeholder="Last Name" />
+            </div>
+          </div>
+        </div>
+
+        <div class="information-group">
+          <div class="information-group-label">Email</div>
+
+          <div class="information-group-inputs">
+            <div class="input-group">
+              <input type="text" id="" placeholder="myemail@gmail.com" />
+              <p class="input-alert">
+                You haven’t verified your email address.
+              </p>
+            </div>
+            <button>Verify Email</button>
+          </div>
+        </div>
+
+        <div class="information-group">
+          <div class="information-group-label">
+            Bio
+            <div id="bio-hint">
+              <p>Write a short description of your brand and products</p>
+            </div>
+          </div>
+
+          <div class="information-group-inputs">
+            <textarea
+              name=""
+              id=""
+              cols="30"
+              rows="10"
+              placeholder="Please provide a detailed description"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="information-group">
+          <div class="information-group-label">State</div>
+
+          <div class="information-group-inputs">
+            <input type="text" placeholder="Abuja" />
+            <i class="fa fa-angle-down"></i>
+          </div>
+        </div>
+
+        <div class="information-group">
+          <div class="information-group-label">Country</div>
+
+          <div class="information-group-inputs">
+            <input type="text" placeholder="Nigeria" />
+            <i class="fa fa-angle-down"></i>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

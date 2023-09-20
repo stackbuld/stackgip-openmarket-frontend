@@ -5,15 +5,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { IUpdateUser, IUser } from 'src/app/models/IUserModel';
+import { log } from 'console';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css'],
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   states = nigeriaSates.map((a) => a.name);
+  statesName: string[] = [];
   isSubmited = false;
 
   user = {} as IUser;
@@ -31,6 +33,10 @@ export class ProfileComponent implements OnInit {
     return this.profileForm.controls;
   }
   ngOnInit(): void {
+    for (const key in nigeriaSates) {
+      this.statesName.push(nigeriaSates[key].name);
+    }
+
     const userJson = this.user;
     this.profileForm = this.fb.group({
       firstname: [userJson.firstName, [Validators.required]],
