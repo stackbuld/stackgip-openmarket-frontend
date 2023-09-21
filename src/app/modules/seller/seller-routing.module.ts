@@ -56,7 +56,8 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            component: ProfileComponent,
+            redirectTo: 'personal-information',
+            pathMatch: 'full',
           },
           {
             path: 'personal-information',

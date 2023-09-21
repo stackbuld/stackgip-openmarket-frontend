@@ -14,9 +14,9 @@ import { log } from 'console';
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
-  states = nigeriaSates.map((a) => a.name);
-  statesName: string[] = [];
+  states: string[] = [];
   isSubmited = false;
+  selectedState!: string;
 
   user = {} as IUser;
 
@@ -33,9 +33,7 @@ export class ProfileComponent implements OnInit {
     return this.profileForm.controls;
   }
   ngOnInit(): void {
-    for (const key in nigeriaSates) {
-      this.statesName.push(nigeriaSates[key].name);
-    }
+    this.states = nigeriaSates.map((a) => a.name);
 
     const userJson = this.user;
     this.profileForm = this.fb.group({
@@ -48,6 +46,8 @@ export class ProfileComponent implements OnInit {
       state: [userJson.state, [Validators.required]],
       city: [userJson.city, [Validators.required]],
     });
+
+    this.selectedState = localStorage.getItem('selectedState')!;
   }
 
   updateProfile() {
@@ -87,5 +87,9 @@ export class ProfileComponent implements OnInit {
         this.isSubmited = false;
       }
     );
+  }
+
+  getStateValue() {
+    localStorage.setItem('selectedState', this.selectedState);
   }
 }

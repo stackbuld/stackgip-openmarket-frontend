@@ -130,8 +130,20 @@
 
           <div class="information-group-inputs">
             <div class="input-group contact">
-              <input type="text" placeholder="Abuja" class="input-o" />
-              <i class="fa fa-angle-down"></i>
+              <select
+                class="location-select"
+                name="select"
+                [(ngModel)]="selectedState"
+                (ngModelChange)="getStateValue()"
+              >
+                <option
+                  *ngFor="let state of states"
+                  [value]="state"
+                  [selected]="state == selectedState"
+                >
+                  {{ state }}
+                </option>
+              </select>
             </div>
           </div>
         </div>
@@ -141,8 +153,9 @@
 
           <div class="information-group-inputs">
             <div class="input-group contact">
-              <input type="text" placeholder="Nigeria" class="input-o" />
-              <i class="fa fa-angle-down"></i>
+              <select class="location-select" name="select">
+                <option value="Nigeria" selected>Nigeria</option>
+              </select>
             </div>
           </div>
         </div>

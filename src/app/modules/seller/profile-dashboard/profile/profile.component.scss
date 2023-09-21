@@ -181,11 +181,14 @@
     }
   }
 
-  //   &.name-group {
-  //     justify-content: space-between;
+  & .location-select {
+    border: 1px solid $input-border;
+    padding: 10px 0px;
+    border-radius: 8px;
+    width: 100%;
 
-  //     &-inputs {
-  //       width: 100%;
-  //     }
-  //   }
+    &:focus {
+      outline: none;
+    }
+  }
 }

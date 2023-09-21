@@ -64,6 +64,17 @@
           color: $normal-text-color;
         }
       }
+
+      & .location-select {
+        border: 1px solid $input-border;
+        padding: 10px 0px;
+        border-radius: 8px;
+        width: 100%;
+
+        &:focus {
+          outline: none;
+        }
+      }
     }
 
     & button {
@@ -75,14 +86,6 @@
       white-space: nowrap;
     }
   }
-
-  //   &.name-group {
-  //     justify-content: space-between;
-
-  //     &-inputs {
-  //       width: 100%;
-  //     }
-  //   }
 }
 
 .information-group-inputs-social-links {
