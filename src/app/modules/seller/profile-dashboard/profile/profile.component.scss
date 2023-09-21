@@ -160,18 +160,6 @@
       &.textarea {
         width: 70%;
       }
-
-      &.contact {
-        position: relative;
-
-        & i {
-          position: absolute;
-          top: 50%;
-          right: 10px;
-          transform: translateY(-50%);
-          color: $normal-text-color;
-        }
-      }
     }
 
     & button {
@@ -220,6 +208,76 @@
         color: $black;
         margin-right: 10px;
       }
+    }
+  }
+
+  .information-group {
+    flex-direction: column;
+
+    &:not(:last-child) {
+      margin-bottom: 40px;
+    }
+
+    &.phone-number {
+      border-top: 1px solid $input-border;
+      padding-top: 30px;
+    }
+
+    &-label {
+      width: 30%;
+      margin-right: 0px;
+      margin-bottom: 10px;
+
+      & #bio-hint {
+        //   width: 30%;
+        line-height: 1.1;
+        color: $normal-text-color;
+        font-size: 10px;
+      }
+    }
+
+    &-inputs {
+      align-items: flex-start;
+      flex-direction: column;
+
+      & .input-alert {
+        position: absolute;
+        left: 0;
+        bottom: 25px;
+        color: $error;
+        margin-top: 0;
+        white-space: nowrap;
+      }
+
+      & .input-group {
+        width: 100%;
+
+        & .input-o,
+        textarea {
+          width: 100%;
+
+          &#first-name {
+            margin-right: 0px;
+            margin-bottom: 10px;
+          }
+        }
+
+        &.textarea {
+          width: 100%;
+        }
+      }
+
+      & button {
+        margin-top: 10px;
+        align-self: flex-end;
+      }
+    }
+
+    & .location-select {
+      border: 1px solid $input-border;
+      padding: 10px 0px;
+      border-radius: 8px;
+      width: 100%;
     }
   }
 }
