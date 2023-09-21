@@ -8,6 +8,7 @@ import { NgxPaginationModule } from 'src/app/shared/pagination/ngx-pagination.mo
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxIntlTelephoneInputModule } from 'ngx-intl-telephone-input';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
@@ -76,6 +77,7 @@ import { EmailDialogComponent } from './profile-dashboard/email-dialog/email-dia
     Ng2TelInputModule,
     NgxIntlTelephoneInputModule,
     NgOtpInputModule,
+    MatTabsModule,
   ],
 })
 export class SellerModule {}
