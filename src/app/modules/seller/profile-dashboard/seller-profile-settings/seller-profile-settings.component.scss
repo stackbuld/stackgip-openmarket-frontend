@@ -1,0 +1,125 @@
+@import "config";
+
+.profile-settings-container {
+  padding-bottom: 60px;
+}
+
+.change-settings {
+  &:not(:last-child) {
+    margin-bottom: 40px;
+  }
+
+  &-heading {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  &-main {
+    border: 1px solid $border-line-color;
+    border-radius: 7px;
+    padding: 20px 30px;
+  }
+}
+
+.change-settings-form {
+  display: flex;
+  flex-direction: column;
+
+  & .form-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    &:not(:last-child) {
+      margin-bottom: 30px;
+    }
+
+    & label {
+      font-size: 16px;
+    }
+
+    & input {
+      border: 1px solid $input-border;
+      padding: 10px 15px;
+      border-radius: 8px;
+      width: 50%;
+    }
+  }
+
+  & button {
+    align-self: flex-end;
+    display: inline;
+    width: 120px;
+    white-space: nowrap;
+    border: 1px solid $black;
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: $black;
+    white-space: nowrap;
+    background: transparent;
+  }
+}
+
+.deactivate {
+  border: 1px solid $border-line-color;
+  border-radius: 7px;
+  padding: 20px 30px;
+  & .change-settings-main {
+    display: flex;
+    align-items: flex-start;
+    border: none;
+  }
+
+  & .toggler {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background: $toggler-bg;
+    border-radius: 50px;
+    margin: 0 15px;
+    cursor: pointer;
+
+    & .roller {
+      position: absolute;
+      left: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: $white;
+      transition: all 300ms ease-in-out;
+    }
+
+    &.roll {
+      & .roller {
+        left: 55%;
+      }
+    }
+  }
+
+  &-main {
+    &-text {
+      font-size: 16px;
+      color: $normal-text-color;
+
+      &.warn {
+        color: $error;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  & button {
+    display: inline;
+    width: 120px;
+    white-space: nowrap;
+    border: 1px solid $black;
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: $black;
+    white-space: nowrap;
+    background: transparent;
+  }
+}

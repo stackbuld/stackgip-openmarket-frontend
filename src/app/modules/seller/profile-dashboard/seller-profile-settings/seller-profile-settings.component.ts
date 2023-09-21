@@ -10,9 +10,10 @@ import { MustMatch } from 'src/app/helpers/control-validators';
 @Component({
   selector: 'app-change-password',
   templateUrl: './seller-profile-settings.component.html',
-  styleUrls: ['./seller-profile-settings.component.css'],
+  styleUrls: ['./seller-profile-settings.component.scss'],
 })
 export class SellerProfileSettingsComponent implements OnInit {
+  isToggled: boolean = false;
   profileForm: FormGroup;
 
   isSubmited = false;
@@ -60,5 +61,9 @@ export class SellerProfileSettingsComponent implements OnInit {
         this.errors = error.error.errors.map((a) => a.description);
       }
     );
+  }
+
+  toggle() {
+    this.isToggled = !this.isToggled;
   }
 }

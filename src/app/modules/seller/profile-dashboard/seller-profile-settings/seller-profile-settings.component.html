@@ -1,109 +1,57 @@
-<div class="uk-container">
-  <div
-    class="uk-margin uk-padding uk-padding-top-remove uk-card uk-card-default"
-  >
-    <form [formGroup]="profileForm" (ngSubmit)="update()">
-      <div class="uk-alert uk-alert-danger" *ngIf="errors.length > 0">
-        <p *ngFor="let error of errors">{{ error }}</p>
-      </div>
-      <div>
-        <span
-          *ngIf="
-            f.currentPassword.invalid &&
-            (f.currentPassword.dirty || f.currentPassword.touched)
-          "
-        >
-          <span
-            class="uk-text-warning"
-            *ngIf="f.currentPassword.errors.required"
-          >
-            Password required <br
-          /></span>
-          <span
-            class="uk-text-warning"
-            *ngIf="f.currentPassword.value.length < 6"
-          >
-            Password should be at least 6 charaters <br
-          /></span>
-        </span>
+<div class="profile-settings-container">
+  <div class="change-settings change-password">
+    <div class="change-settings-heading">Change Password</div>
 
-        <mat-form-field class="uk-width-expand">
-          <mat-label>Current Password</mat-label>
-          <input
-            type="password"
-            minlength="6"
-            formControlName="currentPassword"
-            matInput
-            placeholder="Current Password"
-            required
-          />
-        </mat-form-field>
+    <div class="change-settings-main">
+      <form class="change-settings-form">
+        <div class="form-group">
+          <label>New Password</label>
+          <input type="password" />
+        </div>
 
-        <span
-          *ngIf="f.password.invalid && (f.password.dirty || f.password.touched)"
-        >
-          <span class="uk-text-warning" *ngIf="f.password.errors.required">
-            Password required <br
-          /></span>
-          <span class="uk-text-warning" *ngIf="f.password.value.length < 6">
-            Password should be at least 6 charaters <br
-          /></span>
-        </span>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" />
+        </div>
 
-        <mat-form-field class="uk-width-expand">
-          <mat-label>Password</mat-label>
-          <input
-            type="password"
-            minlength="6"
-            formControlName="password"
-            matInput
-            placeholder="Password"
-            required
-          />
-        </mat-form-field>
+        <button>Verify via OTP</button>
+      </form>
+    </div>
+  </div>
 
-        <span
-          *ngIf="
-            f.confirmPassword.invalid &&
-            (f.confirmPassword.dirty || f.confirmPassword.touched)
-          "
-        >
-          <span
-            class="uk-text-warning"
-            *ngIf="f.confirmPassword.errors.required"
-          >
-            Confirm Password required <br
-          /></span>
-          <span
-            class="uk-text-warning"
-            *ngIf="f.confirmPassword.errors.mustMatch"
-          >
-            Confirm Password must match <br
-          /></span>
-        </span>
+  <div class="change-settings change-pin">
+    <div class="change-settings-heading">Change Transaction Pin</div>
 
-        <mat-form-field class="uk-width-expand">
-          <mat-label>Confirm Password</mat-label>
-          <input
-            type="password"
-            formControlName="confirmPassword"
-            matInput
-            placeholder="Confirm password"
-            required
-          />
-        </mat-form-field>
+    <div class="change-settings-main">
+      <form class="change-settings-form">
+        <div class="form-group">
+          <label>New Pin</label>
+          <input type="password" />
+        </div>
+
+        <div class="form-group">
+          <label>Confirm Pin</label>
+          <input type="password" />
+        </div>
+
+        <button>Verify via OTP</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="change-settings deactivate">
+    <div class="change-settings-heading">Other Settings</div>
+
+    <div class="change-settings-main">
+      <div class="toggler" (click)="toggle()" [ngClass]="{ roll: isToggled }">
+        <div class="roller"></div>
       </div>
 
-      <div class="uk-text-center">
-        <button
-          [disabled]="profileForm.invalid"
-          type="submit"
-          class="uk-button uk-button-primary"
-        >
-          <img *ngIf="isSubmited" width="30" src="assets/svg/loader-icon.svg" />
-          Update Password
-        </button>
+      <div class="deactivate-main">
+        <div class="deactivate-main-text warn">Deactivate Account</div>
+        <div class="deactivate-main-text">Deactivate my seller Account</div>
       </div>
-    </form>
+    </div>
+    <button>Verify via OTP</button>
   </div>
 </div>

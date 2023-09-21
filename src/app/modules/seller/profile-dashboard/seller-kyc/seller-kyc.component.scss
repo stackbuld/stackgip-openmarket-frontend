@@ -1,5 +1,12 @@
 @import "config";
 
+.seller-kyc-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .seller-kyc-main {
   border: 1px solid $border-line-color;
   width: 320px;
@@ -32,5 +39,16 @@
         }
       }
     }
+  }
+}
+
+.verification-btn {
+  & button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    background: $black;
+    color: $white;
+    white-space: nowrap;
   }
 }
