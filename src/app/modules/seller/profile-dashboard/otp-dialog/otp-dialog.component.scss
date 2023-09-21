@@ -1,0 +1,47 @@
+@import "config";
+
+.otp-dialog-container {
+  padding: 30px 25px;
+}
+
+.otp-heading {
+  font-size: 18px;
+  color: $bold-text-color;
+  margin-bottom: 20px;
+}
+
+.sent-text {
+  color: $normal-text-color;
+}
+
+.otp-input-container {
+  //   padding: 0 20px;
+  margin: 20px 0;
+}
+
+::ng-deep .otp-c-input {
+  font-size: 40px;
+  font-weight: 700;
+  &:focus {
+    outline-style: solid;
+    outline-color: $black;
+  }
+}
+
+.code-resend {
+  color: $normal-text-color;
+  & .resend {
+    color: $bold-text-color;
+  }
+}
+
+.verify-button {
+  border: none;
+  display: inline-block;
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: $black;
+  color: $white;
+  margin-top: 25px;
+}

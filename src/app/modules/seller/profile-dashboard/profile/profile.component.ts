@@ -6,6 +6,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { IUpdateUser, IUser } from 'src/app/models/IUserModel';
 import { log } from 'console';
+import { MatDialog } from '@angular/material/dialog';
+import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
+import { EmailDialogComponent } from '../email-dialog/email-dialog.component';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +27,8 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private toast: ToastrService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) {
     this.user = this.authService.getLoggedInUser();
   }
@@ -50,6 +54,8 @@ export class ProfileComponent implements OnInit {
       state: [userJson.state, [Validators.required]],
       city: [userJson.city, [Validators.required]],
     });
+
+    this.dialog.open(EmailDialogComponent);
   }
 
   updateProfile() {

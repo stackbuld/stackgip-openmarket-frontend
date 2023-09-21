@@ -7,6 +7,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxPaginationModule } from 'src/app/shared/pagination/ngx-pagination.module';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxIntlTelephoneInputModule } from 'ngx-intl-telephone-input';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
@@ -31,6 +32,8 @@ import { OrderViewComponent } from './order-management/order-view/order-view.com
 import { ConfirmOrderDialogComponent } from './order-management/confirm-order-dialog/confirm-order-dialog.component';
 import { BusinessProfileComponent } from './profile-dashboard/business-profile/business-profile.component';
 import { SellerKycComponent } from './profile-dashboard/seller-kyc/seller-kyc.component';
+import { OTPDialogComponent } from './profile-dashboard/otp-dialog/otp-dialog.component';
+import { EmailDialogComponent } from './profile-dashboard/email-dialog/email-dialog.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +60,8 @@ import { SellerKycComponent } from './profile-dashboard/seller-kyc/seller-kyc.co
     ConfirmOrderDialogComponent,
     BusinessProfileComponent,
     SellerKycComponent,
+    OTPDialogComponent,
+    EmailDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -70,6 +75,7 @@ import { SellerKycComponent } from './profile-dashboard/seller-kyc/seller-kyc.co
     MatPaginatorModule,
     Ng2TelInputModule,
     NgxIntlTelephoneInputModule,
+    NgOtpInputModule,
   ],
 })
 export class SellerModule {}

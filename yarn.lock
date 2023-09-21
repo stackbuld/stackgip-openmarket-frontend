@@ -6959,6 +6959,13 @@
   "resolved" "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz"
   "version" "2.6.2"
 
+"ng-otp-input@^1.9.3":
+  "integrity" "sha512-QiAvOeTVPk8DiY2dnVstyCikWnsY70TXgsVl2iBgz7nFnNM5sdrgbVj8tP0usGznJowVRygCQZJ+hzvYLEhIOQ=="
+  "resolved" "https://registry.npmjs.org/ng-otp-input/-/ng-otp-input-1.9.3.tgz"
+  "version" "1.9.3"
+  dependencies:
+    "tslib" "^2.3.0"
+
 "ng2-tel-input@^2.3.0":
   "integrity" "sha512-sdcovwjeAgg/rctXfxz68oq5GbablLT3L+Khw165hqnkUA0xLASE+LybK4C+fMc6TLuMKlZ6Nsgc1ij2IGcs9Q=="
   "resolved" "https://registry.npmjs.org/ng2-tel-input/-/ng2-tel-input-2.3.0.tgz"
