@@ -195,3 +195,31 @@
     }
   }
 }
+
+@media (max-width: 570px) {
+  .profile-photo-btns {
+    transform: translateY(-20px);
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    display: none;
+
+    & button {
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+
+      &#save {
+        background: $black;
+        color: $white;
+      }
+
+      &#cancel {
+        background: transparent;
+        border: 1px solid $input-border;
+        color: $black;
+        margin-right: 10px;
+      }
+    }
+  }
+}
