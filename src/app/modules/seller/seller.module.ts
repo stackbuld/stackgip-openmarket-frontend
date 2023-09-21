@@ -5,6 +5,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxPaginationModule } from 'src/app/shared/pagination/ngx-pagination.module';
+import { Ng2TelInputModule } from 'ng2-tel-input';
+import { NgxIntlTelephoneInputModule } from 'ngx-intl-telephone-input';
+
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
 import { SellerHeaderComponent } from './header/header.component';
@@ -65,6 +68,8 @@ import { SellerKycComponent } from './profile-dashboard/seller-kyc/seller-kyc.co
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
+    Ng2TelInputModule,
+    NgxIntlTelephoneInputModule,
   ],
 })
 export class SellerModule {}

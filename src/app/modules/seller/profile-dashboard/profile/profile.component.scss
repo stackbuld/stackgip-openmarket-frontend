@@ -67,6 +67,9 @@
 
 .profile-photo-btns {
   transform: translateY(-20px);
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
 
   & button {
     border: none;

@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { log } from 'console';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 
@@ -18,7 +17,8 @@ export class BusinessProfileComponent implements OnInit {
     this.states = nigeriaSates.map((a) => a.name);
     this.states.unshift('Select a state');
 
-    this.selectedBusinessState = localStorage.getItem('selectedBusinessState')!;
+    this.selectedBusinessState =
+      localStorage.getItem('selectedBusinessState') || 'Select a state';
   }
 
   getStateValue() {

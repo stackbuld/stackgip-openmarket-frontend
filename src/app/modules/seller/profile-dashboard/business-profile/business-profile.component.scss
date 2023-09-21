@@ -65,6 +65,13 @@
         }
       }
 
+      &.phone {
+        width: 70%;
+        & #phone-number {
+          width: 100%;
+        }
+      }
+
       & .location-select {
         border: 1px solid $input-border;
         padding: 10px 0px;

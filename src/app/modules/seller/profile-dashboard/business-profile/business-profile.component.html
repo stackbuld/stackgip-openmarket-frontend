@@ -34,13 +34,31 @@
       <div class="information-group-label">Company's Phone Number</div>
 
       <div class="information-group-inputs">
-        <div class="input-group">
+        <div class="input-group phone">
           <input
-            type="text"
-            id=""
-            placeholder="myemail@gmail.com"
+            type="tel"
             class="input-o"
+            id="phone-number"
+            ng2TelInput
+            [ng2TelInputOptions]="{
+              initialCountry: 'ng',
+              separateDialCode: true,
+            
+            }"
           />
+          <!-- <intl-telephone-input
+            [preferredCountries]="[CountryISO.Pakistan, CountryISO.India]"
+            [enablePlaceholder]="true"
+            [searchCountryFlag]="true"
+            [separateDialCode]="false"
+            [enableAutoCountrySelect]="true"
+            [searchCountryField]="SearchCountryField.All"
+            [phoneValidation]="false"
+            [numberFormat]="PhoneNumberFormat.International"
+            [inputId]="'phone'"
+            (onChange)="onInputChange($event)"
+          >
+          </intl-telephone-input> -->
         </div>
         <div class="input-alert">
           You need to verify this new number via an OTP

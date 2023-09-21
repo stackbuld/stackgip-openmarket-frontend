@@ -34,6 +34,10 @@ export class ProfileComponent implements OnInit {
   }
   ngOnInit(): void {
     this.states = nigeriaSates.map((a) => a.name);
+    this.states.unshift('Select a state');
+
+    this.selectedState =
+      localStorage.getItem('selectedState') || 'Select a state';
 
     const userJson = this.user;
     this.profileForm = this.fb.group({
@@ -46,8 +50,6 @@ export class ProfileComponent implements OnInit {
       state: [userJson.state, [Validators.required]],
       city: [userJson.city, [Validators.required]],
     });
-
-    this.selectedState = localStorage.getItem('selectedState')!;
   }
 
   updateProfile() {

@@ -3418,6 +3418,11 @@
     "picocolors" "^1.0.0"
     "postcss-value-parser" "^4.2.0"
 
+"awesome-phonenumber@^3.3.0":
+  "integrity" "sha512-2vxmOabWKzZeLYwydEYaU1QefTzLuSN5FzvFy+iWk9GQfjEhIIFTBTb2uNuJcMunEaW81nlwk/fN4We6GxyS9Q=="
+  "resolved" "https://registry.npmjs.org/awesome-phonenumber/-/awesome-phonenumber-3.3.0.tgz"
+  "version" "3.3.0"
+
 "aws-sign2@~0.7.0":
   "integrity" "sha512-08kcGqnYf/YmjoRhfxyu+CLxBjUtHLXLXX/vUfx9l2LYzG3c1m61nrpyFUZI6zeS+Li/wWMMidD9KgrqtGq3mA=="
   "resolved" "https://registry.npmjs.org/aws-sign2/-/aws-sign2-0.7.0.tgz"
@@ -5391,6 +5396,11 @@
     "pify" "^2.0.0"
     "pinkie-promise" "^2.0.0"
 
+"google-libphonenumber@^3.2.33":
+  "integrity" "sha512-1QKCvAlfq8zY1mviORI9lDzM3I/hwm9+h0CwYBTLq59DBbSHMd5zBOLqHZFiBLicRpwIz46Nynvbywj1XApKvA=="
+  "resolved" "https://registry.npmjs.org/google-libphonenumber/-/google-libphonenumber-3.2.33.tgz"
+  "version" "3.2.33"
+
 "graceful-fs@^4.1.2", "graceful-fs@^4.1.6", "graceful-fs@^4.2.0", "graceful-fs@^4.2.4", "graceful-fs@^4.2.6", "graceful-fs@^4.2.9":
   "integrity" "sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ=="
   "resolved" "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz"
@@ -5815,10 +5825,15 @@
     "qs" "^6.5.1 < 6.10"
     "search-insights" "^2.6.0"
 
+"intl-tel-input@^16.0.0":
+  "integrity" "sha512-AsMOCDyvBqdVpKU/55AYzgycm0Wc3a55ErPVxjiek9EiuEC9CZmvtyADB6/7eE+iy814a5T43ThRh5kYMPOx7g=="
+  "resolved" "https://registry.npmjs.org/intl-tel-input/-/intl-tel-input-16.1.0.tgz"
+  "version" "16.1.0"
+
 "intl-tel-input@^17.0.3":
-  "integrity" "sha512-TfyPxLe41QZPOf6RqBxRE2dpQ0FThB/PBD/gRbxVhGW7IuYg30QD90x/vjmEo4vkZw7j8etxpVcjIZVRcG+Otw=="
-  "resolved" "https://registry.npmjs.org/intl-tel-input/-/intl-tel-input-17.0.21.tgz"
-  "version" "17.0.21"
+  "integrity" "sha512-vfO5yIddrkNKaJYqGySuT6lyovWZoBLU/vyGA2A4VdKIZasknpd9/emTJYIPqFzjkguFfEDUiERKFih3k9Yj3Q=="
+  "resolved" "https://registry.npmjs.org/intl-tel-input/-/intl-tel-input-17.0.3.tgz"
+  "version" "17.0.3"
 
 "ip@^2.0.0":
   "integrity" "sha512-WKa+XuLG1A1R0UWhl2+1XQSi+fZWMsYKffMZTTYsiZaUD8k2yDAj5atimTUD2TZkyCkNEeYE5NhFZmupOGtjYQ=="
@@ -6944,10 +6959,38 @@
   "resolved" "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz"
   "version" "2.6.2"
 
+"ng2-tel-input@^2.3.0":
+  "integrity" "sha512-sdcovwjeAgg/rctXfxz68oq5GbablLT3L+Khw165hqnkUA0xLASE+LybK4C+fMc6TLuMKlZ6Nsgc1ij2IGcs9Q=="
+  "resolved" "https://registry.npmjs.org/ng2-tel-input/-/ng2-tel-input-2.3.0.tgz"
+  "version" "2.3.0"
+  dependencies:
+    "intl-tel-input" "^16.0.0"
+
+"ngx-bootstrap@^11.0.2":
+  "integrity" "sha512-McvQ72XB6692Jus47jahWWwjpSCa6EtHMIqoyMewKCEHMv0ybDgVnOAdEsWKvwfulowHn7Y/jDjeiURwYJG9cQ=="
+  "resolved" "https://registry.npmjs.org/ngx-bootstrap/-/ngx-bootstrap-11.0.2.tgz"
+  "version" "11.0.2"
+  dependencies:
+    "tslib" "^2.3.0"
+
 "ngx-google-places-autocomplete@^2.0.5":
   "integrity" "sha512-TApaE+X/eaZBDduXvmOMsMC5FTWv3CmgbZ+Iv7NsnrBWJeonPF2SYMGs3vaydM3CY3Rch14/K94ecU0mfyRVWw=="
   "resolved" "https://registry.npmjs.org/ngx-google-places-autocomplete/-/ngx-google-places-autocomplete-2.0.5.tgz"
   "version" "2.0.5"
+
+"ngx-intl-tel-input@^3.2.0":
+  "integrity" "sha512-TM3R0Az+F63eNCBj+NpR6UzJYg4FkHxDrS2hfeFoHJymMc4+DlqB581g4tPil4IkMetlR+jaAtEcqKiqmYGYlw=="
+  "resolved" "https://registry.npmjs.org/ngx-intl-tel-input/-/ngx-intl-tel-input-3.2.0.tgz"
+  "version" "3.2.0"
+  dependencies:
+    "tslib" "^2.3.0"
+
+"ngx-intl-telephone-input@^1.0.1":
+  "integrity" "sha512-no3PYkm+HZpbAkmdFZo1prZRM1bd1XJR6tgMo+dJWNYPQS2KJ9Ep3gLCk9xaOqv77lRMDsPkudxLTADDXMJSDg=="
+  "resolved" "https://registry.npmjs.org/ngx-intl-telephone-input/-/ngx-intl-telephone-input-1.0.1.tgz"
+  "version" "1.0.1"
+  dependencies:
+    "tslib" "^2.3.0"
 
 "ngx-pagination@^6.0.3":
   "integrity" "sha512-lONjTQ7hFPh1SyhwDrRd5ZwM4NMGQ7bNR6vLrs6mrU0Z8Q1zCcWbf/pvyp4DOlGyd9uyZxRy2wUsSZLeIPjbAw=="

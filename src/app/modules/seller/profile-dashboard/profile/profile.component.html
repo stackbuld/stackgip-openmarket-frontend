@@ -139,7 +139,7 @@
                 <option
                   *ngFor="let state of states"
                   [value]="state"
-                  [selected]="state == selectedState"
+                  [selected]="state == selectedState && selectedState"
                 >
                   {{ state }}
                 </option>
@@ -166,10 +166,15 @@
           <div class="information-group-inputs">
             <div class="input-group">
               <input
-                type="text"
-                id=""
-                placeholder="myemail@gmail.com"
+                type="tel"
                 class="input-o"
+                id="phone-number"
+                ng2TelInput
+                [ng2TelInputOptions]="{
+                  initialCountry: 'ng',
+                  separateDialCode: true,
+                 
+                }"
               />
             </div>
             <div class="input-alert">
