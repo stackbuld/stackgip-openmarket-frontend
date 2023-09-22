@@ -41,7 +41,8 @@
               "src/hover.css",
               "src/styles-1.css",
               "src/styles.sass",
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/modules/seller/profile-dashboard/otp-dialog/otp-dialog.component.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": ["src/assets/base-styles"]
