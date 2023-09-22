@@ -55,8 +55,6 @@ export class ProfileComponent implements OnInit {
       state: [userJson.state, [Validators.required]],
       city: [userJson.city, [Validators.required]],
     });
-
-    this.dialog.open(OTPDialogComponent);
   }
 
   updateProfile() {

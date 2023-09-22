@@ -126,7 +126,10 @@
             "outputPath": "dist/stackbuld-ecommerce/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json",
-            "inlineStyleLanguage": "sass"
+            "inlineStyleLanguage": "sass",
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/assets/base-styles"]
+            }
           },
           "configurations": {
             "production": {
