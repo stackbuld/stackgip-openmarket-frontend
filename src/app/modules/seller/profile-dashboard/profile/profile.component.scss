@@ -62,6 +62,7 @@
   & .profile-photo-text {
     color: $normal-text-color;
     transform: translateY(-20px);
+    line-height: 1.2;
   }
 }
 
@@ -70,6 +71,11 @@
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
+
+  &.mobile {
+    transform: translateY(0);
+    display: none;
+  }
 
   & button {
     border: none;
@@ -185,28 +191,33 @@
 }
 
 @media (max-width: 570px) {
+  .personal-information-container {
+    padding-bottom: 10px;
+  }
+
   .profile-photo-btns {
-    transform: translateY(-20px);
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    display: none;
+    transform: translateY(0px);
+    justify-content: center;
+
+    &.desktop {
+      display: none;
+    }
+
+    &.mobile {
+      display: flex;
+
+      & button {
+        padding: 10px 35px;
+      }
+    }
 
     & button {
       border: none;
       padding: 10px 15px;
       border-radius: 8px;
 
-      &#save {
-        background: $black;
-        color: $white;
-      }
-
       &#cancel {
-        background: transparent;
-        border: 1px solid $input-border;
-        color: $black;
-        margin-right: 10px;
+        margin-right: 20px;
       }
     }
   }
@@ -278,6 +289,119 @@
       padding: 10px 0px;
       border-radius: 8px;
       width: 100%;
+    }
+  }
+}
+
+@media (max-width: 472px) {
+  .information-group {
+    &-inputs {
+      & .input-alert {
+        overflow-wrap: break-word;
+        line-height: 1.2;
+        white-space: normal;
+        &.phone-number-alert {
+          bottom: 10px;
+          width: 250px;
+        }
+      }
+
+      & button {
+        & span {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 412px) {
+  .profile-photo {
+    padding-left: 20px;
+    margin-top: -40px;
+  }
+
+  .profile-photo-container {
+    display: flex;
+    align-items: flex-end;
+
+    & .profile-photo-text {
+      transform: translateY(0px);
+      font-size: 12px;
+    }
+  }
+
+  .information-group {
+    &-inputs {
+      & .input-alert {
+        bottom: 10px;
+        white-space: normal;
+        width: 250px;
+        overflow-wrap: break-word;
+        line-height: 1.2;
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .information-group {
+    &-inputs {
+      & .input-alert {
+        &.phone-number-alert {
+          width: 200px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .information-group {
+    &-inputs {
+      & .input-alert {
+        width: 200px;
+
+        &.phone-number-alert {
+          bottom: -5px;
+          width: 150px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 310px) {
+  .information-group {
+    &-inputs {
+      & .input-alert {
+        width: 150px;
+
+        &.phone-number-alert {
+          bottom: -20px;
+          width: 100px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .profile-photo-btns {
+    &.mobile {
+      & button {
+        padding: 10px 20px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media (max-width: 260px) {
+  .profile-photo-container {
+    & .profile-photo-text {
+      transform: translateY(20px);
+      font-size: 12px;
     }
   }
 }

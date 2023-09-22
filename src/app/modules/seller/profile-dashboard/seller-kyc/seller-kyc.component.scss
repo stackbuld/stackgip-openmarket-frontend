@@ -26,6 +26,15 @@
       display: flex;
       align-items: center;
 
+      & .desktop-verification-icon {
+        display: block;
+      }
+
+      & .mark-icon,
+      & .cross {
+        display: none;
+      }
+
       & .status {
         font-size: 20px;
         margin-left: 5px;
@@ -50,5 +59,84 @@
     background: $black;
     color: $white;
     white-space: nowrap;
+  }
+}
+
+@media (max-width: 500px) {
+  .seller-kyc-container {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .seller-kyc-main {
+    border: none;
+    width: 320px;
+    border-radius: 0;
+
+    &-heading {
+      font-size: 18px;
+      padding: 0 0;
+      padding-left: 0;
+      font-weight: 700;
+      border-bottom: none;
+    }
+
+    &-status-container {
+      padding: 0 0;
+      padding-left: 0;
+
+      & .seller-kyc-main-status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 0;
+        width: 160px;
+        margin-top: 15px;
+        border-radius: 8px;
+
+        &.greenBg {
+          background: $green;
+        }
+        &.redBg {
+          background: $red;
+        }
+
+        & .desktop-verification-icon {
+          display: none;
+        }
+
+        & .mark-icon,
+        & .cross {
+          display: block;
+        }
+
+        & .status {
+          font-size: 18px;
+          margin-left: 10px;
+
+          &#verified {
+            color: $white;
+          }
+
+          &#unverified {
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+
+  .verification-btn {
+    width: 100%;
+    margin-top: 30px;
+    & button {
+      width: 100%;
+      border: none;
+      padding: 15px 15px;
+      border-radius: 8px;
+      background: $black;
+      color: $white;
+      white-space: nowrap;
+    }
   }
 }

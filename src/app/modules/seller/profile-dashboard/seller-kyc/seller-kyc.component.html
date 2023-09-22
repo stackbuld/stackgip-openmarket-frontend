@@ -3,13 +3,18 @@
     <div class="seller-kyc-main-heading">Current Status</div>
 
     <div class="seller-kyc-main-status-container">
-      <div class="seller-kyc-main-status" *ngIf="kycVerified; else unverified">
+      <div
+        class="seller-kyc-main-status"
+        *ngIf="kycVerified; else unverified"
+        [ngClass]="{ greenBg: kycVerified }"
+      >
         <svg
           width="24"
           height="24"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          class="desktop-verification-icon"
         >
           <path
             fill-rule="evenodd"
@@ -18,17 +23,36 @@
             fill="#11955A"
           />
         </svg>
+
+        <span class="mark-icon">
+          <svg
+            width="16"
+            height="12"
+            viewBox="0 0 16 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14.6673 1L5.50065 10.1667L1.33398 6"
+              stroke="white"
+              stroke-width="1.67"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
         <span class="status" id="verified">Verified</span>
       </div>
 
       <ng-template #unverified>
-        <div class="seller-kyc-main-status">
+        <div class="seller-kyc-main-status" [ngClass]="{ redBg: !kycVerified }">
           <svg
             width="24"
             height="24"
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            class="desktop-verification-icon"
           >
             <path
               fill-rule="evenodd"
@@ -37,6 +61,25 @@
               fill="#FF0000"
             />
           </svg>
+
+          <span class="cross">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11 1L1 11M1 1L11 11"
+                stroke="white"
+                stroke-width="1.67"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+
           <span class="status" id="unverified">Not Verified</span>
         </div>
       </ng-template>

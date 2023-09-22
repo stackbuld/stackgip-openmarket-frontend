@@ -44,6 +44,14 @@
       padding: 10px 15px;
       border-radius: 8px;
       width: 50%;
+
+      &::placeholder {
+        color: transparent;
+      }
+
+      &:focus {
+        outline: none;
+      }
     }
   }
 
@@ -121,5 +129,64 @@
     color: $black;
     white-space: nowrap;
     background: transparent;
+  }
+}
+
+@media (max-width: 550px) {
+  .profile-settings-container {
+    padding-bottom: 10px;
+  }
+
+  .change-settings {
+    &-main {
+      border: none;
+      border-radius: 0;
+      padding: 20px 0;
+    }
+  }
+
+  .change-settings-form {
+    display: flex;
+    flex-direction: column;
+
+    & .form-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+
+      & label {
+        display: none;
+      }
+
+      & input {
+        width: 100%;
+
+        &::placeholder {
+          color: $normal-text-color;
+        }
+      }
+    }
+
+    & button {
+      align-self: flex-start;
+      width: auto;
+      padding: 10px 40px;
+    }
+  }
+
+  .deactivate {
+    border: none;
+    padding-left: 0;
+
+    & button {
+      align-self: flex-start;
+      width: auto;
+      padding: 10px 40px;
+    }
   }
 }
