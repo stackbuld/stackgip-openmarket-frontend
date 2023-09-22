@@ -6,7 +6,6 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxPaginationModule } from 'src/app/shared/pagination/ngx-pagination.module';
 import { Ng2TelInputModule } from 'ng2-tel-input';
-import { NgxIntlTelephoneInputModule } from 'ngx-intl-telephone-input';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -75,7 +74,6 @@ import { EmailDialogComponent } from './profile-dashboard/email-dialog/email-dia
     NgxSliderModule,
     MatPaginatorModule,
     Ng2TelInputModule,
-    NgxIntlTelephoneInputModule,
     NgOtpInputModule,
     MatTabsModule,
   ],
