@@ -15,8 +15,12 @@
 }
 
 .otp-input-container {
-  //   padding: 0 20px;
   margin: 20px 0;
+
+  &.mobile,
+  &.mobile2 {
+    display: none;
+  }
 }
 
 ::ng-deep .otp-c-input {
@@ -44,4 +48,34 @@
   background: $black;
   color: $white;
   margin-top: 25px;
+}
+
+@media (max-width: 450px) {
+  .otp-input-container {
+    &.desktop,
+    &.mobile2 {
+      display: none;
+    }
+
+    &.mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .otp-input-container {
+    &.desktop,
+    &.mobile {
+      display: none;
+    }
+
+    &.mobile2 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 }

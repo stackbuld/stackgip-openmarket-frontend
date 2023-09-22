@@ -45,3 +45,19 @@
     color: $error;
   }
 }
+
+@media (max-width: 380px) {
+  .email-dialog-header {
+    font-size: 20px;
+    padding: 0 20px;
+  }
+
+  .email-remark {
+    font-size: 15px;
+    width: 100%;
+  }
+
+  .email-action {
+    font-size: 15px;
+  }
+}

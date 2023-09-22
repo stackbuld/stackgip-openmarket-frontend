@@ -1,11 +1,17 @@
-<div class="otp-dialog-container">
+<div class="otp-dialog-container" #otp_dialog>
   <form>
     <div class="otp-heading">Verify Phone Number</div>
 
     <div class="sent-text">We've sent a code to +23490237891108</div>
 
-    <div class="otp-input-container">
+    <div class="otp-input-container desktop">
       <ng-otp-input [config]="config"></ng-otp-input>
+    </div>
+    <div class="otp-input-container mobile">
+      <ng-otp-input [config]="config2"></ng-otp-input>
+    </div>
+    <div class="otp-input-container mobile2">
+      <ng-otp-input [config]="config3"></ng-otp-input>
     </div>
 
     <div class="code-resend">

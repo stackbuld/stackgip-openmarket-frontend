@@ -9,6 +9,7 @@ import { log } from 'console';
 import { MatDialog } from '@angular/material/dialog';
 import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
 import { EmailDialogComponent } from '../email-dialog/email-dialog.component';
+import { SellerKycComponent } from '../seller-kyc/seller-kyc.component';
 
 @Component({
   selector: 'app-profile',
@@ -54,6 +55,8 @@ export class ProfileComponent implements OnInit {
       state: [userJson.state, [Validators.required]],
       city: [userJson.city, [Validators.required]],
     });
+
+    this.dialog.open(OTPDialogComponent);
   }
 
   updateProfile() {
