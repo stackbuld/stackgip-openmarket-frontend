@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { IUser } from 'src/app/models/IUserModel';
-import { GetSeller, ISeller } from 'src/app/models/sellerModel';
+import { IUser, UserDataResponse } from 'src/app/models/IUserModel';
+import {
+  GetSeller,
+  ISeller,
+  SellerBusinessProfileData,
+  SellerProfileData,
+} from 'src/app/models/sellerModel';
 import { ResponseModel } from 'src/app/shared/models/ResponseModel';
 import { ApiAppUrlService } from '../api-app-url.service';
 import { RequestService } from '../request/request.service';
@@ -33,7 +38,7 @@ export class SellerService {
     this.loggedInUser = this.authService.getLoggedInUser();
   }
 
-  registerSeller(data:any) {
+  registerSeller(data: any) {
     // const query = `${ this.baseUrl }users/${ this.loggedInUser.id }/seller`;
     const query = `${this.baseUrl}sellers/verification`;
     return this.reqS.post<ResponseModel>(query, data).pipe(
@@ -60,8 +65,24 @@ export class SellerService {
       },
     });
   }
-  
+
+  getSeller(id: string) {
+    return this.http.get<UserDataResponse>(this.baseUrl + 'sellers/' + id);
+  }
+
   getSellerById(id: string): Observable<GetSeller> {
     return this.http.get<GetSeller>(this.baseUrl + `users/${id}`);
+  }
+
+  updateSellerPersonalProfile(profileData: SellerProfileData) {
+    return this.http.put(this.baseUrl + 'users', profileData);
+  }
+
+  updateSellerBusinessProfile(businessData: SellerBusinessProfileData) {
+    return this.http.put(this.baseUrl + 'sellers/business', businessData);
+  }
+
+  verifyPhoneNumber() {
+    return this.http.get(this.baseUrl + 'users/phonenumber/send-otp');
   }
 }

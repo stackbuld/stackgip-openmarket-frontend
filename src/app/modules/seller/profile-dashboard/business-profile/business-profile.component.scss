@@ -1,6 +1,45 @@
 @import "config";
 .business-information-container {
-  padding-bottom: 60px;
+  padding-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.business-form {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+
+  & .form-action-btns {
+    // margin-top: 30px;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    & button {
+      border: none;
+      padding: 10px 35px;
+      border-radius: 8px;
+
+      &#save {
+        background: $black;
+        color: $white;
+        display: flex;
+        align-items: center;
+      }
+
+      &#cancel {
+        background: transparent;
+        border: 1px solid $input-border;
+        color: $black;
+        margin-right: 10px;
+      }
+    }
+  }
 }
 
 .information-group {
@@ -9,7 +48,7 @@
   align-items: flex-start;
 
   &:not(:last-child) {
-    margin-bottom: 60px;
+    margin-bottom: 40px;
   }
 
   &-label {
@@ -270,5 +309,55 @@
         // bottom: -15px;
       }
     }
+  }
+}
+
+@media (max-width: 321px) {
+  .business-form {
+    & .form-action-btns {
+      & button {
+        padding: 10px 20px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.fetch-loader {
+  width: 80px;
+  padding: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: $bold-text-color;
+  --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+  mask: var(--_m);
+  -webkit-mask-composite: source-out;
+  mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.login-btn-loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

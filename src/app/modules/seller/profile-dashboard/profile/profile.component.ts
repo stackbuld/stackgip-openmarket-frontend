@@ -10,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
 import { EmailDialogComponent } from '../email-dialog/email-dialog.component';
 import { SellerKycComponent } from '../seller-kyc/seller-kyc.component';
+import { SellerService } from 'src/app/services/seller/seller.service';
+import { startWith } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -19,41 +21,76 @@ import { SellerKycComponent } from '../seller-kyc/seller-kyc.component';
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   states: string[] = [];
+  isFetching: boolean = false;
   isSubmited = false;
+  isSubmitting: boolean = false;
+  showUserUpdateButtons: boolean = false;
   selectedState!: string;
 
   user = {} as IUser;
+  userId: string;
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private toast: ToastrService,
     private authService: AuthService,
+    private sellerService: SellerService,
     private dialog: MatDialog
-  ) {
-    this.user = this.authService.getLoggedInUser();
-  }
+  ) {}
 
   get f() {
     return this.profileForm.controls;
   }
   ngOnInit(): void {
+    this.isFetching = true;
+
     this.states = nigeriaSates.map((a) => a.name);
     this.states.unshift('Select a state');
 
-    this.selectedState =
-      localStorage.getItem('selectedState') || 'Select a state';
-
-    const userJson = this.user;
     this.profileForm = this.fb.group({
-      firstname: [userJson.firstName, [Validators.required]],
-      lastname: [userJson.lastName, [Validators.required]],
-      email: [userJson.email, [Validators.required, Validators.email]],
-      phoneNumber: [userJson.phoneNumber, [Validators.required]],
-      address: [userJson.address, [Validators.required]],
-      country: [userJson.alpha2CountryCode, [Validators.required]],
-      state: [userJson.state, [Validators.required]],
-      city: [userJson.city, [Validators.required]],
+      firstName: [null, [Validators.required]],
+      lastName: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
+      bio: [null, [Validators.required]],
+      phoneNumber: [null, [Validators.required]],
+      country: [null, [Validators.required]],
+      state: [null, [Validators.required]],
+    });
+
+    this.userId = this.authService.getLoggedInUser().id;
+
+    this.sellerService.getSeller(this.userId).subscribe({
+      next: (user) => {
+        console.log(user);
+        this.user = user.data;
+
+        this.profileForm.setValue({
+          firstName: this.user.firstName,
+          lastName: this.user.lastName,
+          email: this.user.email,
+          bio: this.user.bio,
+          phoneNumber: this.user.phoneNumber,
+          country: this.user.alpha2CountryCode,
+          state: this.user.state,
+        });
+        this.isFetching = false;
+
+        const initialUserForm = this.profileForm.value;
+
+        this.profileForm.valueChanges.subscribe((value) => {
+          if (JSON.stringify(value) != JSON.stringify(initialUserForm)) {
+            this.showUserUpdateButtons = true;
+          } else {
+            this.showUserUpdateButtons = false;
+          }
+        });
+      },
+      error: (err) => {
+        this.isFetching = false;
+
+        console.log(err);
+      },
     });
   }
 
@@ -98,5 +135,42 @@ export class ProfileComponent implements OnInit {
 
   getStateValue() {
     localStorage.setItem('selectedState', this.selectedState);
+  }
+
+  onVerfiyPhoneNumber() {
+    console.log(1);
+
+    this.sellerService.verifyPhoneNumber().subscribe((data) => {
+      console.log(data);
+    });
+  }
+
+  onUpdateProfile() {
+    if (this.profileForm.invalid) {
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.sellerService
+      .updateSellerPersonalProfile({
+        ...this.profileForm.value,
+        profileImageUrl: 'test',
+        alpha2CountryCode: 'Nigeria',
+      })
+      .subscribe({
+        next: (data) => {
+          this.isSubmitting = false;
+          this.showUserUpdateButtons = false;
+
+          this.toast.success('Profile updated successfully');
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+  }
+
+  onCancelUpdate() {
+    this.showUserUpdateButtons = false;
   }
 }

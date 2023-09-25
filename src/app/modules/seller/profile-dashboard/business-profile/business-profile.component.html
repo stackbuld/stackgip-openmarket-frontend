@@ -1,5 +1,12 @@
 <div class="business-information-container">
-  <form>
+  <div class="fetch-loader" *ngIf="isFetching"></div>
+
+  <form
+    [formGroup]="businessProfileForm"
+    *ngIf="!isFetching"
+    class="business-form"
+    (ngSubmit)="onUpdateBusinessProfile()"
+  >
     <div class="information-group name-group">
       <div class="information-group-label">Company Name</div>
 
@@ -8,8 +15,9 @@
           <input
             type="text"
             class="input-o"
-            id="last-name"
-            placeholder="Last Name"
+            id="name"
+            placeholder="Company's Name"
+            formControlName="businessName"
           />
         </div>
       </div>
@@ -25,6 +33,7 @@
             id=""
             placeholder="myemail@gmail.com"
             class="input-o"
+            formControlName="businessEmail"
           />
         </div>
       </div>
@@ -45,6 +54,7 @@
               separateDialCode: true,
             
             }"
+            formControlName="businessPhoneNumber"
           />
         </div>
         <div class="input-alert">
@@ -64,6 +74,7 @@
             class="input-o"
             id="last-name"
             placeholder="Enter Address"
+            formControlName="businessAddress"
           />
         </div>
       </div>
@@ -77,14 +88,10 @@
           <select
             class="location-select"
             name="select"
-            [(ngModel)]="selectedBusinessState"
-            (ngModelChange)="getStateValue()"
+            formControlName="businessState"
+            [value]="businessProfileForm.value.businessState"
           >
-            <option
-              *ngFor="let state of states"
-              [value]="state"
-              [selected]="state == selectedBusinessState"
-            >
+            <option *ngFor="let state of states" [value]="state.toLowerCase()">
               {{ state }}
             </option>
           </select>
@@ -97,8 +104,12 @@
 
       <div class="information-group-inputs">
         <div class="input-group contact">
-          <select class="location-select" name="select">
-            <option value="Nigeria" selected>Nigeria</option>
+          <select
+            class="location-select"
+            name="select"
+            formControlName="businessCountry"
+          >
+            <option value="Nigeria">Nigeria</option>
           </select>
         </div>
       </div>
@@ -114,12 +125,13 @@
             id=""
             placeholder="https://renamarket.com"
             class="input-o"
+            formControlName="businessWebsite"
           />
         </div>
       </div>
     </div>
 
-    <div class="information-group">
+    <div class="information-group information-group-social-links">
       <div class="information-group-label">Social Links</div>
 
       <div class="information-group-inputs-social-links">
@@ -129,6 +141,7 @@
             id=""
             placeholder="https://renamarket.com"
             class="social-input"
+            formControlName="businessSocialFacebook"
           />
           <div class="social-icon">
             <i class="fa fa-facebook"></i>
@@ -172,6 +185,7 @@
             id=""
             placeholder="https://renamarket.com"
             class="social-input"
+            formControlName="businessSocialX"
           />
           <div class="social-icon">
             <i class="fa fa-twitter"></i>
@@ -215,6 +229,7 @@
             id=""
             placeholder="https://renamarket.com"
             class="social-input"
+            formControlName="businessSocialInstagram"
           />
           <div class="social-icon">
             <i class="fa fa-instagram"></i>
@@ -252,6 +267,21 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="form-action-btns" *ngIf="showUserUpdateButtons">
+      <button
+        id="cancel"
+        [disabled]="isSubmitting"
+        (click)="onCancelUpdate()"
+        type="button"
+      >
+        Cancel
+      </button>
+      <button id="save" type="submit" [disabled]="isSubmitting">
+        <span class="login-btn-text" *ngIf="!isSubmitting"> Save Changes </span
+        ><span class="login-btn-loader" *ngIf="isSubmitting"></span>
+      </button>
     </div>
   </form>
 </div>
