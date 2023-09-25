@@ -178,8 +178,9 @@
           <div class="information-group-label">Phone Number</div>
 
           <div class="information-group-inputs">
-            <div class="input-group">
+            <div class="input-group" #test>
               <input
+                #telInput
                 type="tel"
                 class="input-o"
                 id="phone-number"
@@ -189,6 +190,8 @@
                   separateDialCode: true,
                  
                 }"
+                (countryChange)="countryChange($event)"
+                (intlTelInputObject)="telInputObject($event)"
                 formControlName="phoneNumber"
               />
             </div>

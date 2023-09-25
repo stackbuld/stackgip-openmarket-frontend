@@ -241,6 +241,10 @@
   }
 }
 
+:host ::ng-deep .iti {
+  width: 100%;
+}
+
 @media (max-width: 570px) {
   .personal-information-container {
     padding-bottom: 10px;

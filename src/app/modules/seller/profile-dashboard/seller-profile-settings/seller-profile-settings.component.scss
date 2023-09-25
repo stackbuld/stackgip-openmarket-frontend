@@ -26,6 +26,7 @@
   flex-direction: column;
 
   & .form-group {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -52,6 +53,14 @@
       &:focus {
         outline: none;
       }
+    }
+
+    & .p-match {
+      position: absolute;
+      right: 0;
+      font-size: 16px;
+      bottom: -40px;
+      color: $error;
     }
   }
 
@@ -176,6 +185,7 @@
       align-self: flex-start;
       width: auto;
       padding: 10px 40px;
+      margin-top: 10px;
     }
   }
 

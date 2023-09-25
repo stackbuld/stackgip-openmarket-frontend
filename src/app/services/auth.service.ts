@@ -41,7 +41,7 @@ export class AuthService {
   public isLogin: BehaviorSubject<boolean>;
   tokenSubscription = new Subscription();
   decodedJwt;
-  private path = "https://localhost:44393/api/Auth/";
+  private path = 'https://localhost:44393/api/Auth/';
   constructor(
     private api: ApiAppUrlService,
     private http: HttpClient,
@@ -50,7 +50,7 @@ export class AuthService {
     // private socialAuthService: SocialAuthService,
     private router: Router,
     private jwtHelperService: JwtHelperService,
-    private httpClient: HttpClient,
+    private httpClient: HttpClient
   ) {
     const userData = this.GetSignInData();
     if (userData != null) {
@@ -95,17 +95,19 @@ export class AuthService {
   }
 
   LoginWithGoogle(credentials: string): Observable<any> {
-
     const header = new HttpHeaders().set('Content-type', 'application/json');
-    return this.httpClient.post(this.api.baseApiUrl + 'auth/google', {idToken: credentials});
+    return this.httpClient.post(this.api.baseApiUrl + 'auth/google', {
+      idToken: credentials,
+    });
   }
 
   LoginWithFacebook(token: string, userId: string): Observable<any> {
-
-    console.log(this.api.baseApiUrl,"Path")
+    console.log(this.api.baseApiUrl, 'Path');
     const header = new HttpHeaders().set('Content-type', 'application/json');
-    return this.httpClient.post(this.api.baseApiUrl + "auth/facebook",{token: token, userId: userId} );
-
+    return this.httpClient.post(this.api.baseApiUrl + 'auth/facebook', {
+      token: token,
+      userId: userId,
+    });
   }
 
   signInWithGoogle(): void {
@@ -221,12 +223,13 @@ export class AuthService {
     return userJson;
   }
 
-  public UpdatePassword(
-    updateUser: IUpdatePassword
-  ): Observable<IResponseModel> {
+  public UpdatePassword(credentials: {
+    newPassword: string;
+    phoneOtp: string;
+  }): Observable<IResponseModel> {
     return this.http.patch<IResponseModel>(
       this.api.baseApiUrl + 'auth/password/change',
-      updateUser
+      credentials
     );
   }
 
@@ -236,5 +239,9 @@ export class AuthService {
     sigin.user = user;
     localStorage.setItem('siginResponse', JSON.stringify(sigin));
     this.store.dispatch(UpdateProfileAction(user));
+  }
+
+  sendOTP() {
+    return this.http.get(this.api.baseApiUrl + 'auth/password/change/otp');
   }
 }
