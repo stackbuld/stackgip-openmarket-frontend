@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { IUser } from '../models/IUserModel';
 
 
 @Injectable({
     providedIn : 'root'
 })
 export class AppLocalStorage {
-    cartCount: BehaviorSubject<any> = new BehaviorSubject('');
+    cartCount: BehaviorSubject<number> = new BehaviorSubject(0);
+    currentUser: BehaviorSubject<IUser> = new BehaviorSubject(null);
     messageSource: BehaviorSubject<any> = new BehaviorSubject('');
-    productViewed: BehaviorSubject<any> = new BehaviorSubject('');
+    productViewed: BehaviorSubject<string> = new BehaviorSubject('');
 
     constructor() {}
 

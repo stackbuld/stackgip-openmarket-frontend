@@ -20,7 +20,7 @@
         <app-seller-sidebar></app-seller-sidebar>
       </div>
 
-      <div class="uk-width-4-5@m main_content">
+      <div class="uk-width-4-5@m main_content uk-overflow-auto">
 
         <div class="uk-visible@m">
           <app-sidebar-header-display></app-sidebar-header-display>
@@ -32,7 +32,7 @@
           </div>
 
 
-        <div style="padding: 1rem;" class="uk-margin-top">
+        <div [ngStyle]="{'padding': currentRoute?.includes('wallet') ? '0' : '1rem'}" class="uk-margin-top">
           <!-- <div style="margin: auto; width: 96%;" class="uk-margin-top"> -->
 
           <router-outlet></router-outlet>

@@ -14,6 +14,7 @@ import { OrderManagementComponent } from './order-management/order-management/or
 import { OrderViewComponent } from './order-management/order-view/order-view.component';
 import { SellerKycComponent } from './profile-dashboard/seller-kyc/seller-kyc.component';
 import { BusinessProfileComponent } from './profile-dashboard/business-profile/business-profile.component';
+// import { SellerWalletComponent } from './seller-wallet/seller-wallet.component';
 
 const routes: Routes = [
   {

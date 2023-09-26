@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { AuthService } from 'src/app/services/auth.service';
+import { FooterService } from 'src/app/services/footer.service';
 import { OrderService } from 'src/app/services/order/order.service';
 
 @Component({
@@ -34,13 +35,13 @@ export class OrderHistoryComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private appLocal: AppLocalStorage,
-    private toastr: ToastrService,
+    private footerService: FooterService,
   ) {}
 
   ngOnInit(): void {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-
+    this.footerService.setShowFooter(true);
     this.user = this.authService.getLoggedInUser();
     this.buyerId = this.user.id;
 

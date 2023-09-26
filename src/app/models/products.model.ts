@@ -1,6 +1,6 @@
-import { ResponseModel } from "./../shared/models/ResponseModel";
-import { InvoiceModel } from "./invoice.model";
-import { ICategory } from "./CategoryModels";
+import { ResponseModel } from './../shared/models/ResponseModel';
+import { InvoiceModel } from './invoice.model';
+import { ICategory } from './CategoryModels';
 
 export interface ProductModel {
   productOptions?: any;
@@ -33,7 +33,7 @@ export interface CreateProductModel {
   unit: number;
   imageUrls: string[];
   userId: string;
-  paymentOptions?: string,
+  paymentOptions?: string;
   shipments?: CreateShipmentModel[];
   options?: CreateProductOption[];
 }
@@ -67,9 +67,9 @@ export interface ProductResponse extends EditProductItem {}
 
 export interface ProductCartModel extends ProductModel {
   orderedUnit: number;
-  shipmentOption:string;
-  productOptions?:string;
-  paymentOption?:string;
+  shipmentOption: string;
+  productOptions?: string;
+  paymentOption?: string;
 }
 
 export interface Category {

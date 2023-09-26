@@ -108,9 +108,7 @@ span.sort-asc, span.sort-desc{
 }
 
 .table-header {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
+    
     padding: 15px;
     border-bottom: 0.8px solid #BDBDBD;
     p {
@@ -299,4 +297,36 @@ span.sort-desc{
 
 @media screen and (min-width: 1024px) and (max-width: 1365px) {
     
+}
+
+
+.badge{
+
+    width: 6rem;
+    padding: .5rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+
+    &-red{
+        background-color: rgba(222, 11, 11, 0.443);
+        color: red;
+    }
+
+    &-green{
+        background-color: rgba(3, 119, 3, 0.403);
+        color: green;
+    }
+
+    &-yellow{
+        background-color: rgba(225, 225, 9, 0.515);
+        color: black;
+    }
+
+    &-blue{
+        background-color: rgba(0, 0, 208, 0.386);
+        color: blue;
+    }
 }

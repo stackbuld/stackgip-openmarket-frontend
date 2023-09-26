@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { SellerService } from "src/app/services/seller/seller.service";
 
@@ -15,11 +15,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // approved = this.sellerS.sellerRegisterationFormStatus.approved;
   // pending = this.sellerS.sellerRegisterationFormStatus.pending;
 
+  currentRoute: string = 'seller/dashboard';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private sellerS: SellerService
-  ) {}
+  ) {
+     this.router.events.subscribe((event) => { event instanceof NavigationEnd ?
+      this.currentRoute = event.url : null 
+    });
+  }
 
   ngOnInit(): void {
     // this.routeData$ = this.route.data.subscribe((res) => {
