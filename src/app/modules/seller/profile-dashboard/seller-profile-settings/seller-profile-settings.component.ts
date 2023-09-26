@@ -130,13 +130,13 @@ export class SellerProfileSettingsComponent implements OnInit {
     }
 
     this.isSendingPasswordOTP = true;
-    this.authService.sendOTP().subscribe({
+    this.authService.sendPasswordChangeOTP().subscribe({
       next: (data) => {
         this.isSendingPasswordOTP = false;
 
         const dialogRef = this.dialog.open(OTPDialogComponent, {
           panelClass: 'otp_dialog',
-          data: { password: this.password.value },
+          data: { type: 'changePasswordOTP', payload: this.password.value },
         });
 
         this.toast.success(
@@ -147,6 +147,36 @@ export class SellerProfileSettingsComponent implements OnInit {
       },
       error: (err) => {
         this.isSendingPasswordOTP = false;
+
+        console.log(err);
+        this.toast.error('Something went wrong');
+      },
+    });
+  }
+
+  onVerifyOTPForPin() {
+    if (this.pinForm.invalid || !this.pinMatch) {
+      return;
+    }
+
+    this.isSendingPinOTP = true;
+    this.authService.sendPinChangeOTP().subscribe({
+      next: (data) => {
+        this.isSendingPinOTP = false;
+
+        const dialogRef = this.dialog.open(OTPDialogComponent, {
+          panelClass: 'otp_dialog',
+          data: { type: 'changePinOTP', payload: this.newPin.value },
+        });
+
+        this.toast.success(
+          'OTP sent successfully. Please check your SMS inbox!'
+        );
+
+        this.passwordForm.reset();
+      },
+      error: (err) => {
+        this.isSendingPinOTP = false;
 
         console.log(err);
         this.toast.error('Something went wrong');

@@ -140,6 +140,7 @@
       border: none;
       padding: 10px 15px;
       height: 40px;
+      width: 122px;
       border-radius: 8px;
       background: $black;
       color: $white;
@@ -316,8 +317,9 @@
       & button {
         align-self: flex-end;
         margin-top: 10px;
+        width: 67px;
 
-        & span {
+        & #verify-number-text {
           display: none;
         }
       }

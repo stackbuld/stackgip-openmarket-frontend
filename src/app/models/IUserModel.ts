@@ -23,10 +23,13 @@ export interface IUser {
   businessCity: string;
   businessLogoUrl: string;
   businessWebsite: string;
+  businessPhoneConfirmed: boolean;
   businessSocialLinks: { twitter: string; facebook: string; instagram: string };
   businessRegistrationNumber: string;
   isSellerApproved: boolean;
   sellerApprovalStatus: string;
+  emailConfirmed: boolean;
+  phoneNumberConfirmed: boolean;
 }
 
 export interface IUserResponse extends ResponseModel {

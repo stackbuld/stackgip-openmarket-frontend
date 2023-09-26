@@ -1,13 +1,17 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { log } from 'console';
 
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { IUser } from 'src/app/models/IUserModel';
+import { CountryInfo } from 'src/app/models/country.model';
 import { SellerBusinessProfileData } from 'src/app/models/sellerModel';
 import { AuthService } from 'src/app/services/auth.service';
+import { CountryService } from 'src/app/services/country/country.service';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import { ToastrService } from 'src/app/services/toastr.service';
+import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
 
 @Component({
   selector: 'app-business-profile',
@@ -23,12 +27,18 @@ export class BusinessProfileComponent implements OnInit {
   userId!: string;
   showUserUpdateButtons: boolean = false;
   isSubmitting: boolean = false;
+  isFetchingOtp: boolean = false;
+  isBusinessPhoneNumberVerified: boolean = false;
+  verifiedBusinessPhoneNumber: string;
+  countryInfo: CountryInfo[];
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private sellerService: SellerService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private dialog: MatDialog,
+    private countryService: CountryService
   ) {}
 
   ngOnInit(): void {
@@ -54,9 +64,15 @@ export class BusinessProfileComponent implements OnInit {
 
     this.sellerService.getSeller(this.userId).subscribe({
       next: (user) => {
+        this.isFetching = false;
         console.log(user);
         this.user = user.data;
-        this.isFetching = false;
+        this.isBusinessPhoneNumberVerified = this.user.businessPhoneConfirmed;
+
+        if (user.data.businessPhoneConfirmed) {
+          localStorage.setItem('verifiedPhone', this.user.phoneNumber);
+          this.verifiedBusinessPhoneNumber = this.user.businessPhone;
+        }
 
         this.businessProfileForm.setValue({
           businessName: this.user.businessName,
@@ -66,9 +82,10 @@ export class BusinessProfileComponent implements OnInit {
           businessState: this.user.businessState,
           businessCountry: this.user.businessCountryCode,
           businessWebsite: this.user.businessWebsite,
-          businessSocialFacebook: this.user.businessSocialLinks.facebook,
-          businessSocialX: this.user.businessSocialLinks.twitter,
-          businessSocialInstagram: this.user.businessSocialLinks.instagram,
+          businessSocialFacebook: this.user.businessSocialLinks?.facebook || '',
+          businessSocialX: this.user.businessSocialLinks?.twitter || '',
+          businessSocialInstagram:
+            this.user.businessSocialLinks?.instagram || '',
         });
 
         const initialUserForm = this.businessProfileForm.value;
@@ -83,6 +100,45 @@ export class BusinessProfileComponent implements OnInit {
       },
       error: (err) => {
         this.isFetching = false;
+        console.log(err);
+      },
+    });
+
+    this.countryService.getCountry().subscribe({
+      next: (data) => {
+        console.log(data);
+        this.countryInfo = data;
+      },
+    });
+
+    this.businessProfileForm.valueChanges.subscribe((value) => {
+      if (value.businessPhoneNumber !== this.verifiedBusinessPhoneNumber) {
+        this.isBusinessPhoneNumberVerified = false;
+      }
+    });
+  }
+
+  trackByFn(index, item) {
+    return index;
+  }
+
+  onVerfiyBusinessPhoneNumber() {
+    this.isFetchingOtp = true;
+
+    this.authService.sendBusinessPhoneOTP().subscribe({
+      next: (data) => {
+        this.isFetchingOtp = false;
+
+        const dialogRef = this.dialog.open(OTPDialogComponent, {
+          panelClass: 'otp_dialog',
+          data: {
+            type: 'businessPhoneNumberOTP',
+            payload: this.businessProfileForm.value.businessPhoneNumber,
+          },
+        });
+      },
+      error: (err) => {
+        this.isFetchingOtp = false;
         console.log(err);
       },
     });
@@ -107,7 +163,7 @@ export class BusinessProfileComponent implements OnInit {
     const mainForm: SellerBusinessProfileData = {
       businessName: formValue.businessName,
       businessEmail: formValue.businessEmail,
-      businessPhone: formValue.businessPhoneNumber,
+      businessPhone: '+2349131778206',
       businessAddress: formValue.businessAddress,
       businessState: formValue.businessState,
       businessCountryCode: formValue.businessCountry,

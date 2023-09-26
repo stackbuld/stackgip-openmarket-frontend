@@ -47,7 +47,11 @@
     <div class="change-settings-heading">Change Transaction Pin</div>
 
     <div class="change-settings-main">
-      <form class="change-settings-form" [formGroup]="pinForm">
+      <form
+        class="change-settings-form"
+        [formGroup]="pinForm"
+        (ngSubmit)="onVerifyOTPForPin()"
+      >
         <div class="form-group">
           <label>New Pin</label>
           <input
@@ -70,6 +74,7 @@
         <button
           [ngClass]="{ disabled: !pinMatch || pinForm.invalid }"
           [disabled]="isSendingPinOTP"
+          type="submit"
         >
           <span class="login-btn-text" *ngIf="!isSendingPinOTP">
             Verify via OTP </span

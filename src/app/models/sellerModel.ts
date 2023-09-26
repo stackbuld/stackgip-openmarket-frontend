@@ -16,7 +16,6 @@ export interface ISeller {
   businessAddressLandmark?: string;
   businessApplicantID: string;
   businessIDType: string;
-
   userId: 'string';
   businessName: 'string';
   businessDescription: 'string';

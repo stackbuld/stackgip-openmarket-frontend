@@ -99,16 +99,15 @@
             <div class="input-group">
               <input
                 type="text"
-                id=""
                 placeholder="myemail@gmail.com"
                 class="input-o"
                 formControlName="email"
               />
             </div>
-            <div class="input-alert">
+            <div class="input-alert" *ngIf="!isEmailVerified">
               You haven’t verified your email address.
             </div>
-            <button>Verify <span>Email</span></button>
+            <button *ngIf="!isEmailVerified">Verify <span>Email</span></button>
           </div>
         </div>
 
@@ -123,8 +122,6 @@
           <div class="information-group-inputs">
             <div class="input-group textarea">
               <textarea
-                name=""
-                id=""
                 cols="20"
                 rows="10"
                 placeholder="Please provide a detailed description"
@@ -166,8 +163,11 @@
                 name="select"
                 formControlName="country"
               >
-                <option [value]="profileForm.value.country" selected>
-                  {{ profileForm.value.country }}
+                <option
+                  [value]="country.alpha2code"
+                  *ngFor="let country of countryInfo; trackBy: trackByFn"
+                >
+                  {{ country.countryName }}
                 </option>
               </select>
             </div>
@@ -194,12 +194,45 @@
                 (intlTelInputObject)="telInputObject($event)"
                 formControlName="phoneNumber"
               />
+              <!-- <mat-form-field appearance="outline">
+                <mat-label>Phone Number</mat-label>
+
+                <input
+                  matInput
+                  #myInput
+                  placeholder="08023434567"
+                  pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$"
+                  type="number"
+                  formControlName="phoneNumber"
+                  required
+                />
+                <div class="country-code" matPrefix>
+                  <mat-select (change)="changeOption($event)">
+                    <mat-select-trigger>
+                      {{ f.countryCode.value }}
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let el of codeList" [value]="el.code">
+                      {{ el.abbr }} {{ el.code }}
+                    </mat-option>
+                  </mat-select>
+                </div>
+              </mat-form-field> -->
             </div>
-            <div class="input-alert phone-number-alert">
+            <div
+              class="input-alert phone-number-alert"
+              *ngIf="!isPhoneVerified"
+            >
               You need to verify this new number via an OTP
             </div>
-            <button (click)="onVerfiyPhoneNumber()">
-              Verify <span>Number</span>
+            <button
+              (click)="onVerfiyPhoneNumber()"
+              *ngIf="!isPhoneVerified"
+              [disabled]="isFetchingOtp"
+              type="button"
+            >
+              <span class="login-btn-text" *ngIf="!isFetchingOtp">
+                Verify <span id="verify-number-text">Number</span> </span
+              ><span class="login-btn-loader" *ngIf="isFetchingOtp"></span>
             </button>
           </div>
         </div>
@@ -213,11 +246,7 @@
           >
             Cancel
           </button>
-          <button
-            id="save"
-            (click)="onUpdateProfile()"
-            [disabled]="isSubmitting"
-          >
+          <button id="save" [disabled]="isSubmitting" type="submit">
             <span class="login-btn-text" *ngIf="!isSubmitting">
               Save Changes </span
             ><span class="login-btn-loader" *ngIf="isSubmitting"></span>

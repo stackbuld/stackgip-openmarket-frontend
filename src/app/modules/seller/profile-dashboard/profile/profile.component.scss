@@ -236,6 +236,7 @@
     & button {
       border: none;
       height: 40px;
+      width: 122px;
       padding: 10px 15px;
       border-radius: 8px;
       background: $black;
@@ -384,7 +385,8 @@
       }
 
       & button {
-        & span {
+        width: 67px;
+        & #verify-number-text {
           display: none;
         }
       }

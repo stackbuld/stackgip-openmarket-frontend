@@ -234,8 +234,46 @@ export class AuthService {
     );
   }
 
-  sendOTP() {
+  sendPasswordChangeOTP() {
     return this.http.get(this.api.baseApiUrl + 'auth/password/change/otp');
+  }
+
+  sendPinChangeOTP() {
+    return this.http.get(this.api.baseApiUrl + 'auth/pin/change/otp');
+  }
+
+  updatePin(credentials: { newPin: string; phoneOtp: string }) {
+    return this.http.patch(
+      this.api.baseApiUrl + 'auth/pin/change',
+      credentials
+    );
+  }
+
+  sendPersonalPhoneOTP() {
+    return this.http.get(this.api.baseApiUrl + 'users/phonenumber/send-otp');
+  }
+
+  verifyPersonalPhoneNumber(credentials: { phoneNumber: string; otp: string }) {
+    return this.http.put(
+      this.api.baseApiUrl + 'users/phonenumber/verify',
+      credentials
+    );
+  }
+
+  sendBusinessPhoneOTP() {
+    return this.http.get(
+      this.api.baseApiUrl + 'sellers/businessphone/send-otp'
+    );
+  }
+
+  verifyBusinessPhoneNumber(credentials: {
+    businessPhone: string;
+    otp: string;
+  }) {
+    return this.http.put(
+      this.api.baseApiUrl + 'sellers/businessphone/verify',
+      credentials
+    );
   }
 
   public ConfirmEmail(

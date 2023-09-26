@@ -18,6 +18,10 @@ import { EmailDialogComponent } from '../email-dialog/email-dialog.component';
 import { SellerKycComponent } from '../seller-kyc/seller-kyc.component';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import { startWith } from 'rxjs';
+import { CountryService } from 'src/app/services/country/country.service';
+import { loadPlugin } from 'immer/dist/internal';
+import { CountryInfo } from 'src/app/models/country.model';
+import { countryCodes } from 'src/app/data/countryCodes';
 
 @Component({
   selector: 'app-profile',
@@ -30,12 +34,19 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   isFetching: boolean = false;
   isSubmited = false;
   isSubmitting: boolean = false;
+  isFetchingOtp: boolean = false;
   showUserUpdateButtons: boolean = false;
   selectedState!: string;
   countryDialCode: string;
   @ViewChild('telInput', { static: false })
   telInput: ElementRef<HTMLInputElement>;
   telInputEvent: Event;
+  countryInfo: CountryInfo[];
+  codeList: any;
+  isEmailVerified: boolean = false;
+  isPhoneVerified: boolean = false;
+  verifiedEmail: string;
+  verifiedPhoneNumber: string;
 
   user = {} as IUser;
   userId: string;
@@ -46,13 +57,16 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     private toast: ToastrService,
     private authService: AuthService,
     private sellerService: SellerService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private countryService: CountryService
   ) {}
 
   get f() {
     return this.profileForm.controls;
   }
   ngOnInit(): void {
+    this.codeList = countryCodes;
+
     this.isFetching = true;
 
     this.states = nigeriaSates.map((a) => a.name);
@@ -63,7 +77,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       lastName: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
       bio: [null, [Validators.required]],
-      phoneNumber: [null, [Validators.required]],
+      phoneNumber: ['+234', [Validators.required]],
       country: [null, [Validators.required]],
       state: [null, [Validators.required]],
     });
@@ -74,6 +88,18 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       next: (user) => {
         console.log(user);
         this.user = user.data;
+        this.isEmailVerified = user.data.emailConfirmed;
+        this.isPhoneVerified = user.data.phoneNumberConfirmed;
+
+        if (user.data.emailConfirmed) {
+          localStorage.setItem('verifiedEmail', this.user.email);
+          this.verifiedEmail = this.user.email;
+        }
+
+        if (user.data.phoneNumberConfirmed) {
+          localStorage.setItem('verifiedPhone', this.user.phoneNumber);
+          this.verifiedPhoneNumber = this.user.phoneNumber;
+        }
 
         this.profileForm.setValue({
           firstName: this.user.firstName,
@@ -102,6 +128,22 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         console.log(err);
       },
     });
+
+    this.countryService.getCountry().subscribe({
+      next: (data) => {
+        console.log(data);
+        this.countryInfo = data;
+      },
+    });
+
+    this.profileForm.valueChanges.subscribe((value) => {
+      if (value.email !== this.verifiedEmail) {
+        this.isEmailVerified = false;
+      }
+      if (value.phoneNumber !== this.verifiedPhoneNumber) {
+        this.isPhoneVerified = false;
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -112,6 +154,15 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         new KeyboardEvent('keyup', { bubbles: true })
       );
     }
+  }
+
+  // changeOption(e: any) {
+  //   console.log(e.target.value);
+  //   this.profileForm.patchValue({ countryCodes: e.target.value });
+  // }
+
+  trackByFn(index, item) {
+    return index;
   }
 
   updateProfile() {
@@ -163,10 +214,25 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   }
 
   onVerfiyPhoneNumber() {
-    console.log(1);
+    this.isFetchingOtp = true;
+    console.log(this.profileForm.value.phoneNumber);
 
-    this.sellerService.verifyPhoneNumber().subscribe((data) => {
-      console.log(data);
+    this.authService.sendPersonalPhoneOTP().subscribe({
+      next: (data) => {
+        this.isFetchingOtp = false;
+
+        const dialogRef = this.dialog.open(OTPDialogComponent, {
+          panelClass: 'otp_dialog',
+          data: {
+            type: 'phoneNumberOTP',
+            payload: this.profileForm.value.phoneNumber,
+          },
+        });
+      },
+      error: (err) => {
+        this.isFetchingOtp = false;
+        console.log(err);
+      },
     });
   }
 
@@ -175,14 +241,29 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    const formPhoneNumber = this.profileForm.value.phoneNumber
+      .split(' ')
+      .join('');
+
+    let phoneNumber;
+
+    if (this.countryDialCode === '234') {
+      if (formPhoneNumber.length == 11) {
+        phoneNumber = `+${this.countryDialCode}${formPhoneNumber.substring(1)}`;
+      } else {
+        phoneNumber = `+${this.countryDialCode}${formPhoneNumber}`;
+      }
+    }
+
     this.isSubmitting = true;
 
     this.sellerService
       .updateSellerPersonalProfile({
         ...this.profileForm.value,
-        phoneNumber: '+234805 395 6929',
+        phoneNumber: '+2349131778206',
         profileImageUrl: 'test',
-        alpha2CountryCode: 'Nigeria',
+        alpha2CountryCode: this.profileForm.value.country,
+        coverPhotoUrl: 'test',
       })
       .subscribe({
         next: (data) => {

@@ -66,12 +66,13 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
   otpForm: FormGroup;
   otpInput: FormControl;
   isSubmitting: boolean = false;
-  password: string;
+  otpType: string;
+  otpData: string;
 
   @ViewChild('otp_dialog') otpDialog: ElementRef<HTMLDivElement>;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { password: string },
+    @Inject(MAT_DIALOG_DATA) private data: { type: string; payload: string },
     private authService: AuthService,
     private toaster: ToastrService,
     private dialog: MatDialog
@@ -83,7 +84,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
     });
 
     this.otpInput = new FormControl(null, Validators.required);
-    this.password = this.data.password;
+    this.otpData = this.data.payload;
+    this.otpType = this.data.type;
   }
 
   ngAfterViewChecked(): void {}
@@ -94,23 +96,89 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
     }
 
     this.isSubmitting = true;
+    console.log(this.otpData);
 
-    this.authService
-      .UpdatePassword({
-        newPassword: this.password,
-        phoneOtp: this.otpInput.value,
-      })
-      .subscribe({
-        next: (data) => {
-          this.isSubmitting = false;
-          this.toaster.success('Password changed successfully');
-          this.dialog.closeAll();
-        },
-        error: (err) => {
-          console.log(err);
-          this.isSubmitting = false;
-          this.toaster.error('Something went wrong');
-        },
-      });
+    switch (this.otpType) {
+      case 'changePasswordOTP':
+        this.authService
+          .UpdatePassword({
+            newPassword: this.otpData,
+            phoneOtp: this.otpInput.value,
+          })
+          .subscribe({
+            next: (data) => {
+              this.isSubmitting = false;
+              this.toaster.success('Password changed successfully');
+              this.dialog.closeAll();
+            },
+            error: (err) => {
+              console.log(err);
+              this.isSubmitting = false;
+              this.toaster.error('Something went wrong');
+            },
+          });
+        break;
+
+      case 'changePinOTP':
+        this.authService
+          .updatePin({
+            newPin: this.otpData,
+            phoneOtp: this.otpInput.value,
+          })
+          .subscribe({
+            next: (data) => {
+              this.isSubmitting = false;
+              this.toaster.success('Pin changed successfully');
+              this.dialog.closeAll();
+            },
+            error: (err) => {
+              console.log(err);
+              this.isSubmitting = false;
+              this.toaster.error('Something went wrong');
+            },
+          });
+        break;
+
+      case 'phoneNumberOTP':
+        this.authService
+          .verifyPersonalPhoneNumber({
+            phoneNumber: this.otpData,
+            otp: this.otpInput.value,
+          })
+          .subscribe({
+            next: (data) => {
+              this.isSubmitting = false;
+              this.toaster.success('Phone number verified successfully');
+              this.dialog.closeAll();
+            },
+            error: (err) => {
+              console.log(err);
+              this.isSubmitting = false;
+              this.toaster.error('Something went wrong');
+            },
+          });
+        break;
+
+      case 'businessPhoneNumberOTP':
+        this.authService
+          .verifyBusinessPhoneNumber({
+            businessPhone: this.otpData,
+            otp: this.otpInput.value,
+          })
+          .subscribe({
+            next: (data) => {
+              this.isSubmitting = false;
+              this.toaster.success(
+                "Company's Phone number verified successfully"
+              );
+              this.dialog.closeAll();
+            },
+            error: (err) => {
+              console.log(err);
+              this.isSubmitting = false;
+              this.toaster.error('Something went wrong');
+            },
+          });
+    }
   }
 }
