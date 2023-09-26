@@ -7,9 +7,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { log } from 'console';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-otp-dialog',
@@ -71,7 +72,9 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { password: string },
-    private authService: AuthService
+    private authService: AuthService,
+    private toaster: ToastrService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -90,13 +93,24 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
       return;
     }
 
+    this.isSubmitting = true;
+
     this.authService
       .UpdatePassword({
         newPassword: this.password,
         phoneOtp: this.otpInput.value,
       })
-      .subscribe((data) => {
-        console.log(data);
+      .subscribe({
+        next: (data) => {
+          this.isSubmitting = false;
+          this.toaster.success('Password changed successfully');
+          this.dialog.closeAll();
+        },
+        error: (err) => {
+          console.log(err);
+          this.isSubmitting = false;
+          this.toaster.error('Something went wrong');
+        },
       });
   }
 }

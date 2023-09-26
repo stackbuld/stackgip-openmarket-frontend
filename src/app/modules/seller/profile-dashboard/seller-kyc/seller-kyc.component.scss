@@ -59,6 +59,13 @@
     background: $black;
     color: $white;
     white-space: nowrap;
+    border: 1px solid $black;
+    transition: all 300ms;
+
+    &:hover {
+      background: $white;
+      color: $black;
+    }
   }
 }
 

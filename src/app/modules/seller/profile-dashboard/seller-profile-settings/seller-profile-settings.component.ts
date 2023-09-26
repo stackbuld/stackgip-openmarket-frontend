@@ -24,7 +24,11 @@ export class SellerProfileSettingsComponent implements OnInit {
   isToggled: boolean = false;
   profileForm: FormGroup;
   passwordForm: FormGroup;
+  pinForm: FormGroup;
   passwordMatch: boolean = false;
+  isSendingPasswordOTP: boolean = false;
+  isSendingPinOTP: boolean = false;
+  pinMatch: boolean = false;
 
   isSubmited = false;
   errors: string[] = [];
@@ -60,6 +64,11 @@ export class SellerProfileSettingsComponent implements OnInit {
         Validators.minLength(6),
       ]),
     });
+
+    this.pinForm = new FormGroup({
+      newPin: new FormControl(null, [Validators.required]),
+      confirmPin: new FormControl(null, [Validators.required]),
+    });
   }
 
   get password() {
@@ -70,11 +79,26 @@ export class SellerProfileSettingsComponent implements OnInit {
     return <FormControl>this.passwordForm.controls['confirmPassword'];
   }
 
+  get newPin() {
+    return <FormControl>this.pinForm.controls['newPin'];
+  }
+
+  get confirmPin() {
+    return <FormControl>this.pinForm.controls['confirmPin'];
+  }
+
   onKey(event: Event) {
     if (this.password.value === this.confirmPassword.value) {
       this.passwordMatch = true;
     } else {
       this.passwordMatch = false;
+    }
+  }
+  onPin(event: Event) {
+    if (this.newPin.value === this.confirmPin.value) {
+      this.pinMatch = true;
+    } else {
+      this.pinMatch = false;
     }
   }
 
@@ -105,14 +129,27 @@ export class SellerProfileSettingsComponent implements OnInit {
       return;
     }
 
-    console.log(this.passwordForm);
+    this.isSendingPasswordOTP = true;
     this.authService.sendOTP().subscribe({
       next: (data) => {
-        console.log(data);
+        this.isSendingPasswordOTP = false;
+
         const dialogRef = this.dialog.open(OTPDialogComponent, {
           panelClass: 'otp_dialog',
           data: { password: this.password.value },
         });
+
+        this.toast.success(
+          'OTP sent successfully. Please check your SMS inbox!'
+        );
+
+        this.passwordForm.reset();
+      },
+      error: (err) => {
+        this.isSendingPasswordOTP = false;
+
+        console.log(err);
+        this.toast.error('Something went wrong');
       },
     });
   }

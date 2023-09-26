@@ -30,7 +30,15 @@
           </p>
         </div>
 
-        <button type="submit">Verify via OTP</button>
+        <button
+          type="submit"
+          [ngClass]="{ disabled: !passwordMatch || passwordForm.invalid }"
+          [disabled]="isSendingPasswordOTP"
+        >
+          <span class="login-btn-text" *ngIf="!isSendingPasswordOTP">
+            Verify via OTP </span
+          ><span class="login-btn-loader" *ngIf="isSendingPasswordOTP"></span>
+        </button>
       </form>
     </div>
   </div>
@@ -39,18 +47,34 @@
     <div class="change-settings-heading">Change Transaction Pin</div>
 
     <div class="change-settings-main">
-      <form class="change-settings-form">
+      <form class="change-settings-form" [formGroup]="pinForm">
         <div class="form-group">
           <label>New Pin</label>
-          <input type="password" placeholder="New Pin" />
+          <input
+            type="password"
+            placeholder="New Pin"
+            formControlName="newPin"
+          />
         </div>
 
         <div class="form-group">
           <label>Confirm Pin</label>
-          <input type="password" placeholder="Confirm Pin" />
+          <input
+            type="password"
+            placeholder="Confirm Pin"
+            formControlName="confirmPin"
+            (keyup)="onPin($event)"
+          />
         </div>
 
-        <button>Verify via OTP</button>
+        <button
+          [ngClass]="{ disabled: !pinMatch || pinForm.invalid }"
+          [disabled]="isSendingPinOTP"
+        >
+          <span class="login-btn-text" *ngIf="!isSendingPinOTP">
+            Verify via OTP </span
+          ><span class="login-btn-loader" *ngIf="isSendingPinOTP"></span>
+        </button>
       </form>
     </div>
   </div>
