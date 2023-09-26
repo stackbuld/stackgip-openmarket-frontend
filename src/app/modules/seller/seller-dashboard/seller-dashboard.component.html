@@ -29,7 +29,7 @@
             <span class="alert-text" style="color: #ffc400;">Your  registration is in progress</span>
         </div>
         <div>
-            <button routerLink="/seller/products/add" class='addProduct-btn uk-button uk-button-secondary uk-button-small'>Add Product</button>
+            <button routerLink="/seller/products/create" class='addProduct-btn uk-button uk-button-secondary uk-button-small'>Add Product</button>
         </div>
     </div>
 
@@ -117,7 +117,7 @@
                                 <p class="mb-0">{{item?.unitSold}} units sold</p>
                             </div>
                             <div class="edit-detail">
-                                <div routerLink="/seller/products/add/{{item?.productId}}" class="d-flex pointer">
+                                <div routerLink="/seller/products/create/{{item?.productId}}" class="d-flex pointer">
                                     <span>Edit Details</span>
                                     <img src="../../../../assets/image/right-arrow.png" alt="">
                                 </div>

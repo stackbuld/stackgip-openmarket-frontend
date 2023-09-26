@@ -1,7 +1,7 @@
 import { WindowRefService } from '../../../shared/services/window.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChange } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ToastrService } from 'src/app/services/toastr.service';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -21,6 +21,7 @@ import { JwtHelperService } from '../../../services/jwt-helper.service';
 import { MDCTextField } from '@material/textfield';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { environment } from 'src/environments/environment';
+import { countryCodes } from 'src/app/data/countryCodes';
 // const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
 declare const FB: any
 
@@ -35,6 +36,12 @@ export class SiginupComponent implements OnInit {
   hasError = false;
   passwordType: boolean
   errors: any[];
+  codeList: any;
+  passwordError = {
+      hasNumber: true,
+      minLength: true,
+      hasCapitalCase: true
+    }
   googleAuth: any;
   // user: SocialUser;
   message = '';
@@ -51,7 +58,7 @@ export class SiginupComponent implements OnInit {
     private router: Router,
     private ngxService: NgxUiLoaderService,
     private jwtHelperService: JwtHelperService,
-    windowRefService: WindowRefService
+    windowRefService: WindowRefService,
   ) {
     this.window = windowRefService.nativeWindow;
   }
@@ -61,14 +68,35 @@ export class SiginupComponent implements OnInit {
     this.hasError = false;
     this.errors = [];
     this.errorMessage = '';
+    this.codeList = countryCodes;
     this.message = '';
     this.registerForm = this.fb.group(
       {
         firstname: ['', [Validators.required]],
         lastname: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/)]],
-        phoneNumber: ['', [Validators.required, Validators.pattern('/((^090)([0-9]{8,}$))|((^070)([0-9]{8,}$))|((^090)([0-9]{8,}$))||((^081)([0-9]{8,}$))|((^080)([0-9]{8,}$))|((^081)([0-9]{8,}$))/'), Validators.minLength(11), Validators.maxLength(11)]],
+        countryCode: ['+234'],
+        // password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/)]],
+        password: ['', Validators.compose(
+          [
+            Validators.required,
+          Validators.minLength(6),
+            this.patternValidator(new RegExp("(?=.*[0-9])"), {
+            requiresDigit: true
+            }),
+            this.patternValidator(new RegExp("(?=.*[A-Z])"), {
+            requiresUppercase: true
+            }),
+            this.patternValidator(new RegExp("(?=.*[a-z])"), {
+            requiresLowercase: true
+            }),
+            this.patternValidator(new RegExp("(?=.*[$@^!%*?&])"), {
+            requiresSpecialChars: true
+          })
+          ]
+        )],
+        // phoneNumber: ['', [Validators.required, Validators.pattern('/((^090)([0-9]{8,}$))|((^070)([0-9]{8,}$))|((^090)([0-9]{8,}$))||((^081)([0-9]{8,}$))|((^080)([0-9]{8,}$))|((^081)([0-9]{8,}$))/'), Validators.maxLength(11)]],
+        phoneNumber: ['', [Validators.required, Validators.maxLength(10)]],
       },
       // {
       //   validators: MustMatch('password', 'confirmPassword'),
@@ -80,7 +108,7 @@ export class SiginupComponent implements OnInit {
     //   this.user = user;
     // });
     // @ts-ignore
-    window.onGoogleLibraryLoad = () => {
+    this.window.onGoogleLibraryLoad = () => {
       // @ts-ignore
       google.accounts.id.initialize({
         client_id: this.clientId,
@@ -92,43 +120,27 @@ export class SiginupComponent implements OnInit {
       google.accounts.id.renderButton(
       // @ts-ignore
       document.getElementById("buttonDiv"),
-        { theme: "outline", size: "large", width: 100,text: "signup_with"} 
+        { size: "large", width: 100,text: "signup_with"} 
       );
       // @ts-ignore
       google.accounts.id.prompt((notification: PromptMomentNotification) => {});
     };
+
+    console.log(this.registerForm)
+    
   }
+  
+  ngOnChanges(changes: SimpleChange) {
+    console.log(changes);
+    console.log(this.f)
+  }
+
   async handleGoogleSignup(response: CredentialResponse) {
-    console.log("Response",response);
     this.ngxService.startLoader('loader-01');
     await this.authService.LoginWithGoogle(response.credential).subscribe(
 
       (res) => {
-        this.ngxService.stopAll();
-        if (res.data.canLogin === true) {
-          if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
-            this.ngxService.stopLoader('loader-01');
-            this.authService.SetAuthLocalStorage(res);
-            if (
-              res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
-              res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
-              res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
-            ) {
-              this.toast.success("Signup Successful");
-              this.router.navigate(['/seller/dashboard']);
-            } else {
-              this.toast.success("Signup Successful");
-              this.router.navigate(['/']);
-            }
-          } else {
-            console.log('helllllo')
-            this.ngxService.stopLoader('loader-01');
-            this.authService.SetAuthLocalStorage(res);
-            this.toast.success("Signup Successful");
-            this.router.navigate(['/homepage']);
-          }
-        } 
-        this.authService.SetAuthLocalStorage(res);
+        this.authService.handleAuthResponse(res,'signup', 'google');
       },
       (err) => {
         this.toast.error(err.error.message);
@@ -138,9 +150,43 @@ export class SiginupComponent implements OnInit {
       );  
 }
 
+    changeOption(e: any) {
+    console.log(e.target.value)
+    this.registerForm?.patchValue({countryCodes: e.target.value});
+  }
+  
   get f() {
     return this.registerForm.controls;
   }
+
+  get passwordValid() {
+    return this.registerForm.controls["password"].errors === null;
+  }
+
+  get requiredValid() {
+    return !this.registerForm.controls["password"].hasError("required");
+  }
+
+  get minLengthValid() {
+    return !this.registerForm.controls["password"].hasError("minlength");
+  }
+
+  get requiresDigitValid() {
+    return !this.registerForm.controls["password"].hasError("requiresDigit");
+  }
+
+  get requiresUppercaseValid() {
+    return !this.registerForm.controls["password"].hasError("requiresUppercase");
+  }
+
+  get requiresLowercaseValid() {
+    return !this.registerForm.controls["password"].hasError("requiresLowercase");
+  }
+
+  get requiresSpecialCharsValid() {
+    return !this.registerForm.controls["password"].hasError("requiresSpecialChars");
+  }
+  
 
   showPassword() {
     this.passwordType = !this.passwordType;
@@ -154,12 +200,12 @@ export class SiginupComponent implements OnInit {
       return;
     }
     const payload = {
-      firstName: this.registerForm.get('firstname').value,
-      lastName: this.registerForm.get('lastname').value,
-      email: this.registerForm.get('email').value,
-      phoneNumber: this.registerForm.get('phoneNumber').value,
-      password: this.registerForm.get('password').value,
-    }
+    firstName: this.registerForm.get('firstname').value,
+    lastName: this.registerForm.get('lastname').value,
+    email: this.registerForm.get('email').value,
+    phoneNumber: (this.registerForm.get('countryCode').value).toString() + (this.registerForm.get('phoneNumber').value).toString(),
+    password: this.registerForm.get('password').value,
+  }
     this.ngxService.startLoader('loader-01');
 
     this.authService.register(payload).subscribe(
@@ -167,13 +213,15 @@ export class SiginupComponent implements OnInit {
         this.ngxService.stopLoader('loader-01');
         this.message = d.message;
         this.toast.success(d.message, 'notification');
-        this.router.navigateByUrl('auth/confirm-email')
+        this.toast.error('Please confirm your email address');
+        this.router.navigateByUrl('homepage')
         this.hasError = false;
       },
       (err) => {
         this.errors = [];
         this.ngxService.stopLoader('loader-01');
         this.hasError = true;
+        console.log(err)
         if (err.status == 0) {
           this.errors.push('something went wrong please try again later');
           this.toast.error(
@@ -197,32 +245,7 @@ export class SiginupComponent implements OnInit {
         await this.authService.LoginWithFacebook(token, userId ).subscribe(
 
  (res) => {
-              this.ngxService.stopAll();
-              if (res.data.canLogin === true) {
-                if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
-                  this.ngxService.stopLoader('loader-01');
-                  this.authService.SetAuthLocalStorage(res);
-                  if (
-                    res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
-                    res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
-                    res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
-                  ) {
-                    this.toast.success("Signup Successful");
-                    this.router.navigate(['/seller/dashboard']);
-                  } else {
-                    this.toast.success("Signup Successful");
-                    this.router.navigate(['/']);
-                  }
-                } else {
-                  console.log('helllllo')
-                  this.ngxService.stopLoader('loader-01');
-                  this.authService.SetAuthLocalStorage(res);
-                  this.toast.success("Signup Successful");
-                  this.router.navigate(['/homepage']);
-                }
-              }
-              this.authService.SetAuthLocalStorage(res);
-            },
+  this.authService.handleAuthResponse(res,'signup', 'facebook');            },
             (err) => {
               this.toast.error(err.error.message);
               this.ngxService.stopLoader('loader-01');
@@ -269,4 +292,24 @@ export class SiginupComponent implements OnInit {
       }
     );
   }
+
+
+  patternValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
+
+   
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (!control.value) {
+        // if control is empty return no error
+        return null;
+      }
+
+      console.log(this.f.phoneNumber)
+      // test the value of the control against the regexp supplied
+      const valid = regex.test(control.value);
+     
+
+      return valid ? null : error;
+   
+  };
+}
 }

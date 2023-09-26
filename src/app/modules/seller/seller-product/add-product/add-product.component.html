@@ -37,7 +37,7 @@
           <mat-select formControlName="storeIds" multiple required>
             <mat-option disabled="true">Select</mat-option>
             <mat-option *ngFor="let store of stores" [(value)]="store.id">
-              {{ store.fullAddress }}
+              {{ store.storeName }} <span>({{store.city}})</span>
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -148,15 +148,18 @@
           </div>
         </mat-form-field>
 
-        <mat-form-field>
+        <div class="full-width">
+          <mat-form-field style="width: 100%;">
           <mat-label>Description</mat-label>
           <textarea
             matInput
             required
+            
             placeholder="provide more information about this product"
             formControlName="description"
           ></textarea>
         </mat-form-field>
+        </div>
       </div>
 
       <div class="full-width uk-width-1-2 uk-flex uk-flex-center">

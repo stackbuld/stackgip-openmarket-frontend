@@ -67,7 +67,7 @@ input[type=radio]#select {
 .form-img {
   /* min-width: 350px; */
   height: 100vh;
-  background-image: url("../../../../assets/images/seller-registration.svg");
+    background-image: url("../../../../assets/images/Rena-30-Registration.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }

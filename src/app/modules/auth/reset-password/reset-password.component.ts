@@ -11,7 +11,11 @@ import { IForgetPasswordModel } from 'src/app/models/auth-model';
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
-
+  passWordType = 'password';
+  passwordImgUrl = '/assets/icons/eye-block.png';
+  passWordType2 = 'password';
+  passwordImgUrl2 = '/assets/icons/eye-block.png';
+  isLoading: boolean;
 
   form: FormGroup = new FormGroup({});
   message = '';
@@ -23,14 +27,17 @@ export class ResetPasswordComponent implements OnInit {
   constructor(private fb: FormBuilder, private router : Router,private route: ActivatedRoute,
               private authService: AuthService
     ) {
+      this.initForm();
+   }
 
-      this.form = fb.group({
-        password: ['', [Validators.required]],
-        confirm_password: ['', [Validators.required]]
-      },
-        {
-        validator: MustMatch('password', 'confirm_password')
-        });
+   initForm = () => {
+    this.form = this.fb.group({
+      password: ['', [Validators.required]],
+      confirm_password: ['', [Validators.required]]
+    },
+      {
+      validator: MustMatch('password', 'confirm_password')
+      });
    }
 
    get f() {
@@ -41,6 +48,7 @@ export class ResetPasswordComponent implements OnInit {
      if(this.form.valid){
       if(this.email != null || this.token != null ){
         this.isSubmited = true;
+        this.isLoading = true;
         const password = this.form.get('password').value;
         const obj = {
           userId : this.email,
@@ -50,8 +58,11 @@ export class ResetPasswordComponent implements OnInit {
         this.authService.ForgetPassword(obj).subscribe( a=> {
               this.message = "Success Your Password has been reset, Please Login";
               this.authService.Logout();
+              this.isLoading = false;
+              // this.initForm();
               if(a.status == 'success') { this.success = true; }
-           }, err=> {
+           }, err => {
+              this.isLoading = false;
               this.success = false;
               this.message = 'Link must have expired and no longer valid, Resend a new link';
            });
@@ -74,6 +85,26 @@ export class ResetPasswordComponent implements OnInit {
     this.email =   this.route.snapshot.queryParamMap.get('userId');
     this.token =   this.route.snapshot.queryParamMap.get('token');
 
+  }
+
+  togglePassword = () => {
+    if (this.passWordType === 'password') {
+      this.passWordType = 'text';
+      this.passwordImgUrl = '/assets/icons/eye-open.png';
+    } else if (this.passWordType === 'text') {
+      this.passWordType = 'password';
+      this.passwordImgUrl = '/assets/icons/eye-block.png';
+    }
+  }
+
+  togglePassword2 = () => {
+    if (this.passWordType2 === 'password') {
+      this.passWordType2 = 'text';
+      this.passwordImgUrl2 = '/assets/icons/eye-open.png';
+    } else if (this.passWordType2 === 'text') {
+      this.passWordType2 = 'password';
+      this.passwordImgUrl2 = '/assets/icons/eye-block.png';
+    }
   }
 
 

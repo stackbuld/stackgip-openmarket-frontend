@@ -1,226 +1,429 @@
 <div class="main">
-    <div class="left-section">
-        <div class="top-left mb-3">
-            <h2 class="px-3 pt-3">Shopping Cart({{cartItems?.length}})</h2>
-            <div *ngIf="cartItems.length > 0 && !loadingCart">
-                <div *ngFor="let item of cartItems">
-                    <div class="each-item d-flex mt-3 p-3">
-                        <div class="img-section">
-                            <img [src]="item?.product?.imageUrl" alt="prod-img" class="cartImg" />
-                            <span (click)="setSelectedCartItem(item)"  uk-toggle="target: #delete-cart-modal" class="pointer mt-3 del-btn">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M2.96484 5.92969H4.94149H20.7546" stroke="#D01717" stroke-width="1.6505" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M18.7779 5.92985V19.7663C18.7779 20.2906 18.5696 20.7933 18.199 21.164C17.8283 21.5347 17.3255 21.743 16.8013 21.743H6.91805C6.39381 21.743 5.89104 21.5347 5.52035 21.164C5.14966 20.7933 4.94141 20.2906 4.94141 19.7663V5.92985M7.90637 5.92985V3.9532C7.90637 3.42897 8.11462 2.9262 8.48531 2.55551C8.85601 2.18482 9.35877 1.97656 9.88301 1.97656H13.8363C14.3605 1.97656 14.8633 2.18482 15.234 2.55551C15.6047 2.9262 15.8129 3.42897 15.8129 3.9532V5.92985" stroke="#D01717" stroke-width="1.6505" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M9.88281 10.8716V16.8015" stroke="#D01717" stroke-width="1.6505" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M13.8369 10.8716V16.8015" stroke="#D01717" stroke-width="1.6505" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg> &nbsp;
-                                <span>Remove</span>                   
-                            </span>
-                        </div>
-                        <div class="d-block w-100">
-                            <div class="w-100 content d-flex justify-content-betweenet-top">
-                                <div class="naming">
-                                    <p class="name">{{item?.product?.name || 'N/A'}}</p>
-                                    <p class="ship">Shipping: Starting from {{item?.logistic?.estimateShippingCost || 0 | currency: 'NGN'}}</p>
-                                </div>
-                                <div class="d-flex justify-content-end pricing">
-                                    <div>
-                                        <h2 class="mb-0 price">{{item?.product?.price | currency: 'NGN'}}</h2>
-                                        <p *ngIf="item?.product?.previousPrice > 0" class="mb-0 d-flex">
-                                            <span class="strike">{{item?.product?.previousPrice | currency: 'NGN'}}</span>
-                                        </p>
-                
-                                        <div class="counter mt-2 d-flex justify-content-end">
-                                            <svg (click)="updateItemUnit('minus', item?.unit, item?.product?.id)" class="pointer" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M10.0003 18.3334C14.6027 18.3334 18.3337 14.6025 18.3337 10.0001C18.3337 5.39771 14.6027 1.66675 10.0003 1.66675C5.39795 1.66675 1.66699 5.39771 1.66699 10.0001C1.66699 14.6025 5.39795 18.3334 10.0003 18.3334Z" fill="#F2F2F2"/>
-                                                <path d="M6.66699 10H13.3337" stroke="#D8D8D8" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>
-                                            <strong *ngIf="!loadingUnitUpdate" class="mx-3 txt">{{item?.unit}}</strong>  
-                                            <span *ngIf="loadingUnitUpdate" class="mx-3">
-                                                <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
-                                            </span>  
-                                            <svg (click)="updateItemUnit('plus', item?.unit, item?.product?.id)" class="pointer" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M10.0003 18.3334C14.6027 18.3334 18.3337 14.6025 18.3337 10.0001C18.3337 5.39771 14.6027 1.66675 10.0003 1.66675C5.39795 1.66675 1.66699 5.39771 1.66699 10.0001C1.66699 14.6025 5.39795 18.3334 10.0003 18.3334Z" fill="#F2F2F2"/>
-                                                <path d="M10 6.66675V13.3334" stroke="#666666" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
-                                                <path d="M6.66699 10H13.3337" stroke="#666666" stroke-width="1.39167" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>                                              
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-100 address-payment mt-2 py-2 d-flex align-items-center justify-content-between">
-                                <span>
-                                    <span>Via {{item?.logistic?.logisticName || 'N/A'}}</span>
-                                    &nbsp;
-                                    <span *ngIf="item?.logistic?.logisticLogo !== '' || 
-                                        item?.logistic?.logisticLogo !== null">
-                                        <img src="{{item?.logistic?.logisticLogo}}" 
-                                            [alt]="item?.logistic?.logisticName" class="small-logo"/> 
-                                    </span>
-                                    <p class="mb-0">{{item?.destination?.phoneNumber}}</p>
-                                </span>
-                                <h3 *ngIf="item?.paymentOption.toLowerCase() === 'online'" class="mb-0 del-type capitalize">
-                                    <span>Pay Online</span>
-                                </h3>
-                            </div>
-                        </div>
+  <div class="left-section">
+    <div class="top-left mb-3">
+      <h2 class="px-3 pt-3">Shopping Cart({{ cartItems?.length }})</h2>
+      <div *ngIf="cartItems.length > 0 && !loadingCart">
+        <div *ngFor="let item of cartItems">
+          <div class="each-item d-flex mt-3 p-3">
+            <div class="img-section">
+              <img
+                [src]="item?.product?.imageUrl"
+                alt="prod-img"
+                class="cartImg"
+              />
+              <span
+                (click)="setSelectedCartItem(item)"
+                uk-toggle="target: #delete-cart-modal"
+                class="pointer mt-3 del-btn"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M2.96484 5.92969H4.94149H20.7546"
+                    stroke="#D01717"
+                    stroke-width="1.6505"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M18.7779 5.92985V19.7663C18.7779 20.2906 18.5696 20.7933 18.199 21.164C17.8283 21.5347 17.3255 21.743 16.8013 21.743H6.91805C6.39381 21.743 5.89104 21.5347 5.52035 21.164C5.14966 20.7933 4.94141 20.2906 4.94141 19.7663V5.92985M7.90637 5.92985V3.9532C7.90637 3.42897 8.11462 2.9262 8.48531 2.55551C8.85601 2.18482 9.35877 1.97656 9.88301 1.97656H13.8363C14.3605 1.97656 14.8633 2.18482 15.234 2.55551C15.6047 2.9262 15.8129 3.42897 15.8129 3.9532V5.92985"
+                    stroke="#D01717"
+                    stroke-width="1.6505"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M9.88281 10.8716V16.8015"
+                    stroke="#D01717"
+                    stroke-width="1.6505"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M13.8369 10.8716V16.8015"
+                    stroke="#D01717"
+                    stroke-width="1.6505"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                &nbsp;
+                <span>Remove</span>
+              </span>
+            </div>
+            <div class="d-block w-100">
+              <div class="w-100 content d-flex justify-content-betweenet-top">
+                <div class="naming">
+                  <p class="name">
+                    {{ item?.product?.name || "N/A" }}
+                  </p>
+
+                  <div class="uk-flex">
+                    <div  *ngFor="let varation of item.varations">
+                      <span  class="color-tag capitalize d-flex align-items-center"  >
+                        <strong>{{varation?.value}}</strong> &nbsp;
+                        <span *ngIf="varation?.cost > 0" style="font-size: 12px;">
+                                        + {{varation?.cost | currency: '₦'}}
+                        </span> &nbsp;
+                         <span>
+                                    <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M50.0007 91.6673C73.0125 91.6673 91.6673 73.0125 91.6673 50.0007C91.6673 26.9888 73.0125 8.33398 50.0007 8.33398C26.9888 8.33398 8.33398 26.9888 8.33398 50.0007C8.33398 73.0125 26.9888 91.6673 50.0007 91.6673Z" fill="#219653"/>
+                                        <path d="M69.8707 32.5737C71.4408 30.8914 74.0774 30.8005 75.7597 32.3706C77.442 33.9408 77.533 36.5774 75.9628 38.2597L46.7961 69.5097C45.2728 71.1419 42.7336 71.2832 41.0384 69.8302L26.4551 57.3302C24.7079 55.8327 24.5056 53.2022 26.0032 51.455C27.5008 49.7079 30.1312 49.5055 31.8784 51.0031L43.4292 60.9038L69.8707 32.5737Z" fill="#219653"/>
+                                    </svg>
+                         </span>
+                     </span>
+
                     </div>
+                  </div>
+
+
+
+                  <p class="uk-margin"
+                    *ngIf="
+                      item?.complementaryProducts &&
+                      item?.complementaryProducts?.length > 0
+                    "
+                    >Selected Complementary Items
+                  </p>
+
+                  <ul class="uk-margin-small uk-margin-remove-top"
+                    *ngIf="
+                      item?.complementaryProducts &&
+                      item?.complementaryProducts?.length > 0
+                    "
+                  >
+                    <li *ngFor="let complProd of item?.complementaryProducts">
+                      {{ complProd?.title }} -
+                      {{ complProd?.cost | currency : "NGN" }}
+                    </li>
+                  </ul>
+
                 </div>
-            </div>
-            <div *ngIf="cartItems.length === 0 && !loadingCart" class="p-5">
-                <div class="p-5">
-                    <p class="loading text-center">No item(s) in your cart</p>
-                    <p class="text-center">
-                        <span routerLink="/homepage" class="view-item-btn">Continue Shopping</span>
+                <div class="d-flex justify-content-end pricing">
+                  <div>
+                    <h2 class="mb-0 price">
+                      {{ item?.product?.price | currency : "NGN" }}
+                    </h2>
+                    <p
+                      *ngIf="item?.product?.previousPrice > 0"
+                      class="mb-0 d-flex"
+                    >
+                      <span class="strike">{{
+                        item?.product?.previousPrice | currency : "NGN"
+                      }}</span>
                     </p>
-                </div>
-            </div>
-            <div *ngIf="loadingCart" class="p-5">
-                <p class="loading text-center mb-0 p-5">Loading Shopping Cart...</p>
-            </div>
-        </div>
 
-        <div class="right-section p-4 mobile-view-only">
-            <h2>Cart Summary</h2>
-            <div class="mt-3">
-                <p class="uk-flex uk-flex-between">
-                    <span>Subtotal</span>
-                    <span>{{cart?.subTotal || 0 | currency: '₦'}}</span>
-                </p>
-    
-                <p class="uk-flex uk-flex-between">
-                    <span>Actual Shipping cost</span>
-                    <span>{{cart?.shippingCost?.cost || 0 | currency: '₦'}}</span>
-                </p>
-    
-                <p class="uk-flex uk-flex-between">
-                    <span>Shipping Discount</span>
-                    <span>{{cart?.shippingCost?.discount || 0 | currency: '₦'}}</span>
-                </p>
-    
-                <p class="uk-flex uk-flex-between">
-                    <span>Items Discount</span>
-                    <span>{{cart?.discount || 0 | currency: '₦'}}</span>
-                </p>
-    
-                <p class="uk-flex uk-flex-between">
-                    <span>Promo Code</span>
-                    <span>{{cart?.promoCode || 'N/A'}}</span>
-                </p>
-    
-                <p> A promo code is a combination of letters (case sensitive) and numbers without spacing</p>
-    
-                <div class="w-100 apply-section">
-                    <input type="text" placeholder="Enter code here" />
-                    <button>Apply</button>
+                    <div class="counter mt-2 d-flex justify-content-end">
+                      <svg
+                        (click)="
+                          updateItemUnit('minus', item?.unit, item?.product?.id)
+                        "
+                        class="pointer"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M10.0003 18.3334C14.6027 18.3334 18.3337 14.6025 18.3337 10.0001C18.3337 5.39771 14.6027 1.66675 10.0003 1.66675C5.39795 1.66675 1.66699 5.39771 1.66699 10.0001C1.66699 14.6025 5.39795 18.3334 10.0003 18.3334Z"
+                          fill="#F2F2F2"
+                        />
+                        <path
+                          d="M6.66699 10H13.3337"
+                          stroke="#D8D8D8"
+                          stroke-width="1.39167"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      <strong *ngIf="!loadingUnitUpdate" class="mx-3 txt">{{
+                        item?.unit
+                      }}</strong>
+                      <span *ngIf="loadingUnitUpdate" class="mx-3">
+                        <img
+                          src="/assets/svg/loader-icon.svg"
+                          alt=""
+                          width="40"
+                          height="40"
+                        />
+                      </span>
+                      <svg
+                        (click)="
+                          updateItemUnit('plus', item?.unit, item?.product?.id)
+                        "
+                        class="pointer"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M10.0003 18.3334C14.6027 18.3334 18.3337 14.6025 18.3337 10.0001C18.3337 5.39771 14.6027 1.66675 10.0003 1.66675C5.39795 1.66675 1.66699 5.39771 1.66699 10.0001C1.66699 14.6025 5.39795 18.3334 10.0003 18.3334Z"
+                          fill="#F2F2F2"
+                        />
+                        <path
+                          d="M10 6.66675V13.3334"
+                          stroke="#666666"
+                          stroke-width="1.39167"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M6.66699 10H13.3337"
+                          stroke="#666666"
+                          stroke-width="1.39167"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
-    
-                <div class="uk-flex uk-flex-between">
-                    <p class="big">Total</p>
-                    <p class="big">{{cart?.totalCost || 0 | currency: '₦'}}</p>
-                </div>
-            </div>
-        </div>
+              </div>
+              <div>
+                     <span class="uk-text-small">
+                  Est. Shipping: (might be less)
+                       {{
+                       item?.logistic?.estimateShippingCost || 0
+                         | currency : "NGN"
+                       }}
+                </span> <br>
+                <span class="uk-text-small"> Destination: {{item.destination.fullAddress}}</span> <br>
+              </div>
+              <div
+                class="w-100 address-payment mt-2 py-2 d-flex align-items-center justify-content-between"
+              >
 
-        <div *ngIf="cartItems.length > 0 && !loadingCart" class="payment-section mt-3 p-4">
-            <h2>Payment Methods</h2>
-            <div *ngIf="paymentMethods.length > 0 && !loadingPaymentMethods">
-                <div class="d-flex align-items-center">
-                    <label (click)="setPaymentMethod(item)" *ngFor="let item of paymentMethods" class="d-flex align-items-center">
-                        <input type="radio" name="payment-method" /> &nbsp; &nbsp;
-                        <span>{{item?.name}}</span> &nbsp; &nbsp; &nbsp; &nbsp;
-                    </label>
-                </div>
-    
-                <!-- <div class="info-section d-flex w-100 p-4 mt-3">
-                    <svg width="36" height="32" viewBox="0 0 36 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M35.332 29.5L19.082 1.375C18.8399 0.957031 18.4219 0.75 18 0.75C17.5781 0.75 17.1563 0.957031 16.918 1.375L0.667982 29.5C0.187513 30.3359 0.789076 31.375 1.75001 31.375H34.25C35.2109 31.375 35.8125 30.3359 35.332 29.5ZM16.75 12.3125C16.75 12.1406 16.8906 12 17.0625 12H18.9375C19.1094 12 19.25 12.1406 19.25 12.3125V19.5C19.25 19.6719 19.1094 19.8125 18.9375 19.8125H17.0625C16.8906 19.8125 16.75 19.6719 16.75 19.5V12.3125ZM18 26.0625C17.5094 26.0525 17.0422 25.8505 16.6987 25.5C16.3553 25.1495 16.1629 24.6783 16.1629 24.1875C16.1629 23.6967 16.3553 23.2255 16.6987 22.875C17.0422 22.5245 17.5094 22.3225 18 22.3125C18.4907 22.3225 18.9578 22.5245 19.3013 22.875C19.6448 23.2255 19.8371 23.6967 19.8371 24.1875C19.8371 24.6783 19.6448 25.1495 19.3013 25.5C18.9578 25.8505 18.4907 26.0525 18 26.0625Z" fill="#CBCB64"/>
-                    </svg>  
-                    &nbsp; &nbsp; &nbsp;        
-                    <div>
-                        <p class="info-title">Info</p>
-                        <p class="mb-0 msg">You are making an online payment of NGN 300,000, which will be deducted from your card</p>
-                    </div>       
-                </div> -->
-    
-                <button [disabled]="loadingPayment" (click)="makePayment()" class="w-100 pay-btn mt-4">
-                    <span *ngIf="!loadingPayment">Pay</span>
-                    <span *ngIf="loadingPayment">
-                        <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" class="web-only"/>
-                        <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40"/>
-                        <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" class="web-only"/>
-                    </span>
-                </button>
-    
-                <p class="personal-info mt-3">
-                    Your personal data will be used to process your order, support your experience 
-                    throughout this website, and for other purposes described in our privacy policy.
-                </p>
-            </div>
-            <div *ngIf="paymentMethods.length === 0 && !loadingPaymentMethods">
-                <p class="loading text-center mb-0 p-5">No payment method(s) available</p>
-            </div>
 
-            <div *ngIf="loadingPaymentMethods">
-                <p class="loading text-center mb-0 p-5">Loading payment methods...</p>
+                <span>
+                  <span>Via {{ item?.logistic?.logisticName || "N/A" }}</span>
+                  &nbsp;
+                  <span
+                    *ngIf="
+                      item?.logistic?.logisticLogo !== '' ||
+                      item?.logistic?.logisticLogo !== null
+                    "
+                  >
+                    <img
+                      src="{{ item?.logistic?.logisticLogo }}"
+                      [alt]="item?.logistic?.logisticName"
+                      class="small-logo"
+                    />
+                  </span>
+                  <p class="mb-0">{{ item?.destination?.phoneNumber }}</p>
+                </span>
+                <h3
+                  *ngIf="item?.paymentOption.toLowerCase() === 'online'"
+                  class="mb-0 del-type capitalize"
+                >
+                  <span>Pay Online</span>
+                </h3>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+      <div *ngIf="cartItems.length === 0 && !loadingCart" class="p-5">
+        <div class="p-5">
+          <p class="loading text-center">No item(s) in your cart</p>
+          <p class="text-center">
+            <span routerLink="/homepage" class="view-item-btn"
+              >Continue Shopping</span
+            >
+          </p>
+        </div>
+      </div>
+      <div *ngIf="loadingCart" class="p-5">
+        <p class="loading text-center mb-0 p-5">Loading Shopping Cart...</p>
+      </div>
     </div>
-    <div class="web-only right-section p-4">
-        <h2>Cart Summary</h2>
-        <div class="mt-3">
-            <p class="uk-flex uk-flex-between">
-                <span>Subtotal</span>
-                <span>{{cart?.subTotal || 0 | currency: '₦'}}</span>
-            </p>
 
-            <p class="uk-flex uk-flex-between">
-                <span>Actual Shipping cost</span>
-                <span>{{cart?.shippingCost?.cost || 0 | currency: '₦'}}</span>
-            </p>
+    <div class="right-section p-4 mobile-view-only">
+      <h2>Cart Summary</h2>
+      <div class="mt-3">
+        <p class="uk-flex uk-flex-between">
+          <span>Subtotal</span>
+          <span>{{ cart?.subTotal || 0 | currency : "₦" }}</span>
+        </p>
 
-            <p class="uk-flex uk-flex-between">
-                <span>Shipping Discount</span>
-                <span>{{cart?.shippingCost?.discount || 0 | currency: '₦'}}</span>
-            </p>
+        <p class="uk-flex uk-flex-between">
+          <span>Actual Shipping cost</span>
+          <span>{{ cart?.shippingCost?.cost || 0 | currency : "₦" }}</span>
+        </p>
 
-            <p class="uk-flex uk-flex-between">
-                <span>Items Discount</span>
-                <span>{{cart?.discount || 0 | currency: '₦'}}</span>
-            </p>
+        <p class="uk-flex uk-flex-between">
+          <span>Shipping Discount</span>
+          <span>{{ cart?.shippingCost?.discount || 0 | currency : "₦" }}</span>
+        </p>
 
-            <p class="uk-flex uk-flex-between">
-                <span>Promo Code</span>
-                <span>{{cart?.promoCode || 'N/A'}}</span>
-            </p>
+        <p class="uk-flex uk-flex-between">
+          <span>Items Discount</span>
+          <span>{{ cart?.discount || 0 | currency : "₦" }}</span>
+        </p>
 
-            <p> A promo code is a combination of letters (case sensitive) and numbers without spacing</p>
+        <p class="uk-flex uk-flex-between">
+          <span>Promo Code</span>
+          <span>{{ cart?.promoCode || "N/A" }}</span>
+        </p>
 
-            <div class="w-100 apply-section">
-                <input type="text" placeholder="Enter code here" />
-                <button>Apply</button>
-            </div>
+        <p>
+          A promo code is a combination of letters (case sensitive) and numbers
+          without spacing
+        </p>
 
-            <div class="uk-flex uk-flex-between">
-                <p class="big">Total</p>
-                <p class="big">{{cart?.totalCost || 0 | currency: '₦'}}</p>
-            </div>
+        <div class="w-100 apply-section">
+          <input type="text" placeholder="Enter code here" />
+          <button>Apply</button>
         </div>
+
+        <div class="uk-flex uk-flex-between">
+          <p class="big">Total</p>
+          <p class="big">{{ cart?.totalCost || 0 | currency : "₦" }}</p>
+        </div>
+      </div>
     </div>
+
+    <div
+      *ngIf="cartItems.length > 0 && !loadingCart"
+      class="payment-section mt-3 p-4"
+    >
+      <h2>Payment Methods</h2>
+      <div *ngIf="paymentMethods.length > 0 && !loadingPaymentMethods">
+        <div class="d-flex align-items-center">
+          <label
+            (click)="setPaymentMethod(item)"
+            *ngFor="let item of paymentMethods"
+            class="d-flex align-items-center"
+          >
+            <input type="radio" name="payment-method" /> &nbsp; &nbsp;
+            <span>{{ item?.name }} </span> &nbsp; &nbsp; &nbsp; &nbsp;
+          </label>
+        </div>
+
+        <button
+          [disabled]="loadingPayment"
+          (click)="makePayment()"
+          class="w-100 pay-btn mt-4"
+        >
+          <span *ngIf="!loadingPayment">Complete Purchase </span>
+          <span *ngIf="loadingPayment">
+            <img
+              src="/assets/svg/loader-icon.svg"
+              alt=""
+              width="40"
+              height="40"
+              class="web-only"
+            />
+            <img
+              src="/assets/svg/loader-icon.svg"
+              alt=""
+              width="40"
+              height="40"
+            />
+            <img
+              src="/assets/svg/loader-icon.svg"
+              alt=""
+              width="40"
+              height="40"
+              class="web-only"
+            />
+          </span>
+        </button>
+
+        <p class="personal-info mt-3">
+          Your personal data will be used to process your order, support your
+          experience throughout this website, and for other purposes described
+          in our privacy policy.
+        </p>
+      </div>
+      <div *ngIf="paymentMethods.length === 0 && !loadingPaymentMethods">
+        <p class="loading text-center mb-0 p-5">
+          No payment method(s) available
+        </p>
+      </div>
+
+      <div *ngIf="loadingPaymentMethods">
+        <p class="loading text-center mb-0 p-5">Loading payment methods...</p>
+      </div>
+    </div>
+  </div>
+  <div class="web-only right-section p-4">
+    <h2>Cart Summary</h2>
+    <div class="mt-3">
+      <p class="uk-flex uk-flex-between">
+        <span>Subtotal</span>
+        <span>{{ cart?.subTotal || 0 | currency : "₦" }}</span>
+      </p>
+
+      <p class="uk-flex uk-flex-between">
+        <span>Actual Shipping cost</span>
+        <span>{{ cart?.shippingCost?.cost || 0 | currency : "₦" }}</span>
+      </p>
+
+      <p class="uk-flex uk-flex-between">
+        <span>Shipping Discount</span>
+        <span>{{ cart?.shippingCost?.discount || 0 | currency : "₦" }}</span>
+      </p>
+
+      <p class="uk-flex uk-flex-between">
+        <span>Items Discount</span>
+        <span>{{ cart?.discount || 0 | currency : "₦" }}</span>
+      </p>
+
+      <p class="uk-flex uk-flex-between">
+        <span>Promo Code</span>
+        <span>{{ cart?.promoCode || "N/A" }}</span>
+      </p>
+
+      <p>
+        A promo code is a combination of letters (case sensitive) and numbers
+        without spacing
+      </p>
+
+      <div class="w-100 apply-section">
+        <input type="text" placeholder="Enter code here" />
+        <button>Apply</button>
+      </div>
+
+      <div class="uk-flex uk-flex-between">
+        <p class="big">Total</p>
+        <p class="big">{{ cart?.totalCost || 0 | currency : "₦" }}</p>
+      </div>
+    </div>
+  </div>
 </div>
 
-<button id="closeDeleteCartModalDialog" class="d-none" uk-toggle="target: #delete-cart-modal"></button> 
+<button
+  id="closeDeleteCartModalDialog"
+  class="d-none"
+  uk-toggle="target: #delete-cart-modal"
+></button>
 <div id="delete-cart-modal" uk-modal>
-    <div class="uk-modal-dialog uk-modal-body">
-        <div class="">
-            <h4 class="uk-modal-title mb-0 text-center">Are you sure you want to delete cart Item ?</h4>
-            <div class="d-flex justify-content-between mt-5">
-                <button class="w-47 cancel-btn" (click)="closeDeleteDialog()">Cancel</button>
-                <button [disabled]="deletingCartItem" class="w-47 delete-btn" (click)="deleteCartItem()">
-                    <span *ngIf="!deletingCartItem">Yes, delete</span>
-                    <span *ngIf="deletingCartItem">Deleting...</span>
-                </button>
-            </div>       
-        </div>
+  <div class="uk-modal-dialog uk-modal-body">
+    <div class="">
+      <h4 class="uk-modal-title mb-0 text-center">
+        Are you sure you want to delete cart Item ?
+      </h4>
+      <div class="d-flex justify-content-between mt-5">
+        <button class="w-47 cancel-btn" (click)="closeDeleteDialog()">
+          Cancel
+        </button>
+        <button
+          [disabled]="deletingCartItem"
+          class="w-47 delete-btn"
+          (click)="deleteCartItem()"
+        >
+          <span *ngIf="!deletingCartItem">Yes, delete</span>
+          <span *ngIf="deletingCartItem">Deleting...</span>
+        </button>
+      </div>
     </div>
+  </div>
 </div>

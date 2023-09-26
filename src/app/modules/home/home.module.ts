@@ -12,10 +12,10 @@ import { SingleProductComponent } from './single-product/single-product.componen
 import { ProductCheckoutComponent } from './product-checkout/product-checkout.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
-import { NgxShimmerLoadingModule } from  'ngx-shimmer-loading';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
-
+import { NgxOtpInputModule } from 'ngx-otp-input';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -32,11 +32,12 @@ import { PaymentConfirmationComponent } from './payment-confirmation/payment-con
     ReactiveFormsModule,
     HomeRoutingModule,
     SharedModule,
+    NgxOtpInputModule,
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
     NgxShimmerLoadingModule,
-    GooglePlaceModule
-  ]
+    GooglePlaceModule,
+  ],
 })
-export class HomeModule { }
+export class HomeModule {}

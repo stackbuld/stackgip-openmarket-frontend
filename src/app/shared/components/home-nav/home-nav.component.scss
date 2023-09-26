@@ -10,9 +10,46 @@
     display: none;
 }
 
+.web-only {
+    display: inline;
+}
+
 .center-flex {
     display: flex;
     align-items: center;
+}
+
+.text-black {
+    color: black;
+    font-size: 12px;
+}
+
+.btn-edit {
+    color: black;
+    border: 1px solid black;
+    background: white;
+    border-radius: 8px;
+    padding: .5rem 2rem;
+    outline: none;
+}
+
+.btn-submit {
+    color: white;
+    border: none;
+    background: black;
+    border-radius: 8px;
+    padding: .5rem 2rem;
+    outline: none;
+}
+
+.flex-align {
+    display: flex;
+    align-items: center;
+}
+
+.d-down {
+    padding: 1rem;
+    font-size: 14px;
 }
 
 input {
@@ -359,6 +396,10 @@ input {
         display: none;
     }
 
+    .web-only {
+        display: none;
+    }
+
     input {
         width: 100%;
     }
@@ -445,6 +486,10 @@ input {
 
     input {
         width: 200px;
+    }
+
+    .web-only {
+        display: none;
     }
 
     .mobile {

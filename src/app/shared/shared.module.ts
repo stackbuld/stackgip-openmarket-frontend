@@ -50,6 +50,15 @@ import { NgAisModule } from 'angular-instantsearch';
 import { LazyLoadImagesDirective } from './directives/lazy-load-Images.directive';
 
 import { InjectionToken } from '@angular/core';
+import { LoginModalComponent } from './modals/login-modal/login-modal.component';
+import { SocialModalComponent } from './modals/social-modal/social-modal.component';
+import { CustomDropdownComponent } from './components/custom-dropdown/custom-dropdown.component';
+import { NgxOtpInputModule } from 'ngx-otp-input';
+import { NgOtpInputModule } from 'ng-otp-input';
+import { PopupComponent } from './components/popup/popup.component';
+import { LoginPopUpModalComponent } from './components/login-pop-up-modal/login-pop-up-modal.component';
+import { SignupComponent } from './components/signup-component/signup.component';
+import { SignupModule } from './components/signup-component/signup.module';
 
 export const DOCUMENT_TOKEN = new InjectionToken<Document>('Document');
 export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
@@ -77,6 +86,11 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     SearchBarComponent,
     DataCardsComponent,
     LazyLoadImagesDirective,
+    LoginModalComponent,
+    SocialModalComponent,
+    CustomDropdownComponent,
+    PopupComponent,
+    LoginPopUpModalComponent,
   ],
   imports: [
     CommonModule,
@@ -86,8 +100,12 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     MatPaginatorModule,
     MatDialogModule,
     NgAisModule,
+    NgOtpInputModule,
     MatAutocompleteModule,
     MatInputModule,
+    MatSelectModule,
+    NgxOtpInputModule,
+    SignupModule
   ],
   exports: [
     HttpClientJsonpModule,
@@ -123,6 +141,10 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     SearchBarComponent,
     DataCardsComponent,
     LazyLoadImagesDirective,
+    LoginModalComponent,
+    SocialModalComponent,
+    CustomDropdownComponent,
+    LoginPopUpModalComponent
   ],
   providers: [
     {

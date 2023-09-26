@@ -43,6 +43,8 @@ export class ProductItemComponent implements OnInit {
   overview: any;
   stockForm: FormGroup;
   selectedStock: any;
+  tab = 1;
+  draftProductDetails: ProductModel[] = [];
 
   constructor(
     private productService: ProductsService,
@@ -66,7 +68,7 @@ export class ProductItemComponent implements OnInit {
 
   getLowStockProducts = () => {
     this.loadingStock = true;
-    this.productService.getLowStockProducts().subscribe((res) => {
+    this.productService.getLowStockProducts(this.user.id).subscribe((res) => {
       this.lowStock = res.data.data;
       this.loadingStock = false;
     });
@@ -117,7 +119,7 @@ export class ProductItemComponent implements OnInit {
     this.viewedMore.emit({ productId });
   }
 
-  fetchNextProducts(pageNumber: number) {
+  fetchNextProducts(pageNumber: number, productStatus?: string | null) {
     this.loading = true;
     this.productService
       .getSellerProducts(
@@ -132,7 +134,8 @@ export class ProductItemComponent implements OnInit {
         this.startDate,
         this.endDate,
         this.productSort,
-        this.byAscending
+        this.byAscending,
+        productStatus,
       )
       .subscribe(
         (productDetail) => {
@@ -191,6 +194,16 @@ export class ProductItemComponent implements OnInit {
 
   setSelectedstock(item: any) {
     this.selectedStock = item;
+  }
+
+  getDrafts() {
+    this.loading= true
+    this.fetchNextProducts(this.defaultPage, "Draft");
+  }
+
+  getPublished() {
+     this.loading= true
+    this.fetchNextProducts(this.defaultPage, "Published");
   }
 
   updateStockUnit(): void {

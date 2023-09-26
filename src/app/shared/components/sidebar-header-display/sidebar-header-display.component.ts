@@ -11,7 +11,7 @@ export class SidebarHeaderDisplayComponent implements OnInit {
   constructor(
     private router: Router
   ) { 
-    router.events.subscribe((event) => { event instanceof NavigationEnd ?
+    this.router.events.subscribe((event) => { event instanceof NavigationEnd ?
       this.currentRoute = event.url : null 
     });
   }

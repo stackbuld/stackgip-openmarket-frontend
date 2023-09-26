@@ -10,3 +10,7 @@ export const ResponseStatus = {
   success: 'success',
   fail: 'fail',
 };
+
+export interface GetWssUrlResponse {
+  wssUrl: string;
+}

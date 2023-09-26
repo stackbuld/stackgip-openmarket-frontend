@@ -28,7 +28,20 @@ import { ProductsComponent } from './products/products.component';
 import { CategoryProductsComponent } from './products/category-products/category-products.component';
 import { CategoryHomeGridComponent } from './category-home-grid/category-home-grid.component';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
+export const MY_DATE_FORMATS = {
+    parse: {
+      dateInput: 'DD/MM/YYYY',
+    },
+    display: {
+      dateInput: 'DD/MM/YYYY',
+      monthYearLabel: 'MMMM YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'MMMM YYYY'
+    },
+};
 @NgModule({
   declarations: [
     LandingComponent,
@@ -61,8 +74,12 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
     LandingRoutingModule,
     SharedModule,
     NgxSliderModule,
+    MatDatepickerModule,
     NgxPaginationModule,
     MatPaginatorModule,
+  ],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ]
 })
 export class LandingModule { }

@@ -33,7 +33,6 @@ import { RouterModule } from '@angular/router';
     SharedModule,
     NgxSliderModule,
     NgxPaginationModule,
-
     MatPaginatorModule,
 
     NgAisModule.forRoot(),
