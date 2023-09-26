@@ -1,7 +1,13 @@
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from '../../../../services/toastr.service';
 import { UserService } from '../../../../services/user/user.service';
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { IUpdateUser, IUser } from 'src/app/models/IUserModel';
@@ -18,7 +24,7 @@ import { startWith } from 'rxjs';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, AfterViewInit {
   profileForm: FormGroup;
   states: string[] = [];
   isFetching: boolean = false;
@@ -26,6 +32,10 @@ export class ProfileComponent implements OnInit {
   isSubmitting: boolean = false;
   showUserUpdateButtons: boolean = false;
   selectedState!: string;
+  countryDialCode: string;
+  @ViewChild('telInput', { static: false })
+  telInput: ElementRef<HTMLInputElement>;
+  telInputEvent: Event;
 
   user = {} as IUser;
   userId: string;
@@ -94,6 +104,16 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    if (!this.isFetching) {
+      const phone = '+917878747416';
+      this.profileForm.get('phoneNumber').setValue(phone);
+      this.telInput.nativeElement.dispatchEvent(
+        new KeyboardEvent('keyup', { bubbles: true })
+      );
+    }
+  }
+
   updateProfile() {
     const ctrl = this.f;
     const userProfile: IUpdateUser = {
@@ -133,8 +153,13 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  getStateValue() {
-    localStorage.setItem('selectedState', this.selectedState);
+  countryChange(country: any) {
+    this.countryDialCode = country.dialCode;
+  }
+
+  telInputObject(event: Event) {
+    this.countryDialCode = event['s'].dialCode;
+    this.telInputEvent = event;
   }
 
   onVerfiyPhoneNumber() {
@@ -151,9 +176,11 @@ export class ProfileComponent implements OnInit {
     }
 
     this.isSubmitting = true;
+
     this.sellerService
       .updateSellerPersonalProfile({
         ...this.profileForm.value,
+        phoneNumber: '+234805 395 6929',
         profileImageUrl: 'test',
         alpha2CountryCode: 'Nigeria',
       })

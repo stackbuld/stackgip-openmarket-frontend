@@ -104,12 +104,12 @@
         }
       }
 
-      &.phone {
-        width: 70%;
-        & #phone-number {
-          width: 100%;
-        }
-      }
+      // &.phone {
+      //   width: 70%;
+      //   & #phone-number {
+      //     width: 100%;
+      //   }
+      // }
 
       & .location-select {
         border: 1px solid $input-border;
@@ -194,6 +194,10 @@
       width: 45px;
     }
   }
+}
+
+:host ::ng-deep .iti {
+  width: 100%;
 }
 
 @media (max-width: 840px) {

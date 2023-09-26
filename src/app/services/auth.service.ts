@@ -41,6 +41,10 @@ export class AuthService {
   public isLogin: BehaviorSubject<boolean>;
   tokenSubscription = new Subscription();
   decodedJwt;
+<<<<<<< HEAD
+=======
+  private path = 'https://localhost:44393/api/Auth/';
+>>>>>>> 6e7bd037f3c66747a731ae4ff229e8ce38756cc7
   constructor(
     private api: ApiAppUrlService,
     private http: HttpClient,
@@ -50,7 +54,11 @@ export class AuthService {
     // private socialAuthService: SocialAuthService,
     private router: Router,
     private jwtHelperService: JwtHelperService,
+<<<<<<< HEAD
     private toast: ToastrService,
+=======
+    private httpClient: HttpClient
+>>>>>>> 6e7bd037f3c66747a731ae4ff229e8ce38756cc7
   ) {
     const userData = this.GetSignInData();
     if (userData != null) {
@@ -93,6 +101,7 @@ export class AuthService {
     );
   }
 
+<<<<<<< HEAD
 
   public hideSharedLoginModal () {
     uikit.modal('#login-modal').hide();
@@ -125,6 +134,11 @@ export class AuthService {
   LoginWithGoogle(credentials: string): Observable<any> {
     const header = new HttpHeaders().set('Content-type', 'application/json');
     return this.http.post(this.api.baseApiUrl + 'auth/google', {
+=======
+  LoginWithGoogle(credentials: string): Observable<any> {
+    const header = new HttpHeaders().set('Content-type', 'application/json');
+    return this.httpClient.post(this.api.baseApiUrl + 'auth/google', {
+>>>>>>> 6e7bd037f3c66747a731ae4ff229e8ce38756cc7
       idToken: credentials,
     });
   }
@@ -132,6 +146,7 @@ export class AuthService {
   LoginWithFacebook(token: string, userId: string): Observable<any> {
     console.log(this.api.baseApiUrl, 'Path');
     const header = new HttpHeaders().set('Content-type', 'application/json');
+<<<<<<< HEAD
     return this.http.post(this.api.baseApiUrl + 'auth/facebook', {
       token,
       userId,
@@ -147,6 +162,12 @@ export class AuthService {
       reference = localStorage.getItem('referenceId') as string;
     }
     return reference;
+=======
+    return this.httpClient.post(this.api.baseApiUrl + 'auth/facebook', {
+      token: token,
+      userId: userId,
+    });
+>>>>>>> 6e7bd037f3c66747a731ae4ff229e8ce38756cc7
   }
 
   signInWithGoogle(): void {
@@ -264,12 +285,13 @@ export class AuthService {
     }
   }
 
-  public UpdatePassword(
-    updateUser: IUpdatePassword
-  ): Observable<IResponseModel> {
+  public UpdatePassword(credentials: {
+    newPassword: string;
+    phoneOtp: string;
+  }): Observable<IResponseModel> {
     return this.http.patch<IResponseModel>(
       this.api.baseApiUrl + 'auth/password/change',
-      updateUser
+      credentials
     );
   }
 
@@ -280,6 +302,7 @@ export class AuthService {
     localStorage.setItem('siginResponse', JSON.stringify(sigin));
     this.store.dispatch(UpdateProfileAction(user));
   }
+<<<<<<< HEAD
   //
   // public async  getWebSocketUrl(): Promise<string> {
   //   const referenceId = this.getUserReferenceNumber();
@@ -398,4 +421,10 @@ export class AuthService {
   }
 
 
+=======
+
+  sendOTP() {
+    return this.http.get(this.api.baseApiUrl + 'auth/password/change/otp');
+  }
+>>>>>>> 6e7bd037f3c66747a731ae4ff229e8ce38756cc7
 }

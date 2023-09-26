@@ -2,9 +2,14 @@ import {
   AfterViewChecked,
   Component,
   ElementRef,
+  Inject,
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { log } from 'console';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-otp-dialog',
@@ -14,7 +19,7 @@ import {
 export class OTPDialogComponent implements OnInit, AfterViewChecked {
   config = {
     allowNumbersOnly: false,
-    length: 4,
+    length: 6,
     isPasswordInput: false,
     disableAutoFocus: false,
     placeholder: '',
@@ -29,13 +34,13 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
 
   config2 = {
     allowNumbersOnly: false,
-    length: 4,
+    length: 6,
     isPasswordInput: false,
     disableAutoFocus: false,
     placeholder: '',
     inputStyles: {
-      width: '50px',
-      height: '50px',
+      width: '40px',
+      height: '40px',
       borderRadius: '8px',
       boxShadow: '0 0 3px #ccc',
     },
@@ -44,7 +49,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
 
   config3 = {
     allowNumbersOnly: false,
-    length: 4,
+    length: 6,
     isPasswordInput: false,
     disableAutoFocus: false,
     placeholder: '',
@@ -57,11 +62,41 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
     inputClass: 'otp-c-input',
   };
 
+  otpForm: FormGroup;
+  otpInput: FormControl;
+  isSubmitting: boolean = false;
+  password: string;
+
   @ViewChild('otp_dialog') otpDialog: ElementRef<HTMLDivElement>;
 
-  windowSize = document.body;
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: { password: string },
+    private authService: AuthService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.otpForm = new FormGroup({
+      otp: new FormControl(null, Validators.required),
+    });
+
+    this.otpInput = new FormControl(null, Validators.required);
+    this.password = this.data.password;
+  }
 
   ngAfterViewChecked(): void {}
+
+  onVerify() {
+    if (this.otpInput.value.length !== 6) {
+      return;
+    }
+
+    this.authService
+      .UpdatePassword({
+        newPassword: this.password,
+        phoneOtp: this.otpInput.value,
+      })
+      .subscribe((data) => {
+        console.log(data);
+      });
+  }
 }

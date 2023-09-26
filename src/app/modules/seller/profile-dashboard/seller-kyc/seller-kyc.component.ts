@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-seller-kyc',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class SellerKycComponent {
   kycVerified: boolean = false;
+
+  constructor(private router: Router) {}
+
+  onVerify() {
+    this.router.navigate(['/', 'seller-form']);
+  }
 }
