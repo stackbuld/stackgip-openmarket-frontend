@@ -1,5 +1,7 @@
 <div class="business-information-container">
-  <div class="fetch-loader" *ngIf="isFetching"></div>
+  <div class="fetch-loader" *ngIf="isFetching">
+    <img src="/assets/svg/loader-icon.svg" alt="" width="300" height="300" />
+  </div>
 
   <form
     [formGroup]="businessProfileForm"

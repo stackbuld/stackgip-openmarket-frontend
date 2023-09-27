@@ -85,7 +85,10 @@
         </div>
       </ng-template>
 
-      <div class="seller-kyc-main-status" *ngIf="approvalStatus == 'pending'">
+      <div
+        class="seller-kyc-main-status pending"
+        *ngIf="approvalStatus == 'pending'"
+      >
         <span class="status" id="pending">Pending</span>
       </div>
     </div>

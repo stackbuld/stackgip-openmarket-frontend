@@ -101,6 +101,14 @@
         margin-top: 15px;
         border-radius: 8px;
 
+        &.pending {
+          justify-content: flex-start;
+
+          & #pending {
+            margin-left: 0;
+          }
+        }
+
         &.greenBg {
           background: $green;
         }
