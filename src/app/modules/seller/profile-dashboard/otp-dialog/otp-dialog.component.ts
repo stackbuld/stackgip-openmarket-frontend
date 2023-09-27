@@ -68,6 +68,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
   isSubmitting: boolean = false;
   otpType: string;
   otpData: string;
+  phoneNumber: string;
 
   @ViewChild('otp_dialog') otpDialog: ElementRef<HTMLDivElement>;
 
@@ -86,6 +87,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
     this.otpInput = new FormControl(null, Validators.required);
     this.otpData = this.data.payload;
     this.otpType = this.data.type;
+
+    this.phoneNumber = JSON.parse(localStorage.getItem('user')!).phoneNumber;
   }
 
   ngAfterViewChecked(): void {}
@@ -96,7 +99,6 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
     }
 
     this.isSubmitting = true;
-    console.log(this.otpData);
 
     switch (this.otpType) {
       case 'changePasswordOTP':

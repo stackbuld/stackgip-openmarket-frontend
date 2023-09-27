@@ -329,14 +329,14 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     this.isSubmitting = true;
 
-    const formatedPhoneNumber =
+    const formattedPhoneNumber =
       this.profileForm.get('countryCode').value.toString() +
       this.profileForm.get('phoneNumber').value.toString();
 
     this.sellerService
       .updateSellerPersonalProfile({
         ...this.profileForm.value,
-        phoneNumber: formatedPhoneNumber,
+        phoneNumber: formattedPhoneNumber,
         profileImageUrl: this.profilePhotoUrl,
         alpha2CountryCode: this.profileForm.value.country,
         coverPhotoUrl: this.coverPhotoUrl,

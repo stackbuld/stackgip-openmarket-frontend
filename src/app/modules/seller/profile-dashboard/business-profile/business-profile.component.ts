@@ -173,6 +173,10 @@ export class BusinessProfileComponent implements OnInit {
 
     this.isSubmitting = true;
 
+    const formattedPhoneNumber =
+      this.businessProfileForm.get('countryCode').value.toString() +
+      this.businessProfileForm.get('phoneNumber').value.toString();
+
     const formValue = this.businessProfileForm.value;
     const socialLinks = {
       facebook: formValue.businessSocialFacebook,
@@ -183,7 +187,7 @@ export class BusinessProfileComponent implements OnInit {
     const mainForm: SellerBusinessProfileData = {
       businessName: formValue.businessName,
       businessEmail: formValue.businessEmail,
-      businessPhone: '+2349131778206',
+      businessPhone: formattedPhoneNumber,
       businessAddress: formValue.businessAddress,
       businessState: formValue.businessState,
       businessCountryCode: formValue.businessCountry,

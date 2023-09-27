@@ -43,17 +43,6 @@ export class SellerProfileSettingsComponent implements OnInit {
     return this.profileForm.controls;
   }
   ngOnInit(): void {
-    // this.profileForm = this.fb.group(
-    //   {
-    //     currentPassword: ['', [Validators.required]],
-    //     password: ['', [Validators.required, Validators.minLength(6)]],
-    //     confirmPassword: ['', [Validators.required]],
-    //   },
-    //   {
-    //     validators: MustMatch('password', 'confirmPassword'),
-    //   }
-    // );
-
     this.passwordForm = new FormGroup({
       password: new FormControl(null, [
         Validators.required,
