@@ -22,6 +22,9 @@ import { CountryService } from 'src/app/services/country/country.service';
 import { loadPlugin } from 'immer/dist/internal';
 import { CountryInfo } from 'src/app/models/country.model';
 import { countryCodes } from 'src/app/data/countryCodes';
+import { environment } from 'src/environments/environment';
+import { SellerProfileData } from 'src/app/models/sellerModel';
+declare var cloudinary: any;
 
 @Component({
   selector: 'app-profile',
@@ -49,7 +52,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   verifiedPhoneNumber: string;
 
   user = {} as IUser;
+  specificUserData: SellerProfileData;
   userId: string;
+  uploadCoverPhotoWidget: any;
+  coverPhotoUrl: string;
+  uploadProfilePhotoWidget: any;
+  profilePhotoUrl: string = 'assets/images/Rectangle65.png';
 
   constructor(
     private fb: FormBuilder,
@@ -61,9 +69,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     private countryService: CountryService
   ) {}
 
-  get f() {
-    return this.profileForm.controls;
-  }
   ngOnInit(): void {
     this.codeList = countryCodes;
 
@@ -75,9 +80,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     this.profileForm = this.fb.group({
       firstName: [null, [Validators.required]],
       lastName: [null, [Validators.required]],
+      countryCode: ['+234'],
       email: [null, [Validators.required, Validators.email]],
       bio: [null, [Validators.required]],
-      phoneNumber: ['+234', [Validators.required]],
+      phoneNumber: [null, [Validators.required]],
       country: [null, [Validators.required]],
       state: [null, [Validators.required]],
     });
@@ -88,29 +94,47 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       next: (user) => {
         console.log(user);
         this.user = user.data;
+        const reformedPhoneNumber = this.user.phoneNumber.slice(-10);
+
+        this.specificUserData = {
+          firstName: this.user.firstName,
+          lastName: this.user.lastName,
+          bio: this.user.bio,
+          profileImageUrl: this.user.profileImageUrl,
+          alpha2CountryCode: this.user.alpha2CountryCode,
+          state: this.user.state,
+          phoneNumber: this.user.phoneNumber,
+          coverPhotoUrl: this.user.coverPhotoUrl,
+        };
         this.isEmailVerified = user.data.emailConfirmed;
         this.isPhoneVerified = user.data.phoneNumberConfirmed;
+        if (this.user.coverPhotoUrl) {
+          this.coverPhotoUrl = this.user.coverPhotoUrl;
+        }
+        if (this.user.profileImageUrl) {
+          this.profilePhotoUrl = this.user.profileImageUrl;
+        }
 
         if (user.data.emailConfirmed) {
-          localStorage.setItem('verifiedEmail', this.user.email);
           this.verifiedEmail = this.user.email;
         }
 
         if (user.data.phoneNumberConfirmed) {
-          localStorage.setItem('verifiedPhone', this.user.phoneNumber);
-          this.verifiedPhoneNumber = this.user.phoneNumber;
+          this.verifiedPhoneNumber = reformedPhoneNumber;
         }
 
         this.profileForm.setValue({
           firstName: this.user.firstName,
           lastName: this.user.lastName,
+          countryCode: '+234',
           email: this.user.email,
           bio: this.user.bio,
-          phoneNumber: this.user.phoneNumber,
+          phoneNumber: reformedPhoneNumber,
           country: this.user.alpha2CountryCode,
           state: this.user.state,
         });
         this.isFetching = false;
+        console.log(this.profileForm.value);
 
         const initialUserForm = this.profileForm.value;
 
@@ -137,13 +161,82 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     });
 
     this.profileForm.valueChanges.subscribe((value) => {
-      if (value.email !== this.verifiedEmail) {
-        this.isEmailVerified = false;
-      }
       if (value.phoneNumber !== this.verifiedPhoneNumber) {
         this.isPhoneVerified = false;
+      } else {
+        this.isPhoneVerified = true;
       }
     });
+
+    this.uploadCoverPhotoWidget = cloudinary.createUploadWidget(
+      {
+        cloudName: environment.cloudinaryName,
+        uploadPreset: environment.cloudinaryUploadPerset,
+        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
+      },
+      (error, result) => {
+        if (!error && result && result.event === 'success') {
+          this.toast.success('Image uploaded successfully');
+          // this.imageName = result.info.original_filename;
+          this.coverPhotoUrl = result.info.secure_url;
+
+          this.sellerService
+            .updateSellerPersonalProfile({
+              ...this.specificUserData,
+              coverPhotoUrl: result.info.secure_url,
+            })
+            .subscribe({
+              next: (data) => {
+                this.isSubmitting = false;
+              },
+              error: (err) => {
+                console.log(err);
+              },
+            });
+        }
+      }
+    );
+
+    this.uploadProfilePhotoWidget = cloudinary.createUploadWidget(
+      {
+        cloudName: environment.cloudinaryName,
+        uploadPreset: environment.cloudinaryUploadPerset,
+        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
+      },
+      (error, result) => {
+        if (!error && result && result.event === 'success') {
+          this.toast.success('Image uploaded successfully');
+          // this.imageName = result.info.original_filename;
+          this.profilePhotoUrl = result.info.secure_url;
+
+          this.sellerService
+            .updateSellerPersonalProfile({
+              ...this.specificUserData,
+              profileImageUrl: result.info.secure_url,
+            })
+            .subscribe({
+              next: (data) => {
+                this.isSubmitting = false;
+              },
+              error: (err) => {
+                console.log(err);
+              },
+            });
+        }
+      }
+    );
+  }
+
+  get f() {
+    return this.profileForm.controls;
+  }
+
+  onUploadCoverPhoto(): void {
+    this.uploadCoverPhotoWidget.open();
+  }
+
+  onUploadProfilePhoto(): void {
+    this.uploadProfilePhotoWidget.open();
   }
 
   ngAfterViewInit(): void {
@@ -156,10 +249,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // changeOption(e: any) {
-  //   console.log(e.target.value);
-  //   this.profileForm.patchValue({ countryCodes: e.target.value });
-  // }
+  changeOption(e: any) {
+    console.log(e.target.value);
+    this.profileForm.patchValue({ countryCodes: e.target.value });
+  }
 
   trackByFn(index, item) {
     return index;
@@ -204,18 +297,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     );
   }
 
-  countryChange(country: any) {
-    this.countryDialCode = country.dialCode;
-  }
-
-  telInputObject(event: Event) {
-    this.countryDialCode = event['s'].dialCode;
-    this.telInputEvent = event;
-  }
-
   onVerfiyPhoneNumber() {
     this.isFetchingOtp = true;
-    console.log(this.profileForm.value.phoneNumber);
+    const formatedPhoneNumber =
+      this.profileForm.get('countryCode').value.toString() +
+      this.profileForm.get('phoneNumber').value.toString();
 
     this.authService.sendPersonalPhoneOTP().subscribe({
       next: (data) => {
@@ -225,7 +311,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
           panelClass: 'otp_dialog',
           data: {
             type: 'phoneNumberOTP',
-            payload: this.profileForm.value.phoneNumber,
+            payload: formatedPhoneNumber,
           },
         });
       },
@@ -241,29 +327,19 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    const formPhoneNumber = this.profileForm.value.phoneNumber
-      .split(' ')
-      .join('');
-
-    let phoneNumber;
-
-    if (this.countryDialCode === '234') {
-      if (formPhoneNumber.length == 11) {
-        phoneNumber = `+${this.countryDialCode}${formPhoneNumber.substring(1)}`;
-      } else {
-        phoneNumber = `+${this.countryDialCode}${formPhoneNumber}`;
-      }
-    }
-
     this.isSubmitting = true;
+
+    const formatedPhoneNumber =
+      this.profileForm.get('countryCode').value.toString() +
+      this.profileForm.get('phoneNumber').value.toString();
 
     this.sellerService
       .updateSellerPersonalProfile({
         ...this.profileForm.value,
-        phoneNumber: '+2349131778206',
-        profileImageUrl: 'test',
+        phoneNumber: formatedPhoneNumber,
+        profileImageUrl: this.profilePhotoUrl,
         alpha2CountryCode: this.profileForm.value.country,
-        coverPhotoUrl: 'test',
+        coverPhotoUrl: this.coverPhotoUrl,
       })
       .subscribe({
         next: (data) => {
@@ -273,6 +349,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
           this.toast.success('Profile updated successfully');
         },
         error: (err) => {
+          this.isSubmitting = false;
+
           console.log(err);
         },
       });

@@ -65,6 +65,7 @@
     "ng2-tel-input": "^2.3.0",
     "ngx-bootstrap": "^11.0.2",
     "ngx-google-places-autocomplete": "^2.0.5",
+    "ngx-intl-tel-input": "^3.2.0",
     "ngx-otp-input": "^0.11.4",
     "ngx-pagination": "^6.0.3",
     "ngx-shimmer-loading": "0.0.5",

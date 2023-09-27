@@ -1,11 +1,12 @@
-<div class="seller-kyc-container">
+<div class="fetch-loader" *ngIf="isFetching"></div>
+<div class="seller-kyc-container" *ngIf="!isFetching">
   <div class="seller-kyc-main">
     <div class="seller-kyc-main-heading">Current Status</div>
 
     <div class="seller-kyc-main-status-container">
       <div
         class="seller-kyc-main-status"
-        *ngIf="kycVerified; else unverified"
+        *ngIf="kycVerified && approvalStatus !== 'pending'"
         [ngClass]="{ greenBg: kycVerified }"
       >
         <svg
@@ -44,7 +45,7 @@
         <span class="status" id="verified">Verified</span>
       </div>
 
-      <ng-template #unverified>
+      <ng-template *ngIf="!kycVerified && approvalStatus == 'none'">
         <div class="seller-kyc-main-status" [ngClass]="{ redBg: !kycVerified }">
           <svg
             width="24"
@@ -83,10 +84,17 @@
           <span class="status" id="unverified">Not Verified</span>
         </div>
       </ng-template>
+
+      <div class="seller-kyc-main-status" *ngIf="approvalStatus == 'pending'">
+        <span class="status" id="pending">Pending</span>
+      </div>
     </div>
   </div>
 
-  <div class="verification-btn" *ngIf="!kycVerified">
+  <div
+    class="verification-btn"
+    *ngIf="!kycVerified && approvalStatus !== 'pending'"
+  >
     <button (click)="onVerify()">Start Verification</button>
   </div>
 </div>

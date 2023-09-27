@@ -41,9 +41,10 @@ export interface GetSeller extends ResponseModel {
 export interface SellerProfileData {
   firstName: string;
   lastName: string;
-  email: string;
+  email?: string;
   bio: string;
   profileImageUrl?: string;
+  coverPhotoUrl?: string;
   alpha2CountryCode?: string;
   state: string;
   phoneNumber: string;

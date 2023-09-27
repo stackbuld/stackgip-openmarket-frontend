@@ -5780,9 +5780,9 @@
   "version" "16.1.0"
 
 "intl-tel-input@^17.0.3":
-  "integrity" "sha512-TfyPxLe41QZPOf6RqBxRE2dpQ0FThB/PBD/gRbxVhGW7IuYg30QD90x/vjmEo4vkZw7j8etxpVcjIZVRcG+Otw=="
-  "resolved" "https://registry.npmjs.org/intl-tel-input/-/intl-tel-input-17.0.21.tgz"
-  "version" "17.0.21"
+  "integrity" "sha512-vfO5yIddrkNKaJYqGySuT6lyovWZoBLU/vyGA2A4VdKIZasknpd9/emTJYIPqFzjkguFfEDUiERKFih3k9Yj3Q=="
+  "resolved" "https://registry.npmjs.org/intl-tel-input/-/intl-tel-input-17.0.3.tgz"
+  "version" "17.0.3"
 
 "ip@^2.0.0":
   "integrity" "sha512-WKa+XuLG1A1R0UWhl2+1XQSi+fZWMsYKffMZTTYsiZaUD8k2yDAj5atimTUD2TZkyCkNEeYE5NhFZmupOGtjYQ=="
@@ -6840,6 +6840,13 @@
   "integrity" "sha512-TApaE+X/eaZBDduXvmOMsMC5FTWv3CmgbZ+Iv7NsnrBWJeonPF2SYMGs3vaydM3CY3Rch14/K94ecU0mfyRVWw=="
   "resolved" "https://registry.npmjs.org/ngx-google-places-autocomplete/-/ngx-google-places-autocomplete-2.0.5.tgz"
   "version" "2.0.5"
+
+"ngx-intl-tel-input@^3.2.0":
+  "integrity" "sha512-TM3R0Az+F63eNCBj+NpR6UzJYg4FkHxDrS2hfeFoHJymMc4+DlqB581g4tPil4IkMetlR+jaAtEcqKiqmYGYlw=="
+  "resolved" "https://registry.npmjs.org/ngx-intl-tel-input/-/ngx-intl-tel-input-3.2.0.tgz"
+  "version" "3.2.0"
+  dependencies:
+    "tslib" "^2.3.0"
 
 "ngx-otp-input@^0.11.4":
   "integrity" "sha512-D6Pq+SYOARNrWB8BDikWwS6f4PMhP6La3/KlunXKRyZdZnP4NwjPzsYIyXfKGhzcFr1ktwkBYbw4t0hhnAZTUw=="

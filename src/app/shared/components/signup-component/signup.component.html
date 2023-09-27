@@ -1,152 +1,221 @@
-      <div class="signup-form-section">
-        <div class="signup-form-container">
-          <div class="signup-form-header">
-            <div class="signup-tiltle uk-margin-small-bottom ">Join Us</div>
-            <div class="login-subtitle uk-margin-small-bottom">Create an account</div>
-            <div class="signup-form">
-              <form [formGroup]="registerForm" (ngSubmit)="submit()" id="form">
-
-                <mat-form-field appearance="outline">
-                  <mat-label>First Name</mat-label>
-                  <input matInput placeholder="Jane" type="text" formControlName="firstname" required />
-                </mat-form-field>
-                <section class="error-sec">
-                  <div *ngIf="
-                        f.firstname.invalid &&
-                        (f.firstname.dirty || f.firstname.touched)
-                      ">
-                    <div *ngIf="f.firstname.errors.required">
-                      firstname required
-                    </div>
-                  </div>
-                </section>
-
-                <mat-form-field appearance="outline">
-                  <mat-label>Last Name</mat-label>
-                  <input matInput placeholder="Doe" type="text" formControlName="lastname" required />
-                </mat-form-field>
-                <section class="error-sec">
-                  <div *ngIf="
-                        f.lastname.invalid &&
-                        (f.lastname.dirty || f.lastname.touched)
-                      ">
-                    <p *ngIf="f.lastname.errors.required">
-                      lastname required
-                    </p>
-                  </div>
-                </section>
-
-                <div class="time-picker-component">
-                <mat-form-field appearance="outline">
-                <mat-label>Phone Number</mat-label>
-                
-                  
-                <input matInput #myInput placeholder="08023434567" pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$" type="number" formControlName="phoneNumber" required />
-                <div class="country-code" matPrefix>
-              
-                <mat-select (change)="changeOption($event)"
-                  formControlName="countryCode">  
-                  <mat-select-trigger>
-                    {{f.countryCode.value}}
-                  </mat-select-trigger>
-                  <mat-option *ngFor="let el of codeList" [value]="el.code">  
-                  {{el.abbr}}   {{el.code}}  
-                  </mat-option>  
-                </mat-select>  
-                </div>
-              </mat-form-field>
-              </div>
-              <section class="error-sec">
-                <div *ngIf="
-                      f.phoneNumber.invalid &&
-                      (f.phoneNumber.dirty || f.phoneNumber.touched)
-                    ">
-                  <p *ngIf="f.phoneNumber.errors.required">
-                    Phone Number required
-                  </p>
-                  <p *ngIf="f.phoneNumber.errors.pattern && (f.phoneNumber.dirty || f.phoneNumber.touched)">
-                    Phone Number must be valid
-                  </p>
-                </div>
-                
-              </section>
-
-                <mat-form-field appearance="outline">
-                  <mat-label>Email Address</mat-label>
-                  <div class="d-flex">
-                    <input matInput placeholder="example@email.com" type="email" formControlName="email" required />
-                    <span *ngIf="f.email.valid">
-                      <img src="assets/icons/success-check.svg" alt="check" />
-                    </span>
-                  </div>
-                </mat-form-field>
-                <section class="error-sec">
-                  <div *ngIf="
-                        f.email.invalid && (f.email.dirty || f.email.touched)
-                      ">
-                    <p *ngIf="f.email.errors.required && (f.email.dirty || f.email.touched)">
-                      Email required <br />
-                    </p>
-                    <p *ngIf="f.email.errors.email && (f.email.dirty || f.email.touched)">
-                      Valid email required
-                    </p>
-                  </div>
-                </section>
-
-                <mat-form-field appearance="outline">
-                  <mat-label>Password</mat-label>
-                  <div class="d-flex">
-                    <input matInput placeholder="********" [type]=" passwordType ?  'text' : 'password'" formControlName="password" required />
-                    <span (click)="showPassword()">
-                      <img src="assets/icons/eye-open.svg" alt="check" />
-                    </span>
-                  </div>
-
-                </mat-form-field>
-               
-
-                 <section>
-                <div *ngIf="(f.password.value && f.password.invalid) && f.password.dirty && f.password.touched" class="error-sec">
-                   <div *ngIf="!minLengthValid" [ngClass]="!minLengthValid ? '': 'no-error'">
-                    Password should be at least 6 characters <br />
-                  </div>
-                  <div *ngIf="!requiresUppercaseValid" [ngClass]="!requiresUppercaseValid ? '': 'no-error'">
-                    Password must contain Uppercase letter<br />
-                  </div>
-                  <div *ngIf="!requiresLowercaseValid" [ngClass]="!requiresLowercaseValid ? '': 'no-error'">
-                    Password must contain Lowercase letter<br />
-                  </div>
-                  <div *ngIf="!requiresDigitValid" [ngClass]="!requiresDigitValid ? '': 'no-error'">
-                    Password must contain a number <br />
-                  </div>
-                  <div *ngIf="!requiresSpecialCharsValid" [ngClass]="!requiresSpecialCharsValid ? '': 'no-error'">
-                    Password must contain special character<br />
-                  </div>
-                </div>
-               
-              </section>
-
-                <button [disabled]="registerForm.invalid" class="uk-button uk-width-1-1 signup-btn1" type="submit">
-                  Sign Up
-                </button>
-
-              </form>
-              <div id="signup-or">
-                <div class="signup-hr1"></div>
-                <div class="signup-or">or</div>
-                <div class="signup-hr2"></div>
-              </div>
-
-              <div id="login-btn">
-                <div id="buttonDiv"></div>
-
-                <button class="uk-button login-btn2" (click)="facebookSignup()">
-                  <img src="https://res.cloudinary.com/mindset/image/upload/v1625923180/facebook__uzmrzq.png" alt=""
-                    class="signup-img" />
-                </button>
-              </div>
-              <div class="signup-route">Already registered? <a (click)="toggleSignupModal()" class="fw-500">Login</a></div>
+<div class="signup-form-section">
+  <div class="signup-form-container">
+    <div class="signup-form-header">
+      <div class="signup-tiltle uk-margin-small-bottom">Join Us</div>
+      <div class="login-subtitle uk-margin-small-bottom">Create an account</div>
+      <div class="signup-form">
+        <form [formGroup]="registerForm" (ngSubmit)="submit()" id="form">
+          <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input
+              matInput
+              placeholder="Jane"
+              type="text"
+              formControlName="firstname"
+              required
+            />
+          </mat-form-field>
+          <section class="error-sec">
+            <div
+              *ngIf="
+                f.firstname.invalid &&
+                (f.firstname.dirty || f.firstname.touched)
+              "
+            >
+              <div *ngIf="f.firstname.errors.required">firstname required</div>
             </div>
+          </section>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input
+              matInput
+              placeholder="Doe"
+              type="text"
+              formControlName="lastname"
+              required
+            />
+          </mat-form-field>
+          <section class="error-sec">
+            <div
+              *ngIf="
+                f.lastname.invalid && (f.lastname.dirty || f.lastname.touched)
+              "
+            >
+              <p *ngIf="f.lastname.errors.required">lastname required</p>
+            </div>
+          </section>
+
+          <div class="time-picker-component">
+            <mat-form-field appearance="outline">
+              <mat-label>Phone Number</mat-label>
+
+              <input
+                matInput
+                #myInput
+                placeholder="08023434567"
+                pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$"
+                type="number"
+                formControlName="phoneNumber"
+                required
+              />
+              <div class="country-code" matPrefix>
+                <mat-select
+                  (change)="changeOption($event)"
+                  formControlName="countryCode"
+                >
+                  <mat-select-trigger>
+                    {{ f.countryCode.value }}
+                  </mat-select-trigger>
+                  <mat-option *ngFor="let el of codeList" [value]="el.code">
+                    {{ el.abbr }} {{ el.code }}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </mat-form-field>
           </div>
+          <section class="error-sec">
+            <div
+              *ngIf="
+                f.phoneNumber.invalid &&
+                (f.phoneNumber.dirty || f.phoneNumber.touched)
+              "
+            >
+              <p *ngIf="f.phoneNumber.errors.required">Phone Number required</p>
+              <p
+                *ngIf="
+                  f.phoneNumber.errors.pattern &&
+                  (f.phoneNumber.dirty || f.phoneNumber.touched)
+                "
+              >
+                Phone Number must be valid
+              </p>
+            </div>
+          </section>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Email Address</mat-label>
+            <div class="d-flex">
+              <input
+                matInput
+                placeholder="example@email.com"
+                type="email"
+                formControlName="email"
+                required
+              />
+              <span *ngIf="f.email.valid">
+                <img src="assets/icons/success-check.svg" alt="check" />
+              </span>
+            </div>
+          </mat-form-field>
+          <section class="error-sec">
+            <div *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)">
+              <p
+                *ngIf="
+                  f.email.errors.required && (f.email.dirty || f.email.touched)
+                "
+              >
+                Email required <br />
+              </p>
+              <p
+                *ngIf="
+                  f.email.errors.email && (f.email.dirty || f.email.touched)
+                "
+              >
+                Valid email required
+              </p>
+            </div>
+          </section>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <div class="d-flex">
+              <input
+                matInput
+                placeholder="********"
+                [type]="passwordType ? 'text' : 'password'"
+                formControlName="password"
+                required
+              />
+              <span (click)="showPassword()">
+                <img src="assets/icons/eye-open.svg" alt="check" />
+              </span>
+            </div>
+          </mat-form-field>
+
+          <section>
+            <div
+              *ngIf="
+                f.password.value &&
+                f.password.invalid &&
+                f.password.dirty &&
+                f.password.touched
+              "
+              class="error-sec"
+            >
+              <div
+                *ngIf="!minLengthValid"
+                [ngClass]="!minLengthValid ? '' : 'no-error'"
+              >
+                Password should be at least 6 characters <br />
+              </div>
+              <div
+                *ngIf="!requiresUppercaseValid"
+                [ngClass]="!requiresUppercaseValid ? '' : 'no-error'"
+              >
+                Password must contain Uppercase letter<br />
+              </div>
+              <div
+                *ngIf="!requiresLowercaseValid"
+                [ngClass]="!requiresLowercaseValid ? '' : 'no-error'"
+              >
+                Password must contain Lowercase letter<br />
+              </div>
+              <div
+                *ngIf="!requiresDigitValid"
+                [ngClass]="!requiresDigitValid ? '' : 'no-error'"
+              >
+                Password must contain a number <br />
+              </div>
+              <div
+                *ngIf="!requiresSpecialCharsValid"
+                [ngClass]="!requiresSpecialCharsValid ? '' : 'no-error'"
+              >
+                Password must contain special character<br />
+              </div>
+            </div>
+          </section>
+
+          <button
+            [disabled]="registerForm.invalid"
+            class="uk-button uk-width-1-1 signup-btn1"
+            type="submit"
+          >
+            Sign Up
+          </button>
+        </form>
+        <div id="signup-or">
+          <div class="signup-hr1"></div>
+          <div class="signup-or">or</div>
+          <div class="signup-hr2"></div>
+        </div>
+
+        <div id="login-btn">
+          <div id="buttonDiv"></div>
+
+          <button class="uk-button login-btn2" (click)="facebookSignup()">
+            <img
+              src="https://res.cloudinary.com/mindset/image/upload/v1625923180/facebook__uzmrzq.png"
+              alt=""
+              class="signup-img"
+            />
+          </button>
+        </div>
+        <div class="signup-route">
+          Already registered?
+          <a (click)="toggleSignupModal()" class="fw-500">Login</a>
         </div>
       </div>
+    </div>
+  </div>
+</div>

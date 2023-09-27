@@ -2,10 +2,19 @@
   <div class="fetch-loader" *ngIf="isFetching"></div>
   <div class="personal-information-main" *ngIf="!isFetching">
     <div class="profile-photos">
-      <div class="profile-banner">
+      <div
+        class="profile-banner"
+        [ngStyle]="{
+          backgroundImage: 'url(' + coverPhotoUrl + ')'
+        }"
+      >
         <div class="profile-banner-hints">
-          <div class="profile-banner-hints-text">Cover Photo</div>
-          <span class="profile-banner-hints-icon">
+          <!-- <div class="profile-banner-hints-text">Cover Photo</div> -->
+          <span
+            class="profile-banner-hints-icon"
+            (click)="onUploadCoverPhoto()"
+            matTooltip="Upload or change cover photo"
+          >
             <svg
               width="21"
               height="20"
@@ -46,12 +55,50 @@
       <div class="profile-photo">
         <div class="profile-photo-container">
           <div class="profile-photo-main">
-            <img src="assets/images/seller-image.png" alt="" />
+            <img [src]="profilePhotoUrl" alt="" />
           </div>
-
-          <div class="profile-photo-text">
+          <div
+            class="profile-photo-icon"
+            matTooltip="Upload or change profile photo"
+            (click)="onUploadProfilePhoto()"
+          >
+            <svg
+              width="20"
+              height="18"
+              viewBox="0 0 20 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M13.04 1.0515C14.05 1.4535 14.359 2.8535 14.772 3.3035C15.185 3.7535 15.776 3.9065 16.103 3.9065C17.841 3.9065 19.25 5.3155 19.25 7.0525V12.8475C19.25 15.1775 17.36 17.0675 15.03 17.0675H4.97C2.639 17.0675 0.75 15.1775 0.75 12.8475V7.0525C0.75 5.3155 2.159 3.9065 3.897 3.9065C4.223 3.9065 4.814 3.7535 5.228 3.3035C5.641 2.8535 5.949 1.4535 6.959 1.0515C7.97 0.6495 12.03 0.6495 13.04 1.0515Z"
+                stroke="#7A7A7D"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M15.4955 6.5H15.5045"
+                stroke="#7A7A7D"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M13.1783 10.1282C13.1783 8.37222 11.7553 6.94922 9.99931 6.94922C8.24331 6.94922 6.82031 8.37222 6.82031 10.1282C6.82031 11.8842 8.24331 13.3072 9.99931 13.3072C11.7553 13.3072 13.1783 11.8842 13.1783 10.1282Z"
+                stroke="#7A7A7D"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <!-- <div class="profile-photo-text">
             Update your photo and personal details
-          </div>
+          </div> -->
         </div>
 
         <!-- <div class="profile-photo-btns desktop">
@@ -104,10 +151,10 @@
                 formControlName="email"
               />
             </div>
-            <div class="input-alert" *ngIf="!isEmailVerified">
+            <!-- <div class="input-alert" *ngIf="!isEmailVerified">
               You haven’t verified your email address.
             </div>
-            <button *ngIf="!isEmailVerified">Verify <span>Email</span></button>
+            <button *ngIf="!isEmailVerified">Verify <span>Email</span></button> -->
           </div>
         </div>
 
@@ -162,6 +209,7 @@
                 class="location-select"
                 name="select"
                 formControlName="country"
+                [value]="profileForm.value.country"
               >
                 <option
                   [value]="country.alpha2code"
@@ -179,7 +227,7 @@
 
           <div class="information-group-inputs">
             <div class="input-group" #test>
-              <input
+              <!-- <input
                 #telInput
                 type="tel"
                 class="input-o"
@@ -192,22 +240,25 @@
                 }"
                 (countryChange)="countryChange($event)"
                 (intlTelInputObject)="telInputObject($event)"
+                (hasError)="onError($event)"
                 formControlName="phoneNumber"
-              />
-              <!-- <mat-form-field appearance="outline">
-                <mat-label>Phone Number</mat-label>
-
+              /> -->
+              <mat-form-field class="custom-text-field">
                 <input
                   matInput
                   #myInput
-                  placeholder="08023434567"
+                  placeholder="8023434567"
                   pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$"
-                  type="number"
+                  type="tel"
+                  class="tel-input"
                   formControlName="phoneNumber"
                   required
                 />
                 <div class="country-code" matPrefix>
-                  <mat-select (change)="changeOption($event)">
+                  <mat-select
+                    (change)="changeOption($event)"
+                    formControlName="countryCode"
+                  >
                     <mat-select-trigger>
                       {{ f.countryCode.value }}
                     </mat-select-trigger>
@@ -216,7 +267,7 @@
                     </mat-option>
                   </mat-select>
                 </div>
-              </mat-form-field> -->
+              </mat-form-field>
             </div>
             <div
               class="input-alert phone-number-alert"

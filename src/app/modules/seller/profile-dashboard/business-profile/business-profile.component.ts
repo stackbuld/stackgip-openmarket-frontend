@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { log } from 'console';
 
 import { nigeriaSates } from 'src/app/data/nigeriastates';
+import { countryCodes } from 'src/app/data/countryCodes';
 import { IUser } from 'src/app/models/IUserModel';
 import { CountryInfo } from 'src/app/models/country.model';
 import { SellerBusinessProfileData } from 'src/app/models/sellerModel';
@@ -12,6 +12,7 @@ import { CountryService } from 'src/app/services/country/country.service';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import { ToastrService } from 'src/app/services/toastr.service';
 import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
+import { log } from 'console';
 
 @Component({
   selector: 'app-business-profile',
@@ -30,6 +31,7 @@ export class BusinessProfileComponent implements OnInit {
   isFetchingOtp: boolean = false;
   isBusinessPhoneNumberVerified: boolean = false;
   verifiedBusinessPhoneNumber: string;
+  codeList: any;
   countryInfo: CountryInfo[];
 
   constructor(
@@ -42,6 +44,7 @@ export class BusinessProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.codeList = countryCodes;
     this.isFetching = true;
 
     this.states = nigeriaSates.map((a) => a.name);
@@ -51,6 +54,7 @@ export class BusinessProfileComponent implements OnInit {
 
     this.businessProfileForm = this.fb.group({
       businessName: [null, [Validators.required]],
+      countryCode: ['+234'],
       businessEmail: [null, [Validators.required, Validators.email]],
       businessPhoneNumber: [null, [Validators.required]],
       businessAddress: [null, [Validators.required]],
@@ -68,16 +72,17 @@ export class BusinessProfileComponent implements OnInit {
         console.log(user);
         this.user = user.data;
         this.isBusinessPhoneNumberVerified = this.user.businessPhoneConfirmed;
+        const reformedPhoneNumber = this.user.phoneNumber.slice(-10);
 
         if (user.data.businessPhoneConfirmed) {
-          localStorage.setItem('verifiedPhone', this.user.phoneNumber);
-          this.verifiedBusinessPhoneNumber = this.user.businessPhone;
+          this.verifiedBusinessPhoneNumber = reformedPhoneNumber;
         }
 
         this.businessProfileForm.setValue({
           businessName: this.user.businessName,
           businessEmail: this.user.businessEmail,
-          businessPhoneNumber: this.user.businessPhone,
+          countryCode: '+234',
+          businessPhoneNumber: reformedPhoneNumber,
           businessAddress: this.user.businessAddress,
           businessState: this.user.businessState,
           businessCountry: this.user.businessCountryCode,
@@ -114,8 +119,19 @@ export class BusinessProfileComponent implements OnInit {
     this.businessProfileForm.valueChanges.subscribe((value) => {
       if (value.businessPhoneNumber !== this.verifiedBusinessPhoneNumber) {
         this.isBusinessPhoneNumberVerified = false;
+      } else {
+        this.isBusinessPhoneNumberVerified = true;
       }
     });
+  }
+
+  get f() {
+    return this.businessProfileForm.controls;
+  }
+
+  changeOption(e: any) {
+    console.log(e.target.value);
+    this.businessProfileForm.patchValue({ countryCodes: e.target.value });
   }
 
   trackByFn(index, item) {
@@ -125,6 +141,10 @@ export class BusinessProfileComponent implements OnInit {
   onVerfiyBusinessPhoneNumber() {
     this.isFetchingOtp = true;
 
+    const formatedPhoneNumber =
+      this.businessProfileForm.get('countryCode').value.toString() +
+      this.businessProfileForm.get('phoneNumber').value.toString();
+
     this.authService.sendBusinessPhoneOTP().subscribe({
       next: (data) => {
         this.isFetchingOtp = false;
@@ -133,7 +153,7 @@ export class BusinessProfileComponent implements OnInit {
           panelClass: 'otp_dialog',
           data: {
             type: 'businessPhoneNumberOTP',
-            payload: this.businessProfileForm.value.businessPhoneNumber,
+            payload: formatedPhoneNumber,
           },
         });
       },

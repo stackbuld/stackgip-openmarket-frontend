@@ -42,7 +42,7 @@
 
       <div class="information-group-inputs">
         <div class="input-group phone">
-          <input
+          <!-- <input
             type="tel"
             class="input-o"
             ng2TelInput
@@ -52,7 +52,32 @@
             
             }"
             formControlName="businessPhoneNumber"
-          />
+          /> -->
+          <mat-form-field class="custom-text-field custom-text-field-business">
+            <input
+              matInput
+              #myInput
+              placeholder="8023434567"
+              pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$"
+              type="tel"
+              class="tel-input"
+              formControlName="businessPhoneNumber"
+              required
+            />
+            <div class="country-code" matPrefix>
+              <mat-select
+                (change)="changeOption($event)"
+                formControlName="countryCode"
+              >
+                <mat-select-trigger>
+                  {{ f.countryCode.value }}
+                </mat-select-trigger>
+                <mat-option *ngFor="let el of codeList" [value]="el.code">
+                  {{ el.abbr }} {{ el.code }}
+                </mat-option>
+              </mat-select>
+            </div>
+          </mat-form-field>
         </div>
         <div class="input-alert" *ngIf="!isBusinessPhoneNumberVerified">
           You need to verify this new number via an OTP

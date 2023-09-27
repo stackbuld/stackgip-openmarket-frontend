@@ -30,6 +30,7 @@ export interface IUser {
   sellerApprovalStatus: string;
   emailConfirmed: boolean;
   phoneNumberConfirmed: boolean;
+  coverPhotoUrl?: string;
 }
 
 export interface IUserResponse extends ResponseModel {

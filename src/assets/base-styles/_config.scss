@@ -8,3 +8,31 @@ $error: #d9132b;
 $red: #ff0000;
 $green: #11955a;
 $toggler-bg: #f2f4f7;
+
+mat-form-field {
+  &.mat-mdc-form-field.custom-text-field {
+    padding: 0;
+    width: 100%;
+    background: $white;
+    border-radius: 8px;
+    border: none;
+    &
+      .mat-mdc-text-field-wrapper.mdc-text-field.ng-tns-c11-8.mdc-text-field--outlined.mdc-text-field--no-label {
+      height: 42px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+    }
+
+    & .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+  }
+
+  &.mat-mdc-form-field.custom-text-field.custom-text-field-business {
+    & .mat-mdc-select-value {
+      padding-left: 10px;
+    }
+  }
+}
