@@ -65,6 +65,7 @@
               class="tel-input"
               formControlName="businessPhoneNumber"
               required
+              (keyup)="checkInput()"
             />
             <div class="country-code" matPrefix>
               <mat-select
@@ -81,8 +82,14 @@
             </div>
           </mat-form-field>
         </div>
-        <div class="input-alert" *ngIf="!isBusinessPhoneNumberVerified">
+        <div
+          class="input-alert"
+          *ngIf="!isBusinessPhoneNumberVerified && !isInvalidPhoneNumber"
+        >
           You need to verify this new number via an OTP
+        </div>
+        <div class="input-alert invalid-phone" *ngIf="isInvalidPhoneNumber">
+          Please enter a valid phone number
         </div>
         <button
           [disabled]="isFetchingOtp"

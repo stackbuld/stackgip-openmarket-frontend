@@ -91,6 +91,13 @@
       >
         <span class="status" id="pending">Pending</span>
       </div>
+
+      <div
+        class="seller-kyc-main-status pending"
+        *ngIf="approvalStatus == 'failed'"
+      >
+        <span class="status" id="pending">Failed</span>
+      </div>
     </div>
   </div>
 

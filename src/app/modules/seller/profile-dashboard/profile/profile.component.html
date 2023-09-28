@@ -11,58 +11,11 @@
         }"
       >
         <div class="profile-banner-hints">
-          <!-- <div class="profile-banner-hints-text">Cover Photo</div> -->
+          <div class="profile-banner-hints-text">Cover Photo</div>
           <span
             class="profile-banner-hints-icon"
             (click)="onUploadCoverPhoto()"
             matTooltip="Upload or change cover photo"
-          >
-            <svg
-              width="21"
-              height="20"
-              viewBox="0 0 21 20"
-              stroke="#fff"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M13.16 3.37625C14.0437 3.71125 14.3141 4.87792 14.6755 5.25292C15.0369 5.62792 15.554 5.75542 15.8401 5.75542C17.3609 5.75542 18.5938 6.92958 18.5938 8.37708V13.2063C18.5938 15.1479 16.94 16.7229 14.9012 16.7229H6.09875C4.05912 16.7229 2.40625 15.1479 2.40625 13.2063V8.37708C2.40625 6.92958 3.63913 5.75542 5.15988 5.75542C5.44513 5.75542 5.96225 5.62792 6.3245 5.25292C6.68588 4.87792 6.95538 3.71125 7.83913 3.37625C8.72375 3.04125 12.2762 3.04125 13.16 3.37625Z"
-                stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M15.3086 7.91667H15.3164"
-                stroke="white"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M13.281 10.9402C13.281 9.47685 12.0359 8.29102 10.4994 8.29102C8.9629 8.29102 7.71777 9.47685 7.71777 10.9402C7.71777 12.4035 8.9629 13.5893 10.4994 13.5893C12.0359 13.5893 13.281 12.4035 13.281 10.9402Z"
-                stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </span>
-        </div>
-      </div>
-
-      <div class="profile-photo">
-        <div class="profile-photo-container">
-          <div class="profile-photo-main">
-            <img [src]="profilePhotoUrl" alt="" />
-          </div>
-          <div
-            class="profile-photo-icon"
-            matTooltip="Upload or change profile photo"
-            (click)="onUploadProfilePhoto()"
           >
             <svg
               width="20"
@@ -75,14 +28,14 @@
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M13.04 1.0515C14.05 1.4535 14.359 2.8535 14.772 3.3035C15.185 3.7535 15.776 3.9065 16.103 3.9065C17.841 3.9065 19.25 5.3155 19.25 7.0525V12.8475C19.25 15.1775 17.36 17.0675 15.03 17.0675H4.97C2.639 17.0675 0.75 15.1775 0.75 12.8475V7.0525C0.75 5.3155 2.159 3.9065 3.897 3.9065C4.223 3.9065 4.814 3.7535 5.228 3.3035C5.641 2.8535 5.949 1.4535 6.959 1.0515C7.97 0.6495 12.03 0.6495 13.04 1.0515Z"
-                stroke="#7A7A7D"
+                stroke="#fff"
                 stroke-width="1.5"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
               <path
                 d="M15.4955 6.5H15.5045"
-                stroke="#7A7A7D"
+                stroke="#fff"
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -91,16 +44,65 @@
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M13.1783 10.1282C13.1783 8.37222 11.7553 6.94922 9.99931 6.94922C8.24331 6.94922 6.82031 8.37222 6.82031 10.1282C6.82031 11.8842 8.24331 13.3072 9.99931 13.3072C11.7553 13.3072 13.1783 11.8842 13.1783 10.1282Z"
-                stroke="#7A7A7D"
+                stroke="#fff"
                 stroke-width="1.5"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
             </svg>
+          </span>
+        </div>
+      </div>
+
+      <div class="profile-photo">
+        <div class="profile-photo-container">
+          <div class="new-profile-photo-container">
+            <div class="profile-photo-main">
+              <img [src]="profilePhotoUrl" alt="" />
+            </div>
+            <div
+              class="profile-photo-icon"
+              matTooltip="Upload or change profile photo"
+              (click)="onUploadProfilePhoto()"
+            >
+              <svg
+                width="20"
+                height="18"
+                viewBox="0 0 20 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M13.04 1.0515C14.05 1.4535 14.359 2.8535 14.772 3.3035C15.185 3.7535 15.776 3.9065 16.103 3.9065C17.841 3.9065 19.25 5.3155 19.25 7.0525V12.8475C19.25 15.1775 17.36 17.0675 15.03 17.0675H4.97C2.639 17.0675 0.75 15.1775 0.75 12.8475V7.0525C0.75 5.3155 2.159 3.9065 3.897 3.9065C4.223 3.9065 4.814 3.7535 5.228 3.3035C5.641 2.8535 5.949 1.4535 6.959 1.0515C7.97 0.6495 12.03 0.6495 13.04 1.0515Z"
+                  stroke="#7A7A7D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M15.4955 6.5H15.5045"
+                  stroke="#7A7A7D"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M13.1783 10.1282C13.1783 8.37222 11.7553 6.94922 9.99931 6.94922C8.24331 6.94922 6.82031 8.37222 6.82031 10.1282C6.82031 11.8842 8.24331 13.3072 9.99931 13.3072C11.7553 13.3072 13.1783 11.8842 13.1783 10.1282Z"
+                  stroke="#7A7A7D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
           </div>
-          <!-- <div class="profile-photo-text">
+          <div class="profile-photo-text">
             Update your photo and personal details
-          </div> -->
+          </div>
         </div>
 
         <!-- <div class="profile-photo-btns desktop">

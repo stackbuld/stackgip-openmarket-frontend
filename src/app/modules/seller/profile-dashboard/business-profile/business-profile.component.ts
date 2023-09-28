@@ -1,5 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 import { nigeriaSates } from 'src/app/data/nigeriastates';
@@ -33,6 +38,7 @@ export class BusinessProfileComponent implements OnInit {
   verifiedBusinessPhoneNumber: string;
   codeList: any;
   countryInfo: CountryInfo[];
+  isInvalidPhoneNumber: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -72,7 +78,7 @@ export class BusinessProfileComponent implements OnInit {
         console.log(user);
         this.user = user.data;
         this.isBusinessPhoneNumberVerified = this.user.businessPhoneConfirmed;
-        const reformedPhoneNumber = this.user.phoneNumber.slice(-10);
+        const reformedPhoneNumber = this.user.businessPhone.slice(-10);
 
         if (user.data.businessPhoneConfirmed) {
           this.verifiedBusinessPhoneNumber = reformedPhoneNumber;
@@ -129,6 +135,18 @@ export class BusinessProfileComponent implements OnInit {
     return this.businessProfileForm.controls;
   }
 
+  get phoneNumberField() {
+    return <FormControl>this.businessProfileForm.get('businessPhoneNumber');
+  }
+
+  checkInput() {
+    if (this.phoneNumberField.invalid) {
+      this.isInvalidPhoneNumber = true;
+    } else {
+      this.isInvalidPhoneNumber = false;
+    }
+  }
+
   changeOption(e: any) {
     console.log(e.target.value);
     this.businessProfileForm.patchValue({ countryCodes: e.target.value });
@@ -141,19 +159,21 @@ export class BusinessProfileComponent implements OnInit {
   onVerfiyBusinessPhoneNumber() {
     this.isFetchingOtp = true;
 
-    const formatedPhoneNumber =
+    const formattedPhoneNumber =
       this.businessProfileForm.get('countryCode').value.toString() +
-      this.businessProfileForm.get('phoneNumber').value.toString();
+      this.phoneNumberField.value.toString();
+    console.log(formattedPhoneNumber);
 
     this.authService.sendBusinessPhoneOTP().subscribe({
       next: (data) => {
         this.isFetchingOtp = false;
+        console.log(data);
 
         const dialogRef = this.dialog.open(OTPDialogComponent, {
           panelClass: 'otp_dialog',
           data: {
             type: 'businessPhoneNumberOTP',
-            payload: formatedPhoneNumber,
+            payload: formattedPhoneNumber,
           },
         });
       },
@@ -175,7 +195,7 @@ export class BusinessProfileComponent implements OnInit {
 
     const formattedPhoneNumber =
       this.businessProfileForm.get('countryCode').value.toString() +
-      this.businessProfileForm.get('phoneNumber').value.toString();
+      this.businessProfileForm.get('businessPhoneNumber').value.toString();
 
     const formValue = this.businessProfileForm.value;
     const socialLinks = {

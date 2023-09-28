@@ -150,12 +150,11 @@
       rel="stylesheet"
     />
 
-
     <link rel="manifest" href="manifest.webmanifest" />
     <meta name="theme-color" content="#1976d2" />
 
     <!-- font awesome -->
-     <script
+    <script
       src="https://kit.fontawesome.com/7c569ccd7d.js"
       crossorigin="anonymous"
     ></script>
@@ -170,7 +169,6 @@
   </body>
   <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
-
 
   <script
     defer=""
@@ -226,8 +224,8 @@
         var n = e.amplitude || { _q: [], _iq: {} };
         if (n.invoked)
           e.console &&
-          console.error &&
-          console.error("Amplitude snippet has been loaded.");
+            console.error &&
+            console.error("Amplitude snippet has been loaded.");
         else {
           var r = function (e, t) {
               e.prototype[t] = function () {
@@ -236,7 +234,7 @@
                     name: t,
                     args: Array.prototype.slice.call(arguments, 0),
                   }),
-                    this
+                  this
                 );
               };
             },
@@ -274,7 +272,7 @@
               "https://cdn.amplitude.com/libs/analytics-browser-1.9.1-min.js.gz"),
             (a.onload = function () {
               e.amplitude.runQueuedFunctions ||
-              console.log("[Amplitude] Error: could not load SDK");
+                console.log("[Amplitude] Error: could not load SDK");
             });
           var c = t.getElementsByTagName("script")[0];
           c.parentNode.insertBefore(a, c);
@@ -352,18 +350,6 @@
       })(window, document);
     })();
 
-      amplitude.init("ddef6bad963cbfaaa706fa00d800c2dd", undefined, {
-        defaultTracking: {
-          sessions: true,
-          pageViews: true,
-          formInteractions: true,
-          fileDownloads: true,
-        },
-      });
-    </script>
-    <link rel="manifest" href="manifest.webmanifest" />
-    <!-- Google -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     amplitude.init("ddef6bad963cbfaaa706fa00d800c2dd", undefined, {
       defaultTracking: {
         sessions: true,

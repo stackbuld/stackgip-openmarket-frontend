@@ -9,7 +9,13 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { log } from 'console';
+import { IUser } from 'src/app/models/IUserModel';
+import {
+  SellerBusinessProfileData,
+  SellerProfileData,
+} from 'src/app/models/sellerModel';
 import { AuthService } from 'src/app/services/auth.service';
+import { SellerService } from 'src/app/services/seller/seller.service';
 import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
@@ -69,6 +75,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
   otpType: string;
   otpData: string;
   phoneNumber: string;
+  specificProfileData: SellerProfileData;
+  specificBusinessData: SellerBusinessProfileData;
 
   @ViewChild('otp_dialog') otpDialog: ElementRef<HTMLDivElement>;
 
@@ -76,7 +84,9 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
     @Inject(MAT_DIALOG_DATA) private data: { type: string; payload: string },
     private authService: AuthService,
     private toaster: ToastrService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private sellerService: SellerService,
+    private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -88,7 +98,30 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
     this.otpData = this.data.payload;
     this.otpType = this.data.type;
 
-    this.phoneNumber = JSON.parse(localStorage.getItem('user')!).phoneNumber;
+    const user: IUser = JSON.parse(localStorage.getItem('user')!);
+    this.phoneNumber = this.otpData;
+
+    this.specificProfileData = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      bio: user.bio,
+      profileImageUrl: user.profileImageUrl,
+      alpha2CountryCode: user.alpha2CountryCode,
+      state: user.state,
+      phoneNumber: user.phoneNumber,
+      coverPhotoUrl: user.coverPhotoUrl,
+    };
+
+    this.specificBusinessData = {
+      businessName: user.businessName,
+      businessEmail: user.businessEmail,
+      businessPhone: user.businessPhone,
+      businessAddress: user.businessAddress,
+      businessState: user.businessState,
+      businessCountryCode: user.businessCountryCode,
+      businessWebsite: user.businessWebsite,
+      businessSocialLinks: user.businessSocialLinks,
+    };
   }
 
   ngAfterViewChecked(): void {}
@@ -170,6 +203,21 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
           .subscribe({
             next: (data) => {
               this.isSubmitting = false;
+              this.sellerService
+                .updateSellerBusinessProfile({
+                  ...this.specificBusinessData,
+                  businessPhone: this.otpData,
+                })
+                .subscribe({
+                  next: (data) => {
+                    this.isSubmitting = false;
+
+                    this.toast.success('Profile updated successfully');
+                  },
+                  error: (err) => {
+                    console.log(err);
+                  },
+                });
               this.toaster.success(
                 "Company's Phone number verified successfully"
               );
