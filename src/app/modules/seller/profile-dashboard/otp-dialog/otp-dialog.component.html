@@ -15,7 +15,13 @@
     </div>
 
     <div class="code-resend">
-      Didn’t get a code? <a class="resend">Click to resend.</a>
+      Didn’t get a code?
+      <a class="resend">
+        <span *ngIf="resendTimer == 0" (click)="onResendOtp('type')"
+          >Click to resend.</span
+        >
+        <span *ngIf="resendTimer > 0">Resend in {{ resendTimer }}s</span></a
+      >
     </div>
 
     <button class="verify-button" (click)="onVerify()">

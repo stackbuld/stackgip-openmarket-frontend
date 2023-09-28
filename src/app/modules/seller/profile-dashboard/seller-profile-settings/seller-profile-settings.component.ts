@@ -14,6 +14,7 @@ import { MustMatch } from 'src/app/helpers/control-validators';
 import { MatDialog } from '@angular/material/dialog';
 import { SellerKycComponent } from '../seller-kyc/seller-kyc.component';
 import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
+import { log } from 'console';
 
 @Component({
   selector: 'app-change-password',

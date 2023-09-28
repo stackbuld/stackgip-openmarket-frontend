@@ -72,11 +72,13 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
   otpForm: FormGroup;
   otpInput: FormControl;
   isSubmitting: boolean = false;
+  isResending: boolean = false;
   otpType: string;
   otpData: string;
   phoneNumber: string;
   specificProfileData: SellerProfileData;
   specificBusinessData: SellerBusinessProfileData;
+  resendTimer: number = 29;
 
   @ViewChild('otp_dialog') otpDialog: ElementRef<HTMLDivElement>;
 
@@ -94,12 +96,21 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
       otp: new FormControl(null, Validators.required),
     });
 
+    let timer = 29;
+
+    setInterval(() => {
+      timer = timer - 1;
+      if (timer >= 0) {
+        this.resendTimer = timer;
+      }
+    }, 1000);
+
     this.otpInput = new FormControl(null, Validators.required);
     this.otpData = this.data.payload;
     this.otpType = this.data.type;
 
     const user: IUser = JSON.parse(localStorage.getItem('user')!);
-    this.phoneNumber = this.otpData;
+    this.phoneNumber = user.phoneNumber;
 
     this.specificProfileData = {
       firstName: user.firstName,
@@ -229,6 +240,60 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
               this.toaster.error('Something went wrong');
             },
           });
+    }
+  }
+
+  onResendOtp(type: string) {
+    switch (this.otpType) {
+      case 'changePasswordOTP':
+        this.authService.sendPasswordChangeOTP().subscribe({
+          next: (data) => {
+            this.toast.success(
+              'OTP sent successfully. Please check your SMS inbox!'
+            );
+          },
+          error: (err) => {
+            console.log(err);
+            this.toast.error('Something went wrong');
+          },
+        });
+        break;
+      case 'changePinOTP':
+        this.authService.sendPinChangeOTP().subscribe({
+          next: (data) => {
+            this.toast.success(
+              'OTP sent successfully. Please check your SMS inbox!'
+            );
+          },
+          error: (err) => {
+            console.log(err);
+            this.toast.error('Something went wrong');
+          },
+        });
+        break;
+      case 'phoneNumberOTP':
+        this.authService.sendPersonalPhoneOTP().subscribe({
+          next: (data) => {
+            this.toast.success(
+              'OTP sent successfully. Please check your SMS inbox!'
+            );
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+        break;
+      case 'businessPhoneNumberOTP':
+        this.authService.sendBusinessPhoneOTP().subscribe({
+          next: (data) => {
+            this.toast.success(
+              'OTP sent successfully. Please check your SMS inbox!'
+            );
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
     }
   }
 }

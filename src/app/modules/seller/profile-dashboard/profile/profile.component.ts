@@ -134,7 +134,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
           state: this.user.state,
         });
         this.isFetching = false;
-        console.log(this.profileForm.value);
 
         const initialUserForm = this.profileForm.value;
 
@@ -155,8 +154,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     this.countryService.getCountry().subscribe({
       next: (data) => {
-        console.log(data);
-
         this.countryInfo = data;
       },
     });
