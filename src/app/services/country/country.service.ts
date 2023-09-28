@@ -26,6 +26,7 @@ export class CountryService {
               alpha2code: item.alpha2Code,
               phoneCode: item.phoneCode,
               countryName: item.name,
+              flag: item.flag,
             };
           });
         })

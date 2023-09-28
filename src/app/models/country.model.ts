@@ -30,4 +30,5 @@ export interface CountryInfo {
   alpha2code: string;
   phoneCode: string;
   countryName: string;
+  flag: string;
 }

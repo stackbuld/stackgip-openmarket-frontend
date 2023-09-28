@@ -9,6 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { IUpdateUser, IUser } from 'src/app/models/IUserModel';
 import { log } from 'console';
@@ -70,9 +71,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.codeList = countryCodes;
-
     this.isFetching = true;
+    this.codeList = countryCodes;
 
     this.states = nigeriaSates.map((a) => a.name);
     this.states.unshift('Select a state');
@@ -156,6 +156,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     this.countryService.getCountry().subscribe({
       next: (data) => {
         console.log(data);
+
         this.countryInfo = data;
       },
     });

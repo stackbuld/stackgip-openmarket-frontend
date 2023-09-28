@@ -486,8 +486,12 @@
 }
 
 .fetch-loader {
-  height: 400px;
-  width: 400px;
+  height: 320px;
+  width: 320px;
+
+  & img {
+    width: 100%;
+  }
 }
 
 .login-btn-loader {

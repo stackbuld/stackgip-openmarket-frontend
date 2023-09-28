@@ -50,8 +50,8 @@ export class BusinessProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.codeList = countryCodes;
     this.isFetching = true;
+    this.codeList = countryCodes;
 
     this.states = nigeriaSates.map((a) => a.name);
     this.states.unshift('Select a state');
@@ -117,7 +117,6 @@ export class BusinessProfileComponent implements OnInit {
 
     this.countryService.getCountry().subscribe({
       next: (data) => {
-        console.log(data);
         this.countryInfo = data;
       },
     });

@@ -121,7 +121,6 @@
     cursor: pointer;
     color: $normal-text-color;
     margin-bottom: 0;
-    // transform: translateX(0) !important;
 
     &.active {
       color: $bold-text-color;
@@ -143,6 +142,10 @@
     }
     &:nth-child(3) {
       transform: translateX(460px) !important;
+    }
+
+    &-content {
+      margin-bottom: -20px;
     }
   }
 

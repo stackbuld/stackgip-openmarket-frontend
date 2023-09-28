@@ -1,6 +1,6 @@
 <div class="personal-information-container">
   <div class="fetch-loader" *ngIf="isFetching">
-    <img src="/assets/svg/loader-icon.svg" alt="" width="300" height="300" />
+    <img src="/assets/svg/loader-icon.svg" alt="" />
   </div>
   <div class="personal-information-main" *ngIf="!isFetching">
     <div class="profile-photos">
@@ -266,8 +266,27 @@
                     <mat-select-trigger>
                       {{ f.countryCode.value }}
                     </mat-select-trigger>
-                    <mat-option *ngFor="let el of codeList" [value]="el.code">
-                      {{ el.abbr }} {{ el.code }}
+                    <mat-option
+                      *ngFor="let country of countryInfo"
+                      [value]="country.phoneCode"
+                    >
+                      <img
+                        [src]="country.flag"
+                        alt=""
+                        width="25px"
+                        height="25px"
+                      />
+                      <span
+                        style="
+                          font-size: 14px;
+                          margin-left: 7px;
+                          font-weight: bold;
+                        "
+                        >{{ country.countryName }}
+                      </span>
+                      <span style="font-size: 14px">
+                        {{ country.phoneCode }}
+                      </span>
                     </mat-option>
                   </mat-select>
                 </div>
