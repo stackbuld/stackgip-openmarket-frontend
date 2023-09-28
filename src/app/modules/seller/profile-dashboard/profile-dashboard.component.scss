@@ -15,6 +15,14 @@
   width: 100%;
 }
 
+.profile-content-btn-mobile {
+  display: none;
+}
+
+.carousel {
+  display: none;
+}
+
 .profile-content-btn-main {
   width: 100%;
   margin: 0;
@@ -32,6 +40,7 @@
   cursor: pointer;
   white-space: nowrap;
   color: $normal-text-color;
+  text-align: center;
 
   &.active {
     color: $bold-text-color;
@@ -56,6 +65,7 @@
   }
 
   .profile-content-btn {
+    display: none;
     width: 100%;
 
     & ::-webkit-scrollbar {
@@ -64,26 +74,54 @@
     }
   }
 
-  .profile-content-btn-main {
+  .carousel-container-main {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ::ng-deep .carousel-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .carousel {
+    width: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
     border: none;
     border-radius: 0;
     border-top-right-radius: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin-bottom: 30px;
-    overflow: auto;
+    overflow: hidden;
     border-bottom: 2px solid $border-line-color;
   }
 
-  .profile-btn {
+  .carousel-cells {
+    width: 100%;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between !important;
+    padding-left: 50px;
+  }
+
+  .profile-btn,
+  .carousel-cell {
     list-style: none;
     font-size: 16px;
-    padding: 0 10px;
-    padding-bottom: 10px;
+    padding: 0 0;
     cursor: pointer;
-    // white-space: nowrap;
     color: $normal-text-color;
+    margin-bottom: 0;
+    // transform: translateX(0) !important;
 
     &.active {
       color: $bold-text-color;
@@ -93,12 +131,34 @@
     }
 
     &:not(:first-child) {
-      margin-left: 10px;
+      margin-left: 0px;
       border-top: none;
+    }
+
+    &:first-child {
+      transform: translateX(40px) !important;
+    }
+    &:nth-child(2) {
+      transform: translateX(260px) !important;
+    }
+    &:nth-child(3) {
+      transform: translateX(460px) !important;
     }
   }
 
   .profile-content-main {
     padding-left: 0;
+  }
+}
+
+::ng-deep .carousel-arrow {
+  width: 30px !important;
+  height: 30px !important;
+
+  &-prev {
+    left: 0 !important;
+  }
+  &-next {
+    right: 0 !important;
   }
 }

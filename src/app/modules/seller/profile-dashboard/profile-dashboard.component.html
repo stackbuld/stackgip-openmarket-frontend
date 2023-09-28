@@ -38,38 +38,42 @@
         </ul>
       </div>
 
-      <!-- <div class="mobile-tab">
-        <mat-tab-group animationDuration="2000ms">
-          <mat-tab
+      <div class="carousel-container-main">
+        <carousel class="carousel" style="height: 40px">
+          <div
+            class="profile-btn carousel-cell"
             routerLink="personal-information"
             routerLinkActive="active"
-            label=" Personal Information"
           >
-            <router-outlet></router-outlet>
-          </mat-tab>
-          <mat-tab
+            <div class="profile-btn-content">Personal Information</div>
+          </div>
+
+          <div
+            class="profile-btn carousel-cell"
             routerLink="business-information"
             routerLinkActive="active"
-            label="Business Information"
           >
-            <router-outlet></router-outlet
-          ></mat-tab>
-          <mat-tab
+            <div class="profile-btn-content">Business Information</div>
+          </div>
+
+          <div
+            class="profile-btn carousel-cell"
             routerLink="kyc-verification"
             routerLinkActive="active"
-            label="KYC Verification"
           >
-            <router-outlet></router-outlet
-          ></mat-tab>
-          <mat-tab
+            <div class="profile-btn-content">KYC Verification</div>
+          </div>
+
+          <div
+            class="profile-btn carousel-cell"
             routerLink="settings"
             routerLinkActive="active"
-            label="Settings"
+            style="transform: translateX(0)"
           >
-            <router-outlet></router-outlet
-          ></mat-tab>
-        </mat-tab-group>
-      </div> -->
+            <div class="profile-btn-content">Settings</div>
+          </div>
+        </carousel>
+      </div>
 
       <div class="profile-content-main">
         <router-outlet></router-outlet>
