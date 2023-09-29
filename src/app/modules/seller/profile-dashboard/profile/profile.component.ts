@@ -158,7 +158,7 @@ export class ProfileComponent implements OnInit {
       },
       error: (err) => {
         this.isFetching = false;
-        this.toast.error(err.error.message);
+        this.toast.error('Something went wrong!');
       },
     });
 
@@ -293,7 +293,7 @@ export class ProfileComponent implements OnInit {
   onEmailVerify() {
     this.isSendingEmailVerification = true;
 
-    this.authService.SendConfirmationEmail(this.user.email).subscribe({
+    this.authService.resendConfirmationEmail(this.user.email).subscribe({
       next: (data) => {
         this.isSendingEmailVerification = false;
 
@@ -367,7 +367,7 @@ export class ProfileComponent implements OnInit {
         },
         error: (err) => {
           this.isSubmitting = false;
-          this.toast.error(err.error.message);
+          this.toast.error('Something went wrong!');
         },
       });
   }

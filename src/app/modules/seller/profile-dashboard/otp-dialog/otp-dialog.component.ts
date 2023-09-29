@@ -212,7 +212,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
           .subscribe({
             next: (data) => {
               this.isSubmitting = false;
-              this.sellerService.phoneNumberConfirmed.next(true);
+              this.sellerService.businessPhoneConfirmed.next(true);
 
               this.toaster.success(
                 "Company's Phone number verified successfully"

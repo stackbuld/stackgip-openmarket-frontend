@@ -224,10 +224,10 @@
                 class="location-select"
                 name="select"
                 formControlName="country"
-                [value]="profileForm.value.country"
+                [value]="profileForm.value.country || 'NGN'"
               >
                 <option
-                  [value]="country.alpha2Code || 'NGN' || country.alpha3Code"
+                  [value]="country.alpha2Code || 'NGN'"
                   *ngFor="let country of countryInfo; trackBy: trackByFn"
                 >
                   {{ country.countryName }}

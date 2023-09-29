@@ -39,6 +39,7 @@ export class BusinessProfileComponent implements OnInit {
   codeList: any;
   countryInfo: CountryInfo[];
   isInvalidPhoneNumber: boolean = false;
+  isSellerApproved: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -98,7 +99,7 @@ export class BusinessProfileComponent implements OnInit {
           businessPhoneNumber: reformedPhoneNumber,
           businessAddress: this.user.businessAddress,
           businessState: this.user.businessState,
-          businessCountry: this.user.businessCountryCode,
+          businessCountry: 'NG',
           businessWebsite: this.user.businessWebsite,
           businessSocialFacebook: this.user.businessSocialLinks?.facebook || '',
           businessSocialX: this.user.businessSocialLinks?.twitter || '',
@@ -106,11 +107,12 @@ export class BusinessProfileComponent implements OnInit {
             this.user.businessSocialLinks?.instagram || '',
         });
 
+        this.isSellerApproved = this.user.isSellerApproved;
         if (this.user.isSellerApproved) {
           this.businessProfileForm.get('businessName').disable();
           this.businessProfileForm.get('businessAddress').disable();
           this.businessProfileForm.get('businessState').disable();
-          this.businessProfileForm.get('businessCountryCode').disable();
+          this.businessProfileForm.get('businessCountry').disable();
         }
 
         const initialUserForm = this.businessProfileForm.value;
@@ -125,7 +127,7 @@ export class BusinessProfileComponent implements OnInit {
       },
       error: (err) => {
         this.isFetching = false;
-        this.toast.error(err.error.message);
+        this.toast.error('Something went wrong!');
       },
     });
 
@@ -168,7 +170,7 @@ export class BusinessProfileComponent implements OnInit {
     return index;
   }
 
-  onVerfiyBusinessPhoneNumber() {
+  onVerifyBusinessPhoneNumber() {
     this.isFetchingOtp = true;
 
     const formattedPhoneNumber =
@@ -216,13 +218,15 @@ export class BusinessProfileComponent implements OnInit {
       instagram: formValue.businessSocialInstagram,
     };
 
+    const rawForm = this.businessProfileForm.getRawValue();
+
     const mainForm: SellerBusinessProfileData = {
-      businessName: formValue.businessName,
+      businessName: rawForm.businessName,
       businessEmail: formValue.businessEmail,
       businessPhone: formattedPhoneNumber,
-      businessAddress: formValue.businessAddress,
-      businessState: formValue.businessState,
-      businessCountryCode: formValue.businessCountry,
+      businessAddress: rawForm.businessAddress,
+      businessState: rawForm.businessState,
+      businessCountryCode: rawForm.businessCountry,
       businessWebsite: formValue.businessWebsite,
       businessSocialLinks: socialLinks,
     };
@@ -235,6 +239,8 @@ export class BusinessProfileComponent implements OnInit {
         this.toast.success('Profile updated successfully');
       },
       error: (err) => {
+        this.isSubmitting = false;
+
         this.toast.error(err.error.message);
       },
     });

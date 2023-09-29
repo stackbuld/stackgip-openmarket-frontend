@@ -103,7 +103,7 @@
         </div>
         <button
           [disabled]="isFetchingOtp"
-          (click)="onVerfiyBusinessPhoneNumber()"
+          (click)="onVerifyBusinessPhoneNumber()"
           *ngIf="!isBusinessPhoneNumberVerified"
         >
           <span class="login-btn-text" *ngIf="!isFetchingOtp">
@@ -156,9 +156,10 @@
             class="location-select"
             name="select"
             formControlName="businessCountry"
+            [value]="businessProfileForm.value.businessCountry"
           >
             <option
-              [value]="country.alpha2Code || 'NGN' || country.alpha3Code"
+              [value]="country.alpha2Code"
               *ngFor="let country of countryInfo; trackBy: trackByFn"
             >
               {{ country.countryName }}

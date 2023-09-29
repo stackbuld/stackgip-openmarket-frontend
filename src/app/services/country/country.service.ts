@@ -22,8 +22,6 @@ export class CountryService {
       )
       .pipe(
         map((res) => {
-          console.log(res);
-
           return res.data.map((item) => {
             return {
               alpha2Code: item.alpha2Code,
