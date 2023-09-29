@@ -82,7 +82,10 @@ export class BusinessProfileComponent implements OnInit {
         console.log(user);
         this.user = user.data;
         this.isBusinessPhoneNumberVerified = this.user.businessPhoneConfirmed;
-        const reformedPhoneNumber = this.user.businessPhone.slice(-10);
+        let reformedPhoneNumber = null;
+        if (this.user.businessPhone) {
+          reformedPhoneNumber = this.user.businessPhone.slice(-10);
+        }
 
         if (user.data.businessPhoneConfirmed) {
           this.verifiedBusinessPhoneNumber = reformedPhoneNumber;
