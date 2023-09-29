@@ -43,6 +43,18 @@
 
   & .resend {
     color: $error;
+    text-decoration: none;
+
+    & #resend-main {
+      text-decoration: underline;
+    }
+
+    & #reload {
+      color: $bold-text-color;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: none;
+    }
   }
 }
 

@@ -24,7 +24,12 @@
 
     & .seller-kyc-main-status {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+
+      & .status-icon {
+        display: flex;
+        align-items: center;
+      }
 
       & .desktop-verification-icon {
         display: block;
@@ -43,9 +48,22 @@
           color: $green;
         }
 
-        &#unverified {
+        &#unverified,
+        &#failed-text {
           color: $red;
         }
+
+        &#pending-text {
+          margin-left: 0;
+          color: $blue;
+          font-size: 20px;
+        }
+      }
+
+      & .status-message {
+        line-height: 1.2;
+        font-size: 16px;
+        margin-top: 20px;
       }
     }
   }
@@ -94,26 +112,36 @@
 
       & .seller-kyc-main-status {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 12px 0;
-        width: 160px;
         margin-top: 15px;
-        border-radius: 8px;
 
-        &.pending {
-          justify-content: flex-start;
+        & .status-icon {
+          display: inline-block;
+          width: 140px;
+          border-radius: 8px;
+          padding: 12px 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
 
-          & #pending {
-            margin-left: 0;
+          &.greenBg {
+            background: $green;
           }
-        }
+          &.redBg {
+            background: $red;
+            width: 169px;
+          }
+          &.blueBg {
+            background: $blue;
+          }
 
-        &.greenBg {
-          background: $green;
-        }
-        &.redBg {
-          background: $red;
+          &.pending {
+            justify-content: flex-start;
+
+            & #pending-text {
+              margin-left: 0;
+              color: $blue;
+            }
+          }
         }
 
         & .desktop-verification-icon {
@@ -129,11 +157,10 @@
           font-size: 18px;
           margin-left: 10px;
 
+          &#unverified,
+          &#failed-text,
+          &#pending-text,
           &#verified {
-            color: $white;
-          }
-
-          &#unverified {
             color: $white;
           }
         }

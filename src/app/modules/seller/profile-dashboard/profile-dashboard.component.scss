@@ -31,6 +31,7 @@
   border-radius: 9px;
   border-top-right-radius: 20px;
   overflow: hidden;
+  text-align: left;
 }
 
 .profile-btn {
@@ -40,7 +41,6 @@
   cursor: pointer;
   white-space: nowrap;
   color: $normal-text-color;
-  text-align: center;
 
   &.active {
     color: $bold-text-color;
@@ -121,6 +121,7 @@
     cursor: pointer;
     color: $normal-text-color;
     margin-bottom: 0;
+    text-align: center;
 
     &.active {
       color: $bold-text-color;

@@ -386,7 +386,8 @@
 
       & button {
         width: 67px;
-        & #verify-number-text {
+        & #verify-number-text,
+        & #verify-email-text {
           display: none;
         }
       }

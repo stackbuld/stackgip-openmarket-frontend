@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { log } from 'console';
 import {
+  CountryInfo,
   HttpCountryInfoResponse,
   RawCountryInfo,
 } from 'src/app/models/country.model';
@@ -21,9 +22,12 @@ export class CountryService {
       )
       .pipe(
         map((res) => {
+          console.log(res);
+
           return res.data.map((item) => {
             return {
-              alpha2code: item.alpha2Code,
+              alpha2Code: item.alpha2Code,
+              alpha3Code: item.alpha3Code,
               phoneCode: item.phoneCode,
               countryName: item.name,
               flag: item.flag,

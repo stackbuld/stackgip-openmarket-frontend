@@ -155,10 +155,21 @@
                 formControlName="email"
               />
             </div>
-            <!-- <div class="input-alert" *ngIf="!isEmailVerified">
+            <div class="input-alert" *ngIf="!isEmailVerified">
               You haven’t verified your email address.
             </div>
-            <button *ngIf="!isEmailVerified">Verify <span>Email</span></button> -->
+            <button
+              *ngIf="!isEmailVerified"
+              (click)="onEmailVerify()"
+              type="button"
+            >
+              <span class="login-btn-text" *ngIf="!isSendingEmailVerification">
+                Verify <span id="verify-email-text">Email</span> </span
+              ><span
+                class="login-btn-loader"
+                *ngIf="isSendingEmailVerification"
+              ></span>
+            </button>
           </div>
         </div>
 
@@ -216,7 +227,7 @@
                 [value]="profileForm.value.country"
               >
                 <option
-                  [value]="country.alpha2code"
+                  [value]="country.alpha2Code || 'NGN' || country.alpha3Code"
                   *ngFor="let country of countryInfo; trackBy: trackByFn"
                 >
                   {{ country.countryName }}

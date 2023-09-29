@@ -66,10 +66,14 @@ export class BusinessProfileComponent implements OnInit {
       businessAddress: [null, [Validators.required]],
       businessState: [null, [Validators.required]],
       businessCountry: [null, [Validators.required]],
-      businessWebsite: [null, [Validators.required]],
-      businessSocialFacebook: [null, [Validators.required]],
-      businessSocialX: [null, [Validators.required]],
-      businessSocialInstagram: [null, [Validators.required]],
+      businessWebsite: [null],
+      businessSocialFacebook: [null],
+      businessSocialX: [null],
+      businessSocialInstagram: [null],
+    });
+
+    this.sellerService.businessPhoneConfirmed.subscribe((status) => {
+      this.isBusinessPhoneNumberVerified = status;
     });
 
     this.sellerService.getSeller(this.userId).subscribe({
@@ -99,6 +103,13 @@ export class BusinessProfileComponent implements OnInit {
             this.user.businessSocialLinks?.instagram || '',
         });
 
+        if (this.user.isSellerApproved) {
+          this.businessProfileForm.get('businessName').disable();
+          this.businessProfileForm.get('businessAddress').disable();
+          this.businessProfileForm.get('businessState').disable();
+          this.businessProfileForm.get('businessCountryCode').disable();
+        }
+
         const initialUserForm = this.businessProfileForm.value;
 
         this.businessProfileForm.valueChanges.subscribe((value) => {
@@ -111,7 +122,7 @@ export class BusinessProfileComponent implements OnInit {
       },
       error: (err) => {
         this.isFetching = false;
-        console.log(err);
+        this.toast.error(err.error.message);
       },
     });
 
@@ -147,7 +158,6 @@ export class BusinessProfileComponent implements OnInit {
   }
 
   changeOption(e: any) {
-    console.log(e.target.value);
     this.businessProfileForm.patchValue({ countryCodes: e.target.value });
   }
 
@@ -166,7 +176,6 @@ export class BusinessProfileComponent implements OnInit {
     this.authService.sendBusinessPhoneOTP().subscribe({
       next: (data) => {
         this.isFetchingOtp = false;
-        console.log(data);
 
         const dialogRef = this.dialog.open(OTPDialogComponent, {
           panelClass: 'otp_dialog',
@@ -175,10 +184,11 @@ export class BusinessProfileComponent implements OnInit {
             payload: formattedPhoneNumber,
           },
         });
+        this.toast.success('OTP sent successfully!');
       },
       error: (err) => {
         this.isFetchingOtp = false;
-        console.log(err);
+        this.toast.error(err.error.message);
       },
     });
   }
@@ -222,7 +232,7 @@ export class BusinessProfileComponent implements OnInit {
         this.toast.success('Profile updated successfully');
       },
       error: (err) => {
-        console.log(err);
+        this.toast.error(err.error.message);
       },
     });
   }

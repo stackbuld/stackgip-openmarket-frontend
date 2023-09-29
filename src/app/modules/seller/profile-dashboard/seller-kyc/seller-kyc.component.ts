@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { SellerService } from 'src/app/services/seller/seller.service';
 
@@ -12,12 +13,14 @@ export class SellerKycComponent implements OnInit {
   isFetching: boolean = false;
   kycVerified: boolean = false;
   userId: string;
+  verificationFailureReason: string;
   approvalStatus: string;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private sellerService: SellerService
+    private sellerService: SellerService,
+    private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -29,10 +32,12 @@ export class SellerKycComponent implements OnInit {
         this.isFetching = false;
 
         console.log(user.data);
+        this.verificationFailureReason = user.data.rejectionReason;
         this.approvalStatus = user.data.sellerApprovalStatus;
+        this.kycVerified = user.data.isSellerApproved;
       },
       error: (err) => {
-        console.log(err);
+        this.toast.error(err.error.message);
       },
     });
   }

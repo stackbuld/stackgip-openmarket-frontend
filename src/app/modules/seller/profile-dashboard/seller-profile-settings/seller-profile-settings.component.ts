@@ -56,8 +56,16 @@ export class SellerProfileSettingsComponent implements OnInit {
     });
 
     this.pinForm = new FormGroup({
-      newPin: new FormControl(null, [Validators.required]),
-      confirmPin: new FormControl(null, [Validators.required]),
+      newPin: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(4),
+      ]),
+      confirmPin: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(4),
+      ]),
     });
   }
 
@@ -84,6 +92,7 @@ export class SellerProfileSettingsComponent implements OnInit {
       this.passwordMatch = false;
     }
   }
+
   onPin(event: Event) {
     if (this.newPin.value === this.confirmPin.value) {
       this.pinMatch = true;
@@ -138,8 +147,7 @@ export class SellerProfileSettingsComponent implements OnInit {
       error: (err) => {
         this.isSendingPasswordOTP = false;
 
-        console.log(err);
-        this.toast.error('Something went wrong');
+        this.toast.error(err.error.message);
       },
     });
   }
@@ -168,8 +176,7 @@ export class SellerProfileSettingsComponent implements OnInit {
       error: (err) => {
         this.isSendingPinOTP = false;
 
-        console.log(err);
-        this.toast.error('Something went wrong');
+        this.toast.error(err.error.message);
       },
     });
   }

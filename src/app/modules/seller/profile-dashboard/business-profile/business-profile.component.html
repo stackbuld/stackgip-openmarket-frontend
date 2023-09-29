@@ -158,7 +158,7 @@
             formControlName="businessCountry"
           >
             <option
-              [value]="country.alpha2code"
+              [value]="country.alpha2Code || 'NGN' || country.alpha3Code"
               *ngFor="let country of countryInfo; trackBy: trackByFn"
             >
               {{ country.countryName }}

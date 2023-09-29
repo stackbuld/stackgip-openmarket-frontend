@@ -158,9 +158,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
               this.dialog.closeAll();
             },
             error: (err) => {
-              console.log(err);
               this.isSubmitting = false;
-              this.toaster.error('Something went wrong');
+              this.toaster.error(err.error.message);
             },
           });
         break;
@@ -178,9 +177,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
               this.dialog.closeAll();
             },
             error: (err) => {
-              console.log(err);
               this.isSubmitting = false;
-              this.toaster.error('Something went wrong');
+              this.toaster.error(err.error.message);
             },
           });
         break;
@@ -194,13 +192,13 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
           .subscribe({
             next: (data) => {
               this.isSubmitting = false;
+              this.sellerService.phoneNumberConfirmed.next(true);
               this.toaster.success('Phone number verified successfully');
               this.dialog.closeAll();
             },
             error: (err) => {
-              console.log(err);
               this.isSubmitting = false;
-              this.toaster.error('Something went wrong');
+              this.toaster.error(err.error.message);
             },
           });
         break;
@@ -214,30 +212,16 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
           .subscribe({
             next: (data) => {
               this.isSubmitting = false;
-              this.sellerService
-                .updateSellerBusinessProfile({
-                  ...this.specificBusinessData,
-                  businessPhone: this.otpData,
-                })
-                .subscribe({
-                  next: (data) => {
-                    this.isSubmitting = false;
+              this.sellerService.phoneNumberConfirmed.next(true);
 
-                    this.toast.success('Profile updated successfully');
-                  },
-                  error: (err) => {
-                    console.log(err);
-                  },
-                });
               this.toaster.success(
                 "Company's Phone number verified successfully"
               );
               this.dialog.closeAll();
             },
             error: (err) => {
-              console.log(err);
               this.isSubmitting = false;
-              this.toaster.error('Something went wrong');
+              this.toaster.error(err.error.message);
             },
           });
     }
@@ -253,8 +237,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             );
           },
           error: (err) => {
-            console.log(err);
-            this.toast.error('Something went wrong');
+            this.toast.error(err.error.message);
           },
         });
         break;
@@ -266,8 +249,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             );
           },
           error: (err) => {
-            console.log(err);
-            this.toast.error('Something went wrong');
+            this.toast.error(err.error.message);
           },
         });
         break;
@@ -279,7 +261,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             );
           },
           error: (err) => {
-            console.log(err);
+            this.toast.error(err.error.message);
           },
         });
         break;
@@ -291,7 +273,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             );
           },
           error: (err) => {
-            console.log(err);
+            this.toast.error(err.error.message);
           },
         });
     }

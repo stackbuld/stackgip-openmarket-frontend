@@ -31,6 +31,7 @@ export interface IUser {
   emailConfirmed: boolean;
   phoneNumberConfirmed: boolean;
   coverPhotoUrl?: string;
+  rejectionReason?: string | null;
 }
 
 export interface IUserResponse extends ResponseModel {

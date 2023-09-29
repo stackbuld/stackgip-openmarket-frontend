@@ -8,19 +8,24 @@
       <ng-otp-input [config]="config" [formCtrl]="otpInput"></ng-otp-input>
     </div>
     <div class="otp-input-container mobile">
-      <ng-otp-input [config]="config2"></ng-otp-input>
+      <ng-otp-input [config]="config2" [formCtrl]="otpInput"></ng-otp-input>
     </div>
     <div class="otp-input-container mobile2">
-      <ng-otp-input [config]="config3"></ng-otp-input>
+      <ng-otp-input [config]="config3" [formCtrl]="otpInput"></ng-otp-input>
     </div>
 
     <div class="code-resend">
       Didn’t get a code?
       <a class="resend">
-        <span *ngIf="resendTimer == 0" (click)="onResendOtp('type')"
+        <span
+          *ngIf="resendTimer == 0"
+          (click)="onResendOtp('type')"
+          id="resend-main"
           >Click to resend.</span
         >
-        <span *ngIf="resendTimer > 0">Resend in {{ resendTimer }}s</span></a
+        <span *ngIf="resendTimer > 0" id="reload"
+          >Resend in {{ resendTimer }}s</span
+        ></a
       >
     </div>
 

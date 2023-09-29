@@ -27,7 +27,8 @@ export interface RawCountryInfo {
 }
 
 export interface CountryInfo {
-  alpha2code: string;
+  alpha2Code: string;
+  alpha3Code: string;
   phoneCode: string;
   countryName: string;
   flag: string;

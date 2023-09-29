@@ -32,7 +32,7 @@ declare var cloudinary: any;
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent implements OnInit, AfterViewInit {
+export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   states: string[] = [];
   isFetching: boolean = false;
@@ -56,9 +56,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   specificUserData: SellerProfileData;
   userId: string;
   uploadCoverPhotoWidget: any;
-  coverPhotoUrl: string;
+  coverPhotoUrl: string = 'assets/image/cover-photo-placeholder.jpg';
   uploadProfilePhotoWidget: any;
-  profilePhotoUrl: string = 'assets/images/Rectangle65.png';
+  profilePhotoUrl: string = 'assets/image/default-profile-picture-3.png';
+  isSendingEmailVerification: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -90,9 +91,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     this.userId = this.authService.getLoggedInUser().id;
 
+    this.sellerService.phoneNumberConfirmed.subscribe((status) => {
+      this.isPhoneVerified = status;
+    });
+
     this.sellerService.getSeller(this.userId).subscribe({
       next: (user) => {
-        console.log(user);
         this.user = user.data;
         const reformedPhoneNumber = this.user.phoneNumber.slice(-10);
 
@@ -106,11 +110,15 @@ export class ProfileComponent implements OnInit, AfterViewInit {
           phoneNumber: this.user.phoneNumber,
           coverPhotoUrl: this.user.coverPhotoUrl,
         };
+
         this.isEmailVerified = user.data.emailConfirmed;
+
         this.isPhoneVerified = user.data.phoneNumberConfirmed;
+
         if (this.user.coverPhotoUrl) {
           this.coverPhotoUrl = this.user.coverPhotoUrl;
         }
+
         if (this.user.profileImageUrl) {
           this.profilePhotoUrl = this.user.profileImageUrl;
         }
@@ -133,6 +141,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
           country: this.user.alpha2CountryCode,
           state: this.user.state,
         });
+
+        this.profileForm.get('email').disable();
+
         this.isFetching = false;
 
         const initialUserForm = this.profileForm.value;
@@ -147,8 +158,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         this.isFetching = false;
-
-        console.log(err);
+        this.toast.error(err.error.message);
       },
     });
 
@@ -187,9 +197,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
               next: (data) => {
                 this.isSubmitting = false;
               },
-              error: (err) => {
-                console.log(err);
-              },
+              error: (err) => {},
             });
         }
       }
@@ -216,9 +224,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
               next: (data) => {
                 this.isSubmitting = false;
               },
-              error: (err) => {
-                console.log(err);
-              },
+              error: (err) => {},
             });
         }
       }
@@ -237,18 +243,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     this.uploadProfilePhotoWidget.open();
   }
 
-  ngAfterViewInit(): void {
-    if (!this.isFetching) {
-      const phone = '+917878747416';
-      this.profileForm.get('phoneNumber').setValue(phone);
-      this.telInput.nativeElement.dispatchEvent(
-        new KeyboardEvent('keyup', { bubbles: true })
-      );
-    }
-  }
-
   changeOption(e: any) {
-    console.log(e.target.value);
     this.profileForm.patchValue({ countryCodes: e.target.value });
   }
 
@@ -295,6 +290,28 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     );
   }
 
+  onEmailVerify() {
+    this.isSendingEmailVerification = true;
+
+    this.authService.SendConfirmationEmail(this.user.email).subscribe({
+      next: (data) => {
+        this.isSendingEmailVerification = false;
+
+        const dialogRef = this.dialog.open(EmailDialogComponent, {
+          panelClass: 'otp_dialog',
+          data: { email: this.user.email },
+        });
+        this.toast.success('Verification email sent successfully!');
+      },
+      error: (err) => {
+        console.log(err);
+
+        this.isSendingEmailVerification = false;
+        this.toast.error(err.error.message);
+      },
+    });
+  }
+
   onVerfiyPhoneNumber() {
     this.isFetchingOtp = true;
     const formatedPhoneNumber =
@@ -304,6 +321,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     this.authService.sendPersonalPhoneOTP().subscribe({
       next: (data) => {
         this.isFetchingOtp = false;
+
+        this.toast.success('OTP sent successfully!');
 
         const dialogRef = this.dialog.open(OTPDialogComponent, {
           panelClass: 'otp_dialog',
@@ -315,7 +334,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         this.isFetchingOtp = false;
-        console.log(err);
+        this.toast.error(err.error.message);
       },
     });
   }
@@ -348,8 +367,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         },
         error: (err) => {
           this.isSubmitting = false;
-
-          console.log(err);
+          this.toast.error(err.error.message);
         },
       });
   }

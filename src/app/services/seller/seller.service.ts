@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { IUser, UserDataResponse } from 'src/app/models/IUserModel';
 import {
@@ -27,6 +27,8 @@ export class SellerService {
     canceled: 'canceled',
     nully: 'nully',
   };
+  phoneNumberConfirmed = new Subject<boolean>();
+  businessPhoneConfirmed = new Subject<boolean>();
 
   constructor(
     private reqS: RequestService,

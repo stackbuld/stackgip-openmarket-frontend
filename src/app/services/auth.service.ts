@@ -234,6 +234,12 @@ export class AuthService {
     );
   }
 
+  public resendConfirmationEmail(email: string) {
+    return this.http.get(
+      this.api.baseApiUrl + 'auth/verification/resend?email=' + email
+    );
+  }
+
   sendPasswordChangeOTP() {
     return this.http.get(this.api.baseApiUrl + 'auth/password/change/otp');
   }
