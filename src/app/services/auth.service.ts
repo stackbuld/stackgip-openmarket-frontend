@@ -1,10 +1,19 @@
 import { UpdateProfileAction } from './../reducers/action/auth.action';
 import { IUpdatePassword } from './../models/auth-model';
-import {GetWssUrlResponse, IResponseModel} from './../shared/models/IResponseModel';
+import {
+  GetWssUrlResponse,
+  IResponseModel,
+} from './../shared/models/IResponseModel';
 
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Observable, BehaviorSubject, of, Subscription, firstValueFrom} from 'rxjs';
+import {
+  Observable,
+  BehaviorSubject,
+  of,
+  Subscription,
+  firstValueFrom,
+} from 'rxjs';
 import { IUser } from '../models/IUserModel';
 import { ApiAppUrlService } from './api-app-url.service';
 import {
@@ -19,7 +28,7 @@ import { AppState } from '../reducers';
 import { LoginAction, LogOutAction } from '../reducers/action/auth.action';
 import { v4 as uuidv4 } from 'uuid';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import {delay, filter, tap} from 'rxjs/operators';
+import { delay, filter, tap } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 import { JwtHelperService } from './jwt-helper.service';
 import { ToastrService } from 'ngx-toastr';
@@ -50,7 +59,7 @@ export class AuthService {
     // private socialAuthService: SocialAuthService,
     private router: Router,
     private jwtHelperService: JwtHelperService,
-    private toast: ToastrService,
+    private toast: ToastrService
   ) {
     const userData = this.GetSignInData();
     if (userData != null) {
@@ -93,32 +102,31 @@ export class AuthService {
     );
   }
 
-
-  public hideSharedLoginModal () {
+  public hideSharedLoginModal() {
     uikit.modal('#login-modal').hide();
   }
-  public hideSharedSocialModal () {
+  public hideSharedSocialModal() {
     uikit.modal('#social-modal').hide();
   }
 
-  public showSharedLoginModal (){
+  public showSharedLoginModal() {
     this.hideSharedSignupModal();
     this.hideSharedSocialModal();
     uikit.modal('#login-modal').show();
   }
-  public showSharedSocialModal (){
+  public showSharedSocialModal() {
     this.hideSharedSignupModal();
     this.hideSharedLoginModal();
     uikit.modal('#social-modal').show();
   }
 
-  public showSharedSignupModal (){
+  public showSharedSignupModal() {
     this.hideSharedLoginModal();
-    this.hideSharedSocialModal()
+    this.hideSharedSocialModal();
     uikit.modal('#signup-modal').show();
   }
 
-  public hideSharedSignupModal (){
+  public hideSharedSignupModal() {
     uikit.modal('#signup-modal').hide();
   }
 
@@ -138,11 +146,11 @@ export class AuthService {
     });
   }
 
-  getUserReferenceNumber(): string{
+  getUserReferenceNumber(): string {
     let reference = '';
     if (localStorage.getItem('referenceId') === null) {
-      reference =  uuidv4();
-      localStorage.setItem('referenceId', reference)
+      reference = uuidv4();
+      localStorage.setItem('referenceId', reference);
     } else {
       reference = localStorage.getItem('referenceId') as string;
     }
@@ -226,6 +234,54 @@ export class AuthService {
     );
   }
 
+  public resendConfirmationEmail(email: string) {
+    return this.http.get(
+      this.api.baseApiUrl + 'auth/verification/resend?email=' + email
+    );
+  }
+
+  sendPasswordChangeOTP() {
+    return this.http.get(this.api.baseApiUrl + 'auth/password/change/otp');
+  }
+
+  sendPinChangeOTP() {
+    return this.http.get(this.api.baseApiUrl + 'auth/pin/change/otp');
+  }
+
+  updatePin(credentials: { newPin: string; phoneOtp: string }) {
+    return this.http.patch(
+      this.api.baseApiUrl + 'auth/pin/change',
+      credentials
+    );
+  }
+
+  sendPersonalPhoneOTP() {
+    return this.http.get(this.api.baseApiUrl + 'users/phonenumber/send-otp');
+  }
+
+  verifyPersonalPhoneNumber(credentials: { phoneNumber: string; otp: string }) {
+    return this.http.put(
+      this.api.baseApiUrl + 'users/phonenumber/verify',
+      credentials
+    );
+  }
+
+  sendBusinessPhoneOTP() {
+    return this.http.get(
+      this.api.baseApiUrl + 'sellers/businessphone/send-otp'
+    );
+  }
+
+  verifyBusinessPhoneNumber(credentials: {
+    businessPhone: string;
+    otp: string;
+  }) {
+    return this.http.put(
+      this.api.baseApiUrl + 'sellers/businessphone/verify',
+      credentials
+    );
+  }
+
   public ConfirmEmail(
     email: string,
     token: string
@@ -264,12 +320,13 @@ export class AuthService {
     }
   }
 
-  public UpdatePassword(
-    updateUser: IUpdatePassword
-  ): Observable<IResponseModel> {
+  public UpdatePassword(credentials: {
+    newPassword: string;
+    phoneOtp: string;
+  }): Observable<IResponseModel> {
     return this.http.patch<IResponseModel>(
       this.api.baseApiUrl + 'auth/password/change',
-      updateUser
+      credentials
     );
   }
 
@@ -300,33 +357,41 @@ export class AuthService {
   //   }
   // }
 
-  public  getWebSocketUrl(): Observable<GetWssUrlResponse> {
+  public getWebSocketUrl(): Observable<GetWssUrlResponse> {
     const referenceId = this.getUserReferenceNumber();
-    const userId = this.getLoggedInUser()?.id?? '';
+    const userId = this.getLoggedInUser()?.id ?? '';
     const cachedUrl = this.getLocalStorageItemWithExpiry('notificationWssUrl');
     // const cachedUrl = '';
 
-    if(!cachedUrl){
-      const path = this.api.notificationBaseUrl+`negotiate?referenceId=${referenceId}&userId=${userId}`;
-      const wssUrlResponse =  this.http.get<GetWssUrlResponse>(path);
-      wssUrlResponse.pipe(tap(a=> {
-        this.setLocalStorageItemWithExpiry('notificationWssUrl',a?.wssUrl, 60*24 )
-      }))
+    if (!cachedUrl) {
+      const path =
+        this.api.notificationBaseUrl +
+        `negotiate?referenceId=${referenceId}&userId=${userId}`;
+      const wssUrlResponse = this.http.get<GetWssUrlResponse>(path);
+      wssUrlResponse.pipe(
+        tap((a) => {
+          this.setLocalStorageItemWithExpiry(
+            'notificationWssUrl',
+            a?.wssUrl,
+            60 * 24
+          );
+        })
+      );
       return wssUrlResponse;
-    }else {
-      return  of( {wssUrl: cachedUrl} as GetWssUrlResponse) ;
+    } else {
+      return of({ wssUrl: cachedUrl } as GetWssUrlResponse);
     }
   }
   setLocalStorageItemWithExpiry(key, value: string, expiryInMinutes) {
     const now = new Date();
     const item = {
       value,
-      expiry: now.getTime() + expiryInMinutes * 60 * 1000
+      expiry: now.getTime() + expiryInMinutes * 60 * 1000,
     };
     localStorage.setItem(key, JSON.stringify(item));
   }
 
-// Function to get a localStorage item with expiration handling
+  // Function to get a localStorage item with expiration handling
   getLocalStorageItemWithExpiry<T>(key): string {
     const item = JSON.parse(localStorage.getItem(key));
     if (!item) return null;
@@ -342,18 +407,22 @@ export class AuthService {
 
   async handleAuthResponse(res: any, accessType: string, authType: string) {
     this.ngxService.stopAll();
-    if (accessType === 'signin' && authType === 'login' && res.data.canLogin === false) {
+    if (
+      accessType === 'signin' &&
+      authType === 'login' &&
+      res.data.canLogin === false
+    ) {
       this.ngxService.stopLoader('loader-01');
       this.toast.error('Please confirm your email address');
-      
-      if (this.currentUrl.includes('seller-form')) { 
+
+      if (this.currentUrl.includes('seller-form')) {
         this.hideSharedLoginModal();
         this.isLogin.next(true);
         this.SetAuthLocalStorage(res);
         return;
       }
-          this.router.navigate(['/auth/confirm-email']);
-          return;
+      this.router.navigate(['/auth/confirm-email']);
+      return;
     }
     if (res.data.canLogin === true) {
       this.applocal.currentUser.next(res.data.user);
@@ -365,37 +434,43 @@ export class AuthService {
           res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
           res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
         ) {
-          this.toast.success(`${accessType === 'signin'? 'Login': 'Signup'} Successful`);
-          if(this.currentUrl.includes('auth')) {
+          this.toast.success(
+            `${accessType === 'signin' ? 'Login' : 'Signup'} Successful`
+          );
+          if (this.currentUrl.includes('auth')) {
             this.router.navigate(['/seller/dashboard']);
           } else {
             this.hideSharedLoginModal();
           }
         } else {
-          this.toast.success(`${accessType === 'signin'? 'Login': 'Signup'} Successful`);
-          if(this.currentUrl.includes('auth')) {
+          this.toast.success(
+            `${accessType === 'signin' ? 'Login' : 'Signup'} Successful`
+          );
+          if (this.currentUrl.includes('auth')) {
             this.router.navigate(['/']);
           } else {
             this.hideSharedLoginModal();
-            this.hideSharedSignupModal()
+            this.hideSharedSignupModal();
           }
         }
       } else {
         this.ngxService.stopLoader('loader-01');
         this.isLogin.next(true);
         this.SetAuthLocalStorage(res);
-        this.toast.success(`${accessType === 'signin'? 'Login': 'Signup'} Successful`);
-        if(this.currentUrl.includes('auth')) {
-          authType === 'login'? this.router.navigate(['/']): this.router.navigate(['/homepage'])
+        this.toast.success(
+          `${accessType === 'signin' ? 'Login' : 'Signup'} Successful`
+        );
+        if (this.currentUrl.includes('auth')) {
+          authType === 'login'
+            ? this.router.navigate(['/'])
+            : this.router.navigate(['/homepage']);
         } else {
           this.hideSharedLoginModal();
-          this.hideSharedSignupModal()
+          this.hideSharedSignupModal();
         }
       }
     }
     this.isLogin.next(true);
     this.SetAuthLocalStorage(res);
   }
-
-
 }

@@ -1,0 +1,254 @@
+@import "config";
+
+.profile-settings-container {
+  padding-bottom: 60px;
+}
+
+.change-settings {
+  &:not(:last-child) {
+    margin-bottom: 40px;
+  }
+
+  &-heading {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  &-main {
+    border: 1px solid $border-line-color;
+    border-radius: 7px;
+    padding: 20px 30px;
+  }
+}
+
+.change-settings-form {
+  display: flex;
+  flex-direction: column;
+
+  & .form-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    &:not(:last-child) {
+      margin-bottom: 30px;
+    }
+
+    & label {
+      font-size: 16px;
+    }
+
+    & input {
+      border: 1px solid $input-border;
+      padding: 10px 15px;
+      border-radius: 8px;
+      width: 50%;
+
+      &::placeholder {
+        color: transparent;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    & .p-match {
+      position: absolute;
+      right: 0;
+      font-size: 16px;
+      bottom: -40px;
+      color: $error;
+    }
+
+    & .hint {
+      position: absolute;
+      right: 0;
+      bottom: -35px;
+      font-size: 16px;
+      color: $error;
+    }
+  }
+
+  & button {
+    align-self: flex-end;
+    display: inline;
+    width: 120px;
+    height: 41px;
+    white-space: nowrap;
+    border: 1px solid $black;
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: $black;
+    white-space: nowrap;
+    background: transparent;
+    transition: all 300ms;
+    margin-top: 10px;
+
+    &:hover {
+      background: $black;
+      color: $white;
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      &:hover {
+        background: transparent;
+        color: $black;
+      }
+    }
+  }
+}
+
+.deactivate {
+  border: 1px solid $border-line-color;
+  border-radius: 7px;
+  padding: 20px 30px;
+  & .change-settings-main {
+    display: flex;
+    align-items: flex-start;
+    border: none;
+  }
+
+  & .toggler {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background: $toggler-bg;
+    border-radius: 50px;
+    margin: 0 15px;
+    cursor: pointer;
+
+    & .roller {
+      position: absolute;
+      left: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: $white;
+      transition: all 300ms ease-in-out;
+    }
+
+    &.roll {
+      & .roller {
+        left: 55%;
+      }
+    }
+  }
+
+  &-main {
+    &-text {
+      font-size: 16px;
+      color: $normal-text-color;
+
+      &.warn {
+        color: $error;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  & button {
+    display: inline;
+    width: 120px;
+    height: 41px;
+    white-space: nowrap;
+    border: 1px solid $black;
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: $black;
+    white-space: nowrap;
+    background: transparent;
+    transition: all 300ms;
+
+    &:hover {
+      background: $black;
+      color: $white;
+      border: none;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .profile-settings-container {
+    padding-bottom: 10px;
+  }
+
+  .change-settings {
+    &-main {
+      border: none;
+      border-radius: 0;
+      padding: 20px 0;
+    }
+  }
+
+  .change-settings-form {
+    display: flex;
+    flex-direction: column;
+
+    & .form-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+
+      & label {
+        display: none;
+      }
+
+      & input {
+        width: 100%;
+
+        &::placeholder {
+          color: $normal-text-color;
+        }
+      }
+    }
+
+    & button {
+      align-self: flex-start;
+      width: auto;
+      padding: 10px 40px;
+      margin-top: 20px;
+    }
+  }
+
+  .deactivate {
+    border: none;
+    padding-left: 0;
+
+    & button {
+      align-self: flex-start;
+      width: auto;
+      padding: 10px 40px;
+    }
+  }
+}
+
+.login-btn-loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid $bold-text-color;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

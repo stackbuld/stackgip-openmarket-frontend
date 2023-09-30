@@ -1,0 +1,528 @@
+@import "config";
+
+.personal-information-container {
+  width: 100%;
+  padding-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.personal-information-main {
+  width: 100%;
+}
+
+.country-code {
+  width: 4rem;
+  padding-left: 0.5rem;
+  // background-color:;
+}
+
+.profile-banner {
+  position: relative;
+  background: #000;
+  height: 177px;
+  width: 100%;
+  border-radius: 12px;
+  border-top-right-radius: 70px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  // z-index: 8;
+
+  &-hints {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    right: 10px;
+    bottom: 10px;
+    cursor: pointer;
+    z-index: 12;
+
+    &-text {
+      color: $white;
+      margin-right: 10px;
+      font-weight: lighter;
+    }
+
+    &-icon {
+      border: 1px solid $white;
+      border-radius: 4px;
+      padding: 3px;
+    }
+  }
+}
+
+.profile-photo {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 40px;
+  z-index: 10;
+  margin-top: -40px;
+}
+
+.profile-photo-container {
+  display: flex;
+  align-items: flex-end;
+
+  & .new-profile-photo-container {
+    position: relative;
+    & .profile-photo-icon {
+      position: absolute;
+      right: 5px;
+      bottom: 10px;
+      z-index: 14;
+      background: #f2f2f2;
+      border-radius: 8px;
+      height: 30px;
+      width: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+  }
+
+  & .profile-photo-main {
+    position: relative;
+    border: 4px solid $white;
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 120px !important;
+    height: 120px !important;
+    overflow: hidden;
+
+    & img {
+      position: relative;
+      width: 100%;
+      z-index: 13;
+    }
+  }
+
+  & .profile-photo-text {
+    color: $normal-text-color;
+    transform: translateY(-20px);
+    line-height: 1.2;
+  }
+}
+
+.profile-information-content {
+  margin-top: 30px;
+}
+
+.profile-form-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  & .profile-photo-btns {
+    margin-top: 30px;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    &.mobile {
+      display: flex;
+
+      & button {
+        border: none;
+        height: 40px;
+        padding: 10px 35px;
+        border-radius: 8px;
+
+        &#save {
+          background: $black;
+          color: $white;
+          display: flex;
+          align-items: center;
+          transition: all 300ms;
+          border: 1px solid $black;
+
+          &:hover {
+            background: $white;
+            color: $black;
+          }
+        }
+
+        &#cancel {
+          background: transparent;
+          border: 1px solid $input-border;
+          color: $black;
+          margin-right: 10px;
+          transition: all 300ms;
+
+          &:hover {
+            background: $black;
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}
+
+.information-group {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+
+  &:not(:last-child) {
+    margin-bottom: 40px;
+  }
+
+  &.phone-number {
+    border-top: 1px solid $input-border;
+    padding-top: 30px;
+  }
+
+  &-label {
+    color: $bold-text-color;
+    font-weight: bold;
+    width: 30%;
+    margin-right: 10px;
+
+    & #bio-hint {
+      //   width: 30%;
+      line-height: 1.1;
+      color: $normal-text-color;
+      font-size: 10px;
+    }
+  }
+
+  &-inputs {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    & .input-alert {
+      position: absolute;
+      left: 0;
+      bottom: -25px;
+      color: $error;
+      margin-top: 8px;
+      white-space: nowrap;
+    }
+
+    & .input-group {
+      width: 50%;
+
+      & .input-o,
+      textarea {
+        border: 1px solid $input-border;
+        padding: 10px 15px;
+        border-radius: 8px;
+        width: 100%;
+
+        &#first-name {
+          margin-right: 15px;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      &.textarea {
+        width: 70%;
+      }
+    }
+
+    & button {
+      border: none;
+      height: 40px;
+      width: 122px;
+      padding: 10px 15px;
+      border-radius: 8px;
+      background: $black;
+      color: $white;
+      border: 1px solid $black;
+      white-space: nowrap;
+      transition: all 300ms;
+
+      &:hover {
+        background: $white;
+        color: $black;
+      }
+    }
+  }
+
+  & .location-select {
+    border: 1px solid $input-border;
+    padding: 10px 0px;
+    border-radius: 8px;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+:host ::ng-deep .iti {
+  width: 100%;
+}
+
+@media (max-width: 570px) {
+  .personal-information-container {
+    padding-bottom: 10px;
+  }
+
+  .profile-photo-btns {
+    transform: translateY(0px);
+    justify-content: center;
+
+    &.desktop {
+      display: none;
+    }
+
+    &.mobile {
+      display: flex;
+
+      & button {
+        padding: 10px 35px;
+      }
+    }
+
+    & button {
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+
+      &#cancel {
+        margin-right: 20px;
+      }
+    }
+  }
+
+  .information-group {
+    flex-direction: column;
+
+    &:not(:last-child) {
+      margin-bottom: 40px;
+    }
+
+    &.phone-number {
+      border-top: 1px solid $input-border;
+      padding-top: 30px;
+    }
+
+    &-label {
+      width: 30%;
+      margin-right: 0px;
+      margin-bottom: 10px;
+
+      & #bio-hint {
+        //   width: 30%;
+        line-height: 1.1;
+        color: $normal-text-color;
+        font-size: 10px;
+      }
+    }
+
+    &-inputs {
+      align-items: flex-start;
+      flex-direction: column;
+
+      & .input-alert {
+        position: absolute;
+        left: 0;
+        bottom: 25px;
+        color: $error;
+        margin-top: 0;
+        white-space: nowrap;
+      }
+
+      & .input-group {
+        width: 100%;
+
+        & .input-o,
+        textarea {
+          width: 100%;
+
+          &#first-name {
+            margin-right: 0px;
+            margin-bottom: 10px;
+          }
+        }
+
+        &.textarea {
+          width: 100%;
+        }
+      }
+
+      & button {
+        margin-top: 10px;
+        align-self: flex-end;
+      }
+    }
+
+    & .location-select {
+      border: 1px solid $input-border;
+      padding: 10px 0px;
+      border-radius: 8px;
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 472px) {
+  .information-group {
+    &-inputs {
+      & .input-alert {
+        overflow-wrap: break-word;
+        line-height: 1.2;
+        white-space: normal;
+        &.phone-number-alert {
+          bottom: 10px;
+          width: 250px;
+        }
+      }
+
+      & button {
+        width: 67px;
+        & #verify-number-text,
+        & #verify-email-text {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 412px) {
+  .profile-photo {
+    padding-left: 20px;
+    margin-top: -40px;
+  }
+
+  .profile-photo-container {
+    display: flex;
+    align-items: flex-end;
+
+    & .profile-photo-text {
+      transform: translateY(0px);
+      font-size: 12px;
+    }
+  }
+
+  .information-group {
+    &-inputs {
+      & .input-alert {
+        bottom: 10px;
+        white-space: normal;
+        width: 250px;
+        overflow-wrap: break-word;
+        line-height: 1.2;
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .information-group {
+    &-inputs {
+      & .input-alert {
+        &.phone-number-alert {
+          width: 200px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .information-group {
+    &-inputs {
+      & .input-alert {
+        width: 200px;
+
+        &.phone-number-alert {
+          bottom: -5px;
+          width: 150px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 310px) {
+  .information-group {
+    &-inputs {
+      & .input-alert {
+        width: 150px;
+
+        &.phone-number-alert {
+          bottom: -20px;
+          width: 100px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .profile-photo-btns {
+    &.mobile {
+      & button {
+        padding: 10px 20px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media (max-width: 260px) {
+  .profile-photo-container {
+    & .profile-photo-text {
+      transform: translateY(20px);
+      font-size: 12px;
+    }
+  }
+}
+
+.fetch-loader {
+  height: 320px;
+  width: 320px;
+
+  & img {
+    width: 100%;
+  }
+}
+
+.login-btn-loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.input-o.tel-input {
+  border: none;
+}
+
+.mat-select-panel {
+  width: 140rem !important;
+}
+
+.mat-select-value {
+  width: 140px;
+}
