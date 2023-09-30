@@ -75,10 +75,12 @@
   }
 
   .carousel-container-main {
+    position: relative;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10;
   }
 
   ::ng-deep .carousel-container {
