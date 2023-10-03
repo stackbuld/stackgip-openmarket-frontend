@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { log } from 'console';
 import { IUser } from 'src/app/models/IUserModel';
 import {
   SellerBusinessProfileData,

@@ -1,26 +1,16 @@
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from '../../../../services/toastr.service';
 import { UserService } from '../../../../services/user/user.service';
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { IUpdateUser, IUser } from 'src/app/models/IUserModel';
-import { log } from 'console';
 import { MatDialog } from '@angular/material/dialog';
 import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
 import { EmailDialogComponent } from '../email-dialog/email-dialog.component';
-import { SellerKycComponent } from '../seller-kyc/seller-kyc.component';
 import { SellerService } from 'src/app/services/seller/seller.service';
-import { startWith } from 'rxjs';
 import { CountryService } from 'src/app/services/country/country.service';
-import { loadPlugin } from 'immer/dist/internal';
 import { CountryInfo } from 'src/app/models/country.model';
 import { countryCodes } from 'src/app/data/countryCodes';
 import { environment } from 'src/environments/environment';
@@ -304,8 +294,6 @@ export class ProfileComponent implements OnInit {
         this.toast.success('Verification email sent successfully!');
       },
       error: (err) => {
-        console.log(err);
-
         this.isSendingEmailVerification = false;
         this.toast.error(err.error.message);
       },

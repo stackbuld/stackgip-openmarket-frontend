@@ -1,7 +1,5 @@
 import { ToastrService } from '../../../../services/toastr.service';
 import { AuthService } from 'src/app/services/auth.service';
-
-import { IUpdatePassword } from '../../../../models/auth-model';
 import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
@@ -9,12 +7,9 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { nigeriaSates } from 'src/app/data/nigeriastates';
-import { MustMatch } from 'src/app/helpers/control-validators';
+
 import { MatDialog } from '@angular/material/dialog';
-import { SellerKycComponent } from '../seller-kyc/seller-kyc.component';
 import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
-import { log } from 'console';
 
 @Component({
   selector: 'app-change-password',
@@ -99,28 +94,6 @@ export class SellerProfileSettingsComponent implements OnInit {
     } else {
       this.pinMatch = false;
     }
-  }
-
-  update() {
-    // if (this.profileForm.invalid) {
-    //   return;
-    // }
-    // const updatePassword: IUpdatePassword = {
-    //   currentPassword: this.profileForm.get('currentPassword').value,
-    //   newPassword: this.profileForm.get('confirmPassword').value,
-    // };
-    // this.isSubmited = true;
-    // this.errors = [];
-    // this.authService.UpdatePassword(updatePassword).subscribe(
-    //   (a) => {
-    //     this.isSubmited = false;
-    //     this.toast.success('password updated successfully');
-    //   },
-    //   (error) => {
-    //     this.isSubmited = false;
-    //     this.errors = error.error.errors.map((a) => a.description);
-    //   }
-    // );
   }
 
   onVerify() {

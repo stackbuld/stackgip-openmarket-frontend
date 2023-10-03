@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { log } from 'console';
-import { SellerService } from 'src/app/services/seller/seller.service';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -8,7 +6,7 @@ import { SellerService } from 'src/app/services/seller/seller.service';
   styleUrls: ['./profile-dashboard.component.scss'],
 })
 export class ProfileDashboardComponent implements OnInit {
-  constructor(private sellerService: SellerService) {}
+  constructor() {}
 
   ngOnInit(): void {}
 }
