@@ -27,6 +27,12 @@ const route: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'buyer',
+    loadChildren: () =>
+      import('./modules/buyer/buyer.module').then((m) => m.BuyerModule),
+    canActivate: [AuthGuard],
+  },
+  {
     path: '**',
     redirectTo: '',
   },
