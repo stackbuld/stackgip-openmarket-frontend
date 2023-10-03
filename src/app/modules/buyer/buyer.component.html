@@ -1,1 +1,203 @@
-<p>buyer works!</p>
+<div class="buyer-container">
+  <div class="header-container">
+    <div class="header-main">
+      <div class="header-logo">
+        <img src="assets/img/Rena-Market-Transparent-WHT-2.png" alt="" />
+      </div>
+
+      <div class="header-search">
+        <input
+          type="text"
+          id="header-search-input"
+          placeholder="Search for products..."
+        />
+        <i class="fas fa-search"></i>
+      </div>
+
+      <div class="header-sell_contact">
+        <a>Sell</a>
+        <a>Contact</a>
+      </div>
+
+      <div class="header-user-actions">
+        <div class="cart">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0_12026_22490)">
+              <path
+                d="M6.00065 14.6667C6.36884 14.6667 6.66732 14.3682 6.66732 14C6.66732 13.6319 6.36884 13.3334 6.00065 13.3334C5.63246 13.3334 5.33398 13.6319 5.33398 14C5.33398 14.3682 5.63246 14.6667 6.00065 14.6667Z"
+                stroke="black"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M13.3327 14.6667C13.7009 14.6667 13.9993 14.3682 13.9993 14C13.9993 13.6319 13.7009 13.3334 13.3327 13.3334C12.9645 13.3334 12.666 13.6319 12.666 14C12.666 14.3682 12.9645 14.6667 13.3327 14.6667Z"
+                stroke="black"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M0.666016 0.666626H3.33268L5.11935 9.59329C5.18031 9.90022 5.34729 10.1759 5.59105 10.3722C5.8348 10.5684 6.13981 10.6726 6.45268 10.6666H12.9327C13.2455 10.6726 13.5506 10.5684 13.7943 10.3722C14.0381 10.1759 14.2051 9.90022 14.266 9.59329L15.3327 3.99996H3.99935"
+                stroke="black"
+                stroke-width="1.67"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_12026_22490">
+                <rect width="16" height="16" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+
+        <div
+          class="header-user-actions-main"
+          [mat-menu-trigger-for]="profileMenu"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="user-icon"
+          >
+            <g clip-path="url(#clip0_12026_31592)">
+              <path
+                d="M8.00065 1.33337C4.31865 1.33337 1.33398 4.31804 1.33398 8.00004C1.33398 11.682 4.31865 14.6667 8.00065 14.6667C11.6827 14.6667 14.6673 11.682 14.6673 8.00004C14.6673 4.31804 11.6827 1.33337 8.00065 1.33337Z"
+                stroke="black"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M2.84766 12.2307C2.84766 12.2307 4.33366 10.3333 8.00032 10.3333C11.667 10.3333 13.1537 12.2307 13.1537 12.2307M8.00032 8C8.53076 8 9.03946 7.78929 9.41454 7.41421C9.78961 7.03914 10.0003 6.53043 10.0003 6C10.0003 5.46957 9.78961 4.96086 9.41454 4.58579C9.03946 4.21071 8.53076 4 8.00032 4C7.46989 4 6.96118 4.21071 6.58611 4.58579C6.21104 4.96086 6.00032 5.46957 6.00032 6C6.00032 6.53043 6.21104 7.03914 6.58611 7.41421C6.96118 7.78929 7.46989 8 8.00032 8V8Z"
+                stroke="black"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_12026_31592">
+                <rect width="16" height="16" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+          <span>Profile</span>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="dropdown"
+          >
+            <path
+              d="M4 6L8 10L12 6"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+
+        <mat-menu #profileMenu="matMenu"
+          ><ul class="profile-menu">
+            <li>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12.3327 13V11.6667C12.3327 10.9594 12.0517 10.2811 11.5516 9.78105C11.0515 9.28095 10.3733 9 9.66602 9H4.33268C3.62544 9 2.94716 9.28095 2.44706 9.78105C1.94697 10.2811 1.66602 10.9594 1.66602 11.6667V13M9.66602 3.66667C9.66602 5.13943 8.47211 6.33333 6.99935 6.33333C5.52659 6.33333 4.33268 5.13943 4.33268 3.66667C4.33268 2.19391 5.52659 1 6.99935 1C8.47211 1 9.66602 2.19391 9.66602 3.66667Z"
+                  stroke="black"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              My Profile
+            </li>
+            <li>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_12026_22490)">
+                  <path
+                    d="M6.00065 14.6667C6.36884 14.6667 6.66732 14.3682 6.66732 14C6.66732 13.6319 6.36884 13.3334 6.00065 13.3334C5.63246 13.3334 5.33398 13.6319 5.33398 14C5.33398 14.3682 5.63246 14.6667 6.00065 14.6667Z"
+                    stroke="black"
+                    stroke-width="1.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M13.3327 14.6667C13.7009 14.6667 13.9993 14.3682 13.9993 14C13.9993 13.6319 13.7009 13.3334 13.3327 13.3334C12.9645 13.3334 12.666 13.6319 12.666 14C12.666 14.3682 12.9645 14.6667 13.3327 14.6667Z"
+                    stroke="black"
+                    stroke-width="1.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M0.666016 0.666626H3.33268L5.11935 9.59329C5.18031 9.90022 5.34729 10.1759 5.59105 10.3722C5.8348 10.5684 6.13981 10.6726 6.45268 10.6666H12.9327C13.2455 10.6726 13.5506 10.5684 13.7943 10.3722C14.0381 10.1759 14.2051 9.90022 14.266 9.59329L15.3327 3.99996H3.99935"
+                    stroke="black"
+                    stroke-width="1.67"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_12026_22490">
+                    <rect width="16" height="16" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+              My Orders
+            </li>
+            <li>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 13H2.33333C1.97971 13 1.64057 12.8595 1.39052 12.6095C1.14048 12.3594 1 12.0203 1 11.6667V2.33333C1 1.97971 1.14048 1.64057 1.39052 1.39052C1.64057 1.14048 1.97971 1 2.33333 1H5M9.66667 10.3333L13 7M13 7L9.66667 3.66667M13 7H5"
+                  stroke="#000"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Logout
+            </li>
+          </ul>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+  <div class="buyer-main-container">
+    <div class="sidebar">
+      <app-buyer-sidebar></app-buyer-sidebar>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

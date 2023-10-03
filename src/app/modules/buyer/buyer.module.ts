@@ -9,10 +9,24 @@ import { BuyerSecuritySettingsComponent } from './buyer-security-settings/buyer-
 import { BuyerChangePasswordComponent } from './buyer-security-settings/buyer-change-password/buyer-change-password.component';
 import { BuyerPinSettingsComponent } from './buyer-security-settings/buyer-pin-settings/buyer-pin-settings.component';
 import { BuyerDeleteAccountComponent } from './buyer-security-settings/buyer-delete-account/buyer-delete-account.component';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { BuyerSidebarComponent } from './buyer-sidebar/buyer-sidebar.component';
 
 @NgModule({
-  imports: [BuyerRoutingModule],
-  declarations: [BuyerComponent, BuyerProfileComponent, BuyerPersonalInformationComponent, BuyerContactInformationComponent, BuyerAddressInformationComponent, BuyerSecuritySettingsComponent, BuyerChangePasswordComponent, BuyerPinSettingsComponent, BuyerDeleteAccountComponent],
+  imports: [BuyerRoutingModule, CommonModule, SharedModule],
+  declarations: [
+    BuyerComponent,
+    BuyerProfileComponent,
+    BuyerPersonalInformationComponent,
+    BuyerContactInformationComponent,
+    BuyerAddressInformationComponent,
+    BuyerSecuritySettingsComponent,
+    BuyerChangePasswordComponent,
+    BuyerPinSettingsComponent,
+    BuyerDeleteAccountComponent,
+    BuyerSidebarComponent,
+  ],
   exports: [],
 })
 export class BuyerModule {}
