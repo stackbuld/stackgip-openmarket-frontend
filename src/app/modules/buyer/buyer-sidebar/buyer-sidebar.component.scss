@@ -85,6 +85,9 @@
       margin-top: 30px;
       cursor: pointer;
 
+      &.active {
+        font-weight: 600;
+      }
       &#delete-account {
         color: $error;
       }

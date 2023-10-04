@@ -11,6 +11,7 @@
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 20;
 }
 
 .header-main {
@@ -125,5 +126,9 @@
 
   & .sidebar {
     margin-right: 30px;
+  }
+
+  & .main-content {
+    width: 100%;
   }
 }

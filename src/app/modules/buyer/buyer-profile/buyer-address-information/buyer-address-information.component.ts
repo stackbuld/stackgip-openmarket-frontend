@@ -3,8 +3,12 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-buyer-address-information',
   templateUrl: './buyer-address-information.component.html',
-  styleUrls: ['./buyer-address-information.component.scss']
+  styleUrls: ['./buyer-address-information.component.scss'],
 })
 export class BuyerAddressInformationComponent {
+  isToggled: boolean = false;
 
+  toggle() {
+    this.isToggled = !this.isToggled;
+  }
 }

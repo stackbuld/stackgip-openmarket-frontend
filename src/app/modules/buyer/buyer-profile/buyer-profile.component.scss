@@ -2,10 +2,64 @@
 
 .buyer-profile-container {
   padding-top: 40px;
+  width: 100%;
+}
+
+.heading-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  justify-content: space-between;
 
   & .heading {
     font-size: 28px;
     font-weight: 500;
-    margin-bottom: 30px;
+  }
+
+  & .edit {
+    border: 1px solid $input-border;
+    padding: 5px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}
+
+.navigation {
+  position: relative;
+  width: 100%;
+
+  &:after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    background-color: $border-line-color;
+    left: 0;
+    bottom: 0px;
+  }
+
+  & ul {
+    display: flex;
+    width: 60%;
+    padding: 0;
+
+    & li {
+      list-style: none;
+      padding: 0 10px;
+      padding-bottom: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      white-space: nowrap;
+
+      &:not(:last-child) {
+        margin-right: 30px;
+      }
+
+      &.active {
+        font-weight: 500;
+        border-bottom: 3px solid $black;
+      }
+    }
   }
 }
