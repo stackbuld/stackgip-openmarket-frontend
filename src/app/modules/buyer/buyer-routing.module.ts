@@ -5,9 +5,11 @@ import { BuyerContactInformationComponent } from './buyer-profile/buyer-contact-
 import { BuyerAddressInformationComponent } from './buyer-profile/buyer-address-information/buyer-address-information.component';
 import { BuyerChangePasswordComponent } from './buyer-security-settings/buyer-change-password/buyer-change-password.component';
 import { BuyerPinSettingsComponent } from './buyer-security-settings/buyer-pin-settings/buyer-pin-settings.component';
-import { BuyerDeleteAccountComponent } from './buyer-security-settings/buyer-delete-account/buyer-delete-account.component';
+import { BuyerDeleteAccountComponent } from './buyer-deactivate/buyer-delete-account/buyer-delete-account.component';
 import { BuyerComponent } from './buyer.component';
 import { BuyerProfileComponent } from './buyer-profile/buyer-profile.component';
+import { BuyerSecuritySettingsComponent } from './buyer-security-settings/buyer-security-settings.component';
+import { BuyerDeactivateComponent } from './buyer-deactivate/buyer-deactivate.component';
 
 const routes: Routes = [
   {
@@ -34,9 +36,22 @@ const routes: Routes = [
         ],
       },
 
-      { path: 'change-password', component: BuyerChangePasswordComponent },
-      { path: 'pin-settings', component: BuyerPinSettingsComponent },
-      { path: 'deactivate', component: BuyerDeleteAccountComponent },
+      {
+        path: '',
+        component: BuyerSecuritySettingsComponent,
+        children: [
+          { path: 'change-password', component: BuyerChangePasswordComponent },
+          { path: 'pin-settings', component: BuyerPinSettingsComponent },
+        ],
+      },
+
+      {
+        path: '',
+        component: BuyerDeactivateComponent,
+        children: [
+          { path: 'deactivate', component: BuyerDeleteAccountComponent },
+        ],
+      },
     ],
   },
 ];

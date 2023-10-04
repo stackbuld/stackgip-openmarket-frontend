@@ -1,7 +1,7 @@
 @import "config";
 
 .address-container {
-  margin-top: 20px;
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
 }
@@ -119,6 +119,92 @@
 
     &:hover {
       background: $white;
+    }
+  }
+}
+
+#address-edit-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  display: flex;
+  align-items: flex-start;
+  width: 80%;
+
+  &:not(:last-child) {
+    margin-bottom: 40px;
+  }
+
+  & label {
+    font-size: 16px;
+    font-weight: 600;
+    width: 50%;
+  }
+
+  & .input-group {
+    position: relative;
+    width: 50%;
+
+    & input,
+    & select {
+      display: block;
+      padding: 10px 15px;
+      width: 100%;
+      border-radius: 8px !important;
+      border: 1px solid $input-border;
+
+      &#phone,
+      &#add-phone {
+        padding-left: 60px;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    & .country-code {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      & mat-select {
+        width: 100%;
+      }
+    }
+
+    & mat-option {
+      width: 100px !important;
+    }
+  }
+}
+
+.btn {
+  align-self: flex-end;
+  margin-top: 20px;
+
+  & #submit-btn {
+    border: none;
+    height: 40px;
+    // width: 160px;
+    padding: 10px 50px;
+    border-radius: 8px;
+    background: $black;
+    color: $white;
+    border: 1px solid $black;
+    white-space: nowrap;
+    transition: all 300ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: $white;
+      color: $black;
     }
   }
 }

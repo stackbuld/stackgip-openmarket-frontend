@@ -1,7 +1,7 @@
 @import "config";
 
-.buyer-settings-container {
-  padding-top: 40px;
+.buyer-deactivate-container {
+  margin-top: 40px;
   width: 100%;
 }
 
@@ -51,10 +51,6 @@
       font-size: 16px;
       cursor: pointer;
       white-space: nowrap;
-
-      &:not(:last-child) {
-        margin-right: 30px;
-      }
 
       &.active {
         font-weight: 500;

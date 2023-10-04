@@ -1,1 +1,16 @@
-<p>buyer-security-settings works!</p>
+<div class="buyer-settings-container">
+  <div class="heading-container">
+    <div class="heading">Security Settings</div>
+  </div>
+  <div class="navigation">
+    <ul>
+      <li routerLink="/buyer/change-password" routerLinkActive="active">
+        Password Settings
+      </li>
+      <li routerLink="/buyer/pin-settings" routerLinkActive="active">
+        Pin Settings
+      </li>
+    </ul>
+  </div>
+  <router-outlet></router-outlet>
+</div>
