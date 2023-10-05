@@ -1114,17 +1114,17 @@
         </p>
       </div>
 
-      <div class="mt-4">
-        <p class="item-label">Color</p>
+      <div class="mt-4" *ngFor="let item of uniqueVariant">
+        <p class="item-label capitalize">{{ item.variant }}</p>
         <div class="uk-flex mt-2 uk-flex-middle">
           <div
             class="icon-container mr-2 uk-flex"
-            *ngFor="let item of form.value.variations"
+            *ngFor="let itemProp of item.properties"
           >
-            <div class="color-name">{{ item.value }}</div>
+            <div class="color-name">{{ itemProp.value }}</div>
             <div class="extra-cost">
               <small>Extra cost</small>
-              <p>+ {{ item.cost }}</p>
+              <p>+ {{ itemProp.cost }}</p>
             </div>
           </div>
         </div>
@@ -1301,8 +1301,8 @@
         style="display: flex; flex-wrap: wrap; column-gap: 2rem"
         class="parent-wrapping"
       >
-        <div *ngFor="let item of form.value.options">
-          <div *ngIf="!item.value.isMultiple">
+        <div *ngFor="let item of relatedItems">
+          <div>
             <img
             src="{{
               item?.imageUrl.substr(0, item.imageUrl.lastIndexOf('.')) +

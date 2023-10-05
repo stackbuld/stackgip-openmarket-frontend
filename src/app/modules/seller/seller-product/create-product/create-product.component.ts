@@ -149,6 +149,7 @@ export class CreateProductComponent implements OnInit {
   hasFullDesc: boolean;
   imageErr: string;
   previewDesc: any
+  uniqueVariant: any;
 
 
   constructor(
@@ -658,7 +659,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   uploadComplimentaryImage(): void {
-    if (this.editProps.value.imageUrl == "") {
+    if (this.variationProps.value.imageUrl == "") {
       this.uploadComplimentaryWidget3.open();
     } else {
       this.imageErr = "You can only upload maximum of one images"
@@ -799,6 +800,7 @@ export class CreateProductComponent implements OnInit {
 
   createProduct = () => {
     this.creatingProduct = true;
+    
     this.productService.createNewProduct({...this.form.value, options: [...this.relatedItems, ...this.allVariantList], publishOption: 'Review'}).subscribe(
       (res) => {
         if (res.status === 'success') {
@@ -835,7 +837,6 @@ export class CreateProductComponent implements OnInit {
     } else if (
       this.form.invalid
       ) {
-        console.log(this.form.controls)
       this.toast.error('All required fields must be available');
       // return;
     } else {
@@ -873,7 +874,6 @@ export class CreateProductComponent implements OnInit {
   };
   isSubCatIdEmpty = false;
   onSubmit = () => {
-    console.log(this.form.value)
     if (this.images?.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
@@ -888,7 +888,6 @@ export class CreateProductComponent implements OnInit {
     } else if (
       this.form.invalid
     ) {
-      console.log(this.form)
       this.toast.error('All required fields must be available');
       // return;
     } else {
@@ -900,9 +899,16 @@ export class CreateProductComponent implements OnInit {
       if (this.form.valid) {
         // this.setComplementaryProducts();
         this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
-        this.setVariation(this.form.value.variations);
+        // this.setVariation(this.form.value.variations);
         this.previewImg = this.form.value.imageUrls[0];
         this.previewData = this.form.value;
+        this.uniqueVariant = [... new Set(this.allVariantList.map((item) => item.title))].map((variant) => {
+          let newVariant = this.allVariantList.filter((item) => item.title === variant)
+          return ({
+            variant: variant,
+            properties: [...newVariant]
+          })
+        })
         this.isPreview = true;
         this.previewDesc = this.safeHtml.transform(this.form.value.description)
       }
