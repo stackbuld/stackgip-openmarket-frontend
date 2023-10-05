@@ -105,10 +105,6 @@ export class CreateProductComponent implements OnInit {
   private unsubscribe$ = new Subject<void>();
   @Output() closed = new EventEmitter();
   @Output() added = new EventEmitter();
-  // editorConfig = {
-  //   toolbar: [],
-  //   placeholder: 'Product short description',
-  // };
   errors: any[];
   errorMessage: string;
   form: FormGroup;
@@ -118,21 +114,19 @@ export class CreateProductComponent implements OnInit {
   variationProps: any;
   categories: any;
   stores: any;
-  // categories$: Observable<CategoryResponse>;
-  // stores$: Observable<StoreResponse>;
   loading: boolean = false;
   uploadWidget: any;
   uploadComplimentaryWidget: any;
   images = [];
-  relatedImages = [];
   variationImages = [];
   newImageListForUpdate: any;
   complimentartImages = [];
   states: string[] = nigeriaSates.map((a) => a.name);
   productVariations: any[];
-  // productVariations: string[] = variations;
+  allVariantList = []
   user = {} as IUser;
   isPreview = false;
+  relatedItems = []
   previewData: any;
   uploadComplimentaryWidget2: any;
   uploadComplimentaryWidget3: any;
@@ -254,9 +248,7 @@ export class CreateProductComponent implements OnInit {
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
-        if (this.images.length < 4) {
-            this.relatedImages.push(result.info.secure_url);
-            // this.productImage = this.images[0];
+          if (this.editProps.value.imageUrl == "") {
             this.editProps.patchValue({ imageUrl: result.info.secure_url });
           }
         }
@@ -271,10 +263,8 @@ export class CreateProductComponent implements OnInit {
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
-        if (this.images.length < 4) {
-            this.variationImages.push(result.info.secure_url);
-            // this.productImage = this.images[0];
-            this.variationProps.patchValue({ imageUrl: this.variationImages });
+        if (this.variationProps.value.imageUrl == "") {
+            this.variationProps.patchValue({ imageUrl: result.info.secure_url });
           }
         }
       }
@@ -352,8 +342,8 @@ export class CreateProductComponent implements OnInit {
       category: ['', [Validators.required]],
       storeIds: [[], [Validators.required]],
       unit: [null, [Validators.required]],
-      variations: this.fb.array([]),
       options: this.fb.array([]),
+      variations: this.fb.array([])
     });
   }
 
@@ -376,8 +366,8 @@ export class CreateProductComponent implements OnInit {
       videoUrls: [data.videoUrls],
       storeIds: [sellerStoreIds, [Validators.required]],
       unit: [data.unit, [Validators.required]],
-      variations: this.fb.array([]),
       options: this.fb.array([]),
+      variations: this.fb.array([])
     });
     for (let index = 0; index < data.sellerStores.length; index++) {
       const element = data.sellerStores[index];
@@ -386,30 +376,46 @@ export class CreateProductComponent implements OnInit {
     for (let index = 0; index < data.productOptions.length; index++) {
       const element = data.productOptions[index];
       
-      if (element.isMultiple) {
+      if (!!element.isMultiple) {
         complimentartProducts.push(element);
+        this.relatedItems.push(element)
+        
       }
-        // complimentartProducts.push(element);
-        // variationList.push(element);
       
       if (element.isMultiple === false) {
         variationList.push(element);
+        this.allVariantList.push(element)
       }
     }
-    variationList.forEach((element: any, index: number) => {
+
+    // this.relatedItems.forEach((element: any, index: number) => {
+    //   (<FormArray>this.form.get('options')).push(
+    //     this.fb.group({
+    //       title: [element.title, [Validators.required]],
+    //       value: [element.value],
+    //       cost: [element.cost],
+    //       shortDescription: [element.shortDescription],
+    //       unit: [element.unit],
+    //       imageUrl: [''],
+    //       isMultiple: [element.isMultiple],
+    //       ...(element.id && {id: element.id} )
+    //     })
+    //   );
+    // });
+    this.allVariantList.forEach((element: any, index: number) => {
       (<FormArray>this.form.get('variations')).push(
         this.fb.group({
           title: [element.title, [Validators.required]],
-          value: [element.value, [Validators.required]],
+          value: [element.value],
           cost: [element.cost, [Validators.required]],
           unit: [element.unit, [Validators.required]],
-          imageUrl: [''],
+          imageUrl: [element.imageUrl],
           isMultiple: false,
           ...(element.id && {id: element.id} )
         })
       );
     });
-    complimentartProducts.forEach((element: any, index: number) => {
+    this.relatedItems.forEach((element: any, index: number) => {
       (<FormArray>this.form.get('options')).push(
         this.fb.group({
           title: [element.title, [Validators.required]],
@@ -425,6 +431,7 @@ export class CreateProductComponent implements OnInit {
     });
   }
 
+  // creating a new varaint type (for add variation)
   initVariationForm(): void {
     this.newVariationForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -507,16 +514,26 @@ export class CreateProductComponent implements OnInit {
     if (!invalid) {
       this.addingVariation = false;
       this.variations().push(this.variationProps);
+      this.allVariantList.push(this.variationProps.value)
       // this.editProps.reset()
     } else {
       this.toast.error("All required fields must be valid")
     }
   }
-  
+
   // this method is to close the variation of products card
+  removeEditVariation(): void {
+    this.addingVariation = false;
+    this.variationProps.reset()
+    
+  }
+  
+   // this method is to remove already created product varaints
   removeVariation(index: number): void {
     this.variations().removeAt(index);
+    this.allVariantList.splice(index, 1)
   }
+
   // this method is to edit already created related/complimentary product
   editVariation(index: number): void {
     this.addingVariation = true
@@ -527,11 +544,7 @@ export class CreateProductComponent implements OnInit {
     this.removeVariation(index)
   }
 
-  removeEditVariation(): void {
-    this.addingVariation = false;
-    this.variationProps.reset()
-    
-  }
+  
 
   options(): FormArray {
     return this.form.get('options') as FormArray;
@@ -543,7 +556,7 @@ export class CreateProductComponent implements OnInit {
       shortDescription: [''],
       value: [''],
       unit: ['', Validators.required],
-      imageUrl: [null, Validators.required],
+      imageUrl: ["", Validators.required],
       cost: [null, [Validators.required]],
       isMultiple: true,
     });
@@ -578,7 +591,8 @@ export class CreateProductComponent implements OnInit {
     
     if (!invalid) {
       this.addingComplimentaryOptions = false;
-    this.options().push(this.editProps);
+      this.options().push(this.editProps);
+      this.relatedItems.push(this.editProps.value)
     } else {
       this.toast.error(`All required fields must be valid`)
     }
@@ -593,8 +607,8 @@ export class CreateProductComponent implements OnInit {
 
   // this method is to remove already created complimentary products
   removeRelated(index: number) {
-    // let newArr = this.options().value.filter((_, ind) => ind !== index)
     this.options().removeAt(index)
+    this.relatedItems.splice(index, 1)
     
   }
 
@@ -606,37 +620,10 @@ export class CreateProductComponent implements OnInit {
     if (!this.editProps) {
       this.editProps = this.createOptions()
     }
-    this.editProps.patchValue({ ...this.options().value[index] })
+    this.editProps.patchValue({ ...this.relatedItems[index] })
     this.removeRelated(index)
   }
 
-
-
-  removeOption(index: number): void {
-    this.addingComplimentaryOptions=false
-    this.complementaryImagesStore = JSON.parse(
-      localStorage.getItem('compImagesStore')
-    );
-    if (this.complementaryImagesStore === null) {
-      this.options().removeAt(index);
-      this.complementaryImagesStore = [];
-    } else {
-      if (this.complementaryImagesStore.length === 1) {
-        this.complementaryImagesStore.splice(index, 1);
-        localStorage.removeItem('compImagesStore');
-        this.addingComplimentaryOptions = false;
-        this.options().removeAt(index);
-      }
-      if (this.complementaryImagesStore.length > 1) {
-        this.complementaryImagesStore.splice(index, 1);
-        localStorage.setItem(
-          'compImagesStore',
-          JSON.stringify(this.complementaryImagesStore)
-        );
-        this.options().removeAt(index);
-      }
-    }
-  }
 
   // images upload start
   upload(): void {
@@ -646,6 +633,8 @@ export class CreateProductComponent implements OnInit {
       this.imageErr = "You can only upload maximum of four images"
     }
   }
+
+
 
   removeImage(image_url): void {
     this.imageErr= null
@@ -663,19 +652,25 @@ export class CreateProductComponent implements OnInit {
     this.variationProps.patchValue({imageUrl: image_url})
   }
 
-  removeRelatedImage(image_url): void {
+  removeRelatedImage(): void {
     this.imageErr= null
-    this.relatedImages = this.relatedImages.filter((a) => a !== image_url);
-    this.editProps.patchValue({ imageUrl: this.relatedImages });
+    this.editProps.patchValue({ imageUrl: "" });
   }
 
   uploadComplimentaryImage(): void {
-    // this.complimentaryIndex = index;
-    this.uploadComplimentaryWidget3.open();
+    if (this.editProps.value.imageUrl == "") {
+      this.uploadComplimentaryWidget3.open();
+    } else {
+      this.imageErr = "You can only upload maximum of one images"
+    }
   }
 
-   uploadRelatedImage(): void {
-    this.uploadComplimentaryWidget2.open();
+  uploadRelatedImage(): void {
+     if (this.editProps.value.imageUrl == "") {
+       this.uploadComplimentaryWidget2.open();
+       } else {
+      this.imageErr = "You can only upload maximum of one images"
+    }
   }
 
   removeComplimentaryImage(id: any): void {
@@ -804,7 +799,7 @@ export class CreateProductComponent implements OnInit {
 
   createProduct = () => {
     this.creatingProduct = true;
-    this.productService.createNewProduct({...this.form.value, publishOption: 'Review'}).subscribe(
+    this.productService.createNewProduct({...this.form.value, options: [...this.relatedItems, ...this.allVariantList], publishOption: 'Review'}).subscribe(
       (res) => {
         if (res.status === 'success') {
           this.toast.success('Product added successfully');
@@ -854,7 +849,7 @@ export class CreateProductComponent implements OnInit {
         this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
         
 
-        this.productService.createNewProduct({...this.form.value, publishOption: 'Draft', ...(this.productId && {draftProductId: this.productId}) }).subscribe(
+        this.productService.createNewProduct({...this.form.value, options: [...this.relatedItems, ...this.allVariantList], publishOption: 'Draft', ...(this.productId && {draftProductId: this.productId}) }).subscribe(
       (res) => {
         if (res.status === 'success') {
           this.toast.success('Product saved as draft Successful!');
@@ -893,6 +888,7 @@ export class CreateProductComponent implements OnInit {
     } else if (
       this.form.invalid
     ) {
+      console.log(this.form)
       this.toast.error('All required fields must be available');
       // return;
     } else {
