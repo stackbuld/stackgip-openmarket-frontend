@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -17,7 +17,6 @@ import { CountryService } from 'src/app/services/country/country.service';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import { ToastrService } from 'src/app/services/toastr.service';
 import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
-import { log } from 'console';
 
 @Component({
   selector: 'app-business-profile',
@@ -80,7 +79,6 @@ export class BusinessProfileComponent implements OnInit {
     this.sellerService.getSeller(this.userId).subscribe({
       next: (user) => {
         this.isFetching = false;
-        console.log(user);
         this.user = user.data;
         this.isBusinessPhoneNumberVerified = this.user.businessPhoneConfirmed;
         let reformedPhoneNumber = null;
@@ -199,8 +197,6 @@ export class BusinessProfileComponent implements OnInit {
   }
 
   onUpdateBusinessProfile() {
-    console.log(this.businessProfileForm);
-
     if (this.businessProfileForm.invalid) {
       return;
     }
