@@ -26,7 +26,7 @@ import { FooterService } from 'src/app/services/footer.service';
 import {WebSocketSubject} from 'rxjs/webSocket';
 import {BehaviorSubject} from 'rxjs';
 import {WindowRefService} from '../../../shared/services/window.service';
-
+import uikit from 'uikit';
 @Component({
   selector: 'app-single-product',
   templateUrl: './single-product.component.html',
@@ -95,7 +95,8 @@ export class SingleProductComponent implements OnInit {
    ngOnInit() {
      this.windowRef.nativeWindow.document.body.scrollTop = 0;
      this.windowRef.nativeWindow.document.documentElement.scrollTop = 0;
-    this.connectToWebsocket();
+
+     this.connectToWebsocket();
 
     console.log("shippingMethods", this.shippingMethods);
     this.applocal.messageSource.subscribe((res) => {
@@ -120,6 +121,11 @@ export class SingleProductComponent implements OnInit {
     });
     this.getParams();
 
+    this.setUserAddress();
+
+  }
+
+  setUserAddress(){
     if (localStorage.getItem('shippingAddress')) {
       const address = JSON.parse(
         localStorage.getItem('shippingAddress') as string
@@ -128,9 +134,11 @@ export class SingleProductComponent implements OnInit {
       this.setRequestId();
       this.populateAddressForm(address);
       this.getShippingEstimate();
+    }else{
+      this.fetchUserAddresses();
     }
+    this.displayDeliveryAddressOnLoad();
   }
-
   setRequestId = () => {
     const toHash = cryptoJs.MD5(this.currentAddress?.fullAddress);
     this.requestId = `view-product-page-${this.productId}:${this.authService.getUserReferenceNumber()}:${toHash}`
@@ -180,6 +188,7 @@ export class SingleProductComponent implements OnInit {
     }
 
   }
+
   getImageResolution = (url: string, width: number, height: number) => {
     return ImageResolutionUtility.getImageResolution(url, width, height);
   };
@@ -480,61 +489,15 @@ export class SingleProductComponent implements OnInit {
     );
   };
 
-  // fetchUserAddresses = () => {
-  //   if (this.user !== null) {
-  //     const cartService$ = this.cartService.fetchUserAddresses(this.user.id);
-  //     cartService$.subscribe(
-  //       (res) => {
-  //         this.addresses = res.data.data;
-  //         const storedAddress = localStorage.getItem('shippingAddress');
-  //         if (storedAddress) {
-  //           const parsedStoredAddress = JSON.parse(storedAddress);
-  //           this.addresses.forEach((element) => {
-  //             element.isSelected = false;
-  //           });
-  //           this.currentAddress = parsedStoredAddress;
-  //           const selectedAddressIndex = this.addresses.findIndex(
-  //             (address) => address.id === this.currentAddress.id
-  //           );
-
-  //           if (selectedAddressIndex !== -1) {
-  //             this.addresses[selectedAddressIndex].isSelected = true;
-  //           }
-  //         } else {
-  //           let defaultAddressFound = false;
-  //           for (let index = 0; index < this.addresses.length; index++) {
-  //             const element = this.addresses[index];
-  //             element.isSelected = false;
-  //             if (element.isDefault) {
-  //               this.currentAddress = element;
-  //               element.isSelected = true;
-  //               defaultAddressFound = true;
-  //               this.getShippingEstimate();
-  //               // loadingShippingEstimate && currentShippingMethod === null
-  //             }
-  //           }
-  //           if (!defaultAddressFound) {
-  //             this.currentAddress = null;
-  //           }
-  //         }
-  //         this.addresses.forEach((address) => {
-  //           if (address.id !== this.currentAddress?.id) {
-  //             address.isSelected = false;
-  //           }
-  //         });
-  //         this.setRequestId();
-  //         this.getShippingEstimate();
-  //       },
-  //       (error) => {}
-  //     );
-  //   } else {
-  //     this.addresses = [];
-  //   }
-  // };
-
-
-  getShippingEstimate = () => {
+  displayDeliveryAddressOnLoad(){
+    if(!this.currentAddress?.fullAddress || !this.currentAddress.contactPhoneNumber || !this.currentAddress.lat || !this.currentAddress.lng){
+      this.showDeliveryAddressModal();
+    }
     this.setRequestId();
+  }
+  getShippingEstimate = () => {
+    this.displayDeliveryAddressOnLoad();
+
     this.loadingShippingEstimate = true;
     const payload = {
       productId: this.productId,
@@ -708,6 +671,12 @@ export class SingleProductComponent implements OnInit {
     this.isInformation = true;
   };
 
+  showDeliveryAddressModal(){
+    this.resetModalView();
+
+    uikit.modal('#information-modal').show();
+    //
+  }
   setAddressField = () => {
     this.notReady = false;
   };
