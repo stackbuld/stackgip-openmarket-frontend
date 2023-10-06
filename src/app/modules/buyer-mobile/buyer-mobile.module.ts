@@ -12,9 +12,10 @@ import { MBuyerSidebarComponent } from './m-buyer-sidebar/m-buyer-sidebar.compon
 import { BuyerMobileRoutingModule } from './buyer-mobile-routing.module';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { BuyerModule } from '../buyer/buyer.module';
 
 @NgModule({
-  imports: [BuyerMobileRoutingModule, CommonModule, SharedModule],
+  imports: [BuyerMobileRoutingModule, CommonModule, SharedModule, BuyerModule],
   declarations: [
     BuyerMobileComponent,
     MBuyerPersonalInformationComponent,

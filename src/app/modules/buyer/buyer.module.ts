@@ -14,6 +14,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { BuyerSidebarComponent } from './buyer-sidebar/buyer-sidebar.component';
 import { BuyerDeactivateComponent } from './buyer-deactivate/buyer-deactivate.component';
 import { BuyerNavComponent } from './buyer-nav/buyer-nav.component';
+import { BuyerHeaderComponent } from './buyer-header/buyer-header.component';
 
 @NgModule({
   imports: [BuyerRoutingModule, CommonModule, SharedModule],
@@ -30,7 +31,8 @@ import { BuyerNavComponent } from './buyer-nav/buyer-nav.component';
     BuyerSidebarComponent,
     BuyerDeactivateComponent,
     BuyerNavComponent,
+    BuyerHeaderComponent,
   ],
-  exports: [],
+  exports: [BuyerHeaderComponent],
 })
 export class BuyerModule {}
