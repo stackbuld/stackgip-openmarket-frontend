@@ -368,7 +368,8 @@ export class CreateProductComponent implements OnInit {
       storeIds: [sellerStoreIds, [Validators.required]],
       unit: [data.unit, [Validators.required]],
       options: this.fb.array([]),
-      variations: this.fb.array([])
+      variations: this.fb.array([]),
+      draftProductId: [data.draftProductId]
     });
     for (let index = 0; index < data.sellerStores.length; index++) {
       const element = data.sellerStores[index];
@@ -762,7 +763,7 @@ export class CreateProductComponent implements OnInit {
   updateProduct = () => {
     this.creatingProduct = true;
     this.productService
-      .updateProduct({...this.form.value, publishOption: "Review", "videoUrls": [],}, this.productId)
+      .createNewProduct({...this.form.value, publishOption: "Review", "videoUrls": [], "draftProductId": this.productId})
       .subscribe(
         (res) => {
           if (res.status === 'success') {
