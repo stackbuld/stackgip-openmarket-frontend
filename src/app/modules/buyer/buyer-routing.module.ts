@@ -10,17 +10,24 @@ import { BuyerComponent } from './buyer.component';
 import { BuyerProfileComponent } from './buyer-profile/buyer-profile.component';
 import { BuyerSecuritySettingsComponent } from './buyer-security-settings/buyer-security-settings.component';
 import { BuyerDeactivateComponent } from './buyer-deactivate/buyer-deactivate.component';
+import { BuyerSidebarComponent } from './buyer-sidebar/buyer-sidebar.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'profile',
     component: BuyerComponent,
     children: [
-      { path: '', redirectTo: 'personal-information', pathMatch: 'full' },
+      {
+        path: '',
+        redirectTo: window.screen.width < 920 ? '' : 'personal-information',
+        pathMatch: 'full',
+      },
+      { path: '', component: BuyerSidebarComponent, outlet: 'side' },
       {
         path: '',
         component: BuyerProfileComponent,
         children: [
+          // { path: '', redirectTo: 'personal-information', pathMatch: 'full' },
           {
             path: 'personal-information',
             component: BuyerPersonalInformationComponent,

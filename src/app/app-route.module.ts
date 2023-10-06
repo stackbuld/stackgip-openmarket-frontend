@@ -28,8 +28,17 @@ const route: Routes = [
   },
   {
     path: 'buyer',
-    loadChildren: () =>
-      import('./modules/buyer/buyer.module').then((m) => m.BuyerModule),
+    loadChildren: () => {
+      if (window.innerWidth < 920) {
+        return import('./modules/buyer-mobile/buyer-mobile.module').then(
+          (m) => m.BuyerMobileModule
+        );
+      } else {
+        return import('./modules/buyer/buyer.module').then(
+          (m) => m.BuyerModule
+        );
+      }
+    },
     canActivate: [AuthGuard],
   },
   {

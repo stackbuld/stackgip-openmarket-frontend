@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { BuyerSidebarComponent } from './buyer-sidebar/buyer-sidebar.component';
 import { BuyerDeactivateComponent } from './buyer-deactivate/buyer-deactivate.component';
+import { BuyerNavComponent } from './buyer-nav/buyer-nav.component';
 
 @NgModule({
   imports: [BuyerRoutingModule, CommonModule, SharedModule],
@@ -28,6 +29,7 @@ import { BuyerDeactivateComponent } from './buyer-deactivate/buyer-deactivate.co
     BuyerDeleteAccountComponent,
     BuyerSidebarComponent,
     BuyerDeactivateComponent,
+    BuyerNavComponent,
   ],
   exports: [],
 })
