@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CountryInfo } from 'src/app/models/country.model';
 import { CountryService } from 'src/app/services/country/country.service';
 
@@ -23,6 +23,7 @@ export class BuyerContactInformationComponent implements OnInit {
 
     this.contactForm = new FormGroup({
       countryCode: new FormControl('+234'),
+      phoneNumber: new FormControl(null, Validators.required),
     });
   }
 
@@ -33,4 +34,6 @@ export class BuyerContactInformationComponent implements OnInit {
   changeOption(e: any) {
     this.contactForm.patchValue({ countryCodes: e.target.value });
   }
+
+  onSubmit() {}
 }

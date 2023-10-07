@@ -36,10 +36,19 @@
       height: 100%;
       border-radius: 8px;
       border: 1px solid $input-border;
+      font-size: 16px;
 
       &:focus {
         outline: none;
       }
+    }
+
+    & .hint {
+      position: absolute;
+      right: 0;
+      bottom: -40px;
+      font-size: 16px;
+      color: $error;
     }
   }
 }

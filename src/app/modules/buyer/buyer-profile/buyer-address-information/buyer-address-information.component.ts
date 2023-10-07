@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { CountryInfo } from 'src/app/models/country.model';
 import { CountryService } from 'src/app/services/country/country.service';
@@ -31,6 +31,12 @@ export class BuyerAddressInformationComponent implements OnInit {
 
     this.addressForm = new FormGroup({
       countryCode: new FormControl('+234'),
+      fullName: new FormControl(null, Validators.required),
+      phoneNumber: new FormControl(null, Validators.required),
+      additionalPhoneNumber: new FormControl(null, Validators.required),
+      address: new FormControl(null, Validators.required),
+      state: new FormControl(null, Validators.required),
+      country: new FormControl(null, Validators.required),
     });
   }
 
@@ -49,4 +55,6 @@ export class BuyerAddressInformationComponent implements OnInit {
   toggle() {
     this.isToggled = !this.isToggled;
   }
+
+  onSubmit() {}
 }

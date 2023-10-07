@@ -27,12 +27,16 @@
   </div>
 
   <div class="contact-info-edit">
-    <form id="contact-form" [formGroup]="contactForm">
+    <form id="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
       <div class="contact-edit">
         <div class="heading">Phone Number</div>
 
         <div class="contact-inputs">
-          <input type="text" placeholder="8023434567" />
+          <input
+            type="text"
+            placeholder="8023434567"
+            formControlName="phoneNumber"
+          />
           <div class="country-code" matPrefix>
             <mat-select
               (change)="changeOption($event)"

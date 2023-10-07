@@ -184,11 +184,20 @@
   </div>
 
   <div class="address-edit">
-    <form id="address-edit-form" [formGroup]="addressForm">
+    <form
+      id="address-edit-form"
+      [formGroup]="addressForm"
+      (ngSubmit)="onSubmit()"
+    >
       <div class="form-group">
         <label for="name">Full Name</label>
         <div class="input-group">
-          <input type="text" id="name" placeholder="enter full name" />
+          <input
+            type="text"
+            id="name"
+            placeholder="enter full name"
+            formControlName="fullName"
+          />
         </div>
       </div>
 
@@ -196,7 +205,12 @@
         <label for="phone">Enter Phone Number</label>
 
         <div class="input-group">
-          <input type="tel" id="phone" placeholder="8023434567" />
+          <input
+            type="tel"
+            id="phone"
+            placeholder="8023434567"
+            formControlName="phoneNumber"
+          />
           <div class="country-code" matPrefix>
             <mat-select
               (change)="changeOption($event)"
@@ -227,7 +241,12 @@
         <label for="add-phone">Additional Phone Number</label>
 
         <div class="input-group">
-          <input type="tel" id="add-phone" placeholder="8023434567" />
+          <input
+            type="tel"
+            id="add-phone"
+            placeholder="8023434567"
+            formControlName="additionalPhoneNumber"
+          />
           <div class="country-code" matPrefix>
             <mat-select
               (change)="changeOption($event)"
@@ -257,7 +276,12 @@
       <div class="form-group">
         <label for="address">Address</label>
         <div class="input-group">
-          <input type="text" id="address" placeholder="Enter address" />
+          <input
+            type="text"
+            id="address"
+            placeholder="Enter address"
+            formControlName="address"
+          />
         </div>
       </div>
 
@@ -267,6 +291,7 @@
           <select
             class="location-select"
             id="state"
+            formControlName="state"
             [value]="addressForm.value.businessState"
           >
             <option *ngFor="let state of states" [value]="state.toLowerCase()">
@@ -282,6 +307,7 @@
           <select
             class="location-select"
             id="country"
+            formControlName="country"
             [value]="addressForm.value.businessCountry"
           >
             <option

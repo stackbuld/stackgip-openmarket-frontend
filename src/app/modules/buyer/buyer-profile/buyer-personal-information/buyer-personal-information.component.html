@@ -1,7 +1,7 @@
 <div class="personal-info-container">
   <div class="profile-info-main">
     <div class="profile-picture">
-      <img src="assets/image/default-profile-picture-3.png" alt="" />
+      <img [src]="profileImgUrl" alt="" />
     </div>
 
     <div class="profile-details">
@@ -46,24 +46,43 @@
       </div>
     </div>
 
-    <form id="personal-info-form">
+    <form
+      id="personal-info-form"
+      [formGroup]="personalInfoForm"
+      (ngSubmit)="onSubmit()"
+    >
       <div class="profile-name-edit">
         <div class="heading">Full Name</div>
 
         <div class="name-edit-inputs">
           <div class="input-group">
             <label for="first-name">First Name</label>
-            <input type="text" id="first-name" placeholder="First Name" />
+            <input
+              type="text"
+              id="first-name"
+              placeholder="First Name"
+              formControlName="firstName"
+            />
           </div>
 
           <div class="input-group">
             <label for="middle-name">Middle Name</label>
-            <input type="text" id="middle-name" placeholder="Middle Name" />
+            <input
+              type="text"
+              id="middle-name"
+              placeholder="Middle Name"
+              formControlName="middleName"
+            />
           </div>
 
           <div class="input-group">
             <label for="last-name">Last Name</label>
-            <input type="text" id="last-name" placeholder="Last Name" />
+            <input
+              type="text"
+              id="last-name"
+              placeholder="Last Name"
+              formControlName="lastName"
+            />
           </div>
         </div>
       </div>
@@ -73,7 +92,12 @@
 
         <div class="email-edit-inputs">
           <label for="email">Email</label>
-          <input type="text" id="email" placeholder="myemail@gmail.com" />
+          <input
+            type="text"
+            id="email"
+            placeholder="myemail@gmail.com"
+            formControlName="email"
+          />
         </div>
       </div>
 
