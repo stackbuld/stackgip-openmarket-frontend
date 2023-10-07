@@ -24,7 +24,10 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: SellerDashboardComponent },
-      { path: 'wallet', component: WalletComponent },
+      {path: 'wallet', loadChildren: () =>
+          import('../../shared/wallet/wallet.module').then(
+            (m) => m.WalletModule
+          )},
       {
         path: 'orders',
         component: SellerOrdersComponent,
