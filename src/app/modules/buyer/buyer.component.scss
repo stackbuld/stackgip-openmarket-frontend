@@ -28,15 +28,11 @@
     height: 100%;
 
     & .sidebar {
-      margin-right: 10px;
-      width: 300px;
-
-      // display: none;
+      margin-right: 0;
+      width: 100%;
     }
 
     & .main-content {
-      // display: none;
-      // position: absolute;
       width: 100%;
       padding-bottom: 30px;
     }

@@ -92,16 +92,22 @@
   & .name-edit-inputs {
     width: 50%;
 
+    & .input-group {
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+    }
+
+    & label {
+      display: none;
+    }
+
     & input {
       display: block;
       padding: 10px 15px;
       width: 100%;
       border-radius: 4px;
       border: 1px solid $input-border;
-
-      &:not(:last-child) {
-        margin-bottom: 20px;
-      }
 
       &:focus {
         outline: none;
@@ -126,6 +132,10 @@
   & .email-edit-inputs {
     width: 50%;
 
+    & label {
+      display: none;
+    }
+
     & input {
       display: block;
       padding: 10px 15px;
@@ -143,11 +153,11 @@
 .btn {
   align-self: flex-end;
   margin-top: 20px;
+  padding: 0;
 
   & #submit-btn {
     border: none;
-    height: 40px;
-    // width: 160px;
+    height: 48px;
     padding: 10px 50px;
     border-radius: 8px;
     background: $black;
@@ -162,6 +172,76 @@
     &:hover {
       background: $white;
       color: $black;
+    }
+  }
+}
+
+@media (max-width: 920px) {
+  .profile-detail {
+    &-main {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .profile-name-edit {
+    flex-direction: column;
+    width: 100%;
+
+    & .heading {
+      display: none;
+    }
+
+    & .name-edit-inputs {
+      width: 100%;
+
+      & label {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      & input {
+        border-radius: 4px !important;
+
+        &::placeholder {
+          color: transparent;
+        }
+      }
+    }
+  }
+
+  .profile-email-edit {
+    flex-direction: column;
+    width: 100%;
+
+    & .heading {
+      display: none;
+    }
+
+    & .email-edit-inputs {
+      width: 100%;
+
+      & label {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      & input {
+        &::placeholder {
+          color: transparent;
+        }
+      }
+    }
+  }
+
+  .btn {
+    align-self: center;
+    margin-top: 40px;
+    width: 100%;
+
+    & #submit-btn {
+      width: 100%;
     }
   }
 }

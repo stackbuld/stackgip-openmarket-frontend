@@ -33,6 +33,15 @@ import { BuyerHeaderComponent } from './buyer-header/buyer-header.component';
     BuyerNavComponent,
     BuyerHeaderComponent,
   ],
-  exports: [BuyerHeaderComponent],
+  exports: [
+    BuyerHeaderComponent,
+    BuyerAddressInformationComponent,
+    BuyerPersonalInformationComponent,
+    BuyerContactInformationComponent,
+    BuyerChangePasswordComponent,
+    BuyerPinSettingsComponent,
+    BuyerDeleteAccountComponent,
+    BuyerSidebarComponent,
+  ],
 })
 export class BuyerModule {}
