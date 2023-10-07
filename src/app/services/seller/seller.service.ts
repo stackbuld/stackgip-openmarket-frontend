@@ -29,6 +29,7 @@ export class SellerService {
   };
   phoneNumberConfirmed = new Subject<boolean>();
   businessPhoneConfirmed = new Subject<boolean>();
+  isSellerActivated = new Subject<boolean>();
 
   constructor(
     private reqS: RequestService,

@@ -116,7 +116,7 @@
     position: relative;
     width: 40px;
     height: 20px;
-    background: $toggler-bg;
+    background: $input-border;
     border-radius: 50px;
     margin: 0 15px;
     cursor: pointer;
@@ -134,6 +134,7 @@
     }
 
     &.roll {
+      background: $black;
       & .roller {
         left: 55%;
       }
@@ -169,6 +170,16 @@
       background: $black;
       color: $white;
       border: none;
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+
+      &:hover {
+        background: transparent;
+        color: $black;
+        border: 1px solid $black;
+      }
     }
   }
 }
