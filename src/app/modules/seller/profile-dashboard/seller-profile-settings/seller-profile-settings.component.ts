@@ -10,6 +10,8 @@ import {
 
 import { MatDialog } from '@angular/material/dialog';
 import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
+import { SellerService } from 'src/app/services/seller/seller.service';
+import { IUser } from 'src/app/models/IUserModel';
 
 @Component({
   selector: 'app-change-password',
@@ -17,20 +19,26 @@ import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
   styleUrls: ['./seller-profile-settings.component.scss'],
 })
 export class SellerProfileSettingsComponent implements OnInit {
-  isToggled: boolean = false;
+  isActive: boolean;
   profileForm: FormGroup;
   passwordForm: FormGroup;
   pinForm: FormGroup;
   passwordMatch: boolean = false;
   isSendingPasswordOTP: boolean = false;
   isSendingPinOTP: boolean = false;
+  isSendingDeactivateOTP: boolean = false;
   pinMatch: boolean = false;
-
+  userId: string;
+  user: IUser;
+  userPhoneNumber: string;
+  sellerStatus: boolean;
+  isFetching: boolean = false;
   isSubmited = false;
   errors: string[] = [];
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private sellerService: SellerService,
     private toast: ToastrService,
     private dialog: MatDialog
   ) {}
@@ -39,6 +47,8 @@ export class SellerProfileSettingsComponent implements OnInit {
     return this.profileForm.controls;
   }
   ngOnInit(): void {
+    this.isFetching = true;
+    this.userId = this.authService.getLoggedInUser().id;
     this.passwordForm = new FormGroup({
       password: new FormControl(null, [
         Validators.required,
@@ -61,6 +71,24 @@ export class SellerProfileSettingsComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(4),
       ]),
+    });
+
+    this.sellerService.isSellerActivated.subscribe((status) => {
+      this.isActive = status;
+      this.sellerStatus = status;
+    });
+
+    this.sellerService.getSeller(this.userId).subscribe({
+      next: (user) => {
+        this.isFetching = false;
+        console.log(user);
+        this.isActive = user.data.isActive;
+        this.sellerStatus = user.data.isActive;
+        this.user = user.data;
+      },
+      error: (err) => {
+        this.toast.error(err.error.message);
+      },
     });
   }
 
@@ -155,6 +183,53 @@ export class SellerProfileSettingsComponent implements OnInit {
   }
 
   toggle() {
-    this.isToggled = !this.isToggled;
+    this.isActive = !this.isActive;
+    console.log(this.isActive);
+  }
+
+  onVerifyDeactivate() {
+    if (!this.isActive) {
+      this.isSendingDeactivateOTP = true;
+
+      this.authService.sendDeactivateSellerOTP().subscribe({
+        next: (data) => {
+          this.isSendingDeactivateOTP = false;
+          const dialogRef = this.dialog.open(OTPDialogComponent, {
+            panelClass: 'otp_dialog',
+            data: { type: 'deactivate' },
+          });
+
+          this.toast.success(
+            'OTP sent successfully. Please check your SMS inbox!'
+          );
+        },
+        error: (err) => {
+          this.toast.error(err.error.message);
+        },
+      });
+    } else if (this.isActive) {
+      console.log(1);
+
+      this.isSendingDeactivateOTP = true;
+
+      this.authService
+        .sendActivateSellerOTP({ phoneNumber: this.user.phoneNumber })
+        .subscribe({
+          next: (data) => {
+            this.isSendingDeactivateOTP = false;
+            const dialogRef = this.dialog.open(OTPDialogComponent, {
+              panelClass: 'otp_dialog',
+              data: { type: 'activate', payload: this.user.email },
+            });
+
+            this.toast.success(
+              'OTP sent successfully. Please check your SMS inbox!'
+            );
+          },
+          error: (err) => {
+            this.toast.error(err.error.message);
+          },
+        });
+    }
   }
 }
