@@ -1,5 +1,8 @@
 <div class="personal-info-container">
-  <div class="profile-info-main">
+  <div class="fetch-loader" *ngIf="isFetching">
+    <img src="/assets/svg/loader-icon.svg" alt="" />
+  </div>
+  <div class="profile-info-main" *ngIf="!isEditing && !isFetching">
     <div class="profile-picture">
       <img [src]="profileImgUrl" alt="" />
     </div>
@@ -8,40 +11,40 @@
       <div class="profile-detail">
         <div class="profile-detail-heading">First Name</div>
 
-        <div class="profile-detail-main">Divine</div>
+        <div class="profile-detail-main">{{ user?.firstName }}</div>
       </div>
 
-      <div class="profile-detail">
+      <!-- <div class="profile-detail">
         <div class="profile-detail-heading">Middle Name</div>
 
         <div class="profile-detail-main">Shedrack</div>
-      </div>
+      </div> -->
 
       <div class="profile-detail">
         <div class="profile-detail-heading">Last Name</div>
 
-        <div class="profile-detail-main">Shedrack</div>
+        <div class="profile-detail-main">{{ user?.lastName }}</div>
       </div>
 
       <div class="profile-detail">
         <div class="profile-detail-heading">Email</div>
 
-        <div class="profile-detail-main">Shedrackdivine@gmail.com</div>
+        <div class="profile-detail-main">{{ user?.email }}</div>
       </div>
     </div>
   </div>
 
-  <div class="profile-info-edit">
+  <div class="profile-info-edit" *ngIf="isEditing">
     <div class="profile-photo-edit">
       <div class="heading">Profile Photo</div>
 
       <div class="profile-photo-edit-main">
         <div class="profile-picture">
-          <img src="assets/image/default-profile-picture-3.png" alt="" />
+          <img [src]="newImageUrl ? newImageUrl : profileImgUrl" alt="" />
         </div>
         <div class="actions">
-          <span id="remove-photo">Remove</span>
-          <span id="change-photo">Change</span>
+          <span id="remove-photo" (click)="onRemoveProfilePhoto()">Remove</span>
+          <span id="change-photo" (click)="onChangeProfilePhoto()">Change</span>
         </div>
       </div>
     </div>
@@ -65,7 +68,7 @@
             />
           </div>
 
-          <div class="input-group">
+          <!-- <div class="input-group">
             <label for="middle-name">Middle Name</label>
             <input
               type="text"
@@ -73,7 +76,7 @@
               placeholder="Middle Name"
               formControlName="middleName"
             />
-          </div>
+          </div> -->
 
           <div class="input-group">
             <label for="last-name">Last Name</label>
@@ -102,7 +105,11 @@
       </div>
 
       <div class="btn">
-        <button type="submit" id="submit-btn">Save Changes</button>
+        <button type="submit" id="submit-btn">
+          <span class="login-btn-text" *ngIf="!isSubmitting">
+            Save Changes </span
+          ><span class="login-btn-loader" *ngIf="isSubmitting"></span>
+        </button>
       </div>
     </form>
   </div>

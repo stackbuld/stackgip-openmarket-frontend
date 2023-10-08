@@ -16,13 +16,13 @@ export class BuyerComponent implements OnInit {
   ngOnInit(): void {
     this.userId = this.authService.getLoggedInUser().id;
 
-    this.userService.getUserById(this.userId).subscribe({
-      next: (data) => {
-        console.log(data);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    // this.userService.getUserById(this.userId).subscribe({
+    //   next: (data) => {
+    //     console.log(data);
+    //   },
+    //   error: (err) => {
+    //     console.log(err);
+    //   },
+    // });
   }
 }

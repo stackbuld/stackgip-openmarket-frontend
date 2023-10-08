@@ -4,6 +4,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CountryInfo } from 'src/app/models/country.model';
 import { CountryService } from 'src/app/services/country/country.service';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { IUser } from 'src/app/models/IUserModel';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-buyer-address-information',
@@ -13,10 +17,17 @@ import { nigeriaSates } from 'src/app/data/nigeriastates';
 export class BuyerAddressInformationComponent implements OnInit {
   isToggled: boolean = false;
   states: string[] = [];
-
+  userId: string;
+  user: IUser;
   countryInfo: CountryInfo[];
   addressForm: FormGroup;
-  constructor(private countryService: CountryService) {}
+  isEditingSub$: Subscription;
+  isEditing: boolean;
+  constructor(
+    private countryService: CountryService,
+    private authService: AuthService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.states = nigeriaSates.map((a) => a.name);
@@ -37,6 +48,32 @@ export class BuyerAddressInformationComponent implements OnInit {
       address: new FormControl(null, Validators.required),
       state: new FormControl(null, Validators.required),
       country: new FormControl(null, Validators.required),
+    });
+
+    this.userId = this.authService.getLoggedInUser().id;
+
+    // this.userService.getUserById(this.userId).subscribe({
+    //   next: (data) => {
+    //     console.log(data);
+    //     this.user = data.data;
+    //   },
+    //   error: (err) => {
+    //     console.log(err);
+    //   },
+    // });
+    this.userService.getUserAddress(this.userId).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+
+    this.isEditingSub$ = this.userService.isEditingUserInfo.subscribe({
+      next: (status) => {
+        this.isEditing = status;
+      },
     });
   }
 
