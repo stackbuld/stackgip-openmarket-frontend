@@ -10,10 +10,6 @@
 }
 
 .fetch-loader {
-  // position: absolute;
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%, 50%);
   justify-self: center;
 }
 
@@ -52,6 +48,32 @@
     color: $normal-text-color;
     font-size: 16px;
     width: 70%;
+  }
+}
+
+.edit {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $input-border;
+  padding: 5px 15px;
+  border-radius: 4px;
+  height: 48px;
+  cursor: pointer;
+  margin-top: 60px;
+
+  & span {
+    display: flex;
+    align-items: center;
+
+    & svg,
+    & i {
+      margin-right: 5px;
+    }
+
+    & i {
+      font-size: 20px;
+    }
   }
 }
 
@@ -201,6 +223,10 @@
 }
 
 @media (max-width: 920px) {
+  .edit {
+    display: flex;
+    width: 100%;
+  }
   .profile-detail {
     &-main {
       width: 100%;
@@ -209,6 +235,17 @@
 }
 
 @media (max-width: 600px) {
+  .profile-photo-edit {
+    width: 100%;
+
+    & .heading {
+      display: none;
+    }
+
+    &-main {
+      width: 100%;
+    }
+  }
   .profile-name-edit {
     flex-direction: column;
     width: 100%;

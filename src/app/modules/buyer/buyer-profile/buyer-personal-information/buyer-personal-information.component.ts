@@ -18,6 +18,7 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
   defaultImgUrl: string = 'assets/image/default-profile-picture-3.png';
   profileImgUrl: string;
   newImageUrl: string;
+  isNewImageSaved: boolean = false;
   userId: string;
   user!: IUser;
   isEditingSub$: Subscription;
@@ -60,8 +61,8 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
         if (!error && result && result.event === 'success') {
           this.toast.success('Image uploaded successfully');
 
-          this.profileImgUrl = result.info.secure_url;
-          this.newImageUrl = this.profileImgUrl;
+          // this.profileImgUrl = result.info.secure_url;
+          this.newImageUrl = result.info.secure_url;
         }
       }
     );
@@ -111,19 +112,35 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
     this.uploadProfilePhotoWidget.open();
   }
 
+  onEdit() {
+    this.isEditing = true;
+  }
+
   onSubmit() {
     if (this.personalInfoForm.invalid) {
       return;
     }
+    const profileImgUrl = this.newImageUrl
+      ? this.newImageUrl
+      : this.profileImgUrl;
 
+    if (
+      JSON.stringify(this.specificUserData) ==
+      JSON.stringify({
+        ...this.personalInfoForm.value,
+        profileImageUrl: profileImgUrl,
+      })
+    ) {
+      this.isEditing = false;
+      this.userService.isEditingUserInfo.next(false);
+      return;
+    }
     this.isSubmitting = true;
 
     this.userService
       .updateUser({
         ...this.personalInfoForm.value,
-        profileImageUrl: this.newImageUrl
-          ? this.newImageUrl
-          : this.profileImgUrl,
+        profileImageUrl: profileImgUrl,
       })
       .subscribe({
         next: (data) => {
