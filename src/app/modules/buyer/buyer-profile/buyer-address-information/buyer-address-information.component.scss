@@ -7,17 +7,15 @@
 }
 
 .address-main {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 30px;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 }
 
 .address {
   border: 2px solid $input-border;
   border-radius: 8px;
-  width: 400px;
+  min-width: 350px;
   padding: 15px;
 }
 
@@ -247,5 +245,15 @@
     & #submit-btn {
       width: 100%;
     }
+  }
+}
+
+@media (max-width: 300px) {
+  .address-main {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .address {
+    min-width: 280px;
   }
 }

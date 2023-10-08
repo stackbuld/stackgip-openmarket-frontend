@@ -58,3 +58,16 @@ export interface IUpdateUser {
   city?: string;
   scope?: string[];
 }
+
+export interface UserAddressData {
+  firstname: string;
+  lastname: string;
+  fullAddress: string;
+  lat: number;
+  lng: number;
+  city: string;
+  state: string;
+  country: string;
+  isDefault: boolean;
+  contactPhoneNumber: string;
+}

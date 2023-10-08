@@ -6,7 +6,7 @@ import { CountryService } from 'src/app/services/country/country.service';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
-import { IUser } from 'src/app/models/IUserModel';
+import { IUser, UserAddressData } from 'src/app/models/IUserModel';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -22,7 +22,7 @@ export class BuyerAddressInformationComponent implements OnInit {
   countryInfo: CountryInfo[];
   addressForm: FormGroup;
   isEditingSub$: Subscription;
-  isEditing: boolean;
+  isEditing: boolean = false;
   constructor(
     private countryService: CountryService,
     private authService: AuthService,
@@ -36,13 +36,13 @@ export class BuyerAddressInformationComponent implements OnInit {
     this.countryService.getCountry().subscribe({
       next: (data) => {
         this.countryInfo = data;
-        console.log(data);
       },
     });
 
     this.addressForm = new FormGroup({
       countryCode: new FormControl('+234'),
-      fullName: new FormControl(null, Validators.required),
+      firstName: new FormControl(null, Validators.required),
+      lastName: new FormControl(null, Validators.required),
       phoneNumber: new FormControl(null, Validators.required),
       additionalPhoneNumber: new FormControl(null, Validators.required),
       address: new FormControl(null, Validators.required),
@@ -93,5 +93,43 @@ export class BuyerAddressInformationComponent implements OnInit {
     this.isToggled = !this.isToggled;
   }
 
-  onSubmit() {}
+  onAddAddress() {
+    this.isEditing = true;
+  }
+
+  onSubmit() {
+    if (this.addressForm.invalid) {
+      return;
+    }
+
+    const formValue = this.addressForm.value;
+
+    const formattedPhoneNumber =
+      this.addressForm.get('countryCode').value.toString() +
+      this.addressForm.get('phoneNumber').value.toString();
+
+    const data: UserAddressData = {
+      firstname: formValue.firstName,
+      lastname: formValue.lastName,
+      fullAddress: formValue.address,
+      contactPhoneNumber: formattedPhoneNumber,
+      lat: 0,
+      lng: 0,
+      city: 'test',
+      state: formValue.state,
+      country: formValue.country,
+      isDefault: true,
+    };
+
+    console.log(data);
+
+    this.userService.addUserAddress(this.userId, data).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 }

@@ -18,7 +18,6 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
   defaultImgUrl: string = 'assets/image/default-profile-picture-3.png';
   profileImgUrl: string;
   newImageUrl: string;
-  isNewImageSaved: boolean = false;
   userId: string;
   user!: IUser;
   isEditingSub$: Subscription;
@@ -61,7 +60,6 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
         if (!error && result && result.event === 'success') {
           this.toast.success('Image uploaded successfully');
 
-          // this.profileImgUrl = result.info.secure_url;
           this.newImageUrl = result.info.secure_url;
         }
       }

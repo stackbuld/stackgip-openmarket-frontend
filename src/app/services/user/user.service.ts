@@ -1,6 +1,10 @@
 import { IResponseModel } from './../../shared/models/IResponseModel';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { IUpdateUser, IUserResponse } from './../../models/IUserModel';
+import {
+  IUpdateUser,
+  IUserResponse,
+  UserAddressData,
+} from './../../models/IUserModel';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiAppUrlService } from '../api-app-url.service';
@@ -33,6 +37,13 @@ export class UserService {
   getUserAddress(userId: string) {
     return this.http.get(
       this.api.ecommerceBaseUrl + 'useraddress/users/' + userId
+    );
+  }
+
+  addUserAddress(userId: string, data: UserAddressData) {
+    return this.http.put(
+      this.api.ecommerceBaseUrl + 'useraddress/' + userId,
+      data
     );
   }
 }
