@@ -91,18 +91,36 @@
   </div>
 
   <div class="change-settings deactivate">
-    <div class="change-settings-heading">Other Settings</div>
-
-    <div class="change-settings-main">
-      <div class="toggler" (click)="toggle()" [ngClass]="{ roll: isToggled }">
-        <div class="roller"></div>
-      </div>
-
-      <div class="deactivate-main">
-        <div class="deactivate-main-text warn">Deactivate Account</div>
-        <div class="deactivate-main-text">Deactivate my seller Account</div>
-      </div>
+    <div class="deactivate-loader">
+      <img src="/assets/svg/loader-icon.svg" alt="" *ngIf="isFetching" />
     </div>
-    <button>Verify via OTP</button>
+
+    <div *ngIf="!isFetching">
+      <div class="change-settings-heading">Other Settings</div>
+
+      <div class="change-settings-main">
+        <div class="toggler" (click)="toggle()" [ngClass]="{ roll: !isActive }">
+          <div class="roller"></div>
+        </div>
+
+        <div class="deactivate-main">
+          <div class="deactivate-main-text warn">
+            {{ sellerStatus ? "Deactivate Account" : "Activate Account" }}
+          </div>
+          <div class="deactivate-main-text">
+            {{ sellerStatus ? "Deactivate" : "Activate" }} my seller Account
+          </div>
+        </div>
+      </div>
+      <button
+        (click)="onVerifyDeactivate()"
+        [disabled]="sellerStatus == isActive"
+        [ngClass]="{ disabled: sellerStatus == isActive }"
+      >
+        <span class="login-btn-text" *ngIf="!isSendingDeactivateOTP">
+          Verify via OTP </span
+        ><span class="login-btn-loader" *ngIf="isSendingDeactivateOTP"></span>
+      </button>
+    </div>
   </div>
 </div>

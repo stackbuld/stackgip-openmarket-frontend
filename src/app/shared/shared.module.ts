@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -99,13 +100,14 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     RouterModule,
     MatPaginatorModule,
     MatDialogModule,
+    MatMenuModule,
     NgAisModule,
     NgOtpInputModule,
     MatAutocompleteModule,
     MatInputModule,
     MatSelectModule,
     NgxOtpInputModule,
-    SignupModule
+    SignupModule,
   ],
   exports: [
     HttpClientJsonpModule,
@@ -119,6 +121,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     NgxUiLoaderModule,
     MatSelectModule,
     MatDialogModule,
+    MatMenuModule,
     MatIconModule,
     MatTooltipModule,
     MatFormFieldModule,
@@ -144,7 +147,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     LoginModalComponent,
     SocialModalComponent,
     CustomDropdownComponent,
-    LoginPopUpModalComponent
+    LoginPopUpModalComponent,
   ],
   providers: [
     {

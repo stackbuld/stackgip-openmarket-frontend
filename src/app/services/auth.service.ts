@@ -337,6 +337,23 @@ export class AuthService {
     localStorage.setItem('siginResponse', JSON.stringify(sigin));
     this.store.dispatch(UpdateProfileAction(user));
   }
+
+  sendDeactivateSellerOTP() {
+    return this.http.get(this.api.baseApiUrl + 'auth/deactivate/send-otp');
+  }
+
+  deactivateSeller(data: { otp: string }) {
+    return this.http.put(this.api.baseApiUrl + 'auth/deactivate', data);
+  }
+
+  sendActivateSellerOTP(data: { phoneNumber: string }) {
+    return this.http.post(this.api.baseApiUrl + 'auth/activate/send-otp', data);
+  }
+
+  activateSeller(data: { email: string; otp: string }) {
+    return this.http.put(this.api.baseApiUrl + 'auth/activate', data);
+  }
+
   //
   // public async  getWebSocketUrl(): Promise<string> {
   //   const referenceId = this.getUserReferenceNumber();

@@ -1,0 +1,44 @@
+@import "config";
+
+.buyer-main-container {
+  width: 95%;
+  margin-inline: auto;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 105px;
+  height: 100%;
+
+  & .sidebar {
+    margin-right: 30px;
+  }
+
+  & .main-content {
+    width: 100%;
+    padding-bottom: 30px;
+  }
+}
+
+@media (max-width: 920px) {
+  .buyer-main-container {
+    width: 95%;
+    margin-inline: auto;
+    display: flex;
+    align-items: flex-start;
+    margin-top: 105px;
+    height: 100%;
+
+    & .sidebar {
+      margin-right: 10px;
+      width: 300px;
+
+      // display: none;
+    }
+
+    & .main-content {
+      // display: none;
+      // position: absolute;
+      width: 100%;
+      padding-bottom: 30px;
+    }
+  }
+}

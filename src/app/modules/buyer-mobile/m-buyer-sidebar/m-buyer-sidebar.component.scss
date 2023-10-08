@@ -1,0 +1,106 @@
+@import "config";
+
+.buyer-sidebar-container {
+  height: 100%;
+  border: 1px solid $border-line-color;
+  padding: 0 20px;
+  width: 300px;
+}
+
+.profile-details {
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & .profile-photo {
+    width: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    & img {
+      width: 100%;
+    }
+  }
+
+  & .profile-name {
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 10px;
+  }
+}
+
+.profile-information,
+.profile-settings {
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  transition: all 300ms;
+  height: 170px;
+  background: $white;
+  overflow: hidden;
+
+  & .dropdown {
+    transition: all 300ms;
+  }
+
+  &.closed {
+    height: 20px;
+
+    & .dropdown {
+      margin-right: 0;
+      transition: all 300ms;
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.profile-information-heading,
+.profile-settings-heading {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+
+  &-main {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+
+    & svg {
+      margin-right: 10px;
+    }
+  }
+}
+
+.profile-information-links {
+  & ul {
+    padding: 0;
+
+    & li {
+      list-style: none;
+      margin-top: 30px;
+      cursor: pointer;
+
+      &.active {
+        font-weight: 600;
+      }
+      &#delete-account {
+        color: $error;
+      }
+    }
+  }
+}
+
+.logout {
+  margin-top: 40px;
+  padding-bottom: 50px;
+  cursor: pointer;
+}
+
+@media (max-width: 920px) {
+  .buyer-sidebar-container {
+    width: 100%;
+  }
+}

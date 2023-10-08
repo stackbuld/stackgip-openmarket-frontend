@@ -104,7 +104,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
       }
     }, 1000);
 
-    this.otpInput = new FormControl(null, Validators.required);
+    this.otpInput = new FormControl<string>(null, Validators.required);
     this.otpData = this.data.payload;
     this.otpType = this.data.type;
 
@@ -132,6 +132,12 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
       businessWebsite: user.businessWebsite,
       businessSocialLinks: user.businessSocialLinks,
     };
+
+    this.otpInput.valueChanges.subscribe((data) => {
+      if (data.length === 6) {
+        this.onVerify();
+      }
+    });
   }
 
   ngAfterViewChecked(): void {}
@@ -158,7 +164,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             },
             error: (err) => {
               this.isSubmitting = false;
-              this.toaster.error(err.error.message);
+              this.toaster.error(err.error.errors[0]);
             },
           });
         break;
@@ -177,7 +183,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             },
             error: (err) => {
               this.isSubmitting = false;
-              this.toaster.error(err.error.message);
+              this.toaster.error(err.error.errors[0]);
             },
           });
         break;
@@ -197,7 +203,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             },
             error: (err) => {
               this.isSubmitting = false;
-              this.toaster.error(err.error.message);
+              this.toaster.error(err.error.errors[0]);
             },
           });
         break;
@@ -220,9 +226,50 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             },
             error: (err) => {
               this.isSubmitting = false;
-              this.toaster.error(err.error.message);
+              this.toaster.error(err.error.errors[0]);
             },
           });
+        break;
+
+      case 'deactivate':
+        this.authService
+          .deactivateSeller({ otp: this.otpInput.value })
+          .subscribe({
+            next: (data) => {
+              this.isSubmitting = false;
+              this.sellerService.isSellerActivated.next(false);
+              this.toaster.success(
+                'Your seller account has been deactivated successfully'
+              );
+            },
+            error: (err) => {
+              console.log(err);
+              this.isSubmitting = false;
+
+              this.toaster.error(err.error.errors[0]);
+            },
+          });
+        break;
+
+      case 'activate':
+        this.authService
+          .activateSeller({ email: this.otpData, otp: this.otpInput.value })
+          .subscribe({
+            next: (data) => {
+              this.isSubmitting = false;
+              this.sellerService.isSellerActivated.next(true);
+              this.toaster.success(
+                'Your seller account has been activated successfully'
+              );
+            },
+            error: (err) => {
+              console.log(err);
+              this.isSubmitting = false;
+
+              this.toaster.error(err.error.errors[0]);
+            },
+          });
+        break;
     }
   }
 
@@ -275,6 +322,37 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             this.toast.error(err.error.message);
           },
         });
+        break;
+
+      case 'deactivate':
+        this.authService.sendDeactivateSellerOTP().subscribe({
+          next: (data) => {
+            this.toast.success(
+              'OTP sent successfully. Please check your SMS inbox!'
+            );
+          },
+          error: (err) => {
+            this.toast.error(err.error.message);
+          },
+        });
+        break;
+
+      case 'activate':
+        this.authService
+          .sendActivateSellerOTP({
+            phoneNumber: this.specificProfileData.phoneNumber,
+          })
+          .subscribe({
+            next: (data) => {
+              this.toast.success(
+                'OTP sent successfully. Please check your SMS inbox!'
+              );
+            },
+            error: (err) => {
+              this.toast.error(err.error.message);
+            },
+          });
+        break;
     }
   }
 }

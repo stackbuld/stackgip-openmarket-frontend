@@ -30,6 +30,7 @@ export class SellerKycComponent implements OnInit {
     this.sellerService.getSeller(this.userId).subscribe({
       next: (user) => {
         this.isFetching = false;
+        console.log(user);
 
         this.verificationFailureReason = user.data.rejectionReason;
         this.approvalStatus = user.data.sellerApprovalStatus;

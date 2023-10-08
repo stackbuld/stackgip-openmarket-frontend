@@ -1,0 +1,298 @@
+@import "config";
+
+.buyer-container {
+  height: 100%;
+}
+
+.header-container {
+  background-color: $white;
+  padding: 10px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
+}
+
+.header-main {
+  width: 95%;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-logo-container {
+  display: flex;
+  align-items: center;
+
+  & .menu-icon {
+    margin-right: 15px;
+    display: none;
+    cursor: pointer;
+
+    & i {
+      font-size: 20px;
+
+      &.fa-times {
+        font-size: 25px;
+      }
+    }
+  }
+
+  & .header-logo {
+    width: 120px;
+
+    & img {
+      width: 100%;
+    }
+  }
+}
+
+.header-search {
+  position: relative;
+  width: 40%;
+
+  & .back-icon {
+    display: none;
+  }
+
+  & input {
+    width: 100%;
+    padding: 10px 0;
+    padding-left: 40px;
+    border: 1px solid $header-input;
+    border-radius: 4px;
+    font-size: 16px;
+
+    &::placeholder {
+      color: $header-input;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  & button {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+
+    & i {
+      font-size: 16px;
+      color: $header-input;
+    }
+  }
+}
+
+.search-icon {
+  margin-right: 20px;
+  display: none;
+
+  & i {
+    color: $black;
+    font-size: 16px;
+    cursor: pointer;
+  }
+}
+
+.header-sell_contact {
+  margin-right: 40px;
+  & a {
+    color: $bold-text-color;
+    font-size: 16px;
+    font-weight: 600;
+
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
+  }
+}
+
+.header-user-actions {
+  display: flex;
+  align-items: center;
+
+  & a {
+    cursor: pointer;
+  }
+
+  &-main {
+    margin-left: 40px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 29;
+
+    & span {
+      display: inline-block;
+      font-size: 16px;
+      font-weight: 600;
+      margin-left: 5px;
+    }
+  }
+}
+
+.profile-menu {
+  padding: 0px 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  & li {
+    list-style: none;
+    padding: 10px 15px;
+    padding-right: 100px;
+    font-family: "Avenir" !important;
+    width: 100%;
+    cursor: pointer;
+
+    &:last-child {
+      border-top: 1px solid $border-line-color;
+    }
+
+    & svg {
+      margin-right: 5px;
+    }
+  }
+}
+
+@media (max-width: 860px) {
+  .header-search {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    height: 75px;
+    z-index: 30;
+    transform: translateY(-100%);
+    transition: all 200ms;
+
+    &.show_search {
+      transform: translateY(0);
+    }
+
+    & .back-icon {
+      display: block;
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+
+      & i {
+        font-size: 18px;
+      }
+    }
+
+    & input {
+      height: 100%;
+      padding-left: 50px;
+
+      &::placeholder {
+        color: $header-input;
+        font-size: 18px;
+      }
+    }
+
+    & button {
+      left: 93%;
+      top: 50%;
+
+      &:after {
+        content: "";
+        position: absolute;
+        left: -10px;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 35px;
+        width: 1px;
+        background-color: $header-input;
+      }
+
+      & i {
+        font-size: 18px;
+        color: $black;
+      }
+    }
+  }
+
+  .search-icon {
+    display: block;
+  }
+}
+
+@media (max-width: 620px) {
+  .header-logo-container {
+    & .menu-icon {
+      display: flex;
+      align-items: center;
+
+      & i {
+        .show {
+          display: block;
+        }
+        .hide {
+          display: none;
+        }
+      }
+    }
+
+    & .header-logo {
+      width: 100px;
+    }
+  }
+
+  .header-user-actions {
+    &-main {
+      margin-left: 20px;
+
+      & .user-icon {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+
+      & span {
+        display: none;
+      }
+
+      & .dropdown {
+        display: none;
+      }
+    }
+  }
+
+  .header-sell_contact {
+    margin-right: 0;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    top: 75px;
+    background: $white;
+    width: 100%;
+    height: 100vh;
+    padding-left: 15px;
+    display: none;
+
+    &.show_menu {
+      display: flex;
+    }
+
+    & a {
+      color: $bold-text-color;
+      font-size: 18px;
+      font-weight: 600;
+
+      &:not(:last-child) {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
