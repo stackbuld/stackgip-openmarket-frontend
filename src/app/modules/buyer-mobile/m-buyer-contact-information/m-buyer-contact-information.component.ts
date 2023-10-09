@@ -1,36 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { CountryInfo } from 'src/app/models/country.model';
-import { CountryService } from 'src/app/services/country/country.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-m-buyer-contact-information',
   templateUrl: './m-buyer-contact-information.component.html',
   styleUrls: ['./m-buyer-contact-information.component.scss'],
 })
-export class MBuyerContactInformationComponent implements OnInit {
-  countryInfo: CountryInfo[];
-  contactForm: FormGroup;
-  constructor(private countryService: CountryService) {}
+export class MBuyerContactInformationComponent implements OnInit, OnDestroy {
+  isEditingSub$: Subscription;
+  isEditing: boolean = false;
+
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.countryService.getCountry().subscribe({
-      next: (data) => {
-        this.countryInfo = data;
-        console.log(data);
-      },
-    });
-
-    this.contactForm = new FormGroup({
-      countryCode: new FormControl('+234'),
-    });
+    this.isEditingSub$ = this.userService.isEditingUserInfo.subscribe(
+      (status) => {
+        this.isEditing = status;
+        console.log(status);
+      }
+    );
   }
 
-  get f() {
-    return this.contactForm.controls;
-  }
-
-  changeOption(e: any) {
-    this.contactForm.patchValue({ countryCodes: e.target.value });
+  ngOnDestroy(): void {
+    this.isEditingSub$.unsubscribe();
   }
 }

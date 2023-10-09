@@ -1,12 +1,15 @@
 <div class="contact-information-container">
-  <div class="profile-details" *ngIf="!isEditing">
+  <div class="fetch-loader" *ngIf="isFetching">
+    <img src="/assets/svg/loader-icon.svg" alt="" />
+  </div>
+  <div class="profile-details" *ngIf="!isEditing && !isFetching">
     <div class="profile-detail">
       <div class="profile-detail-heading">Phone Number</div>
 
-      <div class="profile-detail-main">234-809-3458-89</div>
+      <div class="profile-detail-main">{{ user?.phoneNumber }}</div>
     </div>
 
-    <div class="edit">
+    <div class="edit" (click)="onEdit()">
       <svg
         width="18"
         height="17"
@@ -33,14 +36,19 @@
 
         <div class="contact-inputs">
           <input
-            type="text"
+            type="tel"
             placeholder="8023434567"
+            pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$"
             formControlName="phoneNumber"
           />
+          <div class="verify-alert">
+            You need to verify this new number via an OTP
+          </div>
           <div class="country-code" matPrefix>
             <mat-select
               (change)="changeOption($event)"
               formControlName="countryCode"
+              class="my-mat-select"
             >
               <mat-select-trigger>
                 {{ f.countryCode.value }}
@@ -60,45 +68,14 @@
               </mat-option>
             </mat-select>
           </div>
-          <!-- <mat-form-field class="custom-text-field custom-text-field-business">
-            <input
-              matInput
-              #myInput
-              placeholder="8023434567"
-              pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$"
-              type="tel"
-              class="tel-input"
-              required
-            />
-            <div class="country-code" matPrefix>
-              <mat-select
-                (change)="changeOption($event)"
-                formControlName="countryCode"
-              >
-                <mat-select-trigger>
-                  {{ f.countryCode.value }}
-                </mat-select-trigger>
-                <mat-option
-                  *ngFor="let country of countryInfo"
-                  [value]="country.phoneCode"
-                >
-                  <img [src]="country.flag" alt="" width="25px" height="25px" />
-                  <span
-                    style="font-size: 14px; margin-left: 7px; font-weight: bold"
-                    >{{ country.countryName }}
-                  </span>
-                  <span style="font-size: 14px">
-                    {{ country.phoneCode }}
-                  </span>
-                </mat-option>
-              </mat-select>
-            </div>
-          </mat-form-field> -->
         </div>
       </div>
 
       <div class="btn">
-        <button type="submit" id="submit-btn">Verify</button>
+        <button type="submit" id="submit-btn">
+          <span class="login-btn-text" *ngIf="!isSubmitting"> Verify </span
+          ><span class="login-btn-loader" *ngIf="isSubmitting"></span>
+        </button>
       </div>
     </form>
   </div>

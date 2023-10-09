@@ -7,7 +7,7 @@ import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { IUser, UserAddressData } from 'src/app/models/IUserModel';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-buyer-address-information',
@@ -21,6 +21,7 @@ export class BuyerAddressInformationComponent implements OnInit {
   user: IUser;
   countryInfo: CountryInfo[];
   addressForm: FormGroup;
+  userAddresses: Observable<UserAddressData[]>;
   isEditingSub$: Subscription;
   isEditing: boolean = false;
   constructor(
@@ -70,6 +71,8 @@ export class BuyerAddressInformationComponent implements OnInit {
       },
     });
 
+    this.userAddresses = this.userService.getUserAddress(this.userId);
+
     this.isEditingSub$ = this.userService.isEditingUserInfo.subscribe({
       next: (status) => {
         this.isEditing = status;
@@ -89,7 +92,7 @@ export class BuyerAddressInformationComponent implements OnInit {
     this.addressForm.patchValue({ countryCodes: e.target.value });
   }
 
-  toggle() {
+  toggle(id: string) {
     this.isToggled = !this.isToggled;
   }
 
@@ -118,7 +121,7 @@ export class BuyerAddressInformationComponent implements OnInit {
       city: 'test',
       state: formValue.state,
       country: formValue.country,
-      isDefault: true,
+      userId: this.userId,
     };
 
     console.log(data);

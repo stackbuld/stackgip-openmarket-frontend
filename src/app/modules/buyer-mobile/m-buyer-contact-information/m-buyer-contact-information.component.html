@@ -2,7 +2,9 @@
   <div class="nav-back" routerLink="..">
     <i class="fa fa-angle-left"></i>
   </div>
-  <div class="heading">Contact Information</div>
+  <div class="heading">
+    {{ isEditing ? "Enter New Phone Number" : "Contact Information" }}
+  </div>
   <!-- <div class="profile-details">
     <div class="profile-detail">
       <div class="profile-detail-heading">Phone Number</div>

@@ -13,6 +13,7 @@ import { BuyerMobileRoutingModule } from './buyer-mobile-routing.module';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { BuyerModule } from '../buyer/buyer.module';
+import { MAT_SELECT_CONFIG } from '@angular/material/select';
 
 @NgModule({
   imports: [BuyerMobileRoutingModule, CommonModule, SharedModule, BuyerModule],
@@ -27,5 +28,11 @@ import { BuyerModule } from '../buyer/buyer.module';
     MBuyerSidebarComponent,
   ],
   exports: [],
+  providers: [
+    {
+      provide: MAT_SELECT_CONFIG,
+      useValue: { overlayPanelClass: 'matSelectCustom' },
+    },
+  ],
 })
 export class BuyerMobileModule {}

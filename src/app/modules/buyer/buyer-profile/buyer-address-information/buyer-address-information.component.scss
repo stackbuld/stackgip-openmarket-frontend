@@ -44,8 +44,12 @@
 
 .user-name {
   margin-bottom: 20px;
-  font-size: 20px;
-  color: $profile-text-heading;
+
+  & span {
+    text-transform: capitalize;
+    font-size: 20px;
+    color: $profile-text-heading;
+  }
 }
 
 .user-address {

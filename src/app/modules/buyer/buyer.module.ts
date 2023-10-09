@@ -15,9 +15,12 @@ import { BuyerSidebarComponent } from './buyer-sidebar/buyer-sidebar.component';
 import { BuyerDeactivateComponent } from './buyer-deactivate/buyer-deactivate.component';
 import { BuyerNavComponent } from './buyer-nav/buyer-nav.component';
 import { BuyerHeaderComponent } from './buyer-header/buyer-header.component';
+import { BuyerContactDialogComponent } from './buyer-profile/buyer-contact-information/buyer-contact-dialog/buyer-contact-dialog.component';
+import { MAT_SELECT_CONFIG } from '@angular/material/select';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 @NgModule({
-  imports: [BuyerRoutingModule, CommonModule, SharedModule],
+  imports: [BuyerRoutingModule, CommonModule, SharedModule, NgOtpInputModule],
   declarations: [
     BuyerComponent,
     BuyerProfileComponent,
@@ -32,6 +35,7 @@ import { BuyerHeaderComponent } from './buyer-header/buyer-header.component';
     BuyerDeactivateComponent,
     BuyerNavComponent,
     BuyerHeaderComponent,
+    BuyerContactDialogComponent,
   ],
   exports: [
     BuyerHeaderComponent,
@@ -41,7 +45,15 @@ import { BuyerHeaderComponent } from './buyer-header/buyer-header.component';
     BuyerChangePasswordComponent,
     BuyerPinSettingsComponent,
     BuyerDeleteAccountComponent,
+    BuyerContactDialogComponent,
     BuyerSidebarComponent,
+    NgOtpInputModule,
+  ],
+  providers: [
+    {
+      provide: MAT_SELECT_CONFIG,
+      useValue: { overlayPanelClass: 'matSelectCustom' },
+    },
   ],
 })
 export class BuyerModule {}

@@ -59,6 +59,14 @@ export interface IUpdateUser {
   scope?: string[];
 }
 
+export interface UserAddressRawInfo {
+  code: any;
+  errors: any;
+  message: string;
+  status: string;
+  data: { data: UserAddressData[] };
+}
+
 export interface UserAddressData {
   firstname: string;
   lastname: string;
@@ -68,6 +76,9 @@ export interface UserAddressData {
   city: string;
   state: string;
   country: string;
-  isDefault: boolean;
+  isDefault?: boolean;
+  userId?: string;
   contactPhoneNumber: string;
+  createdOn?: string;
+  id?: string;
 }

@@ -1,6 +1,13 @@
 @import "config";
 .contact-information-container {
   margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-details {
+  width: 100%;
 }
 
 .profile-detail {
@@ -41,6 +48,10 @@
   }
 }
 
+.contact-info-edit {
+  width: 100%;
+}
+
 #contact-form {
   display: flex;
   flex-direction: column;
@@ -61,6 +72,14 @@
     position: relative;
     width: 50%;
 
+    & .verify-alert {
+      position: absolute;
+      left: 0;
+      bottom: -25px;
+      color: #667085;
+      white-space: nowrap;
+    }
+
     & input {
       display: block;
       padding: 10px 15px;
@@ -75,52 +94,25 @@
       }
     }
 
-    // & select {
-    //   position: absolute;
-    //   left: 0;
-    //   top: 50%;
-    //   transform: translateY(-50%);
-    //   width: 50px;
-
-    //   &:focus {
-    //     outline: none;
-    //   }
-    // }
-
     & .country-code {
       position: absolute;
       left: 10px;
       top: 50%;
       transform: translateY(-50%);
-
-      & mat-select {
-        width: 100%;
-      }
-    }
-
-    & mat-option {
-      width: 100px !important;
+      width: auto;
     }
   }
 }
 
-.mat-select-panel {
-  width: 140rem !important;
-}
-
-.mat-select-value {
-  width: 140px;
-  display: none;
-}
-
 .btn {
   align-self: flex-end;
-  margin-top: 20px;
+  margin-top: 30px;
   padding: 0;
 
   & #submit-btn {
     border: none;
     height: 48px;
+    width: 142px;
     padding: 10px 50px;
     border-radius: 8px;
     background: $black;
@@ -153,14 +145,11 @@
 
 @media (max-width: 600px) {
   .contact-edit {
-    display: flex;
-    align-items: flex-start;
-    width: 80%;
+    flex-direction: column;
+    width: 100%;
 
     & .heading {
-      font-size: 16px;
-      font-weight: 600;
-      width: 50%;
+      display: none;
     }
 
     & .contact-inputs {
@@ -168,32 +157,53 @@
       width: 100%;
 
       & input {
-        display: block;
-        padding: 10px 15px;
-        padding-left: 60px;
         width: 100%;
-        border-radius: 4px;
-        border: 1px solid $input-border;
-
-        &:focus {
-          outline: none;
-        }
-      }
-
-      & .country-code {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-
-        & mat-select {
-          width: 100%;
-        }
-      }
-
-      & mat-option {
-        width: 100px !important;
       }
     }
+  }
+
+  .btn {
+    align-self: center;
+    width: 100%;
+    margin-top: 80px;
+
+    & #submit-btn {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 328px) {
+  .contact-edit {
+    & .contact-inputs {
+      & .verify-alert {
+        bottom: -45px;
+        white-space: wrap;
+      }
+    }
+  }
+
+  .btn {
+    margin-top: 80px;
+  }
+}
+
+.login-btn-loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid $white;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

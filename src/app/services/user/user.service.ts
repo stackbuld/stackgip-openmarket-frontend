@@ -1,9 +1,11 @@
 import { IResponseModel } from './../../shared/models/IResponseModel';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
   IUpdateUser,
   IUserResponse,
   UserAddressData,
+  UserAddressRawInfo,
 } from './../../models/IUserModel';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -35,15 +37,18 @@ export class UserService {
   }
 
   getUserAddress(userId: string) {
-    return this.http.get(
-      this.api.ecommerceBaseUrl + 'useraddress/users/' + userId
-    );
+    return this.http
+      .get<UserAddressRawInfo>(
+        this.api.ecommerceBaseUrl + 'useraddress/users/' + userId
+      )
+      .pipe(
+        map((data) => {
+          return data.data.data;
+        })
+      );
   }
 
   addUserAddress(userId: string, data: UserAddressData) {
-    return this.http.put(
-      this.api.ecommerceBaseUrl + 'useraddress/' + userId,
-      data
-    );
+    return this.http.post(this.api.ecommerceBaseUrl + 'useraddress', data);
   }
 }
