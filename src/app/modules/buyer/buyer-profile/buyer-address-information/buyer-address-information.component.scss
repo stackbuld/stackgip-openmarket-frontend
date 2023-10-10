@@ -195,6 +195,7 @@
   & #submit-btn {
     border: none;
     height: 48px;
+    width: 202px;
     padding: 10px 50px;
     border-radius: 8px;
     background: $black;
@@ -259,5 +260,25 @@
 
   .address {
     min-width: 280px;
+  }
+}
+
+.login-btn-loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid $white;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

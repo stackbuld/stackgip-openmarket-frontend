@@ -65,6 +65,16 @@ export interface UserAddressRawInfo {
   message: string;
   status: string;
   data: { data: UserAddressData[] };
+  succeeded?: boolean;
+}
+
+export interface PostAddressReturnData {
+  code: any;
+  errors: any;
+  message: string;
+  status: string;
+  data: UserAddressData;
+  succeeded: boolean;
 }
 
 export interface UserAddressData {

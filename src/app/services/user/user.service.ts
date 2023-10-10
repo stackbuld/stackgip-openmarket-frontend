@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import {
   IUpdateUser,
   IUserResponse,
+  PostAddressReturnData,
   UserAddressData,
   UserAddressRawInfo,
 } from './../../models/IUserModel';
@@ -48,7 +49,18 @@ export class UserService {
       );
   }
 
-  addUserAddress(userId: string, data: UserAddressData) {
-    return this.http.post(this.api.ecommerceBaseUrl + 'useraddress', data);
+  addUserAddress(data: UserAddressData) {
+    return this.http.post<PostAddressReturnData>(
+      this.api.ecommerceBaseUrl + 'useraddress',
+      data
+    );
+  }
+
+  updateUserAddress(id: string, data: UserAddressData) {
+    return this.http.put(this.api.ecommerceBaseUrl + 'useraddress/' + id, data);
+  }
+
+  deleteUserAddress(id: string) {
+    return this.http.delete(this.api.ecommerceBaseUrl + 'useraddress/' + id);
   }
 }

@@ -7,7 +7,9 @@ import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { IUser, UserAddressData } from 'src/app/models/IUserModel';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, retry } from 'rxjs';
+import { log } from 'console';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-buyer-address-information',
@@ -21,18 +23,24 @@ export class BuyerAddressInformationComponent implements OnInit {
   user: IUser;
   countryInfo: CountryInfo[];
   addressForm: FormGroup;
-  userAddresses: Observable<UserAddressData[]>;
+  userAddresses: UserAddressData[] = [];
+  isFetching: boolean = false;
   isEditingSub$: Subscription;
+  userAddress: UserAddressData;
   isEditing: boolean = false;
+  isEditingAddress: boolean = false;
+  isDefault: boolean = false;
+  isSubmitting: boolean = false;
   constructor(
     private countryService: CountryService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
+    this.isFetching = true;
     this.states = nigeriaSates.map((a) => a.name);
-    this.states.unshift('Select a state');
 
     this.countryService.getCountry().subscribe({
       next: (data) => {
@@ -62,16 +70,8 @@ export class BuyerAddressInformationComponent implements OnInit {
     //     console.log(err);
     //   },
     // });
-    this.userService.getUserAddress(this.userId).subscribe({
-      next: (data) => {
-        console.log(data);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
 
-    this.userAddresses = this.userService.getUserAddress(this.userId);
+    this.updateAddresses();
 
     this.isEditingSub$ = this.userService.isEditingUserInfo.subscribe({
       next: (status) => {
@@ -84,6 +84,25 @@ export class BuyerAddressInformationComponent implements OnInit {
     return this.addressForm.controls;
   }
 
+  updateAddresses() {
+    this.userService
+      .getUserAddress(this.userId)
+      .pipe(retry(1))
+      .subscribe({
+        next: (data) => {
+          this.isFetching = false;
+          console.log(data);
+          this.userAddresses = data;
+        },
+        error: (err) => {
+          console.log(err);
+          this.isFetching = false;
+
+          this.toast.error('Something went wrong!');
+        },
+      });
+  }
+
   trackByFn(index, item) {
     return index;
   }
@@ -93,18 +112,88 @@ export class BuyerAddressInformationComponent implements OnInit {
   }
 
   toggle(id: string) {
-    this.isToggled = !this.isToggled;
+    const address = this.userAddresses.find((address) => {
+      return address.id == id;
+    });
+
+    if (address.isDefault == true) {
+      return;
+    }
+    this.isFetching = true;
+    // this.isToggled = !this.isToggled;
+
+    this.userService
+      .updateUserAddress(id, { ...address, isDefault: true })
+      .subscribe({
+        next: (data) => {
+          this.toast.success('Default address updated successfully!');
+          this.updateAddresses();
+        },
+        error: (err) => {
+          this.toast.error('Something went wrong!');
+          console.log(err);
+        },
+      });
   }
 
   onAddAddress() {
     this.isEditing = true;
   }
 
+  onSetAsDefault() {
+    this.isDefault = !this.isDefault;
+  }
+
+  onEditAddress(id: string) {
+    this.isEditing = true;
+    this.isEditingAddress = true;
+    const address = this.userAddresses.find((address) => {
+      return address.id == id;
+    });
+
+    this.userAddress = address;
+
+    const phoneNumber = address.contactPhoneNumber;
+    const phoneNumberOnly = phoneNumber.slice(-10);
+    const countryCode = phoneNumber.slice(0, -10);
+    console.log(countryCode, phoneNumberOnly);
+
+    this.addressForm.setValue({
+      countryCode: countryCode,
+      firstName: address.firstname,
+      lastName: address.lastname,
+      phoneNumber: phoneNumberOnly,
+      additionalPhoneNumber: phoneNumberOnly,
+      address: address.fullAddress,
+      state: address.state,
+      country: address.country,
+    });
+  }
+
+  onDeleteAddress(id: string) {
+    this.isFetching = true;
+    const address = this.userAddresses.find((address) => {
+      return address.id == id;
+    });
+
+    this.userService.deleteUserAddress(address.id).subscribe({
+      next: (data) => {
+        this.toast.success('Address Deleted!');
+        console.log(data);
+
+        this.updateAddresses();
+      },
+      error: (err) => {
+        this.toast.error('Something went wrong!');
+      },
+    });
+  }
+
   onSubmit() {
     if (this.addressForm.invalid) {
       return;
     }
-
+    this.isSubmitting = true;
     const formValue = this.addressForm.value;
 
     const formattedPhoneNumber =
@@ -124,15 +213,63 @@ export class BuyerAddressInformationComponent implements OnInit {
       userId: this.userId,
     };
 
-    console.log(data);
+    if (this.isEditingAddress) {
+      this.userService
+        .updateUserAddress(this.userAddress.id, {
+          ...this.userAddress,
+          ...data,
+        })
+        .subscribe({
+          next: (data) => {
+            this.isEditing = false;
+            this.isEditingAddress = false;
+            this.isSubmitting = false;
+            this.toast.success('Address updated!');
+            console.log(data);
 
-    this.userService.addUserAddress(this.userId, data).subscribe({
-      next: (data) => {
-        console.log(data);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+            this.updateAddresses();
+          },
+          error: (err) => {
+            this.isSubmitting = false;
+            this.toast.error('Something went wrong!');
+          },
+        });
+    } else {
+      this.userService.addUserAddress(data).subscribe({
+        next: (data) => {
+          this.toast.success('New address added!');
+
+          this.isEditing = false;
+          this.isEditingAddress = false;
+          this.isSubmitting = false;
+
+          this.updateAddresses();
+          // if (this.isDefault) {
+          //   const address = this.userAddresses.find((address) => {
+          //     return address.fullAddress == data.data.fullAddress;
+          //   });
+          //   console.log(address);
+
+          //   this.userService
+          //     .updateUserAddress(address.id, {
+          //       ...address,
+          //       isDefault: true,
+          //     })
+          //     .subscribe({
+          //       next: (data) => {
+          //         this.updateAddresses();
+          //       },
+          //       error: (err) => {},
+          //     });
+          // }
+          console.log(data);
+          this.addressForm.reset();
+        },
+        error: (err) => {
+          this.isSubmitting = false;
+          this.toast.error('Address already exists');
+        },
+      });
+    }
   }
 }
