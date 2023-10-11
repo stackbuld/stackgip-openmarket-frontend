@@ -4,6 +4,12 @@
   margin-top: 40px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.addresses {
+  width: 100%;
 }
 
 .address-main {
@@ -124,6 +130,10 @@
       color: $black;
     }
   }
+}
+
+.address-edit {
+  width: 100%;
 }
 
 #address-edit-form {

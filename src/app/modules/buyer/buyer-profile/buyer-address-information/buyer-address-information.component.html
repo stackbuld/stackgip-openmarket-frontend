@@ -186,6 +186,9 @@
         <label for="address">Address</label>
         <div class="input-group">
           <input
+            ngx-google-places-autocomplete
+            #placesRef="ngx-places"
+            (onAddressChange)="handleAddressChange($event)"
             type="text"
             id="address"
             placeholder="Enter address"
@@ -246,7 +249,7 @@
       </div>
 
       <div class="btn">
-        <button type="submit" id="submit-btn">
+        <button type="submit" id="submit-btn" [disabled]="isSubmitting">
           <span class="login-btn-text" *ngIf="!isSubmitting">
             Save Changes </span
           ><span class="login-btn-loader" *ngIf="isSubmitting"></span>

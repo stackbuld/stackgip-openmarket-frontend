@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'src/app/services/toastr.service';
+import { BuyerSecurityOtpComponent } from '../buyer-security-otp/buyer-security-otp.component';
 
 @Component({
   selector: 'app-buyer-pin-settings',
@@ -9,11 +13,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class BuyerPinSettingsComponent implements OnInit {
   pinForm: FormGroup;
   pinMatch: boolean;
+  isSubmitting: boolean;
 
-  constructor() {}
+  constructor(
+    private dialog: MatDialog,
+    private toast: ToastrService,
+    private authService: AuthService
+  ) {}
   ngOnInit(): void {
     this.pinForm = new FormGroup({
-      currentPin: new FormControl(null, [Validators.required]),
       newPin: new FormControl(null, [
         Validators.required,
         Validators.minLength(4),
@@ -43,5 +51,29 @@ export class BuyerPinSettingsComponent implements OnInit {
     }
   }
 
-  onSubmit() {}
+  onSubmit() {
+    if (this.pinForm.invalid || !this.pinMatch) {
+      return;
+    }
+    this.isSubmitting = true;
+    this.authService.sendPinChangeOTP().subscribe({
+      next: (data) => {
+        this.isSubmitting = false;
+
+        const dialogRef = this.dialog.open(BuyerSecurityOtpComponent, {
+          panelClass: 'otp_dialog',
+          data: { type: 'changePinOTP', payload: this.newPin.value },
+        });
+
+        this.toast.success('OTP sent!. Please check your SMS inbox!');
+
+        this.pinForm.reset();
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+
+        this.toast.error(err.error.message);
+      },
+    });
+  }
 }

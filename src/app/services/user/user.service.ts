@@ -16,6 +16,7 @@ import { ApiAppUrlService } from '../api-app-url.service';
   providedIn: 'root',
 })
 export class UserService {
+  isPhoneVerified = new Subject<boolean>();
   isEditingUserInfo = new BehaviorSubject<boolean>(false);
   userProfileUpdated = new BehaviorSubject<boolean>(true);
   constructor(private api: ApiAppUrlService, private http: HttpClient) {}

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
 import { CountryInfo } from 'src/app/models/country.model';
 import { CountryService } from 'src/app/services/country/country.service';
@@ -7,7 +8,7 @@ import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { IUser, UserAddressData } from 'src/app/models/IUserModel';
-import { Observable, Subscription, retry } from 'rxjs';
+import { Observable, Subscription, retry, switchMap } from 'rxjs';
 import { log } from 'console';
 import { ToastrService } from 'src/app/services/toastr.service';
 
@@ -31,6 +32,13 @@ export class BuyerAddressInformationComponent implements OnInit {
   isEditingAddress: boolean = false;
   isDefault: boolean = false;
   isSubmitting: boolean = false;
+  options = {
+    types: ['address'],
+    componentRestrictions: { country: 'NG' },
+  };
+  addressLatitude: number;
+  addressLongitude: number;
+  addressCity: string;
   constructor(
     private countryService: CountryService,
     private authService: AuthService,
@@ -61,16 +69,6 @@ export class BuyerAddressInformationComponent implements OnInit {
 
     this.userId = this.authService.getLoggedInUser().id;
 
-    // this.userService.getUserById(this.userId).subscribe({
-    //   next: (data) => {
-    //     console.log(data);
-    //     this.user = data.data;
-    //   },
-    //   error: (err) => {
-    //     console.log(err);
-    //   },
-    // });
-
     this.updateAddresses();
 
     this.isEditingSub$ = this.userService.isEditingUserInfo.subscribe({
@@ -95,7 +93,6 @@ export class BuyerAddressInformationComponent implements OnInit {
           this.userAddresses = data;
         },
         error: (err) => {
-          console.log(err);
           this.isFetching = false;
 
           this.toast.error('Something went wrong!');
@@ -109,6 +106,19 @@ export class BuyerAddressInformationComponent implements OnInit {
 
   changeOption(e: any) {
     this.addressForm.patchValue({ countryCodes: e.target.value });
+  }
+
+  handleAddressChange(address: Address) {
+    let city = address.address_components.filter((element) => {
+      return element.types.includes('administrative_area_level_2');
+    });
+
+    this.addressForm.get('address').patchValue(address.formatted_address);
+    this.addressLatitude = address.geometry.location.lat();
+    this.addressLongitude = address.geometry.location.lng();
+    try {
+      this.addressCity = city[0].long_name;
+    } catch {}
   }
 
   toggle(id: string) {
@@ -138,6 +148,7 @@ export class BuyerAddressInformationComponent implements OnInit {
 
   onAddAddress() {
     this.isEditing = true;
+    this.userService.isEditingUserInfo.next(true);
   }
 
   onSetAsDefault() {
@@ -181,9 +192,35 @@ export class BuyerAddressInformationComponent implements OnInit {
         this.toast.success('Address Deleted!');
         console.log(data);
 
-        this.updateAddresses();
+        if (address.isDefault) {
+          this.userService
+            .getUserAddress(this.userId)
+            .pipe(
+              retry(1),
+              switchMap((data) => {
+                return this.userService.updateUserAddress(data[0].id, {
+                  ...data[0],
+                  isDefault: true,
+                });
+              })
+            )
+            .subscribe({
+              next: (data) => {
+                this.updateAddresses();
+              },
+              error: (err) => {
+                this.isFetching = false;
+
+                this.toast.error('Something went wrong!');
+              },
+            });
+        } else {
+          this.updateAddresses();
+        }
       },
       error: (err) => {
+        this.isFetching = false;
+
         this.toast.error('Something went wrong!');
       },
     });
@@ -205,13 +242,15 @@ export class BuyerAddressInformationComponent implements OnInit {
       lastname: formValue.lastName,
       fullAddress: formValue.address,
       contactPhoneNumber: formattedPhoneNumber,
-      lat: 0,
-      lng: 0,
-      city: 'test',
+      lat: this.addressLatitude,
+      lng: this.addressLongitude,
+      city: this.addressCity,
       state: formValue.state,
       country: formValue.country,
       userId: this.userId,
     };
+
+    console.log(data);
 
     if (this.isEditingAddress) {
       this.userService
@@ -223,6 +262,7 @@ export class BuyerAddressInformationComponent implements OnInit {
           next: (data) => {
             this.isEditing = false;
             this.isEditingAddress = false;
+            this.userService.isEditingUserInfo.next(false);
             this.isSubmitting = false;
             this.toast.success('Address updated!');
             console.log(data);
@@ -241,6 +281,7 @@ export class BuyerAddressInformationComponent implements OnInit {
 
           this.isEditing = false;
           this.isEditingAddress = false;
+          this.userService.isEditingUserInfo.next(false);
           this.isSubmitting = false;
 
           this.updateAddresses();
@@ -261,6 +302,7 @@ export class BuyerAddressInformationComponent implements OnInit {
           //       },
           //       error: (err) => {},
           //     });
+          // } else {
           // }
           console.log(data);
           this.addressForm.reset();

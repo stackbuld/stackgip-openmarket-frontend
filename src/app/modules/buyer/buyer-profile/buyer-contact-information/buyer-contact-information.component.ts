@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { CountryService } from 'src/app/services/country/country.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { BuyerContactDialogComponent } from './buyer-contact-dialog/buyer-contact-dialog.component';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-buyer-contact-information',
@@ -23,11 +24,14 @@ export class BuyerContactInformationComponent implements OnInit, OnDestroy {
   user: IUser;
   isFetching: boolean = false;
   isSubmitting: boolean = false;
+  isPhoneVerified: boolean = false;
+  specificUserData;
   constructor(
     private countryService: CountryService,
     private authService: AuthService,
     private userService: UserService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +54,10 @@ export class BuyerContactInformationComponent implements OnInit, OnDestroy {
         this.isEditing = status;
       },
     });
+
+    this.userService.isPhoneVerified.subscribe(
+      (status) => (this.isPhoneVerified = status)
+    );
   }
 
   updateUser() {
@@ -58,7 +66,17 @@ export class BuyerContactInformationComponent implements OnInit, OnDestroy {
     this.userService.getUserById(this.userId).subscribe({
       next: (user) => {
         this.user = user.data;
+        this.isPhoneVerified = this.user.phoneNumberConfirmed;
         this.isFetching = false;
+        console.log(this.user);
+
+        this.specificUserData = {
+          firstName: this.user.firstName,
+          lastName: this.user.lastName,
+          email: this.user.email,
+          profileImageUrl: this.user.profileImageUrl,
+          phoneNumber: this.user.phoneNumber,
+        };
       },
       error: (err) => {
         this.isFetching = false;
@@ -74,6 +92,27 @@ export class BuyerContactInformationComponent implements OnInit, OnDestroy {
     this.contactForm.patchValue({ countryCodes: e.target.value });
   }
 
+  onVerify() {
+    this.isSubmitting = true;
+
+    this.authService.sendPersonalPhoneOTP().subscribe({
+      next: (data) => {
+        this.isSubmitting = false;
+
+        const dialogRef = this.dialog.open(BuyerContactDialogComponent, {
+          panelClass: 'contact_dialog',
+          data: {
+            type: 'phoneNumberOTP',
+            payload: this.user.phoneNumber,
+          },
+        });
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+      },
+    });
+  }
+
   onEdit() {
     const dialogRef = this.dialog.open(BuyerContactDialogComponent, {
       panelClass: 'contact_dialog',
@@ -84,9 +123,11 @@ export class BuyerContactInformationComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    // if (this.contactForm.invalid) {
-    //   return;
-    // }
+    if (this.contactForm.invalid) {
+      return;
+    }
+
+    this.isSubmitting = true;
     let phoneNumber = this.contactForm.get('phoneNumber').value.toString();
 
     this.contactForm.get('phoneNumber').value.toString();
@@ -95,6 +136,27 @@ export class BuyerContactInformationComponent implements OnInit, OnDestroy {
       this.contactForm.get('countryCode').value.toString() + phoneNumber;
 
     console.log(formattedPhoneNumber);
+
+    this.userService
+      .updateUser({
+        ...this.specificUserData,
+        phoneNumber: formattedPhoneNumber,
+      })
+      .subscribe({
+        next: (data) => {
+          this.isSubmitting = false;
+          this.isEditing = false;
+          this.userService.isEditingUserInfo.next(false);
+          this.userService.userProfileUpdated.next(true);
+          this.toast.success('Phone Number Updated!');
+
+          this.updateUser();
+        },
+        error: (err) => {
+          this.isSubmitting = false;
+          this.toast.error('Something went wrong! Try again later.');
+        },
+      });
   }
 
   ngOnDestroy(): void {

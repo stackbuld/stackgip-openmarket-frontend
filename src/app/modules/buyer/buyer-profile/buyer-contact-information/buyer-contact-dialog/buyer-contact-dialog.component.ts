@@ -6,6 +6,7 @@ import { IUser } from 'src/app/models/IUserModel';
 import { CountryInfo } from 'src/app/models/country.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CountryService } from 'src/app/services/country/country.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -14,11 +15,8 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./buyer-contact-dialog.component.scss'],
 })
 export class BuyerContactDialogComponent {
-  countryInfo: CountryInfo[];
   contactForm: FormGroup;
-  isEditingSub$: Subscription;
-  isEditing: boolean;
-  isVerifying: boolean;
+  isVerifying: boolean = true;
   isVerified: boolean;
   userId: string;
   user: IUser;
@@ -73,34 +71,45 @@ export class BuyerContactDialogComponent {
   otpInput: FormControl;
   isResending: boolean = false;
   resendTimer: number = 29;
+  otpType: string;
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
     @Inject(MAT_DIALOG_DATA)
-    private data: { editing: boolean; countries: CountryInfo[] },
-    private dialog: MatDialog
+    private data: { type: string; payload: any },
+    private dialog: MatDialog,
+    private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.isFetching = true;
     this.updateUser();
 
+    this.otpType = this.data.type;
+    this.phoneNumber = this.data.payload;
+
     this.contactForm = new FormGroup({
       countryCode: new FormControl('+234'),
       phoneNumber: new FormControl(null, Validators.required),
     });
 
-    this.isEditing = this.data.editing;
-    this.countryInfo = this.data.countries;
+    let timer = 29;
 
-    // this.isEditingSub$ = this.userService.isEditingUserInfo.subscribe({
-    //   next: (status) => {
-    //     this.isEditing = status;
-    //   },
-    // });
+    setInterval(() => {
+      timer = timer - 1;
+      if (timer >= 0) {
+        this.resendTimer = timer;
+      }
+    }, 1000);
 
     this.otpInput = new FormControl<string>(null, Validators.required);
+
+    this.otpInput.valueChanges.subscribe((data) => {
+      if (data.length === 6) {
+        this.onVerify();
+      }
+    });
   }
 
   updateUser() {
@@ -109,25 +118,9 @@ export class BuyerContactDialogComponent {
     this.userService.getUserById(this.userId).subscribe({
       next: (user) => {
         this.user = user.data;
-        this.isFetching = false;
       },
-      error: (err) => {
-        this.isFetching = false;
-      },
+      error: (err) => {},
     });
-  }
-
-  get f() {
-    return this.contactForm.controls;
-  }
-
-  changeOption(e: any) {
-    this.contactForm.patchValue({ countryCodes: e.target.value });
-  }
-
-  onEdit() {
-    this.isEditing = true;
-    this.userService.isEditingUserInfo.next(true);
   }
 
   onSubmit() {
@@ -136,60 +129,43 @@ export class BuyerContactDialogComponent {
     }
 
     this.isSubmitting = true;
-
-    let phoneNumber = this.contactForm.get('phoneNumber').value.toString();
-
-    this.contactForm.get('phoneNumber').value.toString();
-
-    phoneNumber = phoneNumber.replace(/^0+/, '');
-
-    const formattedPhoneNumber =
-      this.contactForm.get('countryCode').value.toString() + phoneNumber;
-
-    this.phoneNumber = formattedPhoneNumber;
-
-    this.sendOtp();
-  }
-
-  onResendOtp() {
-    this.sendOtp();
-  }
-
-  sendOtp() {
-    this.authService.sendPersonalPhoneOTP().subscribe({
-      next: (data) => {
-        this.isVerifying = true;
-        this.isEditing = false;
-        this.isSubmitting = false;
-
-        let timer = 29;
-
-        setInterval(() => {
-          timer = timer - 1;
-          if (timer >= 0) {
-            this.resendTimer = timer;
-          }
-        }, 1000);
-      },
-      error: (err) => {
-        this.isSubmitting = false;
-      },
-    });
   }
 
   onVerify() {
-    this.authService
-      .verifyPersonalPhoneNumber({
-        phoneNumber: this.phoneNumber,
-        otp: this.otpInput.value,
-      })
-      .subscribe({
-        next: (data) => {
-          this.isVerified = true;
-          this.isVerifying = false;
-        },
-        error: (err) => {},
-      });
+    if (this.otpInput.value.length !== 6) {
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    switch (this.otpType) {
+      case 'phoneNumberOTP':
+        this.authService
+          .verifyPersonalPhoneNumber({
+            phoneNumber: this.phoneNumber,
+            otp: this.otpInput.value,
+          })
+          .subscribe({
+            next: (data) => {
+              this.userService.isPhoneVerified.next(true);
+              this.isVerified = true;
+              this.isVerifying = false;
+              this.isSubmitting = true;
+            },
+            error: (err) => {
+              this.isSubmitting = true;
+            },
+          });
+    }
+  }
+
+  onResendOtp() {
+    this.authService.sendPersonalPhoneOTP().subscribe({
+      next: (data) => {
+        this.toast.success('OTP resent successfully!');
+      },
+      error: (err) => {},
+    });
   }
 
   onContinue() {

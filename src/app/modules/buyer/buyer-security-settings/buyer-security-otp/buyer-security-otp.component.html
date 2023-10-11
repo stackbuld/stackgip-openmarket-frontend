@@ -1,0 +1,37 @@
+<div class="otp-dialog-container">
+  <form>
+    <div class="otp-heading">Verify Phone Number</div>
+
+    <div class="sent-text">We've sent a code to {{ phoneNumber }}</div>
+
+    <div class="otp-input-container desktop">
+      <ng-otp-input [config]="config" [formCtrl]="otpInput"></ng-otp-input>
+    </div>
+    <div class="otp-input-container mobile">
+      <ng-otp-input [config]="config2" [formCtrl]="otpInput"></ng-otp-input>
+    </div>
+    <div class="otp-input-container mobile2">
+      <ng-otp-input [config]="config3" [formCtrl]="otpInput"></ng-otp-input>
+    </div>
+
+    <div class="code-resend">
+      Didn’t get a code?
+      <a class="resend">
+        <span
+          *ngIf="resendTimer == 0"
+          (click)="onResendOtp('type')"
+          id="resend-main"
+          >Click to resend.</span
+        >
+        <span *ngIf="resendTimer > 0" id="reload"
+          >Resend in {{ resendTimer }}s</span
+        ></a
+      >
+    </div>
+
+    <button class="verify-button" (click)="onVerify()">
+      <span class="login-btn-text" *ngIf="!isSubmitting"> Verify</span
+      ><span class="login-btn-loader" *ngIf="isSubmitting"></span>
+    </button>
+  </form>
+</div>

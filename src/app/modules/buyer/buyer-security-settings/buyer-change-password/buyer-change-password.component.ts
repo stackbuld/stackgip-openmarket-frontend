@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'src/app/services/toastr.service';
+import { BuyerSecurityOtpComponent } from '../buyer-security-otp/buyer-security-otp.component';
 
 @Component({
   selector: 'app-buyer-change-password',
@@ -12,10 +16,15 @@ export class BuyerChangePasswordComponent implements OnInit {
   showNewPassword: boolean;
   showConfirmNewPassword: boolean;
   passwordMatch: boolean;
-  constructor() {}
+  isSubmitting: boolean;
+
+  constructor(
+    private dialog: MatDialog,
+    private toast: ToastrService,
+    private authService: AuthService
+  ) {}
   ngOnInit(): void {
     this.passwordForm = new FormGroup({
-      currentPassword: new FormControl(null, Validators.required),
       newPassword: new FormControl(null, Validators.required),
       confirmNewPassword: new FormControl(null, Validators.required),
     });
@@ -50,5 +59,33 @@ export class BuyerChangePasswordComponent implements OnInit {
     } else {
       this.passwordMatch = false;
     }
+  }
+
+  onSubmit() {
+    if (this.passwordForm.invalid || !this.passwordMatch) {
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    this.authService.sendPasswordChangeOTP().subscribe({
+      next: (data) => {
+        this.isSubmitting = false;
+
+        const dialogRef = this.dialog.open(BuyerSecurityOtpComponent, {
+          panelClass: 'otp_dialog',
+          data: { type: 'changePasswordOTP', payload: this.password.value },
+        });
+
+        this.toast.success('OTP sent! Please check your SMS inbox!');
+
+        this.passwordForm.reset();
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+
+        this.toast.error(err.error.message);
+      },
+    });
   }
 }

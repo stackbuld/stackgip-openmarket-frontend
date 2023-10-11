@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BuyerComponent } from './buyer.component';
 import { BuyerRoutingModule } from './buyer-routing.module';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+
 import { BuyerProfileComponent } from './buyer-profile/buyer-profile.component';
 import { BuyerPersonalInformationComponent } from './buyer-profile/buyer-personal-information/buyer-personal-information.component';
 import { BuyerContactInformationComponent } from './buyer-profile/buyer-contact-information/buyer-contact-information.component';
@@ -18,9 +20,16 @@ import { BuyerHeaderComponent } from './buyer-header/buyer-header.component';
 import { BuyerContactDialogComponent } from './buyer-profile/buyer-contact-information/buyer-contact-dialog/buyer-contact-dialog.component';
 import { MAT_SELECT_CONFIG } from '@angular/material/select';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { BuyerSecurityOtpComponent } from './buyer-security-settings/buyer-security-otp/buyer-security-otp.component';
 
 @NgModule({
-  imports: [BuyerRoutingModule, CommonModule, SharedModule, NgOtpInputModule],
+  imports: [
+    BuyerRoutingModule,
+    CommonModule,
+    SharedModule,
+    NgOtpInputModule,
+    GooglePlaceModule,
+  ],
   declarations: [
     BuyerComponent,
     BuyerProfileComponent,
@@ -36,6 +45,7 @@ import { NgOtpInputModule } from 'ng-otp-input';
     BuyerNavComponent,
     BuyerHeaderComponent,
     BuyerContactDialogComponent,
+    BuyerSecurityOtpComponent,
   ],
   exports: [
     BuyerHeaderComponent,
@@ -48,6 +58,8 @@ import { NgOtpInputModule } from 'ng-otp-input';
     BuyerContactDialogComponent,
     BuyerSidebarComponent,
     NgOtpInputModule,
+    BuyerSecurityOtpComponent,
+    GooglePlaceModule,
   ],
   providers: [
     {
