@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
@@ -17,7 +17,7 @@ import { ToastrService } from 'src/app/services/toastr.service';
   templateUrl: './buyer-address-information.component.html',
   styleUrls: ['./buyer-address-information.component.scss'],
 })
-export class BuyerAddressInformationComponent implements OnInit {
+export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   isToggled: boolean = false;
   states: string[] = [];
   userId: string;
@@ -74,6 +74,12 @@ export class BuyerAddressInformationComponent implements OnInit {
     this.isEditingSub$ = this.userService.isEditingUserInfo.subscribe({
       next: (status) => {
         this.isEditing = status;
+
+        if (!status) {
+          this.isEditingAddress = status;
+          this.addressForm.reset();
+          this.addressForm.get('countryCode').setValue('+234');
+        }
       },
     });
   }
@@ -130,7 +136,6 @@ export class BuyerAddressInformationComponent implements OnInit {
       return;
     }
     this.isFetching = true;
-    // this.isToggled = !this.isToggled;
 
     this.userService
       .updateUserAddress(id, { ...address, isDefault: true })
@@ -158,6 +163,7 @@ export class BuyerAddressInformationComponent implements OnInit {
   onEditAddress(id: string) {
     this.isEditing = true;
     this.isEditingAddress = true;
+    this.userService.isEditingUserInfo.next(true);
     const address = this.userAddresses.find((address) => {
       return address.id == id;
     });
@@ -248,6 +254,7 @@ export class BuyerAddressInformationComponent implements OnInit {
       state: formValue.state,
       country: formValue.country,
       userId: this.userId,
+      isDefault: this.isDefault,
     };
 
     console.log(data);
@@ -285,33 +292,21 @@ export class BuyerAddressInformationComponent implements OnInit {
           this.isSubmitting = false;
 
           this.updateAddresses();
-          // if (this.isDefault) {
-          //   const address = this.userAddresses.find((address) => {
-          //     return address.fullAddress == data.data.fullAddress;
-          //   });
-          //   console.log(address);
 
-          //   this.userService
-          //     .updateUserAddress(address.id, {
-          //       ...address,
-          //       isDefault: true,
-          //     })
-          //     .subscribe({
-          //       next: (data) => {
-          //         this.updateAddresses();
-          //       },
-          //       error: (err) => {},
-          //     });
-          // } else {
-          // }
-          console.log(data);
           this.addressForm.reset();
         },
         error: (err) => {
           this.isSubmitting = false;
-          this.toast.error('Address already exists');
+          console.log(err);
+
+          this.toast.error('Something went wrong!');
         },
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.isEditingSub$.unsubscribe();
+    this.userService.isEditingUserInfo.next(false);
   }
 }

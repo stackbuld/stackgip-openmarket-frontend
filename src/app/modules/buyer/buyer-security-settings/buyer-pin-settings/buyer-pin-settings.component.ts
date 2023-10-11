@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'src/app/services/toastr.service';
 import { BuyerSecurityOtpComponent } from '../buyer-security-otp/buyer-security-otp.component';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-buyer-pin-settings',
@@ -14,11 +15,14 @@ export class BuyerPinSettingsComponent implements OnInit {
   pinForm: FormGroup;
   pinMatch: boolean;
   isSubmitting: boolean;
+  userId: string;
+  phoneNumber: string;
 
   constructor(
     private dialog: MatDialog,
     private toast: ToastrService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {}
   ngOnInit(): void {
     this.pinForm = new FormGroup({
@@ -32,6 +36,13 @@ export class BuyerPinSettingsComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(4),
       ]),
+    });
+
+    this.userId = this.authService.getLoggedInUser().id;
+    this.userService.getUserById(this.userId).subscribe({
+      next: (user) => {
+        this.phoneNumber = user.data.phoneNumber;
+      },
     });
   }
 
@@ -62,7 +73,11 @@ export class BuyerPinSettingsComponent implements OnInit {
 
         const dialogRef = this.dialog.open(BuyerSecurityOtpComponent, {
           panelClass: 'otp_dialog',
-          data: { type: 'changePinOTP', payload: this.newPin.value },
+          data: {
+            type: 'changePinOTP',
+            payload: this.newPin.value,
+            phoneNumber: this.phoneNumber,
+          },
         });
 
         this.toast.success('OTP sent!. Please check your SMS inbox!');

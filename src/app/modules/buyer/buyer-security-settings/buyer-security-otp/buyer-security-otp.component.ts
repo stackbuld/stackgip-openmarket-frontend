@@ -5,6 +5,7 @@ import { IUser } from 'src/app/models/IUserModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import { ToastrService } from 'src/app/services/toastr.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-buyer-security-otp',
@@ -64,13 +65,15 @@ export class BuyerSecurityOtpComponent implements OnInit {
   otpData: string;
   phoneNumber: string;
   resendTimer: number = 29;
+  userId: string;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { type: string; payload: string },
+    @Inject(MAT_DIALOG_DATA)
+    private data: { type: string; payload: string; phoneNumber: string },
     private authService: AuthService,
     private dialog: MatDialog,
-    private sellerService: SellerService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -79,9 +82,7 @@ export class BuyerSecurityOtpComponent implements OnInit {
     this.otpInput = new FormControl<string>(null, Validators.required);
     this.otpData = this.data.payload;
     this.otpType = this.data.type;
-
-    const user: IUser = JSON.parse(localStorage.getItem('user')!);
-    this.phoneNumber = user.phoneNumber;
+    this.phoneNumber = this.data.phoneNumber;
 
     this.otpInput.valueChanges.subscribe((data) => {
       if (data.length === 6) {
@@ -153,10 +154,11 @@ export class BuyerSecurityOtpComponent implements OnInit {
           .subscribe({
             next: (data) => {
               this.isSubmitting = false;
-              this.sellerService.isSellerActivated.next(false);
+              this.userService.userActivated.next(false);
               this.toast.success(
                 'Your seller account has been deactivated successfully'
               );
+              this.dialog.closeAll();
             },
             error: (err) => {
               console.log(err);
@@ -173,10 +175,11 @@ export class BuyerSecurityOtpComponent implements OnInit {
           .subscribe({
             next: (data) => {
               this.isSubmitting = false;
-              this.sellerService.isSellerActivated.next(true);
+              this.userService.userActivated.next(true);
               this.toast.success(
                 'Your seller account has been activated successfully'
               );
+              this.dialog.closeAll();
             },
             error: (err) => {
               console.log(err);
@@ -190,7 +193,6 @@ export class BuyerSecurityOtpComponent implements OnInit {
   }
 
   onResendOtp(type: string) {
-    (this.resendTimer = 29), this.resendTimerF();
     switch (this.otpType) {
       case 'changePasswordOTP':
         this.authService.sendPasswordChangeOTP().subscribe({

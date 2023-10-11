@@ -19,6 +19,7 @@ export class UserService {
   isPhoneVerified = new Subject<boolean>();
   isEditingUserInfo = new BehaviorSubject<boolean>(false);
   userProfileUpdated = new BehaviorSubject<boolean>(true);
+  userActivated = new Subject<boolean>();
   constructor(private api: ApiAppUrlService, private http: HttpClient) {}
 
   updateUser(userInfo: IUpdateUser): Observable<IResponseModel> {

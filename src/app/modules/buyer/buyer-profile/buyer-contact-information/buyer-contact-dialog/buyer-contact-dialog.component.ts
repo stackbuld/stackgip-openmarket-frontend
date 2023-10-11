@@ -150,10 +150,14 @@ export class BuyerContactDialogComponent {
               this.userService.isPhoneVerified.next(true);
               this.isVerified = true;
               this.isVerifying = false;
-              this.isSubmitting = true;
+              this.isSubmitting = false;
+              this.toast.success('Phone verified successfully');
             },
             error: (err) => {
-              this.isSubmitting = true;
+              this.isSubmitting = false;
+              console.log(err);
+
+              this.toast.error(err.error.data[0]);
             },
           });
     }

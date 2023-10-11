@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'src/app/services/toastr.service';
 import { BuyerSecurityOtpComponent } from '../buyer-security-otp/buyer-security-otp.component';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-buyer-change-password',
@@ -17,16 +18,26 @@ export class BuyerChangePasswordComponent implements OnInit {
   showConfirmNewPassword: boolean;
   passwordMatch: boolean;
   isSubmitting: boolean;
+  userId: string;
+  phoneNumber: string;
 
   constructor(
     private dialog: MatDialog,
     private toast: ToastrService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {}
   ngOnInit(): void {
     this.passwordForm = new FormGroup({
       newPassword: new FormControl(null, Validators.required),
       confirmNewPassword: new FormControl(null, Validators.required),
+    });
+
+    this.userId = this.authService.getLoggedInUser().id;
+    this.userService.getUserById(this.userId).subscribe({
+      next: (user) => {
+        this.phoneNumber = user.data.phoneNumber;
+      },
     });
   }
 
@@ -74,7 +85,11 @@ export class BuyerChangePasswordComponent implements OnInit {
 
         const dialogRef = this.dialog.open(BuyerSecurityOtpComponent, {
           panelClass: 'otp_dialog',
-          data: { type: 'changePasswordOTP', payload: this.password.value },
+          data: {
+            type: 'changePasswordOTP',
+            payload: this.password.value,
+            phoneNumber: this.phoneNumber,
+          },
         });
 
         this.toast.success('OTP sent! Please check your SMS inbox!');

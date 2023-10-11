@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IUser } from 'src/app/models/IUserModel';
 import { AuthService } from 'src/app/services/auth.service';
@@ -20,7 +21,8 @@ export class BuyerSidebarComponent implements OnInit, OnDestroy {
   profileUpdatedSub$: Subscription;
   constructor(
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +54,11 @@ export class BuyerSidebarComponent implements OnInit, OnDestroy {
     if (type == 'settings') {
       this.isSettingsOpened = !this.isSettingsOpened;
     }
+  }
+
+  onLogout() {
+    this.authService.Logout();
+    this.router.navigate(['/', 'homepage']);
   }
 
   ngOnDestroy(): void {
