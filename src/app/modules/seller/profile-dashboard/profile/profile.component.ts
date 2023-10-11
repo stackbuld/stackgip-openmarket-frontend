@@ -15,6 +15,7 @@ import { CountryInfo } from 'src/app/models/country.model';
 import { countryCodes } from 'src/app/data/countryCodes';
 import { environment } from 'src/environments/environment';
 import { SellerProfileData } from 'src/app/models/sellerModel';
+import { profile } from 'console';
 declare var cloudinary: any;
 
 @Component({
@@ -97,7 +98,7 @@ export class ProfileComponent implements OnInit {
           profileImageUrl: this.user.profileImageUrl,
           alpha2CountryCode: this.user.alpha2CountryCode,
           state: this.user.state,
-          phoneNumber: this.user.phoneNumber,
+          // phoneNumber: this.user.phoneNumber,
           coverPhotoUrl: this.user.coverPhotoUrl,
         };
 
@@ -334,30 +335,47 @@ export class ProfileComponent implements OnInit {
 
     this.isSubmitting = true;
 
+    const profileFormValue = this.profileForm.value;
+
     const formattedPhoneNumber =
-      this.profileForm.get('countryCode').value.toString() +
-      this.profileForm.get('phoneNumber').value.toString();
+      profileFormValue.countryCode.toString() +
+      profileFormValue.phoneNumber.toString();
 
-    this.sellerService
-      .updateSellerPersonalProfile({
-        ...this.profileForm.value,
+    let data: SellerProfileData = {
+      firstName: profileFormValue.firstName,
+      lastName: profileFormValue.lastName,
+      bio: profileFormValue.bio,
+      state: profileFormValue.state,
+      alpha2CountryCode: profileFormValue.country,
+      profileImageUrl: this.profilePhotoUrl,
+      coverPhotoUrl: this.coverPhotoUrl,
+    };
+
+    if (
+      JSON.stringify(formattedPhoneNumber) ===
+      JSON.stringify(this.user.phoneNumber)
+    ) {
+      data = data;
+      console.log(1);
+    } else {
+      data = {
+        ...data,
         phoneNumber: formattedPhoneNumber,
-        profileImageUrl: this.profilePhotoUrl,
-        alpha2CountryCode: this.profileForm.value.country,
-        coverPhotoUrl: this.coverPhotoUrl,
-      })
-      .subscribe({
-        next: (data) => {
-          this.isSubmitting = false;
-          this.showUserUpdateButtons = false;
+      };
+    }
 
-          this.toast.success('Profile updated successfully');
-        },
-        error: (err) => {
-          this.isSubmitting = false;
-          this.toast.error('Something went wrong!');
-        },
-      });
+    this.sellerService.updateSellerPersonalProfile(data).subscribe({
+      next: (data) => {
+        this.isSubmitting = false;
+        this.showUserUpdateButtons = false;
+
+        this.toast.success('Profile updated successfully');
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        this.toast.error('Something went wrong!');
+      },
+    });
   }
 
   onCancelUpdate() {
