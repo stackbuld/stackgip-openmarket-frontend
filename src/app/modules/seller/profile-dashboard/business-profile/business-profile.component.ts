@@ -238,8 +238,6 @@ export class BusinessProfileComponent implements OnInit {
       };
     }
 
-    console.log(mainForm);
-
     this.sellerService.updateSellerBusinessProfile(mainForm).subscribe({
       next: (data) => {
         this.isSubmitting = false;

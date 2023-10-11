@@ -81,7 +81,6 @@ export class SellerProfileSettingsComponent implements OnInit {
     this.sellerService.getSeller(this.userId).subscribe({
       next: (user) => {
         this.isFetching = false;
-        console.log(user);
         this.isActive = user.data.isActive;
         this.sellerStatus = user.data.isActive;
         this.user = user.data;
@@ -184,7 +183,6 @@ export class SellerProfileSettingsComponent implements OnInit {
 
   toggle() {
     this.isActive = !this.isActive;
-    console.log(this.isActive);
   }
 
   onVerifyDeactivate() {
@@ -208,8 +206,6 @@ export class SellerProfileSettingsComponent implements OnInit {
         },
       });
     } else if (this.isActive) {
-      console.log(1);
-
       this.isSendingDeactivateOTP = true;
 
       this.authService

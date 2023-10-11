@@ -98,7 +98,6 @@ export class ProfileComponent implements OnInit {
           profileImageUrl: this.user.profileImageUrl,
           alpha2CountryCode: this.user.alpha2CountryCode,
           state: this.user.state,
-          // phoneNumber: this.user.phoneNumber,
           coverPhotoUrl: this.user.coverPhotoUrl,
         };
 
@@ -176,7 +175,7 @@ export class ProfileComponent implements OnInit {
       (error, result) => {
         if (!error && result && result.event === 'success') {
           this.toast.success('Image uploaded successfully');
-          // this.imageName = result.info.original_filename;
+
           this.coverPhotoUrl = result.info.secure_url;
 
           this.sellerService
@@ -203,7 +202,7 @@ export class ProfileComponent implements OnInit {
       (error, result) => {
         if (!error && result && result.event === 'success') {
           this.toast.success('Image uploaded successfully');
-          // this.imageName = result.info.original_filename;
+
           this.profilePhotoUrl = result.info.secure_url;
 
           this.sellerService
@@ -356,7 +355,6 @@ export class ProfileComponent implements OnInit {
       JSON.stringify(this.user.phoneNumber)
     ) {
       data = data;
-      console.log(1);
     } else {
       data = {
         ...data,
