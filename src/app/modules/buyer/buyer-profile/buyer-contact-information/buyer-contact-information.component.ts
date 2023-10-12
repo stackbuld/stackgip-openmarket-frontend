@@ -68,7 +68,6 @@ export class BuyerContactInformationComponent implements OnInit, OnDestroy {
         this.user = user.data;
         this.isPhoneVerified = this.user.phoneNumberConfirmed;
         this.isFetching = false;
-        console.log(this.user);
 
         this.specificUserData = {
           firstName: this.user.firstName,
@@ -114,12 +113,8 @@ export class BuyerContactInformationComponent implements OnInit, OnDestroy {
   }
 
   onEdit() {
-    const dialogRef = this.dialog.open(BuyerContactDialogComponent, {
-      panelClass: 'contact_dialog',
-      data: { editing: true, countries: this.countryInfo },
-    });
-    // this.isEditing = true;
-    // this.userService.isEditingUserInfo.next(true);
+    this.isEditing = true;
+    this.userService.isEditingUserInfo.next(true);
   }
 
   onSubmit() {
