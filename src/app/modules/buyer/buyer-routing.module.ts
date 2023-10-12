@@ -11,6 +11,7 @@ import { BuyerProfileComponent } from './buyer-profile/buyer-profile.component';
 import { BuyerSecuritySettingsComponent } from './buyer-security-settings/buyer-security-settings.component';
 import { BuyerDeactivateComponent } from './buyer-deactivate/buyer-deactivate.component';
 import { BuyerSidebarComponent } from './buyer-sidebar/buyer-sidebar.component';
+import { BuyerWalletComponent } from './buyer-profile/buyer-wallet/buyer-wallet.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,10 @@ const routes: Routes = [
           {
             path: 'address-information',
             component: BuyerAddressInformationComponent,
+          },
+          {
+            path: 'wallet-information',
+            component: BuyerWalletComponent,
           },
         ],
       },

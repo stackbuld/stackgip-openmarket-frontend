@@ -21,6 +21,7 @@ import { BuyerContactDialogComponent } from './buyer-profile/buyer-contact-infor
 import { MAT_SELECT_CONFIG } from '@angular/material/select';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { BuyerSecurityOtpComponent } from './buyer-security-settings/buyer-security-otp/buyer-security-otp.component';
+import { BuyerWalletComponent } from './buyer-profile/buyer-wallet/buyer-wallet.component';
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import { BuyerSecurityOtpComponent } from './buyer-security-settings/buyer-secur
     BuyerHeaderComponent,
     BuyerContactDialogComponent,
     BuyerSecurityOtpComponent,
+    BuyerWalletComponent,
   ],
   exports: [
     BuyerHeaderComponent,

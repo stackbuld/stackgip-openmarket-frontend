@@ -1,0 +1,75 @@
+@import "config";
+
+.buyer-wallet-container {
+  margin-top: 40px;
+}
+
+.wallet-balance-container {
+  position: relative;
+  max-width: 530px;
+  min-width: 400px;
+  height: 132px;
+  background: $wallet-bg;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+
+.wallet-balance-container-main {
+  width: 85%;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+}
+
+.wallet-balance {
+  margin-left: 20px;
+  &-heading {
+    font-size: 20px;
+    color: $header-input;
+    margin-bottom: 15px;
+  }
+
+  &-main {
+    font-size: 24px;
+    font-weight: 900;
+  }
+}
+
+.curious-icon {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  cursor: pointer;
+}
+
+.withdraw-fund-container {
+  display: flex;
+  & button {
+    font-size: 16px;
+    border: 0;
+    padding: 0;
+    border-radius: 8px;
+    padding: 15px 0;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &#withdraw {
+      background-color: $black;
+      color: $white;
+      margin-right: 20px;
+    }
+
+    &#fund {
+      background-color: transparent;
+      border: 1px solid $black;
+    }
+
+    & svg {
+      margin-right: 10px;
+    }
+  }
+}
