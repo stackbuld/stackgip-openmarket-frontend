@@ -86,11 +86,11 @@
       (ngSubmit)="onSubmit()"
     >
       <div class="form-group">
-        <label for="name">First Name</label>
+        <label for="firstname">First Name</label>
         <div class="input-group">
           <input
             type="text"
-            id="name"
+            id="firstname"
             placeholder="First Name"
             formControlName="firstName"
           />
@@ -98,11 +98,11 @@
       </div>
 
       <div class="form-group">
-        <label for="name">Last Name</label>
+        <label for="lastname">Last Name</label>
         <div class="input-group">
           <input
             type="text"
-            id="name"
+            id="lastname"
             placeholder="Last Name"
             formControlName="lastName"
           />
@@ -200,17 +200,9 @@
       <div class="form-group">
         <label for="state">State</label>
         <div class="input-group">
-          <select
-            class="location-select"
-            id="state"
-            formControlName="state"
-            [value]="addressForm.value.businessState"
-          >
+          <select class="location-select" id="state" formControlName="state">
             <option [value]="null" selected>Select a state</option>
-            <option
-              *ngFor="let state of states; let i = index"
-              [value]="state.toLowerCase()"
-            >
+            <option *ngFor="let state of states" [value]="state">
               {{ state }}
             </option>
           </select>
@@ -224,12 +216,11 @@
             class="location-select"
             id="country"
             formControlName="country"
-            [value]="addressForm.value.businessCountry"
           >
             <option [value]="null" selected>Select a country</option>
             <option
+              *ngFor="let country of countryInfo"
               [value]="country.alpha2Code"
-              *ngFor="let country of countryInfo; trackBy: trackByFn"
             >
               {{ country.countryName }}
             </option>

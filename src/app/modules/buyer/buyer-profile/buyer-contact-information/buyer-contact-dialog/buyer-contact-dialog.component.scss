@@ -198,7 +198,7 @@
   margin-top: 25px;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 640px) {
   .otp-dialog-container {
     padding: 30px 10px;
   }
@@ -216,7 +216,7 @@
   }
 }
 
-@media (max-width: 350px) {
+@media (max-width: 375px) {
   .otp-input-container {
     &.desktop,
     &.mobile {
@@ -230,18 +230,6 @@
     }
   }
 }
-
-// @media (max-width: 500px) {
-//   .contact-info-edit {
-//     width: 370px;
-//   }
-// }
-
-// @media (max-width: 400px) {
-//   .contact-info-edit {
-//     width: 350px;
-//   }
-// }
 
 .login-btn-loader {
   width: 20px;
