@@ -47,14 +47,14 @@ export interface SellerProfileData {
   coverPhotoUrl?: string;
   alpha2CountryCode?: string;
   state: string;
-  phoneNumber: string;
+  phoneNumber?: string;
 }
 
 export interface SellerBusinessProfileData {
   businessName: string;
   businessAddress: string;
   businessEmail: string;
-  businessPhone: string;
+  businessPhone?: string;
   businessCountryCode: string;
   businessState: string;
   businessWebsite: string;

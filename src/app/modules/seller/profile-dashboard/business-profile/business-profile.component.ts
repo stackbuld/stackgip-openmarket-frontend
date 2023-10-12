@@ -216,16 +216,27 @@ export class BusinessProfileComponent implements OnInit {
 
     const rawForm = this.businessProfileForm.getRawValue();
 
-    const mainForm: SellerBusinessProfileData = {
+    let mainForm: SellerBusinessProfileData = {
       businessName: rawForm.businessName,
       businessEmail: formValue.businessEmail,
-      businessPhone: formattedPhoneNumber,
       businessAddress: rawForm.businessAddress,
       businessState: rawForm.businessState,
       businessCountryCode: rawForm.businessCountry,
       businessWebsite: formValue.businessWebsite,
       businessSocialLinks: socialLinks,
     };
+
+    if (
+      JSON.stringify(formattedPhoneNumber) ===
+      JSON.stringify(this.user.businessPhone)
+    ) {
+      mainForm = mainForm;
+    } else {
+      mainForm = {
+        ...mainForm,
+        businessPhone: formattedPhoneNumber,
+      };
+    }
 
     this.sellerService.updateSellerBusinessProfile(mainForm).subscribe({
       next: (data) => {
