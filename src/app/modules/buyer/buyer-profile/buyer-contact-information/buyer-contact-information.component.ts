@@ -130,8 +130,6 @@ export class BuyerContactInformationComponent implements OnInit, OnDestroy {
     const formattedPhoneNumber =
       this.contactForm.get('countryCode').value.toString() + phoneNumber;
 
-    console.log(formattedPhoneNumber);
-
     this.userService
       .updateUser({
         ...this.specificUserData,

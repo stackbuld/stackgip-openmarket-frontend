@@ -112,6 +112,7 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
 
   onEdit() {
     this.isEditing = true;
+    this.userService.isEditingUserInfo.next(true);
   }
 
   onSubmit() {

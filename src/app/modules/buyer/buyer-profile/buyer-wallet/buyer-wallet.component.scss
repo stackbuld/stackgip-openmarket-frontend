@@ -73,3 +73,37 @@
     }
   }
 }
+
+.actions {
+  margin-top: 40px;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.action {
+  background-color: $wallet-bg;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0;
+  border-radius: 8px;
+  cursor: pointer;
+
+  & p {
+    margin: 0;
+    padding: 0;
+
+    margin: 10px 0;
+    font-size: 16px;
+    color: #243853;
+  }
+
+  & .alert {
+    margin: 0;
+    padding: 0;
+    font-size: 9px;
+    color: #979797;
+  }
+}
