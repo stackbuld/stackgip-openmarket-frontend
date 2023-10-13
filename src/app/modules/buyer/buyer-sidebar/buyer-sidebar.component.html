@@ -13,6 +13,10 @@
     </div>
   </div>
 
+  <div class="home" routerLink="/homepage">
+    <a><i class="fa fa-home"></i> Home</a>
+  </div>
+
   <div
     class="profile-information"
     [ngClass]="{ closed: isPersonalOpened == false }"
@@ -77,10 +81,7 @@
         >
           Address Information
         </li>
-        <li
-          routerLink="/buyer/profile/wallet-information"
-          routerLinkActive="active"
-        >
+        <li routerLink="/buyer/profile/wallet" routerLinkActive="active">
           Wallet
         </li>
       </ul>

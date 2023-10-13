@@ -8,7 +8,9 @@ import { MBuyerAddressInformationComponent } from './m-buyer-address-information
 import { MBuyerChangePasswordComponent } from './m-buyer-change-password/m-buyer-change-password.component';
 import { MBuyerPinSettingsComponent } from './m-buyer-pin-settings/m-buyer-pin-settings.component';
 import { MBuyerDeleteAccountComponent } from './m-buyer-delete-account/m-buyer-delete-account.component';
+import { MBuyerWalletComponent } from './m-buyer-wallet/m-buyer-wallet.component';
 const routes: Routes = [
+  { path: '', redirectTo: 'profile', pathMatch: 'full' },
   {
     path: 'profile',
     component: BuyerMobileComponent,
@@ -17,7 +19,7 @@ const routes: Routes = [
         path: '',
         component: MBuyerSidebarComponent,
       },
-      //   { path: 'navigation', component: MBuyerSidebarComponent },
+
       {
         path: 'personal-information',
         component: MBuyerPersonalInformationComponent,
@@ -29,6 +31,26 @@ const routes: Routes = [
       {
         path: 'address-information',
         component: MBuyerAddressInformationComponent,
+      },
+      {
+        path: '',
+        component: MBuyerWalletComponent,
+        children: [
+          {
+            path: 'wallet',
+            loadChildren: () =>
+              import('../../shared/wallet/wallet.module').then(
+                (m) => m.WalletModule
+              ),
+          },
+        ],
+      },
+      {
+        path: 'wallet',
+        loadChildren: () =>
+          import('../../shared/wallet/wallet.module').then(
+            (m) => m.WalletModule
+          ),
       },
       { path: 'change-password', component: MBuyerChangePasswordComponent },
       { path: 'pin-settings', component: MBuyerPinSettingsComponent },

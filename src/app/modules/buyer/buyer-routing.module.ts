@@ -11,9 +11,9 @@ import { BuyerProfileComponent } from './buyer-profile/buyer-profile.component';
 import { BuyerSecuritySettingsComponent } from './buyer-security-settings/buyer-security-settings.component';
 import { BuyerDeactivateComponent } from './buyer-deactivate/buyer-deactivate.component';
 import { BuyerSidebarComponent } from './buyer-sidebar/buyer-sidebar.component';
-import { BuyerWalletComponent } from './buyer-profile/buyer-wallet/buyer-wallet.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'profile', pathMatch: 'full' },
   {
     path: 'profile',
     component: BuyerComponent,
@@ -28,7 +28,6 @@ const routes: Routes = [
         path: '',
         component: BuyerProfileComponent,
         children: [
-          // { path: '', redirectTo: 'personal-information', pathMatch: 'full' },
           {
             path: 'personal-information',
             component: BuyerPersonalInformationComponent,
@@ -42,8 +41,11 @@ const routes: Routes = [
             component: BuyerAddressInformationComponent,
           },
           {
-            path: 'wallet-information',
-            component: BuyerWalletComponent,
+            path: 'wallet',
+            loadChildren: () =>
+              import('../../shared/wallet/wallet.module').then(
+                (m) => m.WalletModule
+              ),
           },
         ],
       },

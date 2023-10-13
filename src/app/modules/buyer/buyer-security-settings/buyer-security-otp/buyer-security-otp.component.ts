@@ -156,7 +156,7 @@ export class BuyerSecurityOtpComponent implements OnInit {
               this.isSubmitting = false;
               this.userService.userActivated.next(false);
               this.toast.success(
-                'Your seller account has been deactivated successfully'
+                'Your account has been deactivated successfully'
               );
               this.dialog.closeAll();
             },
@@ -177,7 +177,7 @@ export class BuyerSecurityOtpComponent implements OnInit {
               this.isSubmitting = false;
               this.userService.userActivated.next(true);
               this.toast.success(
-                'Your seller account has been activated successfully'
+                'Your account has been activated successfully'
               );
               this.dialog.closeAll();
             },
@@ -240,20 +240,22 @@ export class BuyerSecurityOtpComponent implements OnInit {
         break;
 
       case 'activate':
-        // this.authService
-        //   .sendActivateSellerOTP({
-        //     phoneNumber: this.specificProfileData.phoneNumber,
-        //   })
-        //   .subscribe({
-        //     next: (data) => {
-        //       this.toast.success(
-        //         'OTP sent successfully. Please check your SMS inbox!'
-        //       );
-        //     },
-        //     error: (err) => {
-        //       this.toast.error(err.error.message);
-        //     },
-        //   });
+        this.authService
+          .sendActivateSellerOTP({
+            phoneNumber: this.phoneNumber,
+          })
+          .subscribe({
+            next: (data) => {
+              this.resendTimer = 29;
+              this.resendTimerF();
+              this.toast.success(
+                'OTP sent successfully. Please check your SMS inbox!'
+              );
+            },
+            error: (err) => {
+              this.toast.error(err.error.message);
+            },
+          });
         break;
     }
   }
