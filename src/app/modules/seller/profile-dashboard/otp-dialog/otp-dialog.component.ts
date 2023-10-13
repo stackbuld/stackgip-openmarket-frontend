@@ -10,6 +10,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { IUser } from 'src/app/models/IUserModel';
 import {
+  ISeller,
   SellerBusinessProfileData,
   SellerProfileData,
 } from 'src/app/models/sellerModel';
@@ -75,6 +76,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
   otpType: string;
   otpData: string;
   phoneNumber: string;
+  userId: string;
+  user: IUser;
   specificProfileData: SellerProfileData;
   specificBusinessData: SellerBusinessProfileData;
   resendTimer: number = 29;
@@ -82,7 +85,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
   @ViewChild('otp_dialog') otpDialog: ElementRef<HTMLDivElement>;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { type: string; payload: string },
+    @Inject(MAT_DIALOG_DATA)
+    private data: { type: string; payload: string; phoneNumber: string },
     private authService: AuthService,
     private toaster: ToastrService,
     private dialog: MatDialog,
@@ -95,43 +99,42 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
       otp: new FormControl(null, Validators.required),
     });
 
-    let timer = 29;
-
-    setInterval(() => {
-      timer = timer - 1;
-      if (timer >= 0) {
-        this.resendTimer = timer;
-      }
-    }, 1000);
+    this.resendTimerF();
 
     this.otpInput = new FormControl<string>(null, Validators.required);
     this.otpData = this.data.payload;
     this.otpType = this.data.type;
+    this.phoneNumber = this.data.phoneNumber;
 
-    const user: IUser = JSON.parse(localStorage.getItem('user')!);
-    this.phoneNumber = user.phoneNumber;
+    this.userId = this.authService.getLoggedInUser().id;
+    this.sellerService.getSeller(this.userId).subscribe({
+      next: (seller) => {
+        this.user = seller.data;
 
-    this.specificProfileData = {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      bio: user.bio,
-      profileImageUrl: user.profileImageUrl,
-      alpha2CountryCode: user.alpha2CountryCode,
-      state: user.state,
-      phoneNumber: user.phoneNumber,
-      coverPhotoUrl: user.coverPhotoUrl,
-    };
+        this.specificProfileData = {
+          firstName: this.user.firstName,
+          lastName: this.user.lastName,
+          bio: this.user.bio,
+          profileImageUrl: this.user.profileImageUrl,
+          alpha2CountryCode: this.user.alpha2CountryCode,
+          state: this.user.state,
+          phoneNumber: this.user.phoneNumber,
+          coverPhotoUrl: this.user.coverPhotoUrl,
+        };
 
-    this.specificBusinessData = {
-      businessName: user.businessName,
-      businessEmail: user.businessEmail,
-      businessPhone: user.businessPhone,
-      businessAddress: user.businessAddress,
-      businessState: user.businessState,
-      businessCountryCode: user.businessCountryCode,
-      businessWebsite: user.businessWebsite,
-      businessSocialLinks: user.businessSocialLinks,
-    };
+        this.specificBusinessData = {
+          businessName: this.user.businessName,
+          businessEmail: this.user.businessEmail,
+          businessPhone: this.user.businessPhone,
+          businessAddress: this.user.businessAddress,
+          businessState: this.user.businessState,
+          businessCountryCode: this.user.businessCountryCode,
+          businessWebsite: this.user.businessWebsite,
+          businessSocialLinks: this.user.businessSocialLinks,
+        };
+      },
+      error: (err) => {},
+    });
 
     this.otpInput.valueChanges.subscribe((data) => {
       if (data.length === 6) {
@@ -141,6 +144,17 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {}
+
+  resendTimerF() {
+    let timer = 29;
+
+    setInterval(() => {
+      timer = timer - 1;
+      if (timer >= 0) {
+        this.resendTimer = timer;
+      }
+    }, 1000);
+  }
 
   onVerify() {
     if (this.otpInput.value.length !== 6) {
@@ -278,6 +292,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
       case 'changePasswordOTP':
         this.authService.sendPasswordChangeOTP().subscribe({
           next: (data) => {
+            this.resendTimer = 29;
+            this.resendTimerF();
             this.toast.success(
               'OTP sent successfully. Please check your SMS inbox!'
             );
@@ -290,6 +306,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
       case 'changePinOTP':
         this.authService.sendPinChangeOTP().subscribe({
           next: (data) => {
+            this.resendTimer = 29;
+            this.resendTimerF();
             this.toast.success(
               'OTP sent successfully. Please check your SMS inbox!'
             );
@@ -302,6 +320,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
       case 'phoneNumberOTP':
         this.authService.sendPersonalPhoneOTP().subscribe({
           next: (data) => {
+            this.resendTimer = 29;
+            this.resendTimerF();
             this.toast.success(
               'OTP sent successfully. Please check your SMS inbox!'
             );
@@ -314,6 +334,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
       case 'businessPhoneNumberOTP':
         this.authService.sendBusinessPhoneOTP().subscribe({
           next: (data) => {
+            this.resendTimer = 29;
+            this.resendTimerF();
             this.toast.success(
               'OTP sent successfully. Please check your SMS inbox!'
             );
@@ -327,6 +349,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
       case 'deactivate':
         this.authService.sendDeactivateSellerOTP().subscribe({
           next: (data) => {
+            this.resendTimer = 29;
+            this.resendTimerF();
             this.toast.success(
               'OTP sent successfully. Please check your SMS inbox!'
             );
@@ -344,6 +368,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
           })
           .subscribe({
             next: (data) => {
+              this.resendTimer = 29;
+              this.resendTimerF();
               this.toast.success(
                 'OTP sent successfully. Please check your SMS inbox!'
               );

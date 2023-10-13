@@ -84,6 +84,7 @@ export class SellerProfileSettingsComponent implements OnInit {
         this.isActive = user.data.isActive;
         this.sellerStatus = user.data.isActive;
         this.user = user.data;
+        this.userPhoneNumber = user.data.phoneNumber;
       },
       error: (err) => {
         this.toast.error(err.error.message);
@@ -135,7 +136,11 @@ export class SellerProfileSettingsComponent implements OnInit {
 
         const dialogRef = this.dialog.open(OTPDialogComponent, {
           panelClass: 'otp_dialog',
-          data: { type: 'changePasswordOTP', payload: this.password.value },
+          data: {
+            type: 'changePasswordOTP',
+            payload: this.password.value,
+            phoneNumber: this.userPhoneNumber,
+          },
         });
 
         this.toast.success(
@@ -164,7 +169,11 @@ export class SellerProfileSettingsComponent implements OnInit {
 
         const dialogRef = this.dialog.open(OTPDialogComponent, {
           panelClass: 'otp_dialog',
-          data: { type: 'changePinOTP', payload: this.newPin.value },
+          data: {
+            type: 'changePinOTP',
+            payload: this.newPin.value,
+            phoneNumber: this.userPhoneNumber,
+          },
         });
 
         this.toast.success(
@@ -194,7 +203,7 @@ export class SellerProfileSettingsComponent implements OnInit {
           this.isSendingDeactivateOTP = false;
           const dialogRef = this.dialog.open(OTPDialogComponent, {
             panelClass: 'otp_dialog',
-            data: { type: 'deactivate' },
+            data: { type: 'deactivate', phoneNumber: this.userPhoneNumber },
           });
 
           this.toast.success(
@@ -215,7 +224,11 @@ export class SellerProfileSettingsComponent implements OnInit {
             this.isSendingDeactivateOTP = false;
             const dialogRef = this.dialog.open(OTPDialogComponent, {
               panelClass: 'otp_dialog',
-              data: { type: 'activate', payload: this.user.email },
+              data: {
+                type: 'activate',
+                payload: this.user.email,
+                phoneNumber: this.userPhoneNumber,
+              },
             });
 
             this.toast.success(
