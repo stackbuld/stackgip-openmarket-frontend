@@ -63,7 +63,6 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
       firstName: new FormControl(null, Validators.required),
       lastName: new FormControl(null, Validators.required),
       phoneNumber: new FormControl(null, Validators.required),
-      additionalPhoneNumber: new FormControl(null, Validators.required),
       address: new FormControl(null, Validators.required),
       state: new FormControl(null, Validators.required),
       country: new FormControl(null, Validators.required),
@@ -114,34 +113,35 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   }
 
   handleAddressChange(address: Address) {
-    let state = address.address_components.filter((element) => {
-      return element.types.includes('administrative_area_level_1');
-    });
+    try {
+      let state = address.address_components.filter((element) => {
+        return element.types.includes('administrative_area_level_1');
+      });
 
-    let country = address.address_components.filter((element) => {
-      return element.types.includes('country');
-    });
+      let country = address.address_components.filter((element) => {
+        return element.types.includes('country');
+      });
 
-    let city = address.address_components.filter((element) => {
-      return element.types.includes('administrative_area_level_2');
-    });
-    let fallbackCity = address.address_components.filter((element) => {
-      return element.types.includes('locality');
-    });
+      let city = address.address_components.filter((element) => {
+        return element.types.includes('administrative_area_level_2');
+      });
+      let fallbackCity = address.address_components.filter((element) => {
+        return element.types.includes('locality');
+      });
 
-    this.addressForm.get('address').patchValue(address.formatted_address);
-    this.addressForm.get('state').patchValue(state[0].long_name);
-    this.addressForm.get('country').patchValue(country[0].short_name);
+      this.addressForm.get('address').patchValue(address.formatted_address);
+      this.addressForm.get('state').patchValue(state[0].long_name);
+      this.addressForm.get('country').patchValue(country[0].short_name);
 
-    this.addressLatitude = address.geometry.location.lat();
-    this.addressLongitude = address.geometry.location.lng();
-    this.fallbackAddressCity = fallbackCity[0]['long_name'];
+      this.addressLatitude = address.geometry.location.lat();
+      this.addressLongitude = address.geometry.location.lng();
 
-    if (city.length == 0) {
-      this.addressCity = fallbackCity[0].long_name;
-    } else {
-      this.addressCity = city[0].long_name;
-    }
+      if (city.length == 0) {
+        this.addressCity = state[0].long_name;
+      } else {
+        this.addressCity = city[0].long_name;
+      }
+    } catch {}
   }
 
   toggle(id: string) {
@@ -197,7 +197,6 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
       firstName: address.firstname,
       lastName: address.lastname,
       phoneNumber: phoneNumberOnly,
-      additionalPhoneNumber: phoneNumberOnly,
       address: address.fullAddress,
       state: address.state,
       country: address.country,

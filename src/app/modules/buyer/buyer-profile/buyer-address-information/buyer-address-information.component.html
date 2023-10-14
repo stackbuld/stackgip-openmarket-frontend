@@ -74,7 +74,7 @@
     </div>
     <div class="add-address">
       <button type="button" (click)="onAddAddress()">
-        Add another address
+        {{ userAddresses.length > 0 ? "Add another address" : "Add address" }}
       </button>
     </div>
   </div>
@@ -122,42 +122,6 @@
           <div class="country-code" matPrefix>
             <mat-select
               class="my-mat-select"
-              (change)="changeOption($event)"
-              formControlName="countryCode"
-            >
-              <mat-select-trigger>
-                {{ f.countryCode.value }}
-              </mat-select-trigger>
-              <mat-option
-                *ngFor="let country of countryInfo"
-                [value]="country.phoneCode"
-              >
-                <img [src]="country.flag" alt="" width="25px" height="25px" />
-                <span
-                  style="font-size: 14px; margin-left: 7px; font-weight: bold"
-                  >{{ country.countryName }}
-                </span>
-                <span style="font-size: 14px">
-                  {{ country.phoneCode }}
-                </span>
-              </mat-option>
-            </mat-select>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="add-phone">Additional Phone Number</label>
-
-        <div class="input-group">
-          <input
-            type="tel"
-            id="add-phone"
-            placeholder="8023434567"
-            formControlName="additionalPhoneNumber"
-          />
-          <div class="country-code" matPrefix>
-            <mat-select
               (change)="changeOption($event)"
               formControlName="countryCode"
             >
