@@ -36,10 +36,19 @@
       height: 100%;
       border-radius: 8px;
       border: 1px solid $input-border;
+      font-size: 16px;
 
       &:focus {
         outline: none;
       }
+    }
+
+    & .hint {
+      position: absolute;
+      right: 0;
+      bottom: -40px;
+      font-size: 16px;
+      color: $error;
     }
   }
 }
@@ -47,11 +56,12 @@
 .btn {
   align-self: flex-end;
   margin-top: 20px;
+  padding: 0;
 
   & #submit-btn {
     border: none;
-    height: 40px;
-    // width: 160px;
+    width: 202px;
+    height: 48px;
     padding: 10px 50px;
     border-radius: 8px;
     background: $black;
@@ -66,6 +76,36 @@
     &:hover {
       background: $white;
       color: $black;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .form-group {
+    flex-direction: column;
+    width: 100%;
+
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+
+    & label {
+      font-weight: 500;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    & .input-group {
+      width: 100%;
+    }
+  }
+
+  .btn {
+    align-self: center;
+    width: 100%;
+
+    & #submit-btn {
+      width: 100%;
     }
   }
 }

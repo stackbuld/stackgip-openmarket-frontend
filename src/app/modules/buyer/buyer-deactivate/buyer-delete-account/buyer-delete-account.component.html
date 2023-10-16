@@ -1,23 +1,43 @@
-<div class="deactivate-container">
-  <div class="heading">
-    Deactivating your account would delete all your information from the
-    RenaMarket Platform. To Proceed please enter your account password.
+<div class="deactivate">
+  <div class="fetch-loader" *ngIf="isFetching">
+    <img src="/assets/svg/loader-icon.svg" alt="" />
   </div>
-  <form id="deactivate-form">
-    <div class="form-group">
-      <label for="password">Enter Password</label>
-      <div class="input-group">
-        <input type="password" id="password" />
+  <div class="deactivate-container" *ngIf="!isFetching">
+    <div class="heading">
+      Deactivating your account would delete all your information from the
+      RenaMarket Platform.
+    </div>
 
-        <div class="eye">
-          <i class="fa-solid fa-eye"></i>
-          <i class="fa-solid fa-eye-slash"></i>
-        </div>
+    <div class="toggler-container">
+      <span>Inactive</span>
+      <div class="toggler" [ngClass]="{ roll: isActive }">
+        <div class="roller"></div>
       </div>
+      <span>Active</span>
     </div>
 
     <div class="btn">
-      <button type="submit" id="submit-btn">Save Changes</button>
+      <button
+        type="submit"
+        id="submit-btn"
+        (click)="onActivate()"
+        [disabled]="isSubmitting"
+        *ngIf="!isActive"
+      >
+        <span class="login-btn-text" *ngIf="!isSubmitting"> Activate </span
+        ><span class="login-btn-loader" *ngIf="isSubmitting"></span>
+      </button>
+
+      <button
+        type="submit"
+        id="submit-btn"
+        (click)="onDeactivate()"
+        [disabled]="isSubmitting"
+        *ngIf="isActive"
+      >
+        <span class="login-btn-text" *ngIf="!isSubmitting"> Deactivate </span
+        ><span class="login-btn-loader" *ngIf="isSubmitting"></span>
+      </button>
     </div>
-  </form>
+  </div>
 </div>

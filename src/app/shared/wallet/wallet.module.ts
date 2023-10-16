@@ -10,12 +10,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared.module';
 import { NgOtpInputModule } from 'ng-otp-input';
 
-
 @NgModule({
   declarations: [
     WalletComponent,
     WalletOverviewComponent,
-    WalletWithdrawComponent
+    WalletWithdrawComponent,
   ],
   imports: [
     CommonModule,
@@ -24,7 +23,8 @@ import { NgOtpInputModule } from 'ng-otp-input';
     FormsModule,
     NgOtpInputModule,
     SharedModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
+  exports: [WalletComponent, WalletOverviewComponent, WalletWithdrawComponent],
 })
-export class WalletModule { }
+export class WalletModule {}

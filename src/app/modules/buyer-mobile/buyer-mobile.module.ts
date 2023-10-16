@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 
 import { BuyerMobileComponent } from './buyer-mobile.component';
-import { RouterModule } from '@angular/router';
 import { MBuyerPersonalInformationComponent } from './m-buyer-personal-information/m-buyer-personal-information.component';
 import { MBuyerContactInformationComponent } from './m-buyer-contact-information/m-buyer-contact-information.component';
 import { MBuyerAddressInformationComponent } from './m-buyer-address-information/m-buyer-address-information.component';
@@ -13,9 +12,18 @@ import { BuyerMobileRoutingModule } from './buyer-mobile-routing.module';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { BuyerModule } from '../buyer/buyer.module';
+import { MAT_SELECT_CONFIG } from '@angular/material/select';
+import { MBuyerWalletComponent } from './m-buyer-wallet/m-buyer-wallet.component';
+import { WalletModule } from 'src/app/shared/wallet/wallet.module';
 
 @NgModule({
-  imports: [BuyerMobileRoutingModule, CommonModule, SharedModule, BuyerModule],
+  imports: [
+    BuyerMobileRoutingModule,
+    CommonModule,
+    SharedModule,
+    BuyerModule,
+    WalletModule,
+  ],
   declarations: [
     BuyerMobileComponent,
     MBuyerPersonalInformationComponent,
@@ -25,7 +33,14 @@ import { BuyerModule } from '../buyer/buyer.module';
     MBuyerPinSettingsComponent,
     MBuyerDeleteAccountComponent,
     MBuyerSidebarComponent,
+    MBuyerWalletComponent,
   ],
   exports: [],
+  providers: [
+    {
+      provide: MAT_SELECT_CONFIG,
+      useValue: { overlayPanelClass: 'matSelectCustom' },
+    },
+  ],
 })
 export class BuyerMobileModule {}

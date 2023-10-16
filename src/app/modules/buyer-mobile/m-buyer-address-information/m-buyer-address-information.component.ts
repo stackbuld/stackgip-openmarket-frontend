@@ -24,7 +24,6 @@ export class MBuyerAddressInformationComponent implements OnInit {
     this.countryService.getCountry().subscribe({
       next: (data) => {
         this.countryInfo = data;
-        console.log(data);
       },
     });
 

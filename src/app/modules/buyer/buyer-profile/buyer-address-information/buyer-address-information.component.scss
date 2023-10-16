@@ -4,19 +4,24 @@
   margin-top: 40px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.addresses {
+  width: 100%;
 }
 
 .address-main {
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 30px;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 }
 
 .address {
   border: 2px solid $input-border;
   border-radius: 8px;
-  width: 400px;
+  min-width: 350px;
   padding: 15px;
 }
 
@@ -45,8 +50,12 @@
 
 .user-name {
   margin-bottom: 20px;
-  font-size: 20px;
-  color: $profile-text-heading;
+
+  & span {
+    text-transform: capitalize;
+    font-size: 20px;
+    color: $profile-text-heading;
+  }
 }
 
 .user-address {
@@ -104,8 +113,7 @@
   align-self: flex-end;
   & button {
     border: none;
-    height: 40px;
-    // width: 160px;
+    height: 48px;
     padding: 10px 50px;
     border-radius: 8px;
     background: $black;
@@ -119,8 +127,13 @@
 
     &:hover {
       background: $white;
+      color: $black;
     }
   }
+}
+
+.address-edit {
+  width: 100%;
 }
 
 #address-edit-form {
@@ -155,6 +168,7 @@
       width: 100%;
       border-radius: 8px !important;
       border: 1px solid $input-border;
+      font-size: 16px;
 
       &#phone,
       &#add-phone {
@@ -186,11 +200,12 @@
 .btn {
   align-self: flex-end;
   margin-top: 20px;
+  padding: 0;
 
   & #submit-btn {
     border: none;
-    height: 40px;
-    // width: 160px;
+    height: 48px;
+    width: 202px;
     padding: 10px 50px;
     border-radius: 8px;
     background: $black;
@@ -206,5 +221,74 @@
       background: $white;
       color: $black;
     }
+  }
+}
+
+@media (max-width: 920px) {
+  .add-address {
+    align-self: center;
+    width: 100%;
+    & button {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .form-group {
+    flex-direction: column;
+    width: 100%;
+
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+
+    & label {
+      font-weight: 500;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    & .input-group {
+      width: 100%;
+    }
+  }
+  .btn {
+    align-self: center;
+    width: 100%;
+
+    & #submit-btn {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 300px) {
+  .address-main {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .address {
+    min-width: 280px;
+  }
+}
+
+.login-btn-loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid $white;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

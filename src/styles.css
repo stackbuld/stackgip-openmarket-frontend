@@ -75,10 +75,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.otp_dialog {
-  & .mat-dialog-container {
-    padding: 0;
-    background-color: var(--dialogBg);
-    width: 600px;
-  }
+.otp_dialog .mat-dialog-container,
+.contact_dialog .mat-dialog-container {
+  padding: 20px !important;
+  background-color: var(--dialogBg);
+  background-color: red !important;
+  width: 600px !important;
 }

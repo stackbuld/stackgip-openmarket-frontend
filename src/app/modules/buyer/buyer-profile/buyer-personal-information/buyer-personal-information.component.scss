@@ -1,7 +1,20 @@
 @import "config";
 
 .personal-info-container {
-  padding-top: 40px;
+  margin-top: 40px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fetch-loader {
+  justify-self: center;
+}
+
+.profile-info-main {
+  width: 100%;
 }
 
 .profile-picture {
@@ -36,6 +49,36 @@
     font-size: 16px;
     width: 70%;
   }
+}
+
+.edit {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $input-border;
+  padding: 5px 15px;
+  border-radius: 4px;
+  height: 48px;
+  cursor: pointer;
+  margin-top: 60px;
+
+  & span {
+    display: flex;
+    align-items: center;
+
+    & svg,
+    & i {
+      margin-right: 5px;
+    }
+
+    & i {
+      font-size: 20px;
+    }
+  }
+}
+
+.profile-info-edit {
+  width: 100%;
 }
 
 .profile-photo-edit {
@@ -92,16 +135,23 @@
   & .name-edit-inputs {
     width: 50%;
 
+    & .input-group {
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+    }
+
+    & label {
+      display: none;
+    }
+
     & input {
       display: block;
       padding: 10px 15px;
       width: 100%;
       border-radius: 4px;
       border: 1px solid $input-border;
-
-      &:not(:last-child) {
-        margin-bottom: 20px;
-      }
+      font-size: 16px;
 
       &:focus {
         outline: none;
@@ -126,12 +176,17 @@
   & .email-edit-inputs {
     width: 50%;
 
+    & label {
+      display: none;
+    }
+
     & input {
       display: block;
       padding: 10px 15px;
       width: 100%;
       border-radius: 4px;
       border: 1px solid $input-border;
+      font-size: 16px;
 
       &:focus {
         outline: none;
@@ -143,11 +198,12 @@
 .btn {
   align-self: flex-end;
   margin-top: 20px;
+  padding: 0;
 
   & #submit-btn {
     border: none;
-    height: 40px;
-    // width: 160px;
+    height: 48px;
+    width: 202px;
     padding: 10px 50px;
     border-radius: 8px;
     background: $black;
@@ -163,5 +219,110 @@
       background: $white;
       color: $black;
     }
+  }
+}
+
+@media (max-width: 920px) {
+  .edit {
+    display: flex;
+    width: 100%;
+  }
+  .profile-detail {
+    &-main {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .profile-photo-edit {
+    width: 100%;
+
+    & .heading {
+      display: none;
+    }
+
+    &-main {
+      width: 100%;
+    }
+  }
+  .profile-name-edit {
+    flex-direction: column;
+    width: 100%;
+
+    & .heading {
+      display: none;
+    }
+
+    & .name-edit-inputs {
+      width: 100%;
+
+      & label {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      & input {
+        border-radius: 4px !important;
+
+        &::placeholder {
+          color: transparent;
+        }
+      }
+    }
+  }
+
+  .profile-email-edit {
+    flex-direction: column;
+    width: 100%;
+
+    & .heading {
+      display: none;
+    }
+
+    & .email-edit-inputs {
+      width: 100%;
+
+      & label {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      & input {
+        &::placeholder {
+          color: transparent;
+        }
+      }
+    }
+  }
+
+  .btn {
+    align-self: center;
+    margin-top: 40px;
+    width: 100%;
+
+    & #submit-btn {
+      width: 100%;
+    }
+  }
+}
+
+.login-btn-loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid $white;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

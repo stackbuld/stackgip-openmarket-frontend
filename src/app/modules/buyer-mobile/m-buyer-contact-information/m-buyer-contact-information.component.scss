@@ -44,6 +44,24 @@
   }
 }
 
+.edit {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  border: 1px solid $input-border;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 60px;
+  font-size: 16px;
+  font-weight: 600;
+
+  & svg {
+    margin-right: 10px;
+  }
+}
+
 #contact-form {
   display: flex;
   flex-direction: column;
@@ -122,7 +140,7 @@
   & #submit-btn {
     border: none;
     height: 40px;
-    // width: 160px;
+    width: 202px;
     padding: 10px 50px;
     border-radius: 8px;
     background: $black;

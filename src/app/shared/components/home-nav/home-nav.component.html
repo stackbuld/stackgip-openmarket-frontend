@@ -108,6 +108,15 @@
             />
             &nbsp; Wallet
           </span>
+          <span class="pointer" routerLink="/buyer/profile">
+            <img src="/assets/images/user-icn.svg" /> &nbsp; My Account
+          </span>
+
+          <!-- <span class="pointer" routerLink="credentials()?.preferredProfileType?.toLowerCase() === 'buyer' ? /homepage/wallet : /seller/wallet">
+              <img src="/assets/icons/cash-outline-dark.svg" style="scale: 1.4;"/> &nbsp;
+                Wallet
+              </span> -->
+          <br /><br />
           <span
             class="pointer"
             *ngIf="
@@ -120,14 +129,6 @@
               style="scale: 1.8; margin-inline: 6px"
             />
             &nbsp; Wallet
-          </span>
-          <!-- <span class="pointer" routerLink="credentials()?.preferredProfileType?.toLowerCase() === 'buyer' ? /homepage/wallet : /seller/wallet">
-              <img src="/assets/icons/cash-outline-dark.svg" style="scale: 1.4;"/> &nbsp;
-                Wallet
-              </span> -->
-          <br /><br />
-          <span class="pointer" routerLink="/homepage">
-            <img src="/assets/images/user-icn.svg" /> &nbsp; My Account
           </span>
           <br />
           <br />
@@ -319,17 +320,9 @@
                       'buyer'
                   "
                 >
-                  <span class="pointer" routerLink="/homepage/wallet">
-                    <img
-                      src="/assets/icons/cash-outline-dark.svg"
-                      style="scale: 1.4"
-                    />
-                    &nbsp; Wallet
-                  </span>
-                  <br />
                   <span
                     class="pointer"
-                    routerLink="/homepage/history"
+                    routerLink="/buyer/profile"
                     (click)="closeSidebar()"
                   >
                     <img
@@ -341,6 +334,15 @@
                     <span class="text-black">My Account </span>
                   </span>
                   <br />
+                  <span class="pointer" routerLink="/homepage/wallet">
+                    <img
+                      src="/assets/icons/cash-outline-dark.svg"
+                      style="scale: 1.4"
+                    />
+                    &nbsp; Wallet
+                  </span>
+                  <br />
+
                   <span
                     class="pointer"
                     routerLink="/homepage/history"
@@ -466,7 +468,7 @@
                 credentials()?.preferredProfileType?.toLowerCase() === 'buyer'
               "
             >
-              <span class="pointer" routerLink="/homepage/history">
+              <span class="pointer" routerLink="/buyer/profile">
                 <img src="/assets/images/user-icn.svg" /> &nbsp; My Account
               </span>
               <br />

@@ -5,8 +5,9 @@
   margin-inline: auto;
   display: flex;
   align-items: flex-start;
-  margin-top: 105px;
+  margin-top: 20px;
   height: 100%;
+  padding-bottom: 20px;
 
   & .sidebar {
     margin-right: 30px;
@@ -28,17 +29,12 @@
     height: 100%;
 
     & .sidebar {
-      margin-right: 10px;
-      width: 300px;
-
-      // display: none;
+      margin-right: 0;
+      width: 100%;
     }
 
     & .main-content {
-      // display: none;
-      // position: absolute;
       width: 100%;
-      padding-bottom: 30px;
     }
   }
 }

@@ -13,6 +13,7 @@ import { BuyerDeactivateComponent } from './buyer-deactivate/buyer-deactivate.co
 import { BuyerSidebarComponent } from './buyer-sidebar/buyer-sidebar.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'profile', pathMatch: 'full' },
   {
     path: 'profile',
     component: BuyerComponent,
@@ -27,7 +28,6 @@ const routes: Routes = [
         path: '',
         component: BuyerProfileComponent,
         children: [
-          // { path: '', redirectTo: 'personal-information', pathMatch: 'full' },
           {
             path: 'personal-information',
             component: BuyerPersonalInformationComponent,
@@ -39,6 +39,13 @@ const routes: Routes = [
           {
             path: 'address-information',
             component: BuyerAddressInformationComponent,
+          },
+          {
+            path: 'wallet',
+            loadChildren: () =>
+              import('../../shared/wallet/wallet.module').then(
+                (m) => m.WalletModule
+              ),
           },
         ],
       },

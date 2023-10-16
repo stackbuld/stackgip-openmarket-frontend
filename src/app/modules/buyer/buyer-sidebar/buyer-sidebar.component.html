@@ -1,9 +1,20 @@
 <div class="buyer-sidebar-container">
-  <div class="profile-details">
-    <div class="profile-photo">
-      <img src="assets/image/default-profile-picture-3.png" alt="" />
+  <div class="profile-details-container">
+    <div class="fetch-loader" *ngIf="isFetching">
+      <img src="/assets/svg/loader-icon.svg" width="100px" alt="" />
     </div>
-    <div class="profile-name">Hello Josiah Adegoke</div>
+    <div class="profile-details" *ngIf="!isFetching">
+      <div class="profile-photo">
+        <img [src]="profileImgUrl" alt="" />
+      </div>
+      <div class="profile-name">
+        Hello {{ user?.firstName }} {{ user?.lastName }}
+      </div>
+    </div>
+  </div>
+
+  <div class="home" routerLink="/homepage">
+    <a><i class="fa fa-home"></i> Home</a>
   </div>
 
   <div
@@ -69,6 +80,9 @@
           routerLinkActive="active"
         >
           Address Information
+        </li>
+        <li routerLink="/buyer/profile/wallet" routerLinkActive="active">
+          Wallet
         </li>
       </ul>
     </div>
@@ -141,7 +155,7 @@
     </div>
   </div>
 
-  <div class="logout">
+  <div class="logout" (click)="onLogout()">
     <svg
       width="14"
       height="14"
