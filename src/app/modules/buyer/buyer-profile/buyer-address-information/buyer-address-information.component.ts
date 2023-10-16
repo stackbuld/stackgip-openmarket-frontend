@@ -54,7 +54,6 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
     this.countryService.getCountry().subscribe({
       next: (data) => {
         this.countryInfo = data;
-        console.log(this.countryInfo);
       },
     });
 
@@ -98,7 +97,6 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
         next: (data) => {
           this.isFetching = false;
           this.userAddresses = data;
-          console.log(data);
         },
         error: (err) => {
           this.isFetching = false;
