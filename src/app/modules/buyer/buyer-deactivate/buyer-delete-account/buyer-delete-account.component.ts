@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'src/app/services/toastr.service';
+
 import { IUser } from 'src/app/models/IUserModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { BuyerSecurityOtpComponent } from '../../buyer-security-settings/buyer-security-otp/buyer-security-otp.component';
-import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-buyer-delete-account',
@@ -42,7 +42,6 @@ export class BuyerDeleteAccountComponent implements OnInit {
       next: (user) => {
         this.isActive = user.data.isActive;
         this.user = user.data;
-        console.log(user.data);
 
         this.isFetching = false;
       },

@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { Subscription, retry, switchMap } from 'rxjs';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 import { CountryInfo } from 'src/app/models/country.model';
 import { CountryService } from 'src/app/services/country/country.service';
@@ -8,9 +10,6 @@ import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { IUser, UserAddressData } from 'src/app/models/IUserModel';
-import { Observable, Subscription, retry, switchMap } from 'rxjs';
-import { log } from 'console';
-import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-buyer-address-information',
@@ -184,7 +183,6 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
 
     this.userAddress = address;
     this.isDefault = address.isDefault;
-    console.log(address);
 
     const phoneNumber = address.contactPhoneNumber;
     const phoneNumberOnly = phoneNumber.slice(-10);
@@ -210,7 +208,6 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
     this.userService.deleteUserAddress(address.id).subscribe({
       next: (data) => {
         this.toast.success('Address Deleted!');
-        console.log(data);
 
         if (address.isDefault) {
           this.userService
@@ -296,7 +293,6 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
       this.userService.addUserAddress(data).subscribe({
         next: (data) => {
           this.toast.success('New address added!');
-          console.log(data);
 
           this.isEditing = false;
           this.isEditingAddress = false;

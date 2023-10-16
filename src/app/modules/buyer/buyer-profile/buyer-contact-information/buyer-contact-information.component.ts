@@ -2,13 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'src/app/services/toastr.service';
+
 import { IUser } from 'src/app/models/IUserModel';
 import { CountryInfo } from 'src/app/models/country.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CountryService } from 'src/app/services/country/country.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { BuyerContactDialogComponent } from './buyer-contact-dialog/buyer-contact-dialog.component';
-import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-buyer-contact-information',
@@ -79,6 +80,7 @@ export class BuyerContactInformationComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.isFetching = false;
+        this.toast.error('Something went wrong!');
       },
     });
   }

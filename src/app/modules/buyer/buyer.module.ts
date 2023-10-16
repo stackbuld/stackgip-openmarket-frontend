@@ -22,7 +22,6 @@ import { MAT_SELECT_CONFIG } from '@angular/material/select';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { BuyerSecurityOtpComponent } from './buyer-security-settings/buyer-security-otp/buyer-security-otp.component';
 import { BuyerWalletComponent } from './buyer-profile/buyer-wallet/buyer-wallet.component';
-import { BuyerTransactionsComponent } from './buyer-profile/buyer-wallet/buyer-transactions/buyer-transactions.component';
 import { WalletModule } from 'src/app/shared/wallet/wallet.module';
 
 @NgModule({
@@ -51,7 +50,6 @@ import { WalletModule } from 'src/app/shared/wallet/wallet.module';
     BuyerContactDialogComponent,
     BuyerSecurityOtpComponent,
     BuyerWalletComponent,
-    BuyerTransactionsComponent,
   ],
   exports: [
     BuyerHeaderComponent,
@@ -67,7 +65,6 @@ import { WalletModule } from 'src/app/shared/wallet/wallet.module';
     BuyerSecurityOtpComponent,
     GooglePlaceModule,
     BuyerWalletComponent,
-    BuyerTransactionsComponent,
   ],
   providers: [
     {

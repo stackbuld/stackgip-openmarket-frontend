@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'src/app/services/toastr.service';
+
+import { AuthService } from 'src/app/services/auth.service';
 import { BuyerSecurityOtpComponent } from '../buyer-security-otp/buyer-security-otp.component';
 import { UserService } from 'src/app/services/user/user.service';
 
