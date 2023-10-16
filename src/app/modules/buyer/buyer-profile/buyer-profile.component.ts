@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { UserService } from 'src/app/services/user/user.service';
   templateUrl: './buyer-profile.component.html',
   styleUrls: ['./buyer-profile.component.scss'],
 })
-export class BuyerProfileComponent implements OnInit {
+export class BuyerProfileComponent implements OnInit, OnDestroy {
   isEditing: boolean = false;
   isEditingSub$: Subscription;
   constructor(private userService: UserService) {}
@@ -21,5 +22,11 @@ export class BuyerProfileComponent implements OnInit {
   onEdit() {
     this.isEditing = !this.isEditing;
     this.userService.isEditingUserInfo.next(this.isEditing);
+  }
+
+  ngOnDestroy(): void {
+    if (this.isEditingSub$) {
+      this.isEditingSub$.unsubscribe();
+    }
   }
 }

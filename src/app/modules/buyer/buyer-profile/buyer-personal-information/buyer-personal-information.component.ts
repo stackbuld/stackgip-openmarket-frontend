@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+
 import { IUser } from 'src/app/models/IUserModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -73,7 +74,6 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
     this.userService.getUserById(this.userId).subscribe({
       next: (user) => {
         this.isFetching = false;
-        console.log(user);
         this.user = user.data;
 
         user.data.profileImageUrl
@@ -95,8 +95,7 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.isFetching = false;
-
-        console.log(err);
+        this.toast.error('Something went wrong! Try again later');
       },
     });
   }

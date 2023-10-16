@@ -1,10 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { IUser } from 'src/app/models/IUserModel';
-import { AuthService } from 'src/app/services/auth.service';
-import { SellerService } from 'src/app/services/seller/seller.service';
 import { ToastrService } from 'src/app/services/toastr.service';
+
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -161,7 +160,6 @@ export class BuyerSecurityOtpComponent implements OnInit {
               this.dialog.closeAll();
             },
             error: (err) => {
-              console.log(err);
               this.isSubmitting = false;
 
               this.toast.error(err.error.errors[0]);
@@ -182,7 +180,6 @@ export class BuyerSecurityOtpComponent implements OnInit {
               this.dialog.closeAll();
             },
             error: (err) => {
-              console.log(err);
               this.isSubmitting = false;
 
               this.toast.error(err.error.errors[0]);
