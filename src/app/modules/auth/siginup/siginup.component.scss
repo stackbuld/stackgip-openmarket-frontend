@@ -44,3 +44,30 @@
   height: 30px;
   margin-left: 20px;
 }
+
+.signup-component {
+  text-align: center;
+}
+
+@media only screen and (max-width: 769px) {
+  .signup-image-section,
+  .signup-form-section {
+    width: 100%;
+    height: 100%;
+  }
+
+  .signup-component {
+    max-width: 390px;
+    margin: 0rem auto;
+    margin-top: -3rem;
+  }
+  
+
+  .signup-form-container {
+    width: 100%;
+  }
+
+  .signup-image-section {
+    display: none;
+  }
+}
