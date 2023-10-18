@@ -134,14 +134,6 @@ export class BusinessProfileComponent implements OnInit {
         this.countryInfo = data;
       },
     });
-
-    this.businessProfileForm.valueChanges.subscribe((value) => {
-      if (value.businessPhoneNumber !== this.verifiedBusinessPhoneNumber) {
-        this.isBusinessPhoneNumberVerified = false;
-      } else {
-        this.isBusinessPhoneNumberVerified = true;
-      }
-    });
   }
 
   get f() {
@@ -164,10 +156,6 @@ export class BusinessProfileComponent implements OnInit {
     this.businessProfileForm.patchValue({ countryCodes: e.target.value });
   }
 
-  trackByFn(index, item) {
-    return index;
-  }
-
   onVerifyBusinessPhoneNumber() {
     this.isFetchingOtp = true;
 
@@ -185,6 +173,7 @@ export class BusinessProfileComponent implements OnInit {
           data: {
             type: 'businessPhoneNumberOTP',
             payload: formattedPhoneNumber,
+            phoneNumber: formattedPhoneNumber,
           },
         });
         this.toast.success('OTP sent successfully!');
@@ -216,10 +205,9 @@ export class BusinessProfileComponent implements OnInit {
 
     const rawForm = this.businessProfileForm.getRawValue();
 
-    const mainForm: SellerBusinessProfileData = {
+    let mainForm: SellerBusinessProfileData = {
       businessName: rawForm.businessName,
       businessEmail: formValue.businessEmail,
-      businessPhone: formattedPhoneNumber,
       businessAddress: rawForm.businessAddress,
       businessState: rawForm.businessState,
       businessCountryCode: rawForm.businessCountry,
@@ -227,11 +215,24 @@ export class BusinessProfileComponent implements OnInit {
       businessSocialLinks: socialLinks,
     };
 
+    if (
+      JSON.stringify(formattedPhoneNumber) ===
+      JSON.stringify(this.user.businessPhone)
+    ) {
+      mainForm = mainForm;
+    } else {
+      mainForm = {
+        ...mainForm,
+        businessPhone: formattedPhoneNumber,
+      };
+    }
+
     this.sellerService.updateSellerBusinessProfile(mainForm).subscribe({
       next: (data) => {
         this.isSubmitting = false;
         this.showUserUpdateButtons = false;
-
+        this.isBusinessPhoneNumberVerified =
+          data['data'].businessPhoneConfirmed;
         this.toast.success('Profile updated successfully');
       },
       error: (err) => {

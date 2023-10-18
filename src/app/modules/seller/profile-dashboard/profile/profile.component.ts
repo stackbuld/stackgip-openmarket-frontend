@@ -15,6 +15,7 @@ import { CountryInfo } from 'src/app/models/country.model';
 import { countryCodes } from 'src/app/data/countryCodes';
 import { environment } from 'src/environments/environment';
 import { SellerProfileData } from 'src/app/models/sellerModel';
+import { profile } from 'console';
 declare var cloudinary: any;
 
 @Component({
@@ -37,6 +38,7 @@ export class ProfileComponent implements OnInit {
   telInputEvent: Event;
   countryInfo: CountryInfo[];
   codeList: any;
+  personalPhoneNumber: string;
   isEmailVerified: boolean = false;
   isPhoneVerified: boolean = false;
   verifiedEmail: string;
@@ -88,6 +90,7 @@ export class ProfileComponent implements OnInit {
     this.sellerService.getSeller(this.userId).subscribe({
       next: (user) => {
         this.user = user.data;
+        this.personalPhoneNumber = user.data.phoneNumber;
         const reformedPhoneNumber = this.user.phoneNumber.slice(-10);
 
         this.specificUserData = {
@@ -97,7 +100,6 @@ export class ProfileComponent implements OnInit {
           profileImageUrl: this.user.profileImageUrl,
           alpha2CountryCode: this.user.alpha2CountryCode,
           state: this.user.state,
-          phoneNumber: this.user.phoneNumber,
           coverPhotoUrl: this.user.coverPhotoUrl,
         };
 
@@ -158,14 +160,6 @@ export class ProfileComponent implements OnInit {
       },
     });
 
-    this.profileForm.valueChanges.subscribe((value) => {
-      if (value.phoneNumber !== this.verifiedPhoneNumber) {
-        this.isPhoneVerified = false;
-      } else {
-        this.isPhoneVerified = true;
-      }
-    });
-
     this.uploadCoverPhotoWidget = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
@@ -175,7 +169,7 @@ export class ProfileComponent implements OnInit {
       (error, result) => {
         if (!error && result && result.event === 'success') {
           this.toast.success('Image uploaded successfully');
-          // this.imageName = result.info.original_filename;
+
           this.coverPhotoUrl = result.info.secure_url;
 
           this.sellerService
@@ -202,7 +196,7 @@ export class ProfileComponent implements OnInit {
       (error, result) => {
         if (!error && result && result.event === 'success') {
           this.toast.success('Image uploaded successfully');
-          // this.imageName = result.info.original_filename;
+
           this.profilePhotoUrl = result.info.secure_url;
 
           this.sellerService
@@ -237,49 +231,6 @@ export class ProfileComponent implements OnInit {
     this.profileForm.patchValue({ countryCodes: e.target.value });
   }
 
-  trackByFn(index, item) {
-    return index;
-  }
-
-  updateProfile() {
-    const ctrl = this.f;
-    const userProfile: IUpdateUser = {
-      id: this.user.id,
-      firstName: ctrl.firstname.value,
-      lastName: ctrl.lastname.value,
-      address: ctrl.address.value,
-      alpha2CountryCode: ctrl.country.value,
-      phoneNumber: ctrl.phoneNumber.value,
-      state: ctrl.state.value,
-      city: ctrl.state.value,
-      scope: this.user.scope.split(','),
-    };
-    this.isSubmited = true;
-    this.userService.updateUser(userProfile).subscribe(
-      (a) => {
-        this.toast.success('profile updated');
-        const userUpdate = {
-          id: userProfile.id,
-          address: userProfile.address,
-          alpha2CountryCode: userProfile.alpha2CountryCode,
-          city: userProfile.city,
-          email: this.user.email,
-          phoneNumber: userProfile.phoneNumber,
-          scope: this.user.scope,
-          state: userProfile.state,
-          firstName: userProfile.firstName,
-          lastName: userProfile.lastName,
-          profileImageUrl: this.user.profileImageUrl,
-        } as IUser;
-        this.authService.UpdateUser(userUpdate);
-        this.isSubmited = false;
-      },
-      (err) => {
-        this.isSubmited = false;
-      }
-    );
-  }
-
   onEmailVerify() {
     this.isSendingEmailVerification = true;
 
@@ -300,9 +251,9 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  onVerfiyPhoneNumber() {
+  onVerifyPhoneNumber() {
     this.isFetchingOtp = true;
-    const formatedPhoneNumber =
+    const formattedPhoneNumber =
       this.profileForm.get('countryCode').value.toString() +
       this.profileForm.get('phoneNumber').value.toString();
 
@@ -316,7 +267,8 @@ export class ProfileComponent implements OnInit {
           panelClass: 'otp_dialog',
           data: {
             type: 'phoneNumberOTP',
-            payload: formatedPhoneNumber,
+            payload: formattedPhoneNumber,
+            phoneNumber: formattedPhoneNumber,
           },
         });
       },
@@ -334,30 +286,47 @@ export class ProfileComponent implements OnInit {
 
     this.isSubmitting = true;
 
+    const profileFormValue = this.profileForm.value;
+
     const formattedPhoneNumber =
-      this.profileForm.get('countryCode').value.toString() +
-      this.profileForm.get('phoneNumber').value.toString();
+      profileFormValue.countryCode.toString() +
+      profileFormValue.phoneNumber.toString();
 
-    this.sellerService
-      .updateSellerPersonalProfile({
-        ...this.profileForm.value,
+    let data: SellerProfileData = {
+      firstName: profileFormValue.firstName,
+      lastName: profileFormValue.lastName,
+      bio: profileFormValue.bio,
+      state: profileFormValue.state,
+      alpha2CountryCode: profileFormValue.country,
+      profileImageUrl: this.profilePhotoUrl,
+      coverPhotoUrl: this.coverPhotoUrl,
+    };
+
+    if (
+      JSON.stringify(formattedPhoneNumber) ===
+      JSON.stringify(this.user.phoneNumber)
+    ) {
+      data = data;
+    } else {
+      data = {
+        ...data,
         phoneNumber: formattedPhoneNumber,
-        profileImageUrl: this.profilePhotoUrl,
-        alpha2CountryCode: this.profileForm.value.country,
-        coverPhotoUrl: this.coverPhotoUrl,
-      })
-      .subscribe({
-        next: (data) => {
-          this.isSubmitting = false;
-          this.showUserUpdateButtons = false;
+      };
+    }
 
-          this.toast.success('Profile updated successfully');
-        },
-        error: (err) => {
-          this.isSubmitting = false;
-          this.toast.error('Something went wrong!');
-        },
-      });
+    this.sellerService.updateSellerPersonalProfile(data).subscribe({
+      next: (data) => {
+        this.isSubmitting = false;
+        this.showUserUpdateButtons = false;
+        this.isPhoneVerified = data['data'].phoneNumberConfirmed;
+
+        this.toast.success('Profile updated successfully');
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        this.toast.error('Something went wrong!');
+      },
+    });
   }
 
   onCancelUpdate() {

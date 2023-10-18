@@ -228,7 +228,7 @@
               >
                 <option
                   [value]="country.alpha2Code || 'NGN'"
-                  *ngFor="let country of countryInfo; trackBy: trackByFn"
+                  *ngFor="let country of countryInfo"
                 >
                   {{ country.countryName }}
                 </option>
@@ -310,7 +310,7 @@
               You need to verify this new number via an OTP
             </div>
             <button
-              (click)="onVerfiyPhoneNumber()"
+              (click)="onVerifyPhoneNumber()"
               *ngIf="!isPhoneVerified"
               [disabled]="isFetchingOtp"
               type="button"
