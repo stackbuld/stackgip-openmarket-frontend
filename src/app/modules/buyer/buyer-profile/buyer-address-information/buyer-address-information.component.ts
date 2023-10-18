@@ -39,6 +39,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   addressLongitude: number;
   addressCity: string;
   fallbackAddressCity: string;
+  googleAddressSelected: boolean = false;
   constructor(
     private countryService: CountryService,
     private authService: AuthService,
@@ -111,6 +112,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
 
   handleAddressChange(address: Address) {
     try {
+      this.googleAddressSelected = true;
       let state = address.address_components.filter((element) => {
         return element.types.includes('administrative_area_level_1');
       });
@@ -176,6 +178,8 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   onEditAddress(id: string) {
     this.isEditing = true;
     this.isEditingAddress = true;
+    this.googleAddressSelected = true;
+
     this.userService.isEditingUserInfo.next(true);
     const address = this.userAddresses.find((address) => {
       return address.id == id;
@@ -244,6 +248,13 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    if (!this.googleAddressSelected) {
+      this.toast.error(
+        'Please, select an address from the address suggestion provided!'
+      );
+
+      return;
+    }
     if (this.addressForm.invalid) {
       return;
     }
@@ -254,12 +265,12 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
       this.addressForm.get('countryCode').value.toString() +
       this.addressForm.get('phoneNumber').value.toString();
 
-    const data: UserAddressData = {
+    let data: UserAddressData = {
       firstname: formValue.firstName,
       lastname: formValue.lastName,
       fullAddress: formValue.address,
-      contactPhoneNumber: formattedPhoneNumber,
       lat: this.addressLatitude,
+      contactPhoneNumber: formattedPhoneNumber,
       lng: this.addressLongitude,
       city: this.addressCity,
       state: formValue.state,
@@ -267,6 +278,14 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
       userId: this.userId,
       isDefault: this.isDefault,
     };
+    if (this.isEditing && this.userAddress?.fullAddress == formValue.address) {
+      data = {
+        ...data,
+        lat: this.userAddress.lat,
+        lng: this.userAddress.lng,
+        city: this.userAddress.city,
+      };
+    }
 
     if (this.isEditingAddress) {
       this.userService
@@ -280,6 +299,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
             this.isEditingAddress = false;
             this.userService.isEditingUserInfo.next(false);
             this.isSubmitting = false;
+            this.googleAddressSelected = false;
             this.toast.success('Address updated!');
 
             this.updateAddresses();
@@ -298,6 +318,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
           this.isEditingAddress = false;
           this.userService.isEditingUserInfo.next(false);
           this.isSubmitting = false;
+          this.googleAddressSelected = false;
 
           this.updateAddresses();
 

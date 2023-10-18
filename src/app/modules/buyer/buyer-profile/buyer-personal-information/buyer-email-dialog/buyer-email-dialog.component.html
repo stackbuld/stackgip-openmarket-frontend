@@ -1,0 +1,28 @@
+<div class="email-dialog-container">
+  <div class="email-icon">
+    <img src="assets/icons/mail-icon.png" alt="" />
+  </div>
+
+  <div class="email-dialog-header">Email Confirmation</div>
+
+  <p class="email-remark">
+    We have sent an email to <span>{{ email }}</span> to confirm the validity of
+    your email address.
+  </p>
+
+  <div class="email-action">
+    If you did not get any mail
+
+    <a class="resend">
+      <span
+        *ngIf="resendTimer == 0"
+        (click)="onResendConfirmationEmail()"
+        id="resend-main"
+        >Resend confirmation email</span
+      >
+      <span *ngIf="resendTimer > 0" id="reload"
+        >Resend in {{ resendTimer }}s</span
+      ></a
+    >
+  </div>
+</div>

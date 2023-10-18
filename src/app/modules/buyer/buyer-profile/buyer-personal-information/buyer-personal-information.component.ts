@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 
@@ -7,6 +8,7 @@ import { IUser } from 'src/app/models/IUserModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { environment } from 'src/environments/environment';
+import { BuyerEmailDialogComponent } from './buyer-email-dialog/buyer-email-dialog.component';
 declare var cloudinary: any;
 
 @Component({
@@ -27,11 +29,14 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
   specificUserData;
   isSubmitting: boolean = false;
   isFetching: boolean = false;
+  isEmailVerified: boolean = false;
+  isVerifying: boolean = false;
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private dialog: MatDialog
   ) {}
   ngOnInit(): void {
     this.personalInfoForm = new FormGroup({
@@ -75,6 +80,7 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
       next: (user) => {
         this.isFetching = false;
         this.user = user.data;
+        this.isEmailVerified = this.user.emailConfirmed;
 
         user.data.profileImageUrl
           ? (this.profileImgUrl = user.data.profileImageUrl)
@@ -96,6 +102,25 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.isFetching = false;
         this.toast.error('Something went wrong! Try again later');
+      },
+    });
+  }
+
+  onVerifyEmail() {
+    this.isVerifying = true;
+    this.authService.resendConfirmationEmail(this.user.email).subscribe({
+      next: (data) => {
+        this.isVerifying = false;
+
+        const dialogRef = this.dialog.open(BuyerEmailDialogComponent, {
+          panelClass: 'otp_dialog',
+          data: { email: this.user.email },
+        });
+        this.toast.success('Verification email sent successfully!');
+      },
+      error: (err) => {
+        this.isVerifying = false;
+        this.toast.error(err.error.message);
       },
     });
   }
@@ -125,7 +150,7 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
       : this.profileImgUrl;
 
     if (
-      JSON.stringify(this.specificUserData) ==
+      JSON.stringify(this.specificUserData) ===
       JSON.stringify({
         ...this.personalInfoForm.value,
         profileImageUrl: profileImgUrl,
