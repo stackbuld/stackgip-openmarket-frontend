@@ -39,6 +39,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   addressLongitude: number;
   addressCity: string;
   fallbackAddressCity: string;
+  googleAddressSelected: boolean = false;
   constructor(
     private countryService: CountryService,
     private authService: AuthService,
@@ -111,6 +112,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
 
   handleAddressChange(address: Address) {
     try {
+      this.googleAddressSelected = true;
       let state = address.address_components.filter((element) => {
         return element.types.includes('administrative_area_level_1');
       });
@@ -176,6 +178,8 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   onEditAddress(id: string) {
     this.isEditing = true;
     this.isEditingAddress = true;
+    this.googleAddressSelected = true;
+
     this.userService.isEditingUserInfo.next(true);
     const address = this.userAddresses.find((address) => {
       return address.id == id;
@@ -244,17 +248,23 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    // if (this.addressForm.invalid) {
-    //   return;
-    // }
-    // this.isSubmitting = true;
+    if (!this.googleAddressSelected) {
+      this.toast.error(
+        'Please, elect an address from the address suggestion provided!'
+      );
+
+      return;
+    }
+    if (this.addressForm.invalid) {
+      return;
+    }
+    this.isSubmitting = true;
     const formValue = this.addressForm.value;
 
     const formattedPhoneNumber =
       this.addressForm.get('countryCode').value.toString() +
       this.addressForm.get('phoneNumber').value.toString();
 
-    // this.handleAddressChange(formValue.address);
     let data: UserAddressData = {
       firstname: formValue.firstName,
       lastname: formValue.lastName,
@@ -268,7 +278,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
       userId: this.userId,
       isDefault: this.isDefault,
     };
-    if (this.isEditing && this.userAddress.fullAddress == formValue.address) {
+    if (this.isEditing && this.userAddress?.fullAddress == formValue.address) {
       data = {
         ...data,
         lat: this.userAddress.lat,
@@ -276,64 +286,51 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
         city: this.userAddress.city,
       };
     }
-    // const data: UserAddressData = {
-    //   firstname: formValue.firstName,
-    //   lastname: formValue.lastName,
-    //   fullAddress: formValue.address,
-    //   contactPhoneNumber: formattedPhoneNumber,
-    //   lat: this.addressLatitude,
-    //   lng: this.addressLongitude,
-    //   city: this.addressCity,
-    //   state: formValue.state,
-    //   country: formValue.country,
-    //   userId: this.userId,
-    //   isDefault: this.isDefault,
-    // };
 
-    console.log(data);
+    if (this.isEditingAddress) {
+      this.userService
+        .updateUserAddress(this.userAddress.id, {
+          ...this.userAddress,
+          ...data,
+        })
+        .subscribe({
+          next: (data) => {
+            this.isEditing = false;
+            this.isEditingAddress = false;
+            this.userService.isEditingUserInfo.next(false);
+            this.isSubmitting = false;
+            this.googleAddressSelected = false;
+            this.toast.success('Address updated!');
 
-    // if (this.isEditingAddress) {
-    //   this.userService
-    //     .updateUserAddress(this.userAddress.id, {
-    //       ...this.userAddress,
-    //       ...data,
-    //     })
-    //     .subscribe({
-    //       next: (data) => {
-    //         this.isEditing = false;
-    //         this.isEditingAddress = false;
-    //         this.userService.isEditingUserInfo.next(false);
-    //         this.isSubmitting = false;
-    //         this.toast.success('Address updated!');
+            this.updateAddresses();
+          },
+          error: (err) => {
+            this.isSubmitting = false;
+            this.toast.error(err.error.message);
+          },
+        });
+    } else {
+      this.userService.addUserAddress(data).subscribe({
+        next: (data) => {
+          this.toast.success('New address added!');
 
-    //         this.updateAddresses();
-    //       },
-    //       error: (err) => {
-    //         this.isSubmitting = false;
-    //         this.toast.error(err.error.message);
-    //       },
-    //     });
-    // } else {
-    //   this.userService.addUserAddress(data).subscribe({
-    //     next: (data) => {
-    //       this.toast.success('New address added!');
+          this.isEditing = false;
+          this.isEditingAddress = false;
+          this.userService.isEditingUserInfo.next(false);
+          this.isSubmitting = false;
+          this.googleAddressSelected = false;
 
-    //       this.isEditing = false;
-    //       this.isEditingAddress = false;
-    //       this.userService.isEditingUserInfo.next(false);
-    //       this.isSubmitting = false;
+          this.updateAddresses();
 
-    //       this.updateAddresses();
+          this.addressForm.reset();
+        },
+        error: (err) => {
+          this.isSubmitting = false;
 
-    //       this.addressForm.reset();
-    //     },
-    //     error: (err) => {
-    //       this.isSubmitting = false;
-
-    //       this.toast.error(err.error.message);
-    //     },
-    //   });
-    // }
+          this.toast.error(err.error.message);
+        },
+      });
+    }
   }
 
   ngOnDestroy(): void {
