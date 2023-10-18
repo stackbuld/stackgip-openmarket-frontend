@@ -25,7 +25,7 @@
 
         <div class="profile-detail-main">{{ user?.email }}</div>
 
-        <div class="email-verification" *ngIf="isEmailVerified">
+        <div class="email-verification" *ngIf="!isEmailVerified">
           <p>Email is unverified</p>
 
           <button (click)="onVerifyEmail()">

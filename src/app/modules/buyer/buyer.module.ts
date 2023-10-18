@@ -23,6 +23,7 @@ import { NgOtpInputModule } from 'ng-otp-input';
 import { BuyerSecurityOtpComponent } from './buyer-security-settings/buyer-security-otp/buyer-security-otp.component';
 import { BuyerWalletComponent } from './buyer-profile/buyer-wallet/buyer-wallet.component';
 import { WalletModule } from 'src/app/shared/wallet/wallet.module';
+import { BuyerEmailDialogComponent } from './buyer-profile/buyer-personal-information/buyer-email-dialog/buyer-email-dialog.component';
 
 @NgModule({
   imports: [
@@ -50,6 +51,7 @@ import { WalletModule } from 'src/app/shared/wallet/wallet.module';
     BuyerContactDialogComponent,
     BuyerSecurityOtpComponent,
     BuyerWalletComponent,
+    BuyerEmailDialogComponent,
   ],
   exports: [
     BuyerHeaderComponent,
