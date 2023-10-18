@@ -244,22 +244,23 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.addressForm.invalid) {
-      return;
-    }
-    this.isSubmitting = true;
+    // if (this.addressForm.invalid) {
+    //   return;
+    // }
+    // this.isSubmitting = true;
     const formValue = this.addressForm.value;
 
     const formattedPhoneNumber =
       this.addressForm.get('countryCode').value.toString() +
       this.addressForm.get('phoneNumber').value.toString();
 
-    const data: UserAddressData = {
+    // this.handleAddressChange(formValue.address);
+    let data: UserAddressData = {
       firstname: formValue.firstName,
       lastname: formValue.lastName,
       fullAddress: formValue.address,
-      contactPhoneNumber: formattedPhoneNumber,
       lat: this.addressLatitude,
+      contactPhoneNumber: formattedPhoneNumber,
       lng: this.addressLongitude,
       city: this.addressCity,
       state: formValue.state,
@@ -267,49 +268,72 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
       userId: this.userId,
       isDefault: this.isDefault,
     };
-
-    if (this.isEditingAddress) {
-      this.userService
-        .updateUserAddress(this.userAddress.id, {
-          ...this.userAddress,
-          ...data,
-        })
-        .subscribe({
-          next: (data) => {
-            this.isEditing = false;
-            this.isEditingAddress = false;
-            this.userService.isEditingUserInfo.next(false);
-            this.isSubmitting = false;
-            this.toast.success('Address updated!');
-
-            this.updateAddresses();
-          },
-          error: (err) => {
-            this.isSubmitting = false;
-            this.toast.error(err.error.message);
-          },
-        });
-    } else {
-      this.userService.addUserAddress(data).subscribe({
-        next: (data) => {
-          this.toast.success('New address added!');
-
-          this.isEditing = false;
-          this.isEditingAddress = false;
-          this.userService.isEditingUserInfo.next(false);
-          this.isSubmitting = false;
-
-          this.updateAddresses();
-
-          this.addressForm.reset();
-        },
-        error: (err) => {
-          this.isSubmitting = false;
-
-          this.toast.error(err.error.message);
-        },
-      });
+    if (this.isEditing && this.userAddress.fullAddress == formValue.address) {
+      data = {
+        ...data,
+        lat: this.userAddress.lat,
+        lng: this.userAddress.lng,
+        city: this.userAddress.city,
+      };
     }
+    // const data: UserAddressData = {
+    //   firstname: formValue.firstName,
+    //   lastname: formValue.lastName,
+    //   fullAddress: formValue.address,
+    //   contactPhoneNumber: formattedPhoneNumber,
+    //   lat: this.addressLatitude,
+    //   lng: this.addressLongitude,
+    //   city: this.addressCity,
+    //   state: formValue.state,
+    //   country: formValue.country,
+    //   userId: this.userId,
+    //   isDefault: this.isDefault,
+    // };
+
+    console.log(data);
+
+    // if (this.isEditingAddress) {
+    //   this.userService
+    //     .updateUserAddress(this.userAddress.id, {
+    //       ...this.userAddress,
+    //       ...data,
+    //     })
+    //     .subscribe({
+    //       next: (data) => {
+    //         this.isEditing = false;
+    //         this.isEditingAddress = false;
+    //         this.userService.isEditingUserInfo.next(false);
+    //         this.isSubmitting = false;
+    //         this.toast.success('Address updated!');
+
+    //         this.updateAddresses();
+    //       },
+    //       error: (err) => {
+    //         this.isSubmitting = false;
+    //         this.toast.error(err.error.message);
+    //       },
+    //     });
+    // } else {
+    //   this.userService.addUserAddress(data).subscribe({
+    //     next: (data) => {
+    //       this.toast.success('New address added!');
+
+    //       this.isEditing = false;
+    //       this.isEditingAddress = false;
+    //       this.userService.isEditingUserInfo.next(false);
+    //       this.isSubmitting = false;
+
+    //       this.updateAddresses();
+
+    //       this.addressForm.reset();
+    //     },
+    //     error: (err) => {
+    //       this.isSubmitting = false;
+
+    //       this.toast.error(err.error.message);
+    //     },
+    //   });
+    // }
   }
 
   ngOnDestroy(): void {

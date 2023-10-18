@@ -81,7 +81,6 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
         this.isFetching = false;
         this.user = user.data;
         this.isEmailVerified = this.user.emailConfirmed;
-        console.log(this.user);
 
         user.data.profileImageUrl
           ? (this.profileImgUrl = user.data.profileImageUrl)
@@ -151,7 +150,7 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
       : this.profileImgUrl;
 
     if (
-      JSON.stringify(this.specificUserData) ==
+      JSON.stringify(this.specificUserData) ===
       JSON.stringify({
         ...this.personalInfoForm.value,
         profileImageUrl: profileImgUrl,
