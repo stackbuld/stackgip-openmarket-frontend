@@ -51,6 +51,39 @@
   }
 }
 
+.email-verification {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+
+  & P {
+    font-size: 16px;
+  }
+
+  & button {
+    border: none;
+    height: 48px;
+    width: 202px;
+    padding: 10px 50px;
+    border-radius: 8px;
+    background: $black;
+    color: $white;
+    border: 1px solid $black;
+    white-space: nowrap;
+    transition: all 300ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: $white;
+      color: $black;
+    }
+  }
+}
+
 .edit {
   display: none;
   align-items: center;
@@ -302,6 +335,16 @@
     width: 100%;
 
     & #submit-btn {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .email-verification {
+    flex-direction: column;
+
+    & button {
       width: 100%;
     }
   }

@@ -75,6 +75,7 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
       next: (user) => {
         this.isFetching = false;
         this.user = user.data;
+        console.log(this.user);
 
         user.data.profileImageUrl
           ? (this.profileImgUrl = user.data.profileImageUrl)

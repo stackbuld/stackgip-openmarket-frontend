@@ -24,6 +24,15 @@
         <div class="profile-detail-heading">Email</div>
 
         <div class="profile-detail-main">{{ user?.email }}</div>
+
+        <div class="email-verification" *ngIf="isEmailVerified">
+          <p>Email is unverified</p>
+
+          <button (click)="onVerifyEmail()">
+            <span class="login-btn-text" *ngIf="!isVerifying"> Verify </span
+            ><span class="login-btn-loader" *ngIf="isVerifying"></span>
+          </button>
+        </div>
       </div>
     </div>
 
