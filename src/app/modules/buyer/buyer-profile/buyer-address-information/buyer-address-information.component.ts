@@ -250,7 +250,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (!this.googleAddressSelected) {
       this.toast.error(
-        'Please, elect an address from the address suggestion provided!'
+        'Please, select an address from the address suggestion provided!'
       );
 
       return;
