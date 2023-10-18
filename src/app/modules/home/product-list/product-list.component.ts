@@ -27,7 +27,7 @@ export class ProductListComponent implements OnInit {
   loadingProducts: boolean;
   loadingMoreProducts: boolean;
   loadingCategories: boolean;
-  columnCount = 3;
+  columnCount = 6;
   canLoadMore = true;
 
   // value: number = 700;
