@@ -100,7 +100,13 @@ export class SignupComponent implements OnInit {
         ]),
       ],
 
-      phoneNumber: ['', [Validators.required, Validators.maxLength(10)]],
+      phoneNumber: ['',
+        [
+          Validators.required,
+          Validators.maxLength(10),
+          Validators.pattern('^[0-9]*$'),
+        ]
+      ],
     });
 
     
