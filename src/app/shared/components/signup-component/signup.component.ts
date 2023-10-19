@@ -17,6 +17,8 @@ import { SignInModel } from 'src/app/models/signin-model';
 import { Subscription, filter } from 'rxjs';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { environment } from 'src/environments/environment';
+import { CountryService } from 'src/app/services/country/country.service';
+import { CountryInfo } from 'src/app/models/country.model';
 import { countryCodes } from 'src/app/data/countryCodes';
 declare const FB: any;
 
@@ -34,7 +36,7 @@ export class SignupComponent implements OnInit {
   errors: any[];
   googleAuth: any;
   message = '';
-  codeList: any;
+  countryInfo: CountryInfo[];
   errorMessage: string;
   window: Window;
   foods = [
@@ -50,7 +52,8 @@ export class SignupComponent implements OnInit {
     private toast: ToastrService,
     private router: Router,
     private ngxService: NgxUiLoaderService,
-    windowRefService: WindowRefService
+    windowRefService: WindowRefService,
+    private countryService: CountryService
   ) {
     this.window = windowRefService.nativeWindow;
     router.events
@@ -61,11 +64,18 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.hasError = false;
-    this.codeList = countryCodes;
+    // this.codeList = countryCodes;
     this.errors = [];
-    console.log(countryCodes);
+    // console.log(countryCodes);
     this.errorMessage = '';
     this.message = '';
+    
+    this.countryService.getCountry().subscribe({
+      next: (data) => {
+        this.countryInfo = data;
+      },
+    });
+
     this.registerForm = this.fb.group({
       firstname: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
@@ -93,6 +103,9 @@ export class SignupComponent implements OnInit {
 
       phoneNumber: ['', [Validators.required, Validators.maxLength(10)]],
     });
+
+    
+
     // @ts-ignore
     this.window.onGoogleLibraryLoad = () => {
       // @ts-ignore
