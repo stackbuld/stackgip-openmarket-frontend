@@ -64,12 +64,11 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.hasError = false;
-    // this.codeList = countryCodes;
     this.errors = [];
     // console.log(countryCodes);
     this.errorMessage = '';
     this.message = '';
-    
+
     this.countryService.getCountry().subscribe({
       next: (data) => {
         this.countryInfo = data;

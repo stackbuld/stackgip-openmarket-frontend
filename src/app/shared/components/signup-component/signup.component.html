@@ -67,12 +67,9 @@
                   <mat-select-trigger>
                     {{ f.countryCode.value }}
                   </mat-select-trigger>
-                  <!-- <mat-option *ngFor="let el of codeList" [value]="el.code">
-                    {{ el.abbr }} {{ el.code }}
-                  </mat-option> -->
                   <mat-option
                     *ngFor="let country of countryInfo"
-                    [value]="country.code"
+                    [value]="country.phoneCode"
                   >
                     <img [src]="country.flag" alt="" width="25px" height="25px" />
                     <span
