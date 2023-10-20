@@ -14,17 +14,18 @@
                     </div>
 
                     <div class="mt-3 p-0">
-                        <div class="pricing">
+                        <!-- Hide distance -->
+                        <!-- <div class="pricing" *ngIf="1 < 0">
                             <p class="mb-0">
                                 <span class="tag">Find Products near me</span>
                             </p>
-                            <div class="custom-slider">
+                            <div class="custom-slider"> -->
                                 <!-- <ngx-slider
                                     [(value)]="distanceValue"
                                     [(highValue)]="distanceHighValue"
                                     [options]="distanceOptions">
                                 </ngx-slider> -->
-                                <mat-slider class="w-100" min="0" max="200">
+                                <!-- <mat-slider class="w-100" min="0" max="200">
                                     <input [(ngModel)]="distanceValue" matSliderStartThumb>
                                     <input [(ngModel)]="distanceHighValue" matSliderEndThumb>
                                   </mat-slider>
@@ -34,7 +35,7 @@
                                     <span class="range-divider">-</span>
                                 <input class="range-input" type="text" [(ngModel)]="distanceHighValue"/>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="mt-4">
                             <p class="mb-0">
@@ -150,16 +151,18 @@
                     </div>
                 </div>
 
-                <div class="p-4">
+                <!-- Hide distance -->
+                <!-- <div class="p-4" *ngIf="1 < 0">
                     <p class="mb-0">
                         <span class="tag">Distance(km)</span>
                     </p>
                     <div class="custom-slider">
-                        <!-- <ngx-slider
+                        <ngx-slider
                             [(value)]="distanceValue"
                             [(highValue)]="distanceHighValue"
                             [options]="distanceOptions">
                         </ngx-slider> -->
+                        <!--
                         <mat-slider class="w-100" min="0" max="200">
                             <input [(ngModel)]="distanceValue" matSliderStartThumb>
                             <input [(ngModel)]="distanceHighValue" matSliderEndThumb>
@@ -170,7 +173,7 @@
                             <span class="range-divider">-</span>
                         <input class="range-input" type="text" [(ngModel)]="distanceHighValue"/>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="px-3 pb-3 col-12">
                     <button (click)="fetchAllProducts(defaultPage)" class="w-100 apply-btn">Apply</button>

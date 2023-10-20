@@ -54,7 +54,6 @@
                 matInput
                 #myInput
                 placeholder="08023434567"
-                pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$"
                 type="number"
                 formControlName="phoneNumber"
                 required
@@ -67,8 +66,18 @@
                   <mat-select-trigger>
                     {{ f.countryCode.value }}
                   </mat-select-trigger>
-                  <mat-option *ngFor="let el of codeList" [value]="el.code">
-                    {{ el.abbr }} {{ el.code }}
+                  <mat-option
+                    *ngFor="let country of countryInfo"
+                    [value]="country.phoneCode"
+                  >
+                    <img [src]="country.flag" alt="" width="25px" height="25px" />
+                    <span
+                      style="font-size: 14px; margin-left: 7px; font-weight: bold"
+                      >{{ country.countryName }}
+                    </span>
+                    <span style="font-size: 14px">
+                      {{ country.phoneCode }}
+                    </span>
                   </mat-option>
                 </mat-select>
               </div>
