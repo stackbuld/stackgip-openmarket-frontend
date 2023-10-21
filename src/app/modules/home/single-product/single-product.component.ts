@@ -1,4 +1,9 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
@@ -8,24 +13,25 @@ import { UserService } from 'src/app/services/user/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
-import { AuthService } from 'src/app/services/auth.service';import { IUser } from '../../../models/IUserModel';
+import { AuthService } from 'src/app/services/auth.service';
+import { IUser } from '../../../models/IUserModel';
 import { CartService } from '../../../services/cart/cart.service';
-import {CartAddress} from '../../../models/StoreModels';
-import {WebsocketService} from '../../../services/websocket';
-import {AddToCartRequestModel} from '../../../services/cart/model/add-cart-model';
+import { CartAddress } from '../../../models/StoreModels';
+import { WebsocketService } from '../../../services/websocket';
+import { AddToCartRequestModel } from '../../../services/cart/model/add-cart-model';
 import {
   GetShippingEstimatePrice,
   GetShippingPriceEstimateData,
-  GetShippingPriceEstimateRequest
+  GetShippingPriceEstimateRequest,
 } from '../../../services/cart/model/logistic.model';
-import {NotificationResponseModel} from '../../../models/notificationResponse.model';
-import * as lodash  from 'lodash';
-import {forEach} from 'lodash';
+import { NotificationResponseModel } from '../../../models/notificationResponse.model';
+import * as lodash from 'lodash';
+import { forEach } from 'lodash';
 import * as cryptoJs from 'crypto-js';
 import { FooterService } from 'src/app/services/footer.service';
-import {WebSocketSubject} from 'rxjs/webSocket';
-import {BehaviorSubject} from 'rxjs';
-import {WindowRefService} from '../../../shared/services/window.service';
+import { WebSocketSubject } from 'rxjs/webSocket';
+import { BehaviorSubject } from 'rxjs';
+import { WindowRefService } from '../../../shared/services/window.service';
 import uikit from 'uikit';
 @Component({
   selector: 'app-single-product',
@@ -35,7 +41,7 @@ import uikit from 'uikit';
 export class SingleProductComponent implements OnInit {
   currentImgUrl = '';
   activeImgId = 0;
-  isInformation = true;
+  isInformation: boolean = false;
   products: any[] = [];
   addresses: any[] = [];
   imgUrls: any[] = [];
@@ -56,10 +62,14 @@ export class SingleProductComponent implements OnInit {
   selectedShippingMethod: GetShippingEstimatePrice;
   shippingMethods: GetShippingEstimatePrice[] = [];
   // currentShippingMethod : GetShippingEstimatePrice = null;
-  currentShippingMethod :  BehaviorSubject<GetShippingEstimatePrice>;
+  currentShippingMethod: BehaviorSubject<GetShippingEstimatePrice>;
   deletingAddress: boolean;
   loadingShippingEstimate: boolean;
-  loadingShippingStatus : 'not_started'|'request_started'|'in_progress'| 'completed' = 'not_started';
+  loadingShippingStatus:
+    | 'not_started'
+    | 'request_started'
+    | 'in_progress'
+    | 'completed' = 'not_started';
   deleteId: any;
   referenceId = '';
   cart: null;
@@ -75,7 +85,7 @@ export class SingleProductComponent implements OnInit {
     types: ['address'],
     componentRestrictions: { country: 'NG' },
   };
-  socket$ : WebSocketSubject<NotificationResponseModel>
+  socket$: WebSocketSubject<NotificationResponseModel>;
   constructor(
     private toastService: ToastrService,
     private activatedRoute: ActivatedRoute,
@@ -86,19 +96,22 @@ export class SingleProductComponent implements OnInit {
     private applocal: AppLocalStorage,
     private authService: AuthService,
     private webSocketService: WebsocketService,
-    private  windowRef: WindowRefService
+    private windowRef: WindowRefService,
+    private userService: UserService
   ) {
     this.initAddressForm();
-    this.currentShippingMethod = new BehaviorSubject<GetShippingEstimatePrice>(null);
+    this.currentShippingMethod = new BehaviorSubject<GetShippingEstimatePrice>(
+      null
+    );
   }
 
-   ngOnInit() {
-     this.windowRef.nativeWindow.document.body.scrollTop = 0;
-     this.windowRef.nativeWindow.document.documentElement.scrollTop = 0;
+  ngOnInit() {
+    this.windowRef.nativeWindow.document.body.scrollTop = 0;
+    this.windowRef.nativeWindow.document.documentElement.scrollTop = 0;
 
-     this.connectToWebsocket();
+    this.connectToWebsocket();
 
-    console.log("shippingMethods", this.shippingMethods);
+    console.log('shippingMethods', this.shippingMethods);
     this.applocal.messageSource.subscribe((res) => {
       if (res) {
         this.temporaryDetails = res;
@@ -109,7 +122,7 @@ export class SingleProductComponent implements OnInit {
       }
     });
     this.footerService.setShowFooter(true);
-     this.referenceId  = this.authService.getUserReferenceNumber();
+    this.referenceId = this.authService.getUserReferenceNumber();
     // this.user = JSON.parse(localStorage.getItem('user') as string) as IUser;
     this.applocal.currentUser.subscribe((res) => {
       if (res) {
@@ -123,9 +136,26 @@ export class SingleProductComponent implements OnInit {
 
     this.setUserAddress();
 
+    const user: IUser = JSON.parse(localStorage.getItem('user'));
+
+    const userId = user.id;
+    console.log(userId);
+
+    this.userService.getUserAddress(userId).subscribe({
+      next: (addresses) => {
+        this.currentAddress = addresses.find(
+          (address) => address.isDefault == true
+        );
+        localStorage.setItem(
+          'shippingAddress',
+          JSON.stringify(this.currentAddress)
+        );
+      },
+      error: (err) => {},
+    });
   }
 
-  setUserAddress(){
+  setUserAddress() {
     if (localStorage.getItem('shippingAddress')) {
       const address = JSON.parse(
         localStorage.getItem('shippingAddress') as string
@@ -134,59 +164,77 @@ export class SingleProductComponent implements OnInit {
       this.setRequestId();
       this.populateAddressForm(address);
       this.getShippingEstimate();
-    }else{
+    } else {
       this.fetchUserAddresses();
     }
     this.displayDeliveryAddressOnLoad();
   }
   setRequestId = () => {
     const toHash = cryptoJs.MD5(this.currentAddress?.fullAddress);
-    this.requestId = `view-product-page-${this.productId}:${this.authService.getUserReferenceNumber()}:${toHash}`
-  }
+    this.requestId = `view-product-page-${
+      this.productId
+    }:${this.authService.getUserReferenceNumber()}:${toHash}`;
+  };
 
-   connectToWebsocket(){
-    this.authService.getWebSocketUrl().subscribe(res=> {
-      this.webSocketService.getSocket(res.wssUrl).subscribe(a=> {
+  connectToWebsocket() {
+    this.authService.getWebSocketUrl().subscribe((res) => {
+      this.webSocketService.getSocket(res.wssUrl).subscribe((a) => {
         this.processRealTimeShippingPrice(a);
-
       });
-    })
+    });
   }
-  processRealTimeShippingPrice(notificationResponse: NotificationResponseModel){
-    if(notificationResponse.requestId === this.requestId){
-      if(notificationResponse.notificationType === 'GET_LOGISTIC_PRICES_COMPLETED'){
+  processRealTimeShippingPrice(
+    notificationResponse: NotificationResponseModel
+  ) {
+    if (notificationResponse.requestId === this.requestId) {
+      if (
+        notificationResponse.notificationType ===
+        'GET_LOGISTIC_PRICES_COMPLETED'
+      ) {
         this.loadingShippingEstimate = false;
         this.loadingShippingStatus = 'completed';
 
-        const shippingData = notificationResponse.data as  GetShippingPriceEstimateData[];
-        const shippingEsitmateData = shippingData.flatMap(a=>a.estimatePrices);
-        const hasSelected = this.shippingMethods.some(a=>a.isSelected);
-        if(hasSelected){
+        const shippingData =
+          notificationResponse.data as GetShippingPriceEstimateData[];
+        const shippingEsitmateData = shippingData.flatMap(
+          (a) => a.estimatePrices
+        );
+        const hasSelected = this.shippingMethods.some((a) => a.isSelected);
+        if (hasSelected) {
           for (const shipping of shippingEsitmateData) {
-            if(shipping.logisticCode === this.currentShippingMethod.value?.logisticCode){
-               shipping.isSelected =  this.currentShippingMethod.value?.isSelected;
+            if (
+              shipping.logisticCode ===
+              this.currentShippingMethod.value?.logisticCode
+            ) {
+              shipping.isSelected =
+                this.currentShippingMethod.value?.isSelected;
             }
           }
         }
         this.shippingMethods = shippingEsitmateData;
         this.orderAndSelectDefaultShippingMethod();
-      }else if(notificationResponse.notificationType === 'GET_LOGISTIC_PRICES'){
+      } else if (
+        notificationResponse.notificationType === 'GET_LOGISTIC_PRICES'
+      ) {
         this.loadingShippingEstimate = true;
         this.loadingShippingStatus = 'in_progress';
         const data = notificationResponse.data as GetShippingEstimatePrice;
-        const findExisting =  this.shippingMethods
-          .find(a=>a.logisticCode === data.logisticCode);
-        if(findExisting){
+        const findExisting = this.shippingMethods.find(
+          (a) => a.logisticCode === data.logisticCode
+        );
+        if (findExisting) {
           data.isSelected = findExisting.isSelected;
-          lodash.remove(this.shippingMethods, a=> a.logisticCode === findExisting.logisticCode);
+          lodash.remove(
+            this.shippingMethods,
+            (a) => a.logisticCode === findExisting.logisticCode
+          );
           this.shippingMethods.push(data);
-        }else {
-          this.shippingMethods.push(data)
+        } else {
+          this.shippingMethods.push(data);
         }
         this.orderAndSelectDefaultShippingMethod();
       }
     }
-
   }
 
   getImageResolution = (url: string, width: number, height: number) => {
@@ -401,7 +449,11 @@ export class SingleProductComponent implements OnInit {
   };
 
   setShippingMethod = () => {
-    console.log("setShippingMethod called with current shipping method. prev, curr ", this.currentShippingMethod,  this.selectedShippingMethod )
+    console.log(
+      'setShippingMethod called with current shipping method. prev, curr ',
+      this.currentShippingMethod,
+      this.selectedShippingMethod
+    );
     this.currentShippingMethod.next(this.selectedShippingMethod);
     for (let index = 0; index < this.shippingMethods.length; index++) {
       const element = this.shippingMethods[index];
@@ -426,11 +478,12 @@ export class SingleProductComponent implements OnInit {
   };
 
   setCurrentAddress = () => {
-    console.log("get current address called");
+    console.log('get current address called');
     this.currentShippingMethod.next(null);
     // this.currentAddress = this.selectedAddress;
     for (let index = 0; index < this.addresses.length; index++) {
       const element = this.addresses[index];
+
       element.isSelected = false;
       if (element.id === this.currentAddress.id) {
         element.isSelected = true;
@@ -438,7 +491,11 @@ export class SingleProductComponent implements OnInit {
     }
     this.toastService.success('Delivery Address Updated', 'SUCCESS');
     document.getElementById('closeAddressFormDialog').click();
-    localStorage.removeItem('shippingAddress');
+    localStorage.setItem(
+      'shippingAddress',
+      JSON.stringify(this.currentAddress)
+    );
+    // localStorage.removeItem('shippingAddress');
     this.populateAddressForm(this.currentAddress);
     this.getShippingEstimate();
   };
@@ -489,8 +546,13 @@ export class SingleProductComponent implements OnInit {
     );
   };
 
-  displayDeliveryAddressOnLoad(){
-    if(!this.currentAddress?.fullAddress || !this.currentAddress.contactPhoneNumber || !this.currentAddress.lat || !this.currentAddress.lng){
+  displayDeliveryAddressOnLoad() {
+    if (
+      !this.currentAddress?.fullAddress ||
+      !this.currentAddress.contactPhoneNumber ||
+      !this.currentAddress.lat ||
+      !this.currentAddress.lng
+    ) {
       this.showDeliveryAddressModal();
     }
     this.setRequestId();
@@ -518,14 +580,16 @@ export class SingleProductComponent implements OnInit {
         zipCode: '',
         lat: this.currentAddress?.lat,
         lng: this.currentAddress?.lng,
-      } ,
+      },
     } as GetShippingPriceEstimateRequest;
     this.loadingShippingStatus = 'request_started';
     const cartService$ = this.cartService.getShippingEstimate(payload);
     cartService$.subscribe(
       (res) => {
-       this.loadingShippingEstimate = false;
-        this.shippingMethods = (res.data as GetShippingPriceEstimateData[]).flatMap(a=>a.estimatePrices) ;
+        this.loadingShippingEstimate = false;
+        this.shippingMethods = (
+          res.data as GetShippingPriceEstimateData[]
+        ).flatMap((a) => a.estimatePrices);
         this.loadingShippingStatus = 'request_started';
         // if (this.currentShippingMethod === null) {
         //   this.orderAndSelectDefaultShippingMethod();
@@ -538,24 +602,32 @@ export class SingleProductComponent implements OnInit {
     );
   };
 
-  orderAndSelectDefaultShippingMethod(){
+  orderAndSelectDefaultShippingMethod() {
     this.shippingMethods.sort((a, b) => a.startingPrice - b.startingPrice);
-    const hasSelected = this.shippingMethods.some(a=>a.isSelected);
-    if(!hasSelected){
-      if(this.shippingMethods[0]){
+    const hasSelected = this.shippingMethods.some((a) => a.isSelected);
+    if (!hasSelected) {
+      if (this.shippingMethods[0]) {
         this.shippingMethods[0].isSelected = true;
-        console.log("orderAndSelectDefaultShippingMethod hasselected = true called with selected shipping method, prev, current ",  this.currentShippingMethod.value, this.shippingMethods[0] )
+        console.log(
+          'orderAndSelectDefaultShippingMethod hasselected = true called with selected shipping method, prev, current ',
+          this.currentShippingMethod.value,
+          this.shippingMethods[0]
+        );
         this.currentShippingMethod.next(this.shippingMethods[0]);
         this.selectedShippingMethod = this.shippingMethods[0];
       }
-    };
-    if(!this.currentShippingMethod.value){
-      console.log("orderAndSelectDefaultShippingMethod currentShippingMethod = false called with selected shipping method, prev, current ",  this.currentShippingMethod.value, this.shippingMethods[0] )
+    }
+    if (!this.currentShippingMethod.value) {
+      console.log(
+        'orderAndSelectDefaultShippingMethod currentShippingMethod = false called with selected shipping method, prev, current ',
+        this.currentShippingMethod.value,
+        this.shippingMethods[0]
+      );
 
       this.currentShippingMethod.next(this.shippingMethods[0]);
       this.selectedShippingMethod = this.shippingMethods[0];
     }
-    console.log( "current shipping method",this.currentShippingMethod.value);
+    console.log('current shipping method', this.currentShippingMethod.value);
   }
 
   public handleAddressChange(address: Address) {
@@ -598,14 +670,18 @@ export class SingleProductComponent implements OnInit {
         const cartService$ = this.cartService.createAddress(
           this.addressForm.value
         );
-        cartService$.subscribe(
-          (res) => {
+        cartService$.subscribe({
+          next: (res) => {
             if (res.status === 'success') {
               this.toastService.success(
                 'Address created successfully',
                 'SUCCESS'
               );
-              localStorage.setItem('shippingAddress', JSON.stringify(this.addressForm.value));
+
+              localStorage.setItem(
+                'shippingAddress',
+                JSON.stringify(this.addressForm.value)
+              );
               this.currentAddress = this.addressForm.value;
               this.fetchUserAddresses();
               this.loadingAddress = false;
@@ -616,11 +692,11 @@ export class SingleProductComponent implements OnInit {
               this.toastService.error(res.message, 'ERROR');
             }
           },
-          (err) => {
+          error: (err) => {
             this.loadingAddress = false;
             this.toastService.error(err.message, 'ERROR');
-          }
-        );
+          },
+        });
       } else {
         this.loadingAddress = false;
         localStorage.setItem(
@@ -651,7 +727,7 @@ export class SingleProductComponent implements OnInit {
     //   this.isSocialModal = false;
     // }
     this.authService.showSharedSocialModal();
-  }
+  };
   toggleLoginModal = () => {
     this.authService.showSharedLoginModal();
   };
@@ -671,7 +747,7 @@ export class SingleProductComponent implements OnInit {
     this.isInformation = true;
   };
 
-  showDeliveryAddressModal(){
+  showDeliveryAddressModal() {
     this.resetModalView();
 
     uikit.modal('#information-modal').show();
@@ -685,7 +761,7 @@ export class SingleProductComponent implements OnInit {
     if (this.currentAddress !== null) {
       this.isEditAddress = true;
     }
-    if(this.user !== null) {
+    if (this.user !== null) {
       this.isInformation = false;
     } else {
       // this.resetModalView();
@@ -715,10 +791,8 @@ export class SingleProductComponent implements OnInit {
           logistic: {
             logisticId: this.currentShippingMethod.value.logisticCode,
             logisticCode: this.currentShippingMethod.value.logisticCode,
-            logisticLogo:
-              this.currentShippingMethod.value.logisticLogoUrl,
-            logisticName:
-              this.currentShippingMethod.value.logisticName,
+            logisticLogo: this.currentShippingMethod.value.logisticLogoUrl,
+            logisticName: this.currentShippingMethod.value.logisticName,
             estimateShippingCost:
               this.currentShippingMethod.value.startingPrice,
           },
@@ -766,7 +840,7 @@ export class SingleProductComponent implements OnInit {
   getCustomerCart = () => {
     let cart$;
     const userId = this.user?.id ?? '';
-    const reference = this.referenceId ?? ''
+    const reference = this.referenceId ?? '';
     cart$ = this.cartService.getCart(userId, reference);
 
     cart$.subscribe(
@@ -791,15 +865,18 @@ export class SingleProductComponent implements OnInit {
   fetchUserAddresses = () => {
     if (this.user !== null) {
       const cartService$ = this.cartService.fetchUserAddresses(this.user.id);
-      cartService$.subscribe(
-        (res) => {
+      cartService$.subscribe({
+        next: (res) => {
           this.addresses = res.data.data;
           const storedAddress = localStorage.getItem('shippingAddress');
           if (storedAddress) {
             const parsedStoredAddress = JSON.parse(storedAddress);
             this.currentAddress = parsedStoredAddress;
             this.addresses.forEach((element) => {
-              element.isSelected = this.areAddressesEqual(element, this.currentAddress);
+              element.isSelected = this.areAddressesEqual(
+                element,
+                this.currentAddress
+              );
             });
           } else {
             let defaultAddressFound = false;
@@ -820,8 +897,8 @@ export class SingleProductComponent implements OnInit {
           this.setRequestId();
           this.getShippingEstimate();
         },
-        (error) => {}
-      );
+        error: (error) => {},
+      });
     } else {
       this.addresses = [];
     }
@@ -835,5 +912,4 @@ export class SingleProductComponent implements OnInit {
       address1.country === address2.country
     );
   };
-
 }
