@@ -119,6 +119,7 @@ export interface CreateShipmentModel {
   state: string;
   city: string;
   cost: number;
+  description?: string;
 }
 
 export interface ProductShipment extends CreateShipmentModel {
