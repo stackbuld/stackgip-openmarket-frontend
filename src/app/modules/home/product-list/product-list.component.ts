@@ -81,8 +81,8 @@ export class ProductListComponent implements OnInit {
       pageNumber, this.maximumItem, this.search, this.categoryId,
       this.minValue, this.maxValue
     ).subscribe((products) => {
-      this.products = this.products.concat(products.data.data);
-        // this.products = products.data.data;
+      // this.products = this.products.concat(products.data.data);
+        this.products = products.data.data;
         // this.pageNumber = products.data.pager.pageNumber;
         // this.totalItemCount = products.data.pager.totalItemCount;
         this.loadingProducts = false;
