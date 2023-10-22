@@ -208,7 +208,6 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
     const address = this.userAddresses.find((address) => {
       return address.id == id;
     });
-    console.log(this.userAddresses);
 
     this.userService.deleteUserAddress(address.id).subscribe({
       next: (data) => {

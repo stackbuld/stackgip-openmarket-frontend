@@ -111,7 +111,7 @@ export class SingleProductComponent implements OnInit {
 
     this.connectToWebsocket();
 
-    console.log('shippingMethods', this.shippingMethods);
+    // console.log('shippingMethods', this.shippingMethods);
     this.applocal.messageSource.subscribe((res) => {
       if (res) {
         this.temporaryDetails = res;
@@ -139,7 +139,6 @@ export class SingleProductComponent implements OnInit {
     const user: IUser = JSON.parse(localStorage.getItem('user'));
 
     const userId = user.id;
-    console.log(userId);
 
     this.userService.getUserAddress(userId).subscribe({
       next: (addresses) => {
@@ -295,9 +294,11 @@ export class SingleProductComponent implements OnInit {
     const productService$ = this.productService.getCachedProductById(
       this.productId
     );
-    productService$.subscribe(
-      (res) => {
+    productService$.subscribe({
+      next: (res) => {
         this.product = res.data;
+        console.log(this.product);
+
         this.productPrice = res.data.price;
         this.currentImgUrl = res.data.productImages[0];
         for (
@@ -330,10 +331,10 @@ export class SingleProductComponent implements OnInit {
         this.fetchUserAddresses();
         this.loading = false;
       },
-      (err) => {
+      error: (err) => {
         this.loading = false;
-      }
-    );
+      },
+    });
   };
 
   setSelectedVariation = (item: any) => {

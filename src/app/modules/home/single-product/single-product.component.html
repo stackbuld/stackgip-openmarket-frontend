@@ -161,39 +161,43 @@
           <!-- <ngx-shimmer-loading height="30px"></ngx-shimmer-loading> -->
         </div>
 
-        <p *ngIf="!loading">
-          <span class="new-price">{{ productPrice | currency : "NGN" }}</span>
-          &nbsp; &nbsp;
-          <span *ngIf="product?.previousPrice > 0" class="old-price">{{
-            product?.previousPrice | currency : "NGN"
-          }}</span>
-        </p>
+        <div class="price-container">
+          <p *ngIf="!loading">
+            <span class="new-price">{{ productPrice | currency : "NGN" }}</span>
+            &nbsp; &nbsp;
+            <span class="old-price" *ngIf="product?.previousPrice > 0">{{
+              product?.previousPrice | currency : "NGN"
+            }}</span>
+          </p>
 
-        <p *ngIf="loading">
-          <span class="new-price">{{
-            temporaryDetails?.price | currency : "NGN"
-          }}</span>
-          &nbsp; &nbsp;
-          <span *ngIf="temporaryDetails?.previousPrice > 0" class="old-price">{{
-            temporaryDetails?.previousPrice | currency : "NGN"
-          }}</span>
-        </p>
+          <p *ngIf="loading">
+            <span class="new-price">{{
+              temporaryDetails?.price | currency : "NGN"
+            }}</span>
+            &nbsp; &nbsp;
+            <span
+              *ngIf="temporaryDetails?.previousPrice > 0"
+              class="old-price"
+              >{{ temporaryDetails?.previousPrice | currency : "NGN" }}</span
+            >
+          </p>
+        </div>
 
         <!-- <div *ngIf="loading" class="w-100">
                     <ngx-shimmer-loading height="50px"></ngx-shimmer-loading>
                 </div> -->
 
-        <div>
-          <p *ngIf="!loading" class="mb-0 items-left">
-            {{ product?.unit }} Left
-          </p>
-          <p *ngIf="loading" class="mb-0 items-left">
-            {{ temporaryDetails?.unit }} Left
-          </p>
-          <!-- <p *ngIf="loading" class="mb-0 items-left d-flex align-items-center">
-                        &nbsp; <span class="spinner-grow text-dark" role="status" style="width: 15px; height: 15px">
-                        </span> &nbsp; Left
-                    </p> -->
+        <div class="product-units">
+          <div class="product-units-main">
+            <p *ngIf="!loading" class="mb-0 items-left">
+              {{ product?.unit }} Left
+            </p>
+            <p *ngIf="loading" class="mb-0 items-left">
+              {{ temporaryDetails?.unit }} Left
+            </p>
+            <p class="order-count">100 orders</p>
+          </div>
+          <div class="seller-store">Visit seller's store</div>
         </div>
 
         <div class="mt-4">
@@ -311,6 +315,114 @@
                   </svg>
                 </span>
               </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="variations-container">
+          <div class="variations-main">
+            <div class="variations-heading">Variations</div>
+            <div class="variations-count">3 variations selected</div>
+
+            <div class="variations">
+              <div class="variations-type">
+                <div class="variations-type-heading">Color</div>
+
+                <div class="type-btn" [mat-menu-trigger-for]="color">
+                  <i class="fa fa-plus"></i>
+                  <!-- <i class="fa fa-times"></i> -->
+                </div>
+              </div>
+
+              <mat-menu #color>
+                <div class="variants color-variants">
+                  <div class="variant">
+                    <label for="red">Red</label>
+                    <input type="radio" id="red" />
+                  </div>
+
+                  <div class="variant">
+                    <label for="blue">Blue</label>
+                    <input type="radio" id="blue" />
+                  </div>
+
+                  <div class="variant">
+                    <label for="yellow">Yellow</label>
+                    <input type="radio" id="yellow" />
+                  </div>
+
+                  <div class="variant">
+                    <label for="purple">Purple</label>
+                    <input type="radio" id="purple" />
+                  </div>
+                </div>
+              </mat-menu>
+
+              <div class="variations-type">
+                <div class="variations-type-heading">Size</div>
+
+                <div class="type-btn" [mat-menu-trigger-for]="size">
+                  <i class="fa fa-plus"></i>
+                  <!-- <i class="fa fa-times"></i> -->
+                </div>
+              </div>
+
+              <mat-menu #size>
+                <div class="variants color-variants">
+                  <div class="variant">
+                    <label for="medium">M</label>
+                    <input type="radio" id="medium" />
+                  </div>
+
+                  <div class="variant">
+                    <label for="l">L</label>
+                    <input type="radio" id="l" />
+                  </div>
+
+                  <div class="variant">
+                    <label for="xl">XL</label>
+                    <input type="radio" id="xl" />
+                  </div>
+
+                  <div class="variant">
+                    <label for="xxl">XXL</label>
+                    <input type="radio" id="xxl" />
+                  </div>
+                </div>
+              </mat-menu>
+
+              <div class="variations-type">
+                <div class="variations-type-heading">Weight & Height</div>
+
+                <div class="type-btn">
+                  <i class="fa fa-plus"></i>
+                  <!-- <i class="fa fa-times"></i> -->
+                </div>
+              </div>
+
+              <div class="variations-type length-type">
+                <div class="variations-type-main">
+                  <div class="variations-type-heading">Length & Width</div>
+
+                  <div class="type-btn">
+                    <i class="fa fa-plus"></i>
+                    <!-- <i class="fa fa-times"></i> -->
+                  </div>
+                </div>
+
+                <div class="length-inputs">
+                  <span class="input-group"
+                    ><input type="text" />
+                    <span class="input-unit">CM</span></span
+                  >
+                  <span class="input-divide"><i class="fa fa-minus"></i></span>
+                  <span class="input-group"
+                    ><input type="text" /><span class="input-unit"
+                      >CM</span
+                    ></span
+                  >
+                </div>
+              </div>
             </div>
           </div>
         </div>
