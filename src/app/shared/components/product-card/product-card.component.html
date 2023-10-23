@@ -3,7 +3,7 @@
         [src]="product?.imageUrl" class="img" /> -->
 
         <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
-            src="{{getImageResolution(product?.imageUrl, 200, 200)}}" class="w-100"/>
+            src="{{getImageResolution(product?.imageUrl, 300, 300)}}" class="w-100"/>
 
     <div *ngIf="product?.imageUrl === null || product?.imageUrl === ''" 
         class="img-empty-txt">
