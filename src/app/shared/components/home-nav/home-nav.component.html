@@ -334,13 +334,18 @@
                     <span class="text-black">My Account </span>
                   </span>
                   <br />
-                  <span class="pointer" routerLink="/homepage/wallet">
+                  <span
+                    class="pointer"
+                    id="wallet-text-container"
+                    routerLink="/homepage/wallet"
+                  >
                     <img
                       src="/assets/icons/cash-outline-dark.svg"
                       style="scale: 1.4"
                     />
-                    &nbsp; Wallet
+                    &nbsp;<span id="wallet-text">Wallet</span>
                   </span>
+
                   <br />
 
                   <span
@@ -470,6 +475,21 @@
             >
               <span class="pointer" routerLink="/buyer/profile">
                 <img src="/assets/images/user-icn.svg" /> &nbsp; My Account
+              </span>
+              <br />
+              <br />
+              <span
+                class="pointer"
+                *ngIf="
+                  credentials()?.preferredProfileType?.toLowerCase() === 'buyer'
+                "
+                routerLink="/homepage/wallet"
+              >
+                <img
+                  src="/assets/icons/cash-outline-dark.svg"
+                  style="scale: 1.8; margin-inline: 6px"
+                />
+                &nbsp; Wallet
               </span>
               <br />
               <br />
