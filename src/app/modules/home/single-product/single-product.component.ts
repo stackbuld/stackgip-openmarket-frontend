@@ -387,6 +387,7 @@ export class SingleProductComponent implements OnInit {
       const matchingIndex = this.selectedVariations.findIndex(
         (selected) => selected.id === item.id
       );
+
       const matchingTitleIndex = this.selectedVariations.findIndex(
         (selected) => selected.title === item.title
       );

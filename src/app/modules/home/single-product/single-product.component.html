@@ -201,29 +201,6 @@
         </div>
 
         <div class="mt-4">
-          <p class="txt">Available Payment Type:</p>
-          <div class="flex-center">
-            <label class="flex-center">
-              <input type="radio" checked name="delivery-type" value="online" />
-              &nbsp;
-              <span>Pay online</span>
-            </label>
-            &nbsp; &nbsp;
-            <label class="flex-center">
-              <input
-                disabled
-                type="radio"
-                name="delivery-type"
-                value="delivery"
-              />
-              &nbsp;
-              <!-- <span>Pay on delivery</span> -->
-              <span style="color: #c2c2cc">Pay on delivery</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="mt-4">
           <p class="txt">Quantity:</p>
           <div class="flex-center">
             <svg
@@ -279,7 +256,30 @@
           </div>
         </div>
 
-        <div *ngIf="!loading">
+        <div class="mt-4">
+          <p class="txt">Available Payment Type:</p>
+          <div class="flex-center">
+            <label class="flex-center">
+              <input type="radio" checked name="delivery-type" value="online" />
+              &nbsp;
+              <span>Pay online</span>
+            </label>
+            &nbsp; &nbsp;
+            <label class="flex-center">
+              <input
+                disabled
+                type="radio"
+                name="delivery-type"
+                value="delivery"
+              />
+              &nbsp;
+              <!-- <span>Pay on delivery</span> -->
+              <span style="color: #c2c2cc">Pay on delivery</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- <div *ngIf="!loading">
           <div class="mt-3" *ngFor="let item of sortedVariationsList">
             <p class="txt capitalize">{{ item[0]?.title }}:</p>
             <div style="display: flex; flex-wrap: wrap">
@@ -317,12 +317,14 @@
               </p>
             </div>
           </div>
-        </div>
+        </div> -->
 
-        <div class="variations-container">
+        <div class="variations-container" *ngIf="!loading">
           <div class="variations-main">
             <div class="variations-heading">Variations</div>
-            <div class="variations-count">3 variations selected</div>
+            <div class="variations-count">
+              {{ selectedVariations.length }} variations selected
+            </div>
 
             <div class="variations">
               <div
@@ -361,10 +363,19 @@
                     "
                   >
                     <ng-container *ngFor="let item of variation">
-                      <div class="variant" *ngIf="openedMenu == item.title">
+                      <div
+                        class="variant"
+                        *ngIf="openedMenu == item.title"
+                        (click)="setSelectedVariation(item)"
+                      >
                         <ng-container>
-                          <input type="radio" id="red" name="color-variant" />
-                          <label for="red">{{ item.value }}</label>
+                          <input
+                            type="radio"
+                            [id]="item.value"
+                            name="variant-select"
+                            [checked]="item.isSelected"
+                          />
+                          <label [for]="item.value">{{ item.value }}</label>
                         </ng-container>
                       </div>
                     </ng-container>
