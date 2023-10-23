@@ -271,6 +271,15 @@
     justify-content: space-between;
     font-size: 15px;
 
+    &-heading {
+      color: rgba(183, 180, 180, 1);
+      text-transform: capitalize;
+
+      &.selected {
+        color: #000000;
+      }
+    }
+
     & .type-btn {
       cursor: pointer;
     }

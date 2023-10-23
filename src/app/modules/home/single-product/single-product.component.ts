@@ -34,6 +34,7 @@ import { BehaviorSubject } from 'rxjs';
 import { WindowRefService } from '../../../shared/services/window.service';
 import uikit from 'uikit';
 import { MatMenu } from '@angular/material/menu';
+import { log } from 'console';
 @Component({
   selector: 'app-single-product',
   templateUrl: './single-product.component.html',
@@ -92,7 +93,7 @@ export class SingleProductComponent implements OnInit {
   isLengthOpened: boolean = false;
   variationsTitle: any[] = [];
   openedMenu!: string;
-  @ViewChild('variationMenu', { static: true }) variationMenu: MatMenu;
+  @ViewChild('variationMenu', { static: false }) variationMenu: MatMenu;
   constructor(
     private toastService: ToastrService,
     private activatedRoute: ActivatedRoute,
@@ -367,6 +368,8 @@ export class SingleProductComponent implements OnInit {
             this.complimentaryProductsList.push(element);
           }
         }
+        console.log(this.allVariationsList);
+
         this.setVariation(this.allVariationsList);
         this.fetchAllProducts();
         this.fetchUserAddresses();
@@ -397,6 +400,7 @@ export class SingleProductComponent implements OnInit {
         matchingItem.isSelected = false;
         this.selectedVariations.splice(matchingIndex, 1);
         this.productPrice = this.productPrice - matchingItem.cost;
+        console.log(this.selectedVariations);
       } else if (matchingTitleIndex >= 0) {
         // item not in selectedVariations but same title already exists, remove the old one and add the new one
         const oldItem = this.selectedVariations[matchingTitleIndex];
@@ -410,6 +414,7 @@ export class SingleProductComponent implements OnInit {
         matchingItem.isSelected = true;
         this.productPrice = this.productPrice + matchingItem.cost;
         this.selectedVariations.push(matchingItem);
+        console.log(this.selectedVariations);
       }
     }
   };
@@ -450,11 +455,15 @@ export class SingleProductComponent implements OnInit {
     const groupedOptions = list.reduce((acc, option) => {
       const title = option.title;
       const existingOptions = acc[title] || [];
+      console.log(existingOptions);
+
       return {
         ...acc,
         [title]: [...existingOptions, option],
       };
     }, {});
+    console.log(groupedOptions);
+
     const groupedOptionsArray = Object.values(groupedOptions);
     this.sortedVariationsList = groupedOptionsArray;
     this.sortedVariationsList.forEach((variation) => {
