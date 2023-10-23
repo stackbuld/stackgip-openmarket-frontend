@@ -325,99 +325,63 @@
             <div class="variations-count">3 variations selected</div>
 
             <div class="variations">
-              <div class="variations-type">
-                <div class="variations-type-heading">Color</div>
+              <div
+                class="variations-type"
+                *ngFor="let variation of sortedVariationsList; let i = index"
+              >
+                <div class="variations-type-heading">
+                  {{ variation[0]?.title }}
+                </div>
 
                 <div
                   class="type-btn"
-                  [mat-menu-trigger-for]="color"
-                  (menuOpened)="isOpened()"
-                  (menuClosed)="isClosed()"
+                  [mat-menu-trigger-for]="openMenu()"
+                  (menuOpened)="isOpened(variationsTitle[i])"
+                  (menuClosed)="isClosed(variationsTitle[i])"
                 >
-                  <i class="fa fa-plus"></i>
-                  <!-- <i class="fa fa-times"></i> -->
+                  <i
+                    class="fa fa-plus"
+                    *ngIf="variationsTitle[i] != openedMenu"
+                  ></i>
+                  <i
+                    class="fa fa-times"
+                    *ngIf="variationsTitle[i] == openedMenu"
+                  ></i>
                 </div>
               </div>
 
-              <mat-menu #color class="my-menu">
-                <div
-                  class="variants color-variants"
-                  (click)="$event.stopPropagation()"
-                >
-                  <div class="variant">
-                    <input type="radio" id="red" name="color-variant" />
-                    <label for="red">Red</label>
+              <ng-container>
+                <mat-menu #variationMenu="matMenu" class="my-menu">
+                  <div
+                    class="variants color-variants"
+                    (click)="$event.stopPropagation()"
+                    *ngFor="
+                      let variation of sortedVariationsList;
+                      let i = index
+                    "
+                  >
+                    <ng-container *ngFor="let item of variation">
+                      <div class="variant" *ngIf="openedMenu == item.title">
+                        <ng-container>
+                          <input type="radio" id="red" name="color-variant" />
+                          <label for="red">{{ item.value }}</label>
+                        </ng-container>
+                      </div>
+                    </ng-container>
                   </div>
+                </mat-menu>
+              </ng-container>
 
-                  <div class="variant">
-                    <input type="radio" id="blue" name="color-variant" />
-                    <label for="blue">Blue</label>
-                  </div>
-
-                  <div class="variant">
-                    <input type="radio" id="yellow" name="color-variant" />
-                    <label for="yellow">Yellow</label>
-                  </div>
-
-                  <div class="variant">
-                    <input type="radio" id="purple" name="color-variant" />
-                    <label for="purple">Purple</label>
-                  </div>
-                </div>
-              </mat-menu>
-
-              <div class="variations-type">
-                <div class="variations-type-heading">Size</div>
-
-                <div class="type-btn" [mat-menu-trigger-for]="size">
-                  <i class="fa fa-plus"></i>
-                  <!-- <i class="fa fa-times"></i> -->
-                </div>
-              </div>
-
-              <mat-menu #size>
-                <div
-                  class="variants color-variants"
-                  (click)="$event.stopPropagation()"
-                >
-                  <div class="variant">
-                    <input type="radio" id="medium" name="size-variant" />
-                    <label for="medium">M</label>
-                  </div>
-
-                  <div class="variant">
-                    <input type="radio" id="l" name="size-variant" />
-                    <label for="l">L</label>
-                  </div>
-
-                  <div class="variant">
-                    <input type="radio" id="xl" name="size-variant" />
-                    <label for="xl">XL</label>
-                  </div>
-
-                  <div class="variant">
-                    <input type="radio" id="xxl" name="size-variant" />
-                    <label for="xxl">XXL</label>
-                  </div>
-                </div>
-              </mat-menu>
-
-              <div class="variations-type">
-                <div class="variations-type-heading">Weight & Height</div>
-
-                <div class="type-btn">
-                  <i class="fa fa-plus"></i>
-                  <!-- <i class="fa fa-times"></i> -->
-                </div>
-              </div>
-
-              <div class="variations-type length-type">
+              <div
+                class="variations-type length-type"
+                [ngClass]="{ open: isLengthOpened }"
+              >
                 <div class="variations-type-main">
                   <div class="variations-type-heading">Length & Width</div>
 
-                  <div class="type-btn">
-                    <i class="fa fa-plus"></i>
-                    <!-- <i class="fa fa-times"></i> -->
+                  <div class="type-btn" (click)="isOpened('length')">
+                    <i class="fa fa-plus" *ngIf="!isLengthOpened"></i>
+                    <i class="fa fa-times" *ngIf="isLengthOpened"></i>
                   </div>
                 </div>
 

@@ -33,6 +33,7 @@ import { WebSocketSubject } from 'rxjs/webSocket';
 import { BehaviorSubject } from 'rxjs';
 import { WindowRefService } from '../../../shared/services/window.service';
 import uikit from 'uikit';
+import { MatMenu } from '@angular/material/menu';
 @Component({
   selector: 'app-single-product',
   templateUrl: './single-product.component.html',
@@ -78,7 +79,6 @@ export class SingleProductComponent implements OnInit {
   notReady = true;
   setter = 'Please type in your address';
   temporaryDetails = null;
-  isMenuOpened: any;
 
   requestId = '';
   @ViewChild('placesRef') placesRef: GooglePlaceDirective;
@@ -87,6 +87,12 @@ export class SingleProductComponent implements OnInit {
     componentRestrictions: { country: 'NG' },
   };
   socket$: WebSocketSubject<NotificationResponseModel>;
+  isColorMenuOpened: boolean = false;
+  isSizeMenuOpened: boolean = false;
+  isLengthOpened: boolean = false;
+  variationsTitle: any[] = [];
+  openedMenu!: string;
+  @ViewChild('variationMenu', { static: true }) variationMenu: MatMenu;
   constructor(
     private toastService: ToastrService,
     private activatedRoute: ActivatedRoute,
@@ -107,8 +113,6 @@ export class SingleProductComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.isMenuOpened);
-
     this.windowRef.nativeWindow.document.body.scrollTop = 0;
     this.windowRef.nativeWindow.document.documentElement.scrollTop = 0;
 
@@ -157,12 +161,38 @@ export class SingleProductComponent implements OnInit {
     });
   }
 
-  isOpened() {
-    console.log('opened');
+  openMenu() {
+    return this.variationMenu;
   }
 
-  isClosed() {
-    console.log('closed');
+  isOpened(type: string) {
+    this.openedMenu = type;
+
+    switch (type) {
+      case 'color':
+        this.isColorMenuOpened = true;
+        break;
+
+      case 'size':
+        this.isSizeMenuOpened = true;
+        break;
+
+      case 'length':
+        this.isLengthOpened = !this.isLengthOpened;
+    }
+  }
+
+  isClosed(type: string) {
+    this.openedMenu = null;
+    switch (type) {
+      case 'color':
+        this.isColorMenuOpened = false;
+        break;
+
+      case 'size':
+        this.isSizeMenuOpened = false;
+        break;
+    }
   }
 
   setUserAddress() {
@@ -426,6 +456,11 @@ export class SingleProductComponent implements OnInit {
     }, {});
     const groupedOptionsArray = Object.values(groupedOptions);
     this.sortedVariationsList = groupedOptionsArray;
+    this.sortedVariationsList.forEach((variation) => {
+      this.variationsTitle.push(variation[0].title);
+    });
+    console.log(this.sortedVariationsList);
+    console.log(this.variationsTitle);
   }
 
   setImgUrl = (url: string, id: number) => {
