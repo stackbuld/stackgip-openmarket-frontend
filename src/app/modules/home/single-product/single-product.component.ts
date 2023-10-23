@@ -82,7 +82,7 @@ export class SingleProductComponent implements OnInit {
 
   requestId = '';
   @ViewChild('placesRef') placesRef: GooglePlaceDirective;
-  options = {
+  options: any = {
     types: ['address'],
     componentRestrictions: { country: 'NG' },
   };
