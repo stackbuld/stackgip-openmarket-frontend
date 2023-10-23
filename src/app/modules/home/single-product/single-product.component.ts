@@ -78,6 +78,7 @@ export class SingleProductComponent implements OnInit {
   notReady = true;
   setter = 'Please type in your address';
   temporaryDetails = null;
+  isMenuOpened: any;
 
   requestId = '';
   @ViewChild('placesRef') placesRef: GooglePlaceDirective;
@@ -106,6 +107,8 @@ export class SingleProductComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.isMenuOpened);
+
     this.windowRef.nativeWindow.document.body.scrollTop = 0;
     this.windowRef.nativeWindow.document.documentElement.scrollTop = 0;
 
@@ -152,6 +155,14 @@ export class SingleProductComponent implements OnInit {
       },
       error: (err) => {},
     });
+  }
+
+  isOpened() {
+    console.log('opened');
+  }
+
+  isClosed() {
+    console.log('closed');
   }
 
   setUserAddress() {
