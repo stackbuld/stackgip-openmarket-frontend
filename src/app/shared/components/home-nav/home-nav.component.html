@@ -246,16 +246,7 @@
                     <span class="text-black">Dashboard</span>
                   </span>
                   <br />
-                  <span class="pointer" routerLink="/seller/wallet">
-                    <img
-                      src="/assets/icons/cash-outline-dark.svg"
-                      width="20"
-                      height="20"
-                    />
-                    &nbsp;
-                    <span class="text-black">Wallet </span>
-                  </span>
-                  <br />
+
                   <span class="pointer" routerLink="/seller/orders">
                     <img
                       src="/assets/images/orders-iccn.svg"
@@ -334,13 +325,18 @@
                     <span class="text-black">My Account </span>
                   </span>
                   <br />
-                  <span class="pointer" routerLink="/homepage/wallet">
+                  <span
+                    class="pointer"
+                    id="wallet-text-container"
+                    routerLink="/homepage/wallet"
+                  >
                     <img
                       src="/assets/icons/cash-outline-dark.svg"
                       style="scale: 1.4"
                     />
-                    &nbsp; Wallet
+                    &nbsp;<span id="wallet-text">Wallet</span>
                   </span>
+
                   <br />
 
                   <span
@@ -473,6 +469,21 @@
               </span>
               <br />
               <br />
+              <span
+                class="pointer"
+                *ngIf="
+                  credentials()?.preferredProfileType?.toLowerCase() === 'buyer'
+                "
+                routerLink="/homepage/wallet"
+              >
+                <img
+                  src="/assets/icons/cash-outline-dark.svg"
+                  style="scale: 1.8; margin-inline: 6px"
+                />
+                &nbsp; Wallet
+              </span>
+              <br />
+              <br />
               <span class="pointer" routerLink="/homepage/history">
                 <img src="/assets/images/orders-iccn.svg" /> &nbsp; Orders
               </span>
@@ -496,12 +507,6 @@
             >
               <span class="pointer" routerLink="/seller/dashboard">
                 <img src="/assets/images/user-icn.svg" /> &nbsp; Dashboard
-              </span>
-              <br />
-              <br />
-
-              <span class="pointer" routerLink="/buyer">
-                <img src="/assets/images/user-icn.svg" /> &nbsp; Profile
               </span>
               <br />
               <br />
