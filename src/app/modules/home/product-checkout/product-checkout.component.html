@@ -275,13 +275,20 @@
           </div>
         </div> -->
 
-        <div class="cart-items-container">
-          <div class="cart-item" [ngClass]="{ bottom: cartItems.length > 1 }">
+        <div
+          class="cart-items-container"
+          *ngIf="cartItems.length > 0 && !loadingCart"
+        >
+          <div
+            class="cart-item"
+            [ngClass]="{ bottom: cartItems.length > 1 }"
+            *ngFor="let item of cartItems"
+          >
             <div class="cart-item-img">
               <div class="cart-item-img-main">
-                <img src="assets/images/bag-sold.png" alt="" />
+                <img [src]="item?.product?.imageUrl" alt="" />
               </div>
-              <div class="remove-icon">
+              <div class="remove-icon" (click)="setSelectedCartItem(item)">
                 <svg
                   width="24"
                   height="24"
@@ -327,42 +334,72 @@
               <div class="cart-item-details-main">
                 <div class="cart-item-name">
                   <div class="cart-item-name-main">
-                    Lenovo Ideapad Intel Celeron 1TB HDD 4GB RAM Win 10 PRO
+                    {{ item?.product?.name || "N/A" }}
                   </div>
 
-                  <div class="cart-item-complimentary">
+                  <div
+                    class="cart-item-complimentary"
+                    *ngIf="
+                      item?.complementaryProducts &&
+                      item?.complementaryProducts?.length > 0
+                    "
+                  >
                     <div class="cart-item-complimentary-heading">
                       Complementary Products
                     </div>
                     <ul class="complimentary-lists">
-                      <li>
-                        <span>•</span> Laptop Bag
-                        <span class="comp-price">NGN25,000</span>
-                      </li>
-                      <li>
-                        <span>•</span> Bluetooth Mouse
-                        <span class="comp-price">NGN5,000</span>
+                      <li
+                        *ngFor="let compProduct of item?.complementaryProducts"
+                      >
+                        <span>•</span> {{ compProduct?.title }}
+                        <span class="comp-price">{{
+                          compProduct?.cost | currency : "NGN"
+                        }}</span>
                       </li>
                     </ul>
-                  </div>
-
-                  <div class="shipping-cost">
-                    Shipping: Starting from NGN 3000
                   </div>
                 </div>
 
                 <div class="cart-item-price">
-                  <div class="new-price">NGN 160,829.04</div>
-                  <div class="old-price">
-                    <span class="old-price-main">NGN 182,372.00</span>
+                  <div class="new-price">
+                    {{ item?.product?.price | currency : "NGN" }}
+                  </div>
+                  <div
+                    class="old-price"
+                    *ngIf="item?.product?.previousPrice > 0"
+                  >
+                    <span class="old-price-main">{{
+                      item?.product?.previousPrice | currency : "NGN"
+                    }}</span>
                     <span class="price-percentage">9%</span>
                   </div>
                   <div class="cart-item-unit">
-                    <span class="unit-btn"><i class="fa fa-minus"></i></span>
-                    <span class="unit-text">1</span>
-                    <span class="unit-btn"><i class="fa fa-plus"></i></span>
+                    <span
+                      class="unit-btn"
+                      (click)="
+                        updateItemUnit('minus', item?.unit, item?.product?.id)
+                      "
+                      ><i class="fa fa-minus"></i
+                    ></span>
+
+                    <span class="unit-text">{{ item?.unit }}</span>
+
+                    <span
+                      class="unit-btn"
+                      (click)="
+                        updateItemUnit('plus', item?.unit, item?.product?.id)
+                      "
+                      ><i class="fa fa-plus"></i
+                    ></span>
                   </div>
                 </div>
+              </div>
+
+              <div class="shipping-cost">
+                Shipping: Starting from
+                {{
+                  item?.logistic?.estimateShippingCost || 0 | currency : "NGN"
+                }}
               </div>
 
               <div class="cart-item-shipping">
@@ -375,108 +412,7 @@
                 </div>
                 <div class="cart-item-variations">
                   <div class="cart-item-variations-heading">Variations</div>
-                  <ul class="complimentary-lists">
-                    <li>Color: <span>(Orange, Black)</span></li>
-                    <li>Size: <span>M, XL</span></li>
-                    <li>Weight: <span>175g</span></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="cart-item">
-            <div class="cart-item-img">
-              <img src="assets/images/bag-sold.png" alt="" />
-              <div class="remove-icon">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M2.96484 5.92969H4.94149H20.7546"
-                    stroke="#D01717"
-                    stroke-width="1.6505"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M18.7779 5.92985V19.7663C18.7779 20.2906 18.5696 20.7933 18.199 21.164C17.8283 21.5347 17.3255 21.743 16.8013 21.743H6.91805C6.39381 21.743 5.89104 21.5347 5.52035 21.164C5.14966 20.7933 4.94141 20.2906 4.94141 19.7663V5.92985M7.90637 5.92985V3.9532C7.90637 3.42897 8.11462 2.9262 8.48531 2.55551C8.85601 2.18482 9.35877 1.97656 9.88301 1.97656H13.8363C14.3605 1.97656 14.8633 2.18482 15.234 2.55551C15.6047 2.9262 15.8129 3.42897 15.8129 3.9532V5.92985"
-                    stroke="#D01717"
-                    stroke-width="1.6505"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M9.88281 10.8716V16.8015"
-                    stroke="#D01717"
-                    stroke-width="1.6505"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M13.8369 10.8716V16.8015"
-                    stroke="#D01717"
-                    stroke-width="1.6505"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                &nbsp;
-                <span>Remove</span>
-              </div>
-            </div>
-
-            <div class="cart-item-details">
-              <div class="cart-item-details-main">
-                <div class="cart-item-name">
-                  <h2>
-                    Lenovo Ideapad Intel Celeron 1TB HDD 4GB RAM Win 10 PRO
-                  </h2>
-
-                  <div class="cart-item-complimentary">
-                    <div class="cart-item-complimentary-heading">
-                      Complementary Products
-                    </div>
-                    <ul class="complimentary-lists">
-                      <li>Laptop Bag <span>NGN25,000</span></li>
-                      <li>Bluetooth Mouse <span>NGN5,000</span></li>
-                    </ul>
-                  </div>
-
-                  <div class="shipping-cost">
-                    Shipping: Starting from NGN 3000
-                  </div>
-                </div>
-
-                <div class="cart-item-price">
-                  <div class="new-price">NGN 160,829.04</div>
-                  <div class="old-price">
-                    <span class="old-price-main">NGN 182,372.00</span>
-                    <span class="price-percentage">9%</span>
-                  </div>
-                  <div class="cart-item-unit">
-                    <span class="unit-btn">-</span>
-                    <span class="unit-text">1</span>
-                    <span class="unit-btn">+</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="cart-item-shipping">
-                <div class="cart-item-shipping-main">
-                  <div class="shipping-address">
-                    From Abuja Station to Samaritan hospital via CMK
-                    +2349056473212
-                  </div>
-                  <div class="payment">Payment online</div>
-                </div>
-                <div class="cart-item-variations">
-                  <div class="cart-item-variations-heading">Variations</div>
-                  <ul class="complimentary-lists">
+                  <ul class="variations-lists">
                     <li>Color: <span>(Orange, Black)</span></li>
                     <li>Size: <span>M, XL</span></li>
                     <li>Weight: <span>175g</span></li>
