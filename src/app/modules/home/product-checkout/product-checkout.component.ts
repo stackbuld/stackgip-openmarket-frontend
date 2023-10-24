@@ -11,10 +11,10 @@ import {
   GetCartResponseModel,
 } from '../../../services/cart/model/get-cart.model';
 import { Observable } from 'rxjs';
-import {WindowRefService} from '../../../shared/services/window.service';
+import { WindowRefService } from '../../../shared/services/window.service';
 import { FooterService } from 'src/app/services/footer.service';
-import {AuthService} from '../../../services/auth.service';
-import {Router} from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-checkout',
@@ -41,8 +41,8 @@ export class ProductCheckoutComponent implements OnInit {
     private toastService: ToastrService,
     private applocal: AppLocalStorage,
     private windowService: WindowRefService,
-    private  authService: AuthService,
-    private router: Router,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -50,29 +50,31 @@ export class ProductCheckoutComponent implements OnInit {
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(true);
     this.init();
-    this.authService.isLogin.subscribe(a=>{
-      if(a){
+    this.authService.isLogin.subscribe((a) => {
+      if (a) {
         this.init();
       }
-    })
+    });
 
+    this.paymentMethods = JSON.parse(localStorage.getItem('paymentMethods')!);
+    console.log(this.paymentMethods);
   }
-  init(){
+  init() {
     this.user = JSON.parse(localStorage.getItem('user') as string);
     this.referenceId = this.authService.getUserReferenceNumber();
 
     if (this.referenceId !== null || this.user !== null) {
       this.getCustomerCart();
-      this.getPaymentMethods();
+
+      // this.getPaymentMethods();
     }
   }
   getCustomerCart = () => {
     this.loadingCart = true;
     let cart$: Observable<GetCartResponseModel>;
     const userId = this.user?.id ?? '';
-    const reference = this.referenceId ?? ''
+    const reference = this.referenceId ?? '';
     cart$ = this.cartService.getCart(userId, reference);
-
 
     cart$.subscribe(
       (res) => {
@@ -143,25 +145,27 @@ export class ProductCheckoutComponent implements OnInit {
     );
   };
 
-  getPaymentMethods = () => {
-    this.loadingPaymentMethods = true;
-    const productService$ = this.cartService.getPaymentMethods();
-    productService$.subscribe(
-      (res) => {
-        if (res.status === 'success') {
-          this.paymentMethods = res.data;
-          this.loadingPaymentMethods = false;
-        } else {
-          this.loadingPaymentMethods = false;
-          this.toastService.error(res.message, 'ERROR');
-        }
-      },
-      (error) => {
-        this.loadingPaymentMethods = false;
-        this.toastService.warning(error.message, 'ERROR');
-      }
-    );
-  };
+  // getPaymentMethods = () => {
+  //   this.loadingPaymentMethods = true;
+  //   const productService$ = this.cartService.getPaymentMethods();
+  //   productService$.subscribe(
+  //     (res) => {
+  //       if (res.status === 'success') {
+  //         this.paymentMethods = res.data;
+  //         console.log(this.paymentMethods);
+
+  //         this.loadingPaymentMethods = false;
+  //       } else {
+  //         this.loadingPaymentMethods = false;
+  //         this.toastService.error(res.message, 'ERROR');
+  //       }
+  //     },
+  //     (error) => {
+  //       this.loadingPaymentMethods = false;
+  //       this.toastService.warning(error.message, 'ERROR');
+  //     }
+  //   );
+  // };
 
   updateUnit = (payload: any) => {
     this.loadingUnitUpdate = true;
@@ -224,7 +228,6 @@ export class ProductCheckoutComponent implements OnInit {
     if (this.cartItems.length > 0) {
       if (this.paymentMethod === null) {
         this.toastService.warning('Kindly select a payment method', 'MESSAGE');
-
       } else {
         if (this.user !== null) {
           this.loadingPayment = true;
@@ -238,9 +241,11 @@ export class ProductCheckoutComponent implements OnInit {
           productService$.subscribe(
             (res) => {
               if (res.status === 'success') {
-                console.log("payment response",res)
+                console.log('payment response', res);
                 // this.router.navigateByUrl(res.data.redirectUrl);
-                this.windowService.nativeWindow.window.open(res.data.redirectUrl);
+                this.windowService.nativeWindow.window.open(
+                  res.data.redirectUrl
+                );
                 this.loadingPayment = false;
               } else {
                 this.loadingPayment = false;

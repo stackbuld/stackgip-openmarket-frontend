@@ -160,6 +160,12 @@ export class SingleProductComponent implements OnInit {
       },
       error: (err) => {},
     });
+
+    this.cartService.getPaymentMethods().subscribe({
+      next: (res) => {
+        localStorage.setItem('paymentMethods', JSON.stringify(res.data));
+      },
+    });
   }
 
   openMenu() {
