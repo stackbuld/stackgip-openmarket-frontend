@@ -4,7 +4,7 @@ import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductModel } from 'src/app/models/products.model';
 import { CatgoryService } from 'src/app/services/category/catgory.service';
 import { FooterService } from 'src/app/services/footer.service';
-
+import { AlgProductsService } from 'src/app/services/alg-products/alg-products.service';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -48,6 +48,7 @@ export class ProductListComponent implements OnInit {
     private productService: ProductsService,
     private categoryService: CatgoryService,
     private footerService: FooterService,
+    private algProductsService: AlgProductsService
   ) { }
 
   ngOnInit(): void {
@@ -77,6 +78,15 @@ export class ProductListComponent implements OnInit {
     if(pageNumber === 1) {
       this.loadingProducts = true;
     }
+
+    // this.algProductsService.runAlgoliaSearch(this.search).then((res) => {
+      // this.products = res[0].hits;
+    //   console.log(res);
+    //   this.loadingProducts = false;
+    // }).catch((err) => {
+    //   this.loadingProducts = false;
+    // });
+
     this.productService.getProducts(
       pageNumber, this.maximumItem, this.search, this.categoryId,
       this.minValue, this.maxValue

@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { CatgoryService } from 'src/app/services/category/catgory.service';
 import { ProductsService } from 'src/app/services/products/products.service';
-import algoliasearch from 'algoliasearch/lite';
+import {algoliasearch} from 'algoliasearch';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { CartService } from '../../../services/cart/cart.service';
