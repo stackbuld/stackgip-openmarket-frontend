@@ -34,6 +34,8 @@ export class ProductCheckoutComponent implements OnInit {
   loadingCart: boolean;
   selectedCartItem: any;
   deletingCartItem: boolean;
+  isUpdatingUnit: boolean[] = [];
+  productId: string;
 
   constructor(
     private footerService: FooterService,
@@ -167,12 +169,14 @@ export class ProductCheckoutComponent implements OnInit {
   //   );
   // };
 
-  updateUnit = (payload: any) => {
+  updateUnit = (payload: any, index: number) => {
     this.loadingUnitUpdate = true;
+    this.isUpdatingUnit[index] = true;
     const productService$ = this.cartService.updateCartItemUnit(payload);
-    productService$.subscribe(
-      (res) => {
+    productService$.subscribe({
+      next: (res) => {
         if (res.status === 'success') {
+          this.isUpdatingUnit[index] = false;
           this.loadingUnitUpdate = false;
           this.cart = res.data;
           this.cartItems = res.data.cartItems;
@@ -187,14 +191,20 @@ export class ProductCheckoutComponent implements OnInit {
           this.toastService.error(res.message, 'ERROR');
         }
       },
-      (error) => {
+      error: (error) => {
         this.loadingUnitUpdate = false;
         this.toastService.error(error.message, 'ERROR');
-      }
-    );
+      },
+    });
   };
 
-  updateItemUnit = (key, unit, productId) => {
+  updateItemUnit = (
+    key: string,
+    unit: number,
+    productId: string,
+    index: number
+  ) => {
+    this.productId = productId;
     if (key === 'plus') {
       unit++;
       const payload = {
@@ -203,7 +213,7 @@ export class ProductCheckoutComponent implements OnInit {
         productId: productId,
         unit: unit,
       };
-      this.updateUnit(payload);
+      this.updateUnit(payload, index);
     }
 
     if (key === 'minus') {
@@ -215,7 +225,7 @@ export class ProductCheckoutComponent implements OnInit {
           productId: productId,
           unit: unit,
         };
-        this.updateUnit(payload);
+        this.updateUnit(payload, index);
       }
     }
   };

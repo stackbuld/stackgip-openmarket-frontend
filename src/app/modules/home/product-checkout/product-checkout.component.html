@@ -282,13 +282,17 @@
           <div
             class="cart-item"
             [ngClass]="{ bottom: cartItems.length > 1 }"
-            *ngFor="let item of cartItems"
+            *ngFor="let item of cartItems; let i = index"
           >
             <div class="cart-item-img">
               <div class="cart-item-img-main">
                 <img [src]="item?.product?.imageUrl" alt="" />
               </div>
-              <div class="remove-icon" (click)="setSelectedCartItem(item)">
+              <div
+                class="remove-icon"
+                (click)="setSelectedCartItem(item)"
+                uk-toggle="target: #delete-cart-modal"
+              >
                 <svg
                   width="24"
                   height="24"
@@ -374,23 +378,39 @@
                     <span class="price-percentage">9%</span>
                   </div>
                   <div class="cart-item-unit">
-                    <span
+                    <button
                       class="unit-btn"
                       (click)="
-                        updateItemUnit('minus', item?.unit, item?.product?.id)
+                        updateItemUnit(
+                          'minus',
+                          item?.unit,
+                          item?.product?.id,
+                          i
+                        )
                       "
-                      ><i class="fa fa-minus"></i
+                      [ngClass]="{ disabled: item?.unit <= 1 }"
+                      [disabled]="isUpdatingUnit[i]"
+                    >
+                      <i class="fa fa-minus"></i>
+                    </button>
+
+                    <span class="unit-text">
+                      <span class="btn-texts" *ngIf="!isUpdatingUnit[i]">
+                        {{ item?.unit }}
+                      </span>
+
+                      <span class="loader" *ngIf="isUpdatingUnit[i]"></span
                     ></span>
 
-                    <span class="unit-text">{{ item?.unit }}</span>
-
-                    <span
+                    <button
                       class="unit-btn"
                       (click)="
-                        updateItemUnit('plus', item?.unit, item?.product?.id)
+                        updateItemUnit('plus', item?.unit, item?.product?.id, i)
                       "
-                      ><i class="fa fa-plus"></i
-                    ></span>
+                      [disabled]="isUpdatingUnit[i]"
+                    >
+                      <i class="fa fa-plus"></i>
+                    </button>
                   </div>
                 </div>
               </div>
