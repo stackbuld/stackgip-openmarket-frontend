@@ -1,5 +1,5 @@
 <div class="main">
-  <img routerLink="/" src="/assets/images/home-nav-logo.svg" alt="home-nav" />
+  <img routerLink="/" [style]="{'cursor': 'pointer'}" src="/assets/images/home-nav-logo.svg" alt="home-nav" />
   <div (click)="toggleSearch()" class="search-section uk-flex uk-flex-between">
     <div class="uk-flex">
       <svg
@@ -406,6 +406,8 @@
           alt="home-nav"
           width="70"
           height="30"
+          [style]="{'cursor': 'pointer'}"
+          routerLink="/"
         />
       </div>
 
