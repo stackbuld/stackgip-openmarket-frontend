@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { algoliasearch } from "algoliasearch";
+import algoliasearch from "algoliasearch";
 import { environment } from 'src/environments/environment';
 
 const searchClient = algoliasearch(environment.algolia.appId, environment.algolia.apiKey);
@@ -15,22 +15,12 @@ export class AlgProductsService {
 
   constructor() { }
 
-  runAlgolia() {
+  getAlgoliaConfig() {
     return this.config;
   }
 
-  async runAlgoliaSearch(searchQuery: string) {
-    const { results } = await searchClient.search({
-      requests: [
-        {
-          indexName: environment.algolia.indexName,
-          query: searchQuery,
-          facets: ['*'],
-          hitsPerPage: 10,
-        },
-      ],
-    });
-    console.log(results);
-    return results;
+  runAlgoliaSearch(searchQuery: string) {
+    const index = searchClient.initIndex(this.config.indexName);
+    return index.search(searchQuery);
   }
 }

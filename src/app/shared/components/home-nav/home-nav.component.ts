@@ -3,18 +3,19 @@ import { ToastrService } from 'ngx-toastr';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { CatgoryService } from 'src/app/services/category/catgory.service';
 import { ProductsService } from 'src/app/services/products/products.service';
-import {algoliasearch} from 'algoliasearch';
+import algoliasearch from 'algoliasearch';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { CartService } from '../../../services/cart/cart.service';
 import { IUser } from 'src/app/models/IUserModel';
 import {AuthService} from '../../../services/auth.service';
 import {WindowRefService} from '../../services/window.service';
+import { AlgProductsService } from 'src/app/services/alg-products/alg-products.service';
 
-const searchClient = algoliasearch(
-  environment.algolia.appId,
-  environment.algolia.apiKey
-);
+// const searchClient = algoliasearch(
+//   environment.algolia.appId,
+//   environment.algolia.apiKey
+// );
 
 // const searchClient = algoliasearch(
 //   'B1G2GM9NG0',
@@ -27,11 +28,7 @@ const searchClient = algoliasearch(
   styleUrls: ['./home-nav.component.scss'],
 })
 export class HomeNavComponent implements OnInit {
-  config = {
-    indexName: environment.algolia.indexName,
-    // indexName: 'demo_ecommerce',
-    searchClient,
-  };
+  config = this.algProductsService.getAlgoliaConfig();
   isSearch = false;
   categories: any;
   cartCount = 0;
@@ -54,7 +51,8 @@ export class HomeNavComponent implements OnInit {
     private router: Router,
     private applocal: AppLocalStorage,
     private authService: AuthService,
-    private windowService: WindowRefService
+    private windowService: WindowRefService,
+    private algProductsService: AlgProductsService
   ) {
 
     // this.user = JSON.parse(localStorage.getItem('user'));
