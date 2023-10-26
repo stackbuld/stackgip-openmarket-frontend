@@ -27,7 +27,7 @@ export class ProductCheckoutComponent implements OnInit {
   user: IUser = null;
   referenceId: string = '';
   paymentMethods: CartPaymentMethod[] = [];
-  paymentMethod: CartPaymentMethod = {} as CartPaymentMethod;
+  paymentMethod!: CartPaymentMethod;
   loadingPaymentMethods: boolean;
   loadingUnitUpdate: boolean;
   loadingPayment: boolean;
@@ -35,6 +35,7 @@ export class ProductCheckoutComponent implements OnInit {
   selectedCartItem: any;
   deletingCartItem: boolean;
   isUpdatingUnit: boolean[] = [];
+  panelOpenState: boolean[] = [];
   productId: string;
 
   constructor(
@@ -147,6 +148,10 @@ export class ProductCheckoutComponent implements OnInit {
     );
   };
 
+  onExpand(index: number) {
+    this.panelOpenState[index] = !this.panelOpenState[index];
+  }
+
   // getPaymentMethods = () => {
   //   this.loadingPaymentMethods = true;
   //   const productService$ = this.cartService.getPaymentMethods();
@@ -236,7 +241,7 @@ export class ProductCheckoutComponent implements OnInit {
 
   makePayment = () => {
     if (this.cartItems.length > 0) {
-      if (this.paymentMethod === null) {
+      if (!this.paymentMethod) {
         this.toastService.warning('Kindly select a payment method', 'MESSAGE');
       } else {
         if (this.user !== null) {

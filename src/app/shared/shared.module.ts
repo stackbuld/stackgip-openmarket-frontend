@@ -60,6 +60,7 @@ import { PopupComponent } from './components/popup/popup.component';
 import { LoginPopUpModalComponent } from './components/login-pop-up-modal/login-pop-up-modal.component';
 import { SignupComponent } from './components/signup-component/signup.component';
 import { SignupModule } from './components/signup-component/signup.module';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 export const DOCUMENT_TOKEN = new InjectionToken<Document>('Document');
 export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
@@ -148,6 +149,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     SocialModalComponent,
     CustomDropdownComponent,
     LoginPopUpModalComponent,
+    MatExpansionModule,
   ],
   providers: [
     {
