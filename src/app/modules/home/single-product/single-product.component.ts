@@ -92,8 +92,7 @@ export class SingleProductComponent implements OnInit {
   isSizeMenuOpened: boolean = false;
   isLengthOpened: boolean = false;
   variationsTitle: any[] = [];
-  openedMenu!: string;
-  @ViewChild('variationMenu', { static: false }) variationMenu: MatMenu;
+
   constructor(
     private toastService: ToastrService,
     private activatedRoute: ActivatedRoute,
@@ -166,40 +165,6 @@ export class SingleProductComponent implements OnInit {
         localStorage.setItem('paymentMethods', JSON.stringify(res.data));
       },
     });
-  }
-
-  openMenu() {
-    return this.variationMenu;
-  }
-
-  isOpened(type: string) {
-    this.openedMenu = type;
-
-    switch (type) {
-      case 'color':
-        this.isColorMenuOpened = true;
-        break;
-
-      case 'size':
-        this.isSizeMenuOpened = true;
-        break;
-
-      case 'length':
-        this.isLengthOpened = !this.isLengthOpened;
-    }
-  }
-
-  isClosed(type: string) {
-    this.openedMenu = null;
-    switch (type) {
-      case 'color':
-        this.isColorMenuOpened = false;
-        break;
-
-      case 'size':
-        this.isSizeMenuOpened = false;
-        break;
-    }
   }
 
   setUserAddress() {
@@ -475,8 +440,6 @@ export class SingleProductComponent implements OnInit {
     this.sortedVariationsList.forEach((variation) => {
       this.variationsTitle.push(variation[0].title);
     });
-    console.log(this.sortedVariationsList);
-    console.log(this.variationsTitle);
   }
 
   setImgUrl = (url: string, id: number) => {
