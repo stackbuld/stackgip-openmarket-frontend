@@ -351,6 +351,10 @@
   }
 }
 
+.cart-item-accordion {
+  display: none;
+}
+
 .cart-item-complimentary {
   background-color: rgba(255, 255, 255, 1);
   border: 1px solid rgba(201, 198, 198, 1);
@@ -714,6 +718,10 @@
       font-size: 15px;
       font-weight: 500;
     }
+  }
+
+  .cart-item-accordion {
+    display: block;
   }
 
   .cart-item-complimentary {
