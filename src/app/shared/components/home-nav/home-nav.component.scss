@@ -541,3 +541,20 @@ input {
     }
   }
 }
+
+.uk-offcanvas-bar {
+  & .pointer {
+    &:not(:last-child) {
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+  }
+  & #wallet-text-container {
+    margin-left: 5px;
+
+    & #wallet-text {
+      color: #000000 !important;
+      margin-left: 8px;
+    }
+  }
+}

@@ -213,7 +213,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.toast.success('Address Deleted!');
 
-        if (address.isDefault) {
+        if (address.isDefault && this.userAddresses.length > 1) {
           this.userService
             .getUserAddress(this.userId)
             .pipe(

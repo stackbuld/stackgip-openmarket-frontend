@@ -1,22 +1,22 @@
 import {
   ClearCartItems,
   RemoveItemFromCart,
-} from "../../../reducers/action/cart.actions";
-import { Observable } from "rxjs";
-import { Component, OnInit } from "@angular/core";
-import { ProductCartModel } from "src/app/models/products.model";
-import { Store } from "@ngrx/store";
-import { AppState } from "src/app/reducers";
-import { getCart } from "src/app/reducers/selectors/cart.selector";
+} from '../../../reducers/action/cart.actions';
+import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { ProductCartModel } from 'src/app/models/products.model';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/reducers';
+import { getCart } from 'src/app/reducers/selectors/cart.selector';
 import {
   UpdateCartItemUnit,
   IncreamentCartItem,
   DecreamentCartItem,
-} from "src/app/reducers/action/cart.actions";
+} from 'src/app/reducers/action/cart.actions';
 @Component({
-  selector: "app-cart",
-  templateUrl: "./cart.component.html",
-  styleUrls: ["./cart.component.css"],
+  selector: 'app-cart',
+  templateUrl: './cart.component.html',
+  styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit {
   constructor(private store: Store<AppState>) {}

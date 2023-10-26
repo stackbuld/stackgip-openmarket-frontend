@@ -1,4 +1,10 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Options } from '@angular-slider/ngx-slider';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductModel } from 'src/app/models/products.model';
@@ -8,7 +14,7 @@ import { AlgProductsService } from 'src/app/services/alg-products/alg-products.s
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss']
+  styleUrls: ['./product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
@@ -16,10 +22,10 @@ export class ProductListComponent implements OnInit {
   products: ProductModel[] = [];
   totalItemCount: number;
   maximumItem: number = 10;
-  defaultPage:number = 1;
+  defaultPage: number = 1;
   pageNumber: number = 0;
-  search:string = "";
-  categoryId:string = "";
+  search: string = '';
+  categoryId: string = '';
   minValue: number = 1;
   maxValue: number = 500000;
   // options:Options;
@@ -34,14 +40,14 @@ export class ProductListComponent implements OnInit {
   // highValue: number = 7590;
   options: Options = {
     floor: 0,
-    ceil: 1000000
+    ceil: 1000000,
   };
   isFilter: boolean;
   distanceValue: number = 1;
   distanceHighValue: number = 115;
   distanceOptions: Options = {
     floor: 0,
-    ceil: 200
+    ceil: 200,
   };
 
   constructor(
@@ -79,20 +85,20 @@ export class ProductListComponent implements OnInit {
   fetchProductsByCategory = (id) => {
     this.categoryId = id;
     this.fetchAllProducts(this.defaultPage);
-  }
+  };
 
   resetProducts = () => {
     this.categoryId = '';
     this.fetchAllProducts(this.defaultPage);
-  }
+  };
 
-  fetchAllProducts = (pageNumber:any) => {
+  fetchAllProducts = (pageNumber: any) => {
     if (this.categoryId === '') {
       this.isFilter = false;
     } else {
       this.isFilter = true;
     }
-    if(pageNumber === 1) {
+    if (pageNumber === 1) {
       this.loadingProducts = true;
     }
 
@@ -108,22 +114,34 @@ export class ProductListComponent implements OnInit {
 
   fetchCategories = () => {
     this.loadingCategories = true;
-    this.categoryService.GetCategory().subscribe((res) => {
-      this.categories = res.data;
-      this.loadingCategories = false;
-    }, err => {
-      this.loadingCategories = false;
-    });
-  }
+    this.categoryService.GetCategory().subscribe(
+      (res) => {
+        this.categories = res.data;
+        this.loadingCategories = false;
+      },
+      (err) => {
+        this.loadingCategories = false;
+      }
+    );
+  };
 
   @HostListener('window:scroll', ['$event'])
   onScroll() {
-    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
-    const documentHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
+    const scrollPosition =
+      window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0;
+    const windowHeight =
+      window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight ||
+      0;
+    const documentHeight =
+      document.documentElement.scrollHeight || document.body.scrollHeight || 0;
 
     if (scrollPosition + windowHeight >= documentHeight) {
-      if(this.canLoadMore) {
+      if (this.canLoadMore) {
         this.pageNumber++;
         this.loadingMoreProducts = true;
         this.fetchAllProducts(this.pageNumber);
@@ -136,5 +154,4 @@ export class ProductListComponent implements OnInit {
   setColumn(e: any) {
     this.columnCount = Number(e.target.value);
   }
-
 }

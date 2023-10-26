@@ -1,19 +1,19 @@
 import {
   ProductWithOptionAndShipmentModel,
   CreateProductOption,
-} from "../../../models/products.model";
-import { ProductsService } from "src/app/services/products/products.service";
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { FormBuilder, FormGroup, FormArray, Validators } from "@angular/forms";
-import { formatDate } from "../../../helpers/date-format";
-import { numberWithCommas } from "../../../helpers/number-format";
-import { debounceTime } from "rxjs/operators";
-import { ToastrService } from "ngx-toastr";
+} from '../../../models/products.model';
+import { ProductsService } from 'src/app/services/products/products.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { formatDate } from '../../../helpers/date-format';
+import { numberWithCommas } from '../../../helpers/number-format';
+import { debounceTime } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: "app-add-to-cart",
-  templateUrl: "./add-to-cart.component.html",
-  styleUrls: ["./add-to-cart.component.css"],
+  selector: 'app-add-to-cart',
+  templateUrl: './add-to-cart.component.html',
+  styleUrls: ['./add-to-cart.component.scss'],
 })
 export class AddToCartComponent implements OnInit {
   @Input() productId: number;
@@ -48,36 +48,36 @@ export class AddToCartComponent implements OnInit {
         this.init();
       });
     this.optionForm = this.fb.group({
-      shipmentOption: ["", [Validators.required]],
+      shipmentOption: ['', [Validators.required]],
       quantity: [1, [Validators.required]],
       options: this.fb.array([]),
-      paymentOption: ["", [Validators.required]],
+      paymentOption: ['', [Validators.required]],
     });
     this.optionForm
-      .get("quantity")
+      .get('quantity')
       .valueChanges.pipe(debounceTime(200))
       .subscribe((data) => this.onQuantityValueChanged(data));
     this.currentQuantity = 1;
   }
 
   init(): void {
-    this.productOptions = this.groupBy("title");
+    this.productOptions = this.groupBy('title');
     this.totalPrice = this.product.price;
     this.priceWithOptions = this.product.price;
     const defaultShipment: string = this.getDefaultShipment();
-    this.optionForm.get("shipmentOption").setValue(defaultShipment);
+    this.optionForm.get('shipmentOption').setValue(defaultShipment);
     this.setOptionForm(Object.keys(this.productOptions));
 
     this.availablePaymentOption = this.product.paymentOptions
-      ? this.product.paymentOptions.split(",")
+      ? this.product.paymentOptions.split(',')
       : [];
     this.optionForm
-      .get("paymentOption")
+      .get('paymentOption')
       .setValue(this.availablePaymentOption[0]);
   }
 
   optionArray(): FormArray {
-    return this.optionForm.get("options") as FormArray;
+    return this.optionForm.get('options') as FormArray;
   }
 
   setOptionForm(options: string[]): void {
@@ -105,7 +105,7 @@ export class AddToCartComponent implements OnInit {
   }
 
   onOptionValueChanged(data: { title: string; cost: string }) {
-    const [cost, value] = data.cost.split("|");
+    const [cost, value] = data.cost.split('|');
     const numCost = Number(cost);
     this.priceWithOptions -= this.currentOptions[data.title];
     this.priceWithOptions += numCost;
@@ -116,17 +116,17 @@ export class AddToCartComponent implements OnInit {
   }
 
   addToCart() {
-    const paymentOption = this.optionForm.get("paymentOption");
-    const shipmentOption = this.optionForm.get("shipmentOption");
-    let currentShipmentOption: string = "state|city|0";
+    const paymentOption = this.optionForm.get('paymentOption');
+    const shipmentOption = this.optionForm.get('shipmentOption');
+    let currentShipmentOption: string = 'state|city|0';
     if (this.product.productShipments.length > 0) {
       currentShipmentOption = shipmentOption.value;
     }
-    if (this.optionForm.get("quantity").value < 1) {
-      this.toast.error("please enter a valid quantity");
+    if (this.optionForm.get('quantity').value < 1) {
+      this.toast.error('please enter a valid quantity');
       return;
     }
-    const [state, city, cost] = currentShipmentOption.split("|");
+    const [state, city, cost] = currentShipmentOption.split('|');
     this.moveProductToCart({
       shipmentOption: JSON.stringify({ state, city, cost }),
       paymentOption: paymentOption.value,
@@ -161,13 +161,13 @@ export class AddToCartComponent implements OnInit {
   }
 
   getDefaultShipment() {
-    let shipmentOptionDefault: string = "";
+    let shipmentOptionDefault: string = '';
     if (this.product.productShipments.length > 0) {
       shipmentOptionDefault =
         this.product.productShipments[0].state +
-        "|" +
+        '|' +
         this.product.productShipments[0].city +
-        "|" +
+        '|' +
         this.product.productShipments[0].cost;
     }
     return shipmentOptionDefault;
