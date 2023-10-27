@@ -423,8 +423,19 @@
                 <div class="cart-item-shipping cart-item-shipping-desktop">
                   <div class="cart-item-shipping-main">
                     <div class="shipping-address">
-                      From Abuja Station to Samaritan hospital via CMK
-                      +2349056473212
+                      Delivering to {{ item?.destination?.fullAddress }} via
+                      <span class="logistic-name">
+                        {{ item?.logistic?.logisticName }}
+                      </span>
+
+                      <div class="receiver">
+                        Receiver:
+                        <span
+                          >{{ item?.destination?.firstname }}
+                          {{ item?.destination?.lastname }} -
+                          {{ item?.destination?.phoneNumber }}</span
+                        >
+                      </div>
                     </div>
                     <div class="payment">Payment online</div>
                   </div>
@@ -497,8 +508,19 @@
                   <div class="cart-item-shipping">
                     <div class="cart-item-shipping-main">
                       <div class="shipping-address">
-                        From Abuja Station to Samaritan hospital via CMK
-                        +2349056473212
+                        Delivering to {{ item?.destination?.fullAddress }} via
+                        <span class="logistic-name">
+                          {{ item?.logistic?.logisticName }}
+                        </span>
+
+                        <div class="receiver">
+                          Receiver:
+                          <span
+                            >{{ item?.destination?.firstname }}
+                            {{ item?.destination?.lastname }} -
+                            {{ item?.destination?.phoneNumber }}</span
+                          >
+                        </div>
                       </div>
                       <div class="payment">Payment online</div>
                     </div>
