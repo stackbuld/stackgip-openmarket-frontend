@@ -428,7 +428,10 @@
                     </div>
                     <div class="payment">Payment online</div>
                   </div>
-                  <div class="cart-item-variations">
+                  <div
+                    class="cart-item-variations"
+                    *ngIf="variations.length > 0"
+                  >
                     <div class="cart-item-variations-heading">Variations</div>
                     <ul class="variations-lists">
                       <li
@@ -499,7 +502,10 @@
                       </div>
                       <div class="payment">Payment online</div>
                     </div>
-                    <div class="cart-item-variations">
+                    <div
+                      class="cart-item-variations"
+                      *ngIf="variations.length > 0"
+                    >
                       <div class="cart-item-variations-heading">Variations</div>
                       <ul class="variations-lists">
                         <li

@@ -91,7 +91,9 @@ export class ProductCheckoutComponent implements OnInit {
 
           const variations: any[] = [];
           this.cartItems.forEach((item) => {
-            variations.push(item.varations);
+            if (item.varations.length > 0) {
+              variations.push(item.varations);
+            }
           });
 
           this.setVariation(variations);
@@ -130,8 +132,6 @@ export class ProductCheckoutComponent implements OnInit {
       const groupedOptionsArray = Object.values(groupedOptions);
       this.variations.push(groupedOptionsArray);
     });
-
-    console.log(this.variations);
 
     // this.sortedVariationsList = groupedOptionsArray;
   }
