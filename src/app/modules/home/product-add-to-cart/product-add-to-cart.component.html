@@ -31,29 +31,33 @@
         </div>
       </div>
 
-      <div class="product-qty">
-        <button class="unit-btn">
-          <i class="fa fa-minus"></i>
-        </button>
+      <div class="product-qty-container">
+        <div class="product-qty-container-heading">Quantity:</div>
 
-        <span class="unit-text">
-          <span class="btn-texts"> 1 </span>
+        <div class="product-qty">
+          <button class="unit-btn">
+            <i class="fa fa-minus"></i>
+          </button>
 
-          <span class="loader"></span
-        ></span>
+          <span class="unit-text">
+            <span class="btn-texts"> 1 </span>
 
-        <button class="unit-btn">
-          <i class="fa fa-plus"></i>
-        </button>
+            <!-- <span class="loader"></span> -->
+          </span>
+
+          <button class="unit-btn">
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
       </div>
 
       <div class="payment-type">
-        <p class="txt">Available Payment Type:</p>
-        <div class="flex-center">
-          <label class="flex-center">
+        <div class="txt">Available Payment Type:</div>
+        <div class="payment-methods">
+          <label>
             <input type="radio" checked name="delivery-type" value="online" />
             &nbsp;
-            <span>Pay online</span>
+            <span class="label-main">Pay online</span>
           </label>
           &nbsp; &nbsp;
           <label class="flex-center">
@@ -64,7 +68,9 @@
               value="delivery"
             />
             &nbsp;
-            <span style="color: #c2c2cc">Pay on delivery</span>
+            <span style="color: #c2c2cc" class="label-main"
+              >Pay on delivery</span
+            >
           </label>
         </div>
       </div>
