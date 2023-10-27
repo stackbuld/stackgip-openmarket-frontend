@@ -33,7 +33,7 @@ export class CartComponent implements OnInit {
     });
   }
 
-  updateCartItem(id: number, unit: number) {
+  updateCartItem(id: number, unit: any) {
     this.store.dispatch(UpdateCartItemUnit({ id, orderedUnit: unit }));
   }
 
