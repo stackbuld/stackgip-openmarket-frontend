@@ -15,6 +15,8 @@ import { WindowRefService } from '../../../shared/services/window.service';
 import { FooterService } from 'src/app/services/footer.service';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
+import { log } from 'console';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-checkout',
@@ -37,6 +39,7 @@ export class ProductCheckoutComponent implements OnInit {
   isUpdatingUnit: boolean[] = [];
   panelOpenState: boolean[] = [];
   productId: string;
+  variations: any[] = [];
 
   constructor(
     private footerService: FooterService,
@@ -52,15 +55,14 @@ export class ProductCheckoutComponent implements OnInit {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(true);
-    this.init();
-    this.authService.isLogin.subscribe((a) => {
-      if (a) {
+    // this.init();
+    this.authService.isLogin.subscribe((status) => {
+      if (status) {
         this.init();
       }
     });
 
     this.paymentMethods = JSON.parse(localStorage.getItem('paymentMethods')!);
-    console.log(this.paymentMethods);
   }
   init() {
     this.user = JSON.parse(localStorage.getItem('user') as string);
@@ -79,11 +81,21 @@ export class ProductCheckoutComponent implements OnInit {
     const reference = this.referenceId ?? '';
     cart$ = this.cartService.getCart(userId, reference);
 
-    cart$.subscribe(
-      (res) => {
+    cart$.pipe(take(1)).subscribe({
+      next: (res) => {
         if (res.status === 'success') {
           this.cart = res.data;
+          console.log(res.data);
+
           this.cartItems = res.data.cartItems;
+
+          const variations: any[] = [];
+          this.cartItems.forEach((item) => {
+            variations.push(item.varations);
+          });
+
+          this.setVariation(variations);
+
           this.applocal.cartCount.next(res.data.cartItems.length + 1);
           this.applocal.storeToStorage(
             'cartCount',
@@ -96,12 +108,33 @@ export class ProductCheckoutComponent implements OnInit {
           this.toastService.warning(res.message, 'MESSAGE');
         }
       },
-      (error) => {
+      error: (error) => {
         this.loadingCart = false;
         this.toastService.error(error.message, 'ERROR');
-      }
-    );
+      },
+    });
   };
+
+  setVariation(list: any) {
+    list.forEach((variation) => {
+      const groupedOptions = variation.reduce((acc, option) => {
+        const title = option.title;
+        const existingOptions = acc[title] || [];
+
+        return {
+          ...acc,
+          [title]: [...existingOptions, option],
+        };
+      }, {});
+
+      const groupedOptionsArray = Object.values(groupedOptions);
+      this.variations.push(groupedOptionsArray);
+    });
+
+    console.log(this.variations);
+
+    // this.sortedVariationsList = groupedOptionsArray;
+  }
 
   setSelectedCartItem = (item: any) => {
     this.selectedCartItem = item;

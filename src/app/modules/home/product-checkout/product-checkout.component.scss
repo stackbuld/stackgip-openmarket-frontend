@@ -508,16 +508,21 @@
       display: block;
 
       &:not(:last-child) {
-        margin-bottom: 10px;
+        margin-bottom: 5px;
       }
-      //   &.margin_bottom {
-      //     &:not(:last-child) {
-      //       margin-bottom: 10px;
-      //     }
-      //   }
 
-      & span {
-        margin-left: 10px;
+      & .variation-group {
+        text-transform: capitalize;
+        font-size: 10px;
+      }
+
+      & .variation-value {
+        margin-left: 5px;
+        text-transform: capitalize;
+
+        & .variation-cost {
+          font-weight: 700;
+        }
       }
     }
   }

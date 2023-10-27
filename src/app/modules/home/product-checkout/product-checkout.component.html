@@ -431,9 +431,20 @@
                   <div class="cart-item-variations">
                     <div class="cart-item-variations-heading">Variations</div>
                     <ul class="variations-lists">
-                      <li>Color: <span>(Orange, Black)</span></li>
-                      <li>Size: <span>M, XL</span></li>
-                      <li>Weight: <span>175g</span></li>
+                      <li
+                        *ngFor="let variation of variations[i]; let v = index"
+                      >
+                        <span class="variation-group">{{
+                          variations[i][v][0].title
+                        }}</span
+                        >:
+                        <span class="variation-value"
+                          >{{ variation[0].value }}
+                          <span class="variation-cost">
+                            (NGN{{ variation[0].cost | number }})
+                          </span></span
+                        >
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -491,9 +502,20 @@
                     <div class="cart-item-variations">
                       <div class="cart-item-variations-heading">Variations</div>
                       <ul class="variations-lists">
-                        <li>Color: <span>(Orange, Black)</span></li>
-                        <li>Size: <span>M, XL</span></li>
-                        <li>Weight: <span>175g</span></li>
+                        <li
+                          *ngFor="let variation of variations[i]; let v = index"
+                        >
+                          <span class="variation-group">{{
+                            variations[i][v][0].title
+                          }}</span
+                          >:
+                          <span class="variation-value"
+                            >{{ variation[0].value }}
+                            <span class="variation-cost">
+                              (NGN{{ variation[0].cost | number }})
+                            </span></span
+                          >
+                        </li>
                       </ul>
                     </div>
                   </div>

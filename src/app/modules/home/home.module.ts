@@ -16,6 +16,7 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
 import { NgxOtpInputModule } from 'ngx-otp-input';
+import { ProductAddToCartComponent } from './product-add-to-cart/product-add-to-cart.component';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -25,6 +26,7 @@ import { NgxOtpInputModule } from 'ngx-otp-input';
     OrderDetailsComponent,
     OrderHistoryComponent,
     PaymentConfirmationComponent,
+    ProductAddToCartComponent,
   ],
   imports: [
     CommonModule,
