@@ -176,6 +176,31 @@
   }
 }
 
+.variations {
+  margin-top: 30px;
+  &-heading {
+    font-size: 17px;
+    margin-bottom: 5px;
+  }
+
+  & .variation-title {
+    text-transform: capitalize;
+    margin-bottom: 5px;
+  }
+
+  & .color-tag {
+    padding: 0.5rem 1rem;
+    border: 1px solid black;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+
+  & .variation-value {
+    text-transform: capitalize;
+  }
+}
+
 .shipping-delivered {
   margin-top: 20px;
   & .shipping-main {

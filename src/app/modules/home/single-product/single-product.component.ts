@@ -183,6 +183,8 @@ export class SingleProductComponent implements OnInit {
   }
   setRequestId = () => {
     const toHash = cryptoJs.MD5(this.currentAddress?.fullAddress);
+    console.log(toHash);
+
     this.requestId = `view-product-page-${
       this.productId
     }:${this.authService.getUserReferenceNumber()}:${toHash}`;
