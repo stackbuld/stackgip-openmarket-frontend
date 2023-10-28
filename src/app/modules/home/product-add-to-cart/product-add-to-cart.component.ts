@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductModel } from 'src/app/models/products.model';
 import { FooterService } from 'src/app/services/footer.service';
 import { ProductsService } from 'src/app/services/products/products.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-product-add-to-cart',
@@ -23,7 +24,8 @@ export class ProductAddToCartComponent implements OnInit, OnDestroy {
   constructor(
     private footerService: FooterService,
     private productService: ProductsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -53,6 +55,7 @@ export class ProductAddToCartComponent implements OnInit, OnDestroy {
             this.complimentaryProducts.push(element);
           }
         }
+        console.log(this.complimentaryProducts);
 
         this.setVariation(this.allVariationsList);
       },
@@ -61,18 +64,29 @@ export class ProductAddToCartComponent implements OnInit, OnDestroy {
   }
 
   onUpdateProductUnit(type: string) {
+    this.isUpdatingUnit = true;
     if (type === 'add') {
       this.productUnit++;
-      this.isUpdatingUnit = true;
-      this.productService.updateProductUnit(this.productId, 2).subscribe({
-        next: (data) => {},
-        error: (err) => {},
-      });
     } else if (type === 'remove') {
-      this.isUpdatingUnit = true;
-
       this.productUnit--;
     }
+
+    this.productService
+      .updateProductUnit(this.productId, this.productUnit)
+      .subscribe({
+        next: (data) => {
+          this.isUpdatingUnit = false;
+        },
+        error: (err) => {
+          this.isUpdatingUnit = false;
+          if (type === 'add') {
+            this.productUnit = this.productUnit - 1;
+          } else if (type === 'remove') {
+            this.productUnit = this.productUnit + 1;
+          }
+          this.toastr.error(err.error.message);
+        },
+      });
   }
 
   setVariation(list: any) {

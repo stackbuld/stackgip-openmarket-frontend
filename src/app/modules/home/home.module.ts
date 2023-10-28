@@ -17,6 +17,10 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
 import { NgxOtpInputModule } from 'ngx-otp-input';
 import { ProductAddToCartComponent } from './product-add-to-cart/product-add-to-cart.component';
+import { DeliveryInformationComponent } from './product-add-to-cart/delivery-information/delivery-information.component';
+import { ShippingMethodComponent } from './product-add-to-cart/shipping-method/shipping-method.component';
+import { ComplimentaryProductsComponent } from './product-add-to-cart/complimentary-products/complimentary-products.component';
+import { IvyCarouselModule } from 'angular-responsive-carousel';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -27,6 +31,9 @@ import { ProductAddToCartComponent } from './product-add-to-cart/product-add-to-
     OrderHistoryComponent,
     PaymentConfirmationComponent,
     ProductAddToCartComponent,
+    DeliveryInformationComponent,
+    ShippingMethodComponent,
+    ComplimentaryProductsComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +47,7 @@ import { ProductAddToCartComponent } from './product-add-to-cart/product-add-to-
     MatPaginatorModule,
     NgxShimmerLoadingModule,
     GooglePlaceModule,
+    IvyCarouselModule,
   ],
 })
 export class HomeModule {}

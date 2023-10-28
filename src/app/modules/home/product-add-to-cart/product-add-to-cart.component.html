@@ -165,11 +165,148 @@
       <div class="product-btn-container">
         <div class="product-btn-main">
           <button class="add-to-cart">Add to Cart</button>
-          <button class="continue-shopping">Continue Shopping</button>
+          <button class="continue-shopping" routerLink="/homepage">
+            Continue Shopping
+          </button>
         </div>
 
-        <a>View items in cart</a>
+        <a routerLink="/homepage/checkout">View items in cart</a>
       </div>
+    </div>
+  </div>
+
+  <div class="complimentary-products" *ngIf="complimentaryProducts.length > 0">
+    <div class="complimentary-products-heading">
+      <div class="complimentary-products-heading-main">
+        Complimentary Products
+      </div>
+
+      <div class="see-all">See all <i class="fa fa-arrow-right"></i></div>
+    </div>
+
+    <div class="complimentary-products-main">
+      <carousel class="carousel">
+        <div
+          class="complimentary-product carousel-cell"
+          *ngFor="let product of complimentaryProducts"
+        >
+          <div class="complimentary-product-main">
+            <div class="product-image">
+              <img [src]="product.imageUrl" alt="" />
+            </div>
+
+            <div class="product-details">
+              <div class="product-name">{{ product.title }}</div>
+
+              <div class="product-price">
+                {{ product.cost | currency : "NGN" }}
+              </div>
+
+              <div class="product-select">
+                <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
+                &nbsp;
+                <span>Select</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="complimentary-product carousel-cell"
+          *ngFor="let product of complimentaryProducts"
+        >
+          <div class="complimentary-product-main">
+            <div class="product-image">
+              <img [src]="product.imageUrl" alt="" />
+            </div>
+
+            <div class="product-details">
+              <div class="product-name">{{ product.title }}</div>
+
+              <div class="product-price">
+                {{ product.cost | currency : "NGN" }}
+              </div>
+
+              <div class="product-select">
+                <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
+                &nbsp;
+                <span>Select</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="complimentary-product carousel-cell"
+          *ngFor="let product of complimentaryProducts"
+        >
+          <div class="complimentary-product-main">
+            <div class="product-image">
+              <img [src]="product.imageUrl" alt="" />
+            </div>
+
+            <div class="product-details">
+              <div class="product-name">{{ product.title }}</div>
+
+              <div class="product-price">
+                {{ product.cost | currency : "NGN" }}
+              </div>
+
+              <div class="product-select">
+                <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
+                &nbsp;
+                <span>Select</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="complimentary-product carousel-cell"
+          *ngFor="let product of complimentaryProducts"
+        >
+          <div class="complimentary-product-main">
+            <div class="product-image">
+              <img [src]="product.imageUrl" alt="" />
+            </div>
+
+            <div class="product-details">
+              <div class="product-name">{{ product.title }}</div>
+
+              <div class="product-price">
+                {{ product.cost | currency : "NGN" }}
+              </div>
+
+              <div class="product-select">
+                <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
+                &nbsp;
+                <span>Select</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="complimentary-product carousel-cell"
+          *ngFor="let product of complimentaryProducts"
+        >
+          <div class="complimentary-product-main">
+            <div class="product-image">
+              <img [src]="product.imageUrl" alt="" />
+            </div>
+
+            <div class="product-details">
+              <div class="product-name">{{ product.title }}</div>
+
+              <div class="product-price">
+                {{ product.cost | currency : "NGN" }}
+              </div>
+
+              <div class="product-select">
+                <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
+                &nbsp;
+                <span>Select</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </carousel>
     </div>
   </div>
 </div>

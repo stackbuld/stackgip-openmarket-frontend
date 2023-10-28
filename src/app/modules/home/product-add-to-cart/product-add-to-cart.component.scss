@@ -249,6 +249,10 @@
       &.add-to-cart {
         background-color: #000000;
         margin-right: 10px;
+
+        &.grey {
+          background-color: rgba(142, 137, 137, 1);
+        }
       }
 
       &.continue-shopping {
@@ -266,6 +270,96 @@
     cursor: pointer;
     display: inline-block;
     margin-top: 20px;
+  }
+}
+
+.complimentary-products {
+  margin-top: 30px;
+
+  &-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    &-main {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    & .see-all {
+      font-size: 16px;
+      cursor: pointer;
+
+      & i {
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+.complimentary-products-main {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+::ng-deep .carousel-container {
+  height: 300px !important;
+}
+
+.carousel {
+  height: 300px;
+}
+
+.complimentary-product.carousel-cell {
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  height: 250px !important;
+}
+
+.complimentary-product-main {
+  height: 100%;
+
+  & .product-image {
+    height: 150px;
+    width: 100%;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  & .product-details {
+    height: 50px;
+    margin-top: 20px;
+
+    & .product-name {
+      font-size: 16px;
+    }
+
+    & .product-price {
+      color: rgba(235, 87, 87, 1);
+      margin: 3px 0;
+    }
+
+    & .product-select {
+      cursor: pointer;
+      & img {
+        width: 17px;
+        height: 17px;
+      }
+
+      & span {
+        font-size: 12px;
+        margin-left: -5px;
+      }
+    }
   }
 }
 
