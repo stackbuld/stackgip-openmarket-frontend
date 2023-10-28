@@ -10,7 +10,7 @@ import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductModel } from 'src/app/models/products.model';
 import { CatgoryService } from 'src/app/services/category/catgory.service';
 import { FooterService } from 'src/app/services/footer.service';
-
+import { AlgProductsService } from 'src/app/services/alg-products/alg-products.service';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -53,14 +53,32 @@ export class ProductListComponent implements OnInit {
   constructor(
     private productService: ProductsService,
     private categoryService: CatgoryService,
-    private footerService: FooterService
-  ) {}
+    private footerService: FooterService,
+    private algProductsService: AlgProductsService
+  ) { }
 
   ngOnInit(): void {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(false);
     this.fetchAllProducts(this.defaultPage);
+    this.productService.getProducts(
+      this.defaultPage, this.maximumItem, this.search, this.categoryId,
+      this.minValue, this.maxValue
+    ).subscribe((products) => {
+      // this.products = this.products.concat(products.data.data);
+        this.products = products.data.data;
+        // this.pageNumber = products.data.pager.pageNumber;
+        // this.totalItemCount = products.data.pager.totalItemCount;
+        this.loadingProducts = false;
+        this.loadingProducts = false;
+        if (!products.data.pager.hasNextPage) {
+          this.canLoadMore = false;
+        }
+      }, error => {
+        this.loadingMoreProducts = false;
+        this.loadingMoreProducts = false;
+      });
     this.fetchCategories();
   }
 
@@ -83,33 +101,16 @@ export class ProductListComponent implements OnInit {
     if (pageNumber === 1) {
       this.loadingProducts = true;
     }
-    this.productService
-      .getProducts(
-        pageNumber,
-        this.maximumItem,
-        this.search,
-        this.categoryId,
-        this.minValue,
-        this.maxValue
-      )
-      .subscribe(
-        (products) => {
-          // this.products = this.products.concat(products.data.data);
-          this.products = products.data.data;
-          // this.pageNumber = products.data.pager.pageNumber;
-          // this.totalItemCount = products.data.pager.totalItemCount;
-          this.loadingProducts = false;
-          this.loadingProducts = false;
-          if (!products.data.pager.hasNextPage) {
-            this.canLoadMore = false;
-          }
-        },
-        (error) => {
-          this.loadingMoreProducts = false;
-          this.loadingMoreProducts = false;
-        }
-      );
-  };
+
+    this.algProductsService.runAlgoliaSearch(this.search).then((res) => {
+      this.products = res[0].hits;
+      console.log(res);
+      console.log(res[0].hits);
+      this.loadingProducts = false;
+    }).catch((err) => {
+      this.loadingProducts = false;
+    });
+  }
 
   fetchCategories = () => {
     this.loadingCategories = true;

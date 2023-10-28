@@ -46,7 +46,7 @@
     "@types/crypto-js": "^4.1.1",
     "@types/google-one-tap": "^1.2.2",
     "@types/uikit": "^3.14.0",
-    "algoliasearch": "^4.17.1",
+    "algoliasearch": "^4.20.0",
     "angular-font-awesome": "^3.1.2",
     "angular-instantsearch": "^4.4.1",
     "angular-responsive-carousel": "^2.1.2",
