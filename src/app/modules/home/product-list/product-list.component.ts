@@ -11,6 +11,7 @@ import { ProductModel } from 'src/app/models/products.model';
 import { CatgoryService } from 'src/app/services/category/catgory.service';
 import { FooterService } from 'src/app/services/footer.service';
 import { AlgProductsService } from 'src/app/services/alg-products/alg-products.service';
+import {ISearchService} from '../../../services/search/iSearchService.interface';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -54,7 +55,7 @@ export class ProductListComponent implements OnInit {
     private productService: ProductsService,
     private categoryService: CatgoryService,
     private footerService: FooterService,
-    private algProductsService: AlgProductsService
+    private algProductsService: AlgProductsService ,
   ) { }
 
   ngOnInit(): void {
@@ -80,6 +81,7 @@ export class ProductListComponent implements OnInit {
         this.loadingMoreProducts = false;
       });
     this.fetchCategories();
+
   }
 
   fetchProductsByCategory = (id) => {
