@@ -10,8 +10,8 @@ import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductModel } from 'src/app/models/products.model';
 import { CatgoryService } from 'src/app/services/category/catgory.service';
 import { FooterService } from 'src/app/services/footer.service';
-import { AlgProductsService } from 'src/app/services/alg-products/alg-products.service';
-import {ISearchService} from '../../../services/search/iSearchService.interface';
+// import {ISearchService} from '../../../services/search/iSearchService.interface';
+import { SearchService } from 'src/app/services/search/search.service';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -55,7 +55,7 @@ export class ProductListComponent implements OnInit {
     private productService: ProductsService,
     private categoryService: CatgoryService,
     private footerService: FooterService,
-    private algProductsService: AlgProductsService ,
+    private searchService: SearchService
   ) { }
 
   ngOnInit(): void {
@@ -63,23 +63,34 @@ export class ProductListComponent implements OnInit {
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(false);
     this.fetchAllProducts(this.defaultPage);
-    this.productService.getProducts(
-      this.defaultPage, this.maximumItem, this.search, this.categoryId,
-      this.minValue, this.maxValue
-    ).subscribe((products) => {
-      // this.products = this.products.concat(products.data.data);
-        this.products = products.data.data;
-        // this.pageNumber = products.data.pager.pageNumber;
-        // this.totalItemCount = products.data.pager.totalItemCount;
-        this.loadingProducts = false;
-        this.loadingProducts = false;
-        if (!products.data.pager.hasNextPage) {
-          this.canLoadMore = false;
-        }
-      }, error => {
-        this.loadingMoreProducts = false;
-        this.loadingMoreProducts = false;
-      });
+    // this.productService.getProducts(
+    //   this.defaultPage, this.maximumItem, this.search, this.categoryId,
+    //   this.minValue, this.maxValue
+    // ).subscribe((products) => {
+    //   // this.products = this.products.concat(products.data.data);
+    //     this.products = products.data.data;
+    //     // this.pageNumber = products.data.pager.pageNumber;
+    //     // this.totalItemCount = products.data.pager.totalItemCount;
+    //     this.loadingProducts = false;
+    //     this.loadingProducts = false;
+    //     if (!products.data.pager.hasNextPage) {
+    //       this.canLoadMore = false;
+    //     }
+    //   }, error => {
+    //     this.loadingMoreProducts = false;
+    //     this.loadingMoreProducts = false;
+    //   });
+  
+
+
+    // this.searchService.search('').then((res) => {
+    //   this.products = res;
+    //   // console.log(res);
+    //   // console.log(res[0].hits);
+    //   this.loadingProducts = false;
+    // }).catch((err) => {
+    //   this.loadingProducts = false;
+    // });
     this.fetchCategories();
 
   }
@@ -104,14 +115,21 @@ export class ProductListComponent implements OnInit {
       this.loadingProducts = true;
     }
 
-    this.algProductsService.runAlgoliaSearch(this.search).then((res) => {
-      this.products = res[0].hits;
-      console.log(res);
-      console.log(res[0].hits);
-      this.loadingProducts = false;
-    }).catch((err) => {
-      this.loadingProducts = false;
-    });
+    this.searchService.getProducts(
+      this.defaultPage, this.maximumItem, this.search, this.categoryId, this.minValue, this.maxValue
+    ).subscribe(products => {
+          this.products = products.data;
+          // this.pageNumber = products.pager.pageNumber;
+          // this.totalItemCount = products.pager.totalItemCount;
+          this.loadingProducts = false;
+          this.loadingProducts = false;
+          if (!products.pager.hasNextPage) {
+            this.canLoadMore = false;
+          }
+        }, error => {
+          this.loadingMoreProducts = false;
+          this.loadingMoreProducts = false;
+        });
   }
 
   fetchCategories = () => {

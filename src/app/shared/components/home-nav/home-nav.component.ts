@@ -10,7 +10,7 @@ import { CartService } from '../../../services/cart/cart.service';
 import { IUser } from 'src/app/models/IUserModel';
 import {AuthService} from '../../../services/auth.service';
 import {WindowRefService} from '../../services/window.service';
-import { AlgProductsService } from 'src/app/services/alg-products/alg-products.service';
+import { SearchService } from 'src/app/services/search/search.service';
 
 // const searchClient = algoliasearch(
 //   environment.algolia.appId,
@@ -28,31 +28,25 @@ import { AlgProductsService } from 'src/app/services/alg-products/alg-products.s
   styleUrls: ['./home-nav.component.scss'],
 })
 export class HomeNavComponent implements OnInit {
-  config = this.algProductsService.getAlgoliaConfig();
+  config = this.searchService.getAlgoliaConfig();
   isSearch = false;
   categories: any;
   cartCount = 0;
   user: IUser;
   referenceId: any;
 
-  // algolia: {
-  //   appId: 'B1G2GM9NG0',
-  //   apiKey: 'aadef574be1f9252bb48d4ea09b5cfe5',
-  //   indexName: 'demo_ecommerce',
-  //   urlSync: false
-  // }
 
   constructor(
     private categoryService: CatgoryService,
     private appLocalStorage: AppLocalStorage,
-    private productService: ProductsService,
+    // private productService: ProductsService,
     private cartService: CartService,
     private toastService: ToastrService,
     private router: Router,
     private applocal: AppLocalStorage,
     private authService: AuthService,
     private windowService: WindowRefService,
-    private algProductsService: AlgProductsService
+    private searchService: SearchService
   ) {
 
     // this.user = JSON.parse(localStorage.getItem('user'));
