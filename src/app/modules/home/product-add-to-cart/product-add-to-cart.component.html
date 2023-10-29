@@ -185,7 +185,10 @@
     </div>
 
     <div class="complimentary-products-main">
-      <carousel class="carousel">
+      <carousel
+        class="carousel"
+        [arrows]="complimentaryProducts.length >= 6 ? true : false"
+      >
         <div
           class="complimentary-product carousel-cell"
           *ngFor="let product of complimentaryProducts"
@@ -210,9 +213,35 @@
             </div>
           </div>
         </div>
+      </carousel>
+    </div>
+  </div>
+
+  <div class="product-description">
+    <div class="product-description-heading">Product Description</div>
+
+    <div class="product-description-main">
+      {{ product?.description }}
+    </div>
+  </div>
+
+  <div class="product-categories" *ngIf="categoryProducts.length > 0">
+    <div class="complimentary-products-heading">
+      <div class="complimentary-products-heading-main">You may also like</div>
+
+      <div class="see-all">See all <i class="fa fa-arrow-right"></i></div>
+    </div>
+
+    <div class="complimentary-products-main">
+      <carousel
+        class="carousel"
+        [arrows]="categoryProducts.length >= 6 ? true : false"
+        [cellsToScroll]="2"
+      >
         <div
-          class="complimentary-product carousel-cell"
-          *ngFor="let product of complimentaryProducts"
+          class="complimentary-product carousel-cell category-product"
+          *ngFor="let product of categoryProducts"
+          (click)="onViewProduct(product.id)"
         >
           <div class="complimentary-product-main">
             <div class="product-image">
@@ -220,88 +249,10 @@
             </div>
 
             <div class="product-details">
-              <div class="product-name">{{ product.title }}</div>
+              <div class="product-name">{{ product.name }}</div>
 
               <div class="product-price">
-                {{ product.cost | currency : "NGN" }}
-              </div>
-
-              <div class="product-select">
-                <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
-                &nbsp;
-                <span>Select</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="complimentary-product carousel-cell"
-          *ngFor="let product of complimentaryProducts"
-        >
-          <div class="complimentary-product-main">
-            <div class="product-image">
-              <img [src]="product.imageUrl" alt="" />
-            </div>
-
-            <div class="product-details">
-              <div class="product-name">{{ product.title }}</div>
-
-              <div class="product-price">
-                {{ product.cost | currency : "NGN" }}
-              </div>
-
-              <div class="product-select">
-                <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
-                &nbsp;
-                <span>Select</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="complimentary-product carousel-cell"
-          *ngFor="let product of complimentaryProducts"
-        >
-          <div class="complimentary-product-main">
-            <div class="product-image">
-              <img [src]="product.imageUrl" alt="" />
-            </div>
-
-            <div class="product-details">
-              <div class="product-name">{{ product.title }}</div>
-
-              <div class="product-price">
-                {{ product.cost | currency : "NGN" }}
-              </div>
-
-              <div class="product-select">
-                <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
-                &nbsp;
-                <span>Select</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="complimentary-product carousel-cell"
-          *ngFor="let product of complimentaryProducts"
-        >
-          <div class="complimentary-product-main">
-            <div class="product-image">
-              <img [src]="product.imageUrl" alt="" />
-            </div>
-
-            <div class="product-details">
-              <div class="product-name">{{ product.title }}</div>
-
-              <div class="product-price">
-                {{ product.cost | currency : "NGN" }}
-              </div>
-
-              <div class="product-select">
-                <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
-                &nbsp;
-                <span>Select</span>
+                {{ product.price | currency : "NGN" }}
               </div>
             </div>
           </div>

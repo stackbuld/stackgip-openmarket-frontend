@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductModel } from 'src/app/models/products.model';
 import { FooterService } from 'src/app/services/footer.service';
 import { ProductsService } from 'src/app/services/products/products.service';
@@ -21,10 +21,12 @@ export class ProductAddToCartComponent implements OnInit, OnDestroy {
   allVariationsList: any[] = [];
   complimentaryProducts: any[] = [];
   selectedVariations: any[] = [];
+  categoryProducts: ProductModel[] = [];
   constructor(
     private footerService: FooterService,
     private productService: ProductsService,
     private route: ActivatedRoute,
+    private router: Router,
     private toastr: ToastrService
   ) {}
 
@@ -43,6 +45,7 @@ export class ProductAddToCartComponent implements OnInit, OnDestroy {
         console.log(res.data);
         this.product = res.data;
         this.productPrice = res.data.price;
+        this.getProductCategoryData(res.data.categoryId);
 
         for (let index = 0; index < res.data.productOptions.length; index++) {
           const element = res.data.productOptions[index];
@@ -55,11 +58,18 @@ export class ProductAddToCartComponent implements OnInit, OnDestroy {
             this.complimentaryProducts.push(element);
           }
         }
-        console.log(this.complimentaryProducts);
 
         this.setVariation(this.allVariationsList);
       },
       error: (err) => console.log(err),
+    });
+  }
+
+  getProductCategoryData(id) {
+    this.productService.getCategoriesData(id).subscribe({
+      next: (data) => {
+        this.categoryProducts = data;
+      },
     });
   }
 
@@ -93,7 +103,6 @@ export class ProductAddToCartComponent implements OnInit, OnDestroy {
     const groupedOptions = list.reduce((acc, option) => {
       const title = option.title;
       const existingOptions = acc[title] || [];
-      console.log(existingOptions);
 
       return {
         ...acc,
@@ -142,5 +151,15 @@ export class ProductAddToCartComponent implements OnInit, OnDestroy {
       }
     }
   };
+
+  onViewProduct(id: any) {
+    this.complimentaryProducts = [];
+    this.router.navigate(['/', 'homepage', 'product', id]);
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }
   ngOnDestroy(): void {}
 }

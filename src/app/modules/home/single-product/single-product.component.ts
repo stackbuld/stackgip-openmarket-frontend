@@ -92,6 +92,8 @@ export class SingleProductComponent implements OnInit {
   isSizeMenuOpened: boolean = false;
   isLengthOpened: boolean = false;
   variationsTitle: any[] = [];
+  productUnit!: number;
+  isLoadingDetails: boolean = false;
 
   constructor(
     private toastService: ToastrService,
@@ -113,6 +115,7 @@ export class SingleProductComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoadingDetails = true;
     this.windowRef.nativeWindow.document.body.scrollTop = 0;
     this.windowRef.nativeWindow.document.documentElement.scrollTop = 0;
 
@@ -256,6 +259,9 @@ export class SingleProductComponent implements OnInit {
   };
 
   viewProduct = (id: any) => {
+    this.isLoadingDetails = true;
+    this.complimentaryProductsList = [];
+    this.imgUrls = [];
     this.router.navigate(['/homepage/product', id]);
     this.getShippingEstimate();
     document.body.scrollTop = 0;
@@ -311,7 +317,9 @@ export class SingleProductComponent implements OnInit {
     );
     productService$.subscribe({
       next: (res) => {
+        this.isLoadingDetails = false;
         this.product = res.data;
+        this.productUnit = res.data.unit;
         console.log(this.product);
 
         this.productPrice = res.data.price;
@@ -349,6 +357,7 @@ export class SingleProductComponent implements OnInit {
         this.loading = false;
       },
       error: (err) => {
+        this.isLoadingDetails = false;
         this.loading = false;
       },
     });
@@ -742,6 +751,9 @@ export class SingleProductComponent implements OnInit {
   };
 
   increaseQuantity = () => {
+    if (this.count == this.productUnit || this.productUnit == 0) {
+      return;
+    }
     this.count++;
   };
 

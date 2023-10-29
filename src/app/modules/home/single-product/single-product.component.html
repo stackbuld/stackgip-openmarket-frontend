@@ -1,9 +1,9 @@
-<div class="main">
+<div class="loader-container" *ngIf="isLoadingDetails">
+  <img src="/assets/svg/loader-icon.svg" alt="" style="width: 150px" />
+</div>
+<div class="main" *ngIf="!isLoadingDetails">
   <div class="top-section">
     <div class="mobile-pad-1 left-section">
-      <!-- <div *ngIf="loading" class="d-flex justify-content-center">
-                <ngx-shimmer-loading shape="square" width="500px"></ngx-shimmer-loading>
-            </div> -->
       <img
         *ngIf="loading"
         [src]="temporaryDetails?.imageUrl"
@@ -24,7 +24,6 @@
             src="{{ getImageResolution(currentImgUrl, 650, 500) }}"
             class="w-100"
           />
-          <!-- <img [src]="currentImgUrl" class="main-img" /> -->
         </a>
         <a
           *ngIf="imgUrls.length > 1"
@@ -56,7 +55,6 @@
             class="w-100"
             (click)="setImgUrl(item?.url, item?.id)"
           />
-          <!-- <img [src]="item?.url" (click)="setImgUrl(item?.url, item?.id)" class="carousel-img" /> -->
         </div>
       </div>
       <div *ngIf="!loading" class="p-3 text-center">
@@ -152,13 +150,13 @@
     </div>
     <div class="right-section">
       <div class="mobile-pad-1">
-        <p *ngIf="!loading" class="name">
+        <!-- <p *ngIf="!loading" class="name">
           {{ product?.name || "N/A" }}
         </p>
 
         <div *ngIf="loading" class="w-100 name">
           {{ temporaryDetails?.name }}
-          <!-- <ngx-shimmer-loading height="30px"></ngx-shimmer-loading> -->
+          
         </div>
 
         <div class="price-container">
@@ -183,9 +181,7 @@
           </p>
         </div>
 
-        <!-- <div *ngIf="loading" class="w-100">
-                    <ngx-shimmer-loading height="50px"></ngx-shimmer-loading>
-                </div> -->
+     
 
         <div class="product-units">
           <div class="product-units-main">
@@ -197,7 +193,7 @@
             </p>
             <p class="order-count">100 orders</p>
           </div>
-          <!-- <div class="seller-store">Visit seller's store</div> -->
+     
         </div>
 
         <div class="mt-4">
@@ -253,6 +249,59 @@
                 stroke-linejoin="round"
               />
             </svg>
+          </div>
+        </div> -->
+
+        <div class="product-details-main" *ngIf="product">
+          <div class="product-name">
+            {{ product.name }}
+          </div>
+
+          <div class="product-price-unit">
+            <div class="product-price">
+              <div class="new-price">
+                {{ productPrice | currency : "NGN" }}
+              </div>
+              <div class="old-price" *ngIf="product.previousPrice > 0">
+                {{ product.previousPrice | currency : "NGN" }}
+              </div>
+            </div>
+
+            <div class="product-unit">
+              <div class="product-units">
+                <div class="product-units-main">
+                  <div class="items-left">{{ product.unit }} Left</div>
+
+                  <!-- <div class="order-count">100 orders</div> -->
+                </div>
+                <!-- <div class="seller-store">Visit seller's store</div> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="product-qty-container">
+            <div class="product-qty-container-heading">Quantity:</div>
+
+            <div class="product-qty">
+              <button
+                class="unit-btn"
+                (click)="decreaseQuantity()"
+                [disabled]="count <= 1"
+                [ngClass]="{ disabled: count <= 1 }"
+              >
+                <i class="fa fa-minus"></i>
+              </button>
+
+              <span class="unit-text">
+                <span class="btn-texts">
+                  {{ count }}
+                </span>
+              </span>
+
+              <button class="unit-btn" (click)="increaseQuantity()">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -327,7 +376,6 @@
               currentShippingMethod !== null)
           "
         >
-          <!--*ngIf="currentShippingMethod !== null"-->
           <p uk-toggle="target: #shipping-modal" class="msg pointer">
             Shipping: Starting from
             {{
@@ -383,7 +431,7 @@
             </span>
           </div>
         </div>
-        <!--&& currentShippingMethod?.value === null-->
+
         <div
           *ngIf="
             loadingShippingStatus === 'request_started' ||
@@ -417,12 +465,12 @@
           &nbsp; &nbsp;
           <img src="/assets/images/location-icn.svg" alt="location-icn" />
           &nbsp;
-          <!-- uk-toggle="target: #information-modal"  -->
+
           <span (click)="openAddressModal()" class="pointer mb-0 txt">
             <strong>{{ currentAddress?.fullAddress || "N/A" }}</strong>
           </span>
           &nbsp;
-          <!-- uk-toggle="target: #information-modal" -->
+
           <p class="mb-0 change-yel" (click)="openAddressModal()">Change</p>
         </div>
 
@@ -441,13 +489,6 @@
           </p>
         </div>
 
-        <!--                <div *ngIf="loadingShippingStatus !='not_started' && currentShippingMethod !== null" class="mt-4">-->
-
-        <!--                <div *ngIf="!loadingShippingEstimate && currentShippingMethod === null" class="py-3">-->
-        <!--                    <p class="mb-0 info" (click)="resetModalView();" uk-toggle="target: #information-modal">-->
-        <!--                        Select a delivery address to see shipping options-->
-        <!--                    </p>-->
-        <!--                </div>-->
         <div *ngIf="currentAddress == null" class="py-3">
           <p
             class="mb-0 info"
@@ -508,7 +549,7 @@
     </div>
   </div>
 
-  <div *ngIf="complimentaryProductsList.length > 0" class="mobile-pad-1 mt-5">
+  <!-- <div *ngIf="complimentaryProductsList.length > 0" class="mobile-pad-1 mt-5">
     <div class="uk-flex uk-flex-between">
       <h2>Complementary Products</h2>
       <p class="txt mb-0 pointer">
@@ -543,20 +584,10 @@
           *ngFor="let product of complimentaryProductsList"
           class="uk-width-1-4@l uk-width-1-2"
         >
-          <!-- (dblclick)="setSelectedComplementaryProduct(product)" -->
           <div
             class="prod p-2"
             [ngClass]="{ 'selected-prod': product.isSelected === true }"
           >
-            <!-- <div>
-                            <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''"
-                                [src]="product?.imageUrl" class="img" />
-
-                            <div *ngIf="product?.imageUrl === null || product?.imageUrl === ''"
-                                class="img-empty-txt">
-                                <p class="text-center mb-0">Image not found</p>
-                            </div>
-                        </div> -->
             <div
               *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''"
               uk-lightbox
@@ -569,7 +600,6 @@
                   src="{{ getImageResolution(product?.imageUrl, 200, 150) }}"
                   class="w-100"
                 />
-                <!-- <img [src]="product?.imageUrl" class="img w-100 obj-fit" /> -->
               </a>
             </div>
             <div
@@ -645,6 +675,99 @@
         </div>
       </ul>
     </div>
+  </div> -->
+
+  <div
+    class="complimentary-products"
+    *ngIf="complimentaryProductsList.length > 0"
+  >
+    <div class="complimentary-products-heading">
+      <div class="complimentary-products-heading-main">
+        Complimentary Products
+      </div>
+
+      <div class="see-all">See all <i class="fa fa-arrow-right"></i></div>
+    </div>
+
+    <div class="complimentary-products-main">
+      <carousel class="carousel">
+        <div
+          class="complimentary-product carousel-cell"
+          *ngFor="let product of complimentaryProductsList"
+        >
+          <div class="complimentary-product-main">
+            <div class="selected" *ngIf="product.isSelected == true">
+              Selected
+            </div>
+            <div class="product-image">
+              <img [src]="product.imageUrl" alt="" />
+            </div>
+
+            <div class="product-details">
+              <div class="product-name">{{ product.title }}</div>
+
+              <div class="product-price">
+                {{ product.cost | currency : "NGN" }}
+              </div>
+
+              <div
+                class="product-select"
+                (click)="setSelectedComplementaryProduct(product)"
+              >
+                <div *ngIf="!product.isSelected">
+                  <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
+                  &nbsp;
+                  <span>Select</span>
+                </div>
+
+                <div *ngIf="product.isSelected">
+                  <span>
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M2.96484 5.92969H4.94149H20.7546"
+                        stroke="#D01717"
+                        stroke-width="1.6505"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M18.7779 5.92985V19.7663C18.7779 20.2906 18.5696 20.7933 18.199 21.164C17.8283 21.5347 17.3255 21.743 16.8013 21.743H6.91805C6.39381 21.743 5.89104 21.5347 5.52035 21.164C5.14966 20.7933 4.94141 20.2906 4.94141 19.7663V5.92985M7.90637 5.92985V3.9532C7.90637 3.42897 8.11462 2.9262 8.48531 2.55551C8.85601 2.18482 9.35877 1.97656 9.88301 1.97656H13.8363C14.3605 1.97656 14.8633 2.18482 15.234 2.55551C15.6047 2.9262 15.8129 3.42897 15.8129 3.9532V5.92985"
+                        stroke="#D01717"
+                        stroke-width="1.6505"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M9.88281 10.8716V16.8015"
+                        stroke="#D01717"
+                        stroke-width="1.6505"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M13.8369 10.8716V16.8015"
+                        stroke="#D01717"
+                        stroke-width="1.6505"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    &nbsp;
+                    <span class="remove">Remove</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </carousel>
+    </div>
   </div>
 
   <div class="mobile-pad-1 mt-3">
@@ -656,7 +779,7 @@
     </div>
   </div>
 
-  <div class="mobile-only-margin-bottom mobile-pad-1 mt-5">
+  <!-- <div class="mobile-only-margin-bottom mobile-pad-1 mt-5">
     <div class="uk-flex uk-flex-between">
       <h2>You may also like</h2>
       <p class="txt mb-0 pointer" routerLink="/homepage">
@@ -693,8 +816,6 @@
         >
           <div (click)="viewProduct(product.id)" class="prod p-2">
             <div>
-              <!-- <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''"
-                                [src]="product?.imageUrl" class="img obj-fit" /> -->
               <img
                 *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''"
                 src="{{ getImageResolution(product?.imageUrl, 200, 150) }}"
@@ -720,6 +841,42 @@
           </div>
         </div>
       </ul>
+    </div>
+  </div> -->
+
+  <div class="product-categories" *ngIf="products.length > 0">
+    <div class="complimentary-products-heading">
+      <div class="complimentary-products-heading-main">You may also like</div>
+
+      <div class="see-all" routerLink="/homepage">
+        See all <i class="fa fa-arrow-right"></i>
+      </div>
+    </div>
+
+    <div class="complimentary-products-main">
+      <carousel class="carousel" [cellsToScroll]="2">
+        <div
+          class="complimentary-product carousel-cell category-product"
+          *ngFor="let product of products"
+          (click)="viewProduct(product.id)"
+        >
+          <div class="complimentary-product-main">
+            <div class="product-image">
+              <img [src]="product.imageUrl" alt="" />
+            </div>
+
+            <div class="product-details">
+              <div class="product-name">
+                {{ product?.name || "N/A" | slice : 0 : 30 }}
+              </div>
+
+              <div class="product-price">
+                {{ product?.price | currency : "NGN" }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </carousel>
     </div>
   </div>
 </div>

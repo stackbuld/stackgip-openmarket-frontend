@@ -15,8 +15,8 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       { path: '', component: ProductListComponent },
-      { path: 'product/:id', component: ProductAddToCartComponent },
-      // { path: 'product/:id', component: SingleProductComponent },
+      // { path: 'product/:id', component: ProductAddToCartComponent },
+      { path: 'product/:id', component: SingleProductComponent },
       { path: 'checkout', component: ProductCheckoutComponent },
       { path: 'details/:id', component: OrderDetailsComponent },
       { path: 'history', component: OrderHistoryComponent },
