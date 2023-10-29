@@ -12,15 +12,6 @@ import {AuthService} from '../../../services/auth.service';
 import {WindowRefService} from '../../services/window.service';
 import { SearchService } from 'src/app/services/search/search.service';
 
-// const searchClient = algoliasearch(
-//   environment.algolia.appId,
-//   environment.algolia.apiKey
-// );
-
-// const searchClient = algoliasearch(
-//   'B1G2GM9NG0',
-//   'aadef574be1f9252bb48d4ea09b5cfe5'
-// );
 
 @Component({
   selector: 'app-home-nav',
