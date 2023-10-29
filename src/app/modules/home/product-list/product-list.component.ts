@@ -117,13 +117,13 @@ export class ProductListComponent implements OnInit {
 
     this.searchService.getProducts(
       this.defaultPage, this.maximumItem, this.search, this.categoryId, this.minValue, this.maxValue
-    ).subscribe(products => {
-          this.products = products.data;
-          // this.pageNumber = products.pager.pageNumber;
-          // this.totalItemCount = products.pager.totalItemCount;
+    ).subscribe(results => {
+          this.products = results.data;
+          this.pageNumber = results.pager.pageNumber;
+          this.totalItemCount = results.pager.totalItemCount;
           this.loadingProducts = false;
           this.loadingProducts = false;
-          if (!products.pager.hasNextPage) {
+          if (!results.pager.hasNextPage) {
             this.canLoadMore = false;
           }
         }, error => {
