@@ -13,25 +13,27 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     const user: IUser = JSON.parse(localStorage.getItem('user'));
 
-    const userId = user.id;
+    if (user) {
+      const userId = user.id;
 
-    this.userService.getUserAddress(userId).subscribe({
-      next: (addresses) => {
-        localStorage.setItem('userAddress', JSON.stringify(addresses));
-        const currentAddress = addresses.find(
-          (address) => address.isDefault == true
-        );
-
-        if (currentAddress) {
-          localStorage.setItem(
-            'shippingAddress',
-            JSON.stringify(currentAddress)
+      this.userService.getUserAddress(userId).subscribe({
+        next: (addresses) => {
+          localStorage.setItem('userAddress', JSON.stringify(addresses));
+          const currentAddress = addresses.find(
+            (address) => address.isDefault == true
           );
-        } else {
-          localStorage.removeItem('shippingAddress');
-        }
-      },
-      error: (err) => {},
-    });
+
+          if (currentAddress) {
+            localStorage.setItem(
+              'shippingAddress',
+              JSON.stringify(currentAddress)
+            );
+          } else {
+            localStorage.removeItem('shippingAddress');
+          }
+        },
+        error: (err) => {},
+      });
+    }
   }
 }

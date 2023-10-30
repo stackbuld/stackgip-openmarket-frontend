@@ -118,7 +118,18 @@ export class SingleProductComponent implements OnInit {
     this.currentShippingMethod = new BehaviorSubject<GetShippingEstimatePrice>(
       null
     );
-    console.log(this.currentShippingMethod);
+
+    const defaultShipping: GetShippingEstimatePrice = {
+      logisticCode: '',
+      logisticLogoUrl: '',
+      deliveryDuration: '',
+      startingPrice: +'Available on order summary',
+      isSelected: false,
+      logisticName: 'Renaship',
+    };
+    this.currentShippingMethod.next(defaultShipping);
+
+    // this.shippingMethods.push(defaultShipping);
 
     this.initAddressForm();
 
@@ -881,6 +892,8 @@ export class SingleProductComponent implements OnInit {
   };
 
   openAddressModal = () => {
+    console.log(this.currentAddress);
+
     if (this.currentAddress !== null) {
       this.isEditAddress = true;
     }
@@ -889,6 +902,11 @@ export class SingleProductComponent implements OnInit {
     } else {
       // this.resetModalView();
       this.isInformation = true;
+      if (this.currentAddress) {
+        this.isEditingAddress = true;
+
+        this.populateAddressForm(this.currentAddress);
+      }
     }
     const element = document.getElementById('openAddressModalBtn');
     element.click();

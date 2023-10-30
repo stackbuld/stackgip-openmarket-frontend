@@ -417,7 +417,7 @@
           </div>
         </div>
 
-        <div
+        <!-- <div
           class="mt-4"
           *ngIf="
             loadingShippingStatus == 'in_progress' ||
@@ -479,11 +479,13 @@
               </svg>
             </span>
           </div>
-        </div>
+        </div> -->
 
         <div
           *ngIf="
-            loadingShippingStatus !== 'completed' && loadingShippingEstimate
+            loadingShippingStatus !== 'completed' &&
+            loadingShippingEstimate &&
+            currentAddress
           "
           class="py-3"
         >
@@ -498,7 +500,7 @@
           </span>
         </div>
 
-        <div *ngIf="loading" class="w-100">
+        <!-- <div *ngIf="loading" class="w-100">
           <br />
           <ngx-shimmer-loading height="20px" width="70px"></ngx-shimmer-loading>
           <br />
@@ -545,7 +547,7 @@
           >
             Enter your delivery address, to see available shipping options
           </p>
-        </div>
+        </div> -->
       </div>
 
       <div class="mt-4 uk-flex uk-flex-between web-btn">

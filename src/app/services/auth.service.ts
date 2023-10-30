@@ -378,6 +378,7 @@ export class AuthService {
     const referenceId = this.getUserReferenceNumber();
     const userId = this.getLoggedInUser()?.id ?? '';
     const cachedUrl = this.getLocalStorageItemWithExpiry('notificationWssUrl');
+
     // const cachedUrl = '';
 
     if (!cachedUrl) {
