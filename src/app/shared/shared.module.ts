@@ -19,7 +19,7 @@ import { HttpClientJsonpModule } from '@angular/common/http';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatRippleModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
+import { MAT_SELECT_CONFIG, MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -178,6 +178,11 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
         }
       },
       deps: [PLATFORM_ID],
+    },
+
+    {
+      provide: MAT_SELECT_CONFIG,
+      useValue: { overlayPanelClass: 'matSelectCustom' },
     },
   ],
 })

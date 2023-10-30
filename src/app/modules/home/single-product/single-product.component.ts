@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
 import { AuthService } from 'src/app/services/auth.service';
-import { IUser } from '../../../models/IUserModel';
+import { IUser, UserAddressData } from '../../../models/IUserModel';
 import { CartService } from '../../../services/cart/cart.service';
 import { CartAddress } from '../../../models/StoreModels';
 import { WebsocketService } from '../../../services/websocket';
@@ -35,6 +35,8 @@ import { WindowRefService } from '../../../shared/services/window.service';
 import uikit from 'uikit';
 import { MatMenu } from '@angular/material/menu';
 import { log } from 'console';
+import { CountryService } from 'src/app/services/country/country.service';
+import { CountryInfo } from 'src/app/models/country.model';
 @Component({
   selector: 'app-single-product',
   templateUrl: './single-product.component.html',
@@ -60,13 +62,13 @@ export class SingleProductComponent implements OnInit {
   user: IUser;
   loadingAddress: boolean;
   addingItemToCart: boolean;
-  currentAddress: CartAddress = null;
+  currentAddress!: CartAddress;
   selectedShippingMethod: GetShippingEstimatePrice;
   shippingMethods: GetShippingEstimatePrice[] = [];
   // currentShippingMethod : GetShippingEstimatePrice = null;
   currentShippingMethod: BehaviorSubject<GetShippingEstimatePrice>;
   deletingAddress: boolean;
-  loadingShippingEstimate: boolean;
+  loadingShippingEstimate: boolean = true;
   loadingShippingStatus:
     | 'not_started'
     | 'request_started'
@@ -94,6 +96,8 @@ export class SingleProductComponent implements OnInit {
   variationsTitle: any[] = [];
   productUnit!: number;
   isLoadingDetails: boolean = false;
+  countryInfo: CountryInfo[] = [];
+  isEditingAddress: boolean = false;
 
   constructor(
     private toastService: ToastrService,
@@ -106,15 +110,23 @@ export class SingleProductComponent implements OnInit {
     private authService: AuthService,
     private webSocketService: WebsocketService,
     private windowRef: WindowRefService,
-    private userService: UserService
-  ) {
-    this.initAddressForm();
+    private userService: UserService,
+    private countryService: CountryService
+  ) {}
+
+  ngOnInit() {
     this.currentShippingMethod = new BehaviorSubject<GetShippingEstimatePrice>(
       null
     );
-  }
+    console.log(this.currentShippingMethod);
 
-  ngOnInit() {
+    this.initAddressForm();
+
+    this.countryService.getCountry().subscribe({
+      next: (data) => {
+        this.countryInfo = data;
+      },
+    });
     this.isLoadingDetails = true;
     this.windowRef.nativeWindow.document.body.scrollTop = 0;
     this.windowRef.nativeWindow.document.documentElement.scrollTop = 0;
@@ -146,22 +158,9 @@ export class SingleProductComponent implements OnInit {
 
     this.setUserAddress();
 
-    const user: IUser = JSON.parse(localStorage.getItem('user'));
-
-    const userId = user.id;
-
-    this.userService.getUserAddress(userId).subscribe({
-      next: (addresses) => {
-        this.currentAddress = addresses.find(
-          (address) => address.isDefault == true
-        );
-        localStorage.setItem(
-          'shippingAddress',
-          JSON.stringify(this.currentAddress)
-        );
-      },
-      error: (err) => {},
-    });
+    if (localStorage.getItem('userAddress')) {
+      this.addresses = JSON.parse(localStorage.getItem('userAddress')!);
+    }
 
     this.cartService.getPaymentMethods().subscribe({
       next: (res) => {
@@ -175,6 +174,7 @@ export class SingleProductComponent implements OnInit {
       const address = JSON.parse(
         localStorage.getItem('shippingAddress') as string
       );
+
       this.currentAddress = address;
       this.setRequestId();
       this.populateAddressForm(address);
@@ -210,6 +210,7 @@ export class SingleProductComponent implements OnInit {
       ) {
         this.loadingShippingEstimate = false;
         this.loadingShippingStatus = 'completed';
+        console.log(this.loadingShippingStatus);
 
         const shippingData =
           notificationResponse.data as GetShippingPriceEstimateData[];
@@ -229,6 +230,8 @@ export class SingleProductComponent implements OnInit {
           }
         }
         this.shippingMethods = shippingEsitmateData;
+        console.log(this.shippingMethods);
+
         this.orderAndSelectDefaultShippingMethod();
       } else if (
         notificationResponse.notificationType === 'GET_LOGISTIC_PRICES'
@@ -269,22 +272,26 @@ export class SingleProductComponent implements OnInit {
   };
 
   populateAddressForm = (data: any) => {
-    this.setter = data.fullAddress;
-    this.addressForm = new FormGroup({
-      firstname: new FormControl(data.firstname, Validators.required),
-      lastname: new FormControl(data.lastname, Validators.required),
-      fullAddress: new FormControl(data.fullAddress),
-      lat: new FormControl(data.lat),
-      lng: new FormControl(data.lng),
-      city: new FormControl(data.city),
-      state: new FormControl(data.state),
-      country: new FormControl(data.country),
-      userId: new FormControl(null),
-      contactPhoneNumber: new FormControl(
-        data.contactPhoneNumber,
-        Validators.required
-      ),
-    });
+    this.setter = data?.fullAddress;
+    console.log(data);
+
+    const phoneNumber = data.contactPhoneNumber.slice(-10);
+    const countryCode = data.contactPhoneNumber.slice(0, -10);
+    if (this.isEditingAddress) {
+      this.addressForm = new FormGroup({
+        firstname: new FormControl(data.firstname, Validators.required),
+        lastname: new FormControl(data.lastname, Validators.required),
+        fullAddress: new FormControl(data.fullAddress),
+        lat: new FormControl(data.lat),
+        lng: new FormControl(data.lng),
+        city: new FormControl(data.city),
+        state: new FormControl(data.state),
+        country: new FormControl(data.country),
+        userId: new FormControl(null),
+        contactPhoneNumber: new FormControl(phoneNumber, Validators.required),
+        countryCode: new FormControl(countryCode),
+      });
+    }
   };
 
   initAddressForm = () => {
@@ -297,11 +304,18 @@ export class SingleProductComponent implements OnInit {
       city: new FormControl(''),
       state: new FormControl(''),
       country: new FormControl(''),
-      // isDefault: new FormControl(true),
       userId: new FormControl(null),
+      countryCode: new FormControl('+234'),
       contactPhoneNumber: new FormControl('', Validators.required),
     });
   };
+
+  get formControls() {
+    return this.addressForm.controls;
+  }
+  changeOption(e: any) {
+    this.addressForm.patchValue({ countryCode: e.target.value });
+  }
 
   getParams = () => {
     this.activatedRoute.params.subscribe((params) => {
@@ -437,7 +451,6 @@ export class SingleProductComponent implements OnInit {
     const groupedOptions = list.reduce((acc, option) => {
       const title = option.title;
       const existingOptions = acc[title] || [];
-      console.log(existingOptions);
 
       return {
         ...acc,
@@ -510,9 +523,17 @@ export class SingleProductComponent implements OnInit {
     document.getElementById('closeShippingMethodDialog').click();
   };
 
-  setSelectedAddress = (item: any) => {
-    this.currentAddress = item;
+  setSelectedAddress = (address: CartAddress) => {
+    this.currentAddress = address;
+    this.populateAddressForm(address);
   };
+
+  onAddNewAddress() {
+    this.isInformation = true;
+    this.isEditingAddress = false;
+    this.addressForm.reset();
+    this.addressForm.patchValue({ countryCode: '+234' });
+  }
 
   setCurrentAddress = () => {
     console.log('get current address called');
@@ -537,28 +558,36 @@ export class SingleProductComponent implements OnInit {
     this.getShippingEstimate();
   };
 
-  setDefaultAddress = (address: any) => {
+  reloadAddresses() {
+    this.userService.getUserAddress(this.user.id).subscribe({
+      next: (addresses) => {
+        this.addresses = addresses;
+        localStorage.setItem('userAddress', JSON.stringify(addresses));
+        this.fetchUserAddresses();
+      },
+      error: (err) => {},
+    });
+  }
+
+  setDefaultAddress = (address: CartAddress) => {
     delete address.createdOn;
     delete address.userId;
     address.isDefault = true;
+    localStorage.setItem('shippingAddress', JSON.stringify(address));
     const cartService$ = this.cartService.setDefaultAddress(
       address,
       address.id
     );
     delete address.id;
-    cartService$.subscribe(
-      (res) => {
-        if ((res.sucess = true)) {
-          this.fetchUserAddresses();
-          this.toastService.success(res.message, 'SUCCESS');
-        } else {
-          this.toastService.error(res.message, 'ERROR');
-        }
+    cartService$.subscribe({
+      next: (res) => {
+        this.reloadAddresses();
+        this.toastService.success(res.message, 'SUCCESS');
       },
-      (error) => {
+      error: (error) => {
         this.toastService.error(error.message, 'ERROR');
-      }
-    );
+      },
+    });
   };
 
   deleteAddress = (id: any) => {
@@ -568,7 +597,7 @@ export class SingleProductComponent implements OnInit {
     cartService$.subscribe(
       (res) => {
         if ((res.sucess = true)) {
-          this.fetchUserAddresses();
+          this.reloadAddresses();
           this.toastService.success(res.message, 'SUCCESS');
           this.deletingAddress = false;
         } else {
@@ -583,13 +612,14 @@ export class SingleProductComponent implements OnInit {
     );
   };
 
+  onEditAddress() {
+    this.isInformation = true;
+    this.isEditingAddress = true;
+    this.populateAddressForm(this.currentAddress);
+  }
+
   displayDeliveryAddressOnLoad() {
-    if (
-      !this.currentAddress?.fullAddress ||
-      !this.currentAddress.contactPhoneNumber ||
-      !this.currentAddress.lat ||
-      !this.currentAddress.lng
-    ) {
+    if (!this.currentAddress) {
       this.showDeliveryAddressModal();
     }
     this.setRequestId();
@@ -621,22 +651,23 @@ export class SingleProductComponent implements OnInit {
     } as GetShippingPriceEstimateRequest;
     this.loadingShippingStatus = 'request_started';
     const cartService$ = this.cartService.getShippingEstimate(payload);
-    cartService$.subscribe(
-      (res) => {
+    cartService$.subscribe({
+      next: (res) => {
         this.loadingShippingEstimate = false;
-        this.shippingMethods = (
-          res.data as GetShippingPriceEstimateData[]
-        ).flatMap((a) => a.estimatePrices);
+        // this.shippingMethods = (
+        //   res.data as GetShippingPriceEstimateData[]
+        // ).flatMap((a) => a.estimatePrices);
         this.loadingShippingStatus = 'request_started';
         // if (this.currentShippingMethod === null) {
         //   this.orderAndSelectDefaultShippingMethod();
         // }
+
         this.connectToWebsocket();
       },
-      (error) => {
+      error: (error) => {
         this.loadingShippingEstimate = false;
-      }
-    );
+      },
+    });
   };
 
   orderAndSelectDefaultShippingMethod() {
@@ -699,48 +730,100 @@ export class SingleProductComponent implements OnInit {
   }
 
   applyAddress = () => {
-    if (this.addressForm.value.fullAddress !== '') {
+    if (!this.addressForm.invalid) {
       this.loadingAddress = true;
       this.setter = this.addressForm.value.fullAddress;
-      if (this.user !== null) {
-        this.addressForm.patchValue({ userId: this.user.id });
-        const cartService$ = this.cartService.createAddress(
-          this.addressForm.value
-        );
-        cartService$.subscribe({
-          next: (res) => {
-            if (res.status === 'success') {
-              this.toastService.success(
-                'Address created successfully',
-                'SUCCESS'
-              );
+      const formValue = this.addressForm.value;
+      const phoneNumber = this.addressForm.value.contactPhoneNumber
+        .slice(-10)
+        .toString();
+      const formattedPhoneNumber =
+        this.addressForm.get('countryCode').value.toString() + phoneNumber;
 
-              localStorage.setItem(
-                'shippingAddress',
-                JSON.stringify(this.addressForm.value)
-              );
-              this.currentAddress = this.addressForm.value;
-              this.fetchUserAddresses();
+      if (this.user !== null) {
+        if (this.isEditingAddress) {
+          let data: UserAddressData = {
+            firstname: formValue.firstname,
+            lastname: formValue.lastname,
+            fullAddress: formValue.fullAddress,
+            lat: this.currentAddress.lat as number,
+            contactPhoneNumber: formattedPhoneNumber,
+            lng: this.currentAddress.lng as number,
+            city: this.currentAddress.city,
+            state: formValue.state,
+            country: formValue.country,
+            userId: this.user.id,
+            isDefault: this.currentAddress.isDefault,
+          };
+          console.log(data, this.currentAddress);
+
+          this.userService
+            .updateUserAddress(this.currentAddress.id, data)
+            .subscribe({
+              next: (res) => {
+                console.log(res);
+
+                this.reloadAddresses();
+                this.loadingAddress = false;
+                document.getElementById('closeAddressFormDialog').click();
+                this.initAddressForm();
+              },
+              error: (err) => {},
+            });
+        } else {
+          this.addressForm.patchValue({ userId: this.user.id });
+          const cartService$ = this.cartService.createAddress(
+            this.addressForm.value
+          );
+          cartService$.subscribe({
+            next: (res) => {
+              if (res.status === 'success') {
+                this.toastService.success(
+                  'Address created successfully',
+                  'SUCCESS'
+                );
+
+                localStorage.setItem(
+                  'shippingAddress',
+                  JSON.stringify({
+                    ...this.addressForm.value,
+                    contactPhoneNumber: formattedPhoneNumber,
+                  })
+                );
+                this.currentAddress = {
+                  ...this.addressForm.value,
+                  contactPhoneNumber: formattedPhoneNumber,
+                };
+
+                this.reloadAddresses();
+                this.loadingAddress = false;
+                document.getElementById('closeAddressFormDialog').click();
+                this.initAddressForm();
+              } else {
+                this.loadingAddress = false;
+                this.toastService.error(res.message, 'ERROR');
+              }
+            },
+            error: (err) => {
               this.loadingAddress = false;
-              document.getElementById('closeAddressFormDialog').click();
-              this.initAddressForm();
-            } else {
-              this.loadingAddress = false;
-              this.toastService.error(res.message, 'ERROR');
-            }
-          },
-          error: (err) => {
-            this.loadingAddress = false;
-            this.toastService.error(err.message, 'ERROR');
-          },
-        });
+              this.toastService.error(err.message, 'ERROR');
+            },
+          });
+        }
       } else {
         this.loadingAddress = false;
         localStorage.setItem(
           'shippingAddress',
-          JSON.stringify(this.addressForm.value)
+          JSON.stringify({
+            ...this.addressForm.value,
+            contactPhoneNumber: formattedPhoneNumber,
+          })
         );
-        this.currentAddress = this.addressForm.value;
+        this.currentAddress = {
+          ...this.addressForm.value,
+          contactPhoneNumber: formattedPhoneNumber,
+        };
+
         this.getShippingEstimate();
         this.toastService.success('Address saved!', 'SUCCESS');
         document.getElementById('closeAddressFormDialog').click();
@@ -812,9 +895,10 @@ export class SingleProductComponent implements OnInit {
   };
 
   addToCart = () => {
-    if (this.currentAddress === null) {
+    if (!this.currentAddress) {
       const element = document.getElementById('openAddressModalBtn');
       element.click();
+      // uikit.modal('#information-modal').show();
     } else if (this.currentShippingMethod.value === null) {
       document.getElementById('openShippingModalBtn').click();
     } else {
@@ -902,47 +986,57 @@ export class SingleProductComponent implements OnInit {
     );
   };
 
-  fetchUserAddresses = () => {
+  fetchUserAddresses() {
     if (this.user !== null) {
-      const cartService$ = this.cartService.fetchUserAddresses(this.user.id);
-      cartService$.subscribe({
-        next: (res) => {
-          this.addresses = res.data.data;
-          const storedAddress = localStorage.getItem('shippingAddress');
-          if (storedAddress) {
-            const parsedStoredAddress = JSON.parse(storedAddress);
-            this.currentAddress = parsedStoredAddress;
-            this.addresses.forEach((element) => {
-              element.isSelected = this.areAddressesEqual(
-                element,
-                this.currentAddress
-              );
-            });
-          } else {
-            let defaultAddressFound = false;
-            for (let index = 0; index < this.addresses.length; index++) {
-              const element = this.addresses[index];
-              element.isSelected = false;
-              if (element.isDefault) {
-                this.currentAddress = element;
-                element.isSelected = true;
-                defaultAddressFound = true;
-                this.getShippingEstimate();
-              }
-            }
-            if (!defaultAddressFound) {
-              this.currentAddress = null;
-            }
-          }
-          this.setRequestId();
-          this.getShippingEstimate();
-        },
-        error: (error) => {},
-      });
+      // const cartService$ = this.cartService.fetchUserAddresses(this.user.id);
+      // cartService$.subscribe({
+      //   next: (res) => {
+      //     this.addresses = res.data.data;
+      //     console.log(res);
+
+      //     const storedAddress = localStorage.getItem('shippingAddress') ?? null;
+
+      //     if (storedAddress) {
+      //       const parsedStoredAddress = JSON.parse(storedAddress);
+      //       this.currentAddress = parsedStoredAddress;
+      //       this.addresses.forEach((element) => {
+      //         element.isSelected = this.areAddressesEqual(
+      //           element,
+      //           this.currentAddress
+      //         );
+      //       });
+      //     } else {
+      //       let defaultAddressFound = false;
+      //       for (let index = 0; index < this.addresses.length; index++) {
+      //         const element = this.addresses[index];
+      //         element.isSelected = false;
+      //         if (element.isDefault) {
+      //           this.currentAddress = element;
+      //           element.isSelected = true;
+      //           defaultAddressFound = true;
+      //           this.getShippingEstimate();
+      //         }
+      //       }
+      //       if (!defaultAddressFound) {
+      //         this.currentAddress = null;
+      //       }
+      //     }
+      //     this.setRequestId();
+      //     this.getShippingEstimate();
+      //   },
+      //   error: (error) => {},
+      // });
+
+      this.currentAddress = JSON.parse(
+        localStorage.getItem('shippingAddress')!
+      );
+      this.addresses = JSON.parse(localStorage.getItem('userAddress')!);
+      this.setRequestId();
+      this.getShippingEstimate();
     } else {
       this.addresses = [];
     }
-  };
+  }
 
   areAddressesEqual = (address1: any, address2: any): boolean => {
     return (
