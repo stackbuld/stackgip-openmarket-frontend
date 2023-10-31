@@ -405,7 +405,14 @@
                             i
                           )
                         "
-                        [disabled]="isUpdatingUnit[i]"
+                        [ngClass]="{
+                          disabled:
+                            item?.unit >= cartItemStockUnit[item.productId]
+                        }"
+                        [disabled]="
+                          isUpdatingUnit[i] ||
+                          item?.unit >= cartItemStockUnit[item.productId]
+                        "
                       >
                         <i class="fa fa-plus"></i>
                       </button>
