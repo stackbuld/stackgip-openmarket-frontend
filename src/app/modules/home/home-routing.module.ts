@@ -9,25 +9,29 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
 
 const routes: Routes = [
-    { path: '', component: HomeComponent, 
-      children: [
-        { path: '', component: ProductListComponent},
-        { path: 'product/:id', component: SingleProductComponent},
-        { path: 'checkout', component: ProductCheckoutComponent},
-        { path: 'details/:id', component: OrderDetailsComponent},
-        { path: 'history', component: OrderHistoryComponent},
-        { path: 'payment-confirmation', component: PaymentConfirmationComponent },
-        {
-          path: 'wallet',
+  {
+    path: '',
+    component: HomeComponent,
+    children: [
+      { path: '', component: ProductListComponent },
+      { path: 'product/:id', component: SingleProductComponent },
+      { path: 'checkout', component: ProductCheckoutComponent },
+      { path: 'details/:id', component: OrderDetailsComponent },
+      { path: 'history', component: OrderHistoryComponent },
+      { path: 'payment-confirmation', component: PaymentConfirmationComponent },
+      {
+        path: 'wallet',
         loadChildren: () =>
-      import('../../shared/wallet/wallet.module').then((m) => m.WalletModule),
-        },
-        {
-      path: '**',
-      redirectTo: '/home',
-    },
-      ]
-    },
+          import('../../shared/wallet/wallet.module').then(
+            (m) => m.WalletModule
+          ),
+      },
+      {
+        path: '**',
+        redirectTo: '/home',
+      },
+    ],
+  },
 ];
 
 @NgModule({

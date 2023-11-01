@@ -405,7 +405,14 @@
                             i
                           )
                         "
-                        [disabled]="isUpdatingUnit[i]"
+                        [ngClass]="{
+                          disabled:
+                            item?.unit >= cartItemStockUnit[item.productId]
+                        }"
+                        [disabled]="
+                          isUpdatingUnit[i] ||
+                          item?.unit >= cartItemStockUnit[item.productId]
+                        "
                       >
                         <i class="fa fa-plus"></i>
                       </button>
@@ -423,17 +430,42 @@
                 <div class="cart-item-shipping cart-item-shipping-desktop">
                   <div class="cart-item-shipping-main">
                     <div class="shipping-address">
-                      From Abuja Station to Samaritan hospital via CMK
-                      +2349056473212
+                      Delivering to {{ item?.destination?.fullAddress }} via
+                      <span class="logistic-name">
+                        {{ item?.logistic?.logisticName }}
+                      </span>
+
+                      <div class="receiver">
+                        Receiver:
+                        <span
+                          >{{ item?.destination?.firstname }}
+                          {{ item?.destination?.lastname }} -
+                          {{ item?.destination?.phoneNumber }}</span
+                        >
+                      </div>
                     </div>
                     <div class="payment">Payment online</div>
                   </div>
-                  <div class="cart-item-variations">
+                  <div
+                    class="cart-item-variations"
+                    *ngIf="variations.length > 0"
+                  >
                     <div class="cart-item-variations-heading">Variations</div>
                     <ul class="variations-lists">
-                      <li>Color: <span>(Orange, Black)</span></li>
-                      <li>Size: <span>M, XL</span></li>
-                      <li>Weight: <span>175g</span></li>
+                      <li
+                        *ngFor="let variation of variations[i]; let v = index"
+                      >
+                        <span class="variation-group">{{
+                          variations[i][v][0].title
+                        }}</span
+                        >:
+                        <span class="variation-value"
+                          >{{ variation[0].value }}
+                          <span class="variation-cost">
+                            (NGN{{ variation[0].cost | number }})
+                          </span></span
+                        >
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -483,17 +515,42 @@
                   <div class="cart-item-shipping">
                     <div class="cart-item-shipping-main">
                       <div class="shipping-address">
-                        From Abuja Station to Samaritan hospital via CMK
-                        +2349056473212
+                        Delivering to {{ item?.destination?.fullAddress }} via
+                        <span class="logistic-name">
+                          {{ item?.logistic?.logisticName }}
+                        </span>
+
+                        <div class="receiver">
+                          Receiver:
+                          <span
+                            >{{ item?.destination?.firstname }}
+                            {{ item?.destination?.lastname }} -
+                            {{ item?.destination?.phoneNumber }}</span
+                          >
+                        </div>
                       </div>
                       <div class="payment">Payment online</div>
                     </div>
-                    <div class="cart-item-variations">
+                    <div
+                      class="cart-item-variations"
+                      *ngIf="variations.length > 0"
+                    >
                       <div class="cart-item-variations-heading">Variations</div>
                       <ul class="variations-lists">
-                        <li>Color: <span>(Orange, Black)</span></li>
-                        <li>Size: <span>M, XL</span></li>
-                        <li>Weight: <span>175g</span></li>
+                        <li
+                          *ngFor="let variation of variations[i]; let v = index"
+                        >
+                          <span class="variation-group">{{
+                            variations[i][v][0].title
+                          }}</span
+                          >:
+                          <span class="variation-value"
+                            >{{ variation[0].value }}
+                            <span class="variation-cost">
+                              (NGN{{ variation[0].cost | number }})
+                            </span></span
+                          >
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -595,7 +652,7 @@
           </div>
         </div>
 
-        <div class="payment-alert">
+        <!-- <div class="payment-alert">
           <div class="payment-alert-icon">
             <img
               src="assets/icons/payment-alert-icon.png"
@@ -612,7 +669,7 @@
               card
             </div>
           </div>
-        </div>
+        </div> -->
 
         <button
           [disabled]="loadingPayment"

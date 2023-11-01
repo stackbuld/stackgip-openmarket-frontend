@@ -1,0 +1,153 @@
+<div class="product-container">
+  <div class="product-main">
+    <div class="product-images">
+      <div class="product-image">
+        <img src="assets/image/laptop.png" alt="" />
+      </div>
+
+      <div class="product-image-slider"></div>
+    </div>
+
+    <div class="product-details">
+      <div class="product-name">
+        Lenovo Ideapad Intel Celeron 1TB HDD 4GB RAM Win 10 PRO
+      </div>
+
+      <div class="product-price-unit">
+        <div class="product-price">
+          <div class="new-price">NGN 160,839.04</div>
+          <div class="old-price">NGN 182,372.00</div>
+        </div>
+
+        <div class="product-unit">
+          <div class="product-units">
+            <div class="product-units-main">
+              <div class="items-left">75 Left</div>
+
+              <div class="order-count">100 orders</div>
+            </div>
+            <!-- <div class="seller-store">Visit seller's store</div> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="product-qty">
+        <button class="unit-btn">
+          <i class="fa fa-minus"></i>
+        </button>
+
+        <span class="unit-text">
+          <span class="btn-texts"> 1 </span>
+
+          <span class="loader"></span
+        ></span>
+
+        <button class="unit-btn">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+
+      <div class="payment-type">
+        <p class="txt">Available Payment Type:</p>
+        <div class="flex-center">
+          <label class="flex-center">
+            <input type="radio" checked name="delivery-type" value="online" />
+            &nbsp;
+            <span>Pay online</span>
+          </label>
+          &nbsp; &nbsp;
+          <label class="flex-center">
+            <input
+              disabled
+              type="radio"
+              name="delivery-type"
+              value="delivery"
+            />
+            &nbsp;
+            <span style="color: #c2c2cc">Pay on delivery</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- <div *ngIf="!loading">
+          <div class="mt-3" *ngFor="let item of sortedVariationsList">
+            <p class="txt capitalize">{{ item[0]?.title }}:</p>
+            <div style="display: flex; flex-wrap: wrap">
+              <p
+                (click)="setSelectedVariation(it)"
+                class="color-tag capitalize d-flex align-items-center"
+                *ngFor="let it of item"
+              >
+                <strong>{{ it?.value }}</strong> &nbsp;
+                <span *ngIf="it?.cost > 0" style="font-size: 12px">
+                  + {{ it?.cost | currency : "₦" }}
+                </span>
+                &nbsp;
+                <span *ngIf="it?.isSelected">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 100 100"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      opacity="0.3"
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M50.0007 91.6673C73.0125 91.6673 91.6673 73.0125 91.6673 50.0007C91.6673 26.9888 73.0125 8.33398 50.0007 8.33398C26.9888 8.33398 8.33398 26.9888 8.33398 50.0007C8.33398 73.0125 26.9888 91.6673 50.0007 91.6673Z"
+                      fill="#219653"
+                    />
+                    <path
+                      d="M69.8707 32.5737C71.4408 30.8914 74.0774 30.8005 75.7597 32.3706C77.442 33.9408 77.533 36.5774 75.9628 38.2597L46.7961 69.5097C45.2728 71.1419 42.7336 71.2832 41.0384 69.8302L26.4551 57.3302C24.7079 55.8327 24.5056 53.2022 26.0032 51.455C27.5008 49.7079 30.1312 49.5055 31.8784 51.0031L43.4292 60.9038L69.8707 32.5737Z"
+                      fill="#219653"
+                    />
+                  </svg>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div> -->
+
+      <div class="shipping-delivered">
+        <div class="shipping-main">Shipping: Starting from NGN 3000</div>
+
+        <div class="delivered-main">
+          Delivered between Tuesday 8 Nov and Tuesday 15 Nov
+        </div>
+      </div>
+
+      <div class="pickup">
+        <div class="pickup-heading">Pickup</div>
+
+        <div class="pickup-details">
+          <div class="pickup-details-date">Date: Jan 28, 2002</div>
+
+          <div class="pickup-details-location">Location: Abuja Station</div>
+        </div>
+      </div>
+
+      <div class="delivery">
+        <div class="delivery-heading">Delivery</div>
+
+        <p>You haven't added a delivery address</p>
+
+        <div class="delivery-details">
+          <div class="delivery-details-date">Date: Feb 18, 2002</div>
+          <div class="delivery-details-location">
+            Location: Samaritan Hospital via CMK
+          </div>
+        </div>
+      </div>
+
+      <div class="product-btn-container">
+        <div class="product-btn-main">
+          <button class="add-to-cart">Add to Cart</button>
+          <button class="continue-shopping">Continue Shopping</button>
+        </div>
+
+        <a>View items in cart</a>
+      </div>
+    </div>
+  </div>
+</div>
