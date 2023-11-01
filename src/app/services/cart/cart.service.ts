@@ -55,7 +55,7 @@ export class CartService {
         this.baseUrl +
           `cart?userId=${payload.id}&productId=${payload.productId}`
       );
-    } else {
+    } else if (payload.key === 'reference') {
       return this.http.delete<DeleteCartResponseModel>(
         this.baseUrl +
           `cart?referenceId=${payload.id}&productId=${payload.productId}`

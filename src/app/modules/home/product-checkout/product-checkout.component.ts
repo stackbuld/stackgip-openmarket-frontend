@@ -15,7 +15,6 @@ import { WindowRefService } from '../../../shared/services/window.service';
 import { FooterService } from 'src/app/services/footer.service';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
-import { log } from 'console';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -40,6 +39,7 @@ export class ProductCheckoutComponent implements OnInit {
   panelOpenState: boolean[] = [];
   productId: string;
   variations: any[] = [];
+  cartItemStockUnit: { [key: string]: number };
 
   constructor(
     private footerService: FooterService,
@@ -48,7 +48,7 @@ export class ProductCheckoutComponent implements OnInit {
     private applocal: AppLocalStorage,
     private windowService: WindowRefService,
     private authService: AuthService,
-    private router: Router
+    private productService: ProductsService
   ) {}
 
   ngOnInit(): void {
@@ -70,11 +70,9 @@ export class ProductCheckoutComponent implements OnInit {
 
     if (this.referenceId !== null || this.user !== null) {
       this.getCustomerCart();
-
-      // this.getPaymentMethods();
     }
   }
-  getCustomerCart = () => {
+  getCustomerCart() {
     this.loadingCart = true;
     let cart$: Observable<GetCartResponseModel>;
     const userId = this.user?.id ?? '';
@@ -86,16 +84,25 @@ export class ProductCheckoutComponent implements OnInit {
       next: (res) => {
         if (res.status === 'success') {
           this.cart = res.data;
-          console.log(res.data);
 
           this.cartItems = res.data.cartItems;
 
           const variations: any[] = [];
+          let productItem: { [key: string]: number } = {};
           this.cartItems.forEach((item) => {
             if (item.varations.length > 0) {
               variations.push(item.varations);
             }
+            try {
+              this.productService
+                .getCachedProductById(item.productId)
+                .subscribe((product) => {
+                  productItem[product?.data?.id] = product.data.unit;
+                });
+            } catch {}
           });
+
+          this.cartItemStockUnit = productItem;
 
           this.setVariation(variations);
 
@@ -116,7 +123,7 @@ export class ProductCheckoutComponent implements OnInit {
         this.toastService.error(error.message, 'ERROR');
       },
     });
-  };
+  }
 
   setVariation(list: any) {
     list.forEach((variation) => {
@@ -147,70 +154,42 @@ export class ProductCheckoutComponent implements OnInit {
 
   deleteCartItem = () => {
     this.deletingCartItem = true;
-    let productService$;
+    let payload;
     if (this.user !== null) {
-      const payload = {
+      payload = {
         key: 'user',
         id: this.user.id,
         productId: this.selectedCartItem.product.id,
       };
-      productService$ = this.cartService.deleteCartItem(payload);
     } else {
-      const payload = {
+      payload = {
         key: 'reference',
         id: this.referenceId,
         productId: this.selectedCartItem.product.id,
       };
-      productService$ = this.cartService.deleteCartItem(payload);
     }
-    productService$.subscribe(
-      (res) => {
-        if (res.status === 'success') {
-          this.deletingCartItem = false;
-          this.toastService.success(res.message, 'SUCCESS');
-          this.closeDeleteDialog();
-          this.getCustomerCart();
-        } else {
-          this.deletingCartItem = false;
-          this.toastService.error(res.message, 'ERROR');
-        }
+    this.cartService.deleteCartItem(payload).subscribe({
+      next: (res) => {
+        this.deletingCartItem = false;
+        this.toastService.success(res.message, 'SUCCESS');
+        this.closeDeleteDialog();
+        this.getCustomerCart();
       },
-      (error) => {
+      error: (error) => {
         this.deletingCartItem = false;
         this.toastService.error(error.message, 'ERROR');
-      }
-    );
+      },
+    });
   };
 
   onExpand(index: number) {
     this.panelOpenState[index] = !this.panelOpenState[index];
   }
 
-  // getPaymentMethods = () => {
-  //   this.loadingPaymentMethods = true;
-  //   const productService$ = this.cartService.getPaymentMethods();
-  //   productService$.subscribe(
-  //     (res) => {
-  //       if (res.status === 'success') {
-  //         this.paymentMethods = res.data;
-  //         console.log(this.paymentMethods);
-
-  //         this.loadingPaymentMethods = false;
-  //       } else {
-  //         this.loadingPaymentMethods = false;
-  //         this.toastService.error(res.message, 'ERROR');
-  //       }
-  //     },
-  //     (error) => {
-  //       this.loadingPaymentMethods = false;
-  //       this.toastService.warning(error.message, 'ERROR');
-  //     }
-  //   );
-  // };
-
   updateUnit = (payload: any, index: number) => {
     this.loadingUnitUpdate = true;
     this.isUpdatingUnit[index] = true;
+
     const productService$ = this.cartService.updateCartItemUnit(payload);
     productService$.subscribe({
       next: (res) => {
@@ -218,6 +197,7 @@ export class ProductCheckoutComponent implements OnInit {
           this.isUpdatingUnit[index] = false;
           this.loadingUnitUpdate = false;
           this.cart = res.data;
+
           this.cartItems = res.data.cartItems;
           this.applocal.cartCount.next(res.data.cartItems.length + 1);
           this.applocal.storeToStorage(
@@ -244,29 +224,44 @@ export class ProductCheckoutComponent implements OnInit {
     index: number
   ) => {
     this.productId = productId;
+
     if (key === 'plus') {
       unit++;
-      const payload = {
-        userId: this.user ? this.user.id : '',
-        referenceId: this.referenceId,
-        productId: productId,
-        unit: unit,
-      };
-      this.updateUnit(payload, index);
+    } else if (key === 'minus') {
+      unit--;
     }
 
-    if (key === 'minus') {
-      if (unit > 1) {
-        unit--;
-        const payload = {
-          userId: this.user ? this.user.id : '',
-          referenceId: this.referenceId,
-          productId: productId,
-          unit: unit,
-        };
-        this.updateUnit(payload, index);
-      }
-    }
+    const payload = {
+      userId: this.user ? this.user.id : '',
+      referenceId: this.referenceId,
+      productId: productId,
+      unit: unit,
+    };
+    this.updateUnit(payload, index);
+
+    // if (key === 'plus') {
+    //   unit++;
+    //   const payload = {
+    //     userId: this.user ? this.user.id : '',
+    //     referenceId: this.referenceId,
+    //     productId: productId,
+    //     unit: unit,
+    //   };
+    //   this.updateUnit(payload, index);
+    // }
+
+    // if (key === 'minus') {
+    //   if (unit > 1) {
+    //     unit--;
+    //     const payload = {
+    //       userId: this.user ? this.user.id : '',
+    //       referenceId: this.referenceId,
+    //       productId: productId,
+    //       unit: unit,
+    //     };
+    //     this.updateUnit(payload, index);
+    //   }
+    // }
   };
 
   setPaymentMethod = (item: any) => {
@@ -286,11 +281,10 @@ export class ProductCheckoutComponent implements OnInit {
             currencyCode: 'NGN',
             paymentProviderCode: this.paymentMethod.code,
           };
-          const productService$ = this.cartService.makePayment(payload);
-          productService$.subscribe(
-            (res) => {
+
+          this.cartService.makePayment(payload).subscribe({
+            next: (res) => {
               if (res.status === 'success') {
-                console.log('payment response', res);
                 // this.router.navigateByUrl(res.data.redirectUrl);
                 this.windowService.nativeWindow.window.open(
                   res.data.redirectUrl
@@ -301,11 +295,11 @@ export class ProductCheckoutComponent implements OnInit {
                 this.toastService.error(res.message, 'ERROR');
               }
             },
-            (error) => {
+            error: (error) => {
               this.loadingPayment = false;
               this.toastService.warning(error.message, 'ERROR');
-            }
-          );
+            },
+          });
         } else {
           this.authService.showSharedSocialModal();
           this.toastService.warning('Please login to make payment', 'MESSAGE');
