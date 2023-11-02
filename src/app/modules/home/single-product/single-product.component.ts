@@ -33,8 +33,7 @@ import { WebSocketSubject } from 'rxjs/webSocket';
 import { BehaviorSubject } from 'rxjs';
 import { WindowRefService } from '../../../shared/services/window.service';
 import uikit from 'uikit';
-import { MatMenu } from '@angular/material/menu';
-import { log } from 'console';
+
 import { CountryService } from 'src/app/services/country/country.service';
 import { CountryInfo } from 'src/app/models/country.model';
 @Component({
@@ -98,6 +97,25 @@ export class SingleProductComponent implements OnInit {
   isLoadingDetails: boolean = false;
   countryInfo: CountryInfo[] = [];
   isEditingAddress: boolean = false;
+  productImages: { [key: string]: string }[] = [];
+  currentIndex: any = -1;
+  showFlag: any = false;
+
+  // Swiper
+  swiperConfig = {
+    spaceBetween: 10,
+    navigation: true,
+    pagination: true,
+    loop: true,
+  };
+
+  swiperThumbsConfig = {
+    spaceBetween: 10,
+    slidesPerView: 4,
+    freeMode: true,
+    navigation: true,
+    watchSlidesProgress: true,
+  };
 
   constructor(
     private toastService: ToastrService,
@@ -275,6 +293,8 @@ export class SingleProductComponent implements OnInit {
   viewProduct = (id: any) => {
     this.isLoadingDetails = true;
     this.complimentaryProductsList = [];
+    this.productImages = [];
+    this.shippingMethods = [];
     this.imgUrls = [];
     this.router.navigate(['/homepage/product', id]);
     this.getShippingEstimate();
@@ -335,6 +355,16 @@ export class SingleProductComponent implements OnInit {
     });
   };
 
+  showLightbox(index) {
+    this.currentIndex = index;
+    this.showFlag = true;
+  }
+
+  closeEventHandler() {
+    this.showFlag = false;
+    this.currentIndex = -1;
+  }
+
   getProductDetails = () => {
     this.loading = true;
     const productService$ = this.productService.getCachedProductById(
@@ -344,8 +374,13 @@ export class SingleProductComponent implements OnInit {
       next: (res) => {
         this.isLoadingDetails = false;
         this.product = res.data;
+
+        this.product.productImages.forEach((image) => {
+          this.productImages.push({ image: image });
+        });
+
         this.productUnit = res.data.unit;
-        console.log(this.product);
+        console.log(this.product, this.productImages);
 
         this.productPrice = res.data.price;
         this.currentImgUrl = res.data.productImages[0];

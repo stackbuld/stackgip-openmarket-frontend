@@ -4,11 +4,9 @@
 <div class="main" *ngIf="!isLoadingDetails">
   <div class="top-section">
     <div class="mobile-pad-1 left-section">
-      <img
-        *ngIf="loading"
-        [src]="temporaryDetails?.imageUrl"
-        class="main-img"
-      />
+      <!-- <div class="main-img-container">
+        <img [src]="temporaryDetails?.imageUrl" class="main-img" />
+      </div>
 
       <div
         *ngIf="!loading"
@@ -146,112 +144,49 @@
             <circle cx="5.29528" cy="4.61364" r="4.61364" fill="#D9D9D9" />
           </svg>
         </span>
+      </div> -->
+      <div class="product-images">
+        <div class="product-image-main">
+          <swiper-container
+            thumbs-swiper=".swiper2"
+            [config]="swiperConfig"
+            pagination="true"
+          >
+            <swiper-slide
+              class="swiper"
+              *ngFor="let image of productImages; let i = index"
+            >
+              <div
+                class="image-test"
+                [ngStyle]="{ backgroundImage: 'url(' + image.image + ')' }"
+                (click)="showLightbox(i)"
+              ></div>
+            </swiper-slide>
+          </swiper-container>
+        </div>
+
+        <div class="product-image-slider">
+          <swiper-container class="swiper2">
+            <swiper-slide
+              class="swiper-slide"
+              *ngFor="let image of productImages"
+            >
+              <img [src]="image.image" alt="" class="thumb-image" />
+            </swiper-slide>
+          </swiper-container>
+        </div>
       </div>
     </div>
+
+    <ng-image-fullscreen-view
+      [images]="productImages"
+      [imageIndex]="currentIndex"
+      [show]="showFlag"
+      (close)="closeEventHandler()"
+    ></ng-image-fullscreen-view>
+
     <div class="right-section">
       <div class="mobile-pad-1">
-        <!-- <p *ngIf="!loading" class="name">
-          {{ product?.name || "N/A" }}
-        </p>
-
-        <div *ngIf="loading" class="w-100 name">
-          {{ temporaryDetails?.name }}
-          
-        </div>
-
-        <div class="price-container">
-          <p *ngIf="!loading">
-            <span class="new-price">{{ productPrice | currency : "NGN" }}</span>
-            &nbsp; &nbsp;
-            <span class="old-price" *ngIf="product?.previousPrice > 0">{{
-              product?.previousPrice | currency : "NGN"
-            }}</span>
-          </p>
-
-          <p *ngIf="loading">
-            <span class="new-price">{{
-              temporaryDetails?.price | currency : "NGN"
-            }}</span>
-            &nbsp; &nbsp;
-            <span
-              *ngIf="temporaryDetails?.previousPrice > 0"
-              class="old-price"
-              >{{ temporaryDetails?.previousPrice | currency : "NGN" }}</span
-            >
-          </p>
-        </div>
-
-     
-
-        <div class="product-units">
-          <div class="product-units-main">
-            <p *ngIf="!loading" class="mb-0 items-left">
-              {{ product?.unit }} Left
-            </p>
-            <p *ngIf="loading" class="mb-0 items-left">
-              {{ temporaryDetails?.unit }} Left
-            </p>
-            <p class="order-count">100 orders</p>
-          </div>
-     
-        </div>
-
-        <div class="mt-4">
-          <p class="txt">Quantity:</p>
-          <div class="flex-center">
-            <svg
-              (click)="decreaseQuantity()"
-              class="pointer"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M10.0003 18.3334C14.6027 18.3334 18.3337 14.6025 18.3337 10.0001C18.3337 5.39771 14.6027 1.66675 10.0003 1.66675C5.39795 1.66675 1.66699 5.39771 1.66699 10.0001C1.66699 14.6025 5.39795 18.3334 10.0003 18.3334Z"
-                fill="#F2F2F2"
-              />
-              <path
-                d="M6.66699 10H13.3337"
-                stroke="#D8D8D8"
-                stroke-width="1.39167"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            <span class="mx-3 txt">{{ count }}</span>
-            <svg
-              (click)="increaseQuantity()"
-              class="pointer"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M10.0003 18.3334C14.6027 18.3334 18.3337 14.6025 18.3337 10.0001C18.3337 5.39771 14.6027 1.66675 10.0003 1.66675C5.39795 1.66675 1.66699 5.39771 1.66699 10.0001C1.66699 14.6025 5.39795 18.3334 10.0003 18.3334Z"
-                fill="#F2F2F2"
-              />
-              <path
-                d="M10 6.66675V13.3334"
-                stroke="#666666"
-                stroke-width="1.39167"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M6.66699 10H13.3337"
-                stroke="#666666"
-                stroke-width="1.39167"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </div>
-        </div> -->
-
         <div class="product-details-main" *ngIf="product">
           <div class="product-name">
             {{ product.name }}
@@ -417,70 +352,6 @@
           </div>
         </div>
 
-        <!-- <div
-          class="mt-4"
-          *ngIf="
-            loadingShippingStatus == 'in_progress' ||
-            (loadingShippingStatus == 'completed' &&
-              currentShippingMethod !== null)
-          "
-        >
-          <p uk-toggle="target: #shipping-modal" class="msg pointer">
-            Shipping: Starting from
-            {{
-              currentShippingMethod?.value?.startingPrice || 0
-                | currency : "NGN"
-            }}
-          </p>
-
-          <span class="flex-center">
-            <span class="txt"
-              >Via
-              {{ currentShippingMethod?.value?.logisticName || "N/A" }}</span
-            >
-            &nbsp; &nbsp;
-            <span
-              *ngIf="
-                currentShippingMethod?.value?.logisticLogoUrl !== '' ||
-                currentShippingMethod?.value?.logisticLogoUrl !== null
-              "
-            >
-              <img
-                src="{{ currentShippingMethod?.value?.logisticLogoUrl }}"
-                style="width: 100px"
-              />
-            </span>
-          </span>
-          <div class="mt-2 mobile-block flex-center">
-            <span uk-toggle="target: #shipping-modal" class="pointer txt mb-0">
-              Delivered between
-              {{ currentShippingMethod?.value?.deliveryDuration || "N/A" }}
-            </span>
-            &nbsp; &nbsp;
-            <span
-              uk-toggle="target: #shipping-modal"
-              class="pointer flex-center"
-            >
-              <span class="change-red">Change shipping mode</span> &nbsp;
-              <svg
-                width="14"
-                height="15"
-                viewBox="0 0 14 15"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M10.125 9.1875L6.75 5.8125L3.375 9.1875"
-                  stroke="#D01717"
-                  stroke-width="1.125"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </span>
-          </div>
-        </div> -->
-
         <div
           *ngIf="
             loadingShippingStatus !== 'completed' &&
@@ -499,55 +370,6 @@
             />
           </span>
         </div>
-
-        <!-- <div *ngIf="loading" class="w-100">
-          <br />
-          <ngx-shimmer-loading height="20px" width="70px"></ngx-shimmer-loading>
-          <br />
-          <ngx-shimmer-loading height="70px"></ngx-shimmer-loading>
-        </div>
-
-        <div
-          *ngIf="currentAddress !== null"
-          class="mt-3 mobile-block flex-center"
-        >
-          <span>Ship to</span>
-          &nbsp; &nbsp;
-          <img src="/assets/images/location-icn.svg" alt="location-icn" />
-          &nbsp;
-
-          <span (click)="openAddressModal()" class="pointer mb-0 txt">
-            <strong>{{ currentAddress?.fullAddress || "N/A" }}</strong>
-          </span>
-          &nbsp;
-
-          <p class="mb-0 change-yel" (click)="openAddressModal()">Change</p>
-        </div>
-
-        <div
-          *ngIf="currentAddress === null"
-          class="mt-3 mobile-block flex-center"
-        >
-          <p class="loading mb-0">No Delivery Address Yet</p>
-          &nbsp;
-          <p
-            class="mb-0 change-yel"
-            (click)="resetModalView()"
-            uk-toggle="target: #information-modal"
-          >
-            Add or Select Address
-          </p>
-        </div>
-
-        <div *ngIf="currentAddress == null" class="py-3">
-          <p
-            class="mb-0 info"
-            (click)="resetModalView()"
-            uk-toggle="target: #information-modal"
-          >
-            Enter your delivery address, to see available shipping options
-          </p>
-        </div> -->
       </div>
 
       <div class="mt-4 uk-flex uk-flex-between web-btn">
@@ -601,134 +423,6 @@
       </div>
     </div>
   </div>
-
-  <!-- <div *ngIf="complimentaryProductsList.length > 0" class="mobile-pad-1 mt-5">
-    <div class="uk-flex uk-flex-between">
-      <h2>Complementary Products</h2>
-      <p class="txt mb-0 pointer">
-        <span>See All</span> &nbsp;
-        <svg
-          width="19"
-          height="11"
-          viewBox="0 0 19 11"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M12.2194 0.468997C12.289 0.399153 12.3718 0.343738 12.4629 0.305928C12.554 0.268119 12.6517 0.248657 12.7504 0.248657C12.849 0.248657 12.9467 0.268119 13.0378 0.305928C13.1289 0.343738 13.2117 0.399153 13.2814 0.468997L17.7814 4.969C17.8512 5.03867 17.9066 5.12143 17.9444 5.21255C17.9822 5.30366 18.0017 5.40135 18.0017 5.5C18.0017 5.59865 17.9822 5.69633 17.9444 5.78745C17.9066 5.87856 17.8512 5.96133 17.7814 6.031L13.2814 10.531C13.1405 10.6718 12.9495 10.7509 12.7504 10.7509C12.5512 10.7509 12.3602 10.6718 12.2194 10.531C12.0785 10.3902 11.9994 10.1992 11.9994 10C11.9994 9.80083 12.0785 9.60983 12.2194 9.469L16.1899 5.5L12.2194 1.531C12.1495 1.46133 12.0941 1.37857 12.0563 1.28745C12.0185 1.19633 11.999 1.09865 11.999 0.999997C11.999 0.901347 12.0185 0.803665 12.0563 0.712547C12.0941 0.621429 12.1495 0.538666 12.2194 0.468997Z"
-            fill="black"
-          />
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M0 5.5C0 5.30109 0.0790178 5.11032 0.21967 4.96967C0.360322 4.82902 0.551088 4.75 0.75 4.75H16.5C16.6989 4.75 16.8897 4.82902 17.0303 4.96967C17.171 5.11032 17.25 5.30109 17.25 5.5C17.25 5.69891 17.171 5.88968 17.0303 6.03033C16.8897 6.17098 16.6989 6.25 16.5 6.25H0.75C0.551088 6.25 0.360322 6.17098 0.21967 6.03033C0.0790178 5.88968 0 5.69891 0 5.5Z"
-            fill="black"
-          />
-        </svg>
-      </p>
-    </div>
-    <div
-      data-uk-slider="autoplay: true; finite: false; autoplay-interval: 2000; pause-on-hover: true;"
-    >
-      <ul class="uk-slider-items">
-        <div
-          *ngFor="let product of complimentaryProductsList"
-          class="uk-width-1-4@l uk-width-1-2"
-        >
-          <div
-            class="prod p-2"
-            [ngClass]="{ 'selected-prod': product.isSelected === true }"
-          >
-            <div
-              *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''"
-              uk-lightbox
-            >
-              <a
-                class="w-100 p-0 uk-button uk-button-default"
-                href="{{ product?.imageUrl }}"
-              >
-                <img
-                  src="{{ getImageResolution(product?.imageUrl, 200, 150) }}"
-                  class="w-100"
-                />
-              </a>
-            </div>
-            <div
-              *ngIf="product?.imageUrl === null || product?.imageUrl === ''"
-              class="img-empty-txt"
-            >
-              <p class="text-center mb-0">Image not found</p>
-            </div>
-            <div
-              (click)="setSelectedComplementaryProduct(product)"
-              class="py-3"
-            >
-              <p class="mb-1 name">
-                <span>{{ product?.title || "N/A" | slice : 0 : 30 }}</span>
-                <span *ngIf="product?.title?.length > 30">...</span>
-              </p>
-              <p class="price">{{ product?.cost | currency : "₦" }}</p>
-              <span *ngIf="!product.isSelected">
-                <img
-                  src="/assets/images/cart-icn.svg"
-                  alt="cart-icn"
-                  width="20"
-                  height="20"
-                />
-                &nbsp;
-                <span>Select</span>
-              </span>
-              <span
-                *ngIf="product.isSelected"
-                class="d-flex align-items-center"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M2.96484 5.92969H4.94149H20.7546"
-                    stroke="#D01717"
-                    stroke-width="1.6505"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M18.7779 5.92985V19.7663C18.7779 20.2906 18.5696 20.7933 18.199 21.164C17.8283 21.5347 17.3255 21.743 16.8013 21.743H6.91805C6.39381 21.743 5.89104 21.5347 5.52035 21.164C5.14966 20.7933 4.94141 20.2906 4.94141 19.7663V5.92985M7.90637 5.92985V3.9532C7.90637 3.42897 8.11462 2.9262 8.48531 2.55551C8.85601 2.18482 9.35877 1.97656 9.88301 1.97656H13.8363C14.3605 1.97656 14.8633 2.18482 15.234 2.55551C15.6047 2.9262 15.8129 3.42897 15.8129 3.9532V5.92985"
-                    stroke="#D01717"
-                    stroke-width="1.6505"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M9.88281 10.8716V16.8015"
-                    stroke="#D01717"
-                    stroke-width="1.6505"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M13.8369 10.8716V16.8015"
-                    stroke="#D01717"
-                    stroke-width="1.6505"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                &nbsp;
-                <span class="remove">Remove</span>
-              </span>
-            </div>
-          </div>
-        </div>
-      </ul>
-    </div>
-  </div> -->
 
   <div
     class="complimentary-products"
@@ -832,71 +526,6 @@
     </div>
   </div>
 
-  <!-- <div class="mobile-only-margin-bottom mobile-pad-1 mt-5">
-    <div class="uk-flex uk-flex-between">
-      <h2>You may also like</h2>
-      <p class="txt mb-0 pointer" routerLink="/homepage">
-        <span>See All</span> &nbsp;
-        <svg
-          width="19"
-          height="11"
-          viewBox="0 0 19 11"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M12.2194 0.468997C12.289 0.399153 12.3718 0.343738 12.4629 0.305928C12.554 0.268119 12.6517 0.248657 12.7504 0.248657C12.849 0.248657 12.9467 0.268119 13.0378 0.305928C13.1289 0.343738 13.2117 0.399153 13.2814 0.468997L17.7814 4.969C17.8512 5.03867 17.9066 5.12143 17.9444 5.21255C17.9822 5.30366 18.0017 5.40135 18.0017 5.5C18.0017 5.59865 17.9822 5.69633 17.9444 5.78745C17.9066 5.87856 17.8512 5.96133 17.7814 6.031L13.2814 10.531C13.1405 10.6718 12.9495 10.7509 12.7504 10.7509C12.5512 10.7509 12.3602 10.6718 12.2194 10.531C12.0785 10.3902 11.9994 10.1992 11.9994 10C11.9994 9.80083 12.0785 9.60983 12.2194 9.469L16.1899 5.5L12.2194 1.531C12.1495 1.46133 12.0941 1.37857 12.0563 1.28745C12.0185 1.19633 11.999 1.09865 11.999 0.999997C11.999 0.901347 12.0185 0.803665 12.0563 0.712547C12.0941 0.621429 12.1495 0.538666 12.2194 0.468997Z"
-            fill="black"
-          />
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M0 5.5C0 5.30109 0.0790178 5.11032 0.21967 4.96967C0.360322 4.82902 0.551088 4.75 0.75 4.75H16.5C16.6989 4.75 16.8897 4.82902 17.0303 4.96967C17.171 5.11032 17.25 5.30109 17.25 5.5C17.25 5.69891 17.171 5.88968 17.0303 6.03033C16.8897 6.17098 16.6989 6.25 16.5 6.25H0.75C0.551088 6.25 0.360322 6.17098 0.21967 6.03033C0.0790178 5.88968 0 5.69891 0 5.5Z"
-            fill="black"
-          />
-        </svg>
-      </p>
-    </div>
-    <div
-      data-uk-slider="autoplay: true; finite: false; autoplay-interval: 2000; pause-on-hover: true;"
-    >
-      <ul class="uk-slider-items">
-        <div
-          *ngFor="let product of products"
-          class="uk-width-1-4@l uk-width-1-2"
-        >
-          <div (click)="viewProduct(product.id)" class="prod p-2">
-            <div>
-              <img
-                *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''"
-                src="{{ getImageResolution(product?.imageUrl, 200, 150) }}"
-                class="w-100"
-              />
-
-              <div
-                *ngIf="product?.imageUrl === null || product?.imageUrl === ''"
-                class="img-empty-txt"
-              >
-                <p class="text-center mb-0">Image not found</p>
-              </div>
-            </div>
-            <div class="py-3">
-              <p class="name">
-                <span>{{ product?.name || "N/A" | slice : 0 : 30 }}</span>
-                <span *ngIf="product?.name?.length > 30">...</span>
-              </p>
-              <p class="price mb-0">
-                {{ product?.price || 0 | currency : "₦" }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </ul>
-    </div>
-  </div> -->
-
   <div class="product-categories" *ngIf="products.length > 0">
     <div class="complimentary-products-heading">
       <div class="complimentary-products-heading-main">You may also like</div>
@@ -994,67 +623,6 @@
         Use existing address
       </span>
       <form [formGroup]="addressForm" class="mt-3">
-        <!-- <div class="w-100">
-          <div *ngIf="!isEditAddress || (isEditAddress && !notReady)">
-            <input
-              ngx-google-places-autocomplete
-              [options]="options"
-              #placesRef="ngx-places"
-              (onAddressChange)="handleAddressChange($event)"
-              class="w-100 input-field"
-              type="text"
-              placeholder="Select delivery location"
-              formControlName="fullAddress"
-            />
-          </div>
-          <p
-            *ngIf="isEditAddress && notReady"
-            (click)="setAddressField()"
-            class="setter"
-          >
-            {{ setter }}
-          </p>
-        </div>
-        <div class="mt-3 row">
-          <div class="col-6">
-            <input
-              class="w-100 input-field"
-              type="text"
-              placeholder="Contact Person First Name"
-              formControlName="firstname"
-            />
-          </div>
-          <div class="col-6">
-            <input
-              class="w-100 input-field"
-              type="text"
-              placeholder="Contact Person Last Name"
-              formControlName="lastname"
-            />
-          </div>
-        </div>
-        <div class="mt-3 w-100">
-          <input
-            class="w-100 input-field"
-            type="text"
-            placeholder="Contact Person Phone Number"
-            (keypress)="preventLetter($event)"
-            formControlName="contactPhoneNumber"
-          />
-        </div>
-        <div class="mt-4 row">
-          <div class="col-12">
-            <button
-              [disabled]="addressForm.invalid || loadingAddress"
-              (click)="applyAddress()"
-              class="w-100 apply-btn"
-            >
-              <span *ngIf="!loadingAddress">Apply</span>
-              <span *ngIf="loadingAddress">Loading...</span>
-            </button>
-          </div>
-        </div> -->
-
         <div class="form-group">
           <label for="address">Receiver Address</label>
           <input
@@ -1248,12 +816,6 @@
           </div>
         </div>
       </div>
-
-      <!-- <div class="d-flex justify-content-end mt-3" *ngIf="addresses.length > 0">
-                <p class="mb-0 pointer">Prev</p>
-                    &nbsp; &nbsp; &nbsp; &nbsp;
-                <p class="mb-0 pointer">Next</p>
-            </div> -->
 
       <div class="pointer my-3">
         <span (click)="onAddNewAddress()"> + Add Address </span>

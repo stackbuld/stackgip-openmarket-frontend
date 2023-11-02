@@ -1,6 +1,6 @@
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
@@ -21,6 +21,10 @@ import { DeliveryInformationComponent } from './product-add-to-cart/delivery-inf
 import { ShippingMethodComponent } from './product-add-to-cart/shipping-method/shipping-method.component';
 import { ComplimentaryProductsComponent } from './product-add-to-cart/complimentary-products/complimentary-products.component';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
+import { NgImageFullscreenViewModule } from 'ng-image-fullscreen-view';
+
+// import { register } from 'swiper/element/bundle';
+// register();
 @NgModule({
   declarations: [
     HomeComponent,
@@ -48,6 +52,8 @@ import { IvyCarouselModule } from 'angular-responsive-carousel';
     NgxShimmerLoadingModule,
     GooglePlaceModule,
     IvyCarouselModule,
+    NgImageFullscreenViewModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class HomeModule {}
