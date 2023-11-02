@@ -3,8 +3,7 @@ import { environment } from 'src/environments/environment';
 import algoliasearch from 'algoliasearch';
 import { IProductPage, ProductModel } from '../../models/products.model';
 import { ISearchService } from './iSearchService.interface';
-import { Observable, from, of } from 'rxjs';
-import { switchMap, delay } from 'rxjs/operators';
+import { Observable, Subject, from, tap, delay, of, switchMap } from 'rxjs';
 
 const searchClient = algoliasearch(
   environment.algolia.appId,
@@ -19,32 +18,9 @@ export class SearchService implements ISearchService {
     indexName: environment.algolia.indexName,
     searchClient,
   };
+  index = searchClient.initIndex(this.config.indexName);
 
   constructor() {}
-
-  getAllProducts(
-    pageNumber: number = 0,
-    maxItem: number = 10,
-    searchQuery: string = '',
-    categoryId: string = '',
-    minPrice: number = 10,
-    maxPrice: number = 50000
-  ): Observable<IProductPage> {
-    let filters = `price:${minPrice} TO ${maxPrice}`;
-    if (categoryId) {
-      filters += ` AND categoryId:${categoryId}`;
-    }
-
-    return from(
-      this.fetchSearchResults(searchQuery, pageNumber, maxItem, filters)
-    ).pipe(
-      switchMap((data) => {
-        const formattedResults = this.convertToIProductPage(data);
-        return of(formattedResults);
-      }),
-      delay(500)
-    );
-  }
 
   getAlgoliaConfig() {
     return this.config;
@@ -56,22 +32,22 @@ export class SearchService implements ISearchService {
 
   fetchSearchResults(
     searchQuery: string,
-    pageNumber: number,
+    currentPage: number,
     maxItem: number,
     filters: string
   ) {
-    const index = searchClient.initIndex(this.config.indexName);
-    return index.search(searchQuery, {
+    console.log('SEARCH QUERY');
+    return this.index.search(searchQuery, {
       hitsPerPage: maxItem,
-      page: pageNumber,
+      page: currentPage,
       filters,
       facets: ['*'],
     });
   }
 
-  convertToIProductPage(data: any): IProductPage {
+  convertToProductModel(hits: any): ProductModel[] {
     // Converting searchResult data into ProductModel type
-    let results: ProductModel[] = data.hits.map((product) => {
+    let results: ProductModel[] = hits.map((product) => {
       return {
         name: product.name,
         previousPrice: product.previousPrice,
@@ -92,6 +68,12 @@ export class SearchService implements ISearchService {
         unit: product.unit,
       };
     });
+    return results;
+  }
+
+  convertToIProductPage(data: any): IProductPage {
+    let results = this.convertToProductModel(data.hits);
+
     /* The `tempHits` variable is an object of type `IProductPage`. It represents the paginated results
     of a search query. It contains the following properties: 
     It's the final data that'll be used in the product-list component through subscription
@@ -109,6 +91,43 @@ export class SearchService implements ISearchService {
         totalItemCount: data.nbHits,
       },
     };
+    return formattedResults;
+  }
+
+  getAllProducts(
+    pageNumber: number = 0,
+    maxItem: number = 10,
+    searchQuery: string = '',
+    categoryId: string = '',
+    minPrice: number = 10,
+    maxPrice: number = 50000,
+    isFilter?: boolean
+  ): Observable<ProductModel[]> {
+    let filters = `price:${minPrice} TO ${maxPrice}`;
+    if (categoryId) {
+      filters += ` AND categoryId:${categoryId}`;
+    }
+
+    let tempHits: ProductModel[] = [];
+    let formattedResults: Observable<ProductModel[]>;
+
+    for (let firstPage = 0; firstPage < pageNumber + 1; firstPage++) {
+      formattedResults = from(
+        this.fetchSearchResults(searchQuery, pageNumber, maxItem, filters)
+      ).pipe(
+        switchMap((data) => {
+          const formattedHits = this.convertToProductModel(data.hits);
+
+          if (pageNumber === 0 || isFilter === true) {
+            tempHits = formattedHits;
+          } else {
+            tempHits = [...tempHits, ...formattedHits];
+          }
+          return of(tempHits);
+        })
+      );
+    }
+
     return formattedResults;
   }
 }

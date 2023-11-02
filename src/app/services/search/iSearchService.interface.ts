@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { IProductPage } from '../../models/products.model';
+import { IProductPage, ProductModel } from '../../models/products.model';
 
 export interface ISearchService {
   getAllProducts(
@@ -8,6 +8,7 @@ export interface ISearchService {
     searchQuery: string,
     categoryId: string,
     minPrice: number,
-    maxPrice: number
-  ): Observable<IProductPage>;
+    maxPrice: number,
+    isFilter?: boolean
+  ): Observable<ProductModel[]>;
 }

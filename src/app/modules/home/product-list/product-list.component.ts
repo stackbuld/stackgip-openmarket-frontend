@@ -1,16 +1,9 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Options } from '@angular-slider/ngx-slider';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductModel } from 'src/app/models/products.model';
 import { CatgoryService } from 'src/app/services/category/catgory.service';
 import { FooterService } from 'src/app/services/footer.service';
-// import {ISearchService} from '../../../services/search/iSearchService.interface';
 import { SearchService } from 'src/app/services/search/search.service';
 @Component({
   selector: 'app-product-list',
@@ -21,9 +14,8 @@ export class ProductListComponent implements OnInit {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
   categories: any;
   products: ProductModel[] = [];
-  totalItemCount: number;
+  // totalItemCount: number;
   maximumItem: number = 12;
-  defaultPage: number = 1;
   pageNumber: number = 0;
   search: string = '';
   categoryId: string = '';
@@ -43,7 +35,7 @@ export class ProductListComponent implements OnInit {
     floor: 0,
     ceil: 1000000,
   };
-  isFilter: boolean;
+  isFilter: boolean = false;
   distanceValue: number = 1;
   distanceHighValue: number = 115;
   distanceOptions: Options = {
@@ -59,24 +51,24 @@ export class ProductListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // document.body.scrollTop = 0;
-    // document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(false);
-    this.fetchAllProducts(this.defaultPage);
+    this.fetchAllProducts(this.pageNumber, this.isFilter);
     this.fetchCategories();
   }
 
   fetchProductsByCategory = (id) => {
     this.categoryId = id;
-    this.fetchAllProducts(this.defaultPage);
+    this.isFilter = true;
+    this.fetchAllProducts(this.pageNumber, this.isFilter);
   };
 
   resetProducts = () => {
     this.categoryId = '';
-    this.fetchAllProducts(this.defaultPage);
+    this.isFilter = false;
+    this.fetchAllProducts(this.pageNumber, this.isFilter);
   };
 
-  fetchAllProducts = (pageNumber: number) => {
+  fetchAllProducts = (pageNumber: number, isFilter?: boolean) => {
     if (this.categoryId === '') {
       this.isFilter = false;
     } else {
@@ -98,15 +90,19 @@ export class ProductListComponent implements OnInit {
         this.search,
         this.categoryId,
         this.minValue,
-        this.maxValue
+        this.maxValue,
+        isFilter
       )
       .subscribe({
-        next: (res) => {
-          // this.loadingProducts = true;
-          // this.loadingMoreProducts = true;
-          this.products = [...this.products, ...res.data];
-          // this.pageNumber = res.pager.pageNumber;
-          this.totalItemCount = res.pager.totalItemCount;
+        next: (data) => {
+          console.log('DATA', data);
+          if (this.pageNumber === 0 || this.isFilter === true) {
+            this.products = data;
+          } else {
+            this.products = [...this.products, ...data];
+          }
+          console.log('PRODUCTS', this.products);
+          // this.totalItemCount = res.pager.totalItemCount;
         },
         error: (err) => {
           this.loadingProducts = false;
@@ -133,36 +129,12 @@ export class ProductListComponent implements OnInit {
     );
   };
 
-  // @HostListener('window:scroll', ['$event'])
-  // onScroll() {
-  //   const scrollPosition =
-  //     window.scrollY ||
-  //     document.documentElement.scrollTop ||
-  //     document.body.scrollTop ||
-  //     0;
-  //   const windowHeight =
-  //     window.innerHeight ||
-  //     document.documentElement.clientHeight ||
-  //     document.body.clientHeight ||
-  //     0;
-  //   const documentHeight =
-  //     document.documentElement.scrollHeight || document.body.scrollHeight || 0;
-
-  //   if (documentHeight - scrollPosition < windowHeight + 100) {
-  //     if (this.canLoadMore) {
-  //       this.pageNumber++;
-  //       this.loadingMoreProducts = true;
-  //       this.fetchAllProducts(this.pageNumber);
-  //     } else {
-  //       this.loadingMoreProducts = false;
-  //     }
-  //   }
-  // }
-
   showMoreProducts() {
     if (this.canLoadMore) {
+      this.isFilter = false;
+      this.loadingMoreProducts = true;
       this.pageNumber++;
-      this.fetchAllProducts(this.pageNumber);
+      this.fetchAllProducts(this.pageNumber, this.isFilter);
     } else {
       this.loadingMoreProducts = false;
     }
