@@ -82,13 +82,18 @@ export class ProductListComponent implements OnInit {
     } else {
       this.isFilter = true;
     }
-    if (pageNumber === 1) {
+
+    if (!this.pageNumber) {
       this.loadingProducts = true;
+    }
+
+    if (this.pageNumber > 0) {
+      this.loadingMoreProducts = true;
     }
 
     this.searchService
       .getAllProducts(
-        this.defaultPage,
+        this.pageNumber,
         this.maximumItem,
         this.search,
         this.categoryId,
@@ -97,13 +102,21 @@ export class ProductListComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
-          this.loadingProducts = true;
+          // this.loadingProducts = true;
+          // this.loadingMoreProducts = true;
           this.products = [...this.products, ...res.data];
-          this.pageNumber = res.pager.pageNumber;
+          // this.pageNumber = res.pager.pageNumber;
           this.totalItemCount = res.pager.totalItemCount;
         },
-        error: (err) => console.log(err),
-        complete: () => (this.loadingProducts = false),
+        error: (err) => {
+          this.loadingProducts = false;
+          this.loadingMoreProducts = false;
+          console.log(err);
+        },
+        complete: () => {
+          this.loadingProducts = false;
+          this.loadingMoreProducts = false;
+        },
       });
   };
 
@@ -149,9 +162,7 @@ export class ProductListComponent implements OnInit {
   showMoreProducts() {
     if (this.canLoadMore) {
       this.pageNumber++;
-      this.loadingMoreProducts = true;
       this.fetchAllProducts(this.pageNumber);
-      this.loadingMoreProducts = false;
     } else {
       this.loadingMoreProducts = false;
     }

@@ -266,7 +266,7 @@
             <app-product-card [product]="product"></app-product-card>
           </div>
         </div>
-        <div class="w-100 text-center">
+        <div *ngIf="!loadingProducts" class="w-100 text-center">
           <button (click)="showMoreProducts()" class="show-more-products">
             Show more
           </button>
