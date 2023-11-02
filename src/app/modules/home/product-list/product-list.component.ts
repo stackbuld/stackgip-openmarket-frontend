@@ -56,7 +56,7 @@ export class ProductListComponent implements OnInit {
     private categoryService: CatgoryService,
     private footerService: FooterService,
     private searchService: SearchService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     document.body.scrollTop = 0;
@@ -64,7 +64,6 @@ export class ProductListComponent implements OnInit {
     this.footerService.setShowFooter(false);
     this.fetchAllProducts(this.defaultPage);
     this.fetchCategories();
-
   }
 
   fetchProductsByCategory = (id) => {
@@ -87,22 +86,32 @@ export class ProductListComponent implements OnInit {
       this.loadingProducts = true;
     }
 
-    this.searchService.getProducts(
-      this.defaultPage, this.maximumItem, this.search, this.categoryId, this.minValue, this.maxValue
-    ).subscribe(results => {
+    this.searchService
+      .getAllProducts(
+        this.defaultPage,
+        this.maximumItem,
+        this.search,
+        this.categoryId,
+        this.minValue,
+        this.maxValue
+      )
+      .subscribe(
+        (results) => {
           this.products = results.data;
           this.pageNumber = results.pager.pageNumber;
           this.totalItemCount = results.pager.totalItemCount;
           this.loadingProducts = false;
-          this.loadingProducts = false;
+          this.loadingMoreProducts = false;
           if (!results.pager.hasNextPage) {
             this.canLoadMore = false;
           }
-        }, error => {
+        },
+        (error) => {
+          this.loadingProducts = false;
           this.loadingMoreProducts = false;
-          this.loadingMoreProducts = false;
-        });
-  }
+        }
+      );
+  };
 
   fetchCategories = () => {
     this.loadingCategories = true;
@@ -120,7 +129,7 @@ export class ProductListComponent implements OnInit {
   @HostListener('window:scroll', ['$event'])
   onScroll() {
     const scrollPosition =
-      window.pageYOffset ||
+      window.scrollY ||
       document.documentElement.scrollTop ||
       document.body.scrollTop ||
       0;
@@ -132,7 +141,7 @@ export class ProductListComponent implements OnInit {
     const documentHeight =
       document.documentElement.scrollHeight || document.body.scrollHeight || 0;
 
-    if (scrollPosition + windowHeight >= documentHeight) {
+    if (documentHeight - scrollPosition < windowHeight + 100) {
       if (this.canLoadMore) {
         this.pageNumber++;
         this.loadingMoreProducts = true;

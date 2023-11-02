@@ -1,36 +1,81 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import algoliasearch from "algoliasearch";
-import {IProductPage, ProductModel} from '../../models/products.model';
+import algoliasearch from 'algoliasearch';
+import { IProductPage, ProductModel } from '../../models/products.model';
 import { ISearchService } from './iSearchService.interface';
 import { Observable, from, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
 
-const searchClient = algoliasearch(environment.algolia.appId, environment.algolia.apiKey);
+const searchClient = algoliasearch(
+  environment.algolia.appId,
+  environment.algolia.apiKey
+);
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SearchService implements ISearchService {
   config = {
     indexName: environment.algolia.indexName,
     searchClient,
+    // params: {
+    //   hitsPerPage: 20,
+    //   page: this.pageNumber,
+    // },
   };
 
-  constructor() { }
+  constructor() {}
+
+  getAllProducts(
+    pageNumber: number = 0,
+    maxItem: number = 50,
+    searchQuery: string = '',
+    categoryId: string = '',
+    minPrice: number = 10,
+    maxPrice: number = 50000
+  ): Observable<IProductPage> {
+    let filters = `price:${minPrice} TO ${maxPrice}`;
+    if (categoryId) {
+      filters += ` AND categoryId:${categoryId}`;
+    }
+
+    return from(
+      this.fetchSearchResults(searchQuery, pageNumber, maxItem, filters)
+    ).pipe(
+      switchMap((data) => {
+        const formattedResults = this.convertToIProductPage(data);
+        return of(formattedResults);
+      })
+    );
+  }
 
   getAlgoliaConfig() {
     return this.config;
   }
 
-  fetchSearchResults(searchQuery: string) {
-    const index = searchClient.initIndex(this.config.indexName);
-    return index.search(searchQuery);
+  getIndex() {
+    return;
   }
 
-  processResults(data: any): IProductPage {
+  fetchSearchResults(
+    searchQuery: string,
+    pageNumber: number,
+    maxItem: number,
+    filters: string
+  ) {
+    const index = searchClient.initIndex(this.config.indexName);
+    console.log('currentPage', pageNumber);
+    return index.search(searchQuery, {
+      hitsPerPage: maxItem,
+      page: pageNumber,
+      filters,
+      facets: ['*'],
+    });
+  }
+
+  convertToIProductPage(data: any): IProductPage {
     // Converting searchResult data into ProductModel type
-    let results: ProductModel[] = data.hits.map(product => {
+    let results: ProductModel[] = data.hits.map((product) => {
       return {
         name: product.name,
         previousPrice: product.previousPrice,
@@ -66,17 +111,8 @@ export class SearchService implements ISearchService {
         firstItemOnPage: data.hitsPerPage * (data.page - 1) + 1,
         lastItemOnPage: data.hitsPerPage * (data.page - 1) + data.hitsPerPage,
         totalItemCount: data.nbHits,
-      }
+      },
     };
     return formattedResults;
-  }
-
-  getProducts(pageNumber: number = 1, maxItem: number = 50, searchQuery: string = '', categoryId: string = '', minPrice: number = 10, maxPrice: number = 50000): Observable<IProductPage> {
-    return from(this.fetchSearchResults(searchQuery)).pipe(
-      switchMap(data => {
-        const processedResults = this.processResults(data);
-        return of(processedResults);
-      })
-    );
   }
 }
