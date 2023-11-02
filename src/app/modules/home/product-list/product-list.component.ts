@@ -22,7 +22,7 @@ export class ProductListComponent implements OnInit {
   categories: any;
   products: ProductModel[] = [];
   totalItemCount: number;
-  maximumItem: number = 10;
+  maximumItem: number = 12;
   defaultPage: number = 1;
   pageNumber: number = 0;
   search: string = '';
@@ -31,8 +31,8 @@ export class ProductListComponent implements OnInit {
   maxValue: number = 500000;
   // options:Options;
   // form: FormGroup;
-  loadingProducts: boolean;
-  loadingMoreProducts: boolean;
+  loadingProducts: boolean = false;
+  loadingMoreProducts: boolean = false;
   loadingCategories: boolean;
   columnCount = 6;
   canLoadMore = true;
@@ -59,8 +59,8 @@ export class ProductListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+    // document.body.scrollTop = 0;
+    // document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(false);
     this.fetchAllProducts(this.defaultPage);
     this.fetchCategories();
@@ -76,7 +76,7 @@ export class ProductListComponent implements OnInit {
     this.fetchAllProducts(this.defaultPage);
   };
 
-  fetchAllProducts = (pageNumber: any) => {
+  fetchAllProducts = (pageNumber: number) => {
     if (this.categoryId === '') {
       this.isFilter = false;
     } else {
@@ -95,22 +95,16 @@ export class ProductListComponent implements OnInit {
         this.minValue,
         this.maxValue
       )
-      .subscribe(
-        (results) => {
-          this.products = results.data;
-          this.pageNumber = results.pager.pageNumber;
-          this.totalItemCount = results.pager.totalItemCount;
-          this.loadingProducts = false;
-          this.loadingMoreProducts = false;
-          if (!results.pager.hasNextPage) {
-            this.canLoadMore = false;
-          }
+      .subscribe({
+        next: (res) => {
+          this.loadingProducts = true;
+          this.products = [...this.products, ...res.data];
+          this.pageNumber = res.pager.pageNumber;
+          this.totalItemCount = res.pager.totalItemCount;
         },
-        (error) => {
-          this.loadingProducts = false;
-          this.loadingMoreProducts = false;
-        }
-      );
+        error: (err) => console.log(err),
+        complete: () => (this.loadingProducts = false),
+      });
   };
 
   fetchCategories = () => {
@@ -126,29 +120,40 @@ export class ProductListComponent implements OnInit {
     );
   };
 
-  @HostListener('window:scroll', ['$event'])
-  onScroll() {
-    const scrollPosition =
-      window.scrollY ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-    const windowHeight =
-      window.innerHeight ||
-      document.documentElement.clientHeight ||
-      document.body.clientHeight ||
-      0;
-    const documentHeight =
-      document.documentElement.scrollHeight || document.body.scrollHeight || 0;
+  // @HostListener('window:scroll', ['$event'])
+  // onScroll() {
+  //   const scrollPosition =
+  //     window.scrollY ||
+  //     document.documentElement.scrollTop ||
+  //     document.body.scrollTop ||
+  //     0;
+  //   const windowHeight =
+  //     window.innerHeight ||
+  //     document.documentElement.clientHeight ||
+  //     document.body.clientHeight ||
+  //     0;
+  //   const documentHeight =
+  //     document.documentElement.scrollHeight || document.body.scrollHeight || 0;
 
-    if (documentHeight - scrollPosition < windowHeight + 100) {
-      if (this.canLoadMore) {
-        this.pageNumber++;
-        this.loadingMoreProducts = true;
-        this.fetchAllProducts(this.pageNumber);
-      } else {
-        this.loadingMoreProducts = false;
-      }
+  //   if (documentHeight - scrollPosition < windowHeight + 100) {
+  //     if (this.canLoadMore) {
+  //       this.pageNumber++;
+  //       this.loadingMoreProducts = true;
+  //       this.fetchAllProducts(this.pageNumber);
+  //     } else {
+  //       this.loadingMoreProducts = false;
+  //     }
+  //   }
+  // }
+
+  showMoreProducts() {
+    if (this.canLoadMore) {
+      this.pageNumber++;
+      this.loadingMoreProducts = true;
+      this.fetchAllProducts(this.pageNumber);
+      this.loadingMoreProducts = false;
+    } else {
+      this.loadingMoreProducts = false;
     }
   }
 

@@ -4,7 +4,7 @@ import algoliasearch from 'algoliasearch';
 import { IProductPage, ProductModel } from '../../models/products.model';
 import { ISearchService } from './iSearchService.interface';
 import { Observable, from, of } from 'rxjs';
-import { switchMap, map, tap } from 'rxjs/operators';
+import { switchMap, delay } from 'rxjs/operators';
 
 const searchClient = algoliasearch(
   environment.algolia.appId,
@@ -18,17 +18,13 @@ export class SearchService implements ISearchService {
   config = {
     indexName: environment.algolia.indexName,
     searchClient,
-    // params: {
-    //   hitsPerPage: 20,
-    //   page: this.pageNumber,
-    // },
   };
 
   constructor() {}
 
   getAllProducts(
     pageNumber: number = 0,
-    maxItem: number = 50,
+    maxItem: number = 10,
     searchQuery: string = '',
     categoryId: string = '',
     minPrice: number = 10,
@@ -45,7 +41,8 @@ export class SearchService implements ISearchService {
       switchMap((data) => {
         const formattedResults = this.convertToIProductPage(data);
         return of(formattedResults);
-      })
+      }),
+      delay(500)
     );
   }
 
@@ -64,7 +61,6 @@ export class SearchService implements ISearchService {
     filters: string
   ) {
     const index = searchClient.initIndex(this.config.indexName);
-    console.log('currentPage', pageNumber);
     return index.search(searchQuery, {
       hitsPerPage: maxItem,
       page: pageNumber,
