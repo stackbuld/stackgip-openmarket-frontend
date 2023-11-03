@@ -67,6 +67,8 @@ export class ProductListComponent implements OnInit {
   fetchAllProducts = (pageNumber: number, isFilter?: boolean) => {
     this.isFilter = !!this.categoryName;
 
+    this.pageNumber = pageNumber;
+
     if (!this.pageNumber) {
       this.loadingProducts = true;
     }
@@ -137,15 +139,15 @@ export class ProductListComponent implements OnInit {
   }
 
   filterProductsByPrice() {
-    this.pageNumber = 0;
-    this.fetchAllProducts(this.pageNumber, this.isFilter);
+    // this.pageNumber = 0;
+    this.fetchAllProducts(0, this.isFilter);
   }
 
   filterProductsByCategory(item: string) {
     this.categoryName = item;
-    this.isFilter = true;
-    this.pageNumber = 0;
-    this.fetchAllProducts(this.pageNumber, this.isFilter);
+    // this.isFilter = true;
+    // this.pageNumber = 0;
+    this.fetchAllProducts(0, this.isFilter);
   }
 
   setColumn(e: any) {
