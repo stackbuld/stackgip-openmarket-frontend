@@ -35,7 +35,8 @@ export class ProductListComponent implements OnInit {
     floor: 0,
     ceil: 1000000,
   };
-  isFilter: boolean = false;
+  isFilter: string = ''; // price or ''
+  categoryName: string = '';
   distanceValue: number = 1;
   distanceHighValue: number = 115;
   distanceOptions: Options = {
@@ -52,27 +53,20 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.footerService.setShowFooter(false);
-    this.fetchAllProducts(this.pageNumber, this.isFilter);
+    this.fetchAllProducts(this.pageNumber);
     this.fetchCategories();
   }
 
-  fetchProductsByCategory = (id) => {
-    this.categoryId = id;
-    this.isFilter = true;
-    this.fetchAllProducts(this.pageNumber, this.isFilter);
-  };
-
   resetProducts = () => {
     this.categoryId = '';
-    this.isFilter = false;
     this.fetchAllProducts(this.pageNumber, this.isFilter);
   };
 
-  fetchAllProducts = (pageNumber: number, isFilter?: boolean) => {
+  fetchAllProducts = (pageNumber: number, isFilter?: string) => {
     if (this.categoryId === '') {
-      this.isFilter = false;
+      this.isFilter = '';
     } else {
-      this.isFilter = true;
+      this.isFilter = 'category';
     }
 
     if (!this.pageNumber) {
@@ -88,7 +82,7 @@ export class ProductListComponent implements OnInit {
         this.pageNumber,
         this.maximumItem,
         this.search,
-        this.categoryId,
+        this.categoryName,
         this.minValue,
         this.maxValue,
         isFilter
@@ -96,7 +90,7 @@ export class ProductListComponent implements OnInit {
       .subscribe({
         next: (data) => {
           console.log('DATA', data);
-          if (this.pageNumber === 0 || this.isFilter === true) {
+          if (this.pageNumber === 0 || this.isFilter) {
             this.products = data;
           } else {
             this.products = [...this.products, ...data];
@@ -131,13 +125,25 @@ export class ProductListComponent implements OnInit {
 
   showMoreProducts() {
     if (this.canLoadMore) {
-      this.isFilter = false;
+      this.isFilter = '';
       this.loadingMoreProducts = true;
       this.pageNumber++;
       this.fetchAllProducts(this.pageNumber, this.isFilter);
     } else {
       this.loadingMoreProducts = false;
     }
+  }
+
+  filterProductsByPrice() {
+    this.isFilter = 'price';
+    this.fetchAllProducts(this.pageNumber, this.isFilter);
+  }
+
+  filterProductsByCategory(item: any) {
+    this.categoryId = item.id;
+    this.categoryName = item.name;
+    this.isFilter = 'category';
+    this.fetchAllProducts(this.pageNumber, this.isFilter);
   }
 
   setColumn(e: any) {

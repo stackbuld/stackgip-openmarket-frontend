@@ -98,27 +98,35 @@ export class SearchService implements ISearchService {
     pageNumber: number = 0,
     maxItem: number = 10,
     searchQuery: string = '',
-    categoryId: string = '',
+    categoryName: string = '',
     minPrice: number = 10,
     maxPrice: number = 50000,
-    isFilter?: boolean
+    isFilter: string = ''
   ): Observable<ProductModel[]> {
+    /* The code is creating a filter string based on the `minPrice`, `maxPrice`, and `categoryName`
+    values. */
     let filters = `price:${minPrice} TO ${maxPrice}`;
-    if (categoryId) {
-      filters += ` AND categoryId:${categoryId}`;
+    if (categoryName) {
+      filters += ` AND category.name:${categoryName}`;
     }
 
     let tempHits: ProductModel[] = [];
     let formattedResults: Observable<ProductModel[]>;
+    const searchResults = this.fetchSearchResults(
+      searchQuery,
+      pageNumber,
+      maxItem,
+      filters
+    );
 
+    /* The code block is a loop that fetches search results from the Algolia index for each page of
+    results. */
     for (let firstPage = 0; firstPage < pageNumber + 1; firstPage++) {
-      formattedResults = from(
-        this.fetchSearchResults(searchQuery, pageNumber, maxItem, filters)
-      ).pipe(
+      formattedResults = from(searchResults).pipe(
         switchMap((data) => {
           const formattedHits = this.convertToProductModel(data.hits);
 
-          if (pageNumber === 0 || isFilter === true) {
+          if (pageNumber === 0) {
             tempHits = formattedHits;
           } else {
             tempHits = [...tempHits, ...formattedHits];

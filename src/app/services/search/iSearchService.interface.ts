@@ -6,9 +6,9 @@ export interface ISearchService {
     pageNumber: number,
     maxItem: number,
     searchQuery: string,
-    categoryId: string,
+    categoryName: string,
     minPrice: number,
     maxPrice: number,
-    isFilter?: boolean
+    isFilter?: string
   ): Observable<ProductModel[]>;
 }
