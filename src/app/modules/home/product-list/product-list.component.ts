@@ -12,7 +12,7 @@ import { SearchService } from 'src/app/services/search/search.service';
 })
 export class ProductListComponent implements OnInit {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
-  categories: any;
+  categories: string[] = [];
   products: ProductModel[] = [];
   // totalItemCount: number;
   maximumItem: number = 12;
@@ -91,14 +91,11 @@ export class ProductListComponent implements OnInit {
       )
       .subscribe({
         next: (data) => {
-          console.log('DATA', data);
           if (this.pageNumber === 0 || this.isFilter) {
             this.products = data;
           } else {
             this.products = [...this.products, ...data];
           }
-          console.log('PRODUCTS', this.products);
-          // this.totalItemCount = res.pager.totalItemCount;
         },
         error: (err) => {
           this.loadingProducts = false;
@@ -114,15 +111,24 @@ export class ProductListComponent implements OnInit {
 
   fetchCategories = () => {
     this.loadingCategories = true;
-    this.categoryService.GetCategory().subscribe(
-      (res) => {
-        this.categories = res.data;
+    this.categoryService.getAllCategories().subscribe({
+      next: (data) => {
+        this.categories = data;
         this.loadingCategories = false;
       },
-      (err) => {
+      error: (err) => {
         this.loadingCategories = false;
-      }
-    );
+      },
+    });
+    // this.categoryService.GetCategory().subscribe(
+    //   (res) => {
+    //     this.categories = res.data;
+    //     this.loadingCategories = false;
+    //   },
+    //   (err) => {
+    //     this.loadingCategories = false;
+    //   }
+    // );
   };
 
   showMoreProducts() {
@@ -141,9 +147,8 @@ export class ProductListComponent implements OnInit {
     this.fetchAllProducts(this.pageNumber, this.isFilter);
   }
 
-  filterProductsByCategory(item: any) {
-    this.categoryId = item.id;
-    this.categoryName = item.name;
+  filterProductsByCategory(item: string) {
+    this.categoryName = item;
     this.isFilter = 'category';
     this.fetchAllProducts(this.pageNumber, this.isFilter);
   }
