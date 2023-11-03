@@ -1,16 +1,10 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Options } from '@angular-slider/ngx-slider';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductModel } from 'src/app/models/products.model';
 import { CatgoryService } from 'src/app/services/category/catgory.service';
 import { FooterService } from 'src/app/services/footer.service';
-
+import { SearchService } from 'src/app/services/search/search.service';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -20,9 +14,8 @@ export class ProductListComponent implements OnInit {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
   categories: any;
   products: ProductModel[] = [];
-  totalItemCount: number;
-  maximumItem: number = 10;
-  defaultPage: number = 1;
+  // totalItemCount: number;
+  maximumItem: number = 12;
   pageNumber: number = 0;
   search: string = '';
   categoryId: string = '';
@@ -30,8 +23,8 @@ export class ProductListComponent implements OnInit {
   maxValue: number = 500000;
   // options:Options;
   // form: FormGroup;
-  loadingProducts: boolean;
-  loadingMoreProducts: boolean;
+  loadingProducts: boolean = false;
+  loadingMoreProducts: boolean = false;
   loadingCategories: boolean;
   columnCount = 6;
   canLoadMore = true;
@@ -42,7 +35,8 @@ export class ProductListComponent implements OnInit {
     floor: 0,
     ceil: 1000000,
   };
-  isFilter: boolean;
+  isFilter: string = ''; // price or ''
+  categoryName: string = '';
   distanceValue: number = 1;
   distanceHighValue: number = 115;
   distanceOptions: Options = {
@@ -53,62 +47,69 @@ export class ProductListComponent implements OnInit {
   constructor(
     private productService: ProductsService,
     private categoryService: CatgoryService,
-    private footerService: FooterService
+    private footerService: FooterService,
+    private searchService: SearchService
   ) {}
 
   ngOnInit(): void {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(false);
-    this.fetchAllProducts(this.defaultPage);
+    this.fetchAllProducts(this.pageNumber);
     this.fetchCategories();
   }
 
-  fetchProductsByCategory = (id) => {
-    this.categoryId = id;
-    this.fetchAllProducts(this.defaultPage);
-  };
-
   resetProducts = () => {
     this.categoryId = '';
-    this.fetchAllProducts(this.defaultPage);
+    this.pageNumber = 0;
+    this.categoryName = '';
+    this.fetchAllProducts(this.pageNumber, this.isFilter);
   };
 
-  fetchAllProducts = (pageNumber: any) => {
+  fetchAllProducts = (pageNumber: number, isFilter?: string) => {
     if (this.categoryId === '') {
-      this.isFilter = false;
+      this.isFilter = '';
     } else {
-      this.isFilter = true;
+      this.isFilter = 'category';
     }
-    if (pageNumber === 1) {
+
+    if (!this.pageNumber) {
       this.loadingProducts = true;
     }
-    this.productService
-      .getProducts(
-        pageNumber,
+
+    if (this.pageNumber > 0) {
+      this.loadingMoreProducts = true;
+    }
+
+    this.searchService
+      .getAllProducts(
+        this.pageNumber,
         this.maximumItem,
         this.search,
-        this.categoryId,
+        this.categoryName,
         this.minValue,
-        this.maxValue
+        this.maxValue,
+        isFilter
       )
-      .subscribe(
-        (products) => {
-          // this.products = this.products.concat(products.data.data);
-          this.products = products.data.data;
-          // this.pageNumber = products.data.pager.pageNumber;
-          // this.totalItemCount = products.data.pager.totalItemCount;
-          this.loadingProducts = false;
-          this.loadingProducts = false;
-          if (!products.data.pager.hasNextPage) {
-            this.canLoadMore = false;
+      .subscribe({
+        next: (data) => {
+          console.log('DATA', data);
+          if (this.pageNumber === 0 || this.isFilter) {
+            this.products = data;
+          } else {
+            this.products = [...this.products, ...data];
           }
+          console.log('PRODUCTS', this.products);
+          // this.totalItemCount = res.pager.totalItemCount;
         },
-        (error) => {
+        error: (err) => {
+          this.loadingProducts = false;
           this.loadingMoreProducts = false;
+          console.log(err);
+        },
+        complete: () => {
+          this.loadingProducts = false;
           this.loadingMoreProducts = false;
-        }
-      );
+        },
+      });
   };
 
   fetchCategories = () => {
@@ -124,30 +125,27 @@ export class ProductListComponent implements OnInit {
     );
   };
 
-  @HostListener('window:scroll', ['$event'])
-  onScroll() {
-    const scrollPosition =
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-    const windowHeight =
-      window.innerHeight ||
-      document.documentElement.clientHeight ||
-      document.body.clientHeight ||
-      0;
-    const documentHeight =
-      document.documentElement.scrollHeight || document.body.scrollHeight || 0;
-
-    if (scrollPosition + windowHeight >= documentHeight) {
-      if (this.canLoadMore) {
-        this.pageNumber++;
-        this.loadingMoreProducts = true;
-        this.fetchAllProducts(this.pageNumber);
-      } else {
-        this.loadingMoreProducts = false;
-      }
+  showMoreProducts() {
+    if (this.canLoadMore) {
+      this.isFilter = '';
+      this.loadingMoreProducts = true;
+      this.pageNumber++;
+      this.fetchAllProducts(this.pageNumber, this.isFilter);
+    } else {
+      this.loadingMoreProducts = false;
     }
+  }
+
+  filterProductsByPrice() {
+    this.isFilter = 'price';
+    this.fetchAllProducts(this.pageNumber, this.isFilter);
+  }
+
+  filterProductsByCategory(item: any) {
+    this.categoryId = item.id;
+    this.categoryName = item.name;
+    this.isFilter = 'category';
+    this.fetchAllProducts(this.pageNumber, this.isFilter);
   }
 
   setColumn(e: any) {

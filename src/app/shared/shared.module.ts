@@ -61,6 +61,7 @@ import { LoginPopUpModalComponent } from './components/login-pop-up-modal/login-
 import { SignupComponent } from './components/signup-component/signup.component';
 import { SignupModule } from './components/signup-component/signup.module';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { OnVisibleDirective } from './directives/on-visible.directive';
 
 export const DOCUMENT_TOKEN = new InjectionToken<Document>('Document');
 export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
@@ -93,6 +94,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     CustomDropdownComponent,
     PopupComponent,
     LoginPopUpModalComponent,
+    OnVisibleDirective,
   ],
   imports: [
     CommonModule,
