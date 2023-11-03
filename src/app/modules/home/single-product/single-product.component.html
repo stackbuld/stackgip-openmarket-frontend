@@ -4,147 +4,6 @@
 <div class="main" *ngIf="!isLoadingDetails">
   <div class="top-section">
     <div class="mobile-pad-1 left-section">
-      <!-- <div class="main-img-container">
-        <img [src]="temporaryDetails?.imageUrl" class="main-img" />
-      </div>
-
-      <div
-        *ngIf="!loading"
-        uk-lightbox="pause-on-hover: true; autoplay: true; autoplay-interval: 2000;"
-      >
-        <a
-          *ngIf="imgUrls.length > 0"
-          class="img-section p-0 uk-button uk-button-default"
-          [href]="imgUrls[0]?.url"
-          data-caption=""
-        >
-          <img
-            src="{{ getImageResolution(currentImgUrl, 650, 500) }}"
-            class="w-100"
-          />
-        </a>
-        <a
-          *ngIf="imgUrls.length > 1"
-          class="d-none img-section p-0 uk-button uk-button-default"
-          [href]="imgUrls[1]?.url"
-          data-caption=""
-        ></a>
-        <a
-          *ngIf="imgUrls.length > 2"
-          class="d-none img-section p-0 uk-button uk-button-default"
-          [href]="imgUrls[2]?.url"
-          data-caption=""
-        ></a>
-        <a
-          *ngIf="imgUrls.length > 3"
-          class="d-none img-section p-0 uk-button uk-button-default"
-          [href]="imgUrls[3]?.url"
-          data-caption=""
-        ></a>
-      </div>
-      <div *ngIf="!loading" class="mt-2 row px-3">
-        <div
-          *ngFor="let item of imgUrls"
-          class="col-3 p-0 pointer"
-          [ngClass]="activeImgId === item?.id ? 'activeImg' : ''"
-        >
-          <img
-            src="{{ getImageResolution(item?.url, 200, 150) }}"
-            class="w-100"
-            (click)="setImgUrl(item?.url, item?.id)"
-          />
-        </div>
-      </div>
-      <div *ngIf="!loading" class="p-3 text-center">
-        <span *ngIf="imgUrls.length > 0">
-          <svg
-            *ngIf="activeImgId === 0"
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="4.61364" cy="4.61364" r="4.61364" fill="black" />
-          </svg>
-          <svg
-            *ngIf="activeImgId !== 0"
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="5.29528" cy="4.61364" r="4.61364" fill="#D9D9D9" />
-          </svg>
-        </span>
-        <span *ngIf="imgUrls.length > 1">
-          <svg
-            *ngIf="activeImgId === 1"
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="4.61364" cy="4.61364" r="4.61364" fill="black" />
-          </svg>
-          <svg
-            *ngIf="activeImgId !== 1"
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="5.29528" cy="4.61364" r="4.61364" fill="#D9D9D9" />
-          </svg>
-        </span>
-        <span *ngIf="imgUrls.length > 2">
-          <svg
-            *ngIf="activeImgId === 2"
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="4.61364" cy="4.61364" r="4.61364" fill="black" />
-          </svg>
-          <svg
-            *ngIf="activeImgId !== 2"
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="5.29528" cy="4.61364" r="4.61364" fill="#D9D9D9" />
-          </svg>
-        </span>
-        <span *ngIf="imgUrls.length > 3">
-          <svg
-            *ngIf="activeImgId === 3"
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="4.61364" cy="4.61364" r="4.61364" fill="black" />
-          </svg>
-          <svg
-            *ngIf="activeImgId !== 3"
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="5.29528" cy="4.61364" r="4.61364" fill="#D9D9D9" />
-          </svg>
-        </span>
-      </div> -->
       <div class="product-images">
         <div class="product-image-main">
           <swiper-container
@@ -613,14 +472,14 @@
         class="select-existing"
         *ngIf="user === null"
       >
-        Sign in to use your saved delivery address
+        Log In to Use Your Previously Saved Address
       </span>
       <span
         (click)="isInformation = false"
         class="select-existing"
         *ngIf="user !== null"
       >
-        Use existing address
+        Click Here To Use Your Previously Saved Address
       </span>
       <form [formGroup]="addressForm" class="mt-3">
         <div class="form-group">
