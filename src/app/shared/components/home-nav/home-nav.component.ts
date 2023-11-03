@@ -8,10 +8,9 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { CartService } from '../../../services/cart/cart.service';
 import { IUser } from 'src/app/models/IUserModel';
-import {AuthService} from '../../../services/auth.service';
-import {WindowRefService} from '../../services/window.service';
+import { AuthService } from '../../../services/auth.service';
+import { WindowRefService } from '../../services/window.service';
 import { SearchService } from 'src/app/services/search/search.service';
-
 
 @Component({
   selector: 'app-home-nav',
@@ -26,7 +25,6 @@ export class HomeNavComponent implements OnInit {
   user: IUser;
   referenceId: any;
 
-
   constructor(
     private categoryService: CatgoryService,
     private appLocalStorage: AppLocalStorage,
@@ -39,11 +37,13 @@ export class HomeNavComponent implements OnInit {
     private windowService: WindowRefService,
     private searchService: SearchService
   ) {
-
     // this.user = JSON.parse(localStorage.getItem('user'));
   }
 
   ngOnInit(): void {
+    this.cartService.cartCount.subscribe((count) => {
+      this.cartCount = count;
+    });
     this.referenceId = this.authService.getUserReferenceNumber();
     this.appLocalStorage.currentUser.subscribe((res) => {
       if (res) {
@@ -71,15 +71,19 @@ export class HomeNavComponent implements OnInit {
   }
 
   closeSidebar = () => {
-   this.windowService.nativeWindow.document.getElementById('closeSidebarBtn')!.click();
-  }
+    this.windowService.nativeWindow.document
+      .getElementById('closeSidebarBtn')!
+      .click();
+  };
 
   credentials = () => {
     return this.user || null;
-  }
+  };
 
   cancel = () => {
-    this.windowService.nativeWindow.document.getElementById("closeLogoutModalBtn")!.click();
+    this.windowService.nativeWindow.document
+      .getElementById('closeLogoutModalBtn')!
+      .click();
   };
 
   logout() {
@@ -87,7 +91,7 @@ export class HomeNavComponent implements OnInit {
     sessionStorage.clear();
     this.applocal.currentUser.next(null);
     this.cancel();
-    this.router.navigate(["/"]);
+    this.router.navigate(['/']);
   }
 
   viewProduct = (item: any) => {
@@ -108,19 +112,22 @@ export class HomeNavComponent implements OnInit {
   getCustomerCart = () => {
     let cart$;
     const userId = this.user?.id ?? '';
-    const reference = this.referenceId ?? ''
+    const reference = this.referenceId ?? '';
+
     cart$ = this.cartService.getCart(userId, reference);
-    cart$.subscribe(
-      (res) => {
-        if (res.status === 'success') {
-          this.cartCount = res.data.cartItems.length;
-        } else {
-          this.toastService.warning(res.message, 'MESSAGE');
-        }
-      },
-      (error) => {
-        this.toastService.error(error.message, 'ERROR');
-      }
-    );
+    cart$
+      .subscribe
+      // (res) => {
+      //   if (res.status === 'success') {
+      //     this.cartCount = res.data.cartItems.length;
+      //     console.log('api', this.cartCount);
+      //   } else {
+      //     this.toastService.warning(res.message, 'MESSAGE');
+      //   }
+      // },
+      // (error) => {
+      //   this.toastService.error(error.message, 'ERROR');
+      // }
+      ();
   };
 }

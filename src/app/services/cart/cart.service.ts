@@ -1,4 +1,5 @@
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiAppUrlService } from '../api-app-url.service';
@@ -24,6 +25,7 @@ import {
 })
 export class CartService {
   baseUrl: string;
+  cartCount = new BehaviorSubject<number>(0);
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
@@ -32,9 +34,15 @@ export class CartService {
     userId: string,
     referenceId: string
   ): Observable<GetCartResponseModel> {
-    return this.http.get<GetCartResponseModel>(
-      this.baseUrl + `cart?userId=${userId}&referenceId=${referenceId}`
-    );
+    return this.http
+      .get<GetCartResponseModel>(
+        this.baseUrl + `cart?userId=${userId}&referenceId=${referenceId}`
+      )
+      .pipe(
+        tap((cart) => {
+          this.cartCount.next(cart.data.cartItems.length);
+        })
+      );
   }
 
   deleteCartItem(payload: {

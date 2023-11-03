@@ -68,11 +68,5 @@ import { BuyerEmailDialogComponent } from './buyer-profile/buyer-personal-inform
     GooglePlaceModule,
     BuyerWalletComponent,
   ],
-  providers: [
-    {
-      provide: MAT_SELECT_CONFIG,
-      useValue: { overlayPanelClass: 'matSelectCustom' },
-    },
-  ],
 })
 export class BuyerModule {}

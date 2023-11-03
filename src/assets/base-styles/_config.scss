@@ -57,3 +57,11 @@ mat-menu {
     display: none;
   }
 }
+
+@media (pointer: none), (pointer: coarse) {
+  .carousel {
+    & .carousel-arrow {
+      display: none;
+    }
+  }
+}

@@ -19,7 +19,7 @@ import { IUser } from 'src/app/models/IUserModel';
 import { HttpClient } from '@angular/common/http';
 import { ApiAppUrlService } from '../api-app-url.service';
 import { Injectable } from '@angular/core';
-import { retry } from 'rxjs/operators';
+import { map, retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -106,6 +106,14 @@ export class ProductsService {
 
   getProduct(id: any): Observable<any> {
     return this.http.get(this.baseUrl + `products/${id}`);
+  }
+
+  getCategoriesData(id: string): Observable<ProductModel[]> {
+    return this.http.get(this.baseUrl + `products/categories/${id}`).pipe(
+      map((res: any) => {
+        return res?.data?.data;
+      })
+    );
   }
 
   getLowStockProducts(userId: string): Observable<any> {

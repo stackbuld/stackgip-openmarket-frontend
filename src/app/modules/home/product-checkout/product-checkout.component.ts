@@ -55,12 +55,12 @@ export class ProductCheckoutComponent implements OnInit {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(true);
-    // this.init();
-    this.authService.isLogin.subscribe((status) => {
-      if (status) {
-        this.init();
-      }
-    });
+    this.init();
+    // this.authService.isLogin.subscribe((status) => {
+    //   if (status) {
+    //     this.init();
+    //   }
+    // });
 
     this.paymentMethods = JSON.parse(localStorage.getItem('paymentMethods')!);
   }
@@ -77,6 +77,7 @@ export class ProductCheckoutComponent implements OnInit {
     let cart$: Observable<GetCartResponseModel>;
     const userId = this.user?.id ?? '';
     const reference = this.referenceId ?? '';
+
     cart$ = this.cartService.getCart(userId, reference);
 
     cart$.pipe(take(1)).subscribe({
