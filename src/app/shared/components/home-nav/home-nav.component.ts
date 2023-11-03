@@ -3,23 +3,14 @@ import { ToastrService } from 'ngx-toastr';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { CatgoryService } from 'src/app/services/category/catgory.service';
 import { ProductsService } from 'src/app/services/products/products.service';
-import algoliasearch from 'algoliasearch/lite';
+import algoliasearch from 'algoliasearch';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { CartService } from '../../../services/cart/cart.service';
 import { IUser } from 'src/app/models/IUserModel';
 import { AuthService } from '../../../services/auth.service';
 import { WindowRefService } from '../../services/window.service';
-
-const searchClient = algoliasearch(
-  environment.algolia.appId,
-  environment.algolia.apiKey
-);
-
-// const searchClient = algoliasearch(
-//   'B1G2GM9NG0',
-//   'aadef574be1f9252bb48d4ea09b5cfe5'
-// );
+import { SearchService } from 'src/app/services/search/search.service';
 
 @Component({
   selector: 'app-home-nav',
@@ -27,34 +18,24 @@ const searchClient = algoliasearch(
   styleUrls: ['./home-nav.component.scss'],
 })
 export class HomeNavComponent implements OnInit {
-  config = {
-    indexName: environment.algolia.indexName,
-    // indexName: 'demo_ecommerce',
-    searchClient,
-  };
+  config = this.searchService.getAlgoliaConfig();
   isSearch = false;
   categories: any;
   cartCount = 0;
   user: IUser;
   referenceId: any;
 
-  // algolia: {
-  //   appId: 'B1G2GM9NG0',
-  //   apiKey: 'aadef574be1f9252bb48d4ea09b5cfe5',
-  //   indexName: 'demo_ecommerce',
-  //   urlSync: false
-  // }
-
   constructor(
     private categoryService: CatgoryService,
     private appLocalStorage: AppLocalStorage,
-    private productService: ProductsService,
+    // private productService: ProductsService,
     private cartService: CartService,
     private toastService: ToastrService,
     private router: Router,
     private applocal: AppLocalStorage,
     private authService: AuthService,
-    private windowService: WindowRefService
+    private windowService: WindowRefService,
+    private searchService: SearchService
   ) {
     // this.user = JSON.parse(localStorage.getItem('user'));
   }

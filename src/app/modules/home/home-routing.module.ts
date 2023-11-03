@@ -7,7 +7,6 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
-import { ProductAddToCartComponent } from './product-add-to-cart/product-add-to-cart.component';
 
 const routes: Routes = [
   {
@@ -15,7 +14,6 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       { path: '', component: ProductListComponent },
-      // { path: 'product/:id', component: ProductAddToCartComponent },
       { path: 'product/:id', component: SingleProductComponent },
       { path: 'checkout', component: ProductCheckoutComponent },
       { path: 'details/:id', component: OrderDetailsComponent },
