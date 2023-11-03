@@ -65,7 +65,7 @@ export class ProductListComponent implements OnInit {
   };
 
   fetchAllProducts = (pageNumber: number, isFilter?: string) => {
-    if (this.categoryId === '') {
+    if (this.categoryName === '') {
       this.isFilter = '';
     } else {
       this.isFilter = 'category';
