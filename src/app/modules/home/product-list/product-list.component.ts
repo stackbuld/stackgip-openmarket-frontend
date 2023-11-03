@@ -35,7 +35,7 @@ export class ProductListComponent implements OnInit {
     floor: 0,
     ceil: 1000000,
   };
-  isFilter: string = ''; // price or ''
+  isFilter: boolean = false;
   categoryName: string = '';
   distanceValue: number = 1;
   distanceHighValue: number = 115;
@@ -64,12 +64,8 @@ export class ProductListComponent implements OnInit {
     this.fetchAllProducts(this.pageNumber, this.isFilter);
   };
 
-  fetchAllProducts = (pageNumber: number, isFilter?: string) => {
-    if (this.categoryName === '') {
-      this.isFilter = '';
-    } else {
-      this.isFilter = 'category';
-    }
+  fetchAllProducts = (pageNumber: number, isFilter?: boolean) => {
+    this.isFilter = !!this.categoryName;
 
     if (!this.pageNumber) {
       this.loadingProducts = true;
@@ -86,12 +82,11 @@ export class ProductListComponent implements OnInit {
         this.search,
         this.categoryName,
         this.minValue,
-        this.maxValue,
-        isFilter
+        this.maxValue
       )
       .subscribe({
         next: (data) => {
-          if (this.pageNumber === 0 || this.isFilter) {
+          if (this.pageNumber === 0) {
             this.products = data;
           } else {
             this.products = [...this.products, ...data];
@@ -133,7 +128,6 @@ export class ProductListComponent implements OnInit {
 
   showMoreProducts() {
     if (this.canLoadMore) {
-      this.isFilter = '';
       this.loadingMoreProducts = true;
       this.pageNumber++;
       this.fetchAllProducts(this.pageNumber, this.isFilter);
@@ -143,13 +137,14 @@ export class ProductListComponent implements OnInit {
   }
 
   filterProductsByPrice() {
-    this.isFilter = 'price';
+    this.pageNumber = 0;
     this.fetchAllProducts(this.pageNumber, this.isFilter);
   }
 
   filterProductsByCategory(item: string) {
     this.categoryName = item;
-    this.isFilter = 'category';
+    this.isFilter = true;
+    this.pageNumber = 0;
     this.fetchAllProducts(this.pageNumber, this.isFilter);
   }
 

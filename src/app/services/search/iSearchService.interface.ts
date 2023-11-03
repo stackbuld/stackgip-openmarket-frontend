@@ -8,7 +8,6 @@ export interface ISearchService {
     searchQuery: string,
     categoryName: string,
     minPrice: number,
-    maxPrice: number,
-    isFilter?: string
+    maxPrice: number
   ): Observable<ProductModel[]>;
 }
