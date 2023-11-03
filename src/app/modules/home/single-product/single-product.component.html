@@ -183,10 +183,14 @@
 
         <div class="shipping" *ngIf="currentAddress">
           <div class="shipping-heading">
-            Shipping: Starting from
+            Shipping:
+
             {{
-              currentShippingMethod?.value?.startingPrice || 0
-                | currency : "NGN"
+              currentShippingMethod?.value?.logisticName == "Renaship"
+                ? "Available on Order Summary"
+                : "Starting from" +
+                  (currentShippingMethod?.value?.startingPrice || 0
+                    | currency : "NGN")
             }}
           </div>
 
@@ -195,7 +199,10 @@
               <div class="shipping-company-name">
                 {{ currentShippingMethod?.value?.logisticName || "N/A" }}
               </div>
-              <div class="shipping-company-logo">
+              <div
+                class="shipping-company-logo"
+                *ngIf="currentShippingMethod?.value?.logisticLogoUrl !== ''"
+              >
                 <img
                   [src]="currentShippingMethod?.value?.logisticLogoUrl"
                   alt=""
@@ -748,20 +755,24 @@
             </div>
             <p class="mb-0 w-90">
               <span class="address-name"
-                >Shipping: Starting from
-                {{ item?.startingPrice || 0 | currency : "NGN" }}</span
+                >Shipping:
+                {{
+                  item?.logisticName == "Renaship"
+                    ? "Available on Order Summary"
+                    : "Starting from" +
+                      (item?.startingPrice || 0 | currency : "NGN")
+                }}</span
               >
               <br />
               <span class="my-1 flex-center">
                 <span>Via {{ item?.logisticName || "N/A" }}</span>
                 &nbsp; &nbsp;
-                <span
-                  *ngIf="
-                    item?.logisticLogoUrl !== '' ||
-                    item?.logisticLogoUrl !== null
-                  "
-                >
-                  <img src="{{ item?.logisticLogoUrl }}" class="small-logo" />
+                <span *ngIf="item?.logisticLogoUrl !== ''">
+                  <img
+                    src="{{ item?.logisticLogoUrl }}"
+                    class="small-logo"
+                    style="width: 50px; height: 50px"
+                  />
                 </span>
               </span>
               <span

@@ -100,6 +100,14 @@ export class SingleProductComponent implements OnInit {
   productImages: { [key: string]: string }[] = [];
   currentIndex: any = -1;
   showFlag: any = false;
+  defaultShipping: GetShippingEstimatePrice = {
+    logisticCode: '',
+    logisticLogoUrl: '',
+    deliveryDuration: '',
+    startingPrice: 0,
+    isSelected: false,
+    logisticName: 'Renaship',
+  };
 
   // Swiper
   swiperConfig = {
@@ -137,17 +145,8 @@ export class SingleProductComponent implements OnInit {
       null
     );
 
-    const defaultShipping: GetShippingEstimatePrice = {
-      logisticCode: '',
-      logisticLogoUrl: '',
-      deliveryDuration: '',
-      startingPrice: +'Available on order summary',
-      isSelected: false,
-      logisticName: 'Renaship',
-    };
-    this.currentShippingMethod.next(defaultShipping);
-
-    // this.shippingMethods.push(defaultShipping);
+    this.currentShippingMethod.next(this.defaultShipping);
+    this.shippingMethods.push(this.defaultShipping);
 
     this.initAddressForm();
 
@@ -258,7 +257,7 @@ export class SingleProductComponent implements OnInit {
             }
           }
         }
-        this.shippingMethods = shippingEsitmateData;
+        this.shippingMethods = [this.defaultShipping, ...shippingEsitmateData];
         console.log(this.shippingMethods);
 
         this.orderAndSelectDefaultShippingMethod();
@@ -409,7 +408,6 @@ export class SingleProductComponent implements OnInit {
             this.complimentaryProductsList.push(element);
           }
         }
-        console.log(this.allVariationsList);
 
         this.setVariation(this.allVariationsList);
         this.fetchAllProducts();
@@ -719,27 +717,33 @@ export class SingleProductComponent implements OnInit {
   orderAndSelectDefaultShippingMethod() {
     this.shippingMethods.sort((a, b) => a.startingPrice - b.startingPrice);
     const hasSelected = this.shippingMethods.some((a) => a.isSelected);
+    let shippingMethodToSelect: GetShippingEstimatePrice;
+    if (this.shippingMethods.length > 1) {
+      shippingMethodToSelect = this.shippingMethods[1];
+    } else {
+      shippingMethodToSelect = this.shippingMethods[0];
+    }
     if (!hasSelected) {
-      if (this.shippingMethods[0]) {
-        this.shippingMethods[0].isSelected = true;
+      if (shippingMethodToSelect) {
+        shippingMethodToSelect.isSelected = true;
         console.log(
           'orderAndSelectDefaultShippingMethod hasselected = true called with selected shipping method, prev, current ',
           this.currentShippingMethod.value,
-          this.shippingMethods[0]
+          shippingMethodToSelect
         );
-        this.currentShippingMethod.next(this.shippingMethods[0]);
-        this.selectedShippingMethod = this.shippingMethods[0];
+        this.currentShippingMethod.next(shippingMethodToSelect);
+        this.selectedShippingMethod = shippingMethodToSelect;
       }
     }
     if (!this.currentShippingMethod.value) {
       console.log(
         'orderAndSelectDefaultShippingMethod currentShippingMethod = false called with selected shipping method, prev, current ',
         this.currentShippingMethod.value,
-        this.shippingMethods[0]
+        shippingMethodToSelect
       );
 
-      this.currentShippingMethod.next(this.shippingMethods[0]);
-      this.selectedShippingMethod = this.shippingMethods[0];
+      this.currentShippingMethod.next(shippingMethodToSelect);
+      this.selectedShippingMethod = shippingMethodToSelect;
     }
     console.log('current shipping method', this.currentShippingMethod.value);
   }
