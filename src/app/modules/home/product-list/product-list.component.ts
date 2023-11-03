@@ -59,6 +59,8 @@ export class ProductListComponent implements OnInit {
 
   resetProducts = () => {
     this.categoryId = '';
+    this.pageNumber = 0;
+    this.categoryName = '';
     this.fetchAllProducts(this.pageNumber, this.isFilter);
   };
 
