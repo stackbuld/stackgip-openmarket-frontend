@@ -100,8 +100,7 @@ export class SearchService implements ISearchService {
     searchQuery: string = '',
     categoryName: string = '',
     minPrice: number = 10,
-    maxPrice: number = 50000,
-    isFilter: string = ''
+    maxPrice: number = 50000
   ): Observable<ProductModel[]> {
     /* The code is creating a filter string based on the `minPrice`, `maxPrice`, and `categoryName`
     values. */
