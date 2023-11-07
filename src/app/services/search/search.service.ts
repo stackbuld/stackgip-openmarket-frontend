@@ -52,6 +52,7 @@ export class SearchService implements ISearchService {
         name: product.name,
         previousPrice: product.previousPrice,
         price: product.price,
+        sellingPrice: product.sellingPrice,
         category: {
           description: product.category.description,
           id: product.category.id,
