@@ -119,6 +119,7 @@
 
   <div class="uk-flex">
     <div class="left-section">
+      <!-- Category Filter section -->
       <div class="card p-4">
         <div class="mb-3 d-flex align-items-center justify-content-between">
           <p class="mb-0 tag">Categories</p>
@@ -169,6 +170,77 @@
           <ngx-shimmer-loading></ngx-shimmer-loading>
         </div>
       </div>
+      <!-- End of Categories section -->
+      <!-- City Filter Section -->
+      <div class="card p-4">
+        <div class="mb-3 d-flex align-items-center justify-content-between">
+          <p class="mb-0 tag">Cities</p>
+          <p
+            *ngIf="isFilter"
+            class="mb-0 pointer mobile-heading"
+            (click)="resetProducts()"
+          >
+            See All
+          </p>
+        </div>
+        <div *ngIf="!loadingCities">
+          <div *ngFor="let city of cities">
+            <span
+              [ngClass]="{ activeCategory: this.cityName === city }"
+              (click)="filterProductsByCity(city)"
+              class="each-cat py-2"
+            >
+              <span>{{ city }}</span>
+            </span>
+          </div>
+        </div>
+
+        <div *ngIf="loadingCities" class="">
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading>
+        </div>
+      </div>
+      <!-- End of City Filter Section -->
+      <!-- Price Filter Section -->
+      <div class="card p-4">
+        <div class="mb-3 d-flex align-items-center justify-content-between">
+          <p class="mb-0 tag">States</p>
+          <p
+            *ngIf="isFilter"
+            class="mb-0 pointer mobile-heading"
+            (click)="resetProducts()"
+          >
+            See All
+          </p>
+        </div>
+        <div *ngIf="!loadingStates">
+          <div *ngFor="let state of states">
+            <span
+              [ngClass]="{ activeCategory: this.stateName === state }"
+              (click)="filterProductsByState(state)"
+              class="each-cat py-2"
+            >
+              <span>{{ state }}</span>
+            </span>
+          </div>
+        </div>
+
+        <div *ngIf="loadingStates" class="">
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading>
+        </div>
+      </div>
+      <!-- End of Price Filter Section -->
       <div class="mt-3 card p-0">
         <div class="pricing p-4">
           <p class="mb-0">
@@ -266,10 +338,10 @@
         </div>
 
         <div *ngIf="!loadingProducts && products.length === 0" class="p-5">
-          <p *ngIf="categoryId === ''" class="text-center p-5">
+          <p *ngIf="categoryName === ''" class="text-center p-5">
             There are no products available.
           </p>
-          <p *ngIf="categoryId !== ''" class="text-center p-5">
+          <p *ngIf="categoryName !== ''" class="text-center p-5">
             There are no products in the selected category.
           </p>
         </div>
