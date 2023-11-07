@@ -42,6 +42,9 @@ export class ProductListComponent implements OnInit {
     ceil: 1000000,
   };
   isFilter: boolean = false;
+  isCategoryFilter: boolean = false;
+  isCityFilter: boolean = false;
+  isStateFilter: boolean = false;
   categoryName: string = '';
   cityName: string = '';
   stateName: string = '';
@@ -69,16 +72,25 @@ export class ProductListComponent implements OnInit {
     this.fetchStates();
   }
 
-  resetProducts = () => {
-    this.pageNumber = 0;
+  resetProductsByCategory = () => {
     this.categoryName = '';
-    this.cityName = '';
-    this.stateName = '';
-    this.fetchAllProducts(this.pageNumber, this.isFilter);
+    this.fetchAllProducts(0);
   };
 
-  fetchAllProducts = (pageNumber: number, isFilter?: boolean) => {
-    this.isFilter = !!this.categoryName;
+  resetProductsByState = () => {
+    this.stateName = '';
+    this.fetchAllProducts(0);
+  };
+
+  resetProductsByCity = () => {
+    this.cityName = '';
+    this.fetchAllProducts(0);
+  };
+
+  fetchAllProducts = (pageNumber: number) => {
+    this.isCategoryFilter = !!this.categoryName;
+    this.isCityFilter = !!this.cityName;
+    this.isStateFilter = !!this.stateName;
 
     this.pageNumber = pageNumber;
 
@@ -164,29 +176,29 @@ export class ProductListComponent implements OnInit {
     if (this.canLoadMore) {
       this.loadingMoreProducts = true;
       this.pageNumber++;
-      this.fetchAllProducts(this.pageNumber, this.isFilter);
+      this.fetchAllProducts(this.pageNumber);
     } else {
       this.loadingMoreProducts = false;
     }
   }
 
   filterProductsByPrice() {
-    this.fetchAllProducts(0, this.isFilter);
+    this.fetchAllProducts(0);
   }
 
   filterProductsByCategory(item: string) {
     this.categoryName = item;
-    this.fetchAllProducts(0, this.isFilter);
+    this.fetchAllProducts(0);
   }
 
   filterProductsByCity(item: string) {
     this.cityName = item;
-    this.fetchAllProducts(0, this.isFilter);
+    this.fetchAllProducts(0);
   }
 
   filterProductsByState(item: string) {
     this.stateName = item;
-    this.fetchAllProducts(0, this.isFilter);
+    this.fetchAllProducts(0);
   }
 
   setColumn(e: any) {
