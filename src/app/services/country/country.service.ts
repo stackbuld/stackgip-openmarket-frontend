@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ApiAppUrlService } from '../api-app-url.service';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { log } from 'console';
+import { map, tap } from 'rxjs/operators';
 import {
   CountryInfo,
   HttpCountryInfoResponse,
@@ -30,6 +29,9 @@ export class CountryService {
               flag: item.flag,
             };
           });
+        }),
+        tap((res) => {
+          localStorage.setItem('countryCodesInfo', JSON.stringify(res));
         })
       );
   }

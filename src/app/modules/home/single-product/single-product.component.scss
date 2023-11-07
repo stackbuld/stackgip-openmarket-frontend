@@ -759,8 +759,26 @@ input[type="radio"] {
     font-weight: 600;
   }
 
-  &-coming-from {
-    font-size: 16px;
+  &-main {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    font-size: 15px;
+    cursor: pointer;
+
+    & .no-address {
+      color: rgba(166, 93, 6, 1);
+      text-decoration: underline;
+      width: 70%;
+    }
+
+    &-address {
+      width: 70%;
+    }
+
+    & i {
+      font-size: 20px;
+    }
   }
 }
 

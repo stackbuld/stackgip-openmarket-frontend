@@ -16,7 +16,7 @@ import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility
 import { AuthService } from 'src/app/services/auth.service';
 import { IUser, UserAddressData } from '../../../models/IUserModel';
 import { CartService } from '../../../services/cart/cart.service';
-import { CartAddress } from '../../../models/StoreModels';
+import { CartAddress, SellerStores } from '../../../models/StoreModels';
 import { WebsocketService } from '../../../services/websocket';
 import { AddToCartRequestModel } from '../../../services/cart/model/add-cart-model';
 import {
@@ -36,6 +36,8 @@ import uikit from 'uikit';
 
 import { CountryService } from 'src/app/services/country/country.service';
 import { CountryInfo } from 'src/app/models/country.model';
+import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
+import { SellerStoreLocationService } from 'src/app/services/cart/seller-store.service';
 @Component({
   selector: 'app-single-product',
   templateUrl: './single-product.component.html',
@@ -125,6 +127,10 @@ export class SingleProductComponent implements OnInit {
     watchSlidesProgress: true,
   };
 
+  sellerStores: SellerStores[] = [];
+  closestStore: SellerStores;
+  isGoogleAddressSelected: boolean = false;
+
   constructor(
     private toastService: ToastrService,
     private activatedRoute: ActivatedRoute,
@@ -137,7 +143,8 @@ export class SingleProductComponent implements OnInit {
     private webSocketService: WebsocketService,
     private windowRef: WindowRefService,
     private userService: UserService,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private sellerStoreLocationService: SellerStoreLocationService
   ) {}
 
   ngOnInit() {
@@ -150,11 +157,17 @@ export class SingleProductComponent implements OnInit {
 
     this.initAddressForm();
 
-    this.countryService.getCountry().subscribe({
-      next: (data) => {
-        this.countryInfo = data;
-      },
-    });
+    const countryCodes = JSON.parse(localStorage.getItem('countryCodesInfo')!);
+
+    if (countryCodes) {
+      this.countryInfo = countryCodes;
+    } else {
+      this.countryService.getCountry().subscribe({
+        next: (data) => {
+          this.countryInfo = data;
+        },
+      });
+    }
     this.isLoadingDetails = true;
     this.windowRef.nativeWindow.document.body.scrollTop = 0;
     this.windowRef.nativeWindow.document.documentElement.scrollTop = 0;
@@ -204,6 +217,7 @@ export class SingleProductComponent implements OnInit {
       );
 
       this.currentAddress = address;
+
       this.setRequestId();
       this.populateAddressForm(address);
       this.getShippingEstimate();
@@ -214,7 +228,6 @@ export class SingleProductComponent implements OnInit {
   }
   setRequestId = () => {
     const toHash = cryptoJs.MD5(this.currentAddress?.fullAddress);
-    console.log(toHash);
 
     this.requestId = `view-product-page-${
       this.productId
@@ -373,13 +386,16 @@ export class SingleProductComponent implements OnInit {
       next: (res) => {
         this.isLoadingDetails = false;
         this.product = res.data;
+        this.sellerStores = res.data?.sellerStores;
+
+        this.getClosestSellerStore(this.currentAddress);
 
         this.product.productImages.forEach((image) => {
           this.productImages.push({ image: image });
         });
 
         this.productUnit = res.data.unit;
-        console.log(this.product, this.productImages);
+        console.log(this.product);
 
         this.productPrice = res.data.price;
         this.currentImgUrl = res.data.productImages[0];
@@ -501,7 +517,6 @@ export class SingleProductComponent implements OnInit {
         [title]: [...existingOptions, option],
       };
     }, {});
-    console.log(groupedOptions);
 
     const groupedOptionsArray = Object.values(groupedOptions);
     this.sortedVariationsList = groupedOptionsArray;
@@ -570,6 +585,8 @@ export class SingleProductComponent implements OnInit {
   setSelectedAddress = (address: CartAddress) => {
     this.currentAddress = address;
     this.populateAddressForm(address);
+
+    this.getClosestSellerStore(address);
   };
 
   onAddNewAddress() {
@@ -749,6 +766,7 @@ export class SingleProductComponent implements OnInit {
   }
 
   public handleAddressChange(address: Address) {
+    this.isGoogleAddressSelected = true;
     const country = address.address_components.filter((element) => {
       return element.types.includes('country');
     });
@@ -772,7 +790,9 @@ export class SingleProductComponent implements OnInit {
     this.addressForm.patchValue({ lng: address.geometry.location.lng() });
     this.addressForm.patchValue({ lat: address.geometry.location.lat() });
     this.addressForm.patchValue({ country: country[0].short_name });
-    this.addressForm.patchValue({ city: city[0].long_name });
+    this.addressForm.patchValue({
+      city: city.length > 0 ? city[0].long_name : state[0].long_name,
+    });
     this.addressForm.patchValue({ state: state[0].long_name });
     // this.landmark.patchValue(landmark[0].long_name);
     // this.postalCode.patchValue(postalCode[0].long_name);
@@ -805,7 +825,8 @@ export class SingleProductComponent implements OnInit {
             userId: this.user.id,
             isDefault: this.currentAddress.isDefault,
           };
-          console.log(data, this.currentAddress);
+
+          this.getClosestSellerStore(data);
 
           this.userService
             .updateUserAddress(this.currentAddress.id, data)
@@ -845,6 +866,8 @@ export class SingleProductComponent implements OnInit {
                   contactPhoneNumber: formattedPhoneNumber,
                 };
 
+                this.getClosestSellerStore(this.currentAddress);
+
                 this.reloadAddresses();
                 this.loadingAddress = false;
                 document.getElementById('closeAddressFormDialog').click();
@@ -882,6 +905,39 @@ export class SingleProductComponent implements OnInit {
       this.toastService.warning('Address field is required', 'WARNING');
     }
   };
+
+  getClosestSellerStore(address: CartAddress) {
+    const { lat, lng } = address;
+
+    const closestStore: any = this.sellerStoreLocationService.findClosestStore(
+      { lat: +lat, lng: +lng },
+      this.sellerStores
+    );
+
+    this.closestStore = closestStore;
+
+    this.sellerStores = this.sellerStores.map((store) => {
+      this.countryInfo.forEach((info) => {
+        if (info.alpha2Code === store.country) {
+          store['country'] = info.countryName;
+        }
+      });
+      return store;
+    });
+  }
+
+  onOpenPickupModal() {
+    uikit.modal('#store-modal').show();
+  }
+
+  setPickupPoint(store: SellerStores) {
+    this.closestStore = store;
+  }
+
+  onSetPickupLocation() {
+    this.getShippingEstimate();
+    uikit.modal('#store-modal').hide();
+  }
 
   increaseQuantity = () => {
     if (this.count == this.productUnit || this.productUnit == 0) {
