@@ -13,11 +13,11 @@ const searchClient = algoliasearch(
   providedIn: 'root',
 })
 export class StateService implements IStateService {
+  index = searchClient.initIndex(environment.algolia.indexName);
   config = {
     indexName: environment.algolia.indexName,
     searchClient,
   };
-  index = searchClient.initIndex(this.config.indexName);
 
   constructor() {}
 

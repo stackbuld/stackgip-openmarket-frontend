@@ -6,7 +6,7 @@ export interface ProductModel {
   productOptions?: any;
   name: string;
   price: number;
-  sellingPrice?: number;
+  sellingPrice: number;
   previousPrice: number;
   description: string;
   categoryId: number;
