@@ -5,6 +5,8 @@ import { ProductModel } from 'src/app/models/products.model';
 import { CatgoryService } from 'src/app/services/category/catgory.service';
 import { FooterService } from 'src/app/services/footer.service';
 import { SearchService } from 'src/app/services/search/search.service';
+import { CityService } from 'src/app/services/city/city.service';
+import { StateService } from 'src/app/services/state/state.service';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -14,18 +16,22 @@ export class ProductListComponent implements OnInit {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
   categories: string[] = [];
   products: ProductModel[] = [];
+  cities: string[] = [];
+  states: string[] = [];
   // totalItemCount: number;
   maximumItem: number = 12;
   pageNumber: number = 0;
   search: string = '';
-  categoryId: string = '';
+  // categoryId: string = '';
   minValue: number = 1;
   maxValue: number = 500000;
   // options:Options;
   // form: FormGroup;
   loadingProducts: boolean = false;
   loadingMoreProducts: boolean = false;
-  loadingCategories: boolean;
+  loadingCategories: boolean = false;
+  loadingCities: boolean = false;
+  loadingStates: boolean = false;
   columnCount = 6;
   canLoadMore = true;
 
@@ -36,7 +42,12 @@ export class ProductListComponent implements OnInit {
     ceil: 1000000,
   };
   isFilter: boolean = false;
+  isCategoryFilter: boolean = false;
+  isCityFilter: boolean = false;
+  isStateFilter: boolean = false;
   categoryName: string = '';
+  cityName: string = '';
+  stateName: string = '';
   distanceValue: number = 1;
   distanceHighValue: number = 115;
   distanceOptions: Options = {
@@ -48,24 +59,38 @@ export class ProductListComponent implements OnInit {
     private productService: ProductsService,
     private categoryService: CatgoryService,
     private footerService: FooterService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private cityService: CityService,
+    private stateService: StateService
   ) {}
 
   ngOnInit(): void {
     this.footerService.setShowFooter(false);
     this.fetchAllProducts(this.pageNumber);
     this.fetchCategories();
+    this.fetchCities();
+    this.fetchStates();
   }
 
-  resetProducts = () => {
-    this.categoryId = '';
-    this.pageNumber = 0;
+  resetProductsByCategory = () => {
     this.categoryName = '';
-    this.fetchAllProducts(this.pageNumber, this.isFilter);
+    this.fetchAllProducts(0);
   };
 
-  fetchAllProducts = (pageNumber: number, isFilter?: boolean) => {
-    this.isFilter = !!this.categoryName;
+  resetProductsByState = () => {
+    this.stateName = '';
+    this.fetchAllProducts(0);
+  };
+
+  resetProductsByCity = () => {
+    this.cityName = '';
+    this.fetchAllProducts(0);
+  };
+
+  fetchAllProducts = (pageNumber: number) => {
+    this.isCategoryFilter = !!this.categoryName;
+    this.isCityFilter = !!this.cityName;
+    this.isStateFilter = !!this.stateName;
 
     this.pageNumber = pageNumber;
 
@@ -83,6 +108,8 @@ export class ProductListComponent implements OnInit {
         this.maximumItem,
         this.search,
         this.categoryName,
+        this.cityName,
+        this.stateName,
         this.minValue,
         this.maxValue
       )
@@ -117,37 +144,61 @@ export class ProductListComponent implements OnInit {
         this.loadingCategories = false;
       },
     });
-    // this.categoryService.GetCategory().subscribe(
-    //   (res) => {
-    //     this.categories = res.data;
-    //     this.loadingCategories = false;
-    //   },
-    //   (err) => {
-    //     this.loadingCategories = false;
-    //   }
-    // );
+  };
+
+  fetchCities = () => {
+    this.loadingCities = true;
+    this.cityService.getAllCities().subscribe({
+      next: (data) => {
+        this.cities = data;
+        this.loadingCities = false;
+      },
+      error: (err) => {
+        this.loadingCities = false;
+      },
+    });
+  };
+
+  fetchStates = () => {
+    this.loadingStates = true;
+    this.stateService.getAllStates().subscribe({
+      next: (data) => {
+        this.states = data;
+        this.loadingStates = false;
+      },
+      error: (err) => {
+        this.loadingStates = false;
+      },
+    });
   };
 
   showMoreProducts() {
     if (this.canLoadMore) {
       this.loadingMoreProducts = true;
       this.pageNumber++;
-      this.fetchAllProducts(this.pageNumber, this.isFilter);
+      this.fetchAllProducts(this.pageNumber);
     } else {
       this.loadingMoreProducts = false;
     }
   }
 
   filterProductsByPrice() {
-    // this.pageNumber = 0;
-    this.fetchAllProducts(0, this.isFilter);
+    this.fetchAllProducts(0);
   }
 
   filterProductsByCategory(item: string) {
     this.categoryName = item;
-    // this.isFilter = true;
-    // this.pageNumber = 0;
-    this.fetchAllProducts(0, this.isFilter);
+    this.fetchAllProducts(0);
+  }
+
+  filterProductsByCity(item: string) {
+    this.cityName = item;
+    this.fetchAllProducts(0);
+  }
+
+  filterProductsByState(item: string) {
+    this.stateName = item;
+    this.fetchAllProducts(0);
   }
 
   setColumn(e: any) {
