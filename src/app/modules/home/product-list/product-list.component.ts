@@ -18,6 +18,16 @@ export class ProductListComponent implements OnInit {
   products: ProductModel[] = [];
   cities: string[] = [];
   states: string[] = [];
+
+  categoryListLimit: number = 6;
+  categoryMoreLimit: number = 6;
+
+  cityListLimit: number = 6;
+  cityMoreLimit: number = 6;
+
+  stateListLimit: number = 6;
+  stateMoreLimit: number = 6;
+
   // totalItemCount: number;
   maximumItem: number = 12;
   pageNumber: number = 0;
@@ -70,6 +80,21 @@ export class ProductListComponent implements OnInit {
     this.fetchCategories();
     this.fetchCities();
     this.fetchStates();
+  }
+
+  showMoreCategories() {
+    this.categoryListLimit += this.categoryMoreLimit;
+    this.categoryMoreLimit = this.categoryMoreLimit * 2;
+  }
+
+  showMoreCities() {
+    this.cityListLimit += this.cityMoreLimit;
+    this.cityMoreLimit = this.cityMoreLimit * 2;
+  }
+
+  showMoreStates() {
+    this.stateListLimit += this.stateMoreLimit;
+    this.stateMoreLimit = this.stateMoreLimit * 2;
   }
 
   resetProductsByCategory = () => {
