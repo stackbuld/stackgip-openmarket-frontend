@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import algoliasearch from 'algoliasearch';
+import algoliasearch, { SearchClient, SearchIndex } from 'algoliasearch';
 import { ICityService } from './ICity.interface';
 import { Observable, from, of, switchMap } from 'rxjs';
 
@@ -13,11 +13,11 @@ const searchClient = algoliasearch(
   providedIn: 'root',
 })
 export class CityService implements ICityService {
+  index: SearchIndex = searchClient.initIndex(environment.algolia.indexName);
   config = {
     indexName: environment.algolia.indexName,
     searchClient,
   };
-  index = searchClient.initIndex(this.config.indexName);
   constructor() {}
 
   getAllCities(): Observable<string[]> {

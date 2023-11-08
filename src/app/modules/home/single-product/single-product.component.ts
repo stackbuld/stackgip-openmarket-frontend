@@ -382,7 +382,7 @@ export class SingleProductComponent implements OnInit {
         this.productUnit = res.data.unit;
         console.log(this.product, this.productImages);
 
-        this.productPrice = res.data.price;
+        this.productPrice = res.data.sellingPrice;
         this.currentImgUrl = res.data.productImages[0];
         for (
           let index = 0;
