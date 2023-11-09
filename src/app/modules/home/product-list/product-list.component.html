@@ -330,7 +330,22 @@
       <div class="card p-4">
         <div class="mb-3 d-flex align-items-center justify-content-between">
           <p class="mb-0 tag">Categories</p>
-          <button class="search-filters">
+          <form action="" *ngIf="isCategorySearchFocused">
+            <input
+              type="text"
+              placeholder="Search"
+              class="search-filter-input"
+              autofocus
+              (focus)="onCategorySearchFocus()"
+              (blur)="onCategorySearchBlur()"
+              (input)="onCategorySearch($event.target.value)"
+            />
+          </form>
+          <button
+            class="search-filters"
+            *ngIf="!isCategorySearchFocused"
+            (click)="isCategorySearchFocused = !isCategorySearchFocused"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -390,6 +405,9 @@
               <span>More</span>
             </span>
           </div>
+          <div *ngIf="categories.length === 0" class="text-center p-5">
+            No Results
+          </div>
         </div>
 
         <div *ngIf="loadingCategories" class="">
@@ -407,7 +425,22 @@
       <div class="mt-3 card p-4">
         <div class="mb-3 d-flex align-items-center justify-content-between">
           <p class="mb-0 tag">Cities</p>
-          <button class="search-filters">
+          <form action="" *ngIf="isCitySearchFocused">
+            <input
+              type="text"
+              placeholder="Search"
+              class="search-filter-input"
+              autofocus
+              (focus)="onCitySearchFocus()"
+              (blur)="onCitySearchBlur()"
+              (input)="onCitySearch($event.target.value)"
+            />
+          </form>
+          <button
+            class="search-filters"
+            *ngIf="!isCitySearchFocused"
+            (click)="isCitySearchFocused = !isCitySearchFocused"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -464,6 +497,9 @@
               <span>More</span>
             </span>
           </div>
+          <div *ngIf="cities.length === 0" class="text-center p-5">
+            No Results
+          </div>
         </div>
 
         <div *ngIf="loadingCities" class="">
@@ -481,7 +517,22 @@
       <div class="mt-3 card p-4">
         <div class="mb-3 d-flex align-items-center justify-content-between">
           <p class="mb-0 tag">States</p>
-          <button class="search-filters">
+          <form action="" *ngIf="isStateSearchFocused">
+            <input
+              type="text"
+              placeholder="Search"
+              class="search-filter-input"
+              autofocus
+              (focus)="onStateSearchFocus()"
+              (blur)="onStateSearchBlur()"
+              (input)="onStateSearch($event.target.value)"
+            />
+          </form>
+          <button
+            class="search-filters"
+            *ngIf="!isStateSearchFocused"
+            (click)="isStateSearchFocused = !isStateSearchFocused"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -537,6 +588,9 @@
               &nbsp;
               <span>More</span>
             </span>
+          </div>
+          <div *ngIf="states.length === 0" class="text-center p-5">
+            No Results
           </div>
         </div>
 

@@ -55,4 +55,22 @@ export class CatgoryService implements ICatgoryService {
 
     return formattedCategories;
   }
+
+  searchCategories(searchItem: string): Observable<string[]> {
+    const categoryResults = this.index.searchForFacetValues(
+      'category.name',
+      searchItem
+    );
+    let tempCategories: string[] = [];
+
+    let formattedCategories = from(categoryResults).pipe(
+      switchMap((data) => {
+        const facetHits = data.facetHits;
+        tempCategories = facetHits.map((hits) => hits.value);
+        return of(tempCategories);
+      })
+    );
+
+    return formattedCategories;
+  }
 }

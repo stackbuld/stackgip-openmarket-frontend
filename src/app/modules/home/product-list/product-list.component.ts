@@ -51,13 +51,19 @@ export class ProductListComponent implements OnInit {
     floor: 0,
     ceil: 1000000,
   };
-  isFilter: boolean = false;
+
   isCategoryFilter: boolean = false;
   isCityFilter: boolean = false;
   isStateFilter: boolean = false;
+
   categoryName: string = '';
   cityName: string = '';
   stateName: string = '';
+
+  isCategorySearchFocused: boolean = false;
+  isCitySearchFocused: boolean = false;
+  isStateSearchFocused: boolean = false;
+
   distanceValue: number = 1;
   distanceHighValue: number = 115;
   distanceOptions: Options = {
@@ -80,6 +86,72 @@ export class ProductListComponent implements OnInit {
     this.fetchCategories();
     this.fetchCities();
     this.fetchStates();
+  }
+
+  onCategorySearch(category: string) {
+    this.categoryName = category;
+    this.loadingCategories = true;
+    this.categoryService.searchCategories(category).subscribe({
+      next: (data) => {
+        this.categories = data;
+        this.loadingCategories = false;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  onCategorySearchFocus() {
+    this.isCategorySearchFocused = true;
+  }
+
+  onCategorySearchBlur() {
+    this.isCategorySearchFocused = false;
+  }
+
+  onCitySearch(city: string) {
+    this.cityName = city;
+    this.loadingCities = true;
+    this.cityService.searchCities(city).subscribe({
+      next: (data) => {
+        this.cities = data;
+        this.loadingCities = false;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  onCitySearchFocus() {
+    this.isCitySearchFocused = true;
+  }
+
+  onCitySearchBlur() {
+    this.isCitySearchFocused = false;
+  }
+
+  onStateSearch(state: string) {
+    this.stateName = state;
+    this.loadingStates = true;
+    this.stateService.searchStates(state).subscribe({
+      next: (data) => {
+        this.states = data;
+        this.loadingStates = false;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  onStateSearchFocus() {
+    this.isStateSearchFocused = true;
+  }
+
+  onStateSearchBlur() {
+    this.isStateSearchFocused = false;
   }
 
   showMoreCategories() {
@@ -214,16 +286,19 @@ export class ProductListComponent implements OnInit {
   filterProductsByCategory(item: string) {
     this.categoryName = item;
     this.fetchAllProducts(0);
+    this.fetchCategories();
   }
 
   filterProductsByCity(item: string) {
     this.cityName = item;
     this.fetchAllProducts(0);
+    this.fetchCities();
   }
 
   filterProductsByState(item: string) {
     this.stateName = item;
     this.fetchAllProducts(0);
+    this.fetchStates();
   }
 
   setColumn(e: any) {

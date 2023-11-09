@@ -46,6 +46,17 @@
   background-color: inherit;
 }
 
+.search-filter-input {
+  border: 2px solid #ff8b00;
+  padding: 4px 5px;
+  margin-left: 10px;
+  width: 140px;
+}
+
+input.search-filter-input:focus {
+  outline: none;
+}
+
 .tag {
   font-weight: 700;
   font-size: 14px;
