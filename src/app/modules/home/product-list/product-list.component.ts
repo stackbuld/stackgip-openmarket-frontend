@@ -108,6 +108,7 @@ export class ProductListComponent implements OnInit {
 
   onCategorySearchBlur() {
     this.isCategorySearchFocused = false;
+    this.fetchCategories();
   }
 
   onCitySearch(city: string) {
@@ -130,6 +131,7 @@ export class ProductListComponent implements OnInit {
 
   onCitySearchBlur() {
     this.isCitySearchFocused = false;
+    this.fetchCities();
   }
 
   onStateSearch(state: string) {
@@ -152,6 +154,7 @@ export class ProductListComponent implements OnInit {
 
   onStateSearchBlur() {
     this.isStateSearchFocused = false;
+    this.fetchStates();
   }
 
   showMoreCategories() {

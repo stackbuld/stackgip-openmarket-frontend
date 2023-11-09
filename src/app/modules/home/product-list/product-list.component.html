@@ -79,7 +79,22 @@
           <div class="py-2 border-bottom">
             <div class="d-flex justify-content-between align-items-center">
               <p class="mobile-heading">CATEGORIES</p>
-              <button class="search-filters">
+              <form action="" *ngIf="isCategorySearchFocused">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  class="search-filter-input"
+                  autofocus
+                  (focus)="onCategorySearchFocus()"
+                  (blur)="onCategorySearchBlur()"
+                  (input)="onCategorySearch($event.target.value)"
+                />
+              </form>
+              <button
+                class="search-filters"
+                *ngIf="!isCategorySearchFocused"
+                (click)="isCategorySearchFocused = !isCategorySearchFocused"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -113,7 +128,7 @@
                 </svg>
               </p>
             </div>
-            <div>
+            <div *ngIf="!loadingCategories">
               <p
                 *ngFor="
                   let category of categories | slice : 0 : categoryListLimit;
@@ -154,6 +169,21 @@
                   <span>More</span>
                 </span>
               </p>
+              <div
+                *ngIf="categories.length === 0"
+                class="text-center text-black p-5"
+              >
+                No Results
+              </div>
+            </div>
+            <div *ngIf="loadingCategories" class="">
+              <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+              <br />
+              <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+              <br />
+              <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+              <br />
+              <ngx-shimmer-loading></ngx-shimmer-loading>
             </div>
           </div>
           <!-- END OF CATEGORIES MOBILE -->
@@ -161,7 +191,22 @@
           <div class="py-2 border-bottom">
             <div class="d-flex justify-content-between align-items-center">
               <p class="mobile-heading">CITIES</p>
-              <button class="search-filters">
+              <form action="" *ngIf="isCitySearchFocused">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  class="search-filter-input"
+                  autofocus
+                  (focus)="onCitySearchFocus()"
+                  (blur)="onCitySearchBlur()"
+                  (input)="onCitySearch($event.target.value)"
+                />
+              </form>
+              <button
+                class="search-filters"
+                *ngIf="!isCitySearchFocused"
+                (click)="isCitySearchFocused = !isCitySearchFocused"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -195,7 +240,7 @@
                 </svg>
               </p>
             </div>
-            <div>
+            <div *ngIf="!loadingCities">
               <p
                 *ngFor="
                   let city of cities | slice : 0 : cityListLimit;
@@ -235,6 +280,21 @@
                   <span>More</span>
                 </span>
               </p>
+              <div
+                *ngIf="cities.length === 0"
+                class="text-center text-black p-5"
+              >
+                No Results
+              </div>
+            </div>
+            <div *ngIf="loadingCities" class="">
+              <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+              <br />
+              <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+              <br />
+              <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+              <br />
+              <ngx-shimmer-loading></ngx-shimmer-loading>
             </div>
           </div>
           <!-- END OF CITY FILTER MOBILE -->
@@ -242,7 +302,22 @@
           <div class="py-2 border-bottom">
             <div class="d-flex justify-content-between align-items-center">
               <p class="mobile-heading">STATES</p>
-              <button class="search-filters">
+              <form action="" *ngIf="isStateSearchFocused">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  class="search-filter-input"
+                  autofocus
+                  (focus)="onStateSearchFocus()"
+                  (blur)="onStateSearchBlur()"
+                  (input)="onStateSearch($event.target.value)"
+                />
+              </form>
+              <button
+                class="search-filters"
+                *ngIf="!isStateSearchFocused"
+                (click)="isStateSearchFocused = !isStateSearchFocused"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -276,7 +351,7 @@
                 </svg>
               </p>
             </div>
-            <div>
+            <div *ngIf="!loadingStates">
               <p
                 *ngFor="
                   let state of states | slice : 0 : stateListLimit;
@@ -316,6 +391,21 @@
                   <span>More</span>
                 </span>
               </p>
+              <div
+                *ngIf="states.length === 0"
+                class="text-center text-black p-5"
+              >
+                No Results
+              </div>
+            </div>
+            <div *ngIf="loadingStates" class="">
+              <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+              <br />
+              <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+              <br />
+              <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+              <br />
+              <ngx-shimmer-loading></ngx-shimmer-loading>
             </div>
           </div>
           <!-- END OF STATES FILTER MOBILE -->
