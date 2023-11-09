@@ -4,13 +4,14 @@ import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import uikit from 'uikit';
 
 declare var cloudinary: any;
 
 @Component({
   selector: 'app-order-view',
   templateUrl: './order-view.component.html',
-  styleUrls: ['./order-view.component.scss']
+  styleUrls: ['./order-view.component.scss'],
 })
 export class OrderViewComponent implements OnInit {
   order: any;
@@ -32,7 +33,7 @@ export class OrderViewComponent implements OnInit {
     private appLocal: AppLocalStorage,
     private orderService: OrderService,
     private toastr: ToastrService,
-    private router: Router,
+    private router: Router
   ) {
     this.getDetails();
   }
@@ -40,6 +41,7 @@ export class OrderViewComponent implements OnInit {
   ngOnInit(): void {
     this.initMediaWidget();
     this.initVideoWidget();
+    uikit.modal('#accept-modal').show();
   }
 
   initMediaWidget = () => {
@@ -55,9 +57,9 @@ export class OrderViewComponent implements OnInit {
         }
       }
     );
-  }
+  };
 
-  initVideoWidget () {
+  initVideoWidget() {
     this.uploadWidget2 = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
@@ -66,7 +68,7 @@ export class OrderViewComponent implements OnInit {
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
-          this.videoName = result.info.original_filename; 
+          this.videoName = result.info.original_filename;
           this.videoUrl = result.info.secure_url;
         }
       }
@@ -82,8 +84,8 @@ export class OrderViewComponent implements OnInit {
   }
 
   getDetails = () => {
-    this.appLocal.messageSource.subscribe(res => {
-      if(res) {
+    this.appLocal.messageSource.subscribe((res) => {
+      if (res) {
         this.order = res;
         this.appLocal.storeToStorage('page_data', res);
       } else {
@@ -93,17 +95,21 @@ export class OrderViewComponent implements OnInit {
       //   const element = this.order.cartProduct.complementaryProducts[index];
       //   if (element.isMultiple === true) {
       //     this.complementaryProducts.push(element);
-      //   } 
+      //   }
       //   if (element.isMultiple === false) {
       //     this.tempVariations.push(element);
       //   }
       // }
       this.setVariation(this.order.cartProduct.varations);
-    })
-  }
+    });
+  };
 
   getObjectByStatus(status: string): any {
-    return this.order?.deliveryTrackingEvents.find(it => it.status.toLowerCase() === status.toLowerCase()) || null;
+    return (
+      this.order?.deliveryTrackingEvents.find(
+        (it) => it.status.toLowerCase() === status.toLowerCase()
+      ) || null
+    );
   }
 
   setVariation(list: any) {
@@ -121,37 +127,40 @@ export class OrderViewComponent implements OnInit {
 
   closeRejectDialog = () => {
     document.getElementById('closeRejectOrderDialog').click();
-  }
+  };
 
   closeAcceptDialog = () => {
     document.getElementById('closeAcceptOrderDialog').click();
-  }
+  };
 
   rejectOrder = () => {
     this.rejectingOrder = true;
     const payload = {
       orderId: this.order.id,
-      photoUrl: "",
-      videoUrl: "",
-      serialNumber: "",
-      additionalInformation: "",
+      photoUrl: '',
+      videoUrl: '',
+      serialNumber: '',
+      additionalInformation: '',
       rejectionReason: this.rejectionReason,
-      isConfirmed: false
-    }
-    this.orderService.acceptRejectOrder(payload).subscribe(res => {
-      if(res.status === 'success') {
+      isConfirmed: false,
+    };
+    this.orderService.acceptRejectOrder(payload).subscribe(
+      (res) => {
+        if (res.status === 'success') {
+          this.rejectingOrder = false;
+          this.closeRejectDialog();
+          this.toastr.success(res.message, 'SUCCESS');
+          this.router.navigate(['/seller/orders']);
+        } else {
+          this.rejectingOrder = false;
+          this.toastr.success(res.message, 'SUCCESS');
+        }
+      },
+      (err) => {
         this.rejectingOrder = false;
-        this.closeRejectDialog();
-        this.toastr.success(res.message, 'SUCCESS');
-        this.router.navigate(['/seller/orders']);
-      } else {
-        this.rejectingOrder = false;
-        this.toastr.success(res.message, 'SUCCESS');
       }
-    }, err => {
-      this.rejectingOrder = false;
-    })
-  }
+    );
+  };
 
   acceptOrder = () => {
     this.acceptingOrder = true;
@@ -162,21 +171,23 @@ export class OrderViewComponent implements OnInit {
       serialNumber: this.serialNumber,
       additionalInformation: this.additionalInformation,
       rejectionReason: this.rejectionReason,
-      isConfirmed: true
-    }
-    this.orderService.acceptRejectOrder(payload).subscribe(res => {
-      if(res.status === 'success') {
+      isConfirmed: true,
+    };
+    this.orderService.acceptRejectOrder(payload).subscribe(
+      (res) => {
+        if (res.status === 'success') {
+          this.acceptingOrder = false;
+          this.closeAcceptDialog();
+          this.toastr.success(res.message, 'SUCCESS');
+          this.router.navigate(['/seller/orders']);
+        } else {
+          this.acceptingOrder = false;
+          this.toastr.success(res.message, 'SUCCESS');
+        }
+      },
+      (err) => {
         this.acceptingOrder = false;
-        this.closeAcceptDialog();
-        this.toastr.success(res.message, 'SUCCESS');
-        this.router.navigate(['/seller/orders']);
-      } else {
-        this.acceptingOrder = false;
-        this.toastr.success(res.message, 'SUCCESS');
       }
-    }, err => {
-      this.acceptingOrder = false;
-    })
-  }
-
+    );
+  };
 }
