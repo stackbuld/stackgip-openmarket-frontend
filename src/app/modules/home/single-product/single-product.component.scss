@@ -460,6 +460,11 @@ input[type="radio"] {
       }
     }
   }
+
+  & .address-prompt {
+    margin-top: 5px;
+    color: #ff8b00;
+  }
 }
 
 .input-field {
@@ -566,6 +571,10 @@ input[type="radio"] {
   height: 50px;
   color: #ffffff;
   text-align: center;
+
+  &.greyed {
+    background-color: rgba(72, 72, 70, 1);
+  }
 }
 
 .bottom-element {
@@ -1138,5 +1147,25 @@ input[type="radio"] {
     & .carousel-arrow {
       display: none;
     }
+  }
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #000000;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

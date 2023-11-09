@@ -130,6 +130,7 @@ export class SingleProductComponent implements OnInit {
   sellerStores: SellerStores[] = [];
   closestStore: SellerStores;
   isGoogleAddressSelected: boolean = false;
+  isShippingMethodFetched: boolean = false;
 
   constructor(
     private toastService: ToastrService,
@@ -208,6 +209,12 @@ export class SingleProductComponent implements OnInit {
         localStorage.setItem('paymentMethods', JSON.stringify(res.data));
       },
     });
+
+    this.addressForm.get('fullAddress').valueChanges.subscribe((value) => {
+      if (!value || value == '') {
+        this.isGoogleAddressSelected = false;
+      }
+    });
   }
 
   setUserAddress() {
@@ -249,9 +256,10 @@ export class SingleProductComponent implements OnInit {
         notificationResponse.notificationType ===
         'GET_LOGISTIC_PRICES_COMPLETED'
       ) {
+        this.isShippingMethodFetched = true;
         this.loadingShippingEstimate = false;
         this.loadingShippingStatus = 'completed';
-        console.log(this.loadingShippingStatus);
+        console.log(this.isShippingMethodFetched);
 
         const shippingData =
           notificationResponse.data as GetShippingPriceEstimateData[];
@@ -293,6 +301,10 @@ export class SingleProductComponent implements OnInit {
         } else {
           this.shippingMethods.push(data);
         }
+
+        if (this.shippingMethods.length > 1) {
+          this.isShippingMethodFetched = true;
+        }
         this.orderAndSelectDefaultShippingMethod();
       }
     }
@@ -306,7 +318,7 @@ export class SingleProductComponent implements OnInit {
     this.isLoadingDetails = true;
     this.complimentaryProductsList = [];
     this.productImages = [];
-    this.shippingMethods = [];
+    this.shippingMethods = [this.defaultShipping];
     this.imgUrls = [];
     this.router.navigate(['/homepage/product', id]);
     this.getShippingEstimate();
@@ -616,6 +628,9 @@ export class SingleProductComponent implements OnInit {
     );
     // localStorage.removeItem('shippingAddress');
     this.populateAddressForm(this.currentAddress);
+    this.isShippingMethodFetched = false;
+    this.shippingMethods = [this.defaultShipping];
+    this.currentShippingMethod.next(this.defaultShipping);
     this.getShippingEstimate();
   };
 
@@ -625,6 +640,7 @@ export class SingleProductComponent implements OnInit {
         this.addresses = addresses;
         localStorage.setItem('userAddress', JSON.stringify(addresses));
         this.fetchUserAddresses();
+        console.log(1);
       },
       error: (err) => {},
     });
@@ -800,6 +816,13 @@ export class SingleProductComponent implements OnInit {
   }
 
   applyAddress = () => {
+    if (!this.isGoogleAddressSelected) {
+      this.toastService.warning(
+        'Select your address from the list that shows while typing'
+      );
+      return;
+    }
+
     if (!this.addressForm.invalid) {
       this.loadingAddress = true;
       this.setter = this.addressForm.value.fullAddress;
@@ -901,8 +924,6 @@ export class SingleProductComponent implements OnInit {
         this.toastService.success('Address saved!', 'SUCCESS');
         document.getElementById('closeAddressFormDialog').click();
       }
-    } else {
-      this.toastService.warning('Address field is required', 'WARNING');
     }
   };
 
