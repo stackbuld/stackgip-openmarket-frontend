@@ -38,4 +38,22 @@ export class StateService implements IStateService {
 
     return formattedStates;
   }
+
+  searchStates(searchItem: string): Observable<string[]> {
+    const stateResults = this.index.searchForFacetValues(
+      'sellerStores.state',
+      searchItem
+    );
+    let tempStates: string[] = [];
+
+    let formattedStates = from(stateResults).pipe(
+      switchMap((data) => {
+        const facetHits = data.facetHits;
+        tempStates = facetHits.map((hits) => hits.value);
+        return of(tempStates);
+      })
+    );
+
+    return formattedStates;
+  }
 }

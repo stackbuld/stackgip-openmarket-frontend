@@ -37,4 +37,22 @@ export class CityService implements ICityService {
 
     return formattedCities;
   }
+
+  searchCities(searchItem: string): Observable<string[]> {
+    const cityResults = this.index.searchForFacetValues(
+      'sellerStores.city',
+      searchItem
+    );
+    let tempCities: string[] = [];
+
+    let formattedCities = from(cityResults).pipe(
+      switchMap((data) => {
+        const facetHits = data.facetHits;
+        tempCities = facetHits.map((hits) => hits.value);
+        return of(tempCities);
+      })
+    );
+
+    return formattedCities;
+  }
 }
