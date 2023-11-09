@@ -172,6 +172,16 @@ export class ProductListComponent implements OnInit {
     this.stateMoreLimit = this.stateMoreLimit * 2;
   }
 
+  resetProducts = () => {
+    this.search = '';
+    this.categoryName = '';
+    this.cityName = '';
+    this.stateName = '';
+    this.minValue = 1;
+    this.maxValue = 500000;
+    this.fetchAllProducts(0);
+  };
+
   resetProductsByCategory = () => {
     this.categoryName = '';
     this.fetchAllProducts(0);

@@ -75,6 +75,16 @@
             </div>
           </div>
 
+          <!-- CLEAR ALL MOBILE -->
+          <div class="p-2">
+            <div class="d-flex align-items-center justify-content-between">
+              <p class="tag">Browse and filter</p>
+              <button class="clear-all-btn" (click)="resetProducts()">
+                Clear all
+              </button>
+            </div>
+          </div>
+          <!-- END OF CLEAR ALL MOBILE -->
           <!-- CATEGORIES MOBILE -->
           <div class="py-2 border-bottom">
             <div class="d-flex justify-content-between align-items-center">
@@ -416,6 +426,14 @@
 
   <div class="uk-flex">
     <div class="left-section">
+      <div class="p-2">
+        <div class="d-flex align-items-center justify-content-between">
+          <p class="tag">Browse and filter</p>
+          <button class="clear-all-btn" (click)="resetProducts()">
+            Clear all
+          </button>
+        </div>
+      </div>
       <!-- Category Filter section -->
       <div class="card p-4">
         <div class="mb-3 d-flex align-items-center justify-content-between">
