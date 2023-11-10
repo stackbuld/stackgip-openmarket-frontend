@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import uikit from 'uikit';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 declare var cloudinary: any;
 
@@ -17,6 +18,7 @@ export class OrderViewComponent implements OnInit {
   order: any;
   // complementaryProducts: any[] = [];
   // tempVariations: any[] = [];
+  confirmOrderForm: FormGroup;
   variations: any[] = [];
   serialNumber: string = '';
   additionalInformation: string = '';
@@ -42,6 +44,14 @@ export class OrderViewComponent implements OnInit {
     this.initMediaWidget();
     this.initVideoWidget();
     uikit.modal('#accept-modal').show();
+
+    this.confirmOrderForm = new FormGroup({
+      serialNumber: new FormControl(null),
+      additionalDetails: new FormControl(null),
+      schedulePickup: new FormControl(null, Validators.required),
+      start: new FormControl(null),
+      end: new FormControl(null),
+    });
   }
 
   initMediaWidget = () => {

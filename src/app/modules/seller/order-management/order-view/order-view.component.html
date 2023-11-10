@@ -806,31 +806,51 @@
     </div>
     <div class="mt-4">
       <div>
-        <div class="mb-3 form-group">
-          <label for="serial-number">Serial Number (optional)</label> <br />
-          <input
-            [(ngModel)]="serialNumber"
-            class="w-100"
-            id="serial-number"
-            placeholder="Enter product Serial Number"
-          />
-        </div>
+        <form [formGroup]="confirmOrderForm">
+          <div class="mb-3 form-group">
+            <label for="serial-number">Serial Number (optional)</label> <br />
+            <input
+              formControlName="serialNumber"
+              class="w-100"
+              id="serial-number"
+              placeholder="Enter product Serial Number"
+            />
+          </div>
 
-        <div class="mb-3 form-group">
-          <label for="ad-info">Additional Details (optional)</label> <br />
-          <textarea
-            [(ngModel)]="additionalInformation"
-            class="w-100"
-            rows="5"
-            placeholder="Enter other details"
-            id="ad-info"
-          ></textarea>
-        </div>
+          <div class="mb-3 form-group">
+            <label for="ad-info">Additional Details (optional)</label> <br />
+            <textarea
+              formControlName="additionalDetails"
+              class="w-100"
+              rows="5"
+              placeholder="Enter other details"
+              id="ad-info"
+            ></textarea>
+          </div>
 
-        <div class="mb-3 form-group">
-          <label for="pickup-schedule">Schedule Pickup</label> <br />
-          <select id="pickup-schedule" class="w-100"></select>
-        </div>
+          <div class="mb-3 form-group">
+            <label for="pickup-schedule">Schedule Pickup</label> <br />
+            <select id="pickup-schedule" class="w-100" (click)="picker.open()">
+              <option [value]="null">Select date for pickup</option>
+            </select>
+
+            <div class="date-container">
+              <mat-date-range-input [rangePicker]="picker">
+                <input
+                  matStartDate
+                  formControlName="start"
+                  placeholder="Start date"
+                />
+                <input
+                  matEndDate
+                  formControlName="end"
+                  placeholder="End date"
+                />
+              </mat-date-range-input>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </div>
+          </div>
+        </form>
 
         <div
           [ngStyle]="{

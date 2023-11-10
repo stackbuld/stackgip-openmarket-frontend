@@ -392,6 +392,15 @@ label {
     height: 50px;
     border-radius: 6px;
   }
+
+  & #pickup-schedule {
+    color: rgba(151, 151, 151, 1);
+    padding: 0 10px;
+
+    & option {
+      color: rgba(151, 151, 151, 1);
+    }
+  }
 }
 
 @media screen and (max-width: 767px) {
