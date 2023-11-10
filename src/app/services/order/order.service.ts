@@ -1,43 +1,57 @@
-import { HttpClient } from "@angular/common/http";
-import { ApiAppUrlService } from "../api-app-url.service";
+import { HttpClient } from '@angular/common/http';
+import { ApiAppUrlService } from '../api-app-url.service';
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
-import { OrderResponce, Order, OrderApiModel,OrderStatus } from "./../../models/order.model";
-import { IApiResponseModel } from "src/app/models/products.model";
+import { Observable, Subject } from 'rxjs';
+import {
+  OrderResponce,
+  Order,
+  OrderApiModel,
+  OrderStatus,
+} from './../../models/order.model';
+import { IApiResponseModel } from 'src/app/models/products.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OrderService {
+  orderActionTaken = new Subject<boolean>();
 
-  baseUrl:string = "";
+  baseUrl: string = '';
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
 
-  public getPrice(orders:Order[]):string{
-    return orders.reduce((t,i)=>t+(i.price*i.unit),0)
-      .toFixed(2).toLocaleString();
+  public getPrice(orders: Order[]): string {
+    return orders
+      .reduce((t, i) => t + i.price * i.unit, 0)
+      .toFixed(2)
+      .toLocaleString();
   }
 
-  getNewOrders(userId:string,pageNumber: number = 1,maxItem = 50):
-  Observable<OrderResponce>{
+  getNewOrders(
+    userId: string,
+    pageNumber: number = 1,
+    maxItem = 50
+  ): Observable<OrderResponce> {
     return this.http.get<OrderResponce>(
-      this.baseUrl + `seller/${userId}/orders/new/?
+      this.baseUrl +
+        `seller/${userId}/orders/new/?
       pageNumber=${pageNumber}&maxItem=${maxItem}`
     );
   }
 
-  getOrderDashboardOverview(userId: string): Observable<IApiResponseModel>{
-    return this.http.get<IApiResponseModel>(this.baseUrl + `seller/${userId}/orders/overview`);
+  getOrderDashboardOverview(userId: string): Observable<IApiResponseModel> {
+    return this.http.get<IApiResponseModel>(
+      this.baseUrl + `seller/${userId}/orders/overview`
+    );
   }
 
   fetchAllOrders(
     pageNumber: number = 1,
     maxItem = 10,
-    sellerId = "",
-    buyerId = "",
-    paymentReferenceId = "",
+    sellerId = '',
+    buyerId = '',
+    paymentReferenceId = '',
     type = '',
     startDate = '',
     endDate = '',
@@ -45,7 +59,7 @@ export class OrderService {
     orderStatus = '',
     deliveryStatus = '',
     paymentStatus = '',
-    search = '',
+    search = ''
   ): Observable<OrderApiModel> {
     return this.http.get<OrderApiModel>(
       this.baseUrl +
@@ -54,24 +68,31 @@ export class OrderService {
   }
 
   getOrdersByStatus(
-    userId:string,status:string,
-    pageNumber:number = 1,maxItem = 50
-  ):Observable<OrderApiModel>{
+    userId: string,
+    status: string,
+    pageNumber: number = 1,
+    maxItem = 50
+  ): Observable<OrderApiModel> {
     return this.http.get<OrderApiModel>(
       `${this.baseUrl}seller/${userId}/orders/${status}/?
       pageNumber=${pageNumber}&maxItem=${maxItem}`
     );
   }
 
-  acceptRejectOrder(payload):Observable<OrderResponce> {
-    return this.http.post<OrderResponce>(`${this.baseUrl}order/accept-decline`, payload);
+  acceptRejectOrder(payload): Observable<OrderResponce> {
+    return this.http.post<OrderResponce>(
+      `${this.baseUrl}order/accept-decline`,
+      payload
+    );
   }
 
   UpdateStatus(
-    orderId:string,orderStatus:OrderStatus
-  ):Observable<OrderResponce>{
+    orderId: string,
+    orderStatus: OrderStatus
+  ): Observable<OrderResponce> {
     return this.http.put<OrderResponce>(
-      `${this.baseUrl}seller/orders/${orderId}/status`,orderStatus
+      `${this.baseUrl}seller/orders/${orderId}/status`,
+      orderStatus
       // `${this.baseUrl}seller/orders/${orderId}/status/${status}`,[]
     );
   }

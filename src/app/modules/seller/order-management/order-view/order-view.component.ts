@@ -161,6 +161,7 @@ export class OrderViewComponent implements OnInit {
           this.closeRejectDialog();
           this.toastr.success(res.message, 'SUCCESS');
           this.router.navigate(['/seller/orders']);
+          this.orderService.orderActionTaken.next(true);
         } else {
           this.rejectingOrder = false;
           this.toastr.success(res.message, 'SUCCESS');
@@ -190,6 +191,7 @@ export class OrderViewComponent implements OnInit {
           this.closeAcceptDialog();
           this.toastr.success(res.message, 'SUCCESS');
           this.router.navigate(['/seller/orders']);
+          this.orderService.orderActionTaken.next(true);
         } else {
           this.acceptingOrder = false;
           this.toastr.success(res.message, 'SUCCESS');

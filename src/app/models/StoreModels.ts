@@ -27,6 +27,9 @@ export interface SellerStores {
   id: string;
   createdOn: string;
   storeName?: string;
+  landmark?: string;
+  productCount: number;
+  postalCode?: any;
 }
 
 export interface CartAddress {
