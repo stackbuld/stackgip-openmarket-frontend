@@ -1,11 +1,12 @@
 import { OrderService } from 'src/app/services/order/order.service';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import uikit from 'uikit';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 
 declare var cloudinary: any;
 
@@ -30,6 +31,8 @@ export class OrderViewComponent implements OnInit {
   uploadWidget: any;
   uploadWidget2: any;
   videoName = '';
+  scheduleTimes: string[] = [];
+  @ViewChild(MatMenuTrigger, { static: true }) trigger: MatMenuTrigger;
 
   constructor(
     private appLocal: AppLocalStorage,
@@ -49,9 +52,30 @@ export class OrderViewComponent implements OnInit {
       serialNumber: new FormControl(null),
       additionalDetails: new FormControl(null),
       schedulePickup: new FormControl(null, Validators.required),
-      start: new FormControl(null),
-      end: new FormControl(null),
+      startDate: new FormControl(null),
+      endDate: new FormControl(null),
+      pickupTime: new FormControl(null),
     });
+
+    this.scheduleTimes = this.orderService.scheduleTime;
+
+    this.endDate.valueChanges.subscribe((value) => {
+      if (value != null) {
+        this.trigger.openMenu();
+      }
+    });
+  }
+
+  get startDate() {
+    return <FormControl>this.confirmOrderForm.get('startDate');
+  }
+
+  get endDate() {
+    return <FormControl>this.confirmOrderForm.get('endDate');
+  }
+
+  get pickupTime() {
+    return <FormControl>this.confirmOrderForm.get('pickupTime');
   }
 
   initMediaWidget = () => {
@@ -154,8 +178,8 @@ export class OrderViewComponent implements OnInit {
       rejectionReason: this.rejectionReason,
       isConfirmed: false,
     };
-    this.orderService.acceptRejectOrder(payload).subscribe(
-      (res) => {
+    this.orderService.acceptRejectOrder(payload).subscribe({
+      next: (res) => {
         if (res.status === 'success') {
           this.rejectingOrder = false;
           this.closeRejectDialog();
@@ -167,10 +191,10 @@ export class OrderViewComponent implements OnInit {
           this.toastr.success(res.message, 'SUCCESS');
         }
       },
-      (err) => {
+      error: (err) => {
         this.rejectingOrder = false;
-      }
-    );
+      },
+    });
   };
 
   acceptOrder = () => {
@@ -184,8 +208,8 @@ export class OrderViewComponent implements OnInit {
       rejectionReason: this.rejectionReason,
       isConfirmed: true,
     };
-    this.orderService.acceptRejectOrder(payload).subscribe(
-      (res) => {
+    this.orderService.acceptRejectOrder(payload).subscribe({
+      next: (res) => {
         if (res.status === 'success') {
           this.acceptingOrder = false;
           this.closeAcceptDialog();
@@ -197,9 +221,9 @@ export class OrderViewComponent implements OnInit {
           this.toastr.success(res.message, 'SUCCESS');
         }
       },
-      (err) => {
+      error: (err) => {
         this.acceptingOrder = false;
-      }
-    );
+      },
+    });
   };
 }

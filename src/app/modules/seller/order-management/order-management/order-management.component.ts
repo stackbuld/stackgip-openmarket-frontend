@@ -52,7 +52,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.switchTabs('newTab');
     this.user = this.authService.getLoggedInUser();
     this.sellerId = this.user.id;
-    this.getDashbardOverview();
+    this.getDashboardOverview();
 
     this.orderActionTaken$ = this.orderService.orderActionTaken.subscribe(
       (status) => {
@@ -63,7 +63,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     );
   }
 
-  getDashbardOverview = () => {
+  getDashboardOverview = () => {
     this.loadingOverviewData = true;
     this.orderService.getOrderDashboardOverview(this.sellerId).subscribe(
       (res) => {
@@ -143,8 +143,8 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
         this.paymentStatus,
         this.search
       )
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           console.log(res.data);
 
           this.orders = res.data.data;
@@ -152,10 +152,10 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
           this.totalItemCount = res.data.pager.totalItemCount;
           this.loadingOrders = false;
         },
-        (error) => {
+        error: (error) => {
           this.loadingOrders = false;
-        }
-      );
+        },
+      });
   };
 
   switchTabs = (key: string) => {

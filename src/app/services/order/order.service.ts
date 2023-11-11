@@ -15,6 +15,15 @@ import { IApiResponseModel } from 'src/app/models/products.model';
 })
 export class OrderService {
   orderActionTaken = new Subject<boolean>();
+  scheduleTime: string[] = [
+    '9am - 10am',
+    '10am - 11am',
+    '11am - 12pm',
+    '12pm - 1pm',
+    '1pm - 2pm',
+    '2pm - 3pm',
+    '3pm - 4pm',
+  ];
 
   baseUrl: string = '';
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {

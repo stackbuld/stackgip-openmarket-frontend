@@ -829,25 +829,79 @@
           </div>
 
           <div class="mb-3 form-group">
-            <label for="pickup-schedule">Schedule Pickup</label> <br />
+            <!-- <label for="pickup-schedule">Schedule Pickup</label> <br />
             <select id="pickup-schedule" class="w-100" (click)="picker.open()">
               <option [value]="null">Select date for pickup</option>
-            </select>
+            </select> -->
+
+            <!-- <div class="date-container">
+              <mat-date-range-input [rangePicker]="picker">
+                <input
+                  matStartDate
+                  formControlName="startDate"
+                  placeholder="Start date"
+                />
+                <input
+                  matEndDate
+                  formControlName="endDate"
+                  placeholder="End date"
+                />
+              </mat-date-range-input>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </div> -->
+          </div>
+
+          <div class="form-group">
+            <label>Schedule Pickup</label>
+            <div class="pickup-info" (click)="picker.open()">
+              <span
+                class="info-placeholder"
+                *ngIf="startDate.value == null || startDate.value == ''"
+                >Select date for pickup</span
+              >
+              <span *ngIf="startDate.value != null">
+                {{ startDate.value | date }} to {{ endDate.value | date }} ({{
+                  pickupTime.value
+                }})
+              </span>
+              <i class="fa fa-angle-down"></i>
+            </div>
 
             <div class="date-container">
               <mat-date-range-input [rangePicker]="picker">
                 <input
                   matStartDate
-                  formControlName="start"
+                  formControlName="startDate"
                   placeholder="Start date"
                 />
                 <input
                   matEndDate
-                  formControlName="end"
+                  formControlName="endDate"
                   placeholder="End date"
                 />
               </mat-date-range-input>
               <mat-date-range-picker #picker></mat-date-range-picker>
+              <button [matMenuTriggerFor]="timeMenu" style="opacity: 0">
+                test
+              </button>
+              <mat-menu #timeMenu="matMenu">
+                <div class="time-container">
+                  <div
+                    class="time-main"
+                    *ngFor="let scheduleTime of scheduleTimes; let i = index"
+                  >
+                    <label [for]="'scheduleTime'[i]">
+                      <input
+                        [id]="'scheduleTime'[i]"
+                        name="pickupTime"
+                        type="radio"
+                        formControlName="pickupTime"
+                        [value]="scheduleTime"
+                      />({{ scheduleTime }})</label
+                    >
+                  </div>
+                </div>
+              </mat-menu>
             </div>
           </div>
         </form>
