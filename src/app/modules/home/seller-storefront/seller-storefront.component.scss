@@ -14,7 +14,7 @@ img {
 // END OF UTILITIES
 
 section {
-  margin: 20px auto;
+  margin: 50px auto;
 }
 
 #banner img {
@@ -73,6 +73,9 @@ section {
         width: 20px;
         height: 20px;
         margin-right: 5px;
+      }
+      .rating:last-child {
+        color: #555;
       }
     }
   }

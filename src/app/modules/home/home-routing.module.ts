@@ -7,6 +7,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
+import { SellerStorefrontComponent } from './seller-storefront/seller-storefront.component';
 
 const routes: Routes = [
   {
@@ -28,10 +29,7 @@ const routes: Routes = [
       },
       {
         path: 'storefront',
-        loadChildren: () =>
-          import('../home/seller-storefront/seller-storefront.module').then(
-            (m) => m.SellerStorefrontModule
-          ),
+        component: SellerStorefrontComponent,
       },
       {
         path: '**',

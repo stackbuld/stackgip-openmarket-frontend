@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class SellerStorefrontComponent {
   ratings = 4;
+  activeTab: string = 'products'; // default tab
+
+  selectTab(tab: string) {
+    this.activeTab = tab;
+  }
 }

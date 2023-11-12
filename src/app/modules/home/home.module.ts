@@ -19,6 +19,7 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
+import { SellerStorefrontComponent } from './seller-storefront/seller-storefront.component';
 
 // import { register } from 'swiper/element/bundle';
 // register();
@@ -31,6 +32,7 @@ import { PaymentConfirmationComponent } from './payment-confirmation/payment-con
     OrderDetailsComponent,
     OrderHistoryComponent,
     PaymentConfirmationComponent,
+    SellerStorefrontComponent,
   ],
   imports: [
     CommonModule,
