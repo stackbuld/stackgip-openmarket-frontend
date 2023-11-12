@@ -19,6 +19,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   notReady = true;
   loading: boolean;
   times: string[] = [];
+  days: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -59,6 +60,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.checkMode();
 
     this.times = this.sellerStoreService.getTimes();
+    this.days = this.sellerStoreService.days;
   }
 
   get storeName() {
@@ -197,17 +199,19 @@ export class SellerStoreCreateDialogComponent implements OnInit {
 
   onCreate() {
     this.loading = true;
-    this.sellerStoreService
-      .createSellerStore(this.sellerStoreAddressForm.value)
-      .subscribe(
-        (response: any) => {
-          this.loading = false;
-          response.status == 'success' ? this.dialogRef.close(response) : null;
-        },
-        (err) => {
-          this.loading = false;
-        }
-      );
+    console.log(this.sellerStoreAddressForm);
+
+    // this.sellerStoreService
+    //   .createSellerStore(this.sellerStoreAddressForm.value)
+    //   .subscribe(
+    //     (response: any) => {
+    //       this.loading = false;
+    //       response.status == 'success' ? this.dialogRef.close(response) : null;
+    //     },
+    //     (err) => {
+    //       this.loading = false;
+    //     }
+    //   );
   }
 
   preventLetter(evt: any): boolean {

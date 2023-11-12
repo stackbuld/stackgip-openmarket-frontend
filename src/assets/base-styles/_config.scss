@@ -48,8 +48,17 @@ mat-form-field {
 
 .cdk-overlay-connected-position-bounding-box,
 .cdk-global-overlay-wrapper,
-.cdk-overlay-container {
+.cdk-overlay-container,
+.cdk-overlay-backdrop {
   z-index: 99999 !important;
+}
+
+mat-select {
+  &.mat-mdc-select.my-mat-select {
+    & .mat-mdc-select-arrow-wrapper {
+      display: none !important;
+    }
+  }
 }
 
 mat-menu {

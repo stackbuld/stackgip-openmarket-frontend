@@ -11,6 +11,15 @@ export class SellerStoreService {
   private baseUrl = environment.storeApi;
   private sellerStores: SellerStores[] = [];
   private sellerStoresListener = new Subject<SellerStores[]>();
+  days: string[] = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
 
   constructor(private http: HttpClient) {}
 

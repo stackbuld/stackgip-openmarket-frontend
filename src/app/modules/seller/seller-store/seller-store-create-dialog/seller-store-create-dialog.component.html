@@ -219,25 +219,23 @@
         <label class="uk-form-label" for="form-stacked-text"
           >Availability(days)*</label
         >
-        <div class="uk-form-controls">
+        <div class="uk-form-controls availability-group">
           <input
             formControlName="availability"
             class="uk-input"
             id="form-stacked-text"
             type="text"
-            placeholder="Please type your store
-          name"
           />
-          <div
-            *ngIf="storeName.invalid && (storeName.dirty || storeName.touched)"
+          <mat-select
+            formControlName="availability"
+            multiple
+            class="my-mat-select"
           >
-            <small
-              class="uk-text-danger"
-              *ngIf="storeName.hasError('required')"
-            >
-              Store name is a required field
-            </small>
-          </div>
+            <mat-option [value]="day" *ngFor="let day of days">{{
+              day
+            }}</mat-option>
+          </mat-select>
+          <i class="fa fa-angle-down"></i>
         </div>
       </div>
 
