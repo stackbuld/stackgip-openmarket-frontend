@@ -6505,6 +6505,11 @@
   "resolved" "https://registry.npmjs.org/lru-cache/-/lru-cache-10.0.1.tgz"
   "version" "10.0.1"
 
+"luxon@^3.4.3":
+  "integrity" "sha512-tFWBiv3h7z+T/tDaoxA8rqTxy1CHV6gHS//QdaH4pulbq/JuBSGgQspQQqcgnwdAx6pNI7cmvz5Sv/addzHmUg=="
+  "resolved" "https://registry.npmjs.org/luxon/-/luxon-3.4.3.tgz"
+  "version" "3.4.3"
+
 "magic-string@^0.27.0":
   "integrity" "sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA=="
   "resolved" "https://registry.npmjs.org/magic-string/-/magic-string-0.27.0.tgz"
@@ -6790,7 +6795,7 @@
   "resolved" "https://registry.npmjs.org/mkdirp/-/mkdirp-0.3.0.tgz"
   "version" "0.3.0"
 
-"moment@^2.10.2":
+"moment@^2.10.2", "moment@^2.29.4":
   "integrity" "sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w=="
   "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.4.tgz"
   "version" "2.29.4"
@@ -6886,6 +6891,13 @@
   "version" "3.2.0"
   dependencies:
     "tslib" "^2.3.0"
+
+"ngx-material-timepicker@^13.1.1":
+  "integrity" "sha512-GST4IBFXrPSBB5VP5LVxoOk1yHbdSnaB293tjuyu+vusg+pQ/3+AtcxQEIadk6Nmsdt8zKsbXNgvLrI4nbYRKQ=="
+  "resolved" "https://registry.npmjs.org/ngx-material-timepicker/-/ngx-material-timepicker-13.1.1.tgz"
+  "version" "13.1.1"
+  dependencies:
+    "tslib" "^2.0.0"
 
 "ngx-otp-input@^0.11.4":
   "integrity" "sha512-D6Pq+SYOARNrWB8BDikWwS6f4PMhP6La3/KlunXKRyZdZnP4NwjPzsYIyXfKGhzcFr1ktwkBYbw4t0hhnAZTUw=="

@@ -25,6 +25,7 @@ export class SellerStoreComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSellerStoreList();
+    this.createSellerStoreCreate(false);
   }
 
   createSellerStoreCreate(data) {

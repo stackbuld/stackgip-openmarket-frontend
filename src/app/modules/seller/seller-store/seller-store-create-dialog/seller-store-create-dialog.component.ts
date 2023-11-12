@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HelperService } from 'src/app/shared/services/helper.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-seller-store-create-dialog',
@@ -17,6 +18,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   setter = 'Please type your store name';
   notReady = true;
   loading: boolean;
+  times: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -29,14 +31,14 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   sellerStoreAddressForm: FormGroup = new FormGroup({});
 
   @ViewChild('placesRef') placesRef: GooglePlaceDirective;
-  options = {
+  options: any = {
     types: ['address'],
     componentRestrictions: { country: 'NG' },
   };
 
   setAddressField = () => {
     this.notReady = false;
-  }
+  };
 
   ngOnInit(): void {
     // this.sellerStoreAddressForm = this.fb.group({
@@ -55,6 +57,8 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     //   contactPhoneNumber: ['', [Validators.required, Validators.pattern(this.phonePattern)]],
     // });
     this.checkMode();
+
+    this.times = this.sellerStoreService.getTimes();
   }
 
   get storeName() {
@@ -131,7 +135,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.landmark.patchValue(landmark[0].long_name);
     this.sellerStoreAddressForm.updateValueAndValidity();
   }
-  
+
   checkMode() {
     if (this.data) {
       this.mode = 'edit';
@@ -139,7 +143,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       this.sellerStoreAddressForm = this.fb.group({
         id: [this.data.id, Validators.required],
         storeName: [this.data.storeName, [Validators.required]],
-        streetName: [this.data.streetName, ],
+        streetName: [this.data.streetName],
         fullAddress: [this.data.fullAddress, [Validators.required]],
         lat: [this.data.lat, [Validators.required]],
         lng: [this.data.lng, [Validators.required]],
@@ -150,7 +154,10 @@ export class SellerStoreCreateDialogComponent implements OnInit {
         country: [this.data.country, [Validators.required]],
         isDefault: [this.data.isDefault],
         userId: [this.data.userId, [Validators.required]],
-        contactPhoneNumber: [this.data.contactPhoneNumber, [Validators.required]]
+        contactPhoneNumber: [
+          this.data.contactPhoneNumber,
+          [Validators.required],
+        ],
         // Validators.pattern(this.phonePattern)
       });
       return;
@@ -158,7 +165,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.mode = 'create';
     this.sellerStoreAddressForm = this.fb.group({
       storeName: ['', [Validators.required]],
-      streetName: ['', ],
+      streetName: [''],
       fullAddress: ['', [Validators.required]],
       lat: ['100', [Validators.required]],
       lng: ['100', [Validators.required]],
@@ -170,7 +177,9 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       isDefault: [false],
       userId: [this.helperService.getLoggedInUserId(), [Validators.required]],
       contactPhoneNumber: ['', [Validators.required]],
-      // Validators.pattern(this.phonePattern)
+      openingTime: [null, Validators.required],
+      closingTime: [null, Validators.required],
+      availability: [null, Validators.required],
     });
   }
 
@@ -190,12 +199,15 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.loading = true;
     this.sellerStoreService
       .createSellerStore(this.sellerStoreAddressForm.value)
-      .subscribe((response: any) => {
-        this.loading = false;
-        response.status == 'success' ? this.dialogRef.close(response) : null;
-    }, err => {
-      this.loading = false;
-    });
+      .subscribe(
+        (response: any) => {
+          this.loading = false;
+          response.status == 'success' ? this.dialogRef.close(response) : null;
+        },
+        (err) => {
+          this.loading = false;
+        }
+      );
   }
 
   preventLetter(evt: any): boolean {
@@ -208,11 +220,14 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.loading = true;
     this.sellerStoreService
       .updateSellerStore(this.sellerStoreAddressForm.value)
-      .subscribe((response: any) => {
-        this.loading = false;
-        response.status == 'success' ? this.dialogRef.close(response) : null;
-      }, err => {
-        this.loading = false;
-      });
+      .subscribe(
+        (response: any) => {
+          this.loading = false;
+          response.status == 'success' ? this.dialogRef.close(response) : null;
+        },
+        (err) => {
+          this.loading = false;
+        }
+      );
   }
 }
