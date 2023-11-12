@@ -27,6 +27,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'storefront',
+        loadChildren: () =>
+          import('../home/seller-storefront/seller-storefront.module').then(
+            (m) => m.SellerStorefrontModule
+          ),
+      },
+      {
         path: '**',
         redirectTo: '/home',
       },
