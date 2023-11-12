@@ -208,22 +208,24 @@ export class OrderViewComponent implements OnInit {
       rejectionReason: this.rejectionReason,
       isConfirmed: true,
     };
-    this.orderService.acceptRejectOrder(payload).subscribe({
-      next: (res) => {
-        if (res.status === 'success') {
-          this.acceptingOrder = false;
-          this.closeAcceptDialog();
-          this.toastr.success(res.message, 'SUCCESS');
-          this.router.navigate(['/seller/orders']);
-          this.orderService.orderActionTaken.next(true);
-        } else {
-          this.acceptingOrder = false;
-          this.toastr.success(res.message, 'SUCCESS');
-        }
-      },
-      error: (err) => {
-        this.acceptingOrder = false;
-      },
-    });
+    console.log(payload);
+
+    // this.orderService.acceptRejectOrder(payload).subscribe({
+    //   next: (res) => {
+    //     if (res.status === 'success') {
+    //       this.acceptingOrder = false;
+    //       this.closeAcceptDialog();
+    //       this.toastr.success(res.message, 'SUCCESS');
+    //       this.router.navigate(['/seller/orders']);
+    //       this.orderService.orderActionTaken.next(true);
+    //     } else {
+    //       this.acceptingOrder = false;
+    //       this.toastr.success(res.message, 'SUCCESS');
+    //     }
+    //   },
+    //   error: (err) => {
+    //     this.acceptingOrder = false;
+    //   },
+    // });
   };
 }

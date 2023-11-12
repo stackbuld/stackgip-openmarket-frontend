@@ -18,6 +18,18 @@
   color: #000000;
 }
 
+.availability-main {
+  font-size: 16px;
+}
+
+.availability-main-heading {
+  color: #000000;
+}
+
+.availability-time > span:first-child {
+  margin-right: 15px;
+}
+
 @media only screen and (max-width: 1024px) {
   .seller_label {
     font-size: 16px;
@@ -92,7 +104,6 @@
     font-size: 14px;
   }
 }
-
 
 .delete-store h6 {
   font-style: normal;

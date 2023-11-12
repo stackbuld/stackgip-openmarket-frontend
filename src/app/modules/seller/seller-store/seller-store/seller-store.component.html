@@ -1,91 +1,141 @@
 <div class="seller-right">
-  <button (click)="createSellerStoreCreate(false)" class="uk-button uk-button-primary seller-btn" type="button">
+  <button
+    (click)="createSellerStoreCreate(false)"
+    class="uk-button uk-button-primary seller-btn"
+    type="button"
+  >
     + Add More Store
   </button>
 </div>
 
 <ng-container *ngIf="isLoading; else dataTemplate">
-  <div style="display: flex; align-items: center; justify-content: center; min-height: 200px;">
+  <div
+    style="
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+    "
+  >
     <img src="/assets/svg/loader-icon.svg" alt="" width="100" height="100" />
   </div>
 </ng-container>
 <ng-template #dataTemplate>
   <ng-container *ngIf="sellerStores.length > 0; else noDataTemplate">
-    <div *ngFor="let sellerStore of sellerStores; let index=index"
-      class="uk-card uk-card-default uk-card-body uk-margin-small seller-store-card">
+    <div
+      *ngFor="let sellerStore of sellerStores; let index = index"
+      class="uk-card uk-card-default uk-card-body uk-margin-small seller-store-card"
+    >
       <div class="seller-top">
         <div>
           <label class="seller_label">
-            <input class="uk-radio" type="radio" [checked]="sellerStore.isDefault == true" />
-            {{(sellerStore.storeName || 'store') | titlecase}}
+            <input
+              class="uk-radio"
+              type="radio"
+              [checked]="sellerStore.isDefault == true"
+            />
+            {{ sellerStore.storeName || "store" | titlecase }}
           </label>
-          <ng-container *ngIf="sellerStore.isDefault == true; else setAsDefaultTemplate">
+          <ng-container
+            *ngIf="sellerStore.isDefault == true; else setAsDefaultTemplate"
+          >
             <p>
-              <em class="text-success">
-                Default Store
-              </em>
+              <em class="text-success"> Default Store </em>
             </p>
           </ng-container>
           <ng-template #setAsDefaultTemplate>
             <p (click)="onEdit(sellerStore)">
-              <em class="text-warning">
-                Set As Default
-              </em>
+              <em class="text-warning"> Set As Default </em>
             </p>
           </ng-template>
-
         </div>
         <div>
-          <a (click)="createSellerStoreCreate(sellerStore)" style="padding-right: 10px">
-            <img class="edit-imgIcon" src="../../../../assets/svg/edit-seller-store-icon.svg" alt="" />
+          <a
+            (click)="createSellerStoreCreate(sellerStore)"
+            style="padding-right: 10px"
+          >
+            <img
+              class="edit-imgIcon"
+              src="../../../../assets/svg/edit-seller-store-icon.svg"
+              alt=""
+            />
           </a>
           <a *ngIf="index > 0" (click)="onDeleteStore(sellerStore)">
-            <img class="del-imgIcon" src="../../../../assets/svg/delete-seller-store-icon.svg" alt="" />
+            <img
+              class="del-imgIcon"
+              src="../../../../assets/svg/delete-seller-store-icon.svg"
+              alt=""
+            />
           </a>
         </div>
       </div>
 
       <!-- <ul class="uk-tab-bottom" data-uk-tab="media: @s"></ul> -->
 
-      <div class="uk-grid-small uk-child-width-1-3@m uk-grid-match store-grid" uk-grid>
+      <div
+        class="uk-grid-small uk-child-width-1-3@m uk-grid-match store-grid"
+        uk-grid
+      >
         <div class="">
           <h6>Street Address:</h6>
-          <span class="value">{{sellerStore.fullAddress}}</span>
+          <span class="value">{{ sellerStore.fullAddress }}</span>
         </div>
         <div class="">
           <h6>City, State:</h6>
-          <span class="value">{{sellerStore.city}}, {{sellerStore.state}}</span>
+          <span class="value"
+            >{{ sellerStore.city }}, {{ sellerStore.state }}</span
+          >
         </div>
         <div class="">
           <h6>Country:</h6>
-          <span class="value">{{sellerStore.country}}</span>
+          <span class="value">{{ sellerStore.country }}</span>
         </div>
         <div class="">
           <h6>Landmark:</h6>
-          <span class="value">{{sellerStore?.landmark || "Not Avaialable"}}</span>
+          <span class="value">{{
+            sellerStore?.landmark || "Not Avaialable"
+          }}</span>
         </div>
         <div class="">
           <h6>Postal Code:</h6>
-          <span class="value">{{sellerStore?.postalCode || "Not Avaialable"}}</span>
+          <span class="value">{{
+            sellerStore?.postalCode || "Not Avaialable"
+          }}</span>
         </div>
         <div class="">
           <h6>Phone Number:</h6>
-          <span class="value">{{sellerStore?.contactPhoneNumber || "Not Avaialable"}}</span>
+          <span class="value">{{
+            sellerStore?.contactPhoneNumber || "Not Avaialable"
+          }}</span>
         </div>
-        <div class="uk-width-auto@m">
+        <div class="">
           <h6>Number of Products in Store:</h6>
-          <span class="value">{{sellerStore?.productCount || "0"}}</span>
+          <span class="value">{{ sellerStore?.productCount || "0" }}</span>
+        </div>
+        <div class="availability">
+          <h6>Store availability</h6>
+          <div class="availability-main">
+            <span class="availability-main-heading">Days:</span> Monday,
+            Wednesday,
+            <div class="availability-time">
+              <span
+                ><span class="availability-main-heading"> Opens:</span>
+                9am</span
+              >
+
+              <span
+                ><span class="availability-main-heading">Closes:</span>
+                4pm</span
+              >
+            </div>
+          </div>
         </div>
       </div>
-
     </div>
   </ng-container>
   <ng-template #noDataTemplate>
-    <div style="display: flex; justify-content: center; padding: 20px;">
+    <div style="display: flex; justify-content: center; padding: 20px">
       <img class="py-5" src="/assets/image/empty-table.svg" alt="empty-table" />
     </div>
   </ng-template>
-
 </ng-template>
-
-
