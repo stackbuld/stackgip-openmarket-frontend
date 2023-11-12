@@ -61,6 +61,24 @@ mat-select {
   }
 }
 
+mat-option {
+  &.mat-mdc-option.my-mat-option {
+    & .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
+    .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+      background: #000000 !important;
+    }
+
+    & .mdc-list-item__primary-text {
+      color: rgba(151, 151, 151, 1);
+    }
+
+    &.mdc-list-item--selected .mdc-list-item__primary-text,
+    .mdc-list-item--activated .mdc-list-item__primary-text {
+      color: #000000;
+    }
+  }
+}
+
 mat-menu {
   &.mat-mdc-menu-panel.my-menu {
     display: none;
