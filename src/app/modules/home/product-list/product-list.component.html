@@ -123,7 +123,7 @@
                 (click)="resetProductsByCategory()"
                 class="mobile-heading"
               >
-                <span class="cursor-pointer">See All</span>
+                <span class="pointer">See All</span>
                 <svg
                   width="15"
                   height="15"
@@ -153,7 +153,7 @@
                   [ngClass]="{ activeCategory: this.categoryName === category }"
                   (click)="filterProductsByCategory(category)"
                 >
-                  <span class="cursor-pointer">{{ category }}</span>
+                  <span class="pointer">{{ category }}</span>
                 </span>
                 <span
                   *ngIf="
@@ -235,7 +235,7 @@
                 (click)="resetProductsByCity()"
                 class="mobile-heading"
               >
-                <span class="cursor-pointer">See All</span>
+                <span class="pointer">See All</span>
                 <svg
                   width="15"
                   height="15"
@@ -265,7 +265,7 @@
                   [ngClass]="{ activeCategory: this.cityName === city }"
                   (click)="filterProductsByCity(city)"
                 >
-                  <span class="cursor-pointer">{{ city }}</span>
+                  <span class="pointer">{{ city }}</span>
                 </span>
                 <span
                   *ngIf="
@@ -346,7 +346,7 @@
                 (click)="resetProductsByState()"
                 class="mobile-heading"
               >
-                <span class="cursor-pointer">See All</span>
+                <span class="pointer">See All</span>
                 <svg
                   width="15"
                   height="15"
@@ -376,7 +376,7 @@
                   [ngClass]="{ activeCategory: this.stateName === state }"
                   (click)="filterProductsByState(state)"
                 >
-                  <span class="cursor-pointer">{{ state }}</span>
+                  <span class="pointer">{{ state }}</span>
                 </span>
                 <span
                   *ngIf="

@@ -7,6 +7,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
+import { SellerStorefrontComponent } from './seller-storefront/seller-storefront.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
           import('../../shared/wallet/wallet.module').then(
             (m) => m.WalletModule
           ),
+      },
+      {
+        path: 'storefront',
+        component: SellerStorefrontComponent,
       },
       {
         path: '**',
