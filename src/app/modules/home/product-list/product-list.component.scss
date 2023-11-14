@@ -37,6 +37,22 @@
   color: #ff8b00 !important;
 }
 
+.search-filters {
+  border: none;
+  background-color: inherit;
+}
+
+.search-filter-input {
+  border: 2px solid #ff8b00;
+  padding: 4px 5px;
+  margin-left: 10px;
+  width: 140px;
+}
+
+input.search-filter-input:focus {
+  outline: none;
+}
+
 .tag {
   font-weight: 700;
   font-size: 14px;
@@ -256,4 +272,15 @@
   color: white;
   background: black;
   padding: 0rem 2rem;
+}
+
+.clear-all-btn {
+  background: #000;
+  border: 1px solid #bdbdbd;
+  box-sizing: border-box;
+  border-radius: 6px;
+  outline: none !important;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
 }

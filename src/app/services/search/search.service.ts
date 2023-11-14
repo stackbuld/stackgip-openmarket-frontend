@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import algoliasearch from 'algoliasearch';
+import algoliasearch, { SearchClient, SearchIndex } from 'algoliasearch';
 import { IProductPage, ProductModel } from '../../models/products.model';
 import { ISearchService } from './iSearchService.interface';
 import { Observable, Subject, from, tap, delay, of, switchMap } from 'rxjs';
@@ -14,20 +14,16 @@ const searchClient = algoliasearch(
   providedIn: 'root',
 })
 export class SearchService implements ISearchService {
+  index: SearchIndex = searchClient.initIndex(environment.algolia.indexName);
   config = {
     indexName: environment.algolia.indexName,
     searchClient,
   };
-  index = searchClient.initIndex(this.config.indexName);
 
   constructor() {}
 
   getAlgoliaConfig() {
     return this.config;
-  }
-
-  getIndex() {
-    return;
   }
 
   fetchSearchResults(
@@ -36,7 +32,6 @@ export class SearchService implements ISearchService {
     maxItem: number,
     filters: string
   ) {
-    console.log('SEARCH QUERY');
     return this.index.search(searchQuery, {
       hitsPerPage: maxItem,
       page: currentPage,
@@ -52,6 +47,7 @@ export class SearchService implements ISearchService {
         name: product.name,
         previousPrice: product.previousPrice,
         price: product.price,
+        sellingPrice: product.sellingPrice,
         category: {
           description: product.category.description,
           id: product.category.id,
@@ -99,15 +95,24 @@ export class SearchService implements ISearchService {
     maxItem: number = 10,
     searchQuery: string = '',
     categoryName: string = '',
+    cityName: string = '',
+    stateName: string = '',
     minPrice: number = 10,
-    maxPrice: number = 50000,
-    isFilter: string = ''
+    maxPrice: number = 50000
   ): Observable<ProductModel[]> {
     /* The code is creating a filter string based on the `minPrice`, `maxPrice`, and `categoryName`
     values. */
     let filters = `price:${minPrice} TO ${maxPrice}`;
     if (categoryName) {
       filters += ` AND category.name:${categoryName}`;
+    }
+
+    if (cityName) {
+      filters += ` AND sellerStores.city:${cityName}`;
+    }
+
+    if (stateName) {
+      filters += ` AND sellerStores.state:${stateName}`;
     }
 
     let tempHits: ProductModel[] = [];
