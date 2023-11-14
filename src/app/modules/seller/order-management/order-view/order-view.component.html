@@ -851,7 +851,7 @@
             </div> -->
           </div>
 
-          <div class="form-group">
+          <div class="mb-3 form-group schedule-main">
             <label>Schedule Pickup</label>
             <div class="pickup-info" (click)="picker.open()">
               <span
@@ -860,37 +860,35 @@
                 >Select date for pickup</span
               >
               <span *ngIf="startDate.value != null">
-                {{ startDate.value | date }} to {{ endDate.value | date }} ({{
-                  pickupTime.value
-                }})
+                {{ startDate.value | date }} ({{ pickupTime.value }})
               </span>
               <i class="fa fa-angle-down"></i>
             </div>
 
             <div class="date-container">
-              <mat-date-range-input [rangePicker]="picker">
+              <mat-form-field class="form-field-mat">
                 <input
-                  matStartDate
+                  matInput
+                  [matDatepicker]="picker"
                   formControlName="startDate"
-                  placeholder="Start date"
                 />
-                <input
-                  matEndDate
-                  formControlName="endDate"
-                  placeholder="End date"
-                />
-              </mat-date-range-input>
-              <mat-date-range-picker #picker></mat-date-range-picker>
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
               <button [matMenuTriggerFor]="timeMenu" style="opacity: 0">
                 test
               </button>
+
               <mat-menu #timeMenu="matMenu">
                 <div class="time-container">
                   <div
                     class="time-main"
-                    *ngFor="let scheduleTime of scheduleTimes; let i = index"
+                    *ngFor="let scheduleTime of times; let i = index"
                   >
-                    <label [for]="'scheduleTime'[i]">
+                    <label>
                       <input
                         [id]="'scheduleTime'[i]"
                         name="pickupTime"
@@ -976,7 +974,7 @@
       <div class="mt-3">
         <button
           (click)="acceptOrder()"
-          [disabled]="photoUrl === '' || acceptingOrder"
+          [disabled]="confirmOrderForm.invalid || acceptingOrder"
           class="w-100 accept-btn"
         >
           <span *ngIf="!acceptingOrder">Confirm</span>

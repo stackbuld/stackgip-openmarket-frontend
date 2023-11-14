@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import uikit from 'uikit';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
 
 declare var cloudinary: any;
 
@@ -25,7 +26,7 @@ export class OrderViewComponent implements OnInit {
   additionalInformation: string = '';
   rejectionReason: string = '';
   rejectingOrder: boolean;
-  acceptingOrder: boolean;
+  acceptingOrder: boolean = false;
   photoUrl: string = '';
   videoUrl: string = '';
   uploadWidget: any;
@@ -33,12 +34,14 @@ export class OrderViewComponent implements OnInit {
   videoName = '';
   scheduleTimes: string[] = [];
   @ViewChild(MatMenuTrigger, { static: true }) trigger: MatMenuTrigger;
+  times: string[] = [];
 
   constructor(
     private appLocal: AppLocalStorage,
     private orderService: OrderService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private sellerStore: SellerStoreService
   ) {
     this.getDetails();
   }
@@ -46,32 +49,27 @@ export class OrderViewComponent implements OnInit {
   ngOnInit(): void {
     this.initMediaWidget();
     this.initVideoWidget();
-    uikit.modal('#accept-modal').show();
 
     this.confirmOrderForm = new FormGroup({
       serialNumber: new FormControl(null),
       additionalDetails: new FormControl(null),
-      schedulePickup: new FormControl(null, Validators.required),
-      startDate: new FormControl(null),
-      endDate: new FormControl(null),
-      pickupTime: new FormControl(null),
+      startDate: new FormControl(null, Validators.required),
+      pickupTime: new FormControl(null, Validators.required),
     });
 
-    this.scheduleTimes = this.orderService.scheduleTime;
-
-    this.endDate.valueChanges.subscribe((value) => {
+    this.startDate.valueChanges.subscribe((value) => {
       if (value != null) {
+        console.log(value);
+
         this.trigger.openMenu();
       }
     });
+
+    this.times = this.sellerStore.getTimes();
   }
 
   get startDate() {
     return <FormControl>this.confirmOrderForm.get('startDate');
-  }
-
-  get endDate() {
-    return <FormControl>this.confirmOrderForm.get('endDate');
   }
 
   get pickupTime() {
@@ -198,7 +196,14 @@ export class OrderViewComponent implements OnInit {
   };
 
   acceptOrder = () => {
-    this.acceptingOrder = true;
+    // this.acceptingOrder = true;
+    const formattedDate = this.orderService.formatDate(this.startDate.value);
+
+    const isoString = this.orderService.formatDateToISO(
+      formattedDate,
+      this.pickupTime.value
+    );
+
     const payload = {
       orderId: this.order.id,
       photoUrl: this.photoUrl,
@@ -207,25 +212,25 @@ export class OrderViewComponent implements OnInit {
       additionalInformation: this.additionalInformation,
       rejectionReason: this.rejectionReason,
       isConfirmed: true,
+      pickupDate: isoString,
     };
-    console.log(payload);
 
-    // this.orderService.acceptRejectOrder(payload).subscribe({
-    //   next: (res) => {
-    //     if (res.status === 'success') {
-    //       this.acceptingOrder = false;
-    //       this.closeAcceptDialog();
-    //       this.toastr.success(res.message, 'SUCCESS');
-    //       this.router.navigate(['/seller/orders']);
-    //       this.orderService.orderActionTaken.next(true);
-    //     } else {
-    //       this.acceptingOrder = false;
-    //       this.toastr.success(res.message, 'SUCCESS');
-    //     }
-    //   },
-    //   error: (err) => {
-    //     this.acceptingOrder = false;
-    //   },
-    // });
+    this.orderService.acceptRejectOrder(payload).subscribe({
+      next: (res) => {
+        if (res.status === 'success') {
+          this.acceptingOrder = false;
+          this.closeAcceptDialog();
+          this.toastr.success(res.message, 'SUCCESS');
+          this.router.navigate(['/seller/orders']);
+          this.orderService.orderActionTaken.next(true);
+        } else {
+          this.acceptingOrder = false;
+          this.toastr.success(res.message, 'SUCCESS');
+        }
+      },
+      error: (err) => {
+        this.acceptingOrder = false;
+      },
+    });
   };
 }

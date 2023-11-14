@@ -9,21 +9,14 @@ import {
   OrderStatus,
 } from './../../models/order.model';
 import { IApiResponseModel } from 'src/app/models/products.model';
+import * as moment from 'moment';
+import { isObject } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
   orderActionTaken = new Subject<boolean>();
-  scheduleTime: string[] = [
-    '9am - 10am',
-    '10am - 11am',
-    '11am - 12pm',
-    '12pm - 1pm',
-    '1pm - 2pm',
-    '2pm - 3pm',
-    '3pm - 4pm',
-  ];
 
   baseUrl: string = '';
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
@@ -104,5 +97,39 @@ export class OrderService {
       orderStatus
       // `${this.baseUrl}seller/orders/${orderId}/status/${status}`,[]
     );
+  }
+
+  formatDate(date: string) {
+    const inputDate = new Date(date);
+
+    // const options: any = { month: 'short', day: 'numeric', year: 'numeric' };
+    // const formattedDate = inputDate.toLocaleDateString('en-US', options);
+    // return formattedDate;
+
+    const localDate = new Date(
+      inputDate.getTime() - inputDate.getTimezoneOffset() * 60000
+    );
+
+    const options: any = { month: 'short', day: 'numeric', year: 'numeric' };
+    const formattedDate = localDate.toLocaleDateString('en-US', options);
+
+    return formattedDate;
+  }
+
+  formatDateToISO(date: string, time: string) {
+    const combinedString = `${date} ${time}`;
+    const isoString = moment(
+      combinedString,
+      'MMM DD, YYYY HH:mm'
+    ).toISOString();
+
+    const momentObj = moment.utc(isoString).local();
+
+    const actualDate = momentObj.format('YYYY-MM-DD');
+    const actualTime = momentObj.format('HH:mm:ss');
+
+    console.log(`Actual Date: ${actualDate}, Actual Time: ${actualTime}`);
+
+    return isoString;
   }
 }
