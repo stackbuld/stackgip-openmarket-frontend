@@ -56,13 +56,14 @@ export class ProductCheckoutComponent implements OnInit {
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(true);
     this.init();
-    // this.authService.isLogin.subscribe((status) => {
-    //   if (status) {
-    //     this.init();
-    //   }
-    // });
 
     this.paymentMethods = JSON.parse(localStorage.getItem('paymentMethods')!);
+
+    if (!this.paymentMethods) {
+      this.cartService.getPaymentMethods().subscribe((res) => {
+        this.paymentMethods = res.data;
+      });
+    }
   }
   init() {
     this.user = JSON.parse(localStorage.getItem('user') as string);

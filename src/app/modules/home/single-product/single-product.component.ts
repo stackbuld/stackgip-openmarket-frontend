@@ -204,12 +204,6 @@ export class SingleProductComponent implements OnInit {
       this.addresses = JSON.parse(localStorage.getItem('userAddress')!);
     }
 
-    this.cartService.getPaymentMethods().subscribe({
-      next: (res) => {
-        localStorage.setItem('paymentMethods', JSON.stringify(res.data));
-      },
-    });
-
     this.addressForm.get('fullAddress').valueChanges.subscribe((value) => {
       if (!value || value == '') {
         this.isGoogleAddressSelected = false;
