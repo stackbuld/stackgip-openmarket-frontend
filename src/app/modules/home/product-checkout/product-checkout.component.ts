@@ -62,6 +62,7 @@ export class ProductCheckoutComponent implements OnInit {
     if (!this.paymentMethods) {
       this.cartService.getPaymentMethods().subscribe((res) => {
         this.paymentMethods = res.data;
+        localStorage.setItem('paymentMethods', JSON.stringify(res.data));
       });
     }
   }

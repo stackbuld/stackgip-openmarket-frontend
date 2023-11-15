@@ -175,7 +175,6 @@ export class SingleProductComponent implements OnInit {
 
     this.connectToWebsocket();
 
-    // console.log('shippingMethods', this.shippingMethods);
     this.applocal.messageSource.subscribe((res) => {
       if (res) {
         this.temporaryDetails = res;
@@ -253,7 +252,6 @@ export class SingleProductComponent implements OnInit {
         this.isShippingMethodFetched = true;
         this.loadingShippingEstimate = false;
         this.loadingShippingStatus = 'completed';
-        console.log(this.isShippingMethodFetched);
 
         const shippingData =
           notificationResponse.data as GetShippingPriceEstimateData[];
@@ -273,7 +271,6 @@ export class SingleProductComponent implements OnInit {
           }
         }
         this.shippingMethods = [this.defaultShipping, ...shippingEsitmateData];
-        console.log(this.shippingMethods);
 
         this.orderAndSelectDefaultShippingMethod();
       } else if (
@@ -295,12 +292,14 @@ export class SingleProductComponent implements OnInit {
         } else {
           this.shippingMethods.push(data);
         }
-
-        if (this.shippingMethods.length > 1) {
-          this.isShippingMethodFetched = true;
-        }
-        this.orderAndSelectDefaultShippingMethod();
       }
+      if (this.shippingMethods.length > 1) {
+        this.isShippingMethodFetched = true;
+        this.currentShippingMethod.next(this.shippingMethods[1]);
+      } else if (this.shippingMethods.length === 1) {
+        this.currentShippingMethod.next(this.defaultShipping);
+      }
+      this.orderAndSelectDefaultShippingMethod();
     }
   }
 
@@ -322,7 +321,6 @@ export class SingleProductComponent implements OnInit {
 
   populateAddressForm = (data: any) => {
     this.setter = data?.fullAddress;
-    console.log(data);
 
     const phoneNumber = data.contactPhoneNumber.slice(-10);
     const countryCode = data.contactPhoneNumber.slice(0, -10);
@@ -401,7 +399,6 @@ export class SingleProductComponent implements OnInit {
         });
 
         this.productUnit = res.data.unit;
-        console.log(this.product);
 
         this.productPrice = res.data?.sellingPrice;
         this.currentImgUrl = res.data.productImages[0];
@@ -462,7 +459,6 @@ export class SingleProductComponent implements OnInit {
         matchingItem.isSelected = false;
         this.selectedVariations.splice(matchingIndex, 1);
         this.productPrice = this.productPrice - matchingItem.cost;
-        console.log(this.selectedVariations);
       } else if (matchingTitleIndex >= 0) {
         // item not in selectedVariations but same title already exists, remove the old one and add the new one
         const oldItem = this.selectedVariations[matchingTitleIndex];
@@ -476,7 +472,6 @@ export class SingleProductComponent implements OnInit {
         matchingItem.isSelected = true;
         this.productPrice = this.productPrice + matchingItem.cost;
         this.selectedVariations.push(matchingItem);
-        console.log(this.selectedVariations);
       }
     }
   };
@@ -603,7 +598,6 @@ export class SingleProductComponent implements OnInit {
   }
 
   setCurrentAddress = () => {
-    console.log('get current address called');
     this.currentShippingMethod.next(null);
     // this.currentAddress = this.selectedAddress;
     for (let index = 0; index < this.addresses.length; index++) {
@@ -634,7 +628,6 @@ export class SingleProductComponent implements OnInit {
         this.addresses = addresses;
         localStorage.setItem('userAddress', JSON.stringify(addresses));
         this.fetchUserAddresses();
-        console.log(1);
       },
       error: (err) => {},
     });
@@ -750,29 +743,29 @@ export class SingleProductComponent implements OnInit {
     } else {
       shippingMethodToSelect = this.shippingMethods[0];
     }
+
     if (!hasSelected) {
       if (shippingMethodToSelect) {
         shippingMethodToSelect.isSelected = true;
-        console.log(
-          'orderAndSelectDefaultShippingMethod hasselected = true called with selected shipping method, prev, current ',
-          this.currentShippingMethod.value,
-          shippingMethodToSelect
-        );
+        // console.log(
+        //   'orderAndSelectDefaultShippingMethod hasselected = true called with selected shipping method, prev, current ',
+        //   this.currentShippingMethod.value,
+        //   shippingMethodToSelect
+        // );
         this.currentShippingMethod.next(shippingMethodToSelect);
         this.selectedShippingMethod = shippingMethodToSelect;
       }
     }
     if (!this.currentShippingMethod.value) {
-      console.log(
-        'orderAndSelectDefaultShippingMethod currentShippingMethod = false called with selected shipping method, prev, current ',
-        this.currentShippingMethod.value,
-        shippingMethodToSelect
-      );
+      // console.log(
+      //   'orderAndSelectDefaultShippingMethod currentShippingMethod = false called with selected shipping method, prev, current ',
+      //   this.currentShippingMethod.value,
+      //   shippingMethodToSelect
+      // );
 
       this.currentShippingMethod.next(shippingMethodToSelect);
       this.selectedShippingMethod = shippingMethodToSelect;
     }
-    console.log('current shipping method', this.currentShippingMethod.value);
   }
 
   public handleAddressChange(address: Address) {
@@ -849,8 +842,6 @@ export class SingleProductComponent implements OnInit {
             .updateUserAddress(this.currentAddress.id, data)
             .subscribe({
               next: (res) => {
-                console.log(res);
-
                 this.reloadAddresses();
                 this.loadingAddress = false;
                 document.getElementById('closeAddressFormDialog').click();
@@ -1002,8 +993,6 @@ export class SingleProductComponent implements OnInit {
   };
 
   openAddressModal = () => {
-    console.log(this.currentAddress);
-
     if (this.currentAddress !== null) {
       this.isEditAddress = true;
     }
