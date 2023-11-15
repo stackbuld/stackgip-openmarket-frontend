@@ -374,6 +374,7 @@ export class SingleProductComponent implements OnInit {
       next: (res) => {
         this.isLoadingDetails = false;
         this.product = res.data;
+        console.log('PRODUCT IN SINGLE', this.product);
 
         this.product.productImages.forEach((image) => {
           this.productImages.push({ image: image });

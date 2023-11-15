@@ -62,6 +62,7 @@ export class SearchService implements ISearchService {
         paymentOptions: product.paymentOptions,
         productImages: product.productImages,
         unit: product.unit,
+        userId: product.userId,
       };
     });
     return results;

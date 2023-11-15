@@ -1,6 +1,7 @@
 .main {
   margin: 0 auto;
   text-align: center;
+  background-color: #f0f0f0;
 }
 
 // UTILITIES
@@ -9,6 +10,22 @@ img {
   height: auto;
   vertical-align: middle;
   font-style: italic;
+}
+
+.show {
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+}
+
+.hide {
+  transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+  -moz-transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  -o-transform: translateX(100%);
 }
 
 // END OF UTILITIES
@@ -77,6 +94,68 @@ section {
       .rating:last-child {
         color: #555;
       }
+    }
+  }
+
+  .time-availability {
+    margin-left: auto;
+  }
+
+  .time-availability div {
+    color: #667085;
+    font-family: Avenir;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+  }
+}
+
+#tab-navigation-content {
+  max-width: 100%;
+  margin-bottom: 100px;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+
+  .about {
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    width: 100%;
+    background-color: inherit;
+
+    h2 {
+      display: flex;
+      height: 44px;
+      padding: 12px 24px;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    p {
+      color: #344054;
+      font-family: Avenir;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 120%; /* 19.2px */
+    }
+  }
+
+  .products {
+    background-color: inherit;
+    position: absolute;
+    // top: 0;
+    // left: 0;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  #hero {
+    .time-availability {
+      display: none;
     }
   }
 }
