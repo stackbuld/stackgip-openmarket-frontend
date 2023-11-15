@@ -1,5 +1,6 @@
 <div class="loader-container" *ngIf="isLoadingDetails">
-  <img src="/assets/svg/loader-icon.svg" alt="" style="width: 150px" />
+  <!-- <img src="/assets/svg/loader-icon.svg" alt="" style="width: 150px" /> -->
+  <span class="loader"></span>
 </div>
 <div class="main" *ngIf="!isLoadingDetails">
   <div class="top-section">
@@ -166,7 +167,20 @@
 
         <div class="pickup">
           <div class="pickup-heading">Pickup</div>
-          <div class="pickup-coming-from">Coming from: Lagos</div>
+          <div
+            class="pickup-main"
+            (click)="onOpenPickupModal()"
+            *ngIf="currentAddress"
+          >
+            <div class="pickup-main-address" *ngIf="closestStore">
+              Coming from: {{ closestStore?.fullAddress || "N/A" }}
+            </div>
+            <!-- <div class="no-address" *ngIf="!currentAddress">
+              Please enter your delivery address to view shipping options and
+              costs
+            </div> -->
+            <i class="fa fa-angle-right"></i>
+          </div>
         </div>
 
         <div class="delivery">
@@ -185,10 +199,14 @@
 
         <div class="shipping" *ngIf="currentAddress">
           <div class="shipping-heading">
-            Shipping: Starting from
+            Shipping:
+
             {{
-              currentShippingMethod?.value?.startingPrice || 0
-                | currency : "NGN"
+              currentShippingMethod?.value?.logisticName == "Renaship"
+                ? "Available on Order Summary"
+                : "Starting from" +
+                  (currentShippingMethod?.value?.startingPrice || 0
+                    | currency : "NGN")
             }}
           </div>
 
@@ -197,7 +215,10 @@
               <div class="shipping-company-name">
                 {{ currentShippingMethod?.value?.logisticName || "N/A" }}
               </div>
-              <div class="shipping-company-logo">
+              <div
+                class="shipping-company-logo"
+                *ngIf="currentShippingMethod?.value?.logisticLogoUrl !== ''"
+              >
                 <img
                   [src]="currentShippingMethod?.value?.logisticLogoUrl"
                   alt=""
@@ -213,14 +234,7 @@
           </div>
         </div>
 
-        <div
-          *ngIf="
-            loadingShippingStatus !== 'completed' &&
-            loadingShippingEstimate &&
-            currentAddress
-          "
-          class="py-3"
-        >
+        <div *ngIf="!isShippingMethodFetched" class="py-3">
           <span class="loading mb-0" uk-toggle="target: #shipping-modal">
             <span class="info">We're fetching more shipping methods...</span>
             <img
@@ -498,7 +512,11 @@
             type="text"
             placeholder="Select delivery location"
             formControlName="fullAddress"
+            autocomplete="off"
           />
+          <p class="address-prompt">
+            Choose your address from the list that appears as you type
+          </p>
         </div>
 
         <div class="form-group">
@@ -560,9 +578,11 @@
         </div>
 
         <button
-          [disabled]="addressForm.invalid || loadingAddress"
           (click)="applyAddress()"
           class="w-100 apply-btn"
+          [ngClass]="{
+            greyed: addressForm.invalid || !isGoogleAddressSelected
+          }"
         >
           <span *ngIf="!loadingAddress">{{
             isEditingAddress ? "Save Changes" : "Apply"
@@ -706,6 +726,75 @@
   class="d-none"
   uk-toggle="target: #shipping-modal"
 ></button>
+
+<div id="store-modal" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body">
+    <div class="uk-flex uk-flex-between">
+      <h2 class="uk-modal-title mb-0">Pickup point</h2>
+      <svg
+        class="pointer uk-modal-close"
+        width="22"
+        height="22"
+        viewBox="0 0 22 22"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M16.501 5.50024L5.50098 16.5002"
+          stroke="#979797"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M5.50098 5.50024L16.501 16.5002"
+          stroke="#979797"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+    <div>
+      <div class="mt-4" *ngIf="sellerStores.length > 0">
+        <div *ngFor="let store of sellerStores" class="mt-3 each-shipping">
+          <label
+            (click)="setPickupPoint(store)"
+            class="p-3 w-100 pointer flex-center"
+          >
+            <div class="w-10 d-flex">
+              <input
+                [checked]="store.id == closestStore.id"
+                name="store"
+                type="radio"
+              />
+            </div>
+            <p class="mb-0 w-90">
+              <span class="my-1 flex-center">
+                <span>Country: {{ store?.country || "N/A" }}</span>
+                &nbsp; &nbsp;
+              </span>
+              <span>State: {{ store?.state || "N/A" }}</span>
+              <br />
+              <span>City: {{ store?.city || "N/A" }}</span>
+            </p>
+          </label>
+        </div>
+      </div>
+
+      <div class="w-100 mt-4 col-12">
+        <button (click)="onSetPickupLocation()" class="w-100 apply-btn">
+          Apply
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="sellerStores.length == 0" class="p-5">
+      <p class="text-center loading p-5">No store available</p>
+    </div>
+  </div>
+</div>
+
 <div id="shipping-modal" uk-modal>
   <div class="uk-modal-dialog uk-modal-body">
     <div class="uk-flex uk-flex-between">
@@ -750,20 +839,28 @@
             </div>
             <p class="mb-0 w-90">
               <span class="address-name"
-                >Shipping: Starting from
-                {{ item?.startingPrice || 0 | currency : "NGN" }}</span
+                >Shipping:
+                {{
+                  item?.logisticName == "Renaship"
+                    ? "Available on Order Summary"
+                    : "Starting from" +
+                      (item?.startingPrice || 0 | currency : "NGN")
+                }}</span
               >
+              <br />
+              <span *ngIf="item?.logisticName == 'Renaship'">
+                Choose RenaShip for a swift, cost-effective delivery
+              </span>
               <br />
               <span class="my-1 flex-center">
                 <span>Via {{ item?.logisticName || "N/A" }}</span>
                 &nbsp; &nbsp;
-                <span
-                  *ngIf="
-                    item?.logisticLogoUrl !== '' ||
-                    item?.logisticLogoUrl !== null
-                  "
-                >
-                  <img src="{{ item?.logisticLogoUrl }}" class="small-logo" />
+                <span *ngIf="item?.logisticLogoUrl !== ''">
+                  <img
+                    src="{{ item?.logisticLogoUrl }}"
+                    class="small-logo"
+                    style="width: 50px; height: 50px"
+                  />
                 </span>
               </span>
               <span
@@ -774,16 +871,9 @@
         </div>
       </div>
 
-      <div
-        *ngIf="
-          loadingShippingStatus !== 'completed' &&
-          loadingShippingEstimate &&
-          shippingMethods.length > 0
-        "
-        class=""
-      >
+      <div *ngIf="!isShippingMethodFetched" class="">
         <p class="text-center loading p-2">
-          Loading more shipping method(s)
+          We're fetching more shipping options
           <img
             src="/assets/svg/loader-icon.svg"
             alt=""
@@ -798,13 +888,6 @@
           Apply
         </button>
       </div>
-    </div>
-
-    <div *ngIf="loadingShippingStatus === 'in_progress'" class="p-5">
-      <p class="text-center loading p-5">
-        Loading shipping method(s)
-        <img src="/assets/svg/loader-icon.svg" alt="" width="30" height="30" />
-      </p>
     </div>
 
     <div

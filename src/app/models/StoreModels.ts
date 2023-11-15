@@ -16,8 +16,8 @@ export interface SellerBaseResponse<T> {
 
 export interface SellerStores {
   fullAddress: string;
-  lat: string;
-  lng: string;
+  lat: number;
+  lng: number;
   city: string;
   state: string;
   country: string;
@@ -26,6 +26,7 @@ export interface SellerStores {
   contactPhoneNumber: string;
   id: string;
   createdOn: string;
+  storeName?: string;
 }
 
 export interface CartAddress {
