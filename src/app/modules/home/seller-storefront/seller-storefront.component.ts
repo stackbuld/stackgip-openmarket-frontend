@@ -1,15 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-seller-storefront',
   templateUrl: './seller-storefront.component.html',
   styleUrls: ['./seller-storefront.component.scss'],
 })
-export class SellerStorefrontComponent {
+export class SellerStorefrontComponent implements OnInit {
   ratings = 4;
   activeTab: string = 'products'; // default tab
-  products = document.querySelector('.products');
-  about = document.querySelector('.about');
+  sellerId: string = '';
+  // productsDiv = document.querySelector('.products');
+  // aboutDiv = document.querySelector('.about');
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.sellerId = params.get('sellerId');
+      console.log('SELLER ID FROM PARAMS', this.sellerId);
+    });
+    // const sellerId = JSON.parse(localStorage.getItem('userId'));
+    // console.log('SELLER ID FROM LOCAL STORAGE', localStorage.getItem('userId'));
+  }
 
   selectTab(tab: string) {
     this.activeTab = tab;

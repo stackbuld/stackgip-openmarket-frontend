@@ -69,7 +69,10 @@
 
   <section id="tab-navigation-content">
     <div *ngIf="activeTab === 'products'">
-      <app-product-list class="products show"></app-product-list>
+      <app-product-list
+        [storefrontSellerId]="sellerId"
+        class="products show"
+      ></app-product-list>
     </div>
     <div *ngIf="activeTab === 'about'">
       <div class="about">

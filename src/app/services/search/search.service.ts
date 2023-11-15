@@ -98,6 +98,7 @@ export class SearchService implements ISearchService {
     categoryName: string = '',
     cityName: string = '',
     stateName: string = '',
+    storefrontSellerId: string = '',
     minPrice: number = 10,
     maxPrice: number = 50000
   ): Observable<ProductModel[]> {
@@ -114,6 +115,10 @@ export class SearchService implements ISearchService {
 
     if (stateName) {
       filters += ` AND sellerStores.state:${stateName}`;
+    }
+
+    if (storefrontSellerId) {
+      filters += ` AND userId:${storefrontSellerId}`;
     }
 
     let tempHits: ProductModel[] = [];

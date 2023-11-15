@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Options } from '@angular-slider/ngx-slider';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductModel } from 'src/app/models/products.model';
@@ -14,6 +14,7 @@ import { StateService } from 'src/app/services/state/state.service';
 })
 export class ProductListComponent implements OnInit {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
+  @Input() storefrontSellerId: string = '';
   categories: string[] = [];
   products: ProductModel[] = [];
   cities: string[] = [];
@@ -42,7 +43,7 @@ export class ProductListComponent implements OnInit {
   loadingCategories: boolean = false;
   loadingCities: boolean = false;
   loadingStates: boolean = false;
-  columnCount = 6;
+  columnCount: number = 6;
   canLoadMore = true;
 
   // value: number = 700;
@@ -212,6 +213,10 @@ export class ProductListComponent implements OnInit {
       this.loadingMoreProducts = true;
     }
 
+    if (this.storefrontSellerId) {
+      this.columnCount = 4;
+    }
+
     this.searchService
       .getAllProducts(
         this.pageNumber,
@@ -220,6 +225,7 @@ export class ProductListComponent implements OnInit {
         this.categoryName,
         this.cityName,
         this.stateName,
+        this.storefrontSellerId,
         this.minValue,
         this.maxValue
       )
