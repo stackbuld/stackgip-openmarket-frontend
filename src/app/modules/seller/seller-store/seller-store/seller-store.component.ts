@@ -80,8 +80,6 @@ export class SellerStoreComponent implements OnInit {
     this.sellerStoreService
       .getSellerstores(this.helperService.getLoggedInUserId())
       .subscribe((sellerStores) => {
-        console.log(sellerStores);
-
         this.sellerStores = sellerStores;
         this.isLoading = false;
       });
