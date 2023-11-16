@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IUser } from 'src/app/models/IUserModel';
+import { CartService } from 'src/app/services/cart/cart.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -8,7 +9,10 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     const user: IUser = JSON.parse(localStorage.getItem('user'));
@@ -34,6 +38,8 @@ export class HomeComponent implements OnInit {
         },
         error: (err) => {},
       });
+
+      this.cartService.getPaymentMethods().subscribe();
     }
   }
 }
