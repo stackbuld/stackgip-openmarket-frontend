@@ -30,6 +30,11 @@ export interface SellerStores {
   landmark?: string;
   productCount: number;
   postalCode?: any;
+  storeAvailabilties: {
+    dayOfWeek: string;
+    openingTime: string;
+    closingTime: string;
+  }[];
 }
 
 export interface CartAddress {

@@ -50,6 +50,7 @@
             class="uk-input"
             type="text"
             placeholder="Please type your store name"
+            formControlName="fullAddress"
           />
           <div
             *ngIf="
@@ -183,80 +184,85 @@
         </div>
       </div>
 
-      <div class="uk-grid-small" uk-grid>
-        <div class="uk-width-1-2@s uk-autocomplete">
-          <label for="openeingTime">Opening Time*</label>
-          <select
-            class="time-select"
-            name=""
-            id="openingTime"
-            formControlName="openingTime"
-          >
-            <option [value]="null">Select a time</option>
-            <option [value]="time" *ngFor="let time of times">
-              {{ time }}
-            </option>
-          </select>
-        </div>
-
-        <div class="uk-width-1-2@s">
-          <label for="closingTime">Closing Time*</label>
-          <select
-            class="time-select"
-            name=""
-            id="closingTime"
-            formControlName="closingTime"
-          >
-            <option [value]="null">Select a time</option>
-            <option [value]="time" *ngFor="let time of times">
-              {{ time }}
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <div class="uk-margin">
-        <label class="uk-form-label" for="form-stacked-text"
-          >Availability(days)*</label
+      <div class="availability-container" formArrayName="storeAvailabilties">
+        <div class="availability-container-heading">Availability</div>
+        <div
+          class="availability-group"
+          *ngFor="let controls of storeAvailability.controls; let i = index"
+          [formGroupName]="i"
+          [ngClass]="{
+            spaceBottom: i + 1 != storeAvailability.controls.length
+          }"
         >
-        <div class="uk-form-controls availability-group">
-          <input
-            formControlName="availability"
-            class="uk-input"
-            id="form-stacked-text"
-            type="text"
-          />
-          <mat-select
-            formControlName="availability"
-            multiple
-            class="my-mat-select"
-          >
-            <mat-option
-              [value]="day"
-              *ngFor="let day of days"
-              class="my-mat-option"
-              >{{ day }}</mat-option
-            >
-          </mat-select>
-          <i class="fa fa-angle-down"></i>
-        </div>
-      </div>
+          <div class="availability-main">
+            <div class="input-group">
+              <label [for]="'day' + i">Day</label>
+              <select
+                class="time-select"
+                name=""
+                [id]="'day' + i"
+                formControlName="dayOfWeek"
+              >
+                <option [value]="null">Select a day</option>
+                <option [value]="day" *ngFor="let day of days">
+                  {{ day }}
+                </option>
+              </select>
+            </div>
 
-      <p class="uk-text-center uk-margin-top">
+            <div class="input-group">
+              <label [for]="'openingTime' + i">Opening Time</label>
+              <select
+                class="time-select"
+                name=""
+                [id]="'openingTime' + i"
+                formControlName="openingTime"
+              >
+                <option [value]="null">Select a time</option>
+                <option [value]="openingTime" *ngFor="let openingTime of times">
+                  {{ openingTime }}
+                </option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label [for]="'closingTime' + i">Closing Time</label>
+              <select
+                class="time-select"
+                name=""
+                [id]="'closingTime' + i"
+                formControlName="closingTime"
+              >
+                <option [value]="null">Select a time</option>
+                <option [value]="closingTime" *ngFor="let closingTime of times">
+                  {{ closingTime }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="remove-availability" (click)="onRemoveAvailability(i)">
+            <i class="fa fa-times"></i>
+          </div>
+        </div>
         <button
-          class="uk-button uk-button-default uk-modal-close"
-          type="submit"
+          id="add-availability"
+          (click)="onAddAvailability()"
+          type="button"
         >
-          <span *ngIf="!loading">
-            <span *ngIf="mode !== 'edit'">Save</span>
-            <span *ngIf="mode === 'edit'">Update</span>
-          </span>
-          <span *ngIf="loading">
-            <span *ngIf="mode !== 'edit'">saving...</span>
-            <span *ngIf="mode === 'edit'">updating...</span>
-          </span>
+          Add availability
         </button>
-      </p>
+      </div>
+
+      <button class="uk-button uk-button-default uk-modal-close" type="submit">
+        <span *ngIf="!loading">
+          <span *ngIf="mode !== 'edit'">Save</span>
+          <span *ngIf="mode === 'edit'">Update</span>
+        </span>
+        <span *ngIf="loading">
+          <span *ngIf="mode !== 'edit'">saving...</span>
+          <span *ngIf="mode === 'edit'">updating...</span>
+        </span>
+      </button>
     </form>
   </div>
 </div>

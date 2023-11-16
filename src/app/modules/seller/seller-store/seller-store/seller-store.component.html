@@ -1,6 +1,6 @@
 <div class="seller-right">
   <button
-    (click)="createSellerStoreCreate(false)"
+    (click)="createSellerStoreCreate(null, 'create')"
     class="uk-button uk-button-primary seller-btn"
     type="button"
   >
@@ -51,7 +51,7 @@
         </div>
         <div>
           <a
-            (click)="createSellerStoreCreate(sellerStore)"
+            (click)="createSellerStoreCreate(sellerStore, 'edit')"
             style="padding-right: 10px"
           >
             <img
@@ -60,7 +60,7 @@
               alt=""
             />
           </a>
-          <a *ngIf="index > 0" (click)="onDeleteStore(sellerStore)">
+          <a *ngIf="index >= 0" (click)="onDeleteStore(sellerStore)">
             <img
               class="del-imgIcon"
               src="../../../../assets/svg/delete-seller-store-icon.svg"
@@ -112,24 +112,45 @@
           <h6>Number of Products in Store:</h6>
           <span class="value">{{ sellerStore?.productCount || "0" }}</span>
         </div>
-        <div class="availability">
-          <h6>Store availability</h6>
-          <div class="availability-main">
-            <span class="availability-main-heading">Days:</span> Monday,
-            Wednesday,
-            <div class="availability-time">
-              <span
-                ><span class="availability-main-heading"> Opens:</span>
-                9am</span
-              >
+      </div>
 
-              <span
-                ><span class="availability-main-heading">Closes:</span>
-                4pm</span
+      <div
+        class="store-availability"
+        *ngIf="sellerStore.storeAvailabilties.length > 0"
+      >
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="panelOpenState[index] = true"
+            (closed)="panelOpenState[index] = false"
+            (click)="onExpand(index)"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> Store Availability </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="availabilities">
+              <div
+                class="availability"
+                *ngFor="let availability of sellerStore.storeAvailabilties"
+                [ngClass]="{ space: index >= 1 }"
               >
+                <div class="availability-day">
+                  <span class="availability-sub-heading">Day:</span>
+                  {{ availability.dayOfWeek }}
+                </div>
+
+                <div class="availability-opening">
+                  <span class="availability-sub-heading">Opens:</span>
+                  {{ availability.openingTime }}
+                </div>
+
+                <div class="availability-closing">
+                  <span class="availability-sub-heading">Closes:</span>
+                  {{ availability.closingTime }}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </mat-expansion-panel>
+        </mat-accordion>
       </div>
     </div>
   </ng-container>

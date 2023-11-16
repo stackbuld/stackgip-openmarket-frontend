@@ -1,11 +1,13 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HelperService } from 'src/app/shared/services/helper.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import * as moment from 'moment';
+import { ToastrService } from 'src/app/services/toastr.service';
+import { SellerStores } from 'src/app/models/StoreModels';
 
 @Component({
   selector: 'app-seller-store-create-dialog',
@@ -20,13 +22,16 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   loading: boolean;
   times: string[] = [];
   days: string[] = [];
+  isGoogleAddressSelected: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private sellerStoreService: SellerStoreService,
     private dialogRef: MatDialogRef<SellerStoreCreateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private helperService: HelperService
+    @Inject(MAT_DIALOG_DATA)
+    private modalInfo: { data: SellerStores; mode: string },
+    private helperService: HelperService,
+    private toastr: ToastrService
   ) {}
 
   sellerStoreAddressForm: FormGroup = new FormGroup({});
@@ -37,31 +42,80 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     componentRestrictions: { country: 'NG' },
   };
 
+  ngOnInit(): void {
+    this.times = this.sellerStoreService.getTimes();
+    this.days = this.sellerStoreService.days;
+
+    this.sellerStoreAddressForm = this.fb.group({
+      storeName: ['', [Validators.required]],
+      streetName: [''],
+      fullAddress: ['', [Validators.required]],
+      lat: ['100', [Validators.required]],
+      lng: ['100', [Validators.required]],
+      city: ['', [Validators.required]],
+      landmark: [''],
+      postalCode: [''],
+      state: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      isDefault: [false],
+      userId: [this.helperService.getLoggedInUserId(), [Validators.required]],
+      contactPhoneNumber: ['', [Validators.required]],
+      storeAvailabilties: this.fb.array([
+        this.fb.group({
+          dayOfWeek: [null, Validators.required],
+          openingTime: [null, Validators.required],
+          closingTime: [null, Validators.required],
+        }),
+      ]),
+    });
+
+    if (this.modalInfo.mode === 'edit') {
+      this.isGoogleAddressSelected = true;
+      this.setter = this.modalInfo.data.fullAddress;
+
+      this.sellerStoreAddressForm.patchValue({
+        id: this.modalInfo.data.id,
+        storeName: this.modalInfo.data.storeName,
+        fullAddress: this.modalInfo.data.fullAddress,
+        lat: this.modalInfo.data.lat,
+        lng: this.modalInfo.data.lng,
+        city: this.modalInfo.data.city,
+        landmark: this.modalInfo.data.landmark,
+        postalCode: this.modalInfo.data.postalCode,
+        state: this.modalInfo.data.state,
+        country: this.modalInfo.data.country,
+        isDefault: this.modalInfo.data.isDefault,
+        userId: this.modalInfo.data.userId,
+        contactPhoneNumber: this.modalInfo.data.contactPhoneNumber,
+      });
+
+      while (this.storeAvailability.length != 0) {
+        this.storeAvailability.removeAt(0);
+      }
+
+      this.modalInfo.data.storeAvailabilties.forEach((availability) => {
+        this.storeAvailability.push(
+          this.fb.group({
+            dayOfWeek: [availability.dayOfWeek, Validators.required],
+            openingTime: [availability.openingTime, Validators.required],
+            closingTime: [availability.closingTime, Validators.required],
+          })
+        );
+      });
+    }
+
+    this.sellerStoreAddressForm
+      .get('fullAddress')
+      .valueChanges.subscribe((value) => {
+        if (!value || value == '') {
+          this.isGoogleAddressSelected = false;
+        }
+      });
+  }
+
   setAddressField = () => {
     this.notReady = false;
   };
-
-  ngOnInit(): void {
-    // this.sellerStoreAddressForm = this.fb.group({
-    //   id: [''],
-    //   streetName: ['', [Validators.required]],
-    //   fullAddress: ['', [Validators.required]],
-    //   lat: ['', [Validators.required]],
-    //   lng: ['', [Validators.required]],
-    //   city: ['', [Validators.required]],
-    //   landmark: ['', [Validators.required]],
-    //   postalCode: ['', [Validators.required]],
-    //   state: ['', [Validators.required]],
-    //   country: ['', [Validators.required]],
-    //   isDefault: [''],
-    //   userId: ['', [Validators.required]],
-    //   contactPhoneNumber: ['', [Validators.required, Validators.pattern(this.phonePattern)]],
-    // });
-    this.checkMode();
-
-    this.times = this.sellerStoreService.getTimes();
-    this.days = this.sellerStoreService.days;
-  }
 
   get storeName() {
     return this.sellerStoreAddressForm.get('storeName');
@@ -107,7 +161,29 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     return this.sellerStoreAddressForm.get('contactPhoneNumber');
   }
 
+  get storeAvailability() {
+    return <FormArray>this.sellerStoreAddressForm.get('storeAvailabilties');
+  }
+
+  onAddAvailability() {
+    this.storeAvailability.push(
+      this.fb.group({
+        dayOfWeek: [null, Validators.required],
+        openingTime: [null, Validators.required],
+        closingTime: [null, Validators.required],
+      })
+    );
+  }
+
+  onRemoveAvailability(index: number) {
+    if (this.storeAvailability.length <= 1) {
+      return;
+    }
+    this.storeAvailability.removeAt(index);
+  }
+
   public handleAddressChange(address: Address) {
+    this.isGoogleAddressSelected = true;
     let postalCode = address.address_components.filter((element) => {
       return element.types.includes('postal_code');
     });
@@ -138,59 +214,19 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.sellerStoreAddressForm.updateValueAndValidity();
   }
 
-  checkMode() {
-    if (this.data) {
-      this.mode = 'edit';
-      this.setter = this.data.fullAddress;
-      this.sellerStoreAddressForm = this.fb.group({
-        id: [this.data.id, Validators.required],
-        storeName: [this.data.storeName, [Validators.required]],
-        streetName: [this.data.streetName],
-        fullAddress: [this.data.fullAddress, [Validators.required]],
-        lat: [this.data.lat, [Validators.required]],
-        lng: [this.data.lng, [Validators.required]],
-        city: [this.data.city, [Validators.required]],
-        landmark: [this.data.landmark],
-        postalCode: [this.data.postalCode, [Validators.required]],
-        state: [this.data.state, [Validators.required]],
-        country: [this.data.country, [Validators.required]],
-        isDefault: [this.data.isDefault],
-        userId: [this.data.userId, [Validators.required]],
-        contactPhoneNumber: [
-          this.data.contactPhoneNumber,
-          [Validators.required],
-        ],
-        // Validators.pattern(this.phonePattern)
-      });
+  onSave() {
+    if (!this.isGoogleAddressSelected) {
+      this.toastr.warining(
+        'Select an address from the options that shows as you type'
+      );
       return;
     }
-    this.mode = 'create';
-    this.sellerStoreAddressForm = this.fb.group({
-      storeName: ['', [Validators.required]],
-      streetName: [''],
-      fullAddress: ['', [Validators.required]],
-      lat: ['100', [Validators.required]],
-      lng: ['100', [Validators.required]],
-      city: ['', [Validators.required]],
-      landmark: [''],
-      postalCode: ['', [Validators.required]],
-      state: ['', [Validators.required]],
-      country: ['', [Validators.required]],
-      isDefault: [false],
-      userId: [this.helperService.getLoggedInUserId(), [Validators.required]],
-      contactPhoneNumber: ['', [Validators.required]],
-      openingTime: [null, Validators.required],
-      closingTime: [null, Validators.required],
-      availability: [null, Validators.required],
-    });
-  }
-
-  onSave() {
     if (this.sellerStoreAddressForm.invalid) {
       this.helperService.validateAllFormFields(this.sellerStoreAddressForm);
       return;
     }
-    if (this.mode == 'create') {
+
+    if (this.modalInfo.mode == 'create') {
       this.onCreate();
       return;
     }
@@ -199,19 +235,17 @@ export class SellerStoreCreateDialogComponent implements OnInit {
 
   onCreate() {
     this.loading = true;
-    console.log(this.sellerStoreAddressForm);
-
-    // this.sellerStoreService
-    //   .createSellerStore(this.sellerStoreAddressForm.value)
-    //   .subscribe(
-    //     (response: any) => {
-    //       this.loading = false;
-    //       response.status == 'success' ? this.dialogRef.close(response) : null;
-    //     },
-    //     (err) => {
-    //       this.loading = false;
-    //     }
-    //   );
+    this.sellerStoreService
+      .createSellerStore(this.sellerStoreAddressForm.value)
+      .subscribe({
+        next: (response: any) => {
+          this.loading = false;
+          response.status == 'success' ? this.dialogRef.close(response) : null;
+        },
+        error: (err) => {
+          this.loading = false;
+        },
+      });
   }
 
   preventLetter(evt: any): boolean {
@@ -224,14 +258,14 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.loading = true;
     this.sellerStoreService
       .updateSellerStore(this.sellerStoreAddressForm.value)
-      .subscribe(
-        (response: any) => {
+      .subscribe({
+        next: (response: any) => {
           this.loading = false;
           response.status == 'success' ? this.dialogRef.close(response) : null;
         },
-        (err) => {
+        error: (err) => {
           this.loading = false;
-        }
-      );
+        },
+      });
   }
 }
