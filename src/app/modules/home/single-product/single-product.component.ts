@@ -129,6 +129,7 @@ export class SingleProductComponent implements OnInit {
 
   sellerStores: SellerStores[] = [];
   closestStore: SellerStores;
+  closestStoreId: string;
   isGoogleAddressSelected: boolean = false;
   isShippingMethodFetched: boolean = false;
 
@@ -921,6 +922,7 @@ export class SingleProductComponent implements OnInit {
     );
 
     this.closestStore = closestStore;
+    this.closestStoreId = this.closestStore.id;
 
     this.sellerStores = this.sellerStores.map((store) => {
       this.countryInfo.forEach((info) => {
@@ -938,6 +940,7 @@ export class SingleProductComponent implements OnInit {
 
   setPickupPoint(store: SellerStores) {
     this.closestStore = store;
+    this.closestStoreId = store.id;
   }
 
   onSetPickupLocation() {
@@ -1029,6 +1032,7 @@ export class SingleProductComponent implements OnInit {
           productId: this.productId,
           unit: this.count,
           logisticCode: this.currentShippingMethod.value.logisticCode,
+          storeId: this.closestStoreId,
           logistic: {
             logisticId: this.currentShippingMethod.value.logisticCode,
             logisticCode: this.currentShippingMethod.value.logisticCode,
