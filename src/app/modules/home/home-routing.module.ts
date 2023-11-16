@@ -28,7 +28,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'storefront',
+        path: 'storefront/:sellerId',
         component: SellerStorefrontComponent,
       },
       {

@@ -42,10 +42,21 @@
           <img class="rating" src="assets/svg/star-background.svg" alt="" />
         </div>
       </div>
+
+      <div class="time-availability">
+        <div>
+          <img src="assets/svg/shopping-bag-02.svg" class="pointer" alt="" />
+          Shop opens from (MON-FRI)
+        </div>
+        <div>
+          <img src="assets/svg/clock.svg" class="pointer" alt="" />
+          Time: 9am - 4pm daily
+        </div>
+      </div>
     </div>
   </section>
 
-  <section id="tabbed-navigation">
+  <section id="tab-navigation">
     <nav>
       <ul uk-tab>
         <li class="uk-active">
@@ -56,10 +67,25 @@
     </nav>
   </section>
 
-  <section id="tab-navigation">
+  <section id="tab-navigation-content">
     <div *ngIf="activeTab === 'products'">
-      <app-product-list></app-product-list>
+      <app-product-list
+        [storefrontSellerId]="sellerId"
+        class="products show"
+      ></app-product-list>
     </div>
-    <div *ngIf="activeTab === 'about'">THIS IS THE ABOUT PAGE!</div>
+    <div *ngIf="activeTab === 'about'">
+      <div class="about">
+        <h2>Description</h2>
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur,
+          hic. Veritatis rerum fugit atque amet deserunt reprehenderit
+          voluptatibus impedit exercitationem nesciunt porro, labore quibusdam,
+          eaque natus dolor odio rem! Quaerat assumenda at similique quidem odit
+          sequi sit minus incidunt animi maxime temporibus iure molestias nobis
+          fugit nesciunt, unde earum suscipit?
+        </p>
+      </div>
+    </div>
   </section>
 </div>

@@ -38,6 +38,7 @@ import { CountryService } from 'src/app/services/country/country.service';
 import { CountryInfo } from 'src/app/models/country.model';
 import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
 import { SellerStoreLocationService } from 'src/app/services/cart/seller-store.service';
+import { SearchService } from 'src/app/services/search/search.service';
 @Component({
   selector: 'app-single-product',
   templateUrl: './single-product.component.html',
@@ -146,7 +147,8 @@ export class SingleProductComponent implements OnInit {
     private windowRef: WindowRefService,
     private userService: UserService,
     private countryService: CountryService,
-    private sellerStoreLocationService: SellerStoreLocationService
+    private sellerStoreLocationService: SellerStoreLocationService,
+    private searchService: SearchService
   ) {}
 
   ngOnInit() {
@@ -210,6 +212,10 @@ export class SingleProductComponent implements OnInit {
       }
     });
   }
+
+  goToStoreFront = (id: string) => {
+    this.router.navigate([`/homepage/storefront/${this.user.id}`]);
+  };
 
   setUserAddress() {
     if (localStorage.getItem('shippingAddress')) {
@@ -394,6 +400,7 @@ export class SingleProductComponent implements OnInit {
         this.sellerStores = res.data?.sellerStores;
 
         this.getClosestSellerStore(this.currentAddress);
+        console.log('PRODUCT IN SINGLE', this.product);
 
         this.product.productImages.forEach((image) => {
           this.productImages.push({ image: image });
