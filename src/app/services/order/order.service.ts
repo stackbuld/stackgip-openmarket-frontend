@@ -102,10 +102,6 @@ export class OrderService {
   formatDate(date: string) {
     const inputDate = new Date(date);
 
-    // const options: any = { month: 'short', day: 'numeric', year: 'numeric' };
-    // const formattedDate = inputDate.toLocaleDateString('en-US', options);
-    // return formattedDate;
-
     const localDate = new Date(
       inputDate.getTime() - inputDate.getTimezoneOffset() * 60000
     );
@@ -131,5 +127,54 @@ export class OrderService {
     console.log(`Actual Date: ${actualDate}, Actual Time: ${actualTime}`);
 
     return isoString;
+  }
+
+  getDateAndTime(rawDateString: string) {
+    const dateString = rawDateString;
+    const momentObj = moment(
+      dateString,
+      'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (Z)'
+    );
+
+    const actualDate = momentObj.format('DD-MM-YYYY');
+    const actualTime = momentObj.format('HH:mm:ss');
+
+    return {
+      actualDate,
+      actualTime,
+    };
+  }
+
+  getCurrentDate() {
+    const options: any = {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZoneName: 'short',
+    };
+
+    const today = new Date();
+    const formattedDate = today.toLocaleString('en-US', options);
+    return formattedDate;
+  }
+
+  getMaxDate(currentDate: Date) {
+    const dateString = currentDate;
+    const originalDate = new Date(dateString);
+
+    // Add two days
+    const newDate = new Date(originalDate);
+    newDate.setDate(originalDate.getDate() + 2);
+
+    const dayOfWeek = newDate.getDay();
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      newDate.setDate(newDate.getDate() + 2); // Add two more days if it's a weekend
+    }
+
+    return newDate;
   }
 }

@@ -33,8 +33,9 @@ export class OrderViewComponent implements OnInit {
   uploadWidget2: any;
   videoName = '';
   scheduleTimes: string[] = [];
-  @ViewChild(MatMenuTrigger, { static: true }) trigger: MatMenuTrigger;
-  times: string[] = [];
+
+  currentDate: Date;
+  maxDate: Date;
 
   constructor(
     private appLocal: AppLocalStorage,
@@ -59,13 +60,17 @@ export class OrderViewComponent implements OnInit {
 
     this.startDate.valueChanges.subscribe((value) => {
       if (value != null) {
-        console.log(value);
+        const dateTime: { actualDate: string; actualTime: string } =
+          this.orderService.getDateAndTime(value);
 
-        this.trigger.openMenu();
+        this.pickupTime.setValue(dateTime.actualTime);
       }
     });
 
-    this.times = this.sellerStore.getTimes();
+    const currentYear = new Date();
+    const minDate = new Date(currentYear);
+    this.currentDate = minDate;
+    this.maxDate = this.orderService.getMaxDate(this.currentDate);
   }
 
   get startDate() {
@@ -196,7 +201,11 @@ export class OrderViewComponent implements OnInit {
   };
 
   acceptOrder = () => {
-    // this.acceptingOrder = true;
+    if (!this.pickupTime.value || this.pickupTime.value == '') {
+      this.toastr.warning('Select a time');
+      return;
+    }
+    this.acceptingOrder = true;
     const formattedDate = this.orderService.formatDate(this.startDate.value);
 
     const isoString = this.orderService.formatDateToISO(

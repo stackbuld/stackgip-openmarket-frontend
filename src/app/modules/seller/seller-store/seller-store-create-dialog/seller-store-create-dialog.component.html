@@ -210,34 +210,48 @@
               </select>
             </div>
 
-            <div class="input-group">
+            <div class="input-group time-group">
               <label [for]="'openingTime' + i">Opening Time</label>
-              <select
-                class="time-select"
-                name=""
+
+              <!-- <input
+                type="text"
                 [id]="'openingTime' + i"
+                placeholder="select your opening time"
+              /> -->
+
+              <ngx-mat-timepicker
                 formControlName="openingTime"
+                [showSpinners]="true"
+                [stepHour]="1"
+                [stepMinute]="10"
+                [stepSecond]="30"
+                [showSeconds]="false"
+                class="my-ngx-timepicker"
+                [id]="'openingTime' + i"
               >
-                <option [value]="null">Select a time</option>
-                <option [value]="openingTime" *ngFor="let openingTime of times">
-                  {{ openingTime }}
-                </option>
-              </select>
+              </ngx-mat-timepicker>
             </div>
 
-            <div class="input-group">
+            <div class="input-group time-group">
               <label [for]="'closingTime' + i">Closing Time</label>
-              <select
-                class="time-select"
-                name=""
+              <!-- <input
+                type="text"
                 [id]="'closingTime' + i"
+                placeholder="select your opening time"
+                [mat-menu-trigger-for]="closingTimeMenu"
                 formControlName="closingTime"
+              /> -->
+              <ngx-mat-timepicker
+                formControlName="closingTime"
+                [showSpinners]="true"
+                [stepHour]="1"
+                [stepMinute]="10"
+                [stepSecond]="30"
+                [showSeconds]="false"
+                [id]="'closingTime' + i"
+                class="my-ngx-timepicker"
               >
-                <option [value]="null">Select a time</option>
-                <option [value]="closingTime" *ngFor="let closingTime of times">
-                  {{ closingTime }}
-                </option>
-              </select>
+              </ngx-mat-timepicker>
             </div>
           </div>
           <div class="remove-availability" (click)="onRemoveAvailability(i)">
@@ -266,3 +280,31 @@
     </form>
   </div>
 </div>
+
+<!-- <mat-menu #closingTimeMenu>
+  <div class="time-picker-container" (click)="$event.stopPropagation()">
+    <ngx-mat-timepicker
+      [(ngModel)]="closingTimeRAW"
+      [showSpinners]="true"
+      [stepHour]="1"
+      [stepMinute]="10"
+      [stepSecond]="30"
+      [showSeconds]="false"
+    >
+    </ngx-mat-timepicker>
+  </div>
+</mat-menu> -->
+
+<!-- <mat-menu #openingTimeMenu>
+  <div class="time-picker-container" (click)="$event.stopPropagation()">
+    <ngx-mat-timepicker
+      [(ngModel)]="openingTimeRAW"
+      [showSpinners]="true"
+      [stepHour]="1"
+      [stepMinute]="10"
+      [stepSecond]="30"
+      [showSeconds]="false"
+    >
+    </ngx-mat-timepicker>
+  </div>
+</mat-menu> -->

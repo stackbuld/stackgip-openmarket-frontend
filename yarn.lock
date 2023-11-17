@@ -245,6 +245,20 @@
     "ora" "5.4.1"
     "rxjs" "6.6.7"
 
+"@angular-material-components/datetime-picker@^16.0.1":
+  "integrity" "sha512-dbkwWiC8qL7NVlMclb1hvuZvuP2l1nvfnnmijEc/zGsoWeoLNDXn/+z/UQtMcbUphcwCzFt9CfHhhpGUGgQLgw=="
+  "resolved" "https://registry.npmjs.org/@angular-material-components/datetime-picker/-/datetime-picker-16.0.1.tgz"
+  "version" "16.0.1"
+  dependencies:
+    "tslib" "^2.3.0"
+
+"@angular-material-components/moment-adapter@^16.0.1":
+  "integrity" "sha512-ijqi57Sf+nksfdDQ82rYFKOnMzuYXbbq6pGsSEvXkDyckcwcKdeNM3ETC7f45sQVIz+iUw0r5IkpiLgDzS6lYQ=="
+  "resolved" "https://registry.npmjs.org/@angular-material-components/moment-adapter/-/moment-adapter-16.0.1.tgz"
+  "version" "16.0.1"
+  dependencies:
+    "tslib" "^2.3.0"
+
 "@angular-slider/ngx-slider@^2.0.4":
   "integrity" "sha512-EccMcGlb2bJJWikXZBjRwdWgRiYYmWd3UCgf8l3KAlyqPAxPVgxI73wqipp4/nZwidq53a9s3OB+KC79enfM2A=="
   "resolved" "https://registry.npmjs.org/@angular-slider/ngx-slider/-/ngx-slider-2.0.4.tgz"

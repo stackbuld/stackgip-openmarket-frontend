@@ -23,6 +23,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   times: string[] = [];
   days: string[] = [];
   isGoogleAddressSelected: boolean = false;
+  presentTime: Date;
 
   constructor(
     private fb: FormBuilder,
@@ -46,6 +47,8 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.times = this.sellerStoreService.getTimes();
     this.days = this.sellerStoreService.days;
 
+    this.presentTime = new Date();
+
     this.sellerStoreAddressForm = this.fb.group({
       storeName: ['', [Validators.required]],
       streetName: [''],
@@ -62,9 +65,9 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       contactPhoneNumber: ['', [Validators.required]],
       storeAvailabilties: this.fb.array([
         this.fb.group({
-          dayOfWeek: [null, Validators.required],
-          openingTime: [null, Validators.required],
-          closingTime: [null, Validators.required],
+          dayOfWeek: ['Monday', Validators.required],
+          openingTime: [this.presentTime, Validators.required],
+          closingTime: [this.presentTime, Validators.required],
         }),
       ]),
     });
@@ -94,11 +97,14 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       }
 
       this.modalInfo.data.storeAvailabilties.forEach((availability) => {
+        const openingTime = this.getTimeForTimeEdit(availability.openingTime);
+        const closingTime = this.getTimeForTimeEdit(availability.closingTime);
+
         this.storeAvailability.push(
           this.fb.group({
             dayOfWeek: [availability.dayOfWeek, Validators.required],
-            openingTime: [availability.openingTime, Validators.required],
-            closingTime: [availability.closingTime, Validators.required],
+            openingTime: [openingTime, Validators.required],
+            closingTime: [closingTime, Validators.required],
           })
         );
       });
@@ -111,6 +117,16 @@ export class SellerStoreCreateDialogComponent implements OnInit {
           this.isGoogleAddressSelected = false;
         }
       });
+  }
+
+  getTimeForTimeEdit(time: string) {
+    const newTime = new Date();
+
+    const [hours, minutes] = time.split(':');
+
+    newTime.setHours(Number(hours), Number(minutes), 0, 0);
+
+    return newTime;
   }
 
   setAddressField = () => {
@@ -168,9 +184,9 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   onAddAvailability() {
     this.storeAvailability.push(
       this.fb.group({
-        dayOfWeek: [null, Validators.required],
-        openingTime: [null, Validators.required],
-        closingTime: [null, Validators.required],
+        dayOfWeek: ['Monday', Validators.required],
+        openingTime: [this.presentTime, Validators.required],
+        closingTime: [this.presentTime, Validators.required],
       })
     );
   }
@@ -226,26 +242,33 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       return;
     }
 
+    this.sellerStoreAddressForm.value.storeAvailabilties.map((availability) => {
+      const { openingTime, closingTime } = availability;
+
+      availability.openingTime =
+        this.sellerStoreService.getMainTime(openingTime);
+      availability.closingTime =
+        this.sellerStoreService.getMainTime(closingTime);
+    });
+
     if (this.modalInfo.mode == 'create') {
-      this.onCreate();
+      this.onCreate(this.sellerStoreAddressForm.value);
       return;
     }
-    this.onEdit();
+    this.onEdit(this.sellerStoreAddressForm.value);
   }
 
-  onCreate() {
+  onCreate(form) {
     this.loading = true;
-    this.sellerStoreService
-      .createSellerStore(this.sellerStoreAddressForm.value)
-      .subscribe({
-        next: (response: any) => {
-          this.loading = false;
-          response.status == 'success' ? this.dialogRef.close(response) : null;
-        },
-        error: (err) => {
-          this.loading = false;
-        },
-      });
+    this.sellerStoreService.createSellerStore(form).subscribe({
+      next: (response: any) => {
+        this.loading = false;
+        response.status == 'success' ? this.dialogRef.close(response) : null;
+      },
+      error: (err) => {
+        this.loading = false;
+      },
+    });
   }
 
   preventLetter(evt: any): boolean {
@@ -254,18 +277,16 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     return true;
   }
 
-  onEdit() {
+  onEdit(form) {
     this.loading = true;
-    this.sellerStoreService
-      .updateSellerStore(this.sellerStoreAddressForm.value)
-      .subscribe({
-        next: (response: any) => {
-          this.loading = false;
-          response.status == 'success' ? this.dialogRef.close(response) : null;
-        },
-        error: (err) => {
-          this.loading = false;
-        },
-      });
+    this.sellerStoreService.updateSellerStore(form).subscribe({
+      next: (response: any) => {
+        this.loading = false;
+        response.status == 'success' ? this.dialogRef.close(response) : null;
+      },
+      error: (err) => {
+        this.loading = false;
+      },
+    });
   }
 }

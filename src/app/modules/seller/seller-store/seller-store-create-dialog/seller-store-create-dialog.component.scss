@@ -56,8 +56,10 @@
 
 .availability-group {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 15px;
+  width: 100%;
 
   &.spaceBottom {
     &:not(:last-child) {
@@ -80,10 +82,27 @@
 .availability-main {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
 
   & .input-group {
+    &.time-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     & label {
       margin-bottom: 5px;
+    }
+
+    & input {
+      height: 44.8px;
+      border-radius: 4px !important;
+      padding-left: 10px;
+
+      &:focus {
+        outline: none;
+      }
     }
 
     &:not(:last-child) {

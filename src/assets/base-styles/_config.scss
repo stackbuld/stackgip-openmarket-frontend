@@ -85,6 +85,26 @@ mat-menu {
   }
 }
 
+ngx-mat-timepicker {
+  &.my-ngx-timepicker {
+    & .ngx-mat-timepicker-table {
+      & .mat-mdc-form-field-bottom-align {
+        display: none;
+      }
+
+      & .mat-mdc-button-touch-target {
+        height: 20px !important;
+      }
+
+      & .ngx-mat-timepicker-tbody {
+        & tr {
+          height: 10px !important;
+        }
+      }
+    }
+  }
+}
+
 @media (pointer: none), (pointer: coarse) {
   .carousel {
     & .carousel-arrow {

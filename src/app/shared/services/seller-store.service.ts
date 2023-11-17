@@ -62,4 +62,14 @@ export class SellerStoreService {
     }
     return times;
   }
+
+  getMainTime(dateObj: Date) {
+    const dateObject = new Date(dateObj);
+
+    const hours = dateObject.getHours();
+    const minutes = dateObject.getMinutes();
+    const seconds = dateObject.getSeconds();
+
+    return `${hours}:${minutes}:${seconds}`;
+  }
 }

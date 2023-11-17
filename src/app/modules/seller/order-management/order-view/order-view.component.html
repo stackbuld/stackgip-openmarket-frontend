@@ -828,32 +828,9 @@
             ></textarea>
           </div>
 
-          <div class="mb-3 form-group">
-            <!-- <label for="pickup-schedule">Schedule Pickup</label> <br />
-            <select id="pickup-schedule" class="w-100" (click)="picker.open()">
-              <option [value]="null">Select date for pickup</option>
-            </select> -->
-
-            <!-- <div class="date-container">
-              <mat-date-range-input [rangePicker]="picker">
-                <input
-                  matStartDate
-                  formControlName="startDate"
-                  placeholder="Start date"
-                />
-                <input
-                  matEndDate
-                  formControlName="endDate"
-                  placeholder="End date"
-                />
-              </mat-date-range-input>
-              <mat-date-range-picker #picker></mat-date-range-picker>
-            </div> -->
-          </div>
-
           <div class="mb-3 form-group schedule-main">
             <label>Schedule Pickup</label>
-            <div class="pickup-info" (click)="picker.open()">
+            <div class="pickup-info" (click)="pickerCustomIcon.open()">
               <span
                 class="info-placeholder"
                 *ngIf="startDate.value == null || startDate.value == ''"
@@ -866,40 +843,43 @@
             </div>
 
             <div class="date-container">
-              <mat-form-field class="form-field-mat">
+              <mat-form-field>
                 <input
                   matInput
-                  [matDatepicker]="picker"
+                  placeholder="Choose a date"
+                  [ngxMatDatetimePicker]="pickerCustomIcon"
                   formControlName="startDate"
+                  [min]="currentDate"
+                  [max]="maxDate"
                 />
-                <mat-datepicker-toggle
-                  matIconSuffix
-                  [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-              <button [matMenuTriggerFor]="timeMenu" style="opacity: 0">
-                test
-              </button>
-
-              <mat-menu #timeMenu="matMenu">
-                <div class="time-container">
-                  <div
-                    class="time-main"
-                    *ngFor="let scheduleTime of times; let i = index"
-                  >
-                    <label>
-                      <input
-                        [id]="'scheduleTime'[i]"
-                        name="pickupTime"
-                        type="radio"
-                        formControlName="pickupTime"
-                        [value]="scheduleTime"
-                      />({{ scheduleTime }})</label
+                <ngx-mat-datepicker-toggle
+                  matSuffix
+                  [for]="pickerCustomIcon"
+                ></ngx-mat-datepicker-toggle>
+                <ngx-mat-datetime-picker
+                  #pickerCustomIcon
+                  [showSpinners]="true"
+                  [showSeconds]="false"
+                  [stepHour]="1"
+                  [stepMinute]="10"
+                  [stepSecond]="1"
+                  [touchUi]="false"
+                  [enableMeridian]="false"
+                  [disableMinute]="false"
+                  [hideTime]="false"
+                >
+                  <ngx-mat-datepicker-actions>
+                    <button mat-button ngxMatDatepickerCancel>Cancel</button>
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      ngxMatDatepickerApply
                     >
-                  </div>
-                </div>
-              </mat-menu>
+                      Apply
+                    </button>
+                  </ngx-mat-datepicker-actions>
+                </ngx-mat-datetime-picker>
+              </mat-form-field>
             </div>
           </div>
         </form>
