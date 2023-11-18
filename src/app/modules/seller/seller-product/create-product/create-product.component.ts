@@ -18,90 +18,90 @@ import { SellerStoreCreateDialogComponent } from '../../seller-store/seller-stor
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
 
-
-
 declare var cloudinary: any;
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
   styleUrls: ['./create-product.component.scss'],
-  providers: [SafeHtmlPipe]
+  providers: [SafeHtmlPipe],
 })
 export class CreateProductComponent implements OnInit {
-
-
   previewEditorConfig: AngularEditorConfig = {
     editable: false,
     showToolbar: false,
     enableToolbar: false,
     height: 'auto',
-      minHeight: '15rem',
-      maxHeight: 'auto',
-      width: 'auto',
-      minWidth: '10rem',
-  }
+    minHeight: '15rem',
+    maxHeight: 'auto',
+    width: 'auto',
+    minWidth: '10rem',
+  };
   editorConfig: AngularEditorConfig = {
     editable: true,
-      spellcheck: true,
-      height: 'auto',
-      minHeight: '15rem',
-      maxHeight: 'auto',
-      width: 'auto',
-      minWidth: '10rem',
-      translate: 'yes',
-      enableToolbar: true,
-      showToolbar: true,
-      placeholder: 'Product short description...',
-      defaultParagraphSeparator: '',
-      defaultFontName: '',
-      defaultFontSize: '',
-      fonts: [
-        {class: 'arial', name: 'Arial'},
-        {class: 'times-new-roman', name: 'Times New Roman'},
-        {class: 'calibri', name: 'Calibri'},
-        {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+    spellcheck: true,
+    height: 'auto',
+    minHeight: '15rem',
+    maxHeight: 'auto',
+    width: 'auto',
+    minWidth: '10rem',
+    translate: 'yes',
+    enableToolbar: true,
+    showToolbar: true,
+    placeholder: 'Product short description...',
+    defaultParagraphSeparator: '',
+    defaultFontName: '',
+    defaultFontSize: '',
+    fonts: [
+      { class: 'arial', name: 'Arial' },
+      { class: 'times-new-roman', name: 'Times New Roman' },
+      { class: 'calibri', name: 'Calibri' },
+      { class: 'comic-sans-ms', name: 'Comic Sans MS' },
+    ],
+    toolbarHiddenButtons: [
+      [
+        'strikeThrough',
+        'subscript',
+        'superscript',
+        'colorPicker',
+        'justifyFull',
+        'outdent',
+        'eyedrop',
       ],
-      toolbarHiddenButtons: [
-  [
-    'strikeThrough',
-    'subscript',
-    'superscript',
-    'colorPicker',
-    'justifyFull',
-    'outdent',
-    'eyedrop'
-  ],
-  [
-    'textColor',
-    'backgroundColor',
-    'customClasses',
-    'link',
-    'unlink',
-    'insertImage',
-    'insertVideo',
-    'insertHorizontalRule',
-    'removeFormat',
-    'toggleEditorMode'
-  ]
-],
-    
-    
+      [
+        'textColor',
+        'backgroundColor',
+        'customClasses',
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode',
+      ],
+    ],
+
     uploadWithCredentials: false,
     sanitize: true,
     toolbarPosition: 'top',
-   
   };
-  pickupOptions: [{
-    name: 'None'
-  }, {
-    name: 'Bike'
-    }, {
-    'Car'
-    }, {
-    name: 'Van'
-    }, {
-    name: 'Truck'
-  }];
+  pickupOptions: [
+    {
+      name: 'None';
+    },
+    {
+      name: 'Bike';
+    },
+    {
+      Car;
+    },
+    {
+      name: 'Van';
+    },
+    {
+      name: 'Truck';
+    }
+  ];
   private unsubscribe$ = new Subject<void>();
   @Output() closed = new EventEmitter();
   @Output() added = new EventEmitter();
@@ -123,10 +123,10 @@ export class CreateProductComponent implements OnInit {
   complimentartImages = [];
   states: string[] = nigeriaSates.map((a) => a.name);
   productVariations: any[];
-  allVariantList = []
+  allVariantList = [];
   user = {} as IUser;
   isPreview = false;
-  relatedItems = []
+  relatedItems = [];
   previewData: any;
   uploadComplimentaryWidget2: any;
   uploadComplimentaryWidget3: any;
@@ -148,9 +148,9 @@ export class CreateProductComponent implements OnInit {
   isFullDescription = false;
   hasFullDesc: boolean;
   imageErr: string;
-  previewDesc: any
+  previewDesc: any;
   uniqueVariant: any;
-
+  availableProductUnit: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -205,7 +205,6 @@ export class CreateProductComponent implements OnInit {
       }
     );
 
-
     this.uploadComplimentaryWidget = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
@@ -249,14 +248,14 @@ export class CreateProductComponent implements OnInit {
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
-          if (this.editProps.value.imageUrl == "") {
+          if (this.editProps.value.imageUrl == '') {
             this.editProps.patchValue({ imageUrl: result.info.secure_url });
           }
         }
       }
     );
 
-      this.uploadComplimentaryWidget3 = cloudinary.createUploadWidget(
+    this.uploadComplimentaryWidget3 = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
         uploadPreset: environment.cloudinaryUploadPerset,
@@ -264,17 +263,19 @@ export class CreateProductComponent implements OnInit {
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
-        if (this.variationProps.value.imageUrl == "") {
-            this.variationProps.patchValue({ imageUrl: result.info.secure_url });
+          if (this.variationProps.value.imageUrl == '') {
+            this.variationProps.patchValue({
+              imageUrl: result.info.secure_url,
+            });
           }
         }
       }
     );
+
+    this.form.get('unit').valueChanges.subscribe((value) => {
+      this.availableProductUnit = value;
+    });
   }
-
-
-
-
 
   addStore() {
     this.dialogService
@@ -314,7 +315,7 @@ export class CreateProductComponent implements OnInit {
           this.populateProductForm(res.data);
           this.getSubCategories(res.data.category.id);
           this.setComplementaryImageForUpdate(res.data);
-          this.images = this.form.value.imageUrls
+          this.images = this.form.value.imageUrls;
           this.productImage = this.images[0];
         } else {
           this.toast.error(res.message);
@@ -337,14 +338,14 @@ export class CreateProductComponent implements OnInit {
       weight: [null, [Validators.required]],
       previousPrice: [0],
       imageUrls: [null],
-      pickupOption: ["none"],
+      pickupOption: ['none'],
       imageUrl: [''],
       categoryId: [''],
       category: ['', [Validators.required]],
       storeIds: [[], [Validators.required]],
       unit: [null, [Validators.required]],
       options: this.fb.array([]),
-      variations: this.fb.array([])
+      variations: this.fb.array([]),
     });
   }
 
@@ -359,7 +360,7 @@ export class CreateProductComponent implements OnInit {
       price: [data.price, [Validators.required]],
       weight: [data.weight, [Validators.required]],
       previousPrice: [data.previousPrice],
-      imageUrls: [data.resources?.map(img => img.url)],
+      imageUrls: [data.resources?.map((img) => img.url)],
       pickupOption: [data.pickupOption, [Validators.required]],
       imageUrl: [data.imageUrl],
       categoryId: [data.categoryId, [Validators.required]],
@@ -369,7 +370,7 @@ export class CreateProductComponent implements OnInit {
       unit: [data.unit, [Validators.required]],
       options: this.fb.array([]),
       variations: this.fb.array([]),
-      draftProductId: [data.draftProductId]
+      draftProductId: [data.draftProductId],
     });
     for (let index = 0; index < data.sellerStores.length; index++) {
       const element = data.sellerStores[index];
@@ -377,16 +378,15 @@ export class CreateProductComponent implements OnInit {
     }
     for (let index = 0; index < data.productOptions.length; index++) {
       const element = data.productOptions[index];
-      
+
       if (!!element.isMultiple) {
         complimentartProducts.push(element);
-        this.relatedItems.push(element)
-        
+        this.relatedItems.push(element);
       }
-      
+
       if (element.isMultiple === false) {
         variationList.push(element);
-        this.allVariantList.push(element)
+        this.allVariantList.push(element);
       }
     }
 
@@ -413,7 +413,7 @@ export class CreateProductComponent implements OnInit {
           unit: [element.unit, [Validators.required]],
           imageUrl: [element.imageUrl],
           isMultiple: false,
-          ...(element.id && {id: element.id} )
+          ...(element.id && { id: element.id }),
         })
       );
     });
@@ -422,12 +422,12 @@ export class CreateProductComponent implements OnInit {
         this.fb.group({
           title: [element.title, [Validators.required]],
           shortDescription: [element.shortDescription, Validators.required],
-          value: [""],
+          value: [''],
           unit: [element.unit],
           imageUrl: [element.imageUrl],
           cost: [element.cost, [Validators.required]],
           isMultiple: true,
-          ...(element.id && {id: element.id} )
+          ...(element.id && { id: element.id }),
         })
       );
     });
@@ -498,55 +498,51 @@ export class CreateProductComponent implements OnInit {
   addVariation(): void {
     this.addingVariation = true;
     this.variationProps = this.createVariation();
-    
   }
   // this method is to add the variation to the variation variable of the main form
 
   addProductVariation(): void {
-      
-    let invalid = false
-    Object.keys(this.variationProps.controls)
-      .forEach(field => {
-        let control = this.variationProps.get(field)
-        if (control.invalid) {
-          invalid = true
-        }
-      })
-    
-    if (!invalid) {
-      this.addingVariation = false;
-      this.variations().push(this.variationProps);
-      this.allVariantList.push(this.variationProps.value)
-      // this.editProps.reset()
-    } else {
-      this.toast.error("All required fields must be valid")
+    // let invalid = false;
+    if (this.variationProps.invalid) {
+      this.variationProps.markAllAsTouched();
+      this.toast.error('All required fields must be valid');
+
+      return;
     }
+    // Object.keys(this.variationProps.controls).forEach((field) => {
+    //   let control = this.variationProps.get(field);
+    //   if (control.invalid) {
+    //     invalid = true;
+    //   }
+    // });
+
+    this.addingVariation = false;
+    this.variations().push(this.variationProps);
+    this.allVariantList.push(this.variationProps.value);
+    // this.editProps.reset()
   }
 
   // this method is to close the variation of products card
   removeEditVariation(): void {
     this.addingVariation = false;
-    this.variationProps.reset()
-    
+    this.variationProps.reset();
   }
-  
-   // this method is to remove already created product varaints
+
+  // this method is to remove already created product varaints
   removeVariation(index: number): void {
     this.variations().removeAt(index);
-    this.allVariantList.splice(index, 1)
+    this.allVariantList.splice(index, 1);
   }
 
   // this method is to edit already created related/complimentary product
   editVariation(index: number): void {
-    this.addingVariation = true
+    this.addingVariation = true;
     if (!this.variationProps) {
       this.variationProps = this.createVariation();
     }
-    this.variationProps.patchValue({ ...this.variations().value[index] })
-    this.removeVariation(index)
+    this.variationProps.patchValue({ ...this.variations().value[index] });
+    this.removeVariation(index);
   }
-
-  
 
   options(): FormArray {
     return this.form.get('options') as FormArray;
@@ -555,10 +551,10 @@ export class CreateProductComponent implements OnInit {
   createOptions(): FormGroup {
     return this.fb.group({
       title: ['', [Validators.required]],
-      shortDescription: [''],
+      shortDescription: ['', [Validators.required]],
       value: [''],
       unit: ['', Validators.required],
-      imageUrl: ["", Validators.required],
+      imageUrl: ['', Validators.required],
       cost: [null, [Validators.required]],
       isMultiple: true,
     });
@@ -572,74 +568,67 @@ export class CreateProductComponent implements OnInit {
     this.productImage = img;
   }
 
-
   // this method is to open the complimentary/related products card
-  addEditOption(): void{
+  addEditOption(): void {
     this.addingComplimentaryOptions = true;
-    this.editProps = this.createOptions()
-    
+    this.editProps = this.createOptions();
   }
 
   // this method is to add the complimentary/related products card to the options variable of the main form
   addProductOption(): void {
-    let invalid = false
-    Object.keys(this.editProps.controls)
-      .forEach(field => {
-    let control = this.editProps.get(field)
-        if (control.invalid) {
-        invalid = true
-        }
-      })
-    
-    if (!invalid) {
-      this.addingComplimentaryOptions = false;
-      this.options().push(this.editProps);
-      this.relatedItems.push(this.editProps.value)
-    } else {
-      this.toast.error(`All required fields must be valid`)
+    if (this.editProps.invalid) {
+      this.editProps.markAllAsTouched();
+      this.toast.error(`All required fields must be valid`);
+      return;
     }
-    
+    // Object.keys(this.editProps.controls)
+    //   .forEach(field => {
+    // let control = this.editProps.get(field)
+    //     if (control.invalid) {
+    //     invalid = true
+    //     }
+    //   })
+
+    this.addingComplimentaryOptions = false;
+    this.options().push(this.editProps);
+    this.relatedItems.push(this.editProps.value);
   }
 
   // this method is to close the complimentary/related products card
-  removeEditOption(): void{
-    this.addingComplimentaryOptions = false
-    this.editProps.reset()
+  removeEditOption(): void {
+    this.addingComplimentaryOptions = false;
+    this.editProps.reset();
   }
 
   // this method is to remove already created complimentary products
   removeRelated(index: number) {
-    this.options().removeAt(index)
-    this.relatedItems.splice(index, 1)
-    
+    this.options().removeAt(index);
+    this.relatedItems.splice(index, 1);
   }
 
   // this method is to edit already created related/complimentary product
   editRelated(index: number): void {
-    this.addingComplimentaryOptions = true
+    this.addingComplimentaryOptions = true;
 
     // this is vital for when coming from edit in products page. Needs refactoring though
     if (!this.editProps) {
-      this.editProps = this.createOptions()
+      this.editProps = this.createOptions();
     }
-    this.editProps.patchValue({ ...this.relatedItems[index] })
-    this.removeRelated(index)
+    this.editProps.patchValue({ ...this.relatedItems[index] });
+    this.removeRelated(index);
   }
-
 
   // images upload start
   upload(): void {
     if (this.images.length < 4) {
       this.uploadWidget.open();
     } else {
-      this.imageErr = "You can only upload maximum of four images"
+      this.imageErr = 'You can only upload maximum of four images';
     }
   }
 
-
-
   removeImage(image_url): void {
-    this.imageErr= null
+    this.imageErr = null;
     this.images = this.images.filter((a) => a !== image_url);
     this.form.patchValue({ imageUrls: this.images });
     this.productImage = this.images[0];
@@ -648,30 +637,30 @@ export class CreateProductComponent implements OnInit {
     }
   }
 
-  removeVariationImage(image_url): void{
-    this.imageErr = null
+  removeVariationImage(image_url): void {
+    this.imageErr = null;
     this.variationImages = this.variationImages.filter((a) => a !== image_url);
-    this.variationProps.patchValue({imageUrl: image_url})
+    this.variationProps.patchValue({ imageUrl: image_url });
   }
 
   removeRelatedImage(): void {
-    this.imageErr= null
-    this.editProps.patchValue({ imageUrl: "" });
+    this.imageErr = null;
+    this.editProps.patchValue({ imageUrl: '' });
   }
 
   uploadComplimentaryImage(): void {
-    if (this.variationProps.value.imageUrl == "") {
+    if (this.variationProps.value.imageUrl == '') {
       this.uploadComplimentaryWidget3.open();
     } else {
-      this.imageErr = "You can only upload maximum of one images"
+      this.imageErr = 'You can only upload maximum of one images';
     }
   }
 
   uploadRelatedImage(): void {
-     if (this.editProps.value.imageUrl == "") {
-       this.uploadComplimentaryWidget2.open();
-       } else {
-      this.imageErr = "You can only upload maximum of one images"
+    if (this.editProps.value.imageUrl == '') {
+      this.uploadComplimentaryWidget2.open();
+    } else {
+      this.imageErr = 'You can only upload maximum of one images';
     }
   }
 
@@ -684,7 +673,6 @@ export class CreateProductComponent implements OnInit {
     }
   }
   // images upload stop
-
 
   getSubCategories(id: any) {
     this.subCategories = [];
@@ -763,7 +751,12 @@ export class CreateProductComponent implements OnInit {
   updateProduct = () => {
     this.creatingProduct = true;
     this.productService
-      .createNewProduct({...this.form.value, publishOption: "Review", "videoUrls": [], "draftProductId": this.productId})
+      .createNewProduct({
+        ...this.form.value,
+        publishOption: 'Review',
+        videoUrls: [],
+        draftProductId: this.productId,
+      })
       .subscribe(
         (res) => {
           if (res.status === 'success') {
@@ -801,43 +794,45 @@ export class CreateProductComponent implements OnInit {
 
   createProduct = () => {
     this.creatingProduct = true;
-    
-    this.productService.createNewProduct({...this.form.value, options: [...this.relatedItems, ...this.allVariantList], publishOption: 'Review'}).subscribe(
-      (res) => {
-        if (res.status === 'success') {
-          this.toast.success('Product added successfully');
-          this.router.navigate(['/seller/products']);
-          this.creatingProduct = false;
-          localStorage.removeItem('compImagesStore');
-          this.complementaryImagesStore = [];
-        } else {
+
+    this.productService
+      .createNewProduct({
+        ...this.form.value,
+        options: [...this.relatedItems, ...this.allVariantList],
+        publishOption: 'Review',
+      })
+      .subscribe(
+        (res) => {
+          if (res.status === 'success') {
+            this.toast.success('Product added successfully');
+            this.router.navigate(['/seller/products']);
+            this.creatingProduct = false;
+            localStorage.removeItem('compImagesStore');
+            this.complementaryImagesStore = [];
+          } else {
+            this.creatingProduct = false;
+            this.toast.error('Something went wrong');
+          }
+        },
+        (err) => {
           this.creatingProduct = false;
           this.toast.error('Something went wrong');
         }
-      },
-      (err) => {
-        this.creatingProduct = false;
-        this.toast.error('Something went wrong');
-      }
-    );
+      );
   };
 
-    saveAsDraft = () => {
-      this.creatingProduct = true;
-      if (this.images?.length < 1) {
+  saveAsDraft = () => {
+    this.creatingProduct = true;
+    if (this.images?.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
     } else if (this.form.value.description === '') {
       this.toast.error('Enter Product Description to Procees');
       // return;
-    } else if (
-      this.form.value.category == ''
-    ) {
+    } else if (this.form.value.category == '') {
       this.toast.error('Select a Category');
       // return;
-    } else if (
-      this.form.invalid
-      ) {
+    } else if (this.form.invalid) {
       this.toast.error('All required fields must be available');
       // return;
     } else {
@@ -849,29 +844,34 @@ export class CreateProductComponent implements OnInit {
       if (this.form.valid) {
         // this.setComplementaryProducts();
         this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
-        
 
-        this.productService.createNewProduct({...this.form.value, options: [...this.relatedItems, ...this.allVariantList], publishOption: 'Draft', ...(this.productId && {draftProductId: this.productId}) }).subscribe(
-      (res) => {
-        if (res.status === 'success') {
-          this.toast.success('Product saved as draft Successful!');
-          this.router.navigate(['/seller/products']);
-          this.creatingProduct = false;
-          localStorage.removeItem('compImagesStore');
-          this.complementaryImagesStore = [];
-        } else {
-          this.creatingProduct = false;
-          this.toast.error('Something went wrong');
-        }
-      },
-      (err) => {
-        this.creatingProduct = false;
-        this.toast.error('Something went wrong');
-      }
-    );
+        this.productService
+          .createNewProduct({
+            ...this.form.value,
+            options: [...this.relatedItems, ...this.allVariantList],
+            publishOption: 'Draft',
+            ...(this.productId && { draftProductId: this.productId }),
+          })
+          .subscribe(
+            (res) => {
+              if (res.status === 'success') {
+                this.toast.success('Product saved as draft Successful!');
+                this.router.navigate(['/seller/products']);
+                this.creatingProduct = false;
+                localStorage.removeItem('compImagesStore');
+                this.complementaryImagesStore = [];
+              } else {
+                this.creatingProduct = false;
+                this.toast.error('Something went wrong');
+              }
+            },
+            (err) => {
+              this.creatingProduct = false;
+              this.toast.error('Something went wrong');
+            }
+          );
       }
     }
-    
   };
   isSubCatIdEmpty = false;
   onSubmit = () => {
@@ -881,14 +881,10 @@ export class CreateProductComponent implements OnInit {
     } else if (this.form.value.description === '') {
       this.toast.error('Enter Product Description to Procees');
       // return;
-    } else if (
-      this.form.value.category == ''
-    ) {
+    } else if (this.form.value.category == '') {
       this.toast.error('Select a Category');
       // return;
-    } else if (
-      this.form.invalid
-    ) {
+    } else if (this.form.invalid) {
       this.toast.error('All required fields must be available');
       // return;
     } else {
@@ -903,15 +899,19 @@ export class CreateProductComponent implements OnInit {
         // this.setVariation(this.form.value.variations);
         this.previewImg = this.form.value.imageUrls[0];
         this.previewData = this.form.value;
-        this.uniqueVariant = [... new Set(this.allVariantList.map((item) => item.title))].map((variant) => {
-          let newVariant = this.allVariantList.filter((item) => item.title === variant)
-          return ({
+        this.uniqueVariant = [
+          ...new Set(this.allVariantList.map((item) => item.title)),
+        ].map((variant) => {
+          let newVariant = this.allVariantList.filter(
+            (item) => item.title === variant
+          );
+          return {
             variant: variant,
-            properties: [...newVariant]
-          })
-        })
+            properties: [...newVariant],
+          };
+        });
         this.isPreview = true;
-        this.previewDesc = this.safeHtml.transform(this.form.value.description)
+        this.previewDesc = this.safeHtml.transform(this.form.value.description);
       }
     }
   };
@@ -962,6 +962,4 @@ export class CreateProductComponent implements OnInit {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
-  
-
 }
