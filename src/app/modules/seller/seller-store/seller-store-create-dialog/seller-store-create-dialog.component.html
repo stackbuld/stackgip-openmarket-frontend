@@ -156,9 +156,9 @@
             </small>
           </div>
         </div>
-        <div class="uk-width-1-2@s">
+
+        <!-- <div class="uk-width-1-2@s">
           <label for="">Phone Number*</label>
-          <!-- <span>+234</span> -->
           <input
             type="tel"
             formControlName="contactPhoneNumber"
@@ -179,7 +179,68 @@
             >
               Contact phone number is a required field
             </small>
-            <!-- <small class="uk-text-danger" *ngIf="contactPhoneNumber.hasError('pattern')">Please enter a valid phone number</small> -->
+          </div>
+        </div> -->
+
+        <div class="uk-width-1-2@s">
+          <label for="phone">Phone Number*</label>
+          <div class="contact-inputs">
+            <input
+              type="tel"
+              placeholder="8023434567"
+              formControlName="contactPhoneNumber"
+              class="uk-input input-field"
+              id="phone"
+              (keypress)="preventLetter($event)"
+            />
+
+            <div class="country-code" matPrefix>
+              <mat-select
+                (change)="changeOption($event)"
+                formControlName="countryCode"
+                class="my-mat-select"
+              >
+                <mat-select-trigger class="country-code-text">
+                  {{ countryCode.value }}
+                </mat-select-trigger>
+                <mat-option
+                  *ngFor="let country of countryInfo"
+                  [value]="country.phoneCode"
+                >
+                  <img [src]="country.flag" alt="" width="25px" height="25px" />
+                  <span
+                    style="font-size: 14px; margin-left: 7px; font-weight: bold"
+                    >{{ country.countryName }}
+                  </span>
+                  <span style="font-size: 14px">
+                    {{ country.phoneCode }}
+                  </span>
+                </mat-option>
+              </mat-select>
+            </div>
+          </div>
+          <div
+            *ngIf="
+              contactPhoneNumber.invalid &&
+              (contactPhoneNumber.dirty || contactPhoneNumber.touched)
+            "
+          >
+            <small
+              class="uk-text-danger"
+              *ngIf="contactPhoneNumber.hasError('required')"
+            >
+              Contact phone number is a required field
+            </small>
+          </div>
+          <div
+            *ngIf="
+              contactPhoneNumber.touched &&
+              contactPhoneNumber.invalid &&
+              !contactPhoneNumber.hasError('required')
+            "
+            class="uk-text-danger"
+          >
+            Enter a valid phone number
           </div>
         </div>
       </div>
@@ -280,31 +341,3 @@
     </form>
   </div>
 </div>
-
-<!-- <mat-menu #closingTimeMenu>
-  <div class="time-picker-container" (click)="$event.stopPropagation()">
-    <ngx-mat-timepicker
-      [(ngModel)]="closingTimeRAW"
-      [showSpinners]="true"
-      [stepHour]="1"
-      [stepMinute]="10"
-      [stepSecond]="30"
-      [showSeconds]="false"
-    >
-    </ngx-mat-timepicker>
-  </div>
-</mat-menu> -->
-
-<!-- <mat-menu #openingTimeMenu>
-  <div class="time-picker-container" (click)="$event.stopPropagation()">
-    <ngx-mat-timepicker
-      [(ngModel)]="openingTimeRAW"
-      [showSpinners]="true"
-      [stepHour]="1"
-      [stepMinute]="10"
-      [stepSecond]="30"
-      [showSeconds]="false"
-    >
-    </ngx-mat-timepicker>
-  </div>
-</mat-menu> -->

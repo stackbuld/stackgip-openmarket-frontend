@@ -1,5 +1,11 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HelperService } from 'src/app/shared/services/helper.service';
@@ -8,6 +14,9 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import * as moment from 'moment';
 import { ToastrService } from 'src/app/services/toastr.service';
 import { SellerStores } from 'src/app/models/StoreModels';
+import { CountryInfo } from 'src/app/models/country.model';
+import { CountryService } from 'src/app/services/country/country.service';
+import { count } from 'console';
 
 @Component({
   selector: 'app-seller-store-create-dialog',
@@ -24,6 +33,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   days: string[] = [];
   isGoogleAddressSelected: boolean = false;
   presentTime: Date;
+  countryInfo: CountryInfo[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +42,8 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     private modalInfo: { data: SellerStores; mode: string },
     private helperService: HelperService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private countryService: CountryService
   ) {}
 
   sellerStoreAddressForm: FormGroup = new FormGroup({});
@@ -44,12 +55,25 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    const countryCodes = JSON.parse(localStorage.getItem('countryCodesInfo')!);
+
+    if (countryCodes) {
+      this.countryInfo = countryCodes;
+    } else {
+      this.countryService.getCountry().subscribe({
+        next: (data) => {
+          this.countryInfo = data;
+        },
+      });
+    }
+
     this.times = this.sellerStoreService.getTimes();
     this.days = this.sellerStoreService.days;
 
     this.presentTime = new Date();
 
     this.sellerStoreAddressForm = this.fb.group({
+      countryCode: ['+234'],
       storeName: ['', [Validators.required]],
       streetName: [''],
       fullAddress: ['', [Validators.required]],
@@ -62,7 +86,14 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       country: ['', [Validators.required]],
       isDefault: [false],
       userId: [this.helperService.getLoggedInUserId(), [Validators.required]],
-      contactPhoneNumber: ['', [Validators.required]],
+      contactPhoneNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(11),
+          Validators.minLength(10),
+        ],
+      ],
       storeAvailabilties: this.fb.array([
         this.fb.group({
           dayOfWeek: ['Monday', Validators.required],
@@ -75,8 +106,16 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     if (this.modalInfo.mode === 'edit') {
       this.isGoogleAddressSelected = true;
       this.setter = this.modalInfo.data.fullAddress;
+      console.log(this.modalInfo.data);
+
+      const phoneNumber = this.modalInfo.data.contactPhoneNumber.slice(-10);
+      let countryCode = this.modalInfo.data.contactPhoneNumber.slice(0, -10);
+      if (countryCode.charAt(0) !== '+') {
+        countryCode = '+234';
+      }
 
       this.sellerStoreAddressForm.patchValue({
+        countryCode: countryCode,
         id: this.modalInfo.data.id,
         storeName: this.modalInfo.data.storeName,
         fullAddress: this.modalInfo.data.fullAddress,
@@ -89,7 +128,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
         country: this.modalInfo.data.country,
         isDefault: this.modalInfo.data.isDefault,
         userId: this.modalInfo.data.userId,
-        contactPhoneNumber: this.modalInfo.data.contactPhoneNumber,
+        contactPhoneNumber: phoneNumber,
       });
 
       while (this.storeAvailability.length != 0) {
@@ -129,9 +168,17 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     return newTime;
   }
 
+  changeOption(e: any) {
+    this.sellerStoreAddressForm.patchValue({ countryCode: e.target.value });
+  }
+
   setAddressField = () => {
     this.notReady = false;
   };
+
+  get countryCode() {
+    return <FormControl>this.sellerStoreAddressForm.get('countryCode');
+  }
 
   get storeName() {
     return this.sellerStoreAddressForm.get('storeName');
@@ -242,6 +289,14 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       return;
     }
 
+    const formValue = this.sellerStoreAddressForm.value;
+    const phoneNumber = this.sellerStoreAddressForm.value.contactPhoneNumber
+      .slice(-10)
+      .toString();
+
+    const formattedPhoneNumber =
+      this.countryCode.value.toString() + phoneNumber;
+
     this.sellerStoreAddressForm.value.storeAvailabilties.map((availability) => {
       const { openingTime, closingTime } = availability;
 
@@ -252,10 +307,16 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     });
 
     if (this.modalInfo.mode == 'create') {
-      this.onCreate(this.sellerStoreAddressForm.value);
+      this.onCreate({
+        ...this.sellerStoreAddressForm.value,
+        contactPhoneNumber: formattedPhoneNumber,
+      });
       return;
     }
-    this.onEdit(this.sellerStoreAddressForm.value);
+    this.onEdit({
+      ...this.sellerStoreAddressForm.value,
+      contactPhoneNumber: formattedPhoneNumber,
+    });
   }
 
   onCreate(form) {

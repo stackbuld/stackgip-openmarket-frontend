@@ -45,6 +45,28 @@
   padding: 10px 10px;
 }
 
+.contact-inputs {
+  position: relative;
+  width: 100%;
+
+  & input {
+    padding-left: 60px;
+    font-size: 16px;
+  }
+
+  & .country-code {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+
+    &-text {
+      font-family: "Avenir";
+    }
+  }
+}
+
 .availability-container {
   margin-bottom: 30px;
   margin-top: 15px;
