@@ -10,6 +10,7 @@ export const environment = {
   facebookAppId: '6053468244757747',
   cloudinaryName: 'dimxqjzpr',
   cloudinaryUploadPerset: 'unsigned1_openmarket',
+  sellerStorefrontApi: 'https://dev-identity.renamarkets.com/api/v1/sellers/',
 
   algolia: {
     appId: 'FFW9XSFVBK',

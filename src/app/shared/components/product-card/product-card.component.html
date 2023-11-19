@@ -5,6 +5,7 @@
   <img
     *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''"
     src="{{ getImageResolution(product?.imageUrl, 300, 300) }}"
+    loading="lazy"
     class="w-100"
   />
 

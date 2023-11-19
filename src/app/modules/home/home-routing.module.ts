@@ -8,6 +8,7 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
 import { SellerStorefrontComponent } from './seller-storefront/seller-storefront.component';
+import { RenaHomeComponent } from './rena-home/rena-home.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: 'details/:id', component: OrderDetailsComponent },
       { path: 'history', component: OrderHistoryComponent },
       { path: 'payment-confirmation', component: PaymentConfirmationComponent },
+      { path: 'rena', component: RenaHomeComponent },
       {
         path: 'wallet',
         loadChildren: () =>

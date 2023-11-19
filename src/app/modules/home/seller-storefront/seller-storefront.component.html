@@ -3,7 +3,14 @@
     <nav aria-label="Breadcrumb">
       <ul class="uk-breadcrumb">
         <li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/homepage/storefront">Winmall</a></li>
+        <li>
+          <a routerLink="/homepage/storefront">
+            <p *ngIf="loadingData">Loading...</p>
+            <p *ngIf="!loadingData">
+              {{ sellerStorefrontDetails.businessName }}
+            </p>
+          </a>
+        </li>
       </ul>
     </nav>
   </section>
@@ -25,10 +32,16 @@
       />
 
       <div class="hero-text">
-        <p>WinMall Store</p>
+        <p *ngIf="loadingData">Loading...</p>
+        <p *ngIf="!loadingData">
+          {{ sellerStorefrontDetails.businessName }}
+        </p>
         <div class="store-location">
           <img src="assets/svg/map-pin.svg" class="pointer" alt="" />
-          Lagos, Nigeria
+          <p *ngIf="loadingData">Loading...</p>
+          <p *ngIf="!loadingData">
+            {{ sellerStorefrontDetails.businessState }}, Nigeria
+          </p>
         </div>
         <div class="store-link">
           www.winmall.renastore
