@@ -9,6 +9,11 @@ import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+} from '@angular-material-components/datetime-picker';
 
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
@@ -78,6 +83,9 @@ import { EmailDialogComponent } from './profile-dashboard/email-dialog/email-dia
     NgOtpInputModule,
     MatTabsModule,
     IvyCarouselModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
   ],
 })
 export class SellerModule {}

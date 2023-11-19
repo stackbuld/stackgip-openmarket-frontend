@@ -9,12 +9,16 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { SellerStoreComponent } from './seller-store/seller-store.component';
 import { SellerStoreCreateDialogComponent } from './seller-store-create-dialog/seller-store-create-dialog.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+} from '@angular-material-components/datetime-picker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
-  declarations: [
-    SellerStoreComponent,
-    SellerStoreCreateDialogComponent
-  ],
+  declarations: [SellerStoreComponent, SellerStoreCreateDialogComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -26,7 +30,11 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
     NgxSliderModule,
     MatPaginatorModule,
     GooglePlaceModule,
-  ]
+    NgxMaterialTimepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+    NgxMatTimepickerModule,
+    MatNativeDateModule,
+  ],
 })
-
-export class SellerStoreModule { }
+export class SellerStoreModule {}

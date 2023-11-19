@@ -16,6 +16,7 @@ export class SellerStoreComponent implements OnInit {
   cproduct: CreateProductResponse[];
   sellerStores: SellerStores[];
   isLoading: boolean = true;
+  panelOpenState: boolean[] = [];
 
   constructor(
     private helperService: HelperService,
@@ -25,11 +26,14 @@ export class SellerStoreComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSellerStoreList();
+    this.createSellerStoreCreate(null, 'create');
   }
 
-  createSellerStoreCreate(data) {
+  createSellerStoreCreate(data: SellerStores | null, mode: string) {
     this.dialogService
-      .openDialog(SellerStoreCreateDialogComponent, { data })
+      .openDialog(SellerStoreCreateDialogComponent, {
+        data: { data, mode },
+      })
       .afterClosed()
       .subscribe((response) => {
         response ? this.getSellerStoreList() : null;
@@ -80,5 +84,9 @@ export class SellerStoreComponent implements OnInit {
         this.sellerStores = sellerStores;
         this.isLoading = false;
       });
+  }
+
+  onExpand(index: number) {
+    this.panelOpenState[index] = !this.panelOpenState[index];
   }
 }

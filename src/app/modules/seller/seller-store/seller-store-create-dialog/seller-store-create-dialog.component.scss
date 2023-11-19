@@ -1,5 +1,6 @@
-
+@import "config";
 .seller-store-modal {
+  font-family: "Avenir";
   border-radius: 8px;
   padding: 48px 32px;
 }
@@ -13,7 +14,7 @@
 .edit-form label {
   font-style: normal;
   font-weight: 350;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 19px;
   color: #000000;
 }
@@ -21,15 +22,121 @@
 .setter {
   border: 0.8px solid #bdbdbd;
   border-radius: 4px;
-  padding: .5rem;
+  padding: 0.5rem;
   // color: #979797;
   width: 100%;
 }
 
-@media only screen and (max-width: 1024px) {
-  .edit-form label {
-    font-size: 12px;
+.edit-form {
+  & select {
+    border: 0.8px solid #bdbdbd;
+    border-radius: 4px;
+    padding: 0.4em 0.3em;
+    width: 100%;
+    padding: 10px 10px;
+
+    &:focus {
+      outline: none;
+    }
   }
+}
+
+.time-select {
+  padding: 10px 10px;
+}
+
+.contact-inputs {
+  position: relative;
+  width: 100%;
+
+  & input {
+    padding-left: 60px;
+    font-size: 16px;
+  }
+
+  & .country-code {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+
+    &-text {
+      font-family: "Avenir";
+    }
+  }
+}
+
+.availability-container {
+  margin-bottom: 30px;
+  margin-top: 15px;
+
+  &-heading {
+    margin-bottom: 10px;
+  }
+}
+
+.availability-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  width: 100%;
+
+  &.spaceBottom {
+    &:not(:last-child) {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #bdbdbd;
+      padding-bottom: 20px;
+    }
+  }
+
+  & .remove-availability {
+    margin-left: 15px;
+
+    & i {
+      font-size: 25px;
+      cursor: pointer;
+    }
+  }
+}
+
+.availability-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  & .input-group {
+    &.time-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    & label {
+      margin-bottom: 5px;
+    }
+
+    & input {
+      height: 44.8px;
+      border-radius: 4px !important;
+      padding-left: 10px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+}
+
+#add-availability {
+  background-color: transparent;
+  border: 1px solid #000000;
+  color: #000000;
 }
 
 .edit-form input[type="text"] {
@@ -39,15 +146,16 @@
   width: 100%;
 }
 
-.edit-form select {
-  border: 0.8px solid #bdbdbd;
-  border-radius: 4px;
-  padding: 0.4em 0.3em;
-  width: 100%;
-  padding: 10px 24px;
-}
+// .edit-form select {
+//   border: 0.8px solid #bdbdbd;
+//   border-radius: 4px;
+//   padding: 0.4em 0.3em;
+//   width: 100%;
+//   padding: 10px 24px;
+// }
 
 .edit-form button {
+  display: inline-block;
   width: 100%;
   background: #000000;
   border: 0.8px solid #ffffff;
@@ -66,5 +174,24 @@
 @media only screen and (max-width: 1024px) {
   .edit-form button {
     font-size: 14px;
+  }
+}
+
+@media (max-width: 640px) {
+  .availability-group {
+    align-items: flex-start;
+  }
+
+  .availability-main {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    & .input-group {
+      &:not(:last-child) {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+    }
   }
 }

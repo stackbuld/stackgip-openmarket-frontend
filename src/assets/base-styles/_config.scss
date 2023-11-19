@@ -48,13 +48,60 @@ mat-form-field {
 
 .cdk-overlay-connected-position-bounding-box,
 .cdk-global-overlay-wrapper,
-.cdk-overlay-container {
+.cdk-overlay-container,
+.cdk-overlay-backdrop {
   z-index: 99999 !important;
+}
+
+mat-select {
+  &.mat-mdc-select.my-mat-select {
+    & .mat-mdc-select-arrow-wrapper {
+      display: none !important;
+    }
+  }
+}
+
+mat-option {
+  &.mat-mdc-option.my-mat-option {
+    & .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
+    .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+      background: #000000 !important;
+    }
+
+    & .mdc-list-item__primary-text {
+      color: rgba(151, 151, 151, 1);
+    }
+
+    &.mdc-list-item--selected .mdc-list-item__primary-text,
+    .mdc-list-item--activated .mdc-list-item__primary-text {
+      color: #000000;
+    }
+  }
 }
 
 mat-menu {
   &.mat-mdc-menu-panel.my-menu {
     display: none;
+  }
+}
+
+ngx-mat-timepicker {
+  &.my-ngx-timepicker {
+    & .ngx-mat-timepicker-table {
+      & .mat-mdc-form-field-bottom-align {
+        display: none;
+      }
+
+      & .mat-mdc-button-touch-target {
+        height: 20px !important;
+      }
+
+      & .ngx-mat-timepicker-tbody {
+        & tr {
+          height: 10px !important;
+        }
+      }
+    }
   }
 }
 
