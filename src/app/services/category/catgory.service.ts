@@ -12,6 +12,9 @@ const searchClient = algoliasearch(
   environment.algolia.apiKey
 );
 
+const facetToRetrieve = 'category.name';
+const filterAttribute = 'userId';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -37,12 +40,15 @@ export class CatgoryService implements ICatgoryService {
     );
   }
 
-  fetchAllCategoryNames() {
-    return this.index.searchForFacetValues('category.name', '');
-  }
+  getAllCategories(storefrontSellerId: string): Observable<string[]> {
+    const categoryResults = this.index.searchForFacetValues(
+      facetToRetrieve,
+      '',
+      {
+        facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
+      }
+    );
 
-  getAllCategories(): Observable<string[]> {
-    const categoryResults = this.fetchAllCategoryNames();
     let tempCategories: string[] = [];
 
     let formattedCategories = from(categoryResults).pipe(
@@ -56,11 +62,18 @@ export class CatgoryService implements ICatgoryService {
     return formattedCategories;
   }
 
-  searchCategories(searchItem: string): Observable<string[]> {
+  searchCategories(
+    searchItem: string,
+    storefrontSellerId: string
+  ): Observable<string[]> {
     const categoryResults = this.index.searchForFacetValues(
-      'category.name',
-      searchItem
+      facetToRetrieve,
+      searchItem,
+      {
+        facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
+      }
     );
+
     let tempCategories: string[] = [];
 
     let formattedCategories = from(categoryResults).pipe(
