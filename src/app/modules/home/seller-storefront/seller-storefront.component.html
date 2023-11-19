@@ -5,10 +5,10 @@
         <li><a routerLink="/">Home</a></li>
         <li>
           <a routerLink="/homepage/storefront">
-            <p *ngIf="loadingData">Loading...</p>
-            <p *ngIf="!loadingData">
-              {{ sellerStorefrontDetails.businessName }}
-            </p>
+            <span *ngIf="loadingData">Loading...</span>
+            <span *ngIf="!loadingData">
+              {{ sellerStorefrontDetails.businessName || "Winmall" }}
+            </span>
           </a>
         </li>
       </ul>
@@ -34,13 +34,13 @@
       <div class="hero-text">
         <p *ngIf="loadingData">Loading...</p>
         <p *ngIf="!loadingData">
-          {{ sellerStorefrontDetails.businessName }}
+          {{ sellerStorefrontDetails.businessName || "Winmall" }}
         </p>
         <div class="store-location">
           <img src="assets/svg/map-pin.svg" class="pointer" alt="" />
           <p *ngIf="loadingData">Loading...</p>
           <p *ngIf="!loadingData">
-            {{ sellerStorefrontDetails.businessState }}, Nigeria
+            {{ sellerStorefrontDetails.businessState || "Lagos" }}, Nigeria
           </p>
         </div>
         <div class="store-link">
@@ -88,7 +88,7 @@
       ></app-product-list>
     </div>
     <div *ngIf="activeTab === 'about'">
-      <div class="about">
+      <div class="about col-12">
         <h2>Description</h2>
         <p>
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur,
