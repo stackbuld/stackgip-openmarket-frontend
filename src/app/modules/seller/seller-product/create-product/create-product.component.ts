@@ -17,6 +17,9 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SellerStoreCreateDialogComponent } from '../../seller-store/seller-store-create-dialog/seller-store-create-dialog.component';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
+import { MatDialog } from '@angular/material/dialog';
+import { VariationsAlertDialogComponent } from './variations-alert-dialog/variations-alert-dialog.component';
+import { initial } from 'lodash';
 
 declare var cloudinary: any;
 @Component({
@@ -111,7 +114,7 @@ export class CreateProductComponent implements OnInit {
   newVariationForm: FormGroup;
   cproduct: CreateProductResponse;
   editProps: any;
-  variationProps: any;
+  variationProps: FormGroup;
   categories: any;
   stores: any;
   loading: boolean = false;
@@ -150,7 +153,12 @@ export class CreateProductComponent implements OnInit {
   imageErr: string;
   previewDesc: any;
   uniqueVariant: any;
+  initialProductUnit: number = 0;
   availableProductUnit: number = 0;
+  totalVariationsUnit: number = 0;
+  editingTotalVariationsUnit: number = 0;
+  editingVariation: boolean = false;
+  editingIndex: number;
 
   constructor(
     private fb: FormBuilder,
@@ -162,7 +170,8 @@ export class CreateProductComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private dialogService: DialogService,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    private dialog: MatDialog
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
     this.initVariationForm();
@@ -180,6 +189,15 @@ export class CreateProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.formInit();
+    this.variationProps = this.fb.group({
+      title: ['', [Validators.required]],
+      value: ['', [Validators.required]],
+      cost: ['', [Validators.required]],
+      imageUrl: [''],
+      unit: [0, Validators.required],
+      isMultiple: false,
+    });
+
     if (this.productId !== null) {
       this.getProduct(this.productId);
     }
@@ -272,8 +290,60 @@ export class CreateProductComponent implements OnInit {
       }
     );
 
-    this.form.get('unit').valueChanges.subscribe((value) => {
+    this.form.get('storeIds').valueChanges.subscribe((value) => {
+      console.log(value);
+    });
+
+    this.form.get('unit').valueChanges.subscribe((value: number) => {
       this.availableProductUnit = value;
+      this.initialProductUnit = value;
+    });
+
+    this.variationProps.get('unit').valueChanges.subscribe((value) => {
+      if (value === null) {
+        this.availableProductUnit = this.initialProductUnit;
+        this.editingTotalVariationsUnit = 0;
+        console.log('null value');
+      }
+
+      let totalVariationValue = 0;
+
+      if (this.editingVariation) {
+        console.log(1);
+
+        this.totalVariationsUnit = this.editingTotalVariationsUnit;
+      }
+
+      totalVariationValue = value + this.totalVariationsUnit;
+      this.availableProductUnit = this.initialProductUnit - totalVariationValue;
+      console.log(
+        'editingUnit:',
+        this.editingTotalVariationsUnit,
+        'totalUnit:',
+        this.totalVariationsUnit,
+        'availableUnit:',
+        this.availableProductUnit
+      );
+
+      if (this.availableProductUnit < 0) {
+        this.availableProductUnit = 0;
+      }
+
+      if (totalVariationValue > this.initialProductUnit) {
+        this.dialog.open(VariationsAlertDialogComponent, {
+          data: {
+            initialUnit: this.initialProductUnit,
+            exceededUnit: totalVariationValue,
+          },
+          autoFocus: false,
+        });
+      }
+    });
+
+    this.productService.newProductUnit.subscribe((value) => {
+      this.initialProductUnit = value;
+      this.form.patchValue({ unit: value });
+      this.availableProductUnit = value - this.variationProps.get('unit').value;
     });
   }
 
@@ -353,6 +423,8 @@ export class CreateProductComponent implements OnInit {
     let variationList = [];
     let complimentartProducts = [];
     let sellerStoreIds = [];
+    console.log('populating form', data);
+
     this.form = this.fb.group({
       userId: [this.user.id],
       name: [data.name, [Validators.required]],
@@ -488,7 +560,7 @@ export class CreateProductComponent implements OnInit {
       value: ['', [Validators.required]],
       cost: ['', [Validators.required]],
       imageUrl: [''],
-      unit: ['', Validators.required],
+      unit: [null, Validators.required],
       isMultiple: false,
     });
   }
@@ -497,35 +569,61 @@ export class CreateProductComponent implements OnInit {
 
   addVariation(): void {
     this.addingVariation = true;
-    this.variationProps = this.createVariation();
+    this.variationProps.patchValue({ imageUrl: '' });
+
+    if (!this.editingVariation) {
+      console.log(this.availableProductUnit);
+
+      const unit = Math.floor(this.availableProductUnit / 2);
+      this.variationProps.patchValue({ unit: unit });
+    }
   }
   // this method is to add the variation to the variation variable of the main form
 
-  addProductVariation(): void {
-    // let invalid = false;
+  addProductVariation() {
+    // if (this.variationProps.get('unit').value > this.availableProductUnit) {
+    //   this.toast.warining(
+    //     `You have allocated more units than the current maximum of ${this.initialProductUnit}`
+    //   );
+    //   console.log(1);
+
+    //   return;
+    // }
+
     if (this.variationProps.invalid) {
       this.variationProps.markAllAsTouched();
       this.toast.error('All required fields must be valid');
 
       return;
     }
-    // Object.keys(this.variationProps.controls).forEach((field) => {
-    //   let control = this.variationProps.get(field);
-    //   if (control.invalid) {
-    //     invalid = true;
-    //   }
-    // });
 
     this.addingVariation = false;
     this.variations().push(this.variationProps);
-    this.allVariantList.push(this.variationProps.value);
-    // this.editProps.reset()
+    if (this.editingVariation) {
+      this.allVariantList[this.editingIndex] = this.variationProps.value;
+    } else {
+      this.allVariantList.push(this.variationProps.value);
+    }
+    console.log(this.allVariantList);
+    this.variationProps.reset({ unit: this.variationProps.get('unit').value });
+    this.totalVariationsUnit = this.allVariantList.reduce(
+      (accumulator, currentValue) => {
+        return accumulator + currentValue.unit;
+      },
+      0
+    );
+
+    this.editingVariation = false;
+    console.log(this.totalVariationsUnit);
+    // this.variationProps.patchValue();
   }
 
   // this method is to close the variation of products card
   removeEditVariation(): void {
     this.addingVariation = false;
+    this.editingVariation = false;
     this.variationProps.reset();
+    this.editingTotalVariationsUnit = 0;
   }
 
   // this method is to remove already created product varaints
@@ -537,11 +635,25 @@ export class CreateProductComponent implements OnInit {
   // this method is to edit already created related/complimentary product
   editVariation(index: number): void {
     this.addingVariation = true;
+    this.editingVariation = true;
+    this.variationProps.patchValue({ imageUrl: '' });
+    this.editingIndex = index;
+
     if (!this.variationProps) {
       this.variationProps = this.createVariation();
     }
-    this.variationProps.patchValue({ ...this.variations().value[index] });
-    this.removeVariation(index);
+
+    this.variationProps.patchValue({ ...this.allVariantList[index] });
+    console.log(this.editingTotalVariationsUnit);
+
+    this.editingTotalVariationsUnit =
+      this.allVariantList[index].unit - this.editingTotalVariationsUnit;
+    console.log(this.allVariantList);
+
+    this.availableProductUnit = this.editingTotalVariationsUnit;
+    console.log(this.availableProductUnit);
+
+    // this.removeVariation(index);
   }
 
   options(): FormArray {
@@ -581,13 +693,6 @@ export class CreateProductComponent implements OnInit {
       this.toast.error(`All required fields must be valid`);
       return;
     }
-    // Object.keys(this.editProps.controls)
-    //   .forEach(field => {
-    // let control = this.editProps.get(field)
-    //     if (control.invalid) {
-    //     invalid = true
-    //     }
-    //   })
 
     this.addingComplimentaryOptions = false;
     this.options().push(this.editProps);
@@ -720,6 +825,7 @@ export class CreateProductComponent implements OnInit {
     this.storeService.getStoresById(id).subscribe(
       (res) => {
         this.stores = res.data;
+        console.log(this.stores);
       },
       (err) => {
         this.toast.error(err.message);

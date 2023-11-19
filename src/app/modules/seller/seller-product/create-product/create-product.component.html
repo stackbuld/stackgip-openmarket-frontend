@@ -1,7 +1,7 @@
 <div *ngIf="!isPreview">
   <h1 class="uk-margin-bottom">Product(s) Information</h1>
 
-  <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="content-container body-add">
       <!-- <div class="main uk-flex uk-flex-wrap uk-flex-wrap-around"> -->
       <div class="full-width form-content">
@@ -43,7 +43,7 @@
             <!-- <mat-label>Store Address</mat-label> -->
             <mat-select formControlName="storeIds" multiple required>
               <mat-option disabled="true">Select</mat-option>
-              <mat-option *ngFor="let store of stores" [(value)]="store.id">
+              <mat-option *ngFor="let store of stores" [value]="store.id">
                 {{ store.storeName }} <span>({{ store.city }})</span>
               </mat-option>
             </mat-select>
@@ -62,7 +62,7 @@
                 <mat-option disabled="true">Select</mat-option>
                 <mat-option
                   *ngFor="let category of categories"
-                  [(value)]="category.id"
+                  [value]="category.id"
                 >
                   {{ category.name }}
                 </mat-option>
@@ -84,7 +84,7 @@
                 <mat-option disabled="true">Select</mat-option>
                 <mat-option
                   *ngFor="let item of subCategories"
-                  [(value)]="item.id"
+                  [value]="item.id"
                 >
                   {{ item?.name }}
                 </mat-option>
@@ -109,6 +109,22 @@
               />
             </mat-form-field>
           </div>
+          <div class="uk-width-expand input-sec">
+            <div for="name" class="label">Previous Price</div>
+            <mat-form-field class="uk-width-expand">
+              <input
+                (keypress)="preventLetter($event)"
+                type="text"
+                matInput
+                placeholder="eg 1000"
+                formControlName="previousPrice"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div
+          class="mb-3 uk-grid block-up uk-grid-row-small uk-child-width-1-2@s input-sec"
+        >
           <div class="uk-width-expand input-sec">
             <div for="name" class="label">Available Units</div>
             <mat-form-field class="uk-width-expand">
@@ -726,7 +742,8 @@
         <p class="sub-text">Add product's color, size and price variations</p>
         <div class="body-add flex-1">
           <div class="variation-count-alert">
-            You can only allocate {{ availableProductUnit }} units
+            You have {{ availableProductUnit }} units left available for
+            allocation
           </div>
           <div>
             <div class="" [formGroup]="variationProps">
@@ -830,7 +847,7 @@
                       class="no-mobile-margin uk-width-expand create-product-form-field"
                     >
                       <input
-                        type="text"
+                        type="number"
                         matInput
                         required
                         (keypress)="preventLetter($event)"
@@ -1084,7 +1101,7 @@
           </thead>
           <tbody>
             <tr
-              *ngFor="let row of allVariantList; let index = index"
+              *ngFor="let row of allVariantList; let i = index"
               class="table-row"
             >
               <td>
@@ -1104,7 +1121,7 @@
               <td>{{ row.unit }}</td>
               <td>&#8358; {{ row.cost }}</td>
               <td style="width: 38px">
-                <span class="icon-container" (click)="editVariation(index)">
+                <span class="icon-container" (click)="editVariation(i)">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="feather feather-edit"
@@ -1127,7 +1144,7 @@
                 </span>
               </td>
               <td style="width: 38px">
-                <span class="icon-container" (click)="removeVariation(index)">
+                <span class="icon-container" (click)="removeVariation(i)">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 25 25"
@@ -1149,7 +1166,6 @@
 
     <div class="uk-flex uk-flex-center mt-4">
       <button
-        (click)="onSubmit()"
         type="submit"
         class="btn-add mr-2"
         [class.spinner]="loading"
