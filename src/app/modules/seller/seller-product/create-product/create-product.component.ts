@@ -299,46 +299,7 @@ export class CreateProductComponent implements OnInit {
       this.initialProductUnit = value;
     });
 
-    this.variationProps.get('unit').valueChanges.subscribe((value) => {
-      if (value === null) {
-        this.availableProductUnit = this.initialProductUnit;
-        this.editingTotalVariationsUnit = 0;
-        console.log('null value');
-      }
-
-      let totalVariationValue = 0;
-
-      if (this.editingVariation) {
-        console.log(1);
-
-        this.totalVariationsUnit = this.editingTotalVariationsUnit;
-      }
-
-      totalVariationValue = value + this.totalVariationsUnit;
-      this.availableProductUnit = this.initialProductUnit - totalVariationValue;
-      console.log(
-        'editingUnit:',
-        this.editingTotalVariationsUnit,
-        'totalUnit:',
-        this.totalVariationsUnit,
-        'availableUnit:',
-        this.availableProductUnit
-      );
-
-      if (this.availableProductUnit < 0) {
-        this.availableProductUnit = 0;
-      }
-
-      if (totalVariationValue > this.initialProductUnit) {
-        this.dialog.open(VariationsAlertDialogComponent, {
-          data: {
-            initialUnit: this.initialProductUnit,
-            exceededUnit: totalVariationValue,
-          },
-          autoFocus: false,
-        });
-      }
-    });
+    this.getUnitValues();
 
     this.productService.newProductUnit.subscribe((value) => {
       this.initialProductUnit = value;
@@ -578,6 +539,50 @@ export class CreateProductComponent implements OnInit {
       this.variationProps.patchValue({ unit: unit });
     }
   }
+
+  getUnitValues() {
+    this.variationProps.get('unit').valueChanges.subscribe((value) => {
+      if (value === null) {
+        this.availableProductUnit = this.initialProductUnit;
+        this.editingTotalVariationsUnit = 0;
+        console.log('null value');
+      }
+
+      let totalVariationValue = 0;
+      console.log(this.editingVariation);
+
+      if (this.editingVariation) {
+        this.totalVariationsUnit = this.editingTotalVariationsUnit;
+      }
+
+      totalVariationValue = value + this.totalVariationsUnit;
+      this.availableProductUnit = this.initialProductUnit - totalVariationValue;
+
+      console.log(
+        'editingTotalVariationsUnit:',
+        this.editingTotalVariationsUnit,
+        'totalVariationsUnit:',
+        this.totalVariationsUnit,
+        'availableProductUnit:',
+        this.availableProductUnit
+      );
+
+      if (this.availableProductUnit < 0) {
+        this.availableProductUnit = 0;
+      }
+
+      if (totalVariationValue > this.initialProductUnit) {
+        this.dialog.open(VariationsAlertDialogComponent, {
+          data: {
+            initialUnit: this.initialProductUnit,
+            exceededUnit: totalVariationValue,
+          },
+          autoFocus: false,
+        });
+      }
+    });
+  }
+
   // this method is to add the variation to the variation variable of the main form
 
   addProductVariation() {
@@ -604,7 +609,6 @@ export class CreateProductComponent implements OnInit {
     } else {
       this.allVariantList.push(this.variationProps.value);
     }
-    console.log(this.allVariantList);
     this.variationProps.reset({ unit: this.variationProps.get('unit').value });
     this.totalVariationsUnit = this.allVariantList.reduce(
       (accumulator, currentValue) => {
