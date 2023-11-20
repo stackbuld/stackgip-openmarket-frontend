@@ -425,7 +425,12 @@
   </div>
 
   <div class="uk-flex">
-    <div class="left-section">
+    <div
+      class="left-section"
+      [ngStyle]="{
+      'position': storefrontSellerId ? 'static' : 'fixed',
+    }"
+    >
       <div class="p-2">
         <div class="d-flex align-items-center justify-content-between">
           <p class="tag">Browse and filter</p>
@@ -776,7 +781,7 @@
       </div>
       <!-- End of Price Filter Section -->
     </div>
-    <div class="page">
+    <div [ngClass]="storefrontSellerId ? '' : 'page'">
       <div class="right-section">
         <div *ngIf="!loadingProducts" class="row">
           <div class="uk-flex uk-flex-right">
