@@ -1,7 +1,5 @@
 .main {
   margin: 0 auto;
-  text-align: center;
-  background-color: #f0f0f0;
 }
 
 // UTILITIES
@@ -112,19 +110,10 @@ section {
   }
 }
 
-#tab-navigation-content {
-  max-width: 100%;
-  margin-bottom: 100px;
-  transition: all 0.3s ease-in-out;
-  position: relative;
+#tab-navigation {
+  height: 100vh;
 
   .about {
-    // position: absolute;
-    // top: 0;
-    // left: 0;
-    // width: 100%;
-    // background-color: inherit;
-
     h2 {
       display: flex;
       height: 44px;
@@ -141,15 +130,6 @@ section {
       font-weight: 400;
       line-height: 120%; /* 19.2px */
     }
-  }
-
-  .products {
-    background-color: inherit;
-    position: absolute;
-    // top: 0;
-    // left: 0;
-    height: 100%;
-    width: 100%;
   }
 }
 
