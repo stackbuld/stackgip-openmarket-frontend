@@ -7,7 +7,7 @@
           <a routerLink="/homepage/storefront">
             <span *ngIf="loadingData">Loading...</span>
             <span *ngIf="!loadingData">
-              {{ sellerStorefrontDetails.businessName || "Winmall" }}
+              {{ sellerStorefrontDetails.businessName || null }}
             </span>
           </a>
         </li>
@@ -34,14 +34,14 @@
       <div class="hero-text">
         <p *ngIf="loadingData">Loading...</p>
         <p *ngIf="!loadingData">
-          {{ sellerStorefrontDetails.businessName || "Winmall" }}
+          {{ sellerStorefrontDetails.businessName || null }}
         </p>
         <div class="store-location">
           <img src="assets/svg/map-pin.svg" class="pointer" alt="" />
-          <p *ngIf="loadingData">Loading...</p>
-          <p *ngIf="!loadingData">
-            {{ sellerStorefrontDetails.businessState || "Lagos" }}, Nigeria
-          </p>
+          <span *ngIf="loadingData">Loading...</span>
+          <span *ngIf="!loadingData">
+            {{ sellerStorefrontDetails.businessState || null }}, Nigeria
+          </span>
         </div>
         <div class="store-link">
           www.winmall.renastore

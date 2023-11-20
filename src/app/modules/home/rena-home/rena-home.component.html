@@ -86,7 +86,7 @@
       <div *ngIf="!loadingProducts" class="product-container row">
         <div
           *ngFor="let product of products | slice : 0 : 6"
-          class="mb-3 col-4 col-md-3"
+          class="mb-3 col-md-5"
         >
           <app-product-card [product]="product"></app-product-card>
         </div>

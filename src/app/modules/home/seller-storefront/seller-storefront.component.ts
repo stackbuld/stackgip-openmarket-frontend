@@ -31,12 +31,10 @@ export class SellerStorefrontComponent implements OnInit {
     this.sellerStorefrontService
       .getSellerStorefrontDetails(this.sellerId)
       .subscribe((data) => {
-        this.sellerStorefrontDetails = data;
+        this.sellerStorefrontDetails = data.data;
         this.loadingData = false;
         console.log('SELLER STOREFRONT DETAILS', data);
       });
-    // const sellerId = JSON.parse(localStorage.getItem('userId'));
-    // console.log('SELLER ID FROM LOCAL STORAGE', localStorage.getItem('userId'));
   }
 
   selectTab(tab: string) {
