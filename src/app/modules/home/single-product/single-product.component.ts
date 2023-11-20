@@ -400,7 +400,6 @@ export class SingleProductComponent implements OnInit {
         this.sellerStores = res.data?.sellerStores;
 
         this.getClosestSellerStore(this.currentAddress);
-        console.log('PRODUCT IN SINGLE', this.product);
 
         this.product.productImages.forEach((image) => {
           this.productImages.push({ image: image });

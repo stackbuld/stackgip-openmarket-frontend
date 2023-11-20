@@ -92,15 +92,17 @@ export class ProductListComponent implements OnInit {
   onCategorySearch(category: string) {
     this.categoryName = category;
     this.loadingCategories = true;
-    this.categoryService.searchCategories(category).subscribe({
-      next: (data) => {
-        this.categories = data;
-        this.loadingCategories = false;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.categoryService
+      .searchCategories(category, this.storefrontSellerId)
+      .subscribe({
+        next: (data) => {
+          this.categories = data;
+          this.loadingCategories = false;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
   onCategorySearchFocus() {
@@ -115,7 +117,7 @@ export class ProductListComponent implements OnInit {
   onCitySearch(city: string) {
     this.cityName = city;
     this.loadingCities = true;
-    this.cityService.searchCities(city).subscribe({
+    this.cityService.searchCities(city, this.storefrontSellerId).subscribe({
       next: (data) => {
         this.cities = data;
         this.loadingCities = false;
@@ -138,7 +140,7 @@ export class ProductListComponent implements OnInit {
   onStateSearch(state: string) {
     this.stateName = state;
     this.loadingStates = true;
-    this.stateService.searchStates(state).subscribe({
+    this.stateService.searchStates(state, this.storefrontSellerId).subscribe({
       next: (data) => {
         this.states = data;
         this.loadingStates = false;
@@ -251,7 +253,7 @@ export class ProductListComponent implements OnInit {
 
   fetchCategories = () => {
     this.loadingCategories = true;
-    this.categoryService.getAllCategories().subscribe({
+    this.categoryService.getAllCategories(this.storefrontSellerId).subscribe({
       next: (data) => {
         this.categories = data;
         this.loadingCategories = false;
@@ -264,7 +266,7 @@ export class ProductListComponent implements OnInit {
 
   fetchCities = () => {
     this.loadingCities = true;
-    this.cityService.getAllCities().subscribe({
+    this.cityService.getAllCities(this.storefrontSellerId).subscribe({
       next: (data) => {
         this.cities = data;
         this.loadingCities = false;
@@ -277,7 +279,7 @@ export class ProductListComponent implements OnInit {
 
   fetchStates = () => {
     this.loadingStates = true;
-    this.stateService.getAllStates().subscribe({
+    this.stateService.getAllStates(this.storefrontSellerId).subscribe({
       next: (data) => {
         this.states = data;
         this.loadingStates = false;

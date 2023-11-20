@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ISeller } from 'src/app/models/sellerModel';
+import { SellerStorefrontService } from 'src/app/services/seller-storefront/seller-storefront.service';
 
 @Component({
   selector: 'app-seller-storefront',
@@ -10,16 +12,29 @@ export class SellerStorefrontComponent implements OnInit {
   ratings = 4;
   activeTab: string = 'products'; // default tab
   sellerId: string = '';
+  loadingData: boolean = true;
+
+  sellerStorefrontDetails: ISeller;
   // productsDiv = document.querySelector('.products');
   // aboutDiv = document.querySelector('.about');
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private sellerStorefrontService: SellerStorefrontService
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.sellerId = params.get('sellerId');
-      console.log('SELLER ID FROM PARAMS', this.sellerId);
     });
+
+    this.sellerStorefrontService
+      .getSellerStorefrontDetails(this.sellerId)
+      .subscribe((data) => {
+        this.sellerStorefrontDetails = data;
+        this.loadingData = false;
+        console.log('SELLER STOREFRONT DETAILS', data);
+      });
     // const sellerId = JSON.parse(localStorage.getItem('userId'));
     // console.log('SELLER ID FROM LOCAL STORAGE', localStorage.getItem('userId'));
   }
