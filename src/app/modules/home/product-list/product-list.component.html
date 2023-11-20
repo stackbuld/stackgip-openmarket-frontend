@@ -783,8 +783,12 @@
             <div class="d-lg-block d-none">
               <select (change)="setColumn($event)" class="column-switch">
                 <option value="" disabled>Columns</option>
-                <option value="6" selected>6 Columns</option>
-                <option value="4">4 Columns</option>
+                <option value="6" [selected]="!storefrontSellerId">
+                  6 Columns
+                </option>
+                <option value="4" [selected]="storefrontSellerId">
+                  4 Columns
+                </option>
                 <option value="3">3 Columns</option>
               </select>
             </div>
