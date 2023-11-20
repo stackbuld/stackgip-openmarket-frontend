@@ -28,23 +28,17 @@
           <span>More</span>
         </div>
       </div> -->
-      <div class="card p-4 d-none d-md-block col-md-4">
-        <div class="mb-3 d-flex align-items-center justify-content-between">
-          <h2 class="mb-0 tag">Categories</h2>
-        </div>
+      <div class="categories-container d-none d-md-block col-md-4">
+        <h2 class="">Categories</h2>
         <div *ngIf="!loadingCategories">
           <div
             *ngFor="
               let item of categories | slice : 0 : categoryListLimit;
               let i = index
             "
+            class="pointer category"
           >
-            <span
-              [ngClass]="{ activeCategory: this.categoryName === item }"
-              class="each-cat pointer py-2"
-            >
-              <span>{{ item }}</span>
-            </span>
+            {{ item }}
           </div>
           <div *ngIf="categories.length === 0" class="text-center p-5">
             No Results
