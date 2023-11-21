@@ -14,6 +14,8 @@ export class SellerStorefrontComponent implements OnInit {
   sellerId: string = '';
   loadingData: boolean = true;
 
+  tempVariable: string;
+
   sellerStorefrontDetails: ISeller;
   // productsDiv = document.querySelector('.products');
   // aboutDiv = document.querySelector('.about');
@@ -32,6 +34,11 @@ export class SellerStorefrontComponent implements OnInit {
       .getSellerStorefrontDetails(this.sellerId)
       .subscribe((data) => {
         this.sellerStorefrontDetails = data.data;
+        this.tempVariable =
+          !this.sellerStorefrontDetails.coverPhotoUrl ||
+          this.sellerStorefrontDetails.coverPhotoUrl === 'string'
+            ? 'assets/img/Storefront-frame.png'
+            : this.sellerStorefrontDetails.coverPhotoUrl;
         this.loadingData = false;
         console.log('SELLER STOREFRONT DETAILS', data);
       });

@@ -15,19 +15,17 @@
     </nav>
   </section>
   <section id="banner">
-    <img
-      src="assets/img/Storefront-frame.png"
-      alt="Storefront"
-      width="1248"
-      height="300"
-    />
+    <img [src]="tempVariable" alt="Storefront" width="1248" height="300" />
   </section>
 
   <section id="hero">
     <div class="hero-section">
       <img
         class="circle-storefront"
-        src="assets/img/circle-storefront.jpg"
+        [src]="
+          sellerStorefrontDetails.businessLogoUrl ||
+          'assets/img/circle-storefront.jpg'
+        "
         alt=""
       />
 
@@ -56,7 +54,7 @@
         </div> -->
       </div>
 
-      <div class="time-availability">
+      <!-- <div class="time-availability">
         <div>
           <img src="assets/svg/shopping-bag-02.svg" class="pointer" alt="" />
           Shop opens from (MON-FRI)
@@ -65,7 +63,7 @@
           <img src="assets/svg/clock.svg" class="pointer" alt="" />
           Time: 9am - 4pm daily
         </div>
-      </div>
+      </div> -->
     </div>
   </section>
 
@@ -88,16 +86,10 @@
         <div class="about">
           <h2>Description</h2>
           <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            Consequatur, hic. Veritatis rerum fugit atque amet deserunt
-            reprehenderit voluptatibus impedit exercitationem nesciunt porro,
-            labore quibusdam, eaque natus dolor odio rem! Quaerat assumenda at
-            similique quidem odit sequi sit minus incidunt animi maxime
-            temporibus iure molestias nobis fugit nesciunt, unde earum suscipit?
+            {{ sellerStorefrontDetails.businessDescription || null }}
           </p>
         </div>
       </li>
-      <li>Bazinga!</li>
     </ul>
     <!-- <div class="tab-navigation-container">
       <ng-template *ngIf="activeTab === 'products'">

@@ -6,17 +6,19 @@ import { ISearchService } from './iSearchService.interface';
 import { Observable, Subject, from, tap, delay, of, switchMap } from 'rxjs';
 
 const searchClient = algoliasearch(
-  environment.algolia.appId,
-  environment.algolia.apiKey
+  environment.algolia.productsIndex.appId,
+  environment.algolia.productsIndex.apiKey
 );
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService implements ISearchService {
-  index: SearchIndex = searchClient.initIndex(environment.algolia.indexName);
+  index: SearchIndex = searchClient.initIndex(
+    environment.algolia.productsIndex.indexName
+  );
   config = {
-    indexName: environment.algolia.indexName,
+    indexName: environment.algolia.productsIndex.indexName,
     searchClient,
   };
 
@@ -105,6 +107,7 @@ export class SearchService implements ISearchService {
     /* The code is creating a filter string based on the `minPrice`, `maxPrice`, and `categoryName`
     values. */
     let filters = `price:${minPrice} TO ${maxPrice}`;
+
     if (categoryName) {
       filters += ` AND category.name:${categoryName}`;
     }

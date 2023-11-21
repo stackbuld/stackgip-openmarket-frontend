@@ -7,6 +7,7 @@ import { FooterService } from 'src/app/services/footer.service';
 import { SearchService } from 'src/app/services/search/search.service';
 import { CityService } from 'src/app/services/city/city.service';
 import { StateService } from 'src/app/services/state/state.service';
+import { ICategory } from 'src/app/models/CategoryModels';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -15,7 +16,7 @@ import { StateService } from 'src/app/services/state/state.service';
 export class ProductListComponent implements OnInit {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
   @Input() storefrontSellerId: string = '';
-  categories: string[] = [];
+  categories: ICategory[] = [];
   products: ProductModel[] = [];
   cities: string[] = [];
   states: string[] = [];
@@ -57,6 +58,7 @@ export class ProductListComponent implements OnInit {
   isCityFilter: boolean = false;
   isStateFilter: boolean = false;
 
+  categoryId: string = '';
   categoryName: string = '';
   cityName: string = '';
   stateName: string = '';
@@ -92,17 +94,15 @@ export class ProductListComponent implements OnInit {
   onCategorySearch(category: string) {
     this.categoryName = category;
     this.loadingCategories = true;
-    this.categoryService
-      .searchCategories(category, this.storefrontSellerId)
-      .subscribe({
-        next: (data) => {
-          this.categories = data;
-          this.loadingCategories = false;
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
+    this.categoryService.getAllCategories(category).subscribe({
+      next: (data) => {
+        this.categories = data;
+        this.loadingCategories = false;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   onCategorySearchFocus() {
@@ -253,15 +253,29 @@ export class ProductListComponent implements OnInit {
 
   fetchCategories = () => {
     this.loadingCategories = true;
-    this.categoryService.getAllCategories(this.storefrontSellerId).subscribe({
-      next: (data) => {
-        this.categories = data;
-        this.loadingCategories = false;
-      },
-      error: (err) => {
-        this.loadingCategories = false;
-      },
-    });
+    if (this.categoryId) {
+      this.categoryService
+        .getAllSellerStorefrontCategories(this.categoryId)
+        .subscribe({
+          next: (data) => {
+            this.categories = data;
+            this.loadingCategories = false;
+          },
+          error: (err) => {
+            this.loadingCategories = false;
+          },
+        });
+    } else {
+      this.categoryService.getAllCategories().subscribe({
+        next: (data) => {
+          this.categories = data;
+          this.loadingCategories = false;
+        },
+        error: (err) => {
+          this.loadingCategories = false;
+        },
+      });
+    }
   };
 
   fetchCities = () => {
@@ -304,8 +318,9 @@ export class ProductListComponent implements OnInit {
     this.fetchAllProducts(0);
   }
 
-  filterProductsByCategory(item: string) {
-    this.categoryName = item;
+  filterProductsByCategory(category: ICategory) {
+    this.categoryName = category.name;
+    this.categoryId = category.id.toString();
     this.fetchAllProducts(0);
     this.fetchCategories();
   }

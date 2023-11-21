@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ProductModel } from 'src/app/models/products.model';
 import { SearchService } from 'src/app/services/search/search.service';
 import { CatgoryService } from 'src/app/services/category/catgory.service';
+import { ICategory } from 'src/app/models/CategoryModels';
 @Component({
   selector: 'app-rena-home',
   templateUrl: './rena-home.component.html',
@@ -29,7 +30,7 @@ export class RenaHomeComponent {
   isCategoryFilter: boolean = false;
   isCategorySearchFocused: boolean = false;
 
-  categories: string[] = [];
+  categories: ICategory[] = [];
 
   heroSlides = [
     'assets/img/hero-home.png',
@@ -94,9 +95,10 @@ export class RenaHomeComponent {
 
   fetchCategories = () => {
     this.loadingCategories = true;
-    this.categoryService.getAllCategories(this.storefrontSellerId).subscribe({
+    this.categoryService.getAllCategories().subscribe({
       next: (data) => {
         this.categories = data;
+        console.log('CATEGORIES HOMEPAGE', this.categories);
         this.loadingCategories = false;
       },
       error: (err) => {

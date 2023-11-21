@@ -32,13 +32,10 @@
         <h2 class="">Categories</h2>
         <div *ngIf="!loadingCategories">
           <div
-            *ngFor="
-              let item of categories | slice : 0 : categoryListLimit;
-              let i = index
-            "
+            *ngFor="let category of categories; let i = index"
             class="pointer category"
           >
-            {{ item }}
+            {{ category.name }}
           </div>
           <div *ngIf="categories.length === 0" class="text-center p-5">
             No Results

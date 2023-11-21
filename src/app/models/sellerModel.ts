@@ -30,6 +30,7 @@ export interface ISeller {
     idNumber: 'string';
     dateOfBirth: '10-10-string';
   };
+  coverPhotoUrl?: 'string' | string;
 }
 
 export interface GetSeller extends ResponseModel {
