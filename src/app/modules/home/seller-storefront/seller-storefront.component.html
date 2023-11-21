@@ -15,7 +15,10 @@
     </nav>
   </section>
   <section id="banner">
-    <img [src]="tempVariable" alt="Storefront" width="1248" height="300" />
+    <span *ngIf="loadingData">Loading Image...</span>
+    <span *ngIf="!loadingData">
+      <img [src]="tempVariable" alt="Storefront" width="1248" height="300" />
+    </span>
   </section>
 
   <section id="hero">
