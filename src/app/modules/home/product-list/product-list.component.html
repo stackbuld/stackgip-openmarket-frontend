@@ -1,4 +1,4 @@
-<div class="main">
+<div [ngClass]="storefrontSellerId ? '' : 'main'">
   <div class="mb-3 d-flex justify-content-end align-items-center">
     <div class="d-block d-lg-none uk-navbar-right pr-md-2">
       <div
@@ -425,7 +425,12 @@
   </div>
 
   <div class="uk-flex">
-    <div class="left-section">
+    <div
+      class="left-section"
+      [ngStyle]="{
+      'position': storefrontSellerId ? 'static' : 'fixed',
+    }"
+    >
       <div class="p-2">
         <div class="d-flex align-items-center justify-content-between">
           <p class="tag">Browse and filter</p>
@@ -776,15 +781,19 @@
       </div>
       <!-- End of Price Filter Section -->
     </div>
-    <div class="page">
+    <div [ngClass]="storefrontSellerId ? '' : 'page'">
       <div class="right-section">
         <div *ngIf="!loadingProducts" class="row">
           <div class="uk-flex uk-flex-right">
             <div class="d-lg-block d-none">
               <select (change)="setColumn($event)" class="column-switch">
                 <option value="" disabled>Columns</option>
-                <option value="6" selected>6 Columns</option>
-                <option value="4">4 Columns</option>
+                <option value="6" [selected]="!storefrontSellerId">
+                  6 Columns
+                </option>
+                <option value="4" [selected]="storefrontSellerId">
+                  4 Columns
+                </option>
                 <option value="3">3 Columns</option>
               </select>
             </div>

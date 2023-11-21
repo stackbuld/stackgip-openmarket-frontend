@@ -21,7 +21,7 @@ const routes: Routes = [
       { path: 'details/:id', component: OrderDetailsComponent },
       { path: 'history', component: OrderHistoryComponent },
       { path: 'payment-confirmation', component: PaymentConfirmationComponent },
-      { path: 'rena', component: RenaHomeComponent },
+      { path: 'index', component: RenaHomeComponent },
       {
         path: 'wallet',
         loadChildren: () =>

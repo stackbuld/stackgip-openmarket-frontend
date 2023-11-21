@@ -2,7 +2,7 @@
   <section id="hero">
     <div class="hero-container row">
       <!-- Categories -->
-      <div class="categories-container d-none d-md-block col-md-4">
+      <!-- <div class="categories-container d-none d-md-block col-md-4">
         <div *ngFor="let category of categories" class="category">
           <img
             src="{{ category.img }}"
@@ -26,6 +26,33 @@
             />
           </svg>
           <span>More</span>
+        </div>
+      </div> -->
+      <div class="categories-container d-none d-md-block col-md-4">
+        <h2 class="">Categories</h2>
+        <div *ngIf="!loadingCategories">
+          <div
+            *ngFor="
+              let item of categories | slice : 0 : categoryListLimit;
+              let i = index
+            "
+            class="pointer category"
+          >
+            {{ item }}
+          </div>
+          <div *ngIf="categories.length === 0" class="text-center p-5">
+            No Results
+          </div>
+        </div>
+
+        <div *ngIf="loadingCategories" class="">
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading>
         </div>
       </div>
       <!-- Thumbnail -->
@@ -86,7 +113,7 @@
       <div *ngIf="!loadingProducts" class="product-container row">
         <div
           *ngFor="let product of products | slice : 0 : 6"
-          class="mb-3 col-4 col-md-3"
+          class="mb-3 col-6 col-md-3"
         >
           <app-product-card [product]="product"></app-product-card>
         </div>
@@ -149,7 +176,7 @@
       <div *ngIf="!loadingProducts" class="product-container row">
         <div
           *ngFor="let product of products | slice : 0 : 6"
-          class="mb-3 col-4 col-md-3"
+          class="mb-3 col-6 col-md-3"
         >
           <app-product-card [product]="product"></app-product-card>
         </div>
