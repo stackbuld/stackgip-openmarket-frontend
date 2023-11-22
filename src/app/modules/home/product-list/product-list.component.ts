@@ -253,29 +253,16 @@ export class ProductListComponent implements OnInit {
 
   fetchCategories = () => {
     this.loadingCategories = true;
-    if (this.categoryId) {
-      this.categoryService
-        .getAllSellerStorefrontCategories(this.categoryId)
-        .subscribe({
-          next: (data) => {
-            this.categories = data;
-            this.loadingCategories = false;
-          },
-          error: (err) => {
-            this.loadingCategories = false;
-          },
-        });
-    } else {
-      this.categoryService.getAllCategories().subscribe({
-        next: (data) => {
-          this.categories = data;
-          this.loadingCategories = false;
-        },
-        error: (err) => {
-          this.loadingCategories = false;
-        },
-      });
-    }
+
+    this.categoryService.getAllCategories().subscribe({
+      next: (data) => {
+        this.categories = data;
+        this.loadingCategories = false;
+      },
+      error: (err) => {
+        this.loadingCategories = false;
+      },
+    });
   };
 
   fetchCities = () => {
