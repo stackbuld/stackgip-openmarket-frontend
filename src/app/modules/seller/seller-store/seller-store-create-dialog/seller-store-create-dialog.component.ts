@@ -39,6 +39,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   storeAvailabilties: StoreAvailability[] = [];
   isEditing: boolean[] = [];
   editingIndex: number;
+  storeId: string;
 
   constructor(
     private fb: FormBuilder,
@@ -104,6 +105,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     if (this.modalInfo.mode === 'edit') {
       this.isGoogleAddressSelected = true;
       this.setter = this.modalInfo.data.fullAddress;
+      this.storeId = this.modalInfo.data.id;
       console.log(this.modalInfo.data);
 
       const phoneNumber = this.modalInfo.data.contactPhoneNumber.slice(-10);
@@ -413,7 +415,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
 
   onEdit(form) {
     this.loading = true;
-    this.sellerStoreService.updateSellerStore(form).subscribe({
+    this.sellerStoreService.updateSellerStore(form, this.storeId).subscribe({
       next: (response: any) => {
         this.loading = false;
         response.status == 'success' ? this.dialogRef.close(response) : null;

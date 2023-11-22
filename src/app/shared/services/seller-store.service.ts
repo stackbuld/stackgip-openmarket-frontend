@@ -46,9 +46,9 @@ export class SellerStoreService {
     return this.http.post(`${this.baseUrl}sellerStores`, sellerStore);
   }
 
-  updateSellerStore(sellerStore) {
+  updateSellerStore(sellerStore, id: string) {
     return this.http.put(
-      `${this.baseUrl}sellerStores?storeId=${sellerStore.id}`,
+      `${this.baseUrl}sellerStores?storeId=${id}`,
       sellerStore
     );
   }

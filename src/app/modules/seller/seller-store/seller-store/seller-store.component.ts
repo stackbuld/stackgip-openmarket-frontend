@@ -17,6 +17,7 @@ export class SellerStoreComponent implements OnInit {
   sellerStores: SellerStores[];
   isLoading: boolean = true;
   panelOpenState: boolean[] = [];
+  storeId: string;
 
   constructor(
     private helperService: HelperService,
@@ -40,10 +41,10 @@ export class SellerStoreComponent implements OnInit {
       });
   }
 
-  onEdit(sellerStore) {
+  onEdit(sellerStore: SellerStores) {
     sellerStore.isDefault = true;
     this.sellerStoreService
-      .updateSellerStore(sellerStore)
+      .updateSellerStore(sellerStore, sellerStore.id)
       .subscribe((response: any) => {
         this.getSellerStoreList();
         // response.status == "success" ? this.dialogRef.close(response) : null
