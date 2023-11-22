@@ -20,11 +20,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgAisModule } from 'angular-instantsearch';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { RouterModule } from '@angular/router';
+
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import {
+  NgxMatDatetimePickerModule,
   NgxMatNativeDateModule,
   NgxMatTimepickerModule,
 } from '@angular-material-components/datetime-picker';
-
+import { MatNativeDateModule } from '@angular/material/core';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -40,6 +43,9 @@ import {
     MatPaginatorModule,
     NgxMatNativeDateModule,
     NgxMatTimepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMaterialTimepickerModule,
+    MatNativeDateModule,
 
     NgAisModule.forRoot(),
     StoreModule.forRoot(

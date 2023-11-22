@@ -13,10 +13,11 @@ import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import * as moment from 'moment';
 import { ToastrService } from 'src/app/services/toastr.service';
-import { SellerStores } from 'src/app/models/StoreModels';
+import { SellerStores, StoreAvailability } from 'src/app/models/StoreModels';
 import { CountryInfo } from 'src/app/models/country.model';
 import { CountryService } from 'src/app/services/country/country.service';
 import { count } from 'console';
+import { NgxMaterialTimepickerComponent } from 'ngx-material-timepicker';
 
 @Component({
   selector: 'app-seller-store-create-dialog',
@@ -24,6 +25,7 @@ import { count } from 'console';
   styleUrls: ['./seller-store-create-dialog.component.scss'],
 })
 export class SellerStoreCreateDialogComponent implements OnInit {
+  sellerStoreAddressForm: FormGroup = new FormGroup({});
   mode: string = 'create';
   private phonePattern = /^234[789][01]\d{8}$/;
   setter = 'Please type your store name';
@@ -34,6 +36,9 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   isGoogleAddressSelected: boolean = false;
   presentTime: Date;
   countryInfo: CountryInfo[] = [];
+  storeAvailabilties: StoreAvailability[] = [];
+  isEditing: boolean[] = [];
+  editingIndex: number;
 
   constructor(
     private fb: FormBuilder,
@@ -45,8 +50,6 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     private toastr: ToastrService,
     private countryService: CountryService
   ) {}
-
-  sellerStoreAddressForm: FormGroup = new FormGroup({});
 
   @ViewChild('placesRef') placesRef: GooglePlaceDirective;
   options: any = {
@@ -67,10 +70,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       });
     }
 
-    this.times = this.sellerStoreService.getTimes();
     this.days = this.sellerStoreService.days;
-
-    this.presentTime = new Date();
 
     this.sellerStoreAddressForm = this.fb.group({
       countryCode: ['+234'],
@@ -94,13 +94,11 @@ export class SellerStoreCreateDialogComponent implements OnInit {
           Validators.minLength(10),
         ],
       ],
-      storeAvailabilties: this.fb.array([
-        this.fb.group({
-          dayOfWeek: ['Monday', Validators.required],
-          openingTime: [this.presentTime, Validators.required],
-          closingTime: [this.presentTime, Validators.required],
-        }),
-      ]),
+      storeAvailabilties: this.fb.array([]),
+    });
+
+    this.days.forEach((day) => {
+      this.AddAvailability(day);
     });
 
     if (this.modalInfo.mode === 'edit') {
@@ -135,6 +133,12 @@ export class SellerStoreCreateDialogComponent implements OnInit {
         this.storeAvailability.removeAt(0);
       }
 
+      this.days.forEach((day) => {
+        this.AddAvailability(day);
+      });
+
+      console.log(this.storeAvailability);
+
       this.modalInfo.data.storeAvailabilties.forEach((availability) => {
         const openingTime = this.getTimeForTimeEdit(availability.openingTime);
         const closingTime = this.getTimeForTimeEdit(availability.closingTime);
@@ -156,6 +160,49 @@ export class SellerStoreCreateDialogComponent implements OnInit {
           this.isGoogleAddressSelected = false;
         }
       });
+
+    this.storeAvailability.valueChanges.subscribe((value) => {
+      this.sellerStoreService.addAvailability(value);
+      this.storeAvailabilties = value;
+
+      localStorage.setItem('test', JSON.stringify(this.storeAvailabilties));
+
+      if (this.storeAvailabilties[this.editingIndex]?.closingTime !== null) {
+        this.isEditing[this.editingIndex] = false;
+      }
+      console.log(this.storeAvailabilties);
+    });
+
+    if (localStorage.getItem('test')) {
+      this.storeAvailabilties = JSON.parse(localStorage.getItem('test'));
+      console.log(this.storeAvailabilties);
+    }
+
+    // this.sellerStoreService.storeAvailabilitiesSubj.subscribe((value) => {
+    //   this.storeAvailabilties = value;
+    // });
+  }
+
+  isEditingAvail(index: number) {
+    this.isEditing[index] = !this.isEditing[index];
+    this.editingIndex = index;
+  }
+
+  deleteAvail(index: number) {
+    this.isEditing[index] = false;
+    // this.storeAvailability.controls.forEach((control, controlIndex) => {
+    //   if (controlIndex == index) {
+    //     control.patchValue({ openingTime: null, closingTime: null });
+    //   }
+    // });
+
+    this.storeAvailabilties.map((avail, availIndex) => {
+      if (availIndex == index) {
+        avail.closingTime = null;
+        avail.openingTime = null;
+      }
+    });
+    localStorage.setItem('test', JSON.stringify(this.storeAvailabilties));
   }
 
   getTimeForTimeEdit(time: string) {
@@ -228,12 +275,12 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     return <FormArray>this.sellerStoreAddressForm.get('storeAvailabilties');
   }
 
-  onAddAvailability() {
+  AddAvailability(day: string) {
     this.storeAvailability.push(
       this.fb.group({
-        dayOfWeek: ['Monday', Validators.required],
-        openingTime: [this.presentTime, Validators.required],
-        closingTime: [this.presentTime, Validators.required],
+        dayOfWeek: [day],
+        openingTime: [null],
+        closingTime: [null],
       })
     );
   }
@@ -284,6 +331,12 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       );
       return;
     }
+
+    if (this.storeAvailabilties.length == 0) {
+      this.toastr.warining('You need to add at least one availability');
+      return;
+    }
+
     if (this.sellerStoreAddressForm.invalid) {
       this.helperService.validateAllFormFields(this.sellerStoreAddressForm);
       return;
@@ -297,24 +350,46 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     const formattedPhoneNumber =
       this.countryCode.value.toString() + phoneNumber;
 
-    this.sellerStoreAddressForm.value.storeAvailabilties.map((availability) => {
-      const { openingTime, closingTime } = availability;
+    // this.sellerStoreAddressForm.value.storeAvailabilties.map((availability) => {
+    //   const { openingTime, closingTime } = availability;
 
-      availability.openingTime =
-        this.sellerStoreService.getMainTime(openingTime);
-      availability.closingTime =
-        this.sellerStoreService.getMainTime(closingTime);
+    //   availability.openingTime =
+    //     this.sellerStoreService.getMainTime(openingTime);
+    //   availability.closingTime =
+    //     this.sellerStoreService.getMainTime(closingTime);
+    // });
+
+    this.storeAvailabilties = this.storeAvailabilties.filter((availability) => {
+      if (
+        availability.openingTime !== null &&
+        availability.closingTime !== null
+      ) {
+        availability.openingTime = this.sellerStoreService.convertTo24Hours(
+          availability.openingTime
+        );
+
+        availability.closingTime = this.sellerStoreService.convertTo24Hours(
+          availability.closingTime
+        );
+        return availability;
+      }
+    });
+    console.log({
+      ...this.sellerStoreAddressForm.value,
+      storeAvailabilties: this.storeAvailabilties,
     });
 
     if (this.modalInfo.mode == 'create') {
       this.onCreate({
         ...this.sellerStoreAddressForm.value,
+        storeAvailabilties: this.storeAvailabilties,
         contactPhoneNumber: formattedPhoneNumber,
       });
       return;
     }
     this.onEdit({
       ...this.sellerStoreAddressForm.value,
+      storeAvailabilties: this.storeAvailabilties,
       contactPhoneNumber: formattedPhoneNumber,
     });
   }

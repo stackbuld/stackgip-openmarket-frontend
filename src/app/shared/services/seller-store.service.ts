@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { SellerBaseResponse, SellerStores } from 'src/app/models/StoreModels';
+import {
+  SellerBaseResponse,
+  SellerStores,
+  StoreAvailability,
+} from 'src/app/models/StoreModels';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -20,6 +24,8 @@ export class SellerStoreService {
     'Friday',
     'Saturday',
   ];
+  storeAvailabilities: StoreAvailability[] = [];
+  storeAvailabilitiesSubj = new Subject<StoreAvailability[]>();
 
   constructor(private http: HttpClient) {}
 
@@ -71,5 +77,34 @@ export class SellerStoreService {
     const seconds = dateObject.getSeconds();
 
     return `${hours}:${minutes}:${seconds}`;
+  }
+
+  convertTo24Hours(oldTime: string) {
+    const [time, period] = oldTime.split(' ');
+    const [hour, minute] = time.split(':');
+    let formattedHour = parseInt(hour);
+
+    if (period === 'PM') {
+      formattedHour += 12;
+    }
+
+    return `${formattedHour}:${minute}`;
+  }
+
+  addAvailability(arr: StoreAvailability[]) {
+    arr.forEach((availability) => {
+      if (
+        availability.openingTime !== null &&
+        availability.closingTime !== null
+      ) {
+        this.storeAvailabilities = this.storeAvailabilities.filter(
+          (avail) => avail.dayOfWeek != availability.dayOfWeek
+        );
+
+        this.storeAvailabilities.push(availability);
+
+        this.storeAvailabilitiesSubj.next(this.storeAvailabilities);
+      }
+    });
   }
 }

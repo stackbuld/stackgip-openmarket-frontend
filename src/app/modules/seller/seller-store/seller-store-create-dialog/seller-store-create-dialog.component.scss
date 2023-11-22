@@ -45,6 +45,17 @@
   padding: 10px 10px;
 }
 
+.input-group {
+  position: relative;
+
+  & i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
 .contact-inputs {
   position: relative;
   width: 100%;
@@ -146,14 +157,6 @@
   width: 100%;
 }
 
-// .edit-form select {
-//   border: 0.8px solid #bdbdbd;
-//   border-radius: 4px;
-//   padding: 0.4em 0.3em;
-//   width: 100%;
-//   padding: 10px 24px;
-// }
-
 .edit-form button {
   display: inline-block;
   width: 100%;
@@ -169,6 +172,116 @@
   color: #ffffff;
   padding: 12px 24px;
   text-transform: capitalize;
+}
+
+.avail-container {
+  padding: 15px;
+  font-family: Avenir;
+  min-width: 300px;
+}
+
+.avail-heading {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+
+  & img {
+    margin-right: 10px;
+    width: 16px;
+  }
+
+  &-main {
+    font-weight: 700;
+  }
+
+  & .avail-copy {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+}
+
+.avails-main {
+  width: 100%;
+}
+
+.avails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
+}
+
+.day {
+  width: 90px;
+}
+
+.time {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+
+  & input {
+    width: 80px;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+  }
+}
+
+.time-container {
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  & .available {
+    background-color: rgba(247, 246, 246, 1);
+    padding: 5px 8px;
+    border-radius: 4px;
+    & span {
+      margin: 0 10px;
+    }
+  }
+}
+
+.select-availability {
+  height: 45px;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.select-availability-icon {
+  position: absolute;
+  right: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #ffffff;
+  width: 40px;
+  height: 44px;
+}
+
+.avail-btns {
+  & svg {
+    cursor: pointer;
+  }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -192,6 +305,14 @@
         margin-right: 0;
         margin-bottom: 10px;
       }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .time-container {
+    & .available {
+      font-size: 14px;
     }
   }
 }

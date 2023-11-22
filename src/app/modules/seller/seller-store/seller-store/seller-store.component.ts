@@ -83,6 +83,7 @@ export class SellerStoreComponent implements OnInit {
       .subscribe((sellerStores) => {
         this.sellerStores = sellerStores;
         this.isLoading = false;
+        console.log(sellerStores);
       });
   }
 
