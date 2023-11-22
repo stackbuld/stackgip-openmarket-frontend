@@ -137,8 +137,6 @@ export class SellerStoreCreateDialogComponent implements OnInit {
         this.AddAvailability(day);
       });
 
-      console.log(this.storeAvailability);
-
       this.modalInfo.data.storeAvailabilties.forEach((availability) => {
         const openingTime = this.getTimeForTimeEdit(availability.openingTime);
         const closingTime = this.getTimeForTimeEdit(availability.closingTime);
