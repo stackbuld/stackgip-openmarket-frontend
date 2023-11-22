@@ -536,23 +536,35 @@ export class CreateProductComponent implements OnInit {
       console.log(this.availableProductUnit);
 
       const unit = Math.floor(this.availableProductUnit / 2);
-      this.variationProps.patchValue({ unit: unit });
+      if (unit == 0) {
+        this.variationProps.patchValue({ unit: null });
+      } else {
+        this.variationProps.patchValue({ unit: unit });
+      }
     }
   }
 
   getUnitValues() {
+    console.log(this.variationProps.get('unit').value);
+
+    if (this.variationProps.get('unit').value === null) {
+      return;
+    }
     this.variationProps.get('unit').valueChanges.subscribe((value) => {
       if (value === null) {
-        this.availableProductUnit = this.initialProductUnit;
+        this.availableProductUnit =
+          this.initialProductUnit - this.totalVariationsUnit;
         this.editingTotalVariationsUnit = 0;
         console.log('null value');
+        return;
       }
 
       let totalVariationValue = 0;
       console.log(this.editingVariation);
 
       if (this.editingVariation) {
-        this.totalVariationsUnit = this.editingTotalVariationsUnit;
+        // this.totalVariationsUnit =
+        //   this.totalVariationsUnit - this.editingTotalVariationsUnit;
       }
 
       totalVariationValue = value + this.totalVariationsUnit;
@@ -648,14 +660,13 @@ export class CreateProductComponent implements OnInit {
     }
 
     this.variationProps.patchValue({ ...this.allVariantList[index] });
-    console.log(this.editingTotalVariationsUnit);
+    console.log(this.totalVariationsUnit);
 
     this.editingTotalVariationsUnit =
-      this.allVariantList[index].unit - this.editingTotalVariationsUnit;
-    console.log(this.allVariantList);
+      this.totalVariationsUnit - this.allVariantList[index].unit;
+    console.log(this.editingTotalVariationsUnit);
 
     this.availableProductUnit = this.editingTotalVariationsUnit;
-    console.log(this.availableProductUnit);
 
     // this.removeVariation(index);
   }
