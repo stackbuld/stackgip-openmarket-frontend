@@ -325,6 +325,37 @@ export class SellerStoreCreateDialogComponent implements OnInit {
   }
 
   onSave() {
+    console.log({
+      ...this.sellerStoreAddressForm.value,
+      storeAvailabilties: this.storeAvailabilties,
+    });
+
+    const {
+      fullAddress,
+      storeName,
+      lat,
+      lng,
+      city,
+      state,
+      country,
+      isDefault,
+      userId,
+    } = this.sellerStoreAddressForm.value;
+
+    const payload: any = {
+      fullAddress,
+      storeName: storeName,
+      lat,
+      lng,
+      city,
+      state,
+      country,
+      isDefault,
+      userId,
+    };
+
+    console.log(payload);
+
     if (!this.isGoogleAddressSelected) {
       this.toastr.warining(
         'Select an address from the options that shows as you type'
@@ -350,15 +381,6 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     const formattedPhoneNumber =
       this.countryCode.value.toString() + phoneNumber;
 
-    // this.sellerStoreAddressForm.value.storeAvailabilties.map((availability) => {
-    //   const { openingTime, closingTime } = availability;
-
-    //   availability.openingTime =
-    //     this.sellerStoreService.getMainTime(openingTime);
-    //   availability.closingTime =
-    //     this.sellerStoreService.getMainTime(closingTime);
-    // });
-
     this.storeAvailabilties = this.storeAvailabilties.filter((availability) => {
       if (
         availability.openingTime !== null &&
@@ -381,14 +403,14 @@ export class SellerStoreCreateDialogComponent implements OnInit {
 
     if (this.modalInfo.mode == 'create') {
       this.onCreate({
-        ...this.sellerStoreAddressForm.value,
+        ...payload,
         storeAvailabilties: this.storeAvailabilties,
         contactPhoneNumber: formattedPhoneNumber,
       });
       return;
     }
     this.onEdit({
-      ...this.sellerStoreAddressForm.value,
+      ...payload,
       storeAvailabilties: this.storeAvailabilties,
       contactPhoneNumber: formattedPhoneNumber,
     });
