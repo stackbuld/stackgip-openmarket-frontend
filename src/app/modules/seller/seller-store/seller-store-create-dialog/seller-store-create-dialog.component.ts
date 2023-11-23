@@ -347,7 +347,6 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     }
     if (this.formattedAvailabilities.length == 0) {
       this.isAvailabilityAdded = false;
-
       return;
     }
 
@@ -362,6 +361,10 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     const storeAvailabilties = this.sellerStoreService.formatStoreAvailability(
       this.storeAvailabilties
     );
+
+    delete this.sellerStoreAddressForm.value.postalCode;
+    delete this.sellerStoreAddressForm.value.landmark;
+    delete this.sellerStoreAddressForm.value.countryCode;
 
     console.log({
       ...this.sellerStoreAddressForm.value,
