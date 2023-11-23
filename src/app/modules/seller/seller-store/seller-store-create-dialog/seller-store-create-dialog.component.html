@@ -85,7 +85,26 @@
         >
           <div class="input-group" [mat-menu-trigger-for]="availMenu">
             <div class="uk-input select-availability">
-              Select the days your store is available to deliver and pickup
+              <span
+                *ngIf="
+                  formattedAvailabilities.length == 0;
+                  else availabilityDays
+                "
+              >
+                Select the days your store is available to deliver and pickup
+              </span>
+              <ng-template #availabilityDays>
+                Available on:
+                <span
+                  *ngFor="
+                    let availability of formattedAvailabilities;
+                    let i = index
+                  "
+                  class="available-days"
+                  ><span *ngIf="i != 0"> ,</span>
+                  {{ availability.dayOfWeek }}
+                </span>
+              </ng-template>
             </div>
 
             <div class="select-availability-icon">
@@ -214,74 +233,14 @@
                       </ng-template>
                     </div>
                   </div>
-
-                  <!-- <div class="avail-btns">
-                    <svg
-                      width="22"
-                      height="22"
-                      viewBox="0 0 17 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      (click)="deleteAvail(i)"
-                      *ngIf="
-                        storeAvailabilties[i]?.openingTime &&
-                          storeAvailabilties[i]?.closingTime;
-                        else addAvail
-                      "
-                    >
-                      <path
-                        d="M3.82812 3.33203L13.1615 12.6654"
-                        stroke="#141B34"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M15.1615 7.9987C15.1615 4.3168 12.1767 1.33203 8.49479 1.33203C4.81289 1.33203 1.82812 4.3168 1.82812 7.9987C1.82812 11.6806 4.81289 14.6654 8.49479 14.6654C12.1767 14.6654 15.1615 11.6806 15.1615 7.9987Z"
-                        stroke="#141B34"
-                        stroke-width="1.5"
-                      />
-                    </svg>
-                    <ng-template #addAvail>
-                      <svg
-                        width="22"
-                        height="22"
-                        viewBox="0 0 17 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        (click)="isEditingAvail(i)"
-                      >
-                        <path
-                          d="M8.50521 4.66797V11.3346M11.8385 8.0013H5.17188"
-                          stroke="#141B34"
-                          stroke-width="1.5"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M15.1615 7.9987C15.1615 4.3168 12.1767 1.33203 8.49479 1.33203C4.81289 1.33203 1.82812 4.3168 1.82812 7.9987C1.82812 11.6806 4.81289 14.6654 8.49479 14.6654C12.1767 14.6654 15.1615 11.6806 15.1615 7.9987Z"
-                          stroke="#141B34"
-                          stroke-width="1.5"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </ng-template>
-                  </div> -->
                 </div>
               </div>
             </div>
           </mat-menu>
-          <!-- <div
-            *ngIf="
-              fullAddress.invalid && (fullAddress.dirty || fullAddress.touched)
-            "
-          >
-            <small
-              class="uk-text-danger"
-              *ngIf="fullAddress.hasError('required')"
-            >
-              Store address is a required field
-            </small>
-          </div> -->
+        </div>
+
+        <div class="avail-error" *ngIf="!isAvailabilityAdded">
+          Select availability day(s)
         </div>
       </div>
 
@@ -432,7 +391,10 @@
         </div>
       </div>
 
-      <button class="uk-button uk-button-default uk-modal-close" type="submit">
+      <button
+        class="uk-button uk-button-default uk-modal-close submit-btn"
+        type="submit"
+      >
         <span *ngIf="!loading">
           <span *ngIf="mode !== 'edit'">Save</span>
           <span *ngIf="mode === 'edit'">Update</span>

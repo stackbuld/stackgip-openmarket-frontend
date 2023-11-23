@@ -24,8 +24,7 @@ export class SellerStoreService {
     'Friday',
     'Saturday',
   ];
-  storeAvailabilities: StoreAvailability[] = [];
-  storeAvailabilitiesSubj = new Subject<StoreAvailability[]>();
+  storeAvailabilitiesSubj = new Subject<any>();
 
   constructor(private http: HttpClient) {}
 
@@ -57,54 +56,63 @@ export class SellerStoreService {
     return this.http.delete(`${this.baseUrl}sellerStores/${sellerStore.id}`);
   }
 
-  getTimes() {
-    const times = [];
-    for (let i = 0; i < 24; i++) {
-      for (let j = 0; j < 60; j += 30) {
-        const hour = i < 10 ? `0${i}` : `${i}`;
-        const minute = j === 0 ? '00' : `${j}`;
-        times.push(`${hour}:${minute}`);
-      }
-    }
-    return times;
-  }
-
-  getMainTime(dateObj: Date) {
-    const dateObject = new Date(dateObj);
-
-    const hours = dateObject.getHours();
-    const minutes = dateObject.getMinutes();
-    const seconds = dateObject.getSeconds();
-
-    return `${hours}:${minutes}:${seconds}`;
-  }
-
   convertTo24Hours(oldTime: string) {
     const [time, period] = oldTime.split(' ');
-    const [hour, minute] = time.split(':');
-    let formattedHour = parseInt(hour);
+    const [hours, minutes] = time.split(':').map(Number);
 
-    if (period === 'PM') {
-      formattedHour += 12;
+    let newHours = hours;
+
+    if (!period) {
+      return oldTime;
+    }
+    if (period.toLowerCase() === 'pm' && hours !== 12) {
+      newHours += 12;
+    } else if (period.toLowerCase() === 'am' && hours === 12) {
+      newHours = 0;
     }
 
-    return `${formattedHour}:${minute}`;
+    const formattedHours = String(newHours).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0');
+
+    return `${formattedHours}:${formattedMinutes}`;
   }
 
-  addAvailability(arr: StoreAvailability[]) {
-    arr.forEach((availability) => {
-      if (
-        availability.openingTime !== null &&
-        availability.closingTime !== null
-      ) {
-        this.storeAvailabilities = this.storeAvailabilities.filter(
-          (avail) => avail.dayOfWeek != availability.dayOfWeek
-        );
+  mergeAvailabilities(existingAvailability, newAvailability) {
+    newAvailability.forEach((newObj) => {
+      const index = existingAvailability.findIndex(
+        (existingObj) => existingObj.dayOfWeek === newObj.dayOfWeek
+      );
 
-        this.storeAvailabilities.push(availability);
-
-        this.storeAvailabilitiesSubj.next(this.storeAvailabilities);
+      if (index !== -1) {
+        if (newObj.openingTime !== null && newObj.closingTime !== null) {
+          existingAvailability[index].openingTime = newObj.openingTime;
+          existingAvailability[index].closingTime = newObj.closingTime;
+        }
       }
     });
+
+    return existingAvailability;
+  }
+
+  formatStoreAvailability(availability: StoreAvailability[]) {
+    return availability.filter((availability) => {
+      if (
+        availability.openingTime != null &&
+        availability.closingTime != null
+      ) {
+        availability.openingTime = this.convertTo24Hours(
+          availability.openingTime
+        );
+
+        availability.closingTime = this.convertTo24Hours(
+          availability.closingTime
+        );
+        return availability;
+      }
+      return;
+      console.log(availability);
+    });
+
+    return availability;
   }
 }
