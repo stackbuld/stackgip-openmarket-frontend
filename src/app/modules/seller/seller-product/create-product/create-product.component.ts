@@ -670,7 +670,7 @@ export class CreateProductComponent implements OnInit {
 
     this.availableProductUnit = this.editingTotalVariationsUnit;
 
-    // this.removeVariation(index);
+    this.removeVariation(index);
   }
 
   options(): FormArray {
