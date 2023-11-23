@@ -1,4 +1,4 @@
-<div class="main">
+<div [ngClass]="storefrontSellerId ? '' : 'main'">
   <div class="mb-3 d-flex justify-content-end align-items-center">
     <div class="d-block d-lg-none uk-navbar-right pr-md-2">
       <div
@@ -150,10 +150,12 @@
                                     <path d="M11.959 4.74113C11.9592 4.7044 11.9542 4.66781 11.9442 4.63247L11.2354 2.15302C11.1878 1.9885 11.0882 1.84381 10.9515 1.74055C10.8149 1.63729 10.6485 1.58099 10.4772 1.58008H3.16729C2.99602 1.58099 2.82964 1.63729 2.69299 1.74055C2.55635 1.84381 2.45677 1.9885 2.40913 2.15302L1.70086 4.63247C1.69066 4.66779 1.6855 4.70437 1.68555 4.74113V5.5314C1.68555 5.83811 1.75696 6.14061 1.89412 6.41494C2.03129 6.68927 2.23044 6.9279 2.47581 7.11193V10.273C2.47581 10.4826 2.55907 10.6836 2.70727 10.8318C2.85548 10.98 3.05648 11.0632 3.26608 11.0632H10.3785C10.588 11.0632 10.7891 10.98 10.9373 10.8318C11.0855 10.6836 11.1687 10.4826 11.1687 10.273V7.11193C11.4141 6.9279 11.6132 6.68927 11.7504 6.41494C11.8876 6.14061 11.959 5.83811 11.959 5.5314V4.74113ZM3.16729 2.37034H10.4772L11.0413 4.346H2.60472L3.16729 2.37034ZM5.63687 5.13627H8.00766V5.5314C8.00766 5.84579 7.88277 6.1473 7.66047 6.3696C7.43816 6.59191 7.13665 6.7168 6.82227 6.7168C6.50788 6.7168 6.20637 6.59191 5.98406 6.3696C5.76176 6.1473 5.63687 5.84579 5.63687 5.5314V5.13627ZM4.84661 5.13627V5.5314C4.84661 5.84579 4.72172 6.1473 4.49941 6.3696C4.27711 6.59191 3.97559 6.7168 3.66121 6.7168C3.34682 6.7168 3.04531 6.59191 2.82301 6.3696C2.6007 6.1473 2.47581 5.84579 2.47581 5.5314V5.13627H4.84661ZM10.3785 10.273H3.26608V7.46755C3.39615 7.49377 3.52851 7.507 3.66121 7.50706C3.96792 7.50706 4.27042 7.43565 4.54475 7.29848C4.81908 7.16132 5.05771 6.96216 5.24174 6.7168C5.42576 6.96216 5.66439 7.16132 5.93872 7.29848C6.21306 7.43565 6.51555 7.50706 6.82227 7.50706C7.12898 7.50706 7.43148 7.43565 7.70581 7.29848C7.98014 7.16132 8.21877 6.96216 8.40279 6.7168C8.58682 6.96216 8.82545 7.16132 9.09978 7.29848C9.37411 7.43565 9.67661 7.50706 9.98332 7.50706C10.116 7.507 10.2484 7.49377 10.3785 7.46755V10.273ZM9.98332 6.7168C9.66894 6.7168 9.36743 6.59191 9.14512 6.3696C8.92282 6.1473 8.79793 5.84579 8.79793 5.5314V5.13627H11.1687V5.5314C11.1687 5.84579 11.0438 6.1473 10.8215 6.3696C10.5992 6.59191 10.2977 6.7168 9.98332 6.7168Z" fill="black"/>
                                 </svg> &nbsp; -->
                 <span
-                  [ngClass]="{ activeCategory: this.categoryName === category }"
+                  [ngClass]="{
+                    activeCategory: this.categoryName === category.name
+                  }"
                   (click)="filterProductsByCategory(category)"
                 >
-                  <span class="pointer">{{ category }}</span>
+                  <span class="pointer">{{ category.name }}</span>
                 </span>
                 <span
                   *ngIf="
@@ -425,7 +427,12 @@
   </div>
 
   <div class="uk-flex">
-    <div class="left-section">
+    <div
+      class="left-section"
+      [ngStyle]="{
+      'position': storefrontSellerId ? 'static' : 'fixed',
+    }"
+    >
       <div class="p-2">
         <div class="d-flex align-items-center justify-content-between">
           <p class="tag">Browse and filter</p>
@@ -478,16 +485,18 @@
         <div *ngIf="!loadingCategories">
           <div
             *ngFor="
-              let item of categories | slice : 0 : categoryListLimit;
+              let category of categories | slice : 0 : categoryListLimit;
               let i = index
             "
           >
             <span
-              [ngClass]="{ activeCategory: this.categoryName === item }"
-              (click)="filterProductsByCategory(item)"
+              [ngClass]="{
+                activeCategory: this.categoryName === category.name
+              }"
+              (click)="filterProductsByCategory(category)"
               class="each-cat py-2"
             >
-              <span>{{ item }}</span>
+              <span>{{ category.name }}</span>
             </span>
             <span
               *ngIf="
@@ -776,15 +785,19 @@
       </div>
       <!-- End of Price Filter Section -->
     </div>
-    <div class="page">
+    <div [ngClass]="storefrontSellerId ? '' : 'page'">
       <div class="right-section">
         <div *ngIf="!loadingProducts" class="row">
           <div class="uk-flex uk-flex-right">
             <div class="d-lg-block d-none">
               <select (change)="setColumn($event)" class="column-switch">
                 <option value="" disabled>Columns</option>
-                <option value="6" selected>6 Columns</option>
-                <option value="4">4 Columns</option>
+                <option value="6" [selected]="!storefrontSellerId">
+                  6 Columns
+                </option>
+                <option value="4" [selected]="storefrontSellerId">
+                  4 Columns
+                </option>
                 <option value="3">3 Columns</option>
               </select>
             </div>

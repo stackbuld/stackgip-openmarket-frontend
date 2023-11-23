@@ -1,0 +1,200 @@
+<div class="uk-container">
+  <section id="hero">
+    <div class="hero-container row">
+      <!-- Categories -->
+      <!-- <div class="categories-container d-none d-md-block col-md-4">
+        <div *ngFor="let category of categories" class="category">
+          <img
+            src="{{ category.img }}"
+            width="20"
+            height="20"
+            alt="{{ category.name }}"
+          />
+          {{ category.name }}
+        </div>
+        <div class="pointer mt-3">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 1.87402C8.39303 1.87402 6.82214 2.35055 5.486 3.24333C4.14985 4.13612 3.10844 5.40507 2.49348 6.88972C1.87852 8.37437 1.71762 10.008 2.03112 11.5841C2.34463 13.1602 3.11846 14.608 4.25476 15.7443C5.39106 16.8806 6.8388 17.6544 8.41489 17.9679C9.99099 18.2814 11.6247 18.1205 13.1093 17.5055C14.594 16.8906 15.8629 15.8492 16.7557 14.513C17.6485 13.1769 18.125 11.606 18.125 9.99902C18.1227 7.84484 17.266 5.77953 15.7427 4.25629C14.2195 2.73305 12.1542 1.8763 10 1.87402ZM10 16.874C8.64026 16.874 7.31105 16.4708 6.18046 15.7154C5.04987 14.9599 4.16868 13.8862 3.64833 12.63C3.12798 11.3737 2.99183 9.9914 3.2571 8.65778C3.52238 7.32416 4.17716 6.09915 5.13864 5.13766C6.10013 4.17618 7.32514 3.5214 8.65876 3.25612C9.99238 2.99085 11.3747 3.127 12.631 3.64735C13.8872 4.1677 14.9609 5.04889 15.7164 6.17948C16.4718 7.31007 16.875 8.63928 16.875 9.99902C16.8729 11.8218 16.1479 13.5692 14.8591 14.8581C13.5702 16.147 11.8227 16.872 10 16.874ZM10.9375 9.99902C10.9375 10.1844 10.8825 10.3657 10.7795 10.5199C10.6765 10.674 10.5301 10.7942 10.3588 10.8652C10.1875 10.9361 9.99896 10.9547 9.81711 10.9185C9.63525 10.8823 9.4682 10.793 9.33709 10.6619C9.20598 10.5308 9.11669 10.3638 9.08052 10.1819C9.04434 10.0001 9.06291 9.81156 9.13387 9.64026C9.20482 9.46895 9.32499 9.32253 9.47916 9.21952C9.63333 9.11651 9.81458 9.06152 10 9.06152C10.2486 9.06152 10.4871 9.16029 10.6629 9.33611C10.8387 9.51193 10.9375 9.75038 10.9375 9.99902ZM14.375 9.99902C14.375 10.1844 14.32 10.3657 14.217 10.5199C14.114 10.674 13.9676 10.7942 13.7963 10.8652C13.625 10.9361 13.4365 10.9547 13.2546 10.9185C13.0727 10.8823 12.9057 10.793 12.7746 10.6619C12.6435 10.5308 12.5542 10.3638 12.518 10.1819C12.4818 10.0001 12.5004 9.81156 12.5714 9.64026C12.6423 9.46895 12.7625 9.32253 12.9167 9.21952C13.0708 9.11651 13.2521 9.06152 13.4375 9.06152C13.6861 9.06152 13.9246 9.16029 14.1004 9.33611C14.2762 9.51193 14.375 9.75038 14.375 9.99902ZM7.5 9.99902C7.5 10.1844 7.44502 10.3657 7.34201 10.5199C7.23899 10.674 7.09257 10.7942 6.92127 10.8652C6.74996 10.9361 6.56146 10.9547 6.37961 10.9185C6.19775 10.8823 6.0307 10.793 5.89959 10.6619C5.76848 10.5308 5.67919 10.3638 5.64302 10.1819C5.60684 10.0001 5.62541 9.81156 5.69637 9.64026C5.76732 9.46895 5.88749 9.32253 6.04166 9.21952C6.19583 9.11651 6.37708 9.06152 6.5625 9.06152C6.81114 9.06152 7.0496 9.16029 7.22542 9.33611C7.40123 9.51193 7.5 9.75038 7.5 9.99902Z"
+              fill="black"
+            />
+          </svg>
+          <span>More</span>
+        </div>
+      </div> -->
+      <div class="categories-container d-none d-md-block col-md-4">
+        <h2 class="">Categories</h2>
+        <div *ngIf="!loadingCategories">
+          <div
+            *ngFor="let category of categories; let i = index"
+            class="pointer category"
+          >
+            {{ category.name }}
+          </div>
+          <div *ngIf="categories.length === 0" class="text-center p-5">
+            No Results
+          </div>
+        </div>
+
+        <div *ngIf="loadingCategories" class="">
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading>
+        </div>
+      </div>
+      <!-- Thumbnail -->
+      <!-- <div class="thumbnail col-12 col-md-9">
+        <img src="assets/img/hero-home.png" alt="" />
+      </div> -->
+      <div
+        class="uk-position-relative uk-visible-toggle uk-light col-12 col-md-8 thumbnail"
+        tabindex="-1"
+        uk-slideshow="autoplay: true"
+      >
+        <ul class="uk-slideshow-items w-100 h-100">
+          <li *ngFor="let slide of heroSlides" class="w-100 h-100">
+            <img src="{{ slide }}" alt="" uk-cover />
+            <div class="uk-position-medium uk-position-bottom-right">
+              <button class="uk-button uk-button-secondary">Shop Now</button>
+            </div>
+          </li>
+        </ul>
+
+        <a
+          class="uk-position-center-left uk-position-small uk-hidden-hover uk-border-circle bg-white text-black"
+          href
+          uk-slidenav-previous
+          uk-slideshow-item="previous"
+        ></a>
+        <a
+          class="uk-position-center-right uk-position-small uk-hidden-hover uk-border-circle bg-white text-black"
+          href
+          uk-slidenav-next
+          uk-slideshow-item="next"
+        ></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="promoted-product">
+    <div class="promoted-product-container">
+      <div class="header-text">
+        <h2>Promoted Product</h2>
+        <span class="pointer">
+          <span routerLink="/homepage"> See All </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="24"
+            viewBox="0 0 25 24"
+            fill="none"
+          >
+            <path
+              d="M16.2175 12.7199C16.3582 12.5793 16.4373 12.3887 16.4375 12.1899V11.8099C16.4352 11.6114 16.3564 11.4216 16.2175 11.2799L11.0775 6.14985C10.9836 6.0552 10.8558 6.00195 10.7225 6.00195C10.5892 6.00195 10.4614 6.0552 10.3675 6.14985L9.6575 6.85985C9.56344 6.95202 9.51043 7.07816 9.51043 7.20985C9.51043 7.34154 9.56344 7.46769 9.6575 7.55985L14.1075 11.9999L9.6575 16.4399C9.56284 16.5337 9.5096 16.6615 9.5096 16.7949C9.5096 16.9282 9.56284 17.056 9.6575 17.1499L10.3675 17.8499C10.4614 17.9445 10.5892 17.9978 10.7225 17.9978C10.8558 17.9978 10.9836 17.9445 11.0775 17.8499L16.2175 12.7199Z"
+              fill="#FF8B00"
+            />
+          </svg>
+        </span>
+      </div>
+
+      <div *ngIf="!loadingProducts" class="product-container row">
+        <div
+          *ngFor="let product of products | slice : 0 : 6"
+          class="mb-3 col-6 col-md-3"
+        >
+          <app-product-card [product]="product"></app-product-card>
+        </div>
+      </div>
+
+      <!-- If loading products -->
+      <div *ngIf="loadingProducts" class="p-5">
+        <div class="uk-flex uk-flex-center">
+          <div uk-spinner></div>
+        </div>
+      </div>
+
+      <!-- If there are no products -->
+      <div *ngIf="!loadingProducts && products.length === 0" class="p-5">
+        <p *ngIf="categoryName === ''" class="text-center p-5">
+          There are no products available.
+        </p>
+        <p *ngIf="categoryName !== ''" class="text-center p-5">
+          There are no products in the selected category.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="deals-first">
+    <div class="row">
+      <img src="assets/img/deals-1.png" class="col-sm-4" alt="Black Friday" />
+      <img src="assets/img/deals-2.png" class="col-sm-8" alt="Mega Sale" />
+    </div>
+  </section>
+
+  <section id="deals-second">
+    <div class="row">
+      <img src="assets/img/deals-3.png" class="col-sm-8" alt="" />
+      <img src="assets/img/deals-4.png" class="col-sm-4" alt="" />
+    </div>
+  </section>
+
+  <section id="recommended-product">
+    <div class="recommended-product-container">
+      <div class="header-text">
+        <h2>Recommended Product</h2>
+        <span class="pointer">
+          <span routerLink="/homepage"> See All </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="24"
+            viewBox="0 0 25 24"
+            fill="none"
+          >
+            <path
+              d="M16.2175 12.7199C16.3582 12.5793 16.4373 12.3887 16.4375 12.1899V11.8099C16.4352 11.6114 16.3564 11.4216 16.2175 11.2799L11.0775 6.14985C10.9836 6.0552 10.8558 6.00195 10.7225 6.00195C10.5892 6.00195 10.4614 6.0552 10.3675 6.14985L9.6575 6.85985C9.56344 6.95202 9.51043 7.07816 9.51043 7.20985C9.51043 7.34154 9.56344 7.46769 9.6575 7.55985L14.1075 11.9999L9.6575 16.4399C9.56284 16.5337 9.5096 16.6615 9.5096 16.7949C9.5096 16.9282 9.56284 17.056 9.6575 17.1499L10.3675 17.8499C10.4614 17.9445 10.5892 17.9978 10.7225 17.9978C10.8558 17.9978 10.9836 17.9445 11.0775 17.8499L16.2175 12.7199Z"
+              fill="#FF8B00"
+            />
+          </svg>
+        </span>
+      </div>
+
+      <div *ngIf="!loadingProducts" class="product-container row">
+        <div
+          *ngFor="let product of products | slice : 0 : 6"
+          class="mb-3 col-6 col-md-3"
+        >
+          <app-product-card [product]="product"></app-product-card>
+        </div>
+      </div>
+
+      <!-- If loading products -->
+      <div *ngIf="loadingProducts" class="p-5">
+        <div class="uk-flex uk-flex-center">
+          <div uk-spinner></div>
+        </div>
+      </div>
+
+      <!-- If there are no products -->
+      <div *ngIf="!loadingProducts && products.length === 0" class="p-5">
+        <p *ngIf="categoryName === ''" class="text-center p-5">
+          There are no products available.
+        </p>
+        <p *ngIf="categoryName !== ''" class="text-center p-5">
+          There are no products in the selected category.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>

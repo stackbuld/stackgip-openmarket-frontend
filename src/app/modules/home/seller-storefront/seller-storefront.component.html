@@ -1,65 +1,119 @@
-<div class="uk-container">
+<div class="uk-container main">
   <section id="nav">
     <nav aria-label="Breadcrumb">
       <ul class="uk-breadcrumb">
         <li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/homepage/storefront">Winmall</a></li>
+        <li>
+          <a routerLink="/homepage/storefront">
+            <span *ngIf="loadingData">Loading...</span>
+            <span *ngIf="!loadingData">
+              {{ sellerStorefrontDetails.businessName || null }}
+            </span>
+          </a>
+        </li>
       </ul>
     </nav>
   </section>
   <section id="banner">
-    <img
-      src="assets/img/Storefront-frame.png"
-      alt="Storefront"
-      width="1248"
-      height="300"
-    />
+    <span *ngIf="loadingData">Loading Image...</span>
+    <span *ngIf="!loadingData">
+      <img [src]="tempVariable" alt="Storefront" width="1248" height="300" />
+    </span>
   </section>
 
   <section id="hero">
     <div class="hero-section">
       <img
         class="circle-storefront"
-        src="assets/img/circle-storefront.jpg"
+        [src]="
+          sellerStorefrontDetails.businessLogoUrl ||
+          'assets/img/circle-storefront.jpg'
+        "
         alt=""
       />
 
       <div class="hero-text">
-        <p>WinMall Store</p>
+        <p *ngIf="loadingData">Loading...</p>
+        <h3 *ngIf="!loadingData">
+          {{ sellerStorefrontDetails.businessName || null }}
+        </h3>
         <div class="store-location">
           <img src="assets/svg/map-pin.svg" class="pointer" alt="" />
-          Lagos, Nigeria
+          <span *ngIf="loadingData">Loading...</span>
+          <span *ngIf="!loadingData">
+            {{ sellerStorefrontDetails.businessState || null }}, Nigeria
+          </span>
         </div>
         <div class="store-link">
-          www.winmall.renastore
+          {{ sellerStorefrontDetails.businessWebsite || null }}
           <img src="assets/svg/copy.svg" class="pointer" alt="" />
         </div>
-        <div class="store-ratings">
+        <!-- <div class="store-ratings">
           <img class="rating" src="assets/svg/star.svg" alt="" />
           <img class="rating" src="assets/svg/star.svg" alt="" />
           <img class="rating" src="assets/svg/star.svg" alt="" />
           <img class="rating" src="assets/svg/star.svg" alt="" />
           <img class="rating" src="assets/svg/star-background.svg" alt="" />
-        </div>
+        </div> -->
       </div>
-    </div>
-  </section>
 
-  <section id="tabbed-navigation">
-    <nav>
-      <ul uk-tab>
-        <li class="uk-active">
-          <a (click)="selectTab('products')">Products</a>
-        </li>
-        <li><a (click)="selectTab('about')">About</a></li>
-      </ul>
-    </nav>
+      <!-- <div class="time-availability">
+        <div>
+          <img src="assets/svg/shopping-bag-02.svg" class="pointer" alt="" />
+          Shop opens from (MON-FRI)
+        </div>
+        <div>
+          <img src="assets/svg/clock.svg" class="pointer" alt="" />
+          Time: 9am - 4pm daily
+        </div>
+      </div> -->
+    </div>
   </section>
 
   <section id="tab-navigation">
-    <div *ngIf="activeTab === 'products'">
-      <app-product-list></app-product-list>
-    </div>
-    <div *ngIf="activeTab === 'about'">THIS IS THE ABOUT PAGE!</div>
+    <ul
+      uk-tab
+      uk-switcher="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium"
+    >
+      <li class="uk-active">
+        <a (click)="selectTab('products')">Products</a>
+      </li>
+      <li><a (click)="selectTab('about')">About</a></li>
+    </ul>
+
+    <ul class="uk-switcher">
+      <li>
+        <app-product-list [storefrontSellerId]="sellerId"></app-product-list>
+      </li>
+      <li>
+        <div class="about">
+          <h2>Description</h2>
+          <p>
+            {{ sellerStorefrontDetails.businessDescription || null }}
+          </p>
+        </div>
+      </li>
+    </ul>
+    <!-- <div class="tab-navigation-container">
+      <ng-template *ngIf="activeTab === 'products'">
+        <app-product-list
+          [storefrontSellerId]="sellerId"
+          class="products show"
+        ></app-product-list>
+      </ng-template>
+      <ng-template *ngIf="activeTab === 'about'">
+        <div class="about col-12">
+          <h2>Description</h2>
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur,
+            hic. Veritatis rerum fugit atque amet deserunt reprehenderit
+            voluptatibus impedit exercitationem nesciunt porro, labore quibusdam,
+            eaque natus dolor odio rem! Quaerat assumenda at similique quidem odit
+            sequi sit minus incidunt animi maxime temporibus iure molestias nobis
+            fugit nesciunt, unde earum suscipit?
+          </p>
+        </div>
+      </ng-template>
+    </div> -->
   </section>
 </div>

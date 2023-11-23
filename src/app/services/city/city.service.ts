@@ -5,26 +5,31 @@ import { ICityService } from './ICity.interface';
 import { Observable, from, of, switchMap } from 'rxjs';
 
 const searchClient = algoliasearch(
-  environment.algolia.appId,
-  environment.algolia.apiKey
+  environment.algolia.productsIndex.appId,
+  environment.algolia.productsIndex.apiKey
 );
+
+const facetToRetrieve = 'sellerStores.city';
+const filterAttribute = 'userId';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CityService implements ICityService {
-  index: SearchIndex = searchClient.initIndex(environment.algolia.indexName);
+  index: SearchIndex = searchClient.initIndex(
+    environment.algolia.productsIndex.indexName
+  );
   config = {
-    indexName: environment.algolia.indexName,
+    indexName: environment.algolia.productsIndex.indexName,
     searchClient,
   };
   constructor() {}
 
-  getAllCities(): Observable<string[]> {
-    const cityResults = this.index.searchForFacetValues(
-      'sellerStores.city',
-      ''
-    );
+  getAllCities(storefrontSellerId): Observable<string[]> {
+    const cityResults = this.index.searchForFacetValues(facetToRetrieve, '', {
+      facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
+    });
+
     let tempCities: string[] = [];
 
     let formattedCities = from(cityResults).pipe(
@@ -38,11 +43,18 @@ export class CityService implements ICityService {
     return formattedCities;
   }
 
-  searchCities(searchItem: string): Observable<string[]> {
+  searchCities(
+    searchItem: string,
+    storefrontSellerId: string
+  ): Observable<string[]> {
     const cityResults = this.index.searchForFacetValues(
-      'sellerStores.city',
-      searchItem
+      facetToRetrieve,
+      searchItem,
+      {
+        facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
+      }
     );
+
     let tempCities: string[] = [];
 
     let formattedCities = from(cityResults).pipe(

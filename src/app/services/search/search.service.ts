@@ -6,17 +6,19 @@ import { ISearchService } from './iSearchService.interface';
 import { Observable, Subject, from, tap, delay, of, switchMap } from 'rxjs';
 
 const searchClient = algoliasearch(
-  environment.algolia.appId,
-  environment.algolia.apiKey
+  environment.algolia.productsIndex.appId,
+  environment.algolia.productsIndex.apiKey
 );
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService implements ISearchService {
-  index: SearchIndex = searchClient.initIndex(environment.algolia.indexName);
+  index: SearchIndex = searchClient.initIndex(
+    environment.algolia.productsIndex.indexName
+  );
   config = {
-    indexName: environment.algolia.indexName,
+    indexName: environment.algolia.productsIndex.indexName,
     searchClient,
   };
 
@@ -62,6 +64,7 @@ export class SearchService implements ISearchService {
         paymentOptions: product.paymentOptions,
         productImages: product.productImages,
         unit: product.unit,
+        userId: product.userId,
       };
     });
     return results;
@@ -97,12 +100,14 @@ export class SearchService implements ISearchService {
     categoryName: string = '',
     cityName: string = '',
     stateName: string = '',
+    storefrontSellerId: string = '',
     minPrice: number = 10,
     maxPrice: number = 50000
   ): Observable<ProductModel[]> {
     /* The code is creating a filter string based on the `minPrice`, `maxPrice`, and `categoryName`
     values. */
     let filters = `price:${minPrice} TO ${maxPrice}`;
+
     if (categoryName) {
       filters += ` AND category.name:${categoryName}`;
     }
@@ -113,6 +118,10 @@ export class SearchService implements ISearchService {
 
     if (stateName) {
       filters += ` AND sellerStores.state:${stateName}`;
+    }
+
+    if (storefrontSellerId) {
+      filters += ` AND userId:${storefrontSellerId}`;
     }
 
     let tempHits: ProductModel[] = [];

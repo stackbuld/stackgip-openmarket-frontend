@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Options } from '@angular-slider/ngx-slider';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductModel } from 'src/app/models/products.model';
@@ -7,6 +7,7 @@ import { FooterService } from 'src/app/services/footer.service';
 import { SearchService } from 'src/app/services/search/search.service';
 import { CityService } from 'src/app/services/city/city.service';
 import { StateService } from 'src/app/services/state/state.service';
+import { ICategory } from 'src/app/models/CategoryModels';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -14,7 +15,8 @@ import { StateService } from 'src/app/services/state/state.service';
 })
 export class ProductListComponent implements OnInit {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
-  categories: string[] = [];
+  @Input() storefrontSellerId: string = '';
+  categories: ICategory[] = [];
   products: ProductModel[] = [];
   cities: string[] = [];
   states: string[] = [];
@@ -42,7 +44,7 @@ export class ProductListComponent implements OnInit {
   loadingCategories: boolean = false;
   loadingCities: boolean = false;
   loadingStates: boolean = false;
-  columnCount = 6;
+  columnCount: number = 6;
   canLoadMore = true;
 
   // value: number = 700;
@@ -56,6 +58,7 @@ export class ProductListComponent implements OnInit {
   isCityFilter: boolean = false;
   isStateFilter: boolean = false;
 
+  categoryId: string = '';
   categoryName: string = '';
   cityName: string = '';
   stateName: string = '';
@@ -91,7 +94,7 @@ export class ProductListComponent implements OnInit {
   onCategorySearch(category: string) {
     this.categoryName = category;
     this.loadingCategories = true;
-    this.categoryService.searchCategories(category).subscribe({
+    this.categoryService.getAllCategories(category).subscribe({
       next: (data) => {
         this.categories = data;
         this.loadingCategories = false;
@@ -114,7 +117,7 @@ export class ProductListComponent implements OnInit {
   onCitySearch(city: string) {
     this.cityName = city;
     this.loadingCities = true;
-    this.cityService.searchCities(city).subscribe({
+    this.cityService.searchCities(city, this.storefrontSellerId).subscribe({
       next: (data) => {
         this.cities = data;
         this.loadingCities = false;
@@ -137,7 +140,7 @@ export class ProductListComponent implements OnInit {
   onStateSearch(state: string) {
     this.stateName = state;
     this.loadingStates = true;
-    this.stateService.searchStates(state).subscribe({
+    this.stateService.searchStates(state, this.storefrontSellerId).subscribe({
       next: (data) => {
         this.states = data;
         this.loadingStates = false;
@@ -212,6 +215,10 @@ export class ProductListComponent implements OnInit {
       this.loadingMoreProducts = true;
     }
 
+    if (this.storefrontSellerId) {
+      this.columnCount = 4;
+    }
+
     this.searchService
       .getAllProducts(
         this.pageNumber,
@@ -220,6 +227,7 @@ export class ProductListComponent implements OnInit {
         this.categoryName,
         this.cityName,
         this.stateName,
+        this.storefrontSellerId,
         this.minValue,
         this.maxValue
       )
@@ -245,6 +253,7 @@ export class ProductListComponent implements OnInit {
 
   fetchCategories = () => {
     this.loadingCategories = true;
+
     this.categoryService.getAllCategories().subscribe({
       next: (data) => {
         this.categories = data;
@@ -258,7 +267,7 @@ export class ProductListComponent implements OnInit {
 
   fetchCities = () => {
     this.loadingCities = true;
-    this.cityService.getAllCities().subscribe({
+    this.cityService.getAllCities(this.storefrontSellerId).subscribe({
       next: (data) => {
         this.cities = data;
         this.loadingCities = false;
@@ -271,7 +280,7 @@ export class ProductListComponent implements OnInit {
 
   fetchStates = () => {
     this.loadingStates = true;
-    this.stateService.getAllStates().subscribe({
+    this.stateService.getAllStates(this.storefrontSellerId).subscribe({
       next: (data) => {
         this.states = data;
         this.loadingStates = false;
@@ -296,8 +305,9 @@ export class ProductListComponent implements OnInit {
     this.fetchAllProducts(0);
   }
 
-  filterProductsByCategory(item: string) {
-    this.categoryName = item;
+  filterProductsByCategory(category: ICategory) {
+    this.categoryName = category.name;
+    this.categoryId = category.id.toString();
     this.fetchAllProducts(0);
     this.fetchCategories();
   }

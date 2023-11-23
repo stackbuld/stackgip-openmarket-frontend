@@ -7,20 +7,29 @@ import { ICatgoryService } from './ICatgoryService.interface';
 import { environment } from 'src/environments/environment';
 import algoliasearch from 'algoliasearch';
 
+// const searchClient = algoliasearch(
+//   environment.algolia.productsIndex.appId,
+//   environment.algolia.productsIndex.apiKey
+// );
+
 const searchClient = algoliasearch(
-  environment.algolia.appId,
-  environment.algolia.apiKey
+  environment.algolia.categoriesIndex.appId,
+  environment.algolia.categoriesIndex.apiKey
 );
+
+const facetToRetrieve = 'category.name';
+const filterAttribute = 'userId';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CatgoryService implements ICatgoryService {
-  config = {
-    indexName: environment.algolia.indexName,
-    searchClient,
-  };
-  index = searchClient.initIndex(this.config.indexName);
+  // config = {
+  //   indexName: environment.algolia.productsIndex.indexName,
+  //   searchClient,
+  // };
+  // index = searchClient.initIndex(environment.algolia.productsIndex.indexName);
+  index = searchClient.initIndex(environment.algolia.categoriesIndex.indexName);
 
   baseUrl: string;
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
@@ -37,37 +46,43 @@ export class CatgoryService implements ICatgoryService {
     );
   }
 
-  fetchAllCategoryNames() {
-    return this.index.searchForFacetValues('category.name', '');
-  }
+  getAllCategories(searchItem: string = ''): Observable<ICategory[]> {
+    let searchClientResults = this.index.search(searchItem);
 
-  getAllCategories(): Observable<string[]> {
-    const categoryResults = this.fetchAllCategoryNames();
-    let tempCategories: string[] = [];
-
-    let formattedCategories = from(categoryResults).pipe(
+    let formattedCategories = from(searchClientResults).pipe(
       switchMap((data) => {
-        const facetHits = data.facetHits;
-        tempCategories = facetHits.map((hits) => hits.value);
-        return of(tempCategories);
+        const hits = data.hits.map((category) => {
+          return this.convertToICategory(category);
+        });
+        return of(hits);
       })
     );
 
     return formattedCategories;
   }
 
-  searchCategories(searchItem: string): Observable<string[]> {
-    const categoryResults = this.index.searchForFacetValues(
-      'category.name',
-      searchItem
-    );
-    let tempCategories: string[] = [];
+  convertToICategory(category: any): ICategory {
+    return {
+      id: category.id,
+      name: category.name,
+      imageUrl: category.imageUrl,
+      createdOn: category.createdOn,
+    };
+  }
 
-    let formattedCategories = from(categoryResults).pipe(
+  getAllSellerStorefrontCategories(
+    categoryId: string
+  ): Observable<ICategory[]> {
+    let searchClientResults = this.index.search('', {
+      filters: `id:${categoryId}`,
+    });
+
+    let formattedCategories = from(searchClientResults).pipe(
       switchMap((data) => {
-        const facetHits = data.facetHits;
-        tempCategories = facetHits.map((hits) => hits.value);
-        return of(tempCategories);
+        const hits = data.hits.map((category) => {
+          return this.convertToICategory(category);
+        });
+        return of(hits);
       })
     );
 

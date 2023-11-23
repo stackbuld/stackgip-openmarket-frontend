@@ -2,6 +2,6 @@ import { Observable } from 'rxjs';
 import { ICategory } from '../../models/CategoryModels';
 
 export interface ICatgoryService {
-  getAllCategories(): Observable<string[]>;
-  searchCategories(searchItem: string): Observable<string[]>;
+  getAllCategories(searchItem?: string): Observable<ICategory[]>;
+  getAllSellerStorefrontCategories(categoryId: string): Observable<ICategory[]>;
 }
