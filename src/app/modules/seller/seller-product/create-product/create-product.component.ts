@@ -563,11 +563,13 @@ export class CreateProductComponent implements OnInit {
       console.log(this.editingVariation);
 
       if (this.editingVariation) {
-        // this.totalVariationsUnit =
-        //   this.totalVariationsUnit - this.editingTotalVariationsUnit;
+        this.totalVariationsUnit =
+          this.totalVariationsUnit - this.editingTotalVariationsUnit;
+        totalVariationValue = this.totalVariationsUnit - value;
+      } else {
+        totalVariationValue = this.totalVariationsUnit + value;
       }
 
-      totalVariationValue = value + this.totalVariationsUnit;
       this.availableProductUnit = this.initialProductUnit - totalVariationValue;
 
       console.log(
@@ -840,7 +842,6 @@ export class CreateProductComponent implements OnInit {
     this.storeService.getStoresById(id).subscribe(
       (res) => {
         this.stores = res.data;
-        console.log(this.stores);
       },
       (err) => {
         this.toast.error(err.message);
