@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { SellerBaseResponse, SellerStores } from 'src/app/models/StoreModels';
+import {
+  SellerBaseResponse,
+  SellerStores,
+  StoreAvailability,
+} from 'src/app/models/StoreModels';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -20,6 +24,7 @@ export class SellerStoreService {
     'Friday',
     'Saturday',
   ];
+  storeAvailabilitiesSubj = new Subject<any>();
 
   constructor(private http: HttpClient) {}
 
@@ -40,9 +45,9 @@ export class SellerStoreService {
     return this.http.post(`${this.baseUrl}sellerStores`, sellerStore);
   }
 
-  updateSellerStore(sellerStore) {
+  updateSellerStore(sellerStore, id: string) {
     return this.http.put(
-      `${this.baseUrl}sellerStores?storeId=${sellerStore.id}`,
+      `${this.baseUrl}sellerStores?storeId=${id}`,
       sellerStore
     );
   }
@@ -51,25 +56,63 @@ export class SellerStoreService {
     return this.http.delete(`${this.baseUrl}sellerStores/${sellerStore.id}`);
   }
 
-  getTimes() {
-    const times = [];
-    for (let i = 0; i < 24; i++) {
-      for (let j = 0; j < 60; j += 30) {
-        const hour = i < 10 ? `0${i}` : `${i}`;
-        const minute = j === 0 ? '00' : `${j}`;
-        times.push(`${hour}:${minute}`);
-      }
+  convertTo24Hours(oldTime: string) {
+    const [time, period] = oldTime.split(' ');
+    const [hours, minutes] = time.split(':').map(Number);
+
+    let newHours = hours;
+
+    if (!period) {
+      return oldTime;
     }
-    return times;
+    if (period.toLowerCase() === 'pm' && hours !== 12) {
+      newHours += 12;
+    } else if (period.toLowerCase() === 'am' && hours === 12) {
+      newHours = 0;
+    }
+
+    const formattedHours = String(newHours).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0');
+
+    return `${formattedHours}:${formattedMinutes}`;
   }
 
-  getMainTime(dateObj: Date) {
-    const dateObject = new Date(dateObj);
+  mergeAvailabilities(existingAvailability, newAvailability) {
+    newAvailability.forEach((newObj) => {
+      const index = existingAvailability.findIndex(
+        (existingObj) => existingObj.dayOfWeek === newObj.dayOfWeek
+      );
 
-    const hours = dateObject.getHours();
-    const minutes = dateObject.getMinutes();
-    const seconds = dateObject.getSeconds();
+      if (index !== -1) {
+        if (newObj.openingTime !== null && newObj.closingTime !== null) {
+          existingAvailability[index].openingTime = newObj.openingTime;
+          existingAvailability[index].closingTime = newObj.closingTime;
+        }
+      }
+    });
 
-    return `${hours}:${minutes}:${seconds}`;
+    return existingAvailability;
+  }
+
+  formatStoreAvailability(availability: StoreAvailability[]) {
+    return availability.filter((availability) => {
+      if (
+        availability.openingTime != null &&
+        availability.closingTime != null
+      ) {
+        availability.openingTime = this.convertTo24Hours(
+          availability.openingTime
+        );
+
+        availability.closingTime = this.convertTo24Hours(
+          availability.closingTime
+        );
+        return availability;
+      }
+      return;
+      console.log(availability);
+    });
+
+    return availability;
   }
 }

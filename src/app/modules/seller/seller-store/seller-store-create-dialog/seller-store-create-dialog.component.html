@@ -34,6 +34,7 @@
           </div>
         </div>
       </div>
+
       <div class="uk-margin">
         <label class="uk-form-label" for="form-stacked-text"
           >Store Address*</label
@@ -73,6 +74,176 @@
           {{ setter }}
         </p>
       </div>
+
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text"
+          >Availability*</label
+        >
+        <div
+          *ngIf="mode !== 'edit' || (mode === 'edit' && !notReady)"
+          class="uk-form-controls"
+        >
+          <div class="input-group" [mat-menu-trigger-for]="availMenu">
+            <div class="uk-input select-availability">
+              <span
+                *ngIf="
+                  formattedAvailabilities.length == 0;
+                  else availabilityDays
+                "
+              >
+                Select the days your store is available to deliver and pickup
+              </span>
+              <ng-template #availabilityDays>
+                Available on:
+                <span
+                  *ngFor="
+                    let availability of formattedAvailabilities;
+                    let i = index
+                  "
+                  class="available-days"
+                  ><span *ngIf="i != 0"> ,</span>
+                  {{ availability.dayOfWeek }}
+                </span>
+              </ng-template>
+            </div>
+
+            <div class="select-availability-icon">
+              <i class="fa fa-angle-down"></i>
+            </div>
+          </div>
+
+          <mat-menu #availMenu class="avail-menu">
+            <div class="avail-container" (click)="$event.stopPropagation()">
+              <div class="avail-heading">
+                <img src="assets/image/clock-01.png" alt="" />
+
+                <div class="avail-heading-container">
+                  <div class="avail-heading-main">General Availability</div>
+
+                  <div class="avail-copy">
+                    Set when you’re regularly available for delivery agent to
+                    pick up <a>Learn more</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="avails-main" formArrayName="storeAvailabilties">
+                <div
+                  class="avails"
+                  *ngFor="
+                    let controls of storeAvailability.controls;
+                    let i = index
+                  "
+                  [formGroupName]="i"
+                >
+                  <div class="day">{{ days[i]?.substring(0, 3) }}</div>
+
+                  <div class="time">
+                    <div>
+                      <div class="input-container" *ngIf="isEditing[i]">
+                        <input
+                          type="text"
+                          formControlName="openingTime"
+                          [ngxTimepicker]="picker1"
+                        />
+
+                        <input
+                          type="text"
+                          formControlName="closingTime"
+                          [ngxTimepicker]="picker2"
+                        />
+
+                        <ngx-material-timepicker
+                          #picker1
+                        ></ngx-material-timepicker>
+                        <ngx-material-timepicker
+                          #picker2
+                        ></ngx-material-timepicker>
+                      </div>
+
+                      <div class="time-container" *ngIf="!isEditing[i]">
+                        <div
+                          class="available"
+                          *ngIf="
+                            storeAvailabilties[i]?.openingTime &&
+                              storeAvailabilties[i]?.closingTime;
+                            else unavail
+                          "
+                        >
+                          {{ storeAvailabilties[i]?.openingTime }}
+                          <span>-</span>
+                          {{ storeAvailabilties[i]?.closingTime }}
+                        </div>
+
+                        <ng-template #unavail>
+                          <div class="unavailable">Unavailable</div>
+                        </ng-template>
+                      </div>
+                    </div>
+
+                    <div class="avail-btns">
+                      <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 17 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        (click)="deleteAvail(i)"
+                        *ngIf="
+                          storeAvailabilties[i]?.openingTime &&
+                            storeAvailabilties[i]?.closingTime;
+                          else addAvail
+                        "
+                      >
+                        <path
+                          d="M3.82812 3.33203L13.1615 12.6654"
+                          stroke="#141B34"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M15.1615 7.9987C15.1615 4.3168 12.1767 1.33203 8.49479 1.33203C4.81289 1.33203 1.82812 4.3168 1.82812 7.9987C1.82812 11.6806 4.81289 14.6654 8.49479 14.6654C12.1767 14.6654 15.1615 11.6806 15.1615 7.9987Z"
+                          stroke="#141B34"
+                          stroke-width="1.5"
+                        />
+                      </svg>
+                      <ng-template #addAvail>
+                        <svg
+                          width="22"
+                          height="22"
+                          viewBox="0 0 17 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          (click)="isEditingAvail(i)"
+                        >
+                          <path
+                            d="M8.50521 4.66797V11.3346M11.8385 8.0013H5.17188"
+                            stroke="#141B34"
+                            stroke-width="1.5"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M15.1615 7.9987C15.1615 4.3168 12.1767 1.33203 8.49479 1.33203C4.81289 1.33203 1.82812 4.3168 1.82812 7.9987C1.82812 11.6806 4.81289 14.6654 8.49479 14.6654C12.1767 14.6654 15.1615 11.6806 15.1615 7.9987Z"
+                            stroke="#141B34"
+                            stroke-width="1.5"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-menu>
+        </div>
+
+        <div class="avail-error" *ngIf="!isAvailabilityAdded">
+          Select availability day(s)
+        </div>
+      </div>
+
       <div class="uk-grid-small" uk-grid>
         <div class="uk-width-1-2@s">
           <label class="uk-form-label" for="form-stacked-text">City*</label>
@@ -157,31 +328,6 @@
           </div>
         </div>
 
-        <!-- <div class="uk-width-1-2@s">
-          <label for="">Phone Number*</label>
-          <input
-            type="tel"
-            formControlName="contactPhoneNumber"
-            class="uk-input"
-            type="text"
-            placeholder="--- 2348012345678---"
-            (keypress)="preventLetter($event)"
-          />
-          <div
-            *ngIf="
-              contactPhoneNumber.invalid &&
-              (contactPhoneNumber.dirty || contactPhoneNumber.touched)
-            "
-          >
-            <small
-              class="uk-text-danger"
-              *ngIf="contactPhoneNumber.hasError('required')"
-            >
-              Contact phone number is a required field
-            </small>
-          </div>
-        </div> -->
-
         <div class="uk-width-1-2@s">
           <label for="phone">Phone Number*</label>
           <div class="contact-inputs">
@@ -245,90 +391,10 @@
         </div>
       </div>
 
-      <div class="availability-container" formArrayName="storeAvailabilties">
-        <div class="availability-container-heading">Availability</div>
-        <div
-          class="availability-group"
-          *ngFor="let controls of storeAvailability.controls; let i = index"
-          [formGroupName]="i"
-          [ngClass]="{
-            spaceBottom: i + 1 != storeAvailability.controls.length
-          }"
-        >
-          <div class="availability-main">
-            <div class="input-group">
-              <label [for]="'day' + i">Day</label>
-              <select
-                class="time-select"
-                name=""
-                [id]="'day' + i"
-                formControlName="dayOfWeek"
-              >
-                <option [value]="null">Select a day</option>
-                <option [value]="day" *ngFor="let day of days">
-                  {{ day }}
-                </option>
-              </select>
-            </div>
-
-            <div class="input-group time-group">
-              <label [for]="'openingTime' + i">Opening Time</label>
-
-              <!-- <input
-                type="text"
-                [id]="'openingTime' + i"
-                placeholder="select your opening time"
-              /> -->
-
-              <ngx-mat-timepicker
-                formControlName="openingTime"
-                [showSpinners]="true"
-                [stepHour]="1"
-                [stepMinute]="10"
-                [stepSecond]="30"
-                [showSeconds]="false"
-                class="my-ngx-timepicker"
-                [id]="'openingTime' + i"
-              >
-              </ngx-mat-timepicker>
-            </div>
-
-            <div class="input-group time-group">
-              <label [for]="'closingTime' + i">Closing Time</label>
-              <!-- <input
-                type="text"
-                [id]="'closingTime' + i"
-                placeholder="select your opening time"
-                [mat-menu-trigger-for]="closingTimeMenu"
-                formControlName="closingTime"
-              /> -->
-              <ngx-mat-timepicker
-                formControlName="closingTime"
-                [showSpinners]="true"
-                [stepHour]="1"
-                [stepMinute]="10"
-                [stepSecond]="30"
-                [showSeconds]="false"
-                [id]="'closingTime' + i"
-                class="my-ngx-timepicker"
-              >
-              </ngx-mat-timepicker>
-            </div>
-          </div>
-          <div class="remove-availability" (click)="onRemoveAvailability(i)">
-            <i class="fa fa-times"></i>
-          </div>
-        </div>
-        <button
-          id="add-availability"
-          (click)="onAddAvailability()"
-          type="button"
-        >
-          Add availability
-        </button>
-      </div>
-
-      <button class="uk-button uk-button-default uk-modal-close" type="submit">
+      <button
+        class="uk-button uk-button-default uk-modal-close submit-btn"
+        type="submit"
+      >
         <span *ngIf="!loading">
           <span *ngIf="mode !== 'edit'">Save</span>
           <span *ngIf="mode === 'edit'">Update</span>

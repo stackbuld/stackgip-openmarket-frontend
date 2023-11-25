@@ -52,3 +52,9 @@ export interface CartAddress {
   isDefault?: boolean;
   createdOn?: string;
 }
+
+export interface StoreAvailability {
+  dayOfWeek: string;
+  openingTime: string;
+  closingTime: string;
+}
