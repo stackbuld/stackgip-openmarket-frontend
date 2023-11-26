@@ -82,3 +82,9 @@ body {
   background-color: red !important;
   width: 600px !important;
 }
+
+.toast-bottom-full-width {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}

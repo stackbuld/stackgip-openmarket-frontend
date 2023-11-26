@@ -159,6 +159,8 @@ export class CreateProductComponent implements OnInit {
   editingTotalVariationsUnit: number = 0;
   editingVariation: boolean = false;
   editingIndex: number;
+  editingVariationUnit: number = 0;
+  isProductUnitExceeded: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -189,14 +191,7 @@ export class CreateProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.formInit();
-    this.variationProps = this.fb.group({
-      title: ['', [Validators.required]],
-      value: ['', [Validators.required]],
-      cost: ['', [Validators.required]],
-      imageUrl: [''],
-      unit: [0, Validators.required],
-      isMultiple: false,
-    });
+    this.variationProps = this.createVariation();
 
     if (this.productId !== null) {
       this.getProduct(this.productId);
@@ -290,12 +285,10 @@ export class CreateProductComponent implements OnInit {
       }
     );
 
-    this.form.get('storeIds').valueChanges.subscribe((value) => {
-      console.log(value);
-    });
-
     this.form.get('unit').valueChanges.subscribe((value: number) => {
-      this.availableProductUnit = value;
+      if (!this.editingVariation) {
+        this.availableProductUnit = value;
+      }
       this.initialProductUnit = value;
     });
 
@@ -384,7 +377,6 @@ export class CreateProductComponent implements OnInit {
     let variationList = [];
     let complimentartProducts = [];
     let sellerStoreIds = [];
-    console.log('populating form', data);
 
     this.form = this.fb.group({
       userId: [this.user.id],
@@ -437,6 +429,7 @@ export class CreateProductComponent implements OnInit {
     //     })
     //   );
     // });
+
     this.allVariantList.forEach((element: any, index: number) => {
       (<FormArray>this.form.get('variations')).push(
         this.fb.group({
@@ -463,6 +456,53 @@ export class CreateProductComponent implements OnInit {
           ...(element.id && { id: element.id }),
         })
       );
+    });
+  }
+
+  getUnitValues() {
+    if (this.variationProps.get('unit').value === null) {
+      return;
+    }
+
+    this.variationProps.get('unit').valueChanges.subscribe((value) => {
+      let totalVariationValue = 0;
+
+      if (value === null) {
+        this.availableProductUnit =
+          this.initialProductUnit - this.totalVariationsUnit;
+
+        return;
+      }
+
+      totalVariationValue = value + this.totalVariationsUnit;
+
+      if (this.editingVariation) {
+        this.availableProductUnit =
+          this.initialProductUnit - totalVariationValue;
+      } else {
+        this.availableProductUnit =
+          this.initialProductUnit - (value + this.totalVariationsUnit);
+      }
+
+      if (this.availableProductUnit < 0) {
+        this.isProductUnitExceeded = true;
+      } else {
+        this.isProductUnitExceeded = false;
+      }
+
+      if (totalVariationValue > this.initialProductUnit) {
+        this.isProductUnitExceeded = true;
+
+        this.dialog.open(VariationsAlertDialogComponent, {
+          data: {
+            initialUnit: this.initialProductUnit,
+            exceededUnit: totalVariationValue,
+          },
+          autoFocus: false,
+        });
+      } else {
+        this.isProductUnitExceeded = false;
+      }
     });
   }
 
@@ -521,7 +561,7 @@ export class CreateProductComponent implements OnInit {
       value: ['', [Validators.required]],
       cost: ['', [Validators.required]],
       imageUrl: [''],
-      unit: [null, Validators.required],
+      unit: ['', Validators.required],
       isMultiple: false,
     });
   }
@@ -529,86 +569,33 @@ export class CreateProductComponent implements OnInit {
   // this method is to open the variation of products card
 
   addVariation(): void {
+    if (
+      this.form.get('unit').value === 0 ||
+      this.form.get('unit').value === null
+    ) {
+      this.toast.error('Add available product units');
+      return;
+    }
     this.addingVariation = true;
+    this.variationProps = this.createVariation();
+    this.getUnitValues();
     this.variationProps.patchValue({ imageUrl: '' });
 
     if (!this.editingVariation) {
-      console.log(this.availableProductUnit);
-
-      const unit = Math.floor(this.availableProductUnit / 2);
-      if (unit == 0) {
-        this.variationProps.patchValue({ unit: null });
-      } else {
-        this.variationProps.patchValue({ unit: unit });
+      if (this.availableProductUnit > 0) {
+        const unit = Math.floor(this.availableProductUnit / 2);
+        if (unit == 0) {
+          this.variationProps.patchValue({ unit: null });
+        } else {
+          this.variationProps.patchValue({ unit: unit });
+        }
       }
     }
-  }
-
-  getUnitValues() {
-    console.log(this.variationProps.get('unit').value);
-
-    if (this.variationProps.get('unit').value === null) {
-      return;
-    }
-    this.variationProps.get('unit').valueChanges.subscribe((value) => {
-      if (value === null) {
-        this.availableProductUnit =
-          this.initialProductUnit - this.totalVariationsUnit;
-        this.editingTotalVariationsUnit = 0;
-        console.log('null value');
-        return;
-      }
-
-      let totalVariationValue = 0;
-      console.log(this.editingVariation);
-
-      if (this.editingVariation) {
-        this.totalVariationsUnit =
-          this.totalVariationsUnit - this.editingTotalVariationsUnit;
-        totalVariationValue = this.totalVariationsUnit - value;
-      } else {
-        totalVariationValue = this.totalVariationsUnit + value;
-      }
-
-      this.availableProductUnit = this.initialProductUnit - totalVariationValue;
-
-      console.log(
-        'editingTotalVariationsUnit:',
-        this.editingTotalVariationsUnit,
-        'totalVariationsUnit:',
-        this.totalVariationsUnit,
-        'availableProductUnit:',
-        this.availableProductUnit
-      );
-
-      if (this.availableProductUnit < 0) {
-        this.availableProductUnit = 0;
-      }
-
-      if (totalVariationValue > this.initialProductUnit) {
-        this.dialog.open(VariationsAlertDialogComponent, {
-          data: {
-            initialUnit: this.initialProductUnit,
-            exceededUnit: totalVariationValue,
-          },
-          autoFocus: false,
-        });
-      }
-    });
   }
 
   // this method is to add the variation to the variation variable of the main form
 
   addProductVariation() {
-    // if (this.variationProps.get('unit').value > this.availableProductUnit) {
-    //   this.toast.warining(
-    //     `You have allocated more units than the current maximum of ${this.initialProductUnit}`
-    //   );
-    //   console.log(1);
-
-    //   return;
-    // }
-
     if (this.variationProps.invalid) {
       this.variationProps.markAllAsTouched();
       this.toast.error('All required fields must be valid');
@@ -616,14 +603,22 @@ export class CreateProductComponent implements OnInit {
       return;
     }
 
+    if (this.isProductUnitExceeded) {
+      this.toast.warining(
+        'Product variations unit can not be more than product unit'
+      );
+      return;
+    }
+
     this.addingVariation = false;
     this.variations().push(this.variationProps);
+
     if (this.editingVariation) {
       this.allVariantList[this.editingIndex] = this.variationProps.value;
     } else {
       this.allVariantList.push(this.variationProps.value);
     }
-    this.variationProps.reset({ unit: this.variationProps.get('unit').value });
+
     this.totalVariationsUnit = this.allVariantList.reduce(
       (accumulator, currentValue) => {
         return accumulator + currentValue.unit;
@@ -632,45 +627,52 @@ export class CreateProductComponent implements OnInit {
     );
 
     this.editingVariation = false;
-    console.log(this.totalVariationsUnit);
-    // this.variationProps.patchValue();
+    this.editingVariationUnit = 0;
   }
 
   // this method is to close the variation of products card
   removeEditVariation(): void {
-    this.addingVariation = false;
-    this.editingVariation = false;
     this.variationProps.reset();
     this.editingTotalVariationsUnit = 0;
+    this.totalVariationsUnit += this.editingVariationUnit;
+    this.editingVariationUnit = 0;
+    this.addingVariation = false;
+    this.editingVariation = false;
   }
 
   // this method is to remove already created product varaints
   removeVariation(index: number): void {
     this.variations().removeAt(index);
     this.allVariantList.splice(index, 1);
+    this.totalVariationsUnit = this.allVariantList.reduce(
+      (accumulator, currentValue) => {
+        return accumulator + currentValue.unit;
+      },
+      0
+    );
+
+    this.availableProductUnit =
+      this.initialProductUnit - this.totalVariationsUnit;
   }
 
   // this method is to edit already created related/complimentary product
   editVariation(index: number): void {
+    this.editingTotalVariationsUnit = this.totalVariationsUnit;
+
+    this.totalVariationsUnit =
+      this.totalVariationsUnit - this.allVariantList[index].unit;
+
     this.addingVariation = true;
     this.editingVariation = true;
     this.variationProps.patchValue({ imageUrl: '' });
     this.editingIndex = index;
+    this.editingVariationUnit = this.allVariantList[index].unit;
 
     if (!this.variationProps) {
       this.variationProps = this.createVariation();
     }
 
     this.variationProps.patchValue({ ...this.allVariantList[index] });
-    console.log(this.totalVariationsUnit);
-
-    this.editingTotalVariationsUnit =
-      this.totalVariationsUnit - this.allVariantList[index].unit;
-    console.log(this.editingTotalVariationsUnit);
-
-    this.availableProductUnit = this.editingTotalVariationsUnit;
-
-    this.removeVariation(index);
   }
 
   options(): FormArray {

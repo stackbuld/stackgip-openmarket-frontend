@@ -198,7 +198,7 @@
           <div class="mb-3 uk-width-expand uk-width-1-2@s input-sec editor">
             <div for="name" class="label">File Upload</div>
             <div class="border-form mb-30 d-flex align-items-center">
-              <button (click)="upload()">Add file</button>
+              <button type="button" (click)="upload()">Add file</button>
               <div
                 class="d-flex justify-content-center align-items-center px-8"
               >
@@ -639,6 +639,7 @@
                   <button
                     (click)="removeEditOption()"
                     class="small-btn del-btn"
+                    type="button"
                   >
                     Delete
                   </button>
@@ -731,7 +732,7 @@
               </tr>
             </tbody>
           </table>
-          <button (click)="addEditOption()" class="add-more-btn">
+          <button type="button" (click)="addEditOption()" class="add-more-btn">
             Add more
           </button>
         </div>
@@ -742,8 +743,13 @@
         <p class="sub-text">Add product's color, size and price variations</p>
         <div class="body-add flex-1">
           <div class="variation-count-alert">
-            You have {{ availableProductUnit }} units left available for
-            allocation
+            You have
+            <span *ngIf="!isProductUnitExceeded">
+              {{ availableProductUnit }} units left available for allocation
+            </span>
+            <span *ngIf="isProductUnitExceeded"
+              >exceeded product unit allocated</span
+            >
           </div>
           <div>
             <div class="" [formGroup]="variationProps">
@@ -1025,10 +1031,12 @@
                   <button
                     (click)="removeEditVariation()"
                     class="small-btn del-btn"
+                    type="button"
                   >
                     Delete
                   </button>
                   <button
+                    type="button"
                     (click)="addProductVariation()"
                     class="small-btn save-btn"
                   >
@@ -1160,7 +1168,9 @@
             </tr>
           </tbody>
         </table>
-        <button (click)="addVariation()" class="add-more-btn">Add more</button>
+        <button type="button" (click)="addVariation()" class="add-more-btn">
+          Add more
+        </button>
       </div>
     </div>
 
