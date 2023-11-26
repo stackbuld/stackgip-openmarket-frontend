@@ -1,0 +1,15 @@
+<div class="v-alert-container">
+  <div class="v-alert-container-heading">
+    You have allocated more units than the current maximum of
+    {{ actualProductUnit }}. You can either adjust the units in previous
+    variations or proceed to increase the total available units to
+    {{ exceededProductUnit }}
+  </div>
+
+  <div class="v-alert-btns">
+    <button id="increase" (click)="onClose('increase')">Increase units</button>
+    <button id="adjust" (click)="onClose('adjust')">
+      Adjust variation units
+    </button>
+  </div>
+</div>

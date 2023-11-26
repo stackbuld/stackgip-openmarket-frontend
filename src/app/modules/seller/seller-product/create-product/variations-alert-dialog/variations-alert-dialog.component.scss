@@ -1,0 +1,30 @@
+.v-alert-container {
+  max-width: 600px;
+  padding: 30px;
+  text-align: center;
+
+  &-heading {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+}
+
+.v-alert-btns {
+  & button {
+    border: none;
+    background-color: #000000;
+    border-radius: 4px;
+    padding: 10px;
+    color: #ffffff;
+
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
+
+    &#adjust {
+      background-color: transparent;
+      border: 1px solid #000000;
+      color: #000000;
+    }
+  }
+}

@@ -19,6 +19,7 @@ import { CreateProductComponent } from './create-product/create-product.componen
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { VariationsAlertDialogComponent } from './create-product/variations-alert-dialog/variations-alert-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     ProductItemComponent,
     ViewMoreComponent,
     CreateProductComponent,
+    VariationsAlertDialogComponent,
   ],
   imports: [
     CommonModule,
