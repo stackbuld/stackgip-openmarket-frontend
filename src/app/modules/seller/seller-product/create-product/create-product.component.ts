@@ -397,6 +397,7 @@ export class CreateProductComponent implements OnInit {
       variations: this.fb.array([]),
       draftProductId: [data.draftProductId],
     });
+
     for (let index = 0; index < data.sellerStores.length; index++) {
       const element = data.sellerStores[index];
       sellerStoreIds.push(element.id);
@@ -443,6 +444,7 @@ export class CreateProductComponent implements OnInit {
         })
       );
     });
+
     this.relatedItems.forEach((element: any, index: number) => {
       (<FormArray>this.form.get('options')).push(
         this.fb.group({
