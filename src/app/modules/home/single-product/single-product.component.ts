@@ -810,6 +810,11 @@ export class SingleProductComponent implements OnInit {
   }
 
   applyAddress = () => {
+    if (this.addressForm.invalid) {
+      this.toastService.warning('Fields can not be empty');
+      return;
+    }
+
     if (!this.isGoogleAddressSelected) {
       this.toastService.warning(
         'Select your address from the list that shows while typing'
@@ -817,105 +822,103 @@ export class SingleProductComponent implements OnInit {
       return;
     }
 
-    if (!this.addressForm.invalid) {
-      this.loadingAddress = true;
-      this.setter = this.addressForm.value.fullAddress;
-      const formValue = this.addressForm.value;
-      const phoneNumber = this.addressForm.value.contactPhoneNumber
-        .slice(-10)
-        .toString();
-      const formattedPhoneNumber =
-        this.addressForm.get('countryCode').value.toString() + phoneNumber;
+    this.loadingAddress = true;
+    this.setter = this.addressForm.value.fullAddress;
+    const formValue = this.addressForm.value;
+    const phoneNumber = this.addressForm.value.contactPhoneNumber
+      .slice(-10)
+      .toString();
+    const formattedPhoneNumber =
+      this.addressForm.get('countryCode').value.toString() + phoneNumber;
 
-      if (this.user !== null) {
-        if (this.isEditingAddress) {
-          let data: UserAddressData = {
-            firstname: formValue.firstname,
-            lastname: formValue.lastname,
-            fullAddress: formValue.fullAddress,
-            lat: this.currentAddress.lat as number,
-            contactPhoneNumber: formattedPhoneNumber,
-            lng: this.currentAddress.lng as number,
-            city: this.currentAddress.city,
-            state: formValue.state,
-            country: formValue.country,
-            userId: this.user.id,
-            isDefault: this.currentAddress.isDefault,
-          };
-
-          this.getClosestSellerStore(data);
-
-          this.userService
-            .updateUserAddress(this.currentAddress.id, data)
-            .subscribe({
-              next: (res) => {
-                this.reloadAddresses();
-                this.loadingAddress = false;
-                document.getElementById('closeAddressFormDialog').click();
-                this.initAddressForm();
-              },
-              error: (err) => {},
-            });
-        } else {
-          this.addressForm.patchValue({ userId: this.user.id });
-          const cartService$ = this.cartService.createAddress(
-            this.addressForm.value
-          );
-          cartService$.subscribe({
-            next: (res) => {
-              if (res.status === 'success') {
-                this.toastService.success(
-                  'Address created successfully',
-                  'SUCCESS'
-                );
-
-                localStorage.setItem(
-                  'shippingAddress',
-                  JSON.stringify({
-                    ...this.addressForm.value,
-                    contactPhoneNumber: formattedPhoneNumber,
-                  })
-                );
-                this.currentAddress = {
-                  ...this.addressForm.value,
-                  contactPhoneNumber: formattedPhoneNumber,
-                };
-
-                this.getClosestSellerStore(this.currentAddress);
-
-                this.reloadAddresses();
-                this.loadingAddress = false;
-                document.getElementById('closeAddressFormDialog').click();
-                this.initAddressForm();
-              } else {
-                this.loadingAddress = false;
-                this.toastService.error(res.message, 'ERROR');
-              }
-            },
-            error: (err) => {
-              this.loadingAddress = false;
-              this.toastService.error(err.message, 'ERROR');
-            },
-          });
-        }
-      } else {
-        this.loadingAddress = false;
-        localStorage.setItem(
-          'shippingAddress',
-          JSON.stringify({
-            ...this.addressForm.value,
-            contactPhoneNumber: formattedPhoneNumber,
-          })
-        );
-        this.currentAddress = {
-          ...this.addressForm.value,
+    if (this.user !== null) {
+      if (this.isEditingAddress) {
+        let data: UserAddressData = {
+          firstname: formValue.firstname,
+          lastname: formValue.lastname,
+          fullAddress: formValue.fullAddress,
+          lat: this.currentAddress.lat as number,
           contactPhoneNumber: formattedPhoneNumber,
+          lng: this.currentAddress.lng as number,
+          city: this.currentAddress.city,
+          state: formValue.state,
+          country: formValue.country,
+          userId: this.user.id,
+          isDefault: this.currentAddress.isDefault,
         };
 
-        this.getShippingEstimate();
-        this.toastService.success('Address saved!', 'SUCCESS');
-        document.getElementById('closeAddressFormDialog').click();
+        this.getClosestSellerStore(data);
+
+        this.userService
+          .updateUserAddress(this.currentAddress.id, data)
+          .subscribe({
+            next: (res) => {
+              this.reloadAddresses();
+              this.loadingAddress = false;
+              document.getElementById('closeAddressFormDialog').click();
+              this.initAddressForm();
+            },
+            error: (err) => {},
+          });
+      } else {
+        this.addressForm.patchValue({ userId: this.user.id });
+        const cartService$ = this.cartService.createAddress(
+          this.addressForm.value
+        );
+        cartService$.subscribe({
+          next: (res) => {
+            if (res.status === 'success') {
+              this.toastService.success(
+                'Address created successfully',
+                'SUCCESS'
+              );
+
+              localStorage.setItem(
+                'shippingAddress',
+                JSON.stringify({
+                  ...this.addressForm.value,
+                  contactPhoneNumber: formattedPhoneNumber,
+                })
+              );
+              this.currentAddress = {
+                ...this.addressForm.value,
+                contactPhoneNumber: formattedPhoneNumber,
+              };
+
+              this.getClosestSellerStore(this.currentAddress);
+
+              this.reloadAddresses();
+              this.loadingAddress = false;
+              document.getElementById('closeAddressFormDialog').click();
+              this.initAddressForm();
+            } else {
+              this.loadingAddress = false;
+              this.toastService.error(res.message, 'ERROR');
+            }
+          },
+          error: (err) => {
+            this.loadingAddress = false;
+            this.toastService.error(err.message, 'ERROR');
+          },
+        });
       }
+    } else {
+      this.loadingAddress = false;
+      localStorage.setItem(
+        'shippingAddress',
+        JSON.stringify({
+          ...this.addressForm.value,
+          contactPhoneNumber: formattedPhoneNumber,
+        })
+      );
+      this.currentAddress = {
+        ...this.addressForm.value,
+        contactPhoneNumber: formattedPhoneNumber,
+      };
+
+      this.getShippingEstimate();
+      this.toastService.success('Address saved!', 'SUCCESS');
+      document.getElementById('closeAddressFormDialog').click();
     }
   };
 
