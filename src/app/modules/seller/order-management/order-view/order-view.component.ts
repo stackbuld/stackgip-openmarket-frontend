@@ -28,7 +28,7 @@ export class OrderViewComponent implements OnInit {
   rejectingOrder: boolean;
   acceptingOrder: boolean = false;
   photoUrl: string = '';
-  videoUrl: string = '';
+  videoUrl: string;
   uploadWidget: any;
   uploadWidget2: any;
   videoName = '';
@@ -54,7 +54,7 @@ export class OrderViewComponent implements OnInit {
     this.confirmOrderForm = new FormGroup({
       serialNumber: new FormControl(null),
       additionalDetails: new FormControl(null),
-      startDate: new FormControl(null, Validators.required),
+      startDate: new FormControl(null, [Validators.required]),
       pickupTime: new FormControl(null, Validators.required),
     });
 
@@ -67,9 +67,10 @@ export class OrderViewComponent implements OnInit {
       }
     });
 
-    const currentYear = new Date();
-    const minDate = new Date(currentYear);
-    this.currentDate = minDate;
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    this.currentDate = currentDate;
+
     this.maxDate = this.orderService.getMaxDate(this.currentDate);
   }
 
@@ -166,10 +167,6 @@ export class OrderViewComponent implements OnInit {
     document.getElementById('closeRejectOrderDialog').click();
   };
 
-  closeAcceptDialog = () => {
-    document.getElementById('closeAcceptOrderDialog').click();
-  };
-
   rejectOrder = () => {
     this.rejectingOrder = true;
     const payload = {
@@ -180,7 +177,11 @@ export class OrderViewComponent implements OnInit {
       additionalInformation: '',
       rejectionReason: this.rejectionReason,
       isConfirmed: false,
+      pickupDate: '',
     };
+
+    uikit.modal('#reject-modal').hide();
+
     this.orderService.acceptRejectOrder(payload).subscribe({
       next: (res) => {
         if (res.status === 'success') {
@@ -216,10 +217,10 @@ export class OrderViewComponent implements OnInit {
     const payload = {
       orderId: this.order.id,
       photoUrl: this.photoUrl,
-      videoUrl: this.videoUrl,
+      videoUrl: this.videoUrl ?? '',
       serialNumber: this.serialNumber,
       additionalInformation: this.additionalInformation,
-      rejectionReason: this.rejectionReason,
+      rejectionReason: '',
       isConfirmed: true,
       pickupDate: isoString,
     };
@@ -228,7 +229,7 @@ export class OrderViewComponent implements OnInit {
       next: (res) => {
         if (res.status === 'success') {
           this.acceptingOrder = false;
-          this.closeAcceptDialog();
+          uikit.modal('#accept-modal').hide();
           this.toastr.success(res.message, 'SUCCESS');
           this.router.navigate(['/seller/orders']);
           this.orderService.orderActionTaken.next(true);
