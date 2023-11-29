@@ -22,15 +22,13 @@ export const environment = {
   sellerStorefrontApi: 'https://dev-identity.renamarkets.com/api/v1/sellers/',
 
   algolia: {
-    productsIndex: {
-      appId: 'FFW9XSFVBK',
-      apiKey: '8e009ce54b2cb72e747aad9fb4ca822c',
-      indexName: 'products_index',
-    },
-    categoriesIndex: {
-      appId: 'FFW9XSFVBK',
-      apiKey: '8e009ce54b2cb72e747aad9fb4ca822c',
-      indexName: 'categories_index',
+    appId: 'FFW9XSFVBK',
+    apiKey: '8e009ce54b2cb72e747aad9fb4ca822c',
+    indexName: {
+      products: 'products_index',
+      categories: 'categories_index',
+      promotedProducts: 'promoted_products_index_1',
+      recommendedProducts: 'recomended_products_index_1',
     },
     // urlSync: false
   },

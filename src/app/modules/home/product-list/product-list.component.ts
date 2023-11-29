@@ -16,7 +16,7 @@ import { ICategory } from 'src/app/models/CategoryModels';
 export class ProductListComponent implements OnInit {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
   @Input() storefrontSellerId: string = '';
-  categories: ICategory[] = [];
+  categories: string[] = [];
   products: ProductModel[] = [];
   cities: string[] = [];
   states: string[] = [];
@@ -94,15 +94,17 @@ export class ProductListComponent implements OnInit {
   onCategorySearch(category: string) {
     this.categoryName = category;
     this.loadingCategories = true;
-    this.categoryService.getAllCategories(category).subscribe({
-      next: (data) => {
-        this.categories = data;
-        this.loadingCategories = false;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.categoryService
+      .searchCategories(category, this.storefrontSellerId)
+      .subscribe({
+        next: (data) => {
+          this.categories = data;
+          this.loadingCategories = false;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
   onCategorySearchFocus() {
@@ -254,7 +256,7 @@ export class ProductListComponent implements OnInit {
   fetchCategories = () => {
     this.loadingCategories = true;
 
-    this.categoryService.getAllCategories().subscribe({
+    this.categoryService.getAllCategories(this.storefrontSellerId).subscribe({
       next: (data) => {
         this.categories = data;
         this.loadingCategories = false;
@@ -305,9 +307,9 @@ export class ProductListComponent implements OnInit {
     this.fetchAllProducts(0);
   }
 
-  filterProductsByCategory(category: ICategory) {
-    this.categoryName = category.name;
-    this.categoryId = category.id.toString();
+  filterProductsByCategory(category: string) {
+    this.categoryName = category;
+    // this.categoryId = category;
     this.fetchAllProducts(0);
     this.fetchCategories();
   }
