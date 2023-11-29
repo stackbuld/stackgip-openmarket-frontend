@@ -52,7 +52,7 @@ export class RenaHomeComponent {
     this.recommendedProductsService.getAllRecommendedProducts().subscribe({
       next: (data) => {
         this.recommendedProducts = data;
-        console.log('RECOMMENDED PRODUCTS', this.recommendedProducts);
+        console.log('RECOMMENDED PRODUCTS FETCHED');
       },
       error: (err) => {
         this.loadingRecommendedProducts = false;
@@ -68,7 +68,7 @@ export class RenaHomeComponent {
     this.promotedProductsService.getAllPromotedProducts().subscribe({
       next: (data) => {
         this.promotedProducts = data;
-        console.log('PROMOTED PRODUCTS', this.promotedProducts);
+        console.log('PROMOTED PRODUCTS FETCHED');
       },
       error: (err) => {
         this.loadingPromotedProducts = false;
