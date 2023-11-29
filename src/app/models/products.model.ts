@@ -198,3 +198,9 @@ export class NewOrders {
   transReferenceNo: string;
   orders: [];
 }
+
+export interface ProductSearchResult {
+  name: string;
+  imageUrl: string;
+  id: string;
+}

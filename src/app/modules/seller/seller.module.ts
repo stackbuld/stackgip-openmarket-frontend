@@ -40,6 +40,7 @@ import { BusinessProfileComponent } from './profile-dashboard/business-profile/b
 import { SellerKycComponent } from './profile-dashboard/seller-kyc/seller-kyc.component';
 import { OTPDialogComponent } from './profile-dashboard/otp-dialog/otp-dialog.component';
 import { EmailDialogComponent } from './profile-dashboard/email-dialog/email-dialog.component';
+import { SellerProductSearchComponent } from './seller-product-search/seller-product-search.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { EmailDialogComponent } from './profile-dashboard/email-dialog/email-dia
     SellerKycComponent,
     OTPDialogComponent,
     EmailDialogComponent,
+    SellerProductSearchComponent,
   ],
   imports: [
     CommonModule,

@@ -1,3 +1,9 @@
+.dashboard-container {
+  position: relative;
+  /* height: 100%;
+  width: 100%; */
+}
+
 .p-1 {
   padding: 1rem;
 }
@@ -31,4 +37,23 @@
 
 .main_content {
   background-color: #fff;
+}
+
+.search-results {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  height: 100%;
+}
+
+@media (max-width: 995px) {
+  .search-results {
+    top: 125px;
+  }
+}
+
+@media (max-width: 957px) {
+  .search-results {
+    top: 185px;
+  }
 }

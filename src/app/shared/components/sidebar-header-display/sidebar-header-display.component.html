@@ -8,7 +8,12 @@
   <div class="item">
     <div class="search">
       <img src="../../../../assets/img/searchIcon.png" alt="" />
-      <input type="text" placeholder="Search for products" />
+      <input
+        type="text"
+        placeholder="Search for products"
+        [formControl]="searchInput"
+        #search
+      />
     </div>
   </div>
   <div class="item-profileImg">
