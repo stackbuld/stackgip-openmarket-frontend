@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
@@ -320,6 +315,7 @@ export class SingleProductComponent implements OnInit {
     this.productImages = [];
     this.shippingMethods = [this.defaultShipping];
     this.imgUrls = [];
+    this.sellerStores = [];
     this.router.navigate(['/homepage/product', id]);
     this.getShippingEstimate();
     document.body.scrollTop = 0;
@@ -399,7 +395,9 @@ export class SingleProductComponent implements OnInit {
         this.product = res.data;
         this.sellerStores = res.data?.sellerStores;
 
-        this.getClosestSellerStore(this.currentAddress);
+        if (this.currentAddress) {
+          this.getClosestSellerStore(this.currentAddress);
+        }
 
         this.product.productImages.forEach((image) => {
           this.productImages.push({ image: image });
@@ -566,11 +564,11 @@ export class SingleProductComponent implements OnInit {
   };
 
   setShippingMethod = () => {
-    console.log(
-      'setShippingMethod called with current shipping method. prev, curr ',
-      this.currentShippingMethod,
-      this.selectedShippingMethod
-    );
+    // console.log(
+    //   'setShippingMethod called with current shipping method. prev, curr ',
+    //   this.currentShippingMethod,
+    //   this.selectedShippingMethod
+    // );
     this.currentShippingMethod.next(this.selectedShippingMethod);
     for (let index = 0; index < this.shippingMethods.length; index++) {
       const element = this.shippingMethods[index];
@@ -915,6 +913,8 @@ export class SingleProductComponent implements OnInit {
         ...this.addressForm.value,
         contactPhoneNumber: formattedPhoneNumber,
       };
+
+      this.getClosestSellerStore(this.currentAddress);
 
       this.getShippingEstimate();
       this.toastService.success('Address saved!', 'SUCCESS');
