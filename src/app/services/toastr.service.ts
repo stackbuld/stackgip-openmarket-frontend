@@ -4,6 +4,9 @@ import { ToastrService as Toastr } from 'ngx-toastr';
 export const toastOptions = {
   positionClass: 'toast-bottom-full-width',
   preventDuplicates: false,
+  closeButton: true,
+  progressBar: true,
+  timeOut: 3000,
 };
 
 @Injectable({
