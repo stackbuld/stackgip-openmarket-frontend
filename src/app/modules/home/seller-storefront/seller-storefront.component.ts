@@ -39,7 +39,7 @@ export class SellerStorefrontComponent implements OnInit {
         this.tempVariable =
           !this.sellerStorefrontDetails.coverPhotoUrl ||
           this.sellerStorefrontDetails.coverPhotoUrl === 'string'
-            ? 'assets/img/Storefront-frame.png'
+            ? 'assets/img/general-store.jpg'
             : this.sellerStorefrontDetails.coverPhotoUrl;
         this.loadingData = false;
         console.log('SELLER STOREFRONT DETAILS', data);
