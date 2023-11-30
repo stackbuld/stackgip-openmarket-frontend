@@ -65,7 +65,12 @@
           <li *ngFor="let slide of heroSlides" class="w-100 h-100">
             <img src="{{ slide }}" alt="" uk-cover />
             <div class="uk-position-medium uk-position-bottom-right">
-              <button class="uk-button uk-button-secondary">Shop Now</button>
+              <button
+                class="uk-button uk-button-secondary"
+                routerLink="/homepage/search"
+              >
+                Shop Now
+              </button>
             </div>
           </li>
         </ul>
