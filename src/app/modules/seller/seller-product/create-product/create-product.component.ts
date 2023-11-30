@@ -161,6 +161,8 @@ export class CreateProductComponent implements OnInit {
   editingIndex: number;
   editingVariationUnit: number = 0;
   isProductUnitExceeded: boolean = false;
+  videoUrls: string[] = [];
+  videoWidget: any;
 
   constructor(
     private fb: FormBuilder,
@@ -201,6 +203,7 @@ export class CreateProductComponent implements OnInit {
     this.getCategories();
     this.getStores(this.user.id);
     this.getVariations();
+
     this.uploadWidget = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
@@ -213,6 +216,22 @@ export class CreateProductComponent implements OnInit {
             this.images.push(result.info.secure_url);
             this.productImage = this.images[0];
             this.form.patchValue({ imageUrls: this.images });
+          }
+        }
+      }
+    );
+
+    this.videoWidget = cloudinary.createUploadWidget(
+      {
+        cloudName: environment.cloudinaryName,
+        uploadPreset: environment.cloudinaryUploadPerset,
+        clientAllowedFormats: ['gif', 'mp4'],
+      },
+      (error, result) => {
+        if (!error && result && result.event === 'success') {
+          if (this.videoUrls.length < 4) {
+            this.videoUrls.push(result.info.secure_url);
+            console.log(this.videoUrls);
           }
         }
       }
@@ -339,8 +358,12 @@ export class CreateProductComponent implements OnInit {
           this.populateProductForm(res.data);
           this.getSubCategories(res.data.category.id);
           this.setComplementaryImageForUpdate(res.data);
-          this.images = this.form.value.imageUrls;
+          this.images = res.data.productImages;
+          this.initialProductUnit = res.data.unit;
+          console.log(res.data);
+
           this.productImage = this.images[0];
+          this.videoUrls = res.data.videoUrls;
         } else {
           this.toast.error(res.message);
           this.loading = false;
@@ -385,7 +408,7 @@ export class CreateProductComponent implements OnInit {
       price: [data.price, [Validators.required]],
       weight: [data.weight, [Validators.required]],
       previousPrice: [data.previousPrice],
-      imageUrls: [data.resources?.map((img) => img.url)],
+      imageUrls: [data.productImages],
       pickupOption: [data.pickupOption, [Validators.required]],
       imageUrl: [data.imageUrl],
       categoryId: [data.categoryId, [Validators.required]],
@@ -402,6 +425,7 @@ export class CreateProductComponent implements OnInit {
       const element = data.sellerStores[index];
       sellerStoreIds.push(element.id);
     }
+
     for (let index = 0; index < data.productOptions.length; index++) {
       const element = data.productOptions[index];
 
@@ -415,6 +439,8 @@ export class CreateProductComponent implements OnInit {
         this.allVariantList.push(element);
       }
     }
+
+    this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
 
     // this.relatedItems.forEach((element: any, index: number) => {
     //   (<FormArray>this.form.get('options')).push(
@@ -621,15 +647,16 @@ export class CreateProductComponent implements OnInit {
       this.allVariantList.push(this.variationProps.value);
     }
 
-    this.totalVariationsUnit = this.allVariantList.reduce(
-      (accumulator, currentValue) => {
-        return accumulator + currentValue.unit;
-      },
-      0
-    );
+    this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
 
     this.editingVariation = false;
     this.editingVariationUnit = 0;
+  }
+
+  getTotalVariationUnit(list: any[]) {
+    return list.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.unit;
+    }, 0);
   }
 
   // this method is to close the variation of products card
@@ -751,6 +778,21 @@ export class CreateProductComponent implements OnInit {
     } else {
       this.imageErr = 'You can only upload maximum of four images';
     }
+  }
+
+  onUploadVideo() {
+    if (this.videoUrls.length > 4) {
+      this.toast.warining('You can only upload up to four videos');
+      return;
+    }
+
+    this.videoWidget.open();
+  }
+
+  onDeleteVideo(index: number) {
+    this.videoUrls = this.videoUrls.filter(
+      (url, urlIndex) => urlIndex != index
+    );
   }
 
   removeImage(image_url): void {
@@ -879,8 +921,8 @@ export class CreateProductComponent implements OnInit {
     this.productService
       .createNewProduct({
         ...this.form.value,
+        videoUrls: this.videoUrls,
         publishOption: 'Review',
-        videoUrls: [],
         draftProductId: this.productId,
       })
       .subscribe(
@@ -924,6 +966,7 @@ export class CreateProductComponent implements OnInit {
     this.productService
       .createNewProduct({
         ...this.form.value,
+        videoUrls: [...this.videoUrls],
         options: [...this.relatedItems, ...this.allVariantList],
         publishOption: 'Review',
       })
@@ -974,6 +1017,7 @@ export class CreateProductComponent implements OnInit {
         this.productService
           .createNewProduct({
             ...this.form.value,
+            videoUrls: [...this.videoUrls],
             options: [...this.relatedItems, ...this.allVariantList],
             publishOption: 'Draft',
             ...(this.productId && { draftProductId: this.productId }),

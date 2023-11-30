@@ -324,6 +324,22 @@
         </div>
       </div>
 
+      <div class="video-container">
+        <div class="video-main" *ngIf="videoUrls.length > 0">
+          <div class="video" *ngFor="let video of videoUrls; let i = index">
+            <video [src]="video" height="75" controls></video>
+
+            <div class="delete-video" (click)="onDeleteVideo(i)">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </div>
+
+        <button class="add-video" type="button" (click)="onUploadVideo()">
+          Add Video
+        </button>
+      </div>
+
       <div
         *ngIf="!(addingVariation || addingComplimentaryOptions)"
         class="action-btn-container"
