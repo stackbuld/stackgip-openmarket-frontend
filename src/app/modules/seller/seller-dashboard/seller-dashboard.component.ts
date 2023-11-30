@@ -29,14 +29,12 @@ export class SellerDashboardComponent implements OnInit {
   }
 
   getUserDetails() {
-    this.userService.getUserById(this.user.id).subscribe(
-      (res) => {
+    this.userService.getUserById(this.user.id).subscribe({
+      next: (res) => {
         this.userDetails = res.data;
       },
-      (err) => {
-        console.log(err);
-      }
-    );
+      error: (err) => {},
+    });
   }
 
   getDashboardData() {

@@ -11,9 +11,10 @@ import {
 @Injectable({ providedIn: 'root' })
 export class ProductSearchService {
   baseUrl = '';
-  searchResults = new Subject<ProductSearchResult[]>();
+  searchResults = new BehaviorSubject<ProductSearchResult[]>([]);
   isSearching = new Subject<boolean>();
   isFetching = new Subject<boolean>();
+  clearSearchInput = new Subject<boolean>();
 
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
@@ -45,7 +46,6 @@ export class ProductSearchService {
             });
           });
           console.log(refinedResponse);
-          this.searchResults.next(refinedResponse);
           return refinedResponse;
         })
       );

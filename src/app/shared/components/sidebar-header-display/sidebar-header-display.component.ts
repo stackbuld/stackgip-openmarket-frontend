@@ -2,12 +2,13 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
-import { fromEvent } from 'rxjs';
+import { Subscription, fromEvent } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -26,13 +27,17 @@ import { SellerService } from 'src/app/services/seller/seller.service';
   templateUrl: './sidebar-header-display.component.html',
   styleUrls: ['./sidebar-header-display.component.css'],
 })
-export class SidebarHeaderDisplayComponent implements OnInit, AfterViewInit {
+export class SidebarHeaderDisplayComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   currentRoute: string = 'seller/dashboard';
   userId: string;
   userProfilePicture: string;
   searchInput: FormControl;
   @ViewChild('search', { static: true }) searchQuery: ElementRef;
   isFetching: boolean = false;
+  clearSearchInput$: Subscription;
+  isTyping: boolean = false;
 
   constructor(
     private router: Router,
@@ -61,12 +66,22 @@ export class SidebarHeaderDisplayComponent implements OnInit, AfterViewInit {
 
     this.searchInput.valueChanges.subscribe((value) => {
       if (value !== null) {
+        this.isTyping = true;
         this.productSearchService.isSearching.next(true);
       }
       if (value === '') {
+        this.isTyping = false;
         this.productSearchService.isSearching.next(false);
       }
     });
+
+    this.clearSearchInput$ =
+      this.productSearchService.clearSearchInput.subscribe((status) => {
+        if (status) {
+          this.searchInput.reset();
+          this.isTyping = false;
+        }
+      });
   }
 
   ngAfterViewInit(): void {
@@ -78,7 +93,6 @@ export class SidebarHeaderDisplayComponent implements OnInit, AfterViewInit {
       .pipe(
         tap(() => {
           this.productSearchService.isFetching.next(true);
-          console.log(true);
         }),
         filter(Boolean),
         debounceTime(300),
@@ -92,20 +106,20 @@ export class SidebarHeaderDisplayComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe((res) => {
+        this.productSearchService.searchResults.next(res);
         this.productSearchService.isFetching.next(false);
-        console.log(false);
-
-        console.log(res);
       });
   }
 
-  getProductSearchResult(query: string) {
-    this.productSearchService
-      .getProducts({ userId: this.userId, search: query })
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-        },
-      });
+  onCloseSearch() {
+    this.searchInput.reset();
+    this.isTyping = false;
+    this.productSearchService.isSearching.next(false);
+  }
+
+  ngOnDestroy(): void {
+    if (this.clearSearchInput$) {
+      this.clearSearchInput$.unsubscribe();
+    }
   }
 }

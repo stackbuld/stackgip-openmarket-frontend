@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // approved = this.sellerS.sellerRegisterationFormStatus.approved;
   // pending = this.sellerS.sellerRegisterationFormStatus.pending;
   isSearching: Observable<boolean>;
+  isFetching: Observable<boolean>;
   currentRoute: string = 'seller/dashboard';
 
   constructor(
@@ -34,6 +35,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //   this.switching = res.data;
     // });
     this.isSearching = this.productSearchService.isSearching;
+    this.isFetching = this.productSearchService.isFetching;
   }
 
   // modalStatus(d: any) {

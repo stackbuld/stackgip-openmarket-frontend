@@ -41,6 +41,7 @@ import { SellerKycComponent } from './profile-dashboard/seller-kyc/seller-kyc.co
 import { OTPDialogComponent } from './profile-dashboard/otp-dialog/otp-dialog.component';
 import { EmailDialogComponent } from './profile-dashboard/email-dialog/email-dialog.component';
 import { SellerProductSearchComponent } from './seller-product-search/seller-product-search.component';
+import { ProductSearchImageDirective } from './seller-product-search/product-search-image.directive';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { SellerProductSearchComponent } from './seller-product-search/seller-pro
     OTPDialogComponent,
     EmailDialogComponent,
     SellerProductSearchComponent,
+    ProductSearchImageDirective,
   ],
   imports: [
     CommonModule,
