@@ -355,11 +355,11 @@ export class CreateProductComponent implements OnInit {
       (res) => {
         if (res.status === 'success') {
           this.loading = false;
+          this.initialProductUnit = res.data.unit;
           this.populateProductForm(res.data);
           this.getSubCategories(res.data.category.id);
           this.setComplementaryImageForUpdate(res.data);
           this.images = res.data.productImages;
-          this.initialProductUnit = res.data.unit;
           console.log(res.data);
 
           this.productImage = this.images[0];
@@ -439,8 +439,13 @@ export class CreateProductComponent implements OnInit {
         this.allVariantList.push(element);
       }
     }
+    console.log(this.allVariantList);
 
     this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
+    console.log(this.initialProductUnit, this.totalVariationsUnit);
+
+    this.availableProductUnit =
+      this.initialProductUnit - this.totalVariationsUnit;
 
     // this.relatedItems.forEach((element: any, index: number) => {
     //   (<FormArray>this.form.get('options')).push(
