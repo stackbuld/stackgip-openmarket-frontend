@@ -151,11 +151,11 @@
                                 </svg> &nbsp; -->
                 <span
                   [ngClass]="{
-                    activeCategory: this.categoryName === category.name
+                    activeCategory: this.categoryName === category
                   }"
                   (click)="filterProductsByCategory(category)"
                 >
-                  <span class="pointer">{{ category.name }}</span>
+                  <span class="pointer">{{ category }}</span>
                 </span>
                 <span
                   *ngIf="
@@ -491,12 +491,12 @@
           >
             <span
               [ngClass]="{
-                activeCategory: this.categoryName === category.name
+                activeCategory: this.categoryName === category
               }"
               (click)="filterProductsByCategory(category)"
               class="each-cat py-2"
             >
-              <span>{{ category.name }}</span>
+              <span>{{ category }}</span>
             </span>
             <span
               *ngIf="

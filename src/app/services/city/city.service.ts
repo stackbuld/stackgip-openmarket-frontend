@@ -5,8 +5,8 @@ import { ICityService } from './ICity.interface';
 import { Observable, from, of, switchMap } from 'rxjs';
 
 const searchClient = algoliasearch(
-  environment.algolia.productsIndex.appId,
-  environment.algolia.productsIndex.apiKey
+  environment.algolia.appId,
+  environment.algolia.apiKey
 );
 
 const facetToRetrieve = 'sellerStores.city';
@@ -17,12 +17,9 @@ const filterAttribute = 'userId';
 })
 export class CityService implements ICityService {
   index: SearchIndex = searchClient.initIndex(
-    environment.algolia.productsIndex.indexName
+    environment.algolia.indexName.products
   );
-  config = {
-    indexName: environment.algolia.productsIndex.indexName,
-    searchClient,
-  };
+
   constructor() {}
 
   getAllCities(storefrontSellerId): Observable<string[]> {

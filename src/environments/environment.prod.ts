@@ -15,7 +15,12 @@ export const environment = {
   algolia: {
     appId: 'FFW9XSFVBK',
     apiKey: '8e009ce54b2cb72e747aad9fb4ca822c',
-    indexName: 'products_index',
+    indexName: {
+      products: 'products_index',
+      categories: 'categories_index',
+      promotedProducts: 'promoted_products_index_1',
+      recommendedProducts: 'recomended_products_index_1',
+    },
     // urlSync: false
   },
 };

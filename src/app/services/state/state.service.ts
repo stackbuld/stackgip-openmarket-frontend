@@ -5,8 +5,8 @@ import { IStateService } from './IState.interface';
 import { Observable, from, of, switchMap } from 'rxjs';
 
 const searchClient = algoliasearch(
-  environment.algolia.productsIndex.appId,
-  environment.algolia.productsIndex.apiKey
+  environment.algolia.appId,
+  environment.algolia.apiKey
 );
 
 const facetToRetrieve = 'sellerStores.state';
@@ -16,11 +16,7 @@ const filterAttribute = 'userId';
   providedIn: 'root',
 })
 export class StateService implements IStateService {
-  index = searchClient.initIndex(environment.algolia.productsIndex.indexName);
-  config = {
-    indexName: environment.algolia.productsIndex.indexName,
-    searchClient,
-  };
+  index = searchClient.initIndex(environment.algolia.indexName.products);
 
   constructor() {}
 

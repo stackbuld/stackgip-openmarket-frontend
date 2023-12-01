@@ -15,13 +15,13 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     children: [
-      { path: '', component: ProductListComponent },
+      { path: '', component: RenaHomeComponent },
       { path: 'product/:id', component: SingleProductComponent },
       { path: 'checkout', component: ProductCheckoutComponent },
       { path: 'details/:id', component: OrderDetailsComponent },
       { path: 'history', component: OrderHistoryComponent },
       { path: 'payment-confirmation', component: PaymentConfirmationComponent },
-      { path: 'index', component: RenaHomeComponent },
+      { path: 'search', component: ProductListComponent },
       {
         path: 'wallet',
         loadChildren: () =>
@@ -35,7 +35,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: '/home',
+        redirectTo: '',
       },
     ],
   },

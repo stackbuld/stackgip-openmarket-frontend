@@ -7,7 +7,7 @@
           <a routerLink="/homepage/storefront">
             <span *ngIf="loadingData">Loading...</span>
             <span *ngIf="!loadingData">
-              {{ sellerStorefrontDetails.businessName || null }}
+              {{ sellerStorefrontDetails?.businessName || null }}
             </span>
           </a>
         </li>
@@ -26,7 +26,7 @@
       <img
         class="circle-storefront"
         [src]="
-          sellerStorefrontDetails.businessLogoUrl ||
+          sellerStorefrontDetails?.businessLogoUrl ||
           'assets/img/circle-storefront.jpg'
         "
         alt=""
@@ -35,18 +35,24 @@
       <div class="hero-text">
         <p *ngIf="loadingData">Loading...</p>
         <h3 *ngIf="!loadingData">
-          {{ sellerStorefrontDetails.businessName || null }}
+          {{ sellerStorefrontDetails?.businessName || null }}
         </h3>
         <div class="store-location">
           <img src="assets/svg/map-pin.svg" class="pointer" alt="" />
           <span *ngIf="loadingData">Loading...</span>
           <span *ngIf="!loadingData">
-            {{ sellerStorefrontDetails.businessState || null }}, Nigeria
+            {{ sellerStorefrontDetails?.businessState || null }}, Nigeria
           </span>
         </div>
         <div class="store-link">
-          {{ sellerStorefrontDetails.businessWebsite || null }}
-          <img src="assets/svg/copy.svg" class="pointer" alt="" />
+          <!-- {{ sellerStorefrontDetails?.businessWebsite || null }} -->
+          <span>{{ "homepage/storefront/" + sellerId }}</span>
+          <img
+            src="assets/svg/copy.svg"
+            class="pointer"
+            (click)="copyUrl()"
+            alt=""
+          />
         </div>
         <!-- <div class="store-ratings">
           <img class="rating" src="assets/svg/star.svg" alt="" />
@@ -89,7 +95,7 @@
         <div class="about">
           <h2>Description</h2>
           <p>
-            {{ sellerStorefrontDetails.businessDescription || null }}
+            {{ sellerStorefrontDetails?.businessDescription || null }}
           </p>
         </div>
       </li>

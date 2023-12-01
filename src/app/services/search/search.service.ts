@@ -3,11 +3,11 @@ import { environment } from 'src/environments/environment';
 import algoliasearch, { SearchClient, SearchIndex } from 'algoliasearch';
 import { IProductPage, ProductModel } from '../../models/products.model';
 import { ISearchService } from './iSearchService.interface';
-import { Observable, Subject, from, tap, delay, of, switchMap } from 'rxjs';
+import { Observable, from, of, switchMap } from 'rxjs';
 
 const searchClient = algoliasearch(
-  environment.algolia.productsIndex.appId,
-  environment.algolia.productsIndex.apiKey
+  environment.algolia.appId,
+  environment.algolia.apiKey
 );
 
 @Injectable({
@@ -15,10 +15,10 @@ const searchClient = algoliasearch(
 })
 export class SearchService implements ISearchService {
   index: SearchIndex = searchClient.initIndex(
-    environment.algolia.productsIndex.indexName
+    environment.algolia.indexName.products
   );
   config = {
-    indexName: environment.algolia.productsIndex.indexName,
+    indexName: environment.algolia.indexName.products,
     searchClient,
   };
 
@@ -38,7 +38,7 @@ export class SearchService implements ISearchService {
       hitsPerPage: maxItem,
       page: currentPage,
       filters,
-      facets: ['*'],
+      // facets: ['*'],
     });
   }
 
