@@ -1,6 +1,14 @@
 import { IUser } from '../../../../models/IUserModel';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Inject,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { ProductModel } from '../../../../models/products.model';
 import { ProductsService } from '../../../../services/products/products.service';
 import { ToastrService } from '../../../../services/toastr.service';
@@ -50,6 +58,7 @@ export class ProductItemComponent implements OnInit {
   lowStockPageNumber: number = 1;
   lowStockMaxItem: number = 10;
   lowStockTotalItem: number;
+  @ViewChild('lowStockHeading', { static: true }) lowStockHeading: ElementRef;
 
   constructor(
     private productService: ProductsService,
@@ -75,6 +84,9 @@ export class ProductItemComponent implements OnInit {
     this.loadingStock = true;
 
     this.lowStockPageNumber = pageNumber;
+    if (pageNumber != 1) {
+      this.lowStockHeading.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
     this.productService
       .getLowStockProducts({
         userId: this.user.id,
