@@ -58,7 +58,6 @@ export class ProductItemComponent implements OnInit {
   lowStockPageNumber: number = 1;
   lowStockMaxItem: number = 10;
   lowStockTotalItem: number;
-  @ViewChild('lowStockHeading', { static: true }) lowStockHeading: ElementRef;
 
   constructor(
     private productService: ProductsService,
@@ -84,9 +83,7 @@ export class ProductItemComponent implements OnInit {
     this.loadingStock = true;
 
     this.lowStockPageNumber = pageNumber;
-    if (pageNumber != 1) {
-      this.lowStockHeading.nativeElement.scrollIntoView({ behavior: 'smooth' });
-    }
+
     this.productService
       .getLowStockProducts({
         userId: this.user.id,
