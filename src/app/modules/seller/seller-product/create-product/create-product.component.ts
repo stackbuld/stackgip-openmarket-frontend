@@ -927,11 +927,12 @@ export class CreateProductComponent implements OnInit {
       .createNewProduct({
         ...this.form.value,
         videoUrls: this.videoUrls,
+        options: [...this.relatedItems, ...this.allVariantList],
         publishOption: 'Review',
         draftProductId: this.productId,
       })
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           if (res.status === 'success') {
             this.toast.success(res.message);
             this.router.navigate(['/seller/products']);
@@ -943,11 +944,11 @@ export class CreateProductComponent implements OnInit {
             this.toast.error(res.message);
           }
         },
-        (err) => {
+        error: (err) => {
           this.creatingProduct = false;
           this.toast.error(err.message);
-        }
-      );
+        },
+      });
   };
 
   toggleDescription() {
@@ -975,11 +976,12 @@ export class CreateProductComponent implements OnInit {
         options: [...this.relatedItems, ...this.allVariantList],
         publishOption: 'Review',
       })
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           if (res.status === 'success') {
             this.toast.success('Product added successfully');
             this.router.navigate(['/seller/products']);
+
             this.creatingProduct = false;
             localStorage.removeItem('compImagesStore');
             this.complementaryImagesStore = [];
@@ -988,11 +990,11 @@ export class CreateProductComponent implements OnInit {
             this.toast.error('Something went wrong');
           }
         },
-        (err) => {
+        error: (err) => {
           this.creatingProduct = false;
           this.toast.error('Something went wrong');
-        }
-      );
+        },
+      });
   };
 
   saveAsDraft = () => {
