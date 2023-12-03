@@ -757,7 +757,11 @@
         </div>
       </div>
 
-      <div *ngIf="addingVariation" class="mt-5 uk-flex uk-flex-column flex-1">
+      <div
+        *ngIf="addingVariation"
+        class="mt-5 uk-flex uk-flex-column flex-1"
+        #variationForm
+      >
         <h2>Variation(s) Information</h2>
         <p class="sub-text">Add product's color, size and price variations</p>
         <div class="body-add flex-1">
@@ -790,6 +794,7 @@
                     </div>
                     <mat-form-field
                       class="full-width uk-width-1-4 mt-2 create-product-form-field"
+                      id="variation-select"
                     >
                       <mat-select formControlName="title" required>
                         <mat-option disabled="true"
