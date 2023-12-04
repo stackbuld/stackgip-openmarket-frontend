@@ -94,6 +94,33 @@ export class ProductListComponent implements OnInit {
     this.fetchStates();
   }
 
+  removeQueryParam(filter: string) {
+    // Get the current query parameters
+    const queryParams = { ...this.route.snapshot.queryParams };
+
+    if (filter === 'category') {
+      this.categoryName = '';
+      queryParams.category = null;
+    }
+
+    if (filter === 'city') {
+      this.cityName = '';
+      queryParams.city = null;
+    }
+
+    if (filter === 'state') {
+      this.stateName = '';
+      queryParams.state = null;
+    }
+
+    // Navigate to the same route with modified query parameters
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: 'merge',
+    });
+  }
+
   fetchQueryParamsFromUrl() {
     const { category, city, state, minPrice, maxPrice } =
       this.searchService.getQueryParams();
@@ -232,17 +259,17 @@ export class ProductListComponent implements OnInit {
   };
 
   resetProductsByCategory = () => {
-    this.categoryName = '';
+    this.removeQueryParam('category');
     this.fetchAllProducts(0);
   };
 
   resetProductsByState = () => {
-    this.stateName = '';
+    this.removeQueryParam('state');
     this.fetchAllProducts(0);
   };
 
   resetProductsByCity = () => {
-    this.cityName = '';
+    this.removeQueryParam('city');
     this.fetchAllProducts(0);
   };
 
