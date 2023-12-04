@@ -163,20 +163,20 @@ export class ProductsService {
   }
 
   createNewProduct(payload: any): Observable<any> {
-    for (let index = 0; index < payload.variations.length; index++) {
-      const element = payload.variations[index];
-      payload.options.push(element);
-    }
-    delete payload.variations;
+    // for (let index = 0; index < payload.variations.length; index++) {
+    //   const element = payload.variations[index];
+    //   payload.options.push(element);
+    // }
+    // delete payload.variations;
     return this.http.post(this.baseUrl + `products`, payload);
   }
 
   updateProduct(payload: any, productId: any): Observable<any> {
-    for (let index = 0; index < payload.variations.length; index++) {
-      const element = payload.variations[index];
-      payload.options.push(element);
-    }
-    delete payload.variations;
+    // for (let index = 0; index < payload.variations.length; index++) {
+    //   const element = payload.variations[index];
+    //   payload.options.push(element);
+    // }
+    // delete payload.variations;
     return this.http.put(this.baseUrl + `products/${productId}`, payload);
   }
 

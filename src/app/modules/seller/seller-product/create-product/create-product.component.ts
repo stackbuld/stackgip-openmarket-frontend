@@ -5,7 +5,16 @@ import { CreateProductResponse } from '../../../../models/products.model';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  Inject,
+  ElementRef,
+  ViewChild,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { ProductsService } from '../../../../services/products/products.service';
 import { ToastrService } from '../../../../services/toastr.service';
@@ -163,6 +172,8 @@ export class CreateProductComponent implements OnInit {
   isProductUnitExceeded: boolean = false;
   videoUrls: string[] = [];
   videoWidget: any;
+  @ViewChild('variationForm', { static: false })
+  variationForm: ElementRef<HTMLElement>;
 
   constructor(
     private fb: FormBuilder,
@@ -175,7 +186,8 @@ export class CreateProductComponent implements OnInit {
     private authService: AuthService,
     private dialogService: DialogService,
     @Inject(DOCUMENT) private document: Document,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private changeDetector: ChangeDetectorRef
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
     this.initVariationForm();
@@ -599,6 +611,15 @@ export class CreateProductComponent implements OnInit {
     });
   }
 
+  scrollToFirstInvalidControl() {
+    this.changeDetector.detectChanges();
+
+    let firstInvalidControl = this.variationForm.nativeElement;
+
+    firstInvalidControl.scrollIntoView();
+    (firstInvalidControl as HTMLElement).focus();
+  }
+
   // this method is to open the variation of products card
 
   addVariation(): void {
@@ -611,6 +632,8 @@ export class CreateProductComponent implements OnInit {
     }
     this.addingVariation = true;
     this.variationProps = this.createVariation();
+    this.scrollToFirstInvalidControl();
+
     this.getUnitValues();
     this.variationProps.patchValue({ imageUrl: '' });
 
@@ -927,11 +950,12 @@ export class CreateProductComponent implements OnInit {
       .createNewProduct({
         ...this.form.value,
         videoUrls: this.videoUrls,
+        options: [...this.relatedItems, ...this.allVariantList],
         publishOption: 'Review',
         draftProductId: this.productId,
       })
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           if (res.status === 'success') {
             this.toast.success(res.message);
             this.router.navigate(['/seller/products']);
@@ -943,11 +967,11 @@ export class CreateProductComponent implements OnInit {
             this.toast.error(res.message);
           }
         },
-        (err) => {
+        error: (err) => {
           this.creatingProduct = false;
           this.toast.error(err.message);
-        }
-      );
+        },
+      });
   };
 
   toggleDescription() {
@@ -975,11 +999,12 @@ export class CreateProductComponent implements OnInit {
         options: [...this.relatedItems, ...this.allVariantList],
         publishOption: 'Review',
       })
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           if (res.status === 'success') {
             this.toast.success('Product added successfully');
             this.router.navigate(['/seller/products']);
+
             this.creatingProduct = false;
             localStorage.removeItem('compImagesStore');
             this.complementaryImagesStore = [];
@@ -988,11 +1013,11 @@ export class CreateProductComponent implements OnInit {
             this.toast.error('Something went wrong');
           }
         },
-        (err) => {
+        error: (err) => {
           this.creatingProduct = false;
           this.toast.error('Something went wrong');
-        }
-      );
+        },
+      });
   };
 
   saveAsDraft = () => {
