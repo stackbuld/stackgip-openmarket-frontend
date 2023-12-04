@@ -1,5 +1,10 @@
 <div class="main">
-  <img routerLink="/" [style]="{'cursor': 'pointer', 'delay': '0.5s'}" src="assets/image/quality-logo.svg" alt="home-nav" />
+  <img
+    routerLink="/"
+    [style]="{ cursor: 'pointer', delay: '0.5s' }"
+    src="assets/image/quality-logo.svg"
+    alt="home-nav"
+  />
   <div (click)="toggleSearch()" class="search-section uk-flex uk-flex-between">
     <div class="uk-flex">
       <svg
@@ -406,7 +411,7 @@
           alt="home-nav"
           width="70"
           height="30"
-          [style]="{'cursor': 'pointer'}"
+          [style]="{ cursor: 'pointer' }"
           routerLink="/"
         />
       </div>
@@ -617,7 +622,7 @@
                   <ais-pagination [padding]="5" />
                 </div>
                 <div
-                  routerLink="/homepage"
+                  routerLink="/homepage/search"
                   (click)="toggleSearch()"
                   class="w-100 mt-3 d-flex justify-content-center"
                 >

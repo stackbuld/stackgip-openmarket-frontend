@@ -69,7 +69,13 @@
             </div>
 
             <div class="mt-4 mb-5 col-12">
-              <button (click)="filterProductsByPrice()" class="w-100 apply-btn">
+              <button
+                routerLink="/homepage/search"
+                [queryParams]="{ minPrice: minValue, maxPrice: maxValue }"
+                queryParamsHandling="merge"
+                (click)="filterProducts()"
+                class="w-100 apply-btn"
+              >
                 Apply
               </button>
             </div>
@@ -79,7 +85,11 @@
           <div class="p-2">
             <div class="d-flex align-items-center justify-content-between">
               <p class="tag">Browse and filter</p>
-              <button class="clear-all-btn" (click)="resetProducts()">
+              <button
+                class="clear-all-btn"
+                routerLink="/homepage/search"
+                (click)="resetProducts()"
+              >
                 Clear all
               </button>
             </div>
@@ -153,7 +163,10 @@
                   [ngClass]="{
                     activeCategory: this.categoryName === category
                   }"
-                  (click)="filterProductsByCategory(category)"
+                  (click)="filterProducts('category', category)"
+                  routerLink="/homepage/search"
+                  [queryParams]="{ category: category }"
+                  queryParamsHandling="merge"
                 >
                   <span class="pointer">{{ category }}</span>
                 </span>
@@ -265,7 +278,10 @@
                                 </svg> &nbsp; -->
                 <span
                   [ngClass]="{ activeCategory: this.cityName === city }"
-                  (click)="filterProductsByCity(city)"
+                  (click)="filterProducts('city', city)"
+                  routerLink="/homepage/search"
+                  [queryParams]="{ city: city }"
+                  queryParamsHandling="merge"
                 >
                   <span class="pointer">{{ city }}</span>
                 </span>
@@ -376,7 +392,10 @@
                                 </svg> &nbsp; -->
                 <span
                   [ngClass]="{ activeCategory: this.stateName === state }"
-                  (click)="filterProductsByState(state)"
+                  (click)="filterProducts('state', state)"
+                  routerLink="/homepage/search"
+                  [queryParams]="{ state: state }"
+                  queryParamsHandling="merge"
                 >
                   <span class="pointer">{{ state }}</span>
                 </span>
@@ -436,7 +455,11 @@
       <div class="p-2">
         <div class="d-flex align-items-center justify-content-between">
           <p class="tag">Browse and filter</p>
-          <button class="clear-all-btn" (click)="resetProducts()">
+          <button
+            class="clear-all-btn"
+            routerLink="/homepage/search"
+            (click)="resetProducts()"
+          >
             Clear all
           </button>
         </div>
@@ -493,8 +516,11 @@
               [ngClass]="{
                 activeCategory: this.categoryName === category
               }"
-              (click)="filterProductsByCategory(category)"
+              (click)="filterProducts('category', category)"
               class="each-cat py-2"
+              routerLink="/homepage/search"
+              [queryParams]="{ category: category }"
+              queryParamsHandling="merge"
             >
               <span>{{ category }}</span>
             </span>
@@ -588,7 +614,10 @@
           >
             <span
               [ngClass]="{ activeCategory: this.cityName === city }"
-              (click)="filterProductsByCity(city)"
+              (click)="filterProducts('city', city)"
+              routerLink="/homepage/search"
+              [queryParams]="{ city: city }"
+              queryParamsHandling="merge"
               class="each-cat py-2"
             >
               <span>{{ city }}</span>
@@ -680,7 +709,10 @@
           >
             <span
               [ngClass]="{ activeCategory: this.stateName === state }"
-              (click)="filterProductsByState(state)"
+              (click)="filterProducts('state', state)"
+              routerLink="/homepage/search"
+              [queryParams]="{ state: state }"
+              queryParamsHandling="merge"
               class="each-cat py-2"
             >
               <span>{{ state }}</span>
@@ -778,7 +810,13 @@
                 </div> -->
 
         <div class="px-3 pb-3 col-12">
-          <button (click)="filterProductsByPrice()" class="w-100 apply-btn">
+          <button
+            routerLink="/homepage/search"
+            [queryParams]="{ minPrice: minValue, maxPrice: maxValue }"
+            queryParamsHandling="merge"
+            (click)="filterProducts()"
+            class="w-100 apply-btn"
+          >
             Apply
           </button>
         </div>

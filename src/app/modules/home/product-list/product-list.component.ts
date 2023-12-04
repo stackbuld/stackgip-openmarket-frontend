@@ -8,6 +8,7 @@ import { SearchService } from 'src/app/services/search/search.service';
 import { CityService } from 'src/app/services/city/city.service';
 import { StateService } from 'src/app/services/state/state.service';
 import { ICategory } from 'src/app/models/CategoryModels';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -34,7 +35,6 @@ export class ProductListComponent implements OnInit {
   maximumItem: number = 12;
   pageNumber: number = 0;
   search: string = '';
-  // categoryId: string = '';
   minValue: number = 1;
   maxValue: number = 500000;
   // options:Options;
@@ -46,6 +46,7 @@ export class ProductListComponent implements OnInit {
   loadingStates: boolean = false;
   columnCount: number = 6;
   canLoadMore = true;
+  queryParamFlag: boolean = false;
 
   // value: number = 700;
   // highValue: number = 7590;
@@ -58,7 +59,6 @@ export class ProductListComponent implements OnInit {
   isCityFilter: boolean = false;
   isStateFilter: boolean = false;
 
-  categoryId: string = '';
   categoryName: string = '';
   cityName: string = '';
   stateName: string = '';
@@ -80,15 +80,59 @@ export class ProductListComponent implements OnInit {
     private footerService: FooterService,
     private searchService: SearchService,
     private cityService: CityService,
-    private stateService: StateService
+    private stateService: StateService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.footerService.setShowFooter(false);
+    this.fetchQueryParamsFromUrl();
     this.fetchAllProducts(this.pageNumber);
     this.fetchCategories();
     this.fetchCities();
     this.fetchStates();
+  }
+
+  fetchQueryParamsFromUrl() {
+    const { category, city, state, minPrice, maxPrice } =
+      this.searchService.getQueryParams();
+
+    const currentParamsObj = {};
+
+    if (category && (!this.categoryName || this.categoryName !== category)) {
+      this.categoryName = category;
+      currentParamsObj['category'] = this.categoryName;
+    }
+
+    if (city && (!this.cityName || this.cityName !== city)) {
+      this.cityName = city;
+      currentParamsObj['city'] = this.cityName;
+    }
+
+    if (state && (!this.stateName || this.stateName !== state)) {
+      this.stateName = state;
+      currentParamsObj['state'] = this.stateName;
+    }
+
+    if (minPrice && (!this.minValue || this.minValue !== Number(minPrice))) {
+      this.minValue = Number(minPrice);
+      currentParamsObj['minPrice'] = this.minValue;
+    }
+
+    if (maxPrice && (!this.maxValue || this.maxValue !== Number(maxPrice))) {
+      this.maxValue = Number(maxPrice);
+      currentParamsObj['maxPrice'] = this.maxValue;
+    }
+
+    this.router.navigate(['/homepage/search'], {
+      queryParams: {
+        ...currentParamsObj,
+      },
+      queryParamsHandling: 'merge',
+    });
+
+    return currentParamsObj;
   }
 
   onCategorySearch(category: string) {
@@ -226,10 +270,10 @@ export class ProductListComponent implements OnInit {
         this.pageNumber,
         this.maximumItem,
         this.search,
+        this.storefrontSellerId,
         this.categoryName,
         this.cityName,
         this.stateName,
-        this.storefrontSellerId,
         this.minValue,
         this.maxValue
       )
@@ -303,28 +347,46 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  filterProductsByPrice() {
+  filterProducts(isWhichFilter?: string, filterValue?: string) {
+    if (isWhichFilter === 'category') {
+      this.categoryName = filterValue;
+      this.fetchCategories();
+    }
+
+    if (isWhichFilter === 'city') {
+      this.cityName = filterValue;
+      this.fetchCities();
+    }
+
+    if (isWhichFilter === 'state') {
+      this.stateName = filterValue;
+      this.fetchStates();
+    }
+    // this.fetchQueryParamsFromUrl();
     this.fetchAllProducts(0);
   }
 
-  filterProductsByCategory(category: string) {
-    this.categoryName = category;
-    // this.categoryId = category;
-    this.fetchAllProducts(0);
-    this.fetchCategories();
-  }
+  // filterProductsByPrice() {
+  //   this.fetchAllProducts(0);
+  // }
 
-  filterProductsByCity(item: string) {
-    this.cityName = item;
-    this.fetchAllProducts(0);
-    this.fetchCities();
-  }
+  // filterProductsByCategory(category: string) {
+  //   this.categoryName = category;
+  //   this.fetchAllProducts(0);
+  //   this.fetchCategories();
+  // }
 
-  filterProductsByState(item: string) {
-    this.stateName = item;
-    this.fetchAllProducts(0);
-    this.fetchStates();
-  }
+  // filterProductsByCity(item: string) {
+  //   this.cityName = item;
+  //   this.fetchAllProducts(0);
+  //   this.fetchCities();
+  // }
+
+  // filterProductsByState(item: string) {
+  //   this.stateName = item;
+  //   this.fetchAllProducts(0);
+  //   this.fetchStates();
+  // }
 
   setColumn(e: any) {
     this.columnCount = Number(e.target.value);
