@@ -8,7 +8,13 @@
   <div class="item">
     <div class="search">
       <img src="../../../../assets/img/searchIcon.png" alt="" />
-      <input type="text" placeholder="Search for products" />
+      <input
+        type="text"
+        placeholder="Search for products"
+        [formControl]="searchInput"
+        #search
+      />
+      <i class="fa fa-times" *ngIf="isTyping" (click)="onCloseSearch()"></i>
     </div>
   </div>
   <div class="item-profileImg">

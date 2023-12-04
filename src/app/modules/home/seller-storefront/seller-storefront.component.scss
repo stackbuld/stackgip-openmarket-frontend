@@ -34,6 +34,13 @@ section {
 
 #banner img {
   flex-shrink: 0;
+  width: 1200px;
+  // height: 300px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 
 .circle-storefront {

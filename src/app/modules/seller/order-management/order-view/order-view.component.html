@@ -729,7 +729,10 @@
   <div class="uk-modal-dialog uk-modal-body">
     <h2 class="uk-modal-title mb-0">Reject Order ?</h2>
     <div class="mt-4">
-      <label>Reason for Rejection</label> <br />
+      <div class="rejection-warning">
+        Rejecting this order may lead to a small service charge of ₦300 - ₦500
+        to support the buyer in case of any inconvenience.
+      </div>
       <textarea
         [(ngModel)]="rejectionReason"
         class="w-100"
@@ -770,7 +773,6 @@
     <div class="confirm-order-heading">
       <h2 class="confirm-order-heading-main">Confirm Order</h2>
       <svg
-        (click)="closeAcceptDialog()"
         class="pointer"
         width="30"
         height="30"
@@ -864,7 +866,7 @@
                   [stepMinute]="10"
                   [stepSecond]="1"
                   [touchUi]="false"
-                  [enableMeridian]="false"
+                  [enableMeridian]="true"
                   [disableMinute]="false"
                   [hideTime]="false"
                 >
@@ -949,6 +951,22 @@
               <br />
             </div>
           </div>
+        </div>
+
+        <div class="video-upload">
+          <video
+            [src]="videoUrl"
+            *ngIf="videoUrl"
+            height="200"
+            controls
+          ></video>
+          <button
+            type="button"
+            class="video-upload-btn"
+            (click)="uploadVideo()"
+          >
+            {{ videoUrl ? "Change Video" : "Upload Video" }}
+          </button>
         </div>
       </div>
       <div class="mt-3">

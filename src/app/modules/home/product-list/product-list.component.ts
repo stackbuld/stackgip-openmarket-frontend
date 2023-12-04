@@ -8,6 +8,7 @@ import { SearchService } from 'src/app/services/search/search.service';
 import { CityService } from 'src/app/services/city/city.service';
 import { StateService } from 'src/app/services/state/state.service';
 import { ICategory } from 'src/app/models/CategoryModels';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -16,7 +17,7 @@ import { ICategory } from 'src/app/models/CategoryModels';
 export class ProductListComponent implements OnInit {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
   @Input() storefrontSellerId: string = '';
-  categories: ICategory[] = [];
+  categories: string[] = [];
   products: ProductModel[] = [];
   cities: string[] = [];
   states: string[] = [];
@@ -34,7 +35,6 @@ export class ProductListComponent implements OnInit {
   maximumItem: number = 12;
   pageNumber: number = 0;
   search: string = '';
-  // categoryId: string = '';
   minValue: number = 1;
   maxValue: number = 500000;
   // options:Options;
@@ -46,6 +46,7 @@ export class ProductListComponent implements OnInit {
   loadingStates: boolean = false;
   columnCount: number = 6;
   canLoadMore = true;
+  queryParamFlag: boolean = false;
 
   // value: number = 700;
   // highValue: number = 7590;
@@ -58,7 +59,6 @@ export class ProductListComponent implements OnInit {
   isCityFilter: boolean = false;
   isStateFilter: boolean = false;
 
-  categoryId: string = '';
   categoryName: string = '';
   cityName: string = '';
   stateName: string = '';
@@ -80,29 +80,102 @@ export class ProductListComponent implements OnInit {
     private footerService: FooterService,
     private searchService: SearchService,
     private cityService: CityService,
-    private stateService: StateService
+    private stateService: StateService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.footerService.setShowFooter(false);
+    this.fetchQueryParamsFromUrl();
     this.fetchAllProducts(this.pageNumber);
     this.fetchCategories();
     this.fetchCities();
     this.fetchStates();
   }
 
+  removeQueryParam(filter: string) {
+    // Get the current query parameters
+    const queryParams = { ...this.route.snapshot.queryParams };
+
+    if (filter === 'category') {
+      this.categoryName = '';
+      queryParams.category = null;
+    }
+
+    if (filter === 'city') {
+      this.cityName = '';
+      queryParams.city = null;
+    }
+
+    if (filter === 'state') {
+      this.stateName = '';
+      queryParams.state = null;
+    }
+
+    // Navigate to the same route with modified query parameters
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  fetchQueryParamsFromUrl() {
+    const { category, city, state, minPrice, maxPrice } =
+      this.searchService.getQueryParams();
+
+    const currentParamsObj = {};
+
+    if (category && (!this.categoryName || this.categoryName !== category)) {
+      this.categoryName = category;
+      currentParamsObj['category'] = this.categoryName;
+    }
+
+    if (city && (!this.cityName || this.cityName !== city)) {
+      this.cityName = city;
+      currentParamsObj['city'] = this.cityName;
+    }
+
+    if (state && (!this.stateName || this.stateName !== state)) {
+      this.stateName = state;
+      currentParamsObj['state'] = this.stateName;
+    }
+
+    if (minPrice && (!this.minValue || this.minValue !== Number(minPrice))) {
+      this.minValue = Number(minPrice);
+      currentParamsObj['minPrice'] = this.minValue;
+    }
+
+    if (maxPrice && (!this.maxValue || this.maxValue !== Number(maxPrice))) {
+      this.maxValue = Number(maxPrice);
+      currentParamsObj['maxPrice'] = this.maxValue;
+    }
+
+    this.router.navigate(['/homepage/search'], {
+      queryParams: {
+        ...currentParamsObj,
+      },
+      queryParamsHandling: 'merge',
+    });
+
+    return currentParamsObj;
+  }
+
   onCategorySearch(category: string) {
     this.categoryName = category;
     this.loadingCategories = true;
-    this.categoryService.getAllCategories(category).subscribe({
-      next: (data) => {
-        this.categories = data;
-        this.loadingCategories = false;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.categoryService
+      .searchCategories(category, this.storefrontSellerId)
+      .subscribe({
+        next: (data) => {
+          this.categories = data;
+          this.loadingCategories = false;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
   onCategorySearchFocus() {
@@ -186,17 +259,17 @@ export class ProductListComponent implements OnInit {
   };
 
   resetProductsByCategory = () => {
-    this.categoryName = '';
+    this.removeQueryParam('category');
     this.fetchAllProducts(0);
   };
 
   resetProductsByState = () => {
-    this.stateName = '';
+    this.removeQueryParam('state');
     this.fetchAllProducts(0);
   };
 
   resetProductsByCity = () => {
-    this.cityName = '';
+    this.removeQueryParam('city');
     this.fetchAllProducts(0);
   };
 
@@ -224,10 +297,10 @@ export class ProductListComponent implements OnInit {
         this.pageNumber,
         this.maximumItem,
         this.search,
+        this.storefrontSellerId,
         this.categoryName,
         this.cityName,
         this.stateName,
-        this.storefrontSellerId,
         this.minValue,
         this.maxValue
       )
@@ -254,7 +327,7 @@ export class ProductListComponent implements OnInit {
   fetchCategories = () => {
     this.loadingCategories = true;
 
-    this.categoryService.getAllCategories().subscribe({
+    this.categoryService.getAllCategories(this.storefrontSellerId).subscribe({
       next: (data) => {
         this.categories = data;
         this.loadingCategories = false;
@@ -301,28 +374,46 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  filterProductsByPrice() {
+  filterProducts(isWhichFilter?: string, filterValue?: string) {
+    if (isWhichFilter === 'category') {
+      this.categoryName = filterValue;
+      this.fetchCategories();
+    }
+
+    if (isWhichFilter === 'city') {
+      this.cityName = filterValue;
+      this.fetchCities();
+    }
+
+    if (isWhichFilter === 'state') {
+      this.stateName = filterValue;
+      this.fetchStates();
+    }
+    // this.fetchQueryParamsFromUrl();
     this.fetchAllProducts(0);
   }
 
-  filterProductsByCategory(category: ICategory) {
-    this.categoryName = category.name;
-    this.categoryId = category.id.toString();
-    this.fetchAllProducts(0);
-    this.fetchCategories();
-  }
+  // filterProductsByPrice() {
+  //   this.fetchAllProducts(0);
+  // }
 
-  filterProductsByCity(item: string) {
-    this.cityName = item;
-    this.fetchAllProducts(0);
-    this.fetchCities();
-  }
+  // filterProductsByCategory(category: string) {
+  //   this.categoryName = category;
+  //   this.fetchAllProducts(0);
+  //   this.fetchCategories();
+  // }
 
-  filterProductsByState(item: string) {
-    this.stateName = item;
-    this.fetchAllProducts(0);
-    this.fetchStates();
-  }
+  // filterProductsByCity(item: string) {
+  //   this.cityName = item;
+  //   this.fetchAllProducts(0);
+  //   this.fetchCities();
+  // }
+
+  // filterProductsByState(item: string) {
+  //   this.stateName = item;
+  //   this.fetchAllProducts(0);
+  //   this.fetchStates();
+  // }
 
   setColumn(e: any) {
     this.columnCount = Number(e.target.value);

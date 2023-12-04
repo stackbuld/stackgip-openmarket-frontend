@@ -1,15 +1,15 @@
-import uikit from "uikit";
-import { ToastrService } from "ngx-toastr";
-import { ProductsService } from "src/app/services/products/products.service";
-import { Component, Inject, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Subject } from "rxjs";
-import { DOCUMENT } from "@angular/common";
+import uikit from 'uikit';
+import { ToastrService } from 'ngx-toastr';
+import { ProductsService } from 'src/app/services/products/products.service';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
-  selector: "app-view-product",
-  templateUrl: "./view-product.component.html",
-  styleUrls: ["./view-product.component.css"],
+  selector: 'app-view-product',
+  templateUrl: './view-product.component.html',
+  styleUrls: ['./view-product.component.css'],
 })
 export class ViewProductComponent implements OnInit {
   private unsubscribe$ = new Subject<void>();
@@ -32,36 +32,50 @@ export class ViewProductComponent implements OnInit {
     private router: Router,
     private productService: ProductsService,
     @Inject(DOCUMENT) private document: Document
-  ) {
-    this.id = this.activatedRoute.snapshot.paramMap.get("id");
-  }
+  ) {}
 
   ngOnInit(): void {
     this.document.body.scrollTop = 0;
     this.document.documentElement.scrollTop = 0;
-    this.user = JSON.parse(localStorage.getItem("user"));
-    this.getProduct(this.id);
-    this.getProductOrderSummary();
+    this.user = JSON.parse(localStorage.getItem('user'));
+
+    this.activatedRoute.params.subscribe((param) => {
+      this.id = param['id'];
+      this.getProduct(param['id']);
+      this.getProductOrderSummary();
+    });
   }
 
-  getProduct(id: any) {
+  getProduct(id: string) {
     this.loading = true;
+    this.complimentartProducts = [];
+    this.variation = [];
     this.productService.getProduct(id).subscribe(
       (res) => {
-        if (res.status === "success") {
+        if (res.status === 'success') {
           this.loading = false;
+
           this.product = res.data;
+
+          this.product['productImages'] = [
+            this.product.imageUrl,
+            ...this.product.productImages,
+          ];
+
           this.previewImg = this.product.productImages[0];
           let variations = [];
+
           for (
             let index = 0;
             index < this.product.productOptions.length;
             index++
           ) {
             const element = this.product.productOptions[index];
+
             if (element.isMultiple === true) {
               this.complimentartProducts.push(element);
             }
+
             if (element.isMultiple === false) {
               variations.push(element);
             }
@@ -78,16 +92,17 @@ export class ViewProductComponent implements OnInit {
 
   getProductOrderSummary() {
     this.loadingSummary = true;
-    this.productService.productOrderSummary(this.user.id, this.id).subscribe(
-      (res) => {
+    this.productService.productOrderSummary(this.user.id, this.id).subscribe({
+      next: (res) => {
         this.orderDetails = res.data;
+
         this.loadingSummary = false;
       },
-      (err) => {
+      error: (err) => {
         this.loadingSummary = false;
         this.toastservice.error(err.message);
-      }
-    );
+      },
+    });
   }
 
   toggleDescription() {
@@ -95,7 +110,7 @@ export class ViewProductComponent implements OnInit {
   }
 
   convertInnerHtmlToString(myHTML: any) {
-    var strippedHtml = myHTML.replace(/<[^>]+>/g, "");
+    var strippedHtml = myHTML.replace(/<[^>]+>/g, '');
     if (strippedHtml.length > 700) {
       this.hasFullDesc = true;
     } else {
@@ -119,7 +134,7 @@ export class ViewProductComponent implements OnInit {
             this.productService
               .updateProductUnit(product.id, payload)
               .subscribe((res) => {
-                if (res.status === "success") {
+                if (res.status === 'success') {
                   this.loading = false;
                   this.toastservice.success(res.message);
                   this.getProduct(this.id);
@@ -140,14 +155,14 @@ export class ViewProductComponent implements OnInit {
   }
 
   deleteProduct(productId: number): void {
-    uikit.modal.confirm("Are you sure that you want to delete product ?").then(
+    uikit.modal.confirm('Are you sure that you want to delete product ?').then(
       () => {
         this.loading = true;
         this.productService.deleteProduct(productId).subscribe((res) => {
-          if (res.status === "success") {
+          if (res.status === 'success') {
             this.loading = false;
             this.toastservice.success(res.message);
-            this.router.navigate(["/seller/products"]);
+            this.router.navigate(['/seller/products']);
           } else {
             this.loading = false;
             this.toastservice.error(res.message);

@@ -34,6 +34,8 @@
           <div
             *ngFor="let category of categories; let i = index"
             class="pointer category"
+            routerLink="/homepage/search"
+            [queryParams]="{ category: category.name }"
           >
             {{ category.name }}
           </div>
@@ -65,7 +67,12 @@
           <li *ngFor="let slide of heroSlides" class="w-100 h-100">
             <img src="{{ slide }}" alt="" uk-cover />
             <div class="uk-position-medium uk-position-bottom-right">
-              <button class="uk-button uk-button-secondary">Shop Now</button>
+              <button
+                class="uk-button uk-button-secondary"
+                routerLink="/homepage/search"
+              >
+                Shop Now
+              </button>
             </div>
           </li>
         </ul>
@@ -91,7 +98,7 @@
       <div class="header-text">
         <h2>Promoted Product</h2>
         <span class="pointer">
-          <span routerLink="/homepage"> See All </span>
+          <span routerLink="/homepage/search"> See All </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -107,9 +114,9 @@
         </span>
       </div>
 
-      <div *ngIf="!loadingProducts" class="product-container row">
+      <div *ngIf="!loadingPromotedProducts" class="product-container row">
         <div
-          *ngFor="let product of products | slice : 0 : 6"
+          *ngFor="let product of promotedProducts | slice : 0 : 6"
           class="mb-3 col-6 col-md-3"
         >
           <app-product-card [product]="product"></app-product-card>
@@ -117,14 +124,17 @@
       </div>
 
       <!-- If loading products -->
-      <div *ngIf="loadingProducts" class="p-5">
+      <div *ngIf="loadingPromotedProducts" class="p-5">
         <div class="uk-flex uk-flex-center">
           <div uk-spinner></div>
         </div>
       </div>
 
       <!-- If there are no products -->
-      <div *ngIf="!loadingProducts && products.length === 0" class="p-5">
+      <div
+        *ngIf="!loadingPromotedProducts && promotedProducts.length === 0"
+        class="p-5"
+      >
         <p *ngIf="categoryName === ''" class="text-center p-5">
           There are no products available.
         </p>
@@ -154,7 +164,7 @@
       <div class="header-text">
         <h2>Recommended Product</h2>
         <span class="pointer">
-          <span routerLink="/homepage"> See All </span>
+          <span routerLink="/homepage/search"> See All </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -170,9 +180,9 @@
         </span>
       </div>
 
-      <div *ngIf="!loadingProducts" class="product-container row">
+      <div *ngIf="!loadingRecommendedProducts" class="product-container row">
         <div
-          *ngFor="let product of products | slice : 0 : 6"
+          *ngFor="let product of recommendedProducts | slice : 0 : 6"
           class="mb-3 col-6 col-md-3"
         >
           <app-product-card [product]="product"></app-product-card>
@@ -180,14 +190,17 @@
       </div>
 
       <!-- If loading products -->
-      <div *ngIf="loadingProducts" class="p-5">
+      <div *ngIf="loadingRecommendedProducts" class="p-5">
         <div class="uk-flex uk-flex-center">
           <div uk-spinner></div>
         </div>
       </div>
 
       <!-- If there are no products -->
-      <div *ngIf="!loadingProducts && products.length === 0" class="p-5">
+      <div
+        *ngIf="!loadingRecommendedProducts && recommendedProducts.length === 0"
+        class="p-5"
+      >
         <p *ngIf="categoryName === ''" class="text-center p-5">
           There are no products available.
         </p>

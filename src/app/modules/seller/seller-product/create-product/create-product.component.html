@@ -1,7 +1,7 @@
 <div *ngIf="!isPreview">
   <h1 class="uk-margin-bottom">Product(s) Information</h1>
 
-  <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="content-container body-add">
       <!-- <div class="main uk-flex uk-flex-wrap uk-flex-wrap-around"> -->
       <div class="full-width form-content">
@@ -25,7 +25,7 @@
               type="text"
               formControlName="name"
               matInput
-              placeholder="eg Samsung s11"
+              placeholder="eg Samsung S10"
               formControlName="name"
               required
             />
@@ -43,7 +43,7 @@
             <!-- <mat-label>Store Address</mat-label> -->
             <mat-select formControlName="storeIds" multiple required>
               <mat-option disabled="true">Select</mat-option>
-              <mat-option *ngFor="let store of stores" [(value)]="store.id">
+              <mat-option *ngFor="let store of stores" [value]="store.id">
                 {{ store.storeName }} <span>({{ store.city }})</span>
               </mat-option>
             </mat-select>
@@ -62,7 +62,7 @@
                 <mat-option disabled="true">Select</mat-option>
                 <mat-option
                   *ngFor="let category of categories"
-                  [(value)]="category.id"
+                  [value]="category.id"
                 >
                   {{ category.name }}
                 </mat-option>
@@ -84,7 +84,7 @@
                 <mat-option disabled="true">Select</mat-option>
                 <mat-option
                   *ngFor="let item of subCategories"
-                  [(value)]="item.id"
+                  [value]="item.id"
                 >
                   {{ item?.name }}
                 </mat-option>
@@ -109,6 +109,22 @@
               />
             </mat-form-field>
           </div>
+          <div class="uk-width-expand input-sec">
+            <div for="name" class="label">Previous Price</div>
+            <mat-form-field class="uk-width-expand">
+              <input
+                (keypress)="preventLetter($event)"
+                type="text"
+                matInput
+                placeholder="eg 1000"
+                formControlName="previousPrice"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div
+          class="mb-3 uk-grid block-up uk-grid-row-small uk-child-width-1-2@s input-sec"
+        >
           <div class="uk-width-expand input-sec">
             <div for="name" class="label">Available Units</div>
             <mat-form-field class="uk-width-expand">
@@ -182,7 +198,7 @@
           <div class="mb-3 uk-width-expand uk-width-1-2@s input-sec editor">
             <div for="name" class="label">File Upload</div>
             <div class="border-form mb-30 d-flex align-items-center">
-              <button (click)="upload()">Add file</button>
+              <button type="button" (click)="upload()">Add file</button>
               <div
                 class="d-flex justify-content-center align-items-center px-8"
               >
@@ -207,7 +223,9 @@
                       'active-product-image': productImage === image
                     }"
                     style="width: 200px; height: 100px; object-fit: cover"
-                    src="{{ image?.substr(0, image.lastIndexOf('.')) + '.jpg' }}"
+                    src="{{
+                      image?.substr(0, image.lastIndexOf('.')) + '.jpg'
+                    }}"
                     alt="{{ image }}"
                     (click)="toggleActiveProductImage(image)"
                   />
@@ -306,6 +324,22 @@
         </div>
       </div>
 
+      <div class="video-container">
+        <div class="video-main" *ngIf="videoUrls.length > 0">
+          <div class="video" *ngFor="let video of videoUrls; let i = index">
+            <video [src]="video" height="75" controls></video>
+
+            <div class="delete-video" (click)="onDeleteVideo(i)">
+              <i class="fa fa-trash"></i>
+            </div>
+          </div>
+        </div>
+
+        <button class="add-video" type="button" (click)="onUploadVideo()">
+          Add Video
+        </button>
+      </div>
+
       <div
         *ngIf="!(addingVariation || addingComplimentaryOptions)"
         class="action-btn-container"
@@ -348,12 +382,13 @@
       </div>
       <!-- </div> -->
     </div>
-<!-- related items card -->
+    <!-- related items card -->
     <div
       *ngIf="
         addingComplimentaryOptions ||
         addingVariation ||
-        relatedItems.length > 0 || allVariantList.length > 0
+        relatedItems.length > 0 ||
+        allVariantList.length > 0
       "
       class="content-container"
     >
@@ -374,7 +409,9 @@
                 <div class="mb-3 uk-grid uk-child-width-1-2@s">
                   <div class="uk-width-expand input-sec">
                     <div for="name" class="label">Product Name</div>
-                    <mat-form-field class="uk-width-expand">
+                    <mat-form-field
+                      class="uk-width-expand create-product-form-field"
+                    >
                       <input
                         type="text"
                         matTooltip="Provide Product Title"
@@ -384,11 +421,22 @@
                         required
                       />
                     </mat-form-field>
+                    <div
+                      class="uk-text-danger"
+                      *ngIf="
+                        editProps.get('title').touched &&
+                        editProps.get('title').invalid
+                      "
+                    >
+                      Product name is required
+                    </div>
                   </div>
 
                   <div class="uk-width-expand input-sec">
                     <div for="name" class="label">Item Price</div>
-                    <mat-form-field class="uk-width-expand">
+                    <mat-form-field
+                      class="uk-width-expand create-product-form-field"
+                    >
                       <input
                         type="text"
                         matInput
@@ -399,12 +447,23 @@
                         required
                       />
                     </mat-form-field>
+                    <div
+                      class="uk-text-danger"
+                      *ngIf="
+                        editProps.get('cost').touched &&
+                        editProps.get('cost').invalid
+                      "
+                    >
+                      Item price is required
+                    </div>
                   </div>
                 </div>
                 <div class="mb-3 uk-grid-small uk-child-width-1-2@s">
                   <div class="uk-width-1-2@s input-sec">
                     <div for="name" class="label">Available Units</div>
-                    <mat-form-field class="uk-width-expand">
+                    <mat-form-field
+                      class="uk-width-expand create-product-form-field"
+                    >
                       <input
                         type="text"
                         matTooltip="Provide Product Title"
@@ -415,14 +474,21 @@
                         required
                       />
                     </mat-form-field>
+                    <div
+                      class="uk-text-danger"
+                      *ngIf="
+                        editProps.get('unit').touched &&
+                        editProps.get('unit').invalid
+                      "
+                    >
+                      Unit is required
+                    </div>
                   </div>
                   <div class="uk-width-1-2"></div>
                 </div>
                 <div class="main uk-flex mt-4 mb-2">
                   <div class="editor">
-                    <div for="name" class="label">
-                      Description <small>(optional)</small>
-                    </div>
+                    <div for="name" class="label">Description</div>
 
                     <angular-editor
                       id="subeditor"
@@ -430,12 +496,23 @@
                       formControlName="shortDescription"
                     >
                     </angular-editor>
+                    <div
+                      class="uk-text-danger"
+                      *ngIf="
+                        editProps.get('shortDescription').touched &&
+                        editProps.get('shortDescription').invalid
+                      "
+                    >
+                      Description is required
+                    </div>
                   </div>
                 </div>
                 <div class="uk-width-expand editor uk-width-1-2@s input-sec">
                   <div for="name" class="label">File Upload</div>
                   <div class="border-form mb-30 d-flex align-items-center">
-                    <button (click)="uploadRelatedImage()">Add file</button>
+                    <button (click)="uploadRelatedImage()" type="button">
+                      Add file
+                    </button>
                     <div
                       class="d-flex justify-content-center align-items-center px-8"
                     >
@@ -450,29 +527,30 @@
                     class="uk-margin uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid-small uk-grid"
                     *ngIf="!(editProps.value.imageUrl === '')"
                   >
-                    <div
-                      class="uk-margin-small-bottom image-wrapper"
-                      
-                    >
+                    <div class="uk-margin-small-bottom image-wrapper">
                       <div
                         class="uk-inline uk-dark image-container"
                         style="cursor: pointer"
                       >
                         <img
-                          
                           style="width: 200px; height: 100px; object-fit: cover"
                           src="{{
-                            editProps.value.imageUrl?.substr(0, editProps.value.imageUrl.lastIndexOf('.')) + '.jpg'
+                            editProps.value.imageUrl?.substr(
+                              0,
+                              editProps.value.imageUrl.lastIndexOf('.')
+                            ) + '.jpg'
                           }}"
                           alt="{{ editProps.value.imageUrl }}"
-                          
                         />
                       </div>
                       <div
                         class="overlay"
                         *ngIf="
                           !(
-                            1 + editProps.value.imageUrl?.substring(editProps.value.imageUrl?.lastIndexOf('.')) ==
+                            1 +
+                              editProps.value.imageUrl?.substring(
+                                editProps.value.imageUrl?.lastIndexOf('.')
+                              ) ==
                             'mp4'
                           )
                         "
@@ -505,7 +583,9 @@
                       <div
                         class="overlay"
                         *ngIf="
-                          editProps.value.imageUrl?.substring(1 + editProps.value.imageUrl?.lastIndexOf('.')) == 'mp4'
+                          editProps.value.imageUrl?.substring(
+                            1 + editProps.value.imageUrl?.lastIndexOf('.')
+                          ) == 'mp4'
                         "
                       >
                         <svg
@@ -563,17 +643,28 @@
                       </div>
                     </div>
                   </div>
+                  <div
+                    class="uk-text-danger"
+                    *ngIf="
+                      editProps.get('imageUrl').touched &&
+                      editProps.get('imageUrl').invalid
+                    "
+                  >
+                    Image is required
+                  </div>
                 </div>
                 <div class="del-save-btn mt-4">
                   <button
                     (click)="removeEditOption()"
                     class="small-btn del-btn"
+                    type="button"
                   >
                     Delete
                   </button>
                   <button
                     (click)="addProductOption()"
                     class="small-btn save-btn"
+                    type="button"
                   >
                     Save
                   </button>
@@ -588,7 +679,7 @@
         class="uk-flex uk-flex-column flex-1"
         *ngIf="relatedItems.length > 0"
       >
-        <div class="body-add flex-1">
+        <div class="body-add uk-flex uk-flex-column flex-1">
           <table class="full-width">
             <thead>
               <tr>
@@ -604,13 +695,15 @@
                 *ngFor="let row of relatedItems; let index = index"
                 class="table-row"
               >
-                <td><img
-            src="{{row.imageUrl}}"
-            alt="tootip"
-            width="24px"
-            height="24px"
-            matTooltip="Pair your product with related items by suggesting products that go well together"
-          /></td>
+                <td>
+                  <img
+                    src="{{ row.imageUrl }}"
+                    alt="tootip"
+                    width="24px"
+                    height="24px"
+                    matTooltip="Pair your product with related items by suggesting products that go well together"
+                  />
+                </td>
                 <td>{{ row.title }}</td>
 
                 <td class="desc">
@@ -658,13 +751,29 @@
               </tr>
             </tbody>
           </table>
+          <button type="button" (click)="addEditOption()" class="add-more-btn">
+            Add more
+          </button>
         </div>
       </div>
 
-      <div *ngIf="addingVariation" class="mt-5 uk-flex uk-flex-column flex-1">
+      <div
+        *ngIf="addingVariation"
+        class="mt-5 uk-flex uk-flex-column flex-1"
+        #variationForm
+      >
         <h2>Variation(s) Information</h2>
         <p class="sub-text">Add product's color, size and price variations</p>
         <div class="body-add flex-1">
+          <div class="variation-count-alert">
+            You have
+            <span *ngIf="!isProductUnitExceeded">
+              {{ availableProductUnit }} units left available for allocation
+            </span>
+            <span *ngIf="isProductUnitExceeded"
+              >exceeded product unit allocated</span
+            >
+          </div>
           <div>
             <div class="" [formGroup]="variationProps">
               <div class="main wrapper-style">
@@ -675,15 +784,18 @@
                   <div class="">
                     <div class="uk-flex uk-flex-between">
                       <div for="name" class="label">Variation</div>
-                    <p
-                      class="add-store-btn uk-flex align-items-center"
-                      uk-toggle="target: #modal-add-variation"
-                      id="js-modal-prompt"
-                    >
-                      + Add new variation
-                    </p>
+                      <p
+                        class="add-store-btn uk-flex align-items-center"
+                        uk-toggle="target: #modal-add-variation"
+                        id="js-modal-prompt"
+                      >
+                        + Add new variation
+                      </p>
                     </div>
-                    <mat-form-field class="full-width uk-width-1-4 mt-2">
+                    <mat-form-field
+                      class="full-width uk-width-1-4 mt-2 create-product-form-field"
+                      id="variation-select"
+                    >
                       <mat-select formControlName="title" required>
                         <mat-option disabled="true"
                           >--- Select Variation ---</mat-option
@@ -696,11 +808,21 @@
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
+
+                    <div
+                      class="uk-text-danger"
+                      *ngIf="
+                        variationProps.get('title').touched &&
+                        variationProps.get('title').invalid
+                      "
+                    >
+                      Select a variation
+                    </div>
                   </div>
                   <div>
                     <div for="name" class="label">Variant Type</div>
                     <mat-form-field
-                      class="no-mobile-margin full-width uk-width-1-4 mt-2"
+                      class="no-mobile-margin full-width uk-width-1-4 mt-2 create-product-form-field"
                     >
                       <input
                         type="text"
@@ -710,12 +832,24 @@
                         required
                       />
                     </mat-form-field>
+
+                    <div
+                      class="uk-text-danger"
+                      *ngIf="
+                        variationProps.get('value').touched &&
+                        variationProps.get('value').invalid
+                      "
+                    >
+                      Value is required
+                    </div>
                   </div>
                 </div>
                 <div class="uk-grid uk-grid-row-small uk-child-width-1-2@s">
                   <div>
                     <div for="name" class="label">Variation Price</div>
-                    <mat-form-field class="no-mobile-margin uk-width-expand">
+                    <mat-form-field
+                      class="no-mobile-margin uk-width-expand create-product-form-field"
+                    >
                       <input
                         type="text"
                         matInput
@@ -726,12 +860,24 @@
                         required
                       />
                     </mat-form-field>
+
+                    <div
+                      class="uk-text-danger"
+                      *ngIf="
+                        variationProps.get('cost').touched &&
+                        variationProps.get('cost').invalid
+                      "
+                    >
+                      Cost is required
+                    </div>
                   </div>
                   <div>
                     <div for="name" class="label">Variation Unit</div>
-                    <mat-form-field class="no-mobile-margin uk-width-expand">
+                    <mat-form-field
+                      class="no-mobile-margin uk-width-expand create-product-form-field"
+                    >
                       <input
-                        type="text"
+                        type="number"
                         matInput
                         required
                         (keypress)="preventLetter($event)"
@@ -740,6 +886,16 @@
                         formControlName="unit"
                       />
                     </mat-form-field>
+
+                    <div
+                      class="uk-text-danger"
+                      *ngIf="
+                        variationProps.get('unit').touched &&
+                        variationProps.get('unit').invalid
+                      "
+                    >
+                      Unit is required
+                    </div>
                   </div>
                 </div>
                 <div class="uk-width-expand uk-width-1-2@s input-sec">
@@ -764,17 +920,15 @@
                     class="uk-margin uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid-small uk-grid"
                     *ngIf="!(variationProps?.value.imageUrl === '')"
                   >
-                    <div
-                      class="uk-margin-small-bottom image-wrapper"
-                      
-                    >
+                    <div class="uk-margin-small-bottom image-wrapper">
                       <div
                         class="uk-inline uk-dark image-container"
                         style="cursor: pointer"
                       >
                         <img
                           [ngClass]="{
-                            'active-product-image': productImage === variationProps?.value.imageUrl
+                            'active-product-image':
+                              productImage === variationProps?.value.imageUrl
                           }"
                           style="
                             width: 200px;
@@ -782,7 +936,10 @@
                             object-fit: contain;
                           "
                           src="{{
-                            variationProps?.value.imageUrl?.substr(0, variationProps?.value.imageUrl?.lastIndexOf('.')) + '.jpg'
+                            variationProps?.value.imageUrl?.substr(
+                              0,
+                              variationProps?.value.imageUrl?.lastIndexOf('.')
+                            ) + '.jpg'
                           }}"
                           alt="{{ variationProps?.value.imageUrl }}"
                         />
@@ -791,7 +948,10 @@
                         class="overlay"
                         *ngIf="
                           !(
-                            1 + variationProps?.value.imageUrl.substring(variationProps?.value.imageUrl.lastIndexOf('.')) ==
+                            1 +
+                              variationProps?.value.imageUrl.substring(
+                                variationProps?.value.imageUrl.lastIndexOf('.')
+                              ) ==
                             'mp4'
                           )
                         "
@@ -825,7 +985,9 @@
                       <div
                         class="overlay"
                         *ngIf="
-                          variationProps?.value.imageUrl?.substring(1 + variationProps?.value.imageUrl?.lastIndexOf('.')) == 'mp4'
+                          variationProps?.value.imageUrl?.substring(
+                            1 + variationProps?.value.imageUrl?.lastIndexOf('.')
+                          ) == 'mp4'
                         "
                       >
                         <svg
@@ -868,7 +1030,9 @@
                         </svg>
                       </div>
                       <div
-                        (click)="removeVariationImage(variationProps?.value.imageUrl)"
+                        (click)="
+                          removeVariationImage(variationProps?.value.imageUrl)
+                        "
                         class="overlay2"
                       >
                         <span
@@ -891,10 +1055,12 @@
                   <button
                     (click)="removeEditVariation()"
                     class="small-btn del-btn"
+                    type="button"
                   >
                     Delete
                   </button>
                   <button
+                    type="button"
                     (click)="addProductVariation()"
                     class="small-btn save-btn"
                   >
@@ -953,7 +1119,7 @@
       class="uk-flex content-container uk-flex-column flex-1"
       *ngIf="allVariantList.length > 0"
     >
-      <div class="body-add flex-1">
+      <div class="body-add uk-flex uk-flex-column flex-1">
         <table class="full-width">
           <thead>
             <tr>
@@ -966,19 +1132,19 @@
             </tr>
           </thead>
           <tbody>
-            
             <tr
-              *ngFor="let row of allVariantList; let index = index"
+              *ngFor="let row of allVariantList; let i = index"
               class="table-row"
             >
-           
-                <td><img
-            src="{{row.imageUrl}}"
-            alt="tootip"
-            width="24px"
-            height="24px"
-            matTooltip="Pair your product with related items by suggesting products that go well together"
-          /></td>
+              <td>
+                <img
+                  src="{{ row.imageUrl }}"
+                  alt="tootip"
+                  width="24px"
+                  height="24px"
+                  matTooltip="Pair your product with related items by suggesting products that go well together"
+                />
+              </td>
               <td>{{ row.title }}</td>
 
               <td class="desc">
@@ -987,7 +1153,7 @@
               <td>{{ row.unit }}</td>
               <td>&#8358; {{ row.cost }}</td>
               <td style="width: 38px">
-                <span class="icon-container" (click)="editVariation(index)">
+                <span class="icon-container" (click)="editVariation(i)">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="feather feather-edit"
@@ -1010,7 +1176,7 @@
                 </span>
               </td>
               <td style="width: 38px">
-                <span class="icon-container" (click)="removeVariation(index)">
+                <span class="icon-container" (click)="removeVariation(i)">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 25 25"
@@ -1026,12 +1192,14 @@
             </tr>
           </tbody>
         </table>
+        <button type="button" (click)="addVariation()" class="add-more-btn">
+          Add more
+        </button>
       </div>
     </div>
 
     <div class="uk-flex uk-flex-center mt-4">
       <button
-        (click)="onSubmit()"
         type="submit"
         class="btn-add mr-2"
         [class.spinner]="loading"
@@ -1077,7 +1245,6 @@
           <br />
         </div>
         <span *ngIf="!creatingProduct"> Save in Drafts</span>
-        
       </button>
     </div>
   </form>
@@ -1286,11 +1453,7 @@
       <h1 class="mb-3 heading">Product Description</h1>
 
       <div class="desc icon-container">
-       
-        <div
-          [innerHtml]="previewDesc"
-          class="description py-3"
-        ></div>
+        <div [innerHtml]="previewDesc" class="description py-3"></div>
       </div>
     </div>
 
@@ -1304,21 +1467,21 @@
         <div *ngFor="let item of relatedItems">
           <div>
             <img
-            src="{{
-              item?.imageUrl.substr(0, item.imageUrl.lastIndexOf('.')) +
-                '.jpg'
-            }}"
-            alt="laptop"
-            style="width: 180px; height: 240px; object-fit: cover"
-          />
-          <div class="p-2">
-            <p class="card-name" style="word-wrap: break-word">
-              {{ item.title }}
-            </p>
-            <p class="card-price" style="word-wrap: break-word">
-              {{ item.cost | currency : "₦" }}
-            </p>
-          </div>
+              src="{{
+                item?.imageUrl.substr(0, item.imageUrl.lastIndexOf('.')) +
+                  '.jpg'
+              }}"
+              alt="laptop"
+              style="width: 180px; height: 240px; object-fit: cover"
+            />
+            <div class="p-2">
+              <p class="card-name" style="word-wrap: break-word">
+                {{ item.title }}
+              </p>
+              <p class="card-price" style="word-wrap: break-word">
+                {{ item.cost | currency : "₦" }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
