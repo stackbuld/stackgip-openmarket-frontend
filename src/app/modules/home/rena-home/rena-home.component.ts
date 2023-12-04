@@ -17,7 +17,7 @@ export class RenaHomeComponent {
   recommendedProducts: RecommendedProduct[] = [];
 
   loadingPromotedProducts = true;
-  loadingRecommendedProducts = false;
+  loadingRecommendedProducts = true;
 
   categoryListLimit: number = 6;
   categoryMoreLimit: number = 6;

@@ -34,6 +34,8 @@
           <div
             *ngFor="let category of categories; let i = index"
             class="pointer category"
+            routerLink="/homepage/search"
+            [queryParams]="{ category: category.name }"
           >
             {{ category.name }}
           </div>
