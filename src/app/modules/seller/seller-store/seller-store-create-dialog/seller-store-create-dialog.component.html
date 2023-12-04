@@ -141,17 +141,25 @@
                   <div class="time">
                     <div>
                       <div class="input-container" *ngIf="isEditing[i]">
-                        <input
-                          type="text"
-                          formControlName="openingTime"
-                          [ngxTimepicker]="picker1"
-                        />
+                        <div class="form-group">
+                          <label for="openingTime">Opening Time</label>
+                          <input
+                            type="text"
+                            formControlName="openingTime"
+                            [ngxTimepicker]="picker1"
+                            id="openingTime"
+                          />
+                        </div>
 
-                        <input
-                          type="text"
-                          formControlName="closingTime"
-                          [ngxTimepicker]="picker2"
-                        />
+                        <div class="form-group">
+                          <label for="closingTime">Closing Time</label>
+                          <input
+                            type="text"
+                            formControlName="closingTime"
+                            [ngxTimepicker]="picker2"
+                            id="closingTime"
+                          />
+                        </div>
 
                         <ngx-material-timepicker
                           #picker1
