@@ -8,11 +8,11 @@ import { ICategory } from 'src/app/models/CategoryModels';
 import { PromotedProductsService } from 'src/app/services/promoted-products/promoted-products.service';
 import { RecommendedProductService } from 'src/app/services/recomended-product/recommended-product.service';
 @Component({
-  selector: 'app-rena-home',
-  templateUrl: './rena-home.component.html',
-  styleUrls: ['./rena-home.component.scss'],
+  selector: 'app-home-page',
+  templateUrl: './home-page.component.html',
+  styleUrls: ['./home-page.component.scss'],
 })
-export class RenaHomeComponent {
+export class HomePageComponent {
   promotedProducts: PromotedProduct[] = [];
   recommendedProducts: RecommendedProduct[] = [];
 

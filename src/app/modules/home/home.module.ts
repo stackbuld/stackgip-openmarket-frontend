@@ -20,7 +20,7 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
 import { SellerStorefrontComponent } from './seller-storefront/seller-storefront.component';
-import { RenaHomeComponent } from './rena-home/rena-home.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 // import { register } from 'swiper/element/bundle';
 // register();
@@ -34,7 +34,7 @@ import { RenaHomeComponent } from './rena-home/rena-home.component';
     OrderHistoryComponent,
     PaymentConfirmationComponent,
     SellerStorefrontComponent,
-    RenaHomeComponent,
+    HomePageComponent,
   ],
   imports: [
     CommonModule,
