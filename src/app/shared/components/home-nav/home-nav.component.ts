@@ -104,8 +104,11 @@ export class HomeNavComponent implements OnInit {
   };
 
   fetchCategories = () => {
-    this.categoryService.GetCategory().subscribe((res) => {
-      this.categories = res.data;
+    this.categoryService.getAllStorefrontCategories().subscribe({
+      next: (data) => {
+        this.categories = data;
+      },
+      error: (err) => {},
     });
   };
 

@@ -9,6 +9,7 @@
             class="pointer category"
             routerLink="/homepage/search"
             [queryParams]="{ category: category.name }"
+            queryParamsHandling="merge"
           >
             {{ category.name }}
           </div>
