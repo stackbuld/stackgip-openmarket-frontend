@@ -33,7 +33,7 @@
           <img src="assets/img/hero-home.png" alt="" />
         </div> -->
       <div
-        class="uk-position-relative uk-visible-toggle uk-light col col-md thumbnail"
+        class="uk-position-relative uk-visible-toggle uk-light d-none d-md-block col col-md thumbnail"
         tabindex="-1"
         uk-slideshow="autoplay: true"
       >
@@ -42,12 +42,9 @@
             <img src="{{ slide }}" alt="" uk-cover />
             <div class="uk-position-medium uk-position-bottom-right">
               <button
-                class="uk-button uk-button-secondary d-none d-md-block"
+                class="uk-button uk-button-secondary"
                 routerLink="/homepage/search"
               >
-                Shop Now
-              </button>
-              <button class="d-block d-md-none" routerLink="/homepage/search">
                 Shop Now
               </button>
             </div>
@@ -67,6 +64,51 @@
           uk-slideshow-item="next"
         ></a>
       </div>
+      <!-- MOBILE BANNER -->
+      <div
+        class="uk-position-relative uk-visible-toggle uk-light col d-block d-md-none"
+        tabindex="-1"
+        uk-slider="autoplay: true"
+      >
+        <ul class="uk-slider-items uk-grid">
+          <li
+            *ngFor="let slide of heroSlides; let i = index"
+            class="uk-width-4-5"
+          >
+            <div class="uk-panel">
+              <img src="{{ slide }}" width="1800" height="1200" alt="" />
+              <!-- <div class="uk-position-center uk-text-center">
+                <h2 uk-slider-parallax="x: 100,-100">{{ i + 1 }}</h2>
+                <p uk-slider-parallax="x: 200,-200">
+                  Lorem ipsum dolor sit amet.
+                </p>
+              </div> -->
+              <div class="uk-position-medium uk-position-bottom-right mb-1">
+                <button
+                  class="uk-button uk-button-secondary"
+                  routerLink="/homepage/search"
+                >
+                  Shop Now
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <a
+          class="uk-position-center-left uk-position-small uk-hidden-hover"
+          href
+          uk-slidenav-previous
+          uk-slider-item="previous"
+        ></a>
+        <a
+          class="uk-position-center-right uk-position-small uk-hidden-hover"
+          href
+          uk-slidenav-next
+          uk-slider-item="next"
+        ></a>
+      </div>
+      <!-- END OF MOBILE BANNER -->
     </div>
   </section>
 
