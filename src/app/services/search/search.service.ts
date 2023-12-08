@@ -99,7 +99,7 @@ export class SearchService implements ISearchService {
 
   getAllProducts(
     pageNumber: number = 0,
-    maxItem: number = 10,
+    maxItem: number = 12,
     searchQuery: string = '',
     storefrontSellerId: string = '',
     category: string = '',
