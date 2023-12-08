@@ -2,7 +2,7 @@
   <section id="hero">
     <div class="hero-container row">
       <div class="categories-container d-none d-md-block col-md-2">
-        <h2 class="">Categories</h2>
+        <p class="">Categories</p>
         <div *ngIf="!loadingCategories">
           <div
             *ngFor="let category of categories; let i = index"
@@ -42,9 +42,12 @@
             <img src="{{ slide }}" alt="" uk-cover />
             <div class="uk-position-medium uk-position-bottom-right">
               <button
-                class="uk-button uk-button-secondary"
+                class="uk-button uk-button-secondary d-none d-md-block"
                 routerLink="/homepage/search"
               >
+                Shop Now
+              </button>
+              <button class="d-block d-md-none" routerLink="/homepage/search">
                 Shop Now
               </button>
             </div>
@@ -70,7 +73,7 @@
   <section id="promoted-product">
     <div class="promoted-product-container">
       <div class="header-text">
-        <h2>Promoted Product</h2>
+        <p class="fs-3 fs-md-2">Promoted Product</p>
         <span class="pointer">
           <span routerLink="/homepage/search"> See All </span>
           <svg
@@ -136,7 +139,7 @@
   <section id="recommended-product">
     <div class="recommended-product-container">
       <div class="header-text">
-        <h2>Recommended Product</h2>
+        <p class="fs-3 fs-md-2">Recommended Product</p>
         <span class="pointer">
           <span routerLink="/homepage/search"> See All </span>
           <svg
