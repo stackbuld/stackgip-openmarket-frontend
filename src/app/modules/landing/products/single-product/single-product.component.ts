@@ -46,6 +46,8 @@ export class SingleProductComponent implements OnInit {
       sellingPrice: product.sellingPrice,
       productImages: product.productImages,
       userId: product.userId,
+      videoUrl: product.videoUrl,
+      videoUrls: product.videoUrls,
       shipmentOption,
       productOptions,
       paymentOption,

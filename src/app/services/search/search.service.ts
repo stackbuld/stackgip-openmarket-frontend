@@ -57,6 +57,7 @@ export class SearchService implements ISearchService {
           id: product.category.id,
           name: product.category.name,
           createdOn: product.category.createdOn,
+          imageUrl: product.category.imageUrl,
         },
         categoryId: product.categoryId,
         createdOn: product.createdOn,
@@ -67,6 +68,7 @@ export class SearchService implements ISearchService {
         productImages: product.productImages,
         unit: product.unit,
         userId: product.userId,
+        videoUrls: product.productVideos,
       };
     });
     return results;

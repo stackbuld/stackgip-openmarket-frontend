@@ -2,12 +2,25 @@
   <!-- <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
         [src]="product?.imageUrl" class="img" /> -->
 
+  <!-- <ng-template *ngIf="product.videoUrls; else image">
+    <video width="320" height="240" class="w-100" controls>
+      <source
+        src="C:\Users\User\Desktop\Coding\stackgip-openmarket-frontend\src\assets\videos\short-video.mp4"
+        type="video/mp4"
+      />
+      Your browser does not support the video tag.
+    </video>
+  </ng-template> -->
+  <!-- <source src="movie.ogg" type="video/ogg"> -->
+
+  <!-- <ng-template #image> -->
   <img
     *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''"
     src="{{ getImageResolution(product?.imageUrl, 300, 300) }}"
     loading="lazy"
     class="w-100"
   />
+  <!-- </ng-template> -->
 
   <div
     *ngIf="product?.imageUrl === null || product?.imageUrl === ''"
