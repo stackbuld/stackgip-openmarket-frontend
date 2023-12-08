@@ -17,6 +17,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ProductListComponent implements OnInit {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
   @Input() storefrontSellerId: string = '';
+
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 7;
+  tableSizes: any = [3, 6, 9, 12];
+
   categories: string[] = [];
   products: ProductModel[] = [];
   cities: string[] = [];
@@ -92,6 +98,17 @@ export class ProductListComponent implements OnInit {
     this.fetchCategories();
     this.fetchCities();
     this.fetchStates();
+  }
+
+  onTableDataChange(event: any) {
+    this.page = event;
+    this.pageNumber = event - 1;
+    this.fetchAllProducts(this.pageNumber);
+  }
+  onTableSizeChange(event: any): void {
+    this.tableSize = event.target.value;
+    this.page = 1;
+    this.fetchAllProducts(this.pageNumber);
   }
 
   removeQueryParam(filter: string) {

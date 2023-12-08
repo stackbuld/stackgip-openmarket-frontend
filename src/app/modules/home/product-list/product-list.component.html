@@ -851,15 +851,24 @@
               'col-lg-4': columnCount === 3
             }"
             class="col-6"
-            *ngFor="let product of products; let last = last"
+            *ngFor="
+              let product of products
+                | paginate
+                  : {
+                      itemsPerPage: tableSize,
+                      currentPage: page,
+                      totalItems: count
+                    };
+              let last = last
+            "
           >
             <app-product-card [product]="product"></app-product-card>
           </div>
         </div>
         <div *ngIf="!loadingProducts" class="w-100 text-center">
-          <button (click)="showMoreProducts()" class="show-more-products">
+          <!-- <button (click)="showMoreProducts()" class="show-more-products">
             Show more
-          </button>
+          </button> -->
         </div>
 
         <div *ngIf="!loadingProducts && products.length === 0" class="p-5">
@@ -962,6 +971,12 @@
             </div>
           </div>
         </div>
+        <pagination-controls
+          previousLabel="Prev"
+          nextLabel="Next"
+          (pageChange)="onTableDataChange($event)"
+        >
+        </pagination-controls>
         <!-- <div class="uk-flex uk-flex-right">
                     <pagination-controls (pageChange)="fetchAllProducts($event)"></pagination-controls>
                 </div> -->
