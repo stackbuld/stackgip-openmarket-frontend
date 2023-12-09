@@ -1,12 +1,6 @@
-// .main {
-//   margin: 0 auto;
-//   width: 100%;
-// display: flex;
-// flex-direction: column;
-// justify-content: center;
-// align-items: center;
-// gap: 50px;
-// }
+.main {
+  padding: 0rem 6rem 2rem 6rem;
+}
 
 section {
   margin: 50px auto;
@@ -29,7 +23,6 @@ section {
   display: flex;
   align-self: flex-start;
   height: max-content;
-  // gap: 20px;
 
   .categories-container {
     font-size: 14px;
