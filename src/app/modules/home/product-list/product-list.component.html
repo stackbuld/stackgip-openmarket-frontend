@@ -154,7 +154,7 @@
               </p>
             </div>
             <div *ngIf="!loadingCategories">
-              <p
+              <div
                 *ngFor="
                   let category of categories | slice : 0 : categoryListLimit;
                   let i = index
@@ -175,12 +175,12 @@
                 >
                   <span class="pointer">{{ category }}</span>
                 </span>
-                <span
+                <div
                   *ngIf="
                     i === categoryMoreLimit - 1 &&
                     categories.length > categoryListLimit
                   "
-                  class="each-cat py-2 pointer"
+                  class="each-cat"
                   (click)="showMoreCategories()"
                 >
                   <svg
@@ -197,8 +197,8 @@
                   </svg>
                   &nbsp;
                   <span>More</span>
-                </span>
-              </p>
+                </div>
+              </div>
               <div
                 *ngIf="categories.length === 0"
                 class="text-center text-black p-5"
@@ -276,7 +276,7 @@
               </p>
             </div>
             <div *ngIf="!loadingCities">
-              <p
+              <div
                 *ngFor="
                   let city of cities | slice : 0 : cityListLimit;
                   let i = index
@@ -295,11 +295,11 @@
                 >
                   <span class="pointer">{{ city }}</span>
                 </span>
-                <span
+                <div
                   *ngIf="
                     i === cityMoreLimit - 1 && cities.length > cityListLimit
                   "
-                  class="each-cat py-2 pointer"
+                  class="each-cat"
                   (click)="showMoreCities()"
                 >
                   <svg
@@ -316,8 +316,8 @@
                   </svg>
                   &nbsp;
                   <span>More</span>
-                </span>
-              </p>
+                </div>
+              </div>
               <div
                 *ngIf="cities.length === 0"
                 class="text-center text-black p-5"
@@ -395,7 +395,7 @@
               </p>
             </div>
             <div *ngIf="!loadingStates">
-              <p
+              <div
                 *ngFor="
                   let state of states | slice : 0 : stateListLimit;
                   let i = index
@@ -414,11 +414,11 @@
                 >
                   <span class="pointer">{{ state }}</span>
                 </span>
-                <span
+                <div
                   *ngIf="
                     i === stateMoreLimit - 1 && states.length > stateListLimit
                   "
-                  class="each-cat py-2 pointer"
+                  class="each-cat"
                   (click)="showMoreStates()"
                 >
                   <svg
@@ -435,8 +435,8 @@
                   </svg>
                   &nbsp;
                   <span>More</span>
-                </span>
-              </p>
+                </div>
+              </div>
               <div
                 *ngIf="states.length === 0"
                 class="text-center text-black p-5"
