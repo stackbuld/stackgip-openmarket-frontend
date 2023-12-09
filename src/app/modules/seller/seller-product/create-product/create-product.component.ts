@@ -243,7 +243,6 @@ export class CreateProductComponent implements OnInit {
         if (!error && result && result.event === 'success') {
           if (this.videoUrls.length < 4) {
             this.videoUrls.push(result.info.secure_url);
-            console.log(this.videoUrls);
           }
         }
       }
@@ -372,7 +371,6 @@ export class CreateProductComponent implements OnInit {
           this.getSubCategories(res.data.category.id);
           this.setComplementaryImageForUpdate(res.data);
           this.images = res.data.productImages;
-          console.log(res.data);
 
           this.productImage = this.images[0];
           this.videoUrls = res.data.videoUrls;
@@ -451,10 +449,8 @@ export class CreateProductComponent implements OnInit {
         this.allVariantList.push(element);
       }
     }
-    console.log(this.allVariantList);
 
     this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
-    console.log(this.initialProductUnit, this.totalVariationsUnit);
 
     this.availableProductUnit =
       this.initialProductUnit - this.totalVariationsUnit;
@@ -679,6 +675,8 @@ export class CreateProductComponent implements OnInit {
 
     this.editingVariation = false;
     this.editingVariationUnit = 0;
+
+    this.toast.success('Product variant added');
   }
 
   getTotalVariationUnit(list: any[]) {
@@ -689,12 +687,21 @@ export class CreateProductComponent implements OnInit {
 
   // this method is to close the variation of products card
   removeEditVariation(): void {
+    uikit.modal('#delete-modal').show();
+  }
+
+  onCancelRemoveEditVariation() {
+    uikit.modal('#delete-modal').hide();
+  }
+
+  onConfirmRemoveEditVariation() {
     this.variationProps.reset();
     this.editingTotalVariationsUnit = 0;
     this.totalVariationsUnit += this.editingVariationUnit;
     this.editingVariationUnit = 0;
     this.addingVariation = false;
     this.editingVariation = false;
+    uikit.modal('#delete-modal').hide();
   }
 
   // this method is to remove already created product varaints

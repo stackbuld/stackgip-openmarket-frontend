@@ -347,6 +347,38 @@ table {
     background-color: #000;
     align-self: flex-end;
     margin-top: 15px;
+    width: auto;
+  }
+}
+
+.delete-modal-main {
+  text-align: center;
+  background-color: #ffffff;
+
+  & .modal-heading {
+    font-size: 16px;
+    color: #ff0000;
+    margin-bottom: 30px;
+  }
+
+  & .modal-actions {
+    & button {
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      padding: 0.6rem 3rem;
+      box-shadow: none;
+      color: white;
+      background-color: #000;
+      align-self: flex-end;
+
+      &:first-child {
+        margin-right: 10px;
+        color: #000000;
+        border: 1px solid #000000;
+        background-color: #ffffff;
+      }
+    }
   }
 }
 
@@ -559,10 +591,26 @@ table {
   border: none;
   outline: none;
   padding: 0.6rem 1.5rem;
-  width: 7rem;
   box-shadow: none;
   color: white;
   background-color: #000;
   align-self: flex-end;
   margin-top: 15px;
+}
+
+@media (max-width: 335px) {
+  .delete-modal-main {
+    & .modal-actions {
+      display: flex;
+      flex-direction: column;
+      & button {
+        width: 100%;
+
+        &:first-child {
+          margin-right: 0px;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
 }
