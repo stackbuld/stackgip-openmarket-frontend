@@ -73,7 +73,7 @@
                 routerLink="/homepage/search"
                 [queryParams]="{ minPrice: minValue, maxPrice: maxValue }"
                 queryParamsHandling="merge"
-                (click)="filterProducts()"
+                (click)="filterProductsByPrice()"
                 class="w-100 apply-btn"
               >
                 Apply
@@ -105,8 +105,6 @@
                   placeholder="Search"
                   class="search-filter-input"
                   autofocus
-                  (focus)="onCategorySearchFocus()"
-                  (blur)="onCategorySearchBlur()"
                   (input)="onCategorySearch($event.target.value)"
                 />
               </form>
@@ -128,8 +126,15 @@
                   />
                 </svg>
               </button>
+              <img
+                *ngIf="isCategorySearchFocused"
+                src="assets/svg/close-black.svg"
+                class="pointer"
+                alt="close-icon"
+                (click)="onCategorySearchClose()"
+              />
               <p
-                *ngIf="isCategoryFilter"
+                *ngIf="isCategoryFilter && !isCategorySearchFocused"
                 (click)="resetProductsByCategory()"
                 class="mobile-heading"
               >
@@ -163,7 +168,7 @@
                   [ngClass]="{
                     activeCategory: this.categoryName === category
                   }"
-                  (click)="filterProducts('category', category)"
+                  (click)="filterProductsByCategory(category)"
                   routerLink="/homepage/search"
                   [queryParams]="{ category: category }"
                   queryParamsHandling="merge"
@@ -222,8 +227,6 @@
                   placeholder="Search"
                   class="search-filter-input"
                   autofocus
-                  (focus)="onCitySearchFocus()"
-                  (blur)="onCitySearchBlur()"
                   (input)="onCitySearch($event.target.value)"
                 />
               </form>
@@ -245,8 +248,15 @@
                   />
                 </svg>
               </button>
+              <img
+                *ngIf="isCitySearchFocused"
+                src="assets/svg/close-black.svg"
+                class="pointer"
+                alt="close-icon"
+                (click)="onCitySearchClose()"
+              />
               <p
-                *ngIf="isCityFilter"
+                *ngIf="isCityFilter && !isCitySearchFocused"
                 (click)="resetProductsByCity()"
                 class="mobile-heading"
               >
@@ -278,7 +288,7 @@
                                 </svg> &nbsp; -->
                 <span
                   [ngClass]="{ activeCategory: this.cityName === city }"
-                  (click)="filterProducts('city', city)"
+                  (click)="filterProductsByCity(city)"
                   routerLink="/homepage/search"
                   [queryParams]="{ city: city }"
                   queryParamsHandling="merge"
@@ -336,8 +346,6 @@
                   placeholder="Search"
                   class="search-filter-input"
                   autofocus
-                  (focus)="onStateSearchFocus()"
-                  (blur)="onStateSearchBlur()"
                   (input)="onStateSearch($event.target.value)"
                 />
               </form>
@@ -359,8 +367,15 @@
                   />
                 </svg>
               </button>
+              <img
+                *ngIf="isStateSearchFocused"
+                src="assets/svg/close-black.svg"
+                class="pointer"
+                alt="close-icon"
+                (click)="onStateSearchClose()"
+              />
               <p
-                *ngIf="isStateFilter"
+                *ngIf="isStateFilter && !isStateSearchFocused"
                 (click)="resetProductsByState()"
                 class="mobile-heading"
               >
@@ -392,7 +407,7 @@
                                 </svg> &nbsp; -->
                 <span
                   [ngClass]="{ activeCategory: this.stateName === state }"
-                  (click)="filterProducts('state', state)"
+                  (click)="filterProductsByState(state)"
                   routerLink="/homepage/search"
                   [queryParams]="{ state: state }"
                   queryParamsHandling="merge"
@@ -474,8 +489,6 @@
               placeholder="Search"
               class="search-filter-input"
               autofocus
-              (focus)="onCategorySearchFocus()"
-              (blur)="onCategorySearchBlur()"
               (input)="onCategorySearch($event.target.value)"
             />
           </form>
@@ -497,8 +510,15 @@
               />
             </svg>
           </button>
+          <img
+            *ngIf="isCategorySearchFocused"
+            src="assets/svg/close-black.svg"
+            class="pointer"
+            alt="close-icon"
+            (click)="onCategorySearchClose()"
+          />
           <p
-            *ngIf="isCategoryFilter"
+            *ngIf="isCategoryFilter && !isCategorySearchFocused"
             class="mb-0 pointer mobile-heading"
             (click)="resetProductsByCategory()"
           >
@@ -516,7 +536,7 @@
               [ngClass]="{
                 activeCategory: this.categoryName === category
               }"
-              (click)="filterProducts('category', category)"
+              (click)="filterProductsByCategory(category)"
               class="each-cat py-2"
               routerLink="/homepage/search"
               [queryParams]="{ category: category }"
@@ -574,8 +594,6 @@
               placeholder="Search"
               class="search-filter-input"
               autofocus
-              (focus)="onCitySearchFocus()"
-              (blur)="onCitySearchBlur()"
               (input)="onCitySearch($event.target.value)"
             />
           </form>
@@ -597,8 +615,15 @@
               />
             </svg>
           </button>
+          <img
+            *ngIf="isCitySearchFocused"
+            src="assets/svg/close-black.svg"
+            class="pointer"
+            alt="close-icon"
+            (click)="onCitySearchClose()"
+          />
           <p
-            *ngIf="isCityFilter"
+            *ngIf="isCityFilter && !isCitySearchFocused"
             class="mb-0 pointer mobile-heading"
             (click)="resetProductsByCity()"
           >
@@ -614,7 +639,7 @@
           >
             <span
               [ngClass]="{ activeCategory: this.cityName === city }"
-              (click)="filterProducts('city', city)"
+              (click)="filterProductsByCity(city)"
               routerLink="/homepage/search"
               [queryParams]="{ city: city }"
               queryParamsHandling="merge"
@@ -669,8 +694,6 @@
               placeholder="Search"
               class="search-filter-input"
               autofocus
-              (focus)="onStateSearchFocus()"
-              (blur)="onStateSearchBlur()"
               (input)="onStateSearch($event.target.value)"
             />
           </form>
@@ -692,8 +715,15 @@
               />
             </svg>
           </button>
+          <img
+            *ngIf="isStateSearchFocused"
+            src="assets/svg/close-black.svg"
+            class="pointer"
+            alt="close-icon"
+            (click)="onStateSearchClose()"
+          />
           <p
-            *ngIf="isStateFilter"
+            *ngIf="isStateFilter && !isStateSearchFocused"
             class="mb-0 pointer mobile-heading"
             (click)="resetProductsByState()"
           >
@@ -709,7 +739,7 @@
           >
             <span
               [ngClass]="{ activeCategory: this.stateName === state }"
-              (click)="filterProducts('state', state)"
+              (click)="filterProductsByState(state)"
               routerLink="/homepage/search"
               [queryParams]="{ state: state }"
               queryParamsHandling="merge"
@@ -814,7 +844,7 @@
             routerLink="/homepage/search"
             [queryParams]="{ minPrice: minValue, maxPrice: maxValue }"
             queryParamsHandling="merge"
-            (click)="filterProducts()"
+            (click)="filterProductsByPrice()"
             class="w-100 apply-btn"
           >
             Apply
