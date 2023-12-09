@@ -180,7 +180,6 @@ export class ProductListComponent implements OnInit {
   }
 
   onCategorySearch(category: string) {
-    this.categoryName = category;
     this.loadingCategories = true;
     this.categoryService
       .searchCategories(category, this.storefrontSellerId)
@@ -195,17 +194,12 @@ export class ProductListComponent implements OnInit {
       });
   }
 
-  onCategorySearchFocus() {
-    this.isCategorySearchFocused = true;
-  }
-
-  onCategorySearchBlur() {
+  onCategorySearchClose() {
     this.isCategorySearchFocused = false;
     this.fetchCategories();
   }
 
   onCitySearch(city: string) {
-    this.cityName = city;
     this.loadingCities = true;
     this.cityService.searchCities(city, this.storefrontSellerId).subscribe({
       next: (data) => {
@@ -218,17 +212,12 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  onCitySearchFocus() {
-    this.isCitySearchFocused = true;
-  }
-
-  onCitySearchBlur() {
+  onCitySearchClose() {
     this.isCitySearchFocused = false;
     this.fetchCities();
   }
 
   onStateSearch(state: string) {
-    this.stateName = state;
     this.loadingStates = true;
     this.stateService.searchStates(state, this.storefrontSellerId).subscribe({
       next: (data) => {
@@ -241,11 +230,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  onStateSearchFocus() {
-    this.isStateSearchFocused = true;
-  }
-
-  onStateSearchBlur() {
+  onStateSearchClose() {
     this.isStateSearchFocused = false;
     this.fetchStates();
   }
@@ -391,46 +376,33 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  filterProducts(isWhichFilter?: string, filterValue?: string) {
-    if (isWhichFilter === 'category') {
-      this.categoryName = filterValue;
-      this.fetchCategories();
-    }
-
-    if (isWhichFilter === 'city') {
-      this.cityName = filterValue;
-      this.fetchCities();
-    }
-
-    if (isWhichFilter === 'state') {
-      this.stateName = filterValue;
-      this.fetchStates();
-    }
-    // this.fetchQueryParamsFromUrl();
+  filterProductsByPrice() {
     this.fetchAllProducts(0);
   }
 
-  // filterProductsByPrice() {
-  //   this.fetchAllProducts(0);
-  // }
+  filterProductsByCategory(category: string) {
+    this.categoryName = category;
+    this.fetchAllProducts(0);
+    if (!this.isCategorySearchFocused) {
+      this.fetchCategories();
+    }
+  }
 
-  // filterProductsByCategory(category: string) {
-  //   this.categoryName = category;
-  //   this.fetchAllProducts(0);
-  //   this.fetchCategories();
-  // }
+  filterProductsByCity(item: string) {
+    this.cityName = item;
+    this.fetchAllProducts(0);
+    if (!this.isCitySearchFocused) {
+      this.fetchCities();
+    }
+  }
 
-  // filterProductsByCity(item: string) {
-  //   this.cityName = item;
-  //   this.fetchAllProducts(0);
-  //   this.fetchCities();
-  // }
-
-  // filterProductsByState(item: string) {
-  //   this.stateName = item;
-  //   this.fetchAllProducts(0);
-  //   this.fetchStates();
-  // }
+  filterProductsByState(item: string) {
+    this.stateName = item;
+    this.fetchAllProducts(0);
+    if (!this.isStateSearchFocused) {
+      this.fetchStates();
+    }
+  }
 
   setColumn(e: any) {
     this.columnCount = Number(e.target.value);
