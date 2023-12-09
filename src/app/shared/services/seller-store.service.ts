@@ -24,6 +24,24 @@ export class SellerStoreService {
     'Friday',
     'Saturday',
   ];
+  defaultAvailability: StoreAvailability[] = [
+    {
+      dayOfWeek: 'Monday',
+      openingTime: '09:00',
+      closingTime: '18:00',
+    },
+
+    {
+      dayOfWeek: 'Thursday',
+      openingTime: '10:00',
+      closingTime: '17:00',
+    },
+    {
+      dayOfWeek: 'Saturday',
+      openingTime: '11:00',
+      closingTime: '17:00',
+    },
+  ];
   storeAvailabilitiesSubj = new Subject<any>();
 
   constructor(private http: HttpClient) {}
