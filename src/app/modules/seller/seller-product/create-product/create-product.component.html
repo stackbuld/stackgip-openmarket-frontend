@@ -396,9 +396,10 @@
         *ngIf="addingComplimentaryOptions"
         class="mt-5 uk-flex uk-flex-column flex-1"
       >
-        <h2>Related Item(s) Information</h2>
+        <h2>Complementary Products Details</h2>
         <p class="sub-text">
-          Add related products' name, description and price
+          Fill out the details below to add a complementary product to your main
+          item
         </p>
         <div class="body-add flex-1">
           <hr />
@@ -408,7 +409,7 @@
               <div>
                 <div class="mb-3 uk-grid uk-child-width-1-2@s">
                   <div class="uk-width-expand input-sec">
-                    <div for="name" class="label">Product Name</div>
+                    <div for="name" class="label">Complementary Item Name</div>
                     <mat-form-field
                       class="uk-width-expand create-product-form-field"
                     >
@@ -460,7 +461,7 @@
                 </div>
                 <div class="mb-3 uk-grid-small uk-child-width-1-2@s">
                   <div class="uk-width-1-2@s input-sec">
-                    <div for="name" class="label">Available Units</div>
+                    <div for="name" class="label">Quantity Available</div>
                     <mat-form-field
                       class="uk-width-expand create-product-form-field"
                     >
@@ -488,7 +489,9 @@
                 </div>
                 <div class="main uk-flex mt-4 mb-2">
                   <div class="editor">
-                    <div for="name" class="label">Description</div>
+                    <div for="name" class="label">
+                      Product Short Description
+                    </div>
 
                     <angular-editor
                       id="subeditor"
@@ -508,10 +511,12 @@
                   </div>
                 </div>
                 <div class="uk-width-expand editor uk-width-1-2@s input-sec">
-                  <div for="name" class="label">File Upload</div>
+                  <div for="name" class="label">
+                    Complementary Item Images/Videos
+                  </div>
                   <div class="border-form mb-30 d-flex align-items-center">
                     <button (click)="uploadRelatedImage()" type="button">
-                      Add file
+                      Upload Image
                     </button>
                     <div
                       class="d-flex justify-content-center align-items-center px-8"
@@ -762,13 +767,17 @@
         class="mt-5 uk-flex uk-flex-column flex-1"
         #variationForm
       >
-        <h2>Variation(s) Information</h2>
-        <p class="sub-text">Add product's color, size and price variations</p>
+        <h2>Product Variants and Options</h2>
+        <p class="sub-text">
+          Add and manage different variations of your product, such as color or
+          size, along with their prices and available quantities
+        </p>
         <div class="body-add flex-1">
           <div class="variation-count-alert">
             You have
             <span *ngIf="!isProductUnitExceeded">
-              {{ availableProductUnit }} units left available for allocation
+              {{ initialProductUnit - availableProductUnit }} of
+              {{ initialProductUnit }} units allocated to variants
             </span>
             <span *ngIf="isProductUnitExceeded"
               >exceeded product unit allocated</span
@@ -783,7 +792,9 @@
                 <div class="uk-grid uk-grid-row-small uk-child-width-1-2@s">
                   <div class="">
                     <div class="uk-flex uk-flex-between">
-                      <div for="name" class="label">Variation</div>
+                      <div for="name" class="label">
+                        Variant Name (e.g. Color, Size)
+                      </div>
                       <p
                         class="add-store-btn uk-flex align-items-center"
                         uk-toggle="target: #modal-add-variation"
@@ -797,7 +808,7 @@
                       id="variation-select"
                     >
                       <mat-select formControlName="title" required>
-                        <mat-option disabled="true"
+                        <mat-option disabled="true" selected [value]="null"
                           >--- Select Variation ---</mat-option
                         >
                         <mat-option
@@ -827,7 +838,7 @@
                       <input
                         type="text"
                         matInput
-                        placeholder="--- Add Value---"
+                        placeholder="Add Variant Type"
                         formControlName="value"
                         required
                       />
@@ -846,7 +857,7 @@
                 </div>
                 <div class="uk-grid uk-grid-row-small uk-child-width-1-2@s">
                   <div>
-                    <div for="name" class="label">Variation Price</div>
+                    <div for="name" class="label">Variant Price</div>
                     <mat-form-field
                       class="no-mobile-margin uk-width-expand create-product-form-field"
                     >
@@ -872,7 +883,7 @@
                     </div>
                   </div>
                   <div>
-                    <div for="name" class="label">Variation Unit</div>
+                    <div for="name" class="label">Units per Variant</div>
                     <mat-form-field
                       class="no-mobile-margin uk-width-expand create-product-form-field"
                     >
@@ -898,13 +909,16 @@
                     </div>
                   </div>
                 </div>
-                <div class="uk-width-expand uk-width-1-2@s input-sec">
+                <div
+                  class="uk-width-expand uk-width-1-2@s input-sec"
+                  style="margin-top: 15px"
+                >
                   <div for="name" class="label">
-                    File Upload<small>(optional)</small>
+                    Upload Variant Images/Videos (optional)
                   </div>
                   <div class="border-form mb-30 d-flex align-items-center">
-                    <button (click)="uploadComplimentaryImage()">
-                      Add file
+                    <button (click)="uploadComplimentaryImage()" type="button">
+                      Upload File
                     </button>
                     <div
                       class="d-flex justify-content-center align-items-center px-8"
@@ -1193,7 +1207,7 @@
           </tbody>
         </table>
         <button type="button" (click)="addVariation()" class="add-more-btn">
-          Add more
+          + Add Another Variant
         </button>
       </div>
     </div>
@@ -1448,6 +1462,14 @@
     </div>
   </div>
 
+  <div class="video-container">
+    <div class="video-main" *ngIf="videoUrls.length > 0">
+      <div class="video" *ngFor="let video of videoUrls; let i = index">
+        <video [src]="video" height="75" controls></video>
+      </div>
+    </div>
+  </div>
+
   <div class="mt-5">
     <div>
       <h1 class="mb-3 heading">Product Description</h1>
@@ -1651,6 +1673,22 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<div id="delete-modal" uk-modal>
+  <div class="delete-modal-main uk-modal-dialog uk-modal-body">
+    <div class="modal-heading">
+      Are you sure you want to cancel add variant? This action will delete all
+      information you have added
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" (click)="onCancelRemoveEditVariation()">No</button>
+      <button type="button" (click)="onConfirmRemoveEditVariation()">
+        Yes
+      </button>
     </div>
   </div>
 </div>
