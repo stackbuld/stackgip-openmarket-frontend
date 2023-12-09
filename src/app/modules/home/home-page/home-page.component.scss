@@ -94,3 +94,9 @@ section {
     }
   }
 }
+
+@media (max-width: "768px") {
+  .main {
+    padding: 0rem 2rem 1rem 2rem;
+  }
+}

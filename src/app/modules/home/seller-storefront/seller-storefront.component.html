@@ -25,10 +25,15 @@
     <div class="hero-section">
       <img
         class="circle-storefront"
-        [src]="
-          sellerStorefrontDetails?.businessLogoUrl ||
-          'assets/img/store-logo.png'
-        "
+        src="{{
+          getImageResolution(
+            sellerStorefrontDetails?.businessLogoUrl ||
+              'assets/img/store-logo.png',
+            1200,
+            300
+          )
+        }}"
+        [src]=""
         alt=""
       />
 

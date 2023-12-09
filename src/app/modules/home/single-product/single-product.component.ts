@@ -393,6 +393,7 @@ export class SingleProductComponent implements OnInit {
       next: (res) => {
         this.isLoadingDetails = false;
         this.product = res.data;
+        console.log('product in single cart', this.product);
         this.sellerStores = res.data?.sellerStores;
 
         if (this.currentAddress) {
@@ -553,7 +554,9 @@ export class SingleProductComponent implements OnInit {
     );
     productService$.subscribe(
       (products) => {
-        this.products = products.data.data;
+        this.products = products.data.data.filter(
+          (product) => product.id !== this.productId
+        );
       },
       (error) => {}
     );
