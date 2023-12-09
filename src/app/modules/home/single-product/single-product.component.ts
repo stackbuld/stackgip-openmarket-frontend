@@ -554,7 +554,9 @@ export class SingleProductComponent implements OnInit {
     );
     productService$.subscribe(
       (products) => {
-        this.products = products.data.data;
+        this.products = products.data.data.filter(
+          (product) => product.id !== this.productId
+        );
       },
       (error) => {}
     );
