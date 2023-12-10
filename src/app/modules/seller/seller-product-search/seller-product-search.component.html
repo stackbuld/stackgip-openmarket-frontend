@@ -1,0 +1,26 @@
+<div class="search-container">
+  <div class="loader-container" *ngIf="isFetching | async">
+    <div class="loader"></div>
+  </div>
+
+  <div class="search-result-container" *ngIf="!(isFetching | async)">
+    <div
+      class="search-result"
+      *ngFor="let searchResult of searchResults | async"
+      (click)="onLoadProduct(searchResult.id)"
+    >
+      <div class="product-img">
+        <img
+          [img-preloader]="getImageResolution(searchResult.imageUrl, 80, 80)"
+          alt=""
+        />
+      </div>
+
+      <div class="product-content">
+        <div class="product-name">{{ searchResult.name }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="search-underlay"></div>

@@ -12,7 +12,7 @@
   </ng-container>
 </ng-container> -->
 
-<div>
+<div class="dashboard-container">
   <div class="topbar">
     <div class="uk-flex">
       <!-- Menu for large or desktop screen -->
@@ -41,6 +41,10 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="search-results" *ngIf="isSearching | async">
+    <app-seller-product-search></app-seller-product-search>
   </div>
 </div>
 

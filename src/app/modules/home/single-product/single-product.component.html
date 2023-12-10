@@ -69,7 +69,12 @@
 
                   <!-- <div class="order-count">100 orders</div> -->
                 </div>
-                <!-- <div class="seller-store">Visit seller's store</div> -->
+                <div
+                  class="seller-store"
+                  routerLink="/homepage/storefront/{{ product.userId }}"
+                >
+                  Visit seller's store
+                </div>
               </div>
             </div>
           </div>
@@ -171,7 +176,8 @@
             *ngIf="currentAddress"
           >
             <div class="pickup-main-address" *ngIf="closestStore">
-              Coming from: {{ closestStore?.fullAddress || "N/A" }}
+              Coming from: {{ closestStore?.city || "N/A" }},
+              {{ closestStore.state || "NA" }}
             </div>
             <!-- <div class="no-address" *ngIf="!currentAddress">
               Please enter your delivery address to view shipping options and
@@ -197,12 +203,10 @@
 
         <div class="shipping" *ngIf="currentAddress">
           <div class="shipping-heading">
-            Shipping:
-
             {{
               currentShippingMethod?.value?.logisticName == "Renaship"
-                ? "Available on Order Summary"
-                : "Starting from" +
+                ? "Price: Available on Order Summary"
+                : "Shipping: Starting from" +
                   (currentShippingMethod?.value?.startingPrice || 0
                     | currency : "NGN")
             }}
@@ -227,9 +231,9 @@
 
             <i class="fa fa-angle-right"></i>
           </div>
-          <div class="shipping-duration">
+          <!-- <div class="shipping-duration">
             Delivered between Tuesday 8 Nov and Thursday 15 Nov
-          </div>
+          </div> -->
         </div>
 
         <div *ngIf="!isShippingMethodFetched" class="py-3">
@@ -262,7 +266,7 @@
             />
           </span>
         </button>
-        <button routerLink="/homepage" class="view-btn">
+        <button routerLink="/homepage/search" class="view-btn">
           Continue Shopping
         </button>
       </div>
@@ -284,7 +288,7 @@
             />
           </span>
         </button>
-        <button routerLink="/homepage" class="view-btn">
+        <button routerLink="/homepage/search" class="view-btn">
           Continue Shopping
         </button>
       </div>
@@ -754,17 +758,21 @@
       </svg>
     </div>
     <div>
-      <div class="mt-4" *ngIf="sellerStores.length > 0">
-        <div *ngFor="let store of sellerStores" class="mt-3 each-shipping">
+      <div class="mt-4" *ngIf="sellerStores?.length > 0">
+        <div
+          *ngFor="let store of sellerStores; let i = index"
+          class="mt-3 each-shipping"
+        >
           <label
             (click)="setPickupPoint(store)"
             class="p-3 w-100 pointer flex-center"
           >
             <div class="w-10 d-flex">
               <input
-                [checked]="store.id == closestStore.id"
+                [checked]="store.id == closestStore?.id"
                 name="store"
                 type="radio"
+                class="pickup-input-check"
               />
             </div>
             <p class="mb-0 w-90">

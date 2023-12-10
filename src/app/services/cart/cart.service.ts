@@ -64,9 +64,13 @@ export class CartService {
   }
 
   getPaymentMethods(): Observable<GetCartPaymentMethodResponse> {
-    return this.http.get<GetCartPaymentMethodResponse>(
-      this.baseUrl + `cart/payment-methods`
-    );
+    return this.http
+      .get<GetCartPaymentMethodResponse>(this.baseUrl + `cart/payment-methods`)
+      .pipe(
+        tap((res) => {
+          localStorage.setItem('paymentMethods', JSON.stringify(res.data));
+        })
+      );
   }
 
   makePayment(

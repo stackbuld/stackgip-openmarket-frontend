@@ -14,8 +14,8 @@ import { Observable } from 'rxjs';
 import { WindowRefService } from '../../../shared/services/window.service';
 import { FooterService } from 'src/app/services/footer.service';
 import { AuthService } from '../../../services/auth.service';
-import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
+import uikit from 'uikit';
 
 @Component({
   selector: 'app-product-checkout',
@@ -56,13 +56,15 @@ export class ProductCheckoutComponent implements OnInit {
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(true);
     this.init();
-    // this.authService.isLogin.subscribe((status) => {
-    //   if (status) {
-    //     this.init();
-    //   }
-    // });
 
     this.paymentMethods = JSON.parse(localStorage.getItem('paymentMethods')!);
+
+    if (!this.paymentMethods) {
+      this.cartService.getPaymentMethods().subscribe((res) => {
+        this.paymentMethods = res.data;
+        localStorage.setItem('paymentMethods', JSON.stringify(res.data));
+      });
+    }
   }
   init() {
     this.user = JSON.parse(localStorage.getItem('user') as string);
@@ -149,7 +151,7 @@ export class ProductCheckoutComponent implements OnInit {
   };
 
   closeDeleteDialog = () => {
-    document.getElementById('closeDeleteCartModalDialog').click();
+    uikit.modal('#delete-cart-modal').hide();
   };
 
   deleteCartItem = () => {

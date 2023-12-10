@@ -1,6 +1,9 @@
 import { Observable } from 'rxjs';
 
 export interface IStateService {
-  getAllStates(): Observable<string[]>;
-  searchStates(searchItem: string): Observable<string[]>;
+  getAllStates(storefrontSellerId: string): Observable<string[]>;
+  searchStates(
+    searchItem: string,
+    storefrontSellerId: string
+  ): Observable<string[]>;
 }

@@ -6,9 +6,10 @@ export interface ISearchService {
     pageNumber: number,
     maxItem: number,
     searchQuery: string,
-    categoryName: string,
-    cityName: string,
-    stateName: string,
+    storefrontSellerId: string,
+    category: string,
+    city: string,
+    state: string,
     minPrice: number,
     maxPrice: number
   ): Observable<ProductModel[]>;

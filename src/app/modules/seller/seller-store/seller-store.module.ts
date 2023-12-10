@@ -10,12 +10,6 @@ import { SellerStoreComponent } from './seller-store/seller-store.component';
 import { SellerStoreCreateDialogComponent } from './seller-store-create-dialog/seller-store-create-dialog.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import {
-  NgxMatDatetimePickerModule,
-  NgxMatNativeDateModule,
-  NgxMatTimepickerModule,
-} from '@angular-material-components/datetime-picker';
-import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [SellerStoreComponent, SellerStoreCreateDialogComponent],
@@ -31,10 +25,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatPaginatorModule,
     GooglePlaceModule,
     NgxMaterialTimepickerModule,
-    NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
-    NgxMatTimepickerModule,
-    MatNativeDateModule,
   ],
 })
 export class SellerStoreModule {}

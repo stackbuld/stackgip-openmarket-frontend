@@ -19,11 +19,17 @@ export const environment = {
   facebookAppId: '6053468244757747',
   cloudinaryName: 'dimxqjzpr',
   cloudinaryUploadPerset: 'unsigned1_openmarket',
+  sellerStorefrontApi: 'https://dev-identity.renamarkets.com/api/v1/sellers/',
 
   algolia: {
     appId: 'FFW9XSFVBK',
     apiKey: '8e009ce54b2cb72e747aad9fb4ca822c',
-    indexName: 'products_index',
+    indexName: {
+      products: 'products_index',
+      categories: 'categories_index',
+      promotedProducts: 'promoted_products_index_1',
+      recommendedProducts: 'recomended_products_index_1',
+    },
     // urlSync: false
   },
 };

@@ -3,7 +3,9 @@ import { environment } from 'src/environments/environment';
 import algoliasearch, { SearchClient, SearchIndex } from 'algoliasearch';
 import { IProductPage, ProductModel } from '../../models/products.model';
 import { ISearchService } from './iSearchService.interface';
-import { Observable, Subject, from, tap, delay, of, switchMap } from 'rxjs';
+import { Observable, from, of, switchMap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { SearchQueryModel } from 'src/app/models/query-params.model';
 
 const searchClient = algoliasearch(
   environment.algolia.appId,
@@ -14,13 +16,15 @@ const searchClient = algoliasearch(
   providedIn: 'root',
 })
 export class SearchService implements ISearchService {
-  index: SearchIndex = searchClient.initIndex(environment.algolia.indexName);
+  index: SearchIndex = searchClient.initIndex(
+    environment.algolia.indexName.products
+  );
   config = {
-    indexName: environment.algolia.indexName,
+    indexName: environment.algolia.indexName.products,
     searchClient,
   };
 
-  constructor() {}
+  constructor(private route: ActivatedRoute) {}
 
   getAlgoliaConfig() {
     return this.config;
@@ -36,7 +40,7 @@ export class SearchService implements ISearchService {
       hitsPerPage: maxItem,
       page: currentPage,
       filters,
-      facets: ['*'],
+      // facets: ['*'],
     });
   }
 
@@ -53,6 +57,7 @@ export class SearchService implements ISearchService {
           id: product.category.id,
           name: product.category.name,
           createdOn: product.category.createdOn,
+          imageUrl: product.category.imageUrl,
         },
         categoryId: product.categoryId,
         createdOn: product.createdOn,
@@ -62,6 +67,8 @@ export class SearchService implements ISearchService {
         paymentOptions: product.paymentOptions,
         productImages: product.productImages,
         unit: product.unit,
+        userId: product.userId,
+        videoUrls: product.productVideos,
       };
     });
     return results;
@@ -92,27 +99,31 @@ export class SearchService implements ISearchService {
 
   getAllProducts(
     pageNumber: number = 0,
-    maxItem: number = 10,
+    maxItem: number = 12,
     searchQuery: string = '',
-    categoryName: string = '',
-    cityName: string = '',
-    stateName: string = '',
-    minPrice: number = 10,
-    maxPrice: number = 50000
+    storefrontSellerId: string = '',
+    category: string = '',
+    city: string = '',
+    state: string = '',
+    minPrice: number = 1,
+    maxPrice: number = 500000
   ): Observable<ProductModel[]> {
-    /* The code is creating a filter string based on the `minPrice`, `maxPrice`, and `categoryName`
-    values. */
     let filters = `price:${minPrice} TO ${maxPrice}`;
-    if (categoryName) {
-      filters += ` AND category.name:${categoryName}`;
+
+    if (category) {
+      filters += ` AND category.name:${category}`;
     }
 
-    if (cityName) {
-      filters += ` AND sellerStores.city:${cityName}`;
+    if (city) {
+      filters += ` AND sellerStores.city:${city}`;
     }
 
-    if (stateName) {
-      filters += ` AND sellerStores.state:${stateName}`;
+    if (state) {
+      filters += ` AND sellerStores.state:${state}`;
+    }
+
+    if (storefrontSellerId) {
+      filters += ` AND userId:${storefrontSellerId}`;
     }
 
     let tempHits: ProductModel[] = [];
@@ -142,5 +153,33 @@ export class SearchService implements ISearchService {
     }
 
     return formattedResults;
+  }
+
+  getQueryParams(): SearchQueryModel {
+    const queryParams: SearchQueryModel = {
+      category: '',
+      state: '',
+      city: '',
+      maxPrice: '500000',
+      minPrice: '1',
+    };
+    this.route.queryParams.subscribe({
+      next: (params) => {
+        queryParams.category = params.category || queryParams.category;
+        queryParams.state = params.state || queryParams.state;
+        queryParams.city = params.city || queryParams.city;
+        queryParams.maxPrice = params.maxPrice || queryParams.maxPrice;
+        queryParams.minPrice = params.minPrice || queryParams.minPrice;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {
+        console.log('FETCHED QUERY PARAMS', queryParams);
+        return queryParams;
+      },
+    });
+
+    return queryParams;
   }
 }

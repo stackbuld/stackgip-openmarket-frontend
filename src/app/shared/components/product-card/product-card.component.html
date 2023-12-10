@@ -2,11 +2,41 @@
   <!-- <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
         [src]="product?.imageUrl" class="img" /> -->
 
+  <!-- <ng-template *ngIf="product.videoUrls; else image">
+    <video
+      id="my-video"
+      class="video-js w-100"
+      controls
+      preload="auto"
+      width="300"
+      height="300"
+      poster="MY_VIDEO_POSTER.jpg"
+      data-setup="{}"
+    >
+      <source
+        src="https://www.youtube.com/watch?v=kyt_uF3WDzM"
+        type="video/mp4"
+      />
+      <source src="MY_VIDEO.webm" type="video/webm" />
+      <p class="vjs-no-js">
+        To view this video please enable JavaScript, and consider upgrading to a
+        web browser that
+        <a href="https://videojs.com/html5-video-support/" target="_blank"
+          >supports HTML5 video</a
+        >
+      </p>
+    </video>
+  </ng-template> -->
+  <!-- <source src="movie.ogg" type="video/ogg"> -->
+
+  <!-- <ng-template #image> -->
   <img
     *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''"
     src="{{ getImageResolution(product?.imageUrl, 300, 300) }}"
+    loading="lazy"
     class="w-100"
   />
+  <!-- </ng-template> -->
 
   <div
     *ngIf="product?.imageUrl === null || product?.imageUrl === ''"

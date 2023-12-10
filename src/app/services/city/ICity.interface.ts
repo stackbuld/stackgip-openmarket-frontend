@@ -1,6 +1,9 @@
 import { Observable } from 'rxjs';
 
 export interface ICityService {
-  getAllCities(): Observable<string[]>;
-  searchCities(searchItem: string): Observable<string[]>;
+  getAllCities(storefrontSellerId: string): Observable<string[]>;
+  searchCities(
+    searchItem: string,
+    storefrontSellerId: string
+  ): Observable<string[]>;
 }

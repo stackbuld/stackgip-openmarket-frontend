@@ -239,8 +239,21 @@
       >
         <a><p class="title">Draft</p></a>
       </li>
-      <li tabindex="0" role="tab" (click)="tab = 3; getPublished()" (keyup.enter)="tab = 2">
+      <li
+        tabindex="0"
+        role="tab"
+        (click)="tab = 3; getPublished()"
+        (keyup.enter)="tab = 2"
+      >
         <a><p class="title">Published</p></a>
+      </li>
+      <li
+        tabindex="0"
+        role="tab"
+        (click)="tab = 4; getRejected()"
+        (keyup.enter)="tab = 4"
+      >
+        <a><p class="title">Rejected</p></a>
       </li>
     </ul>
 
@@ -455,16 +468,29 @@
       </select>
     </div>
   </div>
+
   <div>
     <h2 class="heading">
       Products Low in Stock
-      <span style="color: black">({{ lowStock?.length || 0 }})</span>
+      <span style="color: black">({{ lowStockTotal || 0 }})</span>
     </h2>
     <div
       *ngIf="!loadingStock && lowStock.length > 0"
       class="stock-section mt-3"
     >
-      <div *ngFor="let item of lowStock" class="mb-3 uk-flex space-between">
+      <div
+        *ngFor="
+          let item of lowStock
+            | paginate
+              : {
+                  id: 'pagination2',
+                  itemsPerPage: lowStockMaxItem,
+                  currentPage: lowStockPageNumber,
+                  totalItems: lowStockTotalItem
+                }
+        "
+        class="mb-3 uk-flex space-between"
+      >
         <div class="uk-flex">
           <img
             src="{{ item?.imageUrl }}"
@@ -597,6 +623,29 @@
       "
     >
       <img src="/assets/svg/loader-icon.svg" alt="" width="100" height="100" />
+    </div>
+
+    <div *ngIf="!loadingStock" class="uk-flex p-3 uk-flex uk-flex-right">
+      <pagination-controls
+        id="pagination2"
+        (pageChange)="getLowStockProducts($event)"
+      ></pagination-controls>
+      &nbsp; &nbsp;
+      <div>
+        <select
+          [(ngModel)]="lowStockMaxItem"
+          style="width: 50px"
+          (change)="onLowStockPageSizeChange($event)"
+        >
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+          <option [value]="30">30</option>
+          <option [value]="40">40</option>
+          <option [value]="50">50</option>
+          <option [value]="100">100</option>
+        </select>
+      </div>
     </div>
   </div>
 </div>

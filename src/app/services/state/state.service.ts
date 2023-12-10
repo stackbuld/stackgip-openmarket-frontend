@@ -9,23 +9,22 @@ const searchClient = algoliasearch(
   environment.algolia.apiKey
 );
 
+const facetToRetrieve = 'sellerStores.state';
+const filterAttribute = 'userId';
+
 @Injectable({
   providedIn: 'root',
 })
 export class StateService implements IStateService {
-  index = searchClient.initIndex(environment.algolia.indexName);
-  config = {
-    indexName: environment.algolia.indexName,
-    searchClient,
-  };
+  index = searchClient.initIndex(environment.algolia.indexName.products);
 
   constructor() {}
 
-  getAllStates(): Observable<string[]> {
-    const stateResults = this.index.searchForFacetValues(
-      'sellerStores.state',
-      ''
-    );
+  getAllStates(storefrontSellerId: string): Observable<string[]> {
+    const stateResults = this.index.searchForFacetValues(facetToRetrieve, '', {
+      facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
+    });
+
     let tempStates: string[] = [];
 
     let formattedStates = from(stateResults).pipe(
@@ -39,10 +38,16 @@ export class StateService implements IStateService {
     return formattedStates;
   }
 
-  searchStates(searchItem: string): Observable<string[]> {
+  searchStates(
+    searchItem: string,
+    storefrontSellerId: string
+  ): Observable<string[]> {
     const stateResults = this.index.searchForFacetValues(
-      'sellerStores.state',
-      searchItem
+      facetToRetrieve,
+      searchItem,
+      {
+        facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
+      }
     );
     let tempStates: string[] = [];
 

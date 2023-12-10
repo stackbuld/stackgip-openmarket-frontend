@@ -59,6 +59,10 @@ mat-form-field {
   z-index: 99999 !important;
 }
 
+.mat-mdc-menu-panel.avail-menu {
+  min-width: 340px !important;
+}
+
 mat-select {
   &.mat-mdc-select.my-mat-select {
     & .mat-mdc-select-arrow-wrapper {
@@ -111,10 +115,24 @@ ngx-mat-timepicker {
   }
 }
 
+.timepicker-overlay {
+  z-index: 10000000 !important;
+}
+
+.timepicker-backdrop-overlay {
+  z-index: 10000000 !important;
+}
+
 @media (pointer: none), (pointer: coarse) {
   .carousel {
     & .carousel-arrow {
       display: none;
     }
+  }
+}
+
+@media (max-width: 400px) {
+  .mat-mdc-menu-panel.avail-menu {
+    min-width: 300px !important;
   }
 }

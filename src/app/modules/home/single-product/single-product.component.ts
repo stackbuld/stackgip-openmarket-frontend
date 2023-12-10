@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
@@ -38,6 +33,7 @@ import { CountryService } from 'src/app/services/country/country.service';
 import { CountryInfo } from 'src/app/models/country.model';
 import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
 import { SellerStoreLocationService } from 'src/app/services/cart/seller-store.service';
+import { SearchService } from 'src/app/services/search/search.service';
 @Component({
   selector: 'app-single-product',
   templateUrl: './single-product.component.html',
@@ -129,6 +125,7 @@ export class SingleProductComponent implements OnInit {
 
   sellerStores: SellerStores[] = [];
   closestStore: SellerStores;
+  closestStoreId: string;
   isGoogleAddressSelected: boolean = false;
   isShippingMethodFetched: boolean = false;
 
@@ -145,7 +142,8 @@ export class SingleProductComponent implements OnInit {
     private windowRef: WindowRefService,
     private userService: UserService,
     private countryService: CountryService,
-    private sellerStoreLocationService: SellerStoreLocationService
+    private sellerStoreLocationService: SellerStoreLocationService,
+    private searchService: SearchService
   ) {}
 
   ngOnInit() {
@@ -175,7 +173,6 @@ export class SingleProductComponent implements OnInit {
 
     this.connectToWebsocket();
 
-    // console.log('shippingMethods', this.shippingMethods);
     this.applocal.messageSource.subscribe((res) => {
       if (res) {
         this.temporaryDetails = res;
@@ -204,18 +201,16 @@ export class SingleProductComponent implements OnInit {
       this.addresses = JSON.parse(localStorage.getItem('userAddress')!);
     }
 
-    this.cartService.getPaymentMethods().subscribe({
-      next: (res) => {
-        localStorage.setItem('paymentMethods', JSON.stringify(res.data));
-      },
-    });
-
     this.addressForm.get('fullAddress').valueChanges.subscribe((value) => {
       if (!value || value == '') {
         this.isGoogleAddressSelected = false;
       }
     });
   }
+
+  goToStoreFront = (id: string) => {
+    this.router.navigate([`/homepage/storefront/${this.user.id}`]);
+  };
 
   setUserAddress() {
     if (localStorage.getItem('shippingAddress')) {
@@ -259,7 +254,6 @@ export class SingleProductComponent implements OnInit {
         this.isShippingMethodFetched = true;
         this.loadingShippingEstimate = false;
         this.loadingShippingStatus = 'completed';
-        console.log(this.isShippingMethodFetched);
 
         const shippingData =
           notificationResponse.data as GetShippingPriceEstimateData[];
@@ -279,7 +273,6 @@ export class SingleProductComponent implements OnInit {
           }
         }
         this.shippingMethods = [this.defaultShipping, ...shippingEsitmateData];
-        console.log(this.shippingMethods);
 
         this.orderAndSelectDefaultShippingMethod();
       } else if (
@@ -301,12 +294,14 @@ export class SingleProductComponent implements OnInit {
         } else {
           this.shippingMethods.push(data);
         }
-
-        if (this.shippingMethods.length > 1) {
-          this.isShippingMethodFetched = true;
-        }
-        this.orderAndSelectDefaultShippingMethod();
       }
+      if (this.shippingMethods.length > 1) {
+        this.isShippingMethodFetched = true;
+        this.currentShippingMethod.next(this.shippingMethods[1]);
+      } else if (this.shippingMethods.length === 1) {
+        this.currentShippingMethod.next(this.defaultShipping);
+      }
+      this.orderAndSelectDefaultShippingMethod();
     }
   }
 
@@ -320,6 +315,7 @@ export class SingleProductComponent implements OnInit {
     this.productImages = [];
     this.shippingMethods = [this.defaultShipping];
     this.imgUrls = [];
+    this.sellerStores = [];
     this.router.navigate(['/homepage/product', id]);
     this.getShippingEstimate();
     document.body.scrollTop = 0;
@@ -328,7 +324,6 @@ export class SingleProductComponent implements OnInit {
 
   populateAddressForm = (data: any) => {
     this.setter = data?.fullAddress;
-    console.log(data);
 
     const phoneNumber = data.contactPhoneNumber.slice(-10);
     const countryCode = data.contactPhoneNumber.slice(0, -10);
@@ -398,16 +393,18 @@ export class SingleProductComponent implements OnInit {
       next: (res) => {
         this.isLoadingDetails = false;
         this.product = res.data;
+        console.log('product in single cart', this.product);
         this.sellerStores = res.data?.sellerStores;
 
-        this.getClosestSellerStore(this.currentAddress);
+        if (this.currentAddress) {
+          this.getClosestSellerStore(this.currentAddress);
+        }
 
         this.product.productImages.forEach((image) => {
           this.productImages.push({ image: image });
         });
 
         this.productUnit = res.data.unit;
-        console.log(this.product);
 
         this.productPrice = res.data?.sellingPrice;
         this.currentImgUrl = res.data.productImages[0];
@@ -468,7 +465,6 @@ export class SingleProductComponent implements OnInit {
         matchingItem.isSelected = false;
         this.selectedVariations.splice(matchingIndex, 1);
         this.productPrice = this.productPrice - matchingItem.cost;
-        console.log(this.selectedVariations);
       } else if (matchingTitleIndex >= 0) {
         // item not in selectedVariations but same title already exists, remove the old one and add the new one
         const oldItem = this.selectedVariations[matchingTitleIndex];
@@ -482,7 +478,6 @@ export class SingleProductComponent implements OnInit {
         matchingItem.isSelected = true;
         this.productPrice = this.productPrice + matchingItem.cost;
         this.selectedVariations.push(matchingItem);
-        console.log(this.selectedVariations);
       }
     }
   };
@@ -559,7 +554,9 @@ export class SingleProductComponent implements OnInit {
     );
     productService$.subscribe(
       (products) => {
-        this.products = products.data.data;
+        this.products = products.data.data.filter(
+          (product) => product.id !== this.productId
+        );
       },
       (error) => {}
     );
@@ -570,11 +567,11 @@ export class SingleProductComponent implements OnInit {
   };
 
   setShippingMethod = () => {
-    console.log(
-      'setShippingMethod called with current shipping method. prev, curr ',
-      this.currentShippingMethod,
-      this.selectedShippingMethod
-    );
+    // console.log(
+    //   'setShippingMethod called with current shipping method. prev, curr ',
+    //   this.currentShippingMethod,
+    //   this.selectedShippingMethod
+    // );
     this.currentShippingMethod.next(this.selectedShippingMethod);
     for (let index = 0; index < this.shippingMethods.length; index++) {
       const element = this.shippingMethods[index];
@@ -609,7 +606,6 @@ export class SingleProductComponent implements OnInit {
   }
 
   setCurrentAddress = () => {
-    console.log('get current address called');
     this.currentShippingMethod.next(null);
     // this.currentAddress = this.selectedAddress;
     for (let index = 0; index < this.addresses.length; index++) {
@@ -640,7 +636,6 @@ export class SingleProductComponent implements OnInit {
         this.addresses = addresses;
         localStorage.setItem('userAddress', JSON.stringify(addresses));
         this.fetchUserAddresses();
-        console.log(1);
       },
       error: (err) => {},
     });
@@ -756,29 +751,29 @@ export class SingleProductComponent implements OnInit {
     } else {
       shippingMethodToSelect = this.shippingMethods[0];
     }
+
     if (!hasSelected) {
       if (shippingMethodToSelect) {
         shippingMethodToSelect.isSelected = true;
-        console.log(
-          'orderAndSelectDefaultShippingMethod hasselected = true called with selected shipping method, prev, current ',
-          this.currentShippingMethod.value,
-          shippingMethodToSelect
-        );
+        // console.log(
+        //   'orderAndSelectDefaultShippingMethod hasselected = true called with selected shipping method, prev, current ',
+        //   this.currentShippingMethod.value,
+        //   shippingMethodToSelect
+        // );
         this.currentShippingMethod.next(shippingMethodToSelect);
         this.selectedShippingMethod = shippingMethodToSelect;
       }
     }
     if (!this.currentShippingMethod.value) {
-      console.log(
-        'orderAndSelectDefaultShippingMethod currentShippingMethod = false called with selected shipping method, prev, current ',
-        this.currentShippingMethod.value,
-        shippingMethodToSelect
-      );
+      // console.log(
+      //   'orderAndSelectDefaultShippingMethod currentShippingMethod = false called with selected shipping method, prev, current ',
+      //   this.currentShippingMethod.value,
+      //   shippingMethodToSelect
+      // );
 
       this.currentShippingMethod.next(shippingMethodToSelect);
       this.selectedShippingMethod = shippingMethodToSelect;
     }
-    console.log('current shipping method', this.currentShippingMethod.value);
   }
 
   public handleAddressChange(address: Address) {
@@ -816,6 +811,11 @@ export class SingleProductComponent implements OnInit {
   }
 
   applyAddress = () => {
+    if (this.addressForm.invalid) {
+      this.toastService.warning('Fields can not be empty');
+      return;
+    }
+
     if (!this.isGoogleAddressSelected) {
       this.toastService.warning(
         'Select your address from the list that shows while typing'
@@ -823,107 +823,105 @@ export class SingleProductComponent implements OnInit {
       return;
     }
 
-    if (!this.addressForm.invalid) {
-      this.loadingAddress = true;
-      this.setter = this.addressForm.value.fullAddress;
-      const formValue = this.addressForm.value;
-      const phoneNumber = this.addressForm.value.contactPhoneNumber
-        .slice(-10)
-        .toString();
-      const formattedPhoneNumber =
-        this.addressForm.get('countryCode').value.toString() + phoneNumber;
+    this.loadingAddress = true;
+    this.setter = this.addressForm.value.fullAddress;
+    const formValue = this.addressForm.value;
+    const phoneNumber = this.addressForm.value.contactPhoneNumber
+      .slice(-10)
+      .toString();
+    const formattedPhoneNumber =
+      this.addressForm.get('countryCode').value.toString() + phoneNumber;
 
-      if (this.user !== null) {
-        if (this.isEditingAddress) {
-          let data: UserAddressData = {
-            firstname: formValue.firstname,
-            lastname: formValue.lastname,
-            fullAddress: formValue.fullAddress,
-            lat: this.currentAddress.lat as number,
-            contactPhoneNumber: formattedPhoneNumber,
-            lng: this.currentAddress.lng as number,
-            city: this.currentAddress.city,
-            state: formValue.state,
-            country: formValue.country,
-            userId: this.user.id,
-            isDefault: this.currentAddress.isDefault,
-          };
-
-          this.getClosestSellerStore(data);
-
-          this.userService
-            .updateUserAddress(this.currentAddress.id, data)
-            .subscribe({
-              next: (res) => {
-                console.log(res);
-
-                this.reloadAddresses();
-                this.loadingAddress = false;
-                document.getElementById('closeAddressFormDialog').click();
-                this.initAddressForm();
-              },
-              error: (err) => {},
-            });
-        } else {
-          this.addressForm.patchValue({ userId: this.user.id });
-          const cartService$ = this.cartService.createAddress(
-            this.addressForm.value
-          );
-          cartService$.subscribe({
-            next: (res) => {
-              if (res.status === 'success') {
-                this.toastService.success(
-                  'Address created successfully',
-                  'SUCCESS'
-                );
-
-                localStorage.setItem(
-                  'shippingAddress',
-                  JSON.stringify({
-                    ...this.addressForm.value,
-                    contactPhoneNumber: formattedPhoneNumber,
-                  })
-                );
-                this.currentAddress = {
-                  ...this.addressForm.value,
-                  contactPhoneNumber: formattedPhoneNumber,
-                };
-
-                this.getClosestSellerStore(this.currentAddress);
-
-                this.reloadAddresses();
-                this.loadingAddress = false;
-                document.getElementById('closeAddressFormDialog').click();
-                this.initAddressForm();
-              } else {
-                this.loadingAddress = false;
-                this.toastService.error(res.message, 'ERROR');
-              }
-            },
-            error: (err) => {
-              this.loadingAddress = false;
-              this.toastService.error(err.message, 'ERROR');
-            },
-          });
-        }
-      } else {
-        this.loadingAddress = false;
-        localStorage.setItem(
-          'shippingAddress',
-          JSON.stringify({
-            ...this.addressForm.value,
-            contactPhoneNumber: formattedPhoneNumber,
-          })
-        );
-        this.currentAddress = {
-          ...this.addressForm.value,
+    if (this.user !== null) {
+      if (this.isEditingAddress) {
+        let data: UserAddressData = {
+          firstname: formValue.firstname,
+          lastname: formValue.lastname,
+          fullAddress: formValue.fullAddress,
+          lat: this.currentAddress.lat as number,
           contactPhoneNumber: formattedPhoneNumber,
+          lng: this.currentAddress.lng as number,
+          city: this.currentAddress.city,
+          state: formValue.state,
+          country: formValue.country,
+          userId: this.user.id,
+          isDefault: this.currentAddress.isDefault,
         };
 
-        this.getShippingEstimate();
-        this.toastService.success('Address saved!', 'SUCCESS');
-        document.getElementById('closeAddressFormDialog').click();
+        this.getClosestSellerStore(data);
+
+        this.userService
+          .updateUserAddress(this.currentAddress.id, data)
+          .subscribe({
+            next: (res) => {
+              this.reloadAddresses();
+              this.loadingAddress = false;
+              document.getElementById('closeAddressFormDialog').click();
+              this.initAddressForm();
+            },
+            error: (err) => {},
+          });
+      } else {
+        this.addressForm.patchValue({ userId: this.user.id });
+        const cartService$ = this.cartService.createAddress(
+          this.addressForm.value
+        );
+        cartService$.subscribe({
+          next: (res) => {
+            if (res.status === 'success') {
+              this.toastService.success(
+                'Address created successfully',
+                'SUCCESS'
+              );
+
+              localStorage.setItem(
+                'shippingAddress',
+                JSON.stringify({
+                  ...this.addressForm.value,
+                  contactPhoneNumber: formattedPhoneNumber,
+                })
+              );
+              this.currentAddress = {
+                ...this.addressForm.value,
+                contactPhoneNumber: formattedPhoneNumber,
+              };
+
+              this.getClosestSellerStore(this.currentAddress);
+
+              this.reloadAddresses();
+              this.loadingAddress = false;
+              document.getElementById('closeAddressFormDialog').click();
+              this.initAddressForm();
+            } else {
+              this.loadingAddress = false;
+              this.toastService.error(res.message, 'ERROR');
+            }
+          },
+          error: (err) => {
+            this.loadingAddress = false;
+            this.toastService.error(err.message, 'ERROR');
+          },
+        });
       }
+    } else {
+      this.loadingAddress = false;
+      localStorage.setItem(
+        'shippingAddress',
+        JSON.stringify({
+          ...this.addressForm.value,
+          contactPhoneNumber: formattedPhoneNumber,
+        })
+      );
+      this.currentAddress = {
+        ...this.addressForm.value,
+        contactPhoneNumber: formattedPhoneNumber,
+      };
+
+      this.getClosestSellerStore(this.currentAddress);
+
+      this.getShippingEstimate();
+      this.toastService.success('Address saved!', 'SUCCESS');
+      document.getElementById('closeAddressFormDialog').click();
     }
   };
 
@@ -936,6 +934,7 @@ export class SingleProductComponent implements OnInit {
     );
 
     this.closestStore = closestStore;
+    this.closestStoreId = this.closestStore.id;
 
     this.sellerStores = this.sellerStores.map((store) => {
       this.countryInfo.forEach((info) => {
@@ -953,6 +952,7 @@ export class SingleProductComponent implements OnInit {
 
   setPickupPoint(store: SellerStores) {
     this.closestStore = store;
+    this.closestStoreId = store.id;
   }
 
   onSetPickupLocation() {
@@ -1008,8 +1008,6 @@ export class SingleProductComponent implements OnInit {
   };
 
   openAddressModal = () => {
-    console.log(this.currentAddress);
-
     if (this.currentAddress !== null) {
       this.isEditAddress = true;
     }
@@ -1046,6 +1044,7 @@ export class SingleProductComponent implements OnInit {
           productId: this.productId,
           unit: this.count,
           logisticCode: this.currentShippingMethod.value.logisticCode,
+          storeId: this.closestStoreId,
           logistic: {
             logisticId: this.currentShippingMethod.value.logisticCode,
             logisticCode: this.currentShippingMethod.value.logisticCode,
