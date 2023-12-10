@@ -117,8 +117,15 @@ export class ProductsService {
     );
   }
 
-  getLowStockProducts(userId: string): Observable<any> {
-    return this.http.get(this.baseUrl + `seller/${userId}/low-stocks`);
+  getLowStockProducts(data: {
+    userId: string;
+    pageNumber: number;
+    maxItem: number;
+  }): Observable<any> {
+    return this.http.get(
+      this.baseUrl +
+        `seller/${data.userId}/low-stocks?PageNumber=${data.pageNumber}&MaxItem=${data.maxItem}`
+    );
   }
 
   productOrderSummary(userId: string, productId: any): Observable<any> {
@@ -156,20 +163,20 @@ export class ProductsService {
   }
 
   createNewProduct(payload: any): Observable<any> {
-    for (let index = 0; index < payload.variations.length; index++) {
-      const element = payload.variations[index];
-      payload.options.push(element);
-    }
-    delete payload.variations;
+    // for (let index = 0; index < payload.variations.length; index++) {
+    //   const element = payload.variations[index];
+    //   payload.options.push(element);
+    // }
+    // delete payload.variations;
     return this.http.post(this.baseUrl + `products`, payload);
   }
 
   updateProduct(payload: any, productId: any): Observable<any> {
-    for (let index = 0; index < payload.variations.length; index++) {
-      const element = payload.variations[index];
-      payload.options.push(element);
-    }
-    delete payload.variations;
+    // for (let index = 0; index < payload.variations.length; index++) {
+    //   const element = payload.variations[index];
+    //   payload.options.push(element);
+    // }
+    // delete payload.variations;
     return this.http.put(this.baseUrl + `products/${productId}`, payload);
   }
 

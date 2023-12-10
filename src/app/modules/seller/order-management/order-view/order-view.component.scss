@@ -461,6 +461,23 @@ label {
   }
 }
 
+.video-upload-btn {
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  font-size: 16px;
+  background: #000000;
+  color: #ffffff;
+  outline: none !important;
+  border: none;
+  margin-top: 10px;
+}
+
+.rejection-warning {
+  color: rgb(248, 26, 26);
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
 @media screen and (max-width: 767px) {
   .accept-btn,
   .reject-btn {

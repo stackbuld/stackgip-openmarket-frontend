@@ -18,7 +18,7 @@ export class ViewProductComponent implements OnInit {
   previewImg: string;
   id: any;
   product: any;
-  variationList: any;
+  variationList: any[] = [];
   user: any;
   orderDetails: any;
   variation: any;
@@ -32,64 +32,71 @@ export class ViewProductComponent implements OnInit {
     private router: Router,
     private productService: ProductsService,
     @Inject(DOCUMENT) private document: Document
-  ) {
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.document.body.scrollTop = 0;
     this.document.documentElement.scrollTop = 0;
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.getProduct(this.id);
-    this.getProductOrderSummary();
+
+    this.activatedRoute.params.subscribe((param) => {
+      this.id = param['id'];
+      this.getProduct(param['id']);
+      this.getProductOrderSummary();
+    });
   }
 
-  getProduct(id: any) {
+  getProduct(id: string) {
     this.loading = true;
-    this.productService.getProduct(id).subscribe(
-      (res) => {
+    this.productService.getProduct(id).subscribe({
+      next: (res) => {
         if (res.status === 'success') {
           this.loading = false;
+
           this.product = res.data;
+          console.log(this.product);
+
           this.previewImg = this.product.productImages[0];
           let variations = [];
+
           for (
             let index = 0;
             index < this.product.productOptions.length;
             index++
           ) {
             const element = this.product.productOptions[index];
+
             if (element.isMultiple === true) {
               this.complimentartProducts.push(element);
             }
+
             if (element.isMultiple === false) {
               variations.push(element);
             }
           }
-          this.setVariation(variations);
+          this.variationList = [...variations];
         }
       },
-      (err) => {
+      error: (err) => {
         this.loading = false;
         this.toastservice.error(err.message);
-      }
-    );
+      },
+    });
   }
 
   getProductOrderSummary() {
     this.loadingSummary = true;
-    this.productService.productOrderSummary(this.user.id, this.id).subscribe(
-      (res) => {
+    this.productService.productOrderSummary(this.user.id, this.id).subscribe({
+      next: (res) => {
         this.orderDetails = res.data;
-        console.log(this.orderDetails);
 
         this.loadingSummary = false;
       },
-      (err) => {
+      error: (err) => {
         this.loadingSummary = false;
         this.toastservice.error(err.message);
-      }
-    );
+      },
+    });
   }
 
   toggleDescription() {
@@ -164,16 +171,18 @@ export class ViewProductComponent implements OnInit {
   }
 
   setVariation(list: any) {
-    const result = list.reduce((acc, { title, value }) => {
-      acc[title] ??= { title: title, value: [] };
-      if (Array.isArray(value))
-        // if it's array type then concat
-        acc[title].value = acc[title].value.concat(value);
-      else acc[title].value.push(value);
-      return acc;
-    }, {});
+    console.log(list);
+    this.variationList = list;
+    // const result = list.reduce((acc, { title, value }) => {
+    //   acc[title] ??= { title: title, value: [] };
+    //   if (Array.isArray(value))
+    //     // if it's array type then concat
+    //     acc[title].value = acc[title].value.concat(value);
+    //   else acc[title].value.push(value);
+    //   return acc;
+    // }, {});
 
-    this.variationList = Object.values(result);
+    // this.variationList = Object.values(result);
   }
 
   showImg(img: string) {

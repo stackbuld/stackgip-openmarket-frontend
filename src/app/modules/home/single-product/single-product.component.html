@@ -266,7 +266,7 @@
             />
           </span>
         </button>
-        <button routerLink="/homepage" class="view-btn">
+        <button routerLink="/homepage/search" class="view-btn">
           Continue Shopping
         </button>
       </div>
@@ -288,7 +288,7 @@
             />
           </span>
         </button>
-        <button routerLink="/homepage" class="view-btn">
+        <button routerLink="/homepage/search" class="view-btn">
           Continue Shopping
         </button>
       </div>
@@ -758,17 +758,21 @@
       </svg>
     </div>
     <div>
-      <div class="mt-4" *ngIf="sellerStores.length > 0">
-        <div *ngFor="let store of sellerStores" class="mt-3 each-shipping">
+      <div class="mt-4" *ngIf="sellerStores?.length > 0">
+        <div
+          *ngFor="let store of sellerStores; let i = index"
+          class="mt-3 each-shipping"
+        >
           <label
             (click)="setPickupPoint(store)"
             class="p-3 w-100 pointer flex-center"
           >
             <div class="w-10 d-flex">
               <input
-                [checked]="store.id == closestStore.id"
+                [checked]="store.id == closestStore?.id"
                 name="store"
                 type="radio"
+                class="pickup-input-check"
               />
             </div>
             <p class="mb-0 w-90">

@@ -5,7 +5,16 @@ import { CreateProductResponse } from '../../../../models/products.model';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  Inject,
+  ElementRef,
+  ViewChild,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { ProductsService } from '../../../../services/products/products.service';
 import { ToastrService } from '../../../../services/toastr.service';
@@ -161,6 +170,10 @@ export class CreateProductComponent implements OnInit {
   editingIndex: number;
   editingVariationUnit: number = 0;
   isProductUnitExceeded: boolean = false;
+  videoUrls: string[] = [];
+  videoWidget: any;
+  @ViewChild('variationForm', { static: false })
+  variationForm: ElementRef<HTMLElement>;
 
   constructor(
     private fb: FormBuilder,
@@ -173,7 +186,8 @@ export class CreateProductComponent implements OnInit {
     private authService: AuthService,
     private dialogService: DialogService,
     @Inject(DOCUMENT) private document: Document,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private changeDetector: ChangeDetectorRef
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
     this.initVariationForm();
@@ -201,6 +215,7 @@ export class CreateProductComponent implements OnInit {
     this.getCategories();
     this.getStores(this.user.id);
     this.getVariations();
+
     this.uploadWidget = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
@@ -213,6 +228,21 @@ export class CreateProductComponent implements OnInit {
             this.images.push(result.info.secure_url);
             this.productImage = this.images[0];
             this.form.patchValue({ imageUrls: this.images });
+          }
+        }
+      }
+    );
+
+    this.videoWidget = cloudinary.createUploadWidget(
+      {
+        cloudName: environment.cloudinaryName,
+        uploadPreset: environment.cloudinaryUploadPerset,
+        clientAllowedFormats: ['gif', 'mp4'],
+      },
+      (error, result) => {
+        if (!error && result && result.event === 'success') {
+          if (this.videoUrls.length < 4) {
+            this.videoUrls.push(result.info.secure_url);
           }
         }
       }
@@ -336,11 +366,14 @@ export class CreateProductComponent implements OnInit {
       (res) => {
         if (res.status === 'success') {
           this.loading = false;
+          this.initialProductUnit = res.data.unit;
           this.populateProductForm(res.data);
           this.getSubCategories(res.data.category.id);
           this.setComplementaryImageForUpdate(res.data);
-          this.images = this.form.value.imageUrls;
+          this.images = res.data.productImages;
+
           this.productImage = this.images[0];
+          this.videoUrls = res.data.videoUrls;
         } else {
           this.toast.error(res.message);
           this.loading = false;
@@ -385,7 +418,7 @@ export class CreateProductComponent implements OnInit {
       price: [data.price, [Validators.required]],
       weight: [data.weight, [Validators.required]],
       previousPrice: [data.previousPrice],
-      imageUrls: [data.resources?.map((img) => img.url)],
+      imageUrls: [data.productImages],
       pickupOption: [data.pickupOption, [Validators.required]],
       imageUrl: [data.imageUrl],
       categoryId: [data.categoryId, [Validators.required]],
@@ -397,10 +430,12 @@ export class CreateProductComponent implements OnInit {
       variations: this.fb.array([]),
       draftProductId: [data.draftProductId],
     });
+
     for (let index = 0; index < data.sellerStores.length; index++) {
       const element = data.sellerStores[index];
       sellerStoreIds.push(element.id);
     }
+
     for (let index = 0; index < data.productOptions.length; index++) {
       const element = data.productOptions[index];
 
@@ -414,6 +449,11 @@ export class CreateProductComponent implements OnInit {
         this.allVariantList.push(element);
       }
     }
+
+    this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
+
+    this.availableProductUnit =
+      this.initialProductUnit - this.totalVariationsUnit;
 
     // this.relatedItems.forEach((element: any, index: number) => {
     //   (<FormArray>this.form.get('options')).push(
@@ -443,6 +483,7 @@ export class CreateProductComponent implements OnInit {
         })
       );
     });
+
     this.relatedItems.forEach((element: any, index: number) => {
       (<FormArray>this.form.get('options')).push(
         this.fb.group({
@@ -566,6 +607,15 @@ export class CreateProductComponent implements OnInit {
     });
   }
 
+  scrollToFirstInvalidControl() {
+    this.changeDetector.detectChanges();
+
+    let firstInvalidControl = this.variationForm.nativeElement;
+
+    firstInvalidControl.scrollIntoView();
+    (firstInvalidControl as HTMLElement).focus();
+  }
+
   // this method is to open the variation of products card
 
   addVariation(): void {
@@ -578,6 +628,8 @@ export class CreateProductComponent implements OnInit {
     }
     this.addingVariation = true;
     this.variationProps = this.createVariation();
+    this.scrollToFirstInvalidControl();
+
     this.getUnitValues();
     this.variationProps.patchValue({ imageUrl: '' });
 
@@ -619,25 +671,37 @@ export class CreateProductComponent implements OnInit {
       this.allVariantList.push(this.variationProps.value);
     }
 
-    this.totalVariationsUnit = this.allVariantList.reduce(
-      (accumulator, currentValue) => {
-        return accumulator + currentValue.unit;
-      },
-      0
-    );
+    this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
 
     this.editingVariation = false;
     this.editingVariationUnit = 0;
+
+    this.toast.success('Product variant added');
+  }
+
+  getTotalVariationUnit(list: any[]) {
+    return list.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.unit;
+    }, 0);
   }
 
   // this method is to close the variation of products card
   removeEditVariation(): void {
+    uikit.modal('#delete-modal').show();
+  }
+
+  onCancelRemoveEditVariation() {
+    uikit.modal('#delete-modal').hide();
+  }
+
+  onConfirmRemoveEditVariation() {
     this.variationProps.reset();
     this.editingTotalVariationsUnit = 0;
     this.totalVariationsUnit += this.editingVariationUnit;
     this.editingVariationUnit = 0;
     this.addingVariation = false;
     this.editingVariation = false;
+    uikit.modal('#delete-modal').hide();
   }
 
   // this method is to remove already created product varaints
@@ -749,6 +813,21 @@ export class CreateProductComponent implements OnInit {
     } else {
       this.imageErr = 'You can only upload maximum of four images';
     }
+  }
+
+  onUploadVideo() {
+    if (this.videoUrls.length > 4) {
+      this.toast.warining('You can only upload up to four videos');
+      return;
+    }
+
+    this.videoWidget.open();
+  }
+
+  onDeleteVideo(index: number) {
+    this.videoUrls = this.videoUrls.filter(
+      (url, urlIndex) => urlIndex != index
+    );
   }
 
   removeImage(image_url): void {
@@ -877,12 +956,13 @@ export class CreateProductComponent implements OnInit {
     this.productService
       .createNewProduct({
         ...this.form.value,
+        videoUrls: this.videoUrls,
+        options: [...this.relatedItems, ...this.allVariantList],
         publishOption: 'Review',
-        videoUrls: [],
         draftProductId: this.productId,
       })
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           if (res.status === 'success') {
             this.toast.success(res.message);
             this.router.navigate(['/seller/products']);
@@ -894,11 +974,11 @@ export class CreateProductComponent implements OnInit {
             this.toast.error(res.message);
           }
         },
-        (err) => {
+        error: (err) => {
           this.creatingProduct = false;
           this.toast.error(err.message);
-        }
-      );
+        },
+      });
   };
 
   toggleDescription() {
@@ -922,14 +1002,16 @@ export class CreateProductComponent implements OnInit {
     this.productService
       .createNewProduct({
         ...this.form.value,
+        videoUrls: [...this.videoUrls],
         options: [...this.relatedItems, ...this.allVariantList],
         publishOption: 'Review',
       })
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           if (res.status === 'success') {
             this.toast.success('Product added successfully');
             this.router.navigate(['/seller/products']);
+
             this.creatingProduct = false;
             localStorage.removeItem('compImagesStore');
             this.complementaryImagesStore = [];
@@ -938,11 +1020,11 @@ export class CreateProductComponent implements OnInit {
             this.toast.error('Something went wrong');
           }
         },
-        (err) => {
+        error: (err) => {
           this.creatingProduct = false;
           this.toast.error('Something went wrong');
-        }
-      );
+        },
+      });
   };
 
   saveAsDraft = () => {
@@ -972,6 +1054,7 @@ export class CreateProductComponent implements OnInit {
         this.productService
           .createNewProduct({
             ...this.form.value,
+            videoUrls: [...this.videoUrls],
             options: [...this.relatedItems, ...this.allVariantList],
             publishOption: 'Draft',
             ...(this.productId && { draftProductId: this.productId }),

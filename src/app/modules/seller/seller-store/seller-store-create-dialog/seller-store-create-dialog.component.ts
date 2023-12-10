@@ -141,6 +141,10 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       );
     } else {
       this.storeAvailabilties = this.storeAvailability.value;
+      this.storeAvailabilties = this.sellerStoreService.mergeAvailabilities(
+        this.storeAvailability.value,
+        this.sellerStoreService.defaultAvailability
+      );
     }
 
     this.sellerStoreAddressForm.valueChanges.subscribe((value) => {
@@ -365,11 +369,6 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     delete this.sellerStoreAddressForm.value.postalCode;
     delete this.sellerStoreAddressForm.value.landmark;
     delete this.sellerStoreAddressForm.value.countryCode;
-
-    console.log({
-      ...this.sellerStoreAddressForm.value,
-      storeAvailabilties: storeAvailabilties,
-    });
 
     if (this.modalInfo.mode == 'create') {
       this.onCreate({

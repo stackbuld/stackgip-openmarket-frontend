@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ISeller } from 'src/app/models/sellerModel';
 import { SellerStorefrontService } from 'src/app/services/seller-storefront/seller-storefront.service';
+import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
 
 @Component({
   selector: 'app-seller-storefront',
@@ -22,7 +24,8 @@ export class SellerStorefrontComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private sellerStorefrontService: SellerStorefrontService
+    private sellerStorefrontService: SellerStorefrontService,
+    private toaster: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -37,25 +40,24 @@ export class SellerStorefrontComponent implements OnInit {
         this.tempVariable =
           !this.sellerStorefrontDetails.coverPhotoUrl ||
           this.sellerStorefrontDetails.coverPhotoUrl === 'string'
-            ? 'assets/img/Storefront-frame.png'
+            ? 'assets/img/general-store.jpg'
             : this.sellerStorefrontDetails.coverPhotoUrl;
         this.loadingData = false;
         console.log('SELLER STOREFRONT DETAILS', data);
       });
   }
 
+  copyUrl() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url);
+    this.toaster.success('Link copied to clipboard');
+  }
+
   selectTab(tab: string) {
     this.activeTab = tab;
-    // if (tab === 'products') {
-    //   this.products.classList.remove('hide');
-    //   this.products.classList.add('show');
-    //   this.about.classList.remove('show');
-    //   this.about.classList.add('hide');
-    // } else if (tab === 'about') {
-    //   this.products.classList.remove('show');
-    //   this.products.classList.add('hide');
-    //   this.about.classList.remove('hide');
-    //   this.about.classList.add('show');
-    // }
   }
+
+  getImageResolution = (url: string, width: number, height: number) => {
+    return ImageResolutionUtility.getImageResolution(url, width, height);
+  };
 }

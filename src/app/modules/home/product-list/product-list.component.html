@@ -69,7 +69,13 @@
             </div>
 
             <div class="mt-4 mb-5 col-12">
-              <button (click)="filterProductsByPrice()" class="w-100 apply-btn">
+              <button
+                routerLink="/homepage/search"
+                [queryParams]="{ minPrice: minValue, maxPrice: maxValue }"
+                queryParamsHandling="merge"
+                (click)="filterProductsByPrice()"
+                class="w-100 apply-btn"
+              >
                 Apply
               </button>
             </div>
@@ -79,7 +85,11 @@
           <div class="p-2">
             <div class="d-flex align-items-center justify-content-between">
               <p class="tag">Browse and filter</p>
-              <button class="clear-all-btn" (click)="resetProducts()">
+              <button
+                class="clear-all-btn"
+                routerLink="/homepage/search"
+                (click)="resetProducts()"
+              >
                 Clear all
               </button>
             </div>
@@ -95,8 +105,6 @@
                   placeholder="Search"
                   class="search-filter-input"
                   autofocus
-                  (focus)="onCategorySearchFocus()"
-                  (blur)="onCategorySearchBlur()"
                   (input)="onCategorySearch($event.target.value)"
                 />
               </form>
@@ -118,8 +126,15 @@
                   />
                 </svg>
               </button>
+              <img
+                *ngIf="isCategorySearchFocused"
+                src="assets/svg/close-black.svg"
+                class="pointer"
+                alt="close-icon"
+                (click)="onCategorySearchClose()"
+              />
               <p
-                *ngIf="isCategoryFilter"
+                *ngIf="isCategoryFilter && !isCategorySearchFocused"
                 (click)="resetProductsByCategory()"
                 class="mobile-heading"
               >
@@ -139,7 +154,7 @@
               </p>
             </div>
             <div *ngIf="!loadingCategories">
-              <p
+              <div
                 *ngFor="
                   let category of categories | slice : 0 : categoryListLimit;
                   let i = index
@@ -151,18 +166,21 @@
                                 </svg> &nbsp; -->
                 <span
                   [ngClass]="{
-                    activeCategory: this.categoryName === category.name
+                    activeCategory: this.categoryName === category
                   }"
                   (click)="filterProductsByCategory(category)"
+                  routerLink="/homepage/search"
+                  [queryParams]="{ category: category }"
+                  queryParamsHandling="merge"
                 >
-                  <span class="pointer">{{ category.name }}</span>
+                  <span class="pointer">{{ category }}</span>
                 </span>
-                <span
+                <div
                   *ngIf="
                     i === categoryMoreLimit - 1 &&
                     categories.length > categoryListLimit
                   "
-                  class="each-cat py-2"
+                  class="each-cat"
                   (click)="showMoreCategories()"
                 >
                   <svg
@@ -179,8 +197,8 @@
                   </svg>
                   &nbsp;
                   <span>More</span>
-                </span>
-              </p>
+                </div>
+              </div>
               <div
                 *ngIf="categories.length === 0"
                 class="text-center text-black p-5"
@@ -209,8 +227,6 @@
                   placeholder="Search"
                   class="search-filter-input"
                   autofocus
-                  (focus)="onCitySearchFocus()"
-                  (blur)="onCitySearchBlur()"
                   (input)="onCitySearch($event.target.value)"
                 />
               </form>
@@ -232,8 +248,15 @@
                   />
                 </svg>
               </button>
+              <img
+                *ngIf="isCitySearchFocused"
+                src="assets/svg/close-black.svg"
+                class="pointer"
+                alt="close-icon"
+                (click)="onCitySearchClose()"
+              />
               <p
-                *ngIf="isCityFilter"
+                *ngIf="isCityFilter && !isCitySearchFocused"
                 (click)="resetProductsByCity()"
                 class="mobile-heading"
               >
@@ -253,7 +276,7 @@
               </p>
             </div>
             <div *ngIf="!loadingCities">
-              <p
+              <div
                 *ngFor="
                   let city of cities | slice : 0 : cityListLimit;
                   let i = index
@@ -266,14 +289,17 @@
                 <span
                   [ngClass]="{ activeCategory: this.cityName === city }"
                   (click)="filterProductsByCity(city)"
+                  routerLink="/homepage/search"
+                  [queryParams]="{ city: city }"
+                  queryParamsHandling="merge"
                 >
                   <span class="pointer">{{ city }}</span>
                 </span>
-                <span
+                <div
                   *ngIf="
                     i === cityMoreLimit - 1 && cities.length > cityListLimit
                   "
-                  class="each-cat py-2"
+                  class="each-cat"
                   (click)="showMoreCities()"
                 >
                   <svg
@@ -290,8 +316,8 @@
                   </svg>
                   &nbsp;
                   <span>More</span>
-                </span>
-              </p>
+                </div>
+              </div>
               <div
                 *ngIf="cities.length === 0"
                 class="text-center text-black p-5"
@@ -320,8 +346,6 @@
                   placeholder="Search"
                   class="search-filter-input"
                   autofocus
-                  (focus)="onStateSearchFocus()"
-                  (blur)="onStateSearchBlur()"
                   (input)="onStateSearch($event.target.value)"
                 />
               </form>
@@ -343,8 +367,15 @@
                   />
                 </svg>
               </button>
+              <img
+                *ngIf="isStateSearchFocused"
+                src="assets/svg/close-black.svg"
+                class="pointer"
+                alt="close-icon"
+                (click)="onStateSearchClose()"
+              />
               <p
-                *ngIf="isStateFilter"
+                *ngIf="isStateFilter && !isStateSearchFocused"
                 (click)="resetProductsByState()"
                 class="mobile-heading"
               >
@@ -364,7 +395,7 @@
               </p>
             </div>
             <div *ngIf="!loadingStates">
-              <p
+              <div
                 *ngFor="
                   let state of states | slice : 0 : stateListLimit;
                   let i = index
@@ -377,14 +408,17 @@
                 <span
                   [ngClass]="{ activeCategory: this.stateName === state }"
                   (click)="filterProductsByState(state)"
+                  routerLink="/homepage/search"
+                  [queryParams]="{ state: state }"
+                  queryParamsHandling="merge"
                 >
                   <span class="pointer">{{ state }}</span>
                 </span>
-                <span
+                <div
                   *ngIf="
                     i === stateMoreLimit - 1 && states.length > stateListLimit
                   "
-                  class="each-cat py-2"
+                  class="each-cat"
                   (click)="showMoreStates()"
                 >
                   <svg
@@ -401,8 +435,8 @@
                   </svg>
                   &nbsp;
                   <span>More</span>
-                </span>
-              </p>
+                </div>
+              </div>
               <div
                 *ngIf="states.length === 0"
                 class="text-center text-black p-5"
@@ -436,7 +470,11 @@
       <div class="p-2">
         <div class="d-flex align-items-center justify-content-between">
           <p class="tag">Browse and filter</p>
-          <button class="clear-all-btn" (click)="resetProducts()">
+          <button
+            class="clear-all-btn"
+            routerLink="/homepage/search"
+            (click)="resetProducts()"
+          >
             Clear all
           </button>
         </div>
@@ -451,8 +489,6 @@
               placeholder="Search"
               class="search-filter-input"
               autofocus
-              (focus)="onCategorySearchFocus()"
-              (blur)="onCategorySearchBlur()"
               (input)="onCategorySearch($event.target.value)"
             />
           </form>
@@ -474,8 +510,15 @@
               />
             </svg>
           </button>
+          <img
+            *ngIf="isCategorySearchFocused"
+            src="assets/svg/close-black.svg"
+            class="pointer"
+            alt="close-icon"
+            (click)="onCategorySearchClose()"
+          />
           <p
-            *ngIf="isCategoryFilter"
+            *ngIf="isCategoryFilter && !isCategorySearchFocused"
             class="mb-0 pointer mobile-heading"
             (click)="resetProductsByCategory()"
           >
@@ -491,12 +534,15 @@
           >
             <span
               [ngClass]="{
-                activeCategory: this.categoryName === category.name
+                activeCategory: this.categoryName === category
               }"
               (click)="filterProductsByCategory(category)"
               class="each-cat py-2"
+              routerLink="/homepage/search"
+              [queryParams]="{ category: category }"
+              queryParamsHandling="merge"
             >
-              <span>{{ category.name }}</span>
+              <span>{{ category }}</span>
             </span>
             <span
               *ngIf="
@@ -548,8 +594,6 @@
               placeholder="Search"
               class="search-filter-input"
               autofocus
-              (focus)="onCitySearchFocus()"
-              (blur)="onCitySearchBlur()"
               (input)="onCitySearch($event.target.value)"
             />
           </form>
@@ -571,8 +615,15 @@
               />
             </svg>
           </button>
+          <img
+            *ngIf="isCitySearchFocused"
+            src="assets/svg/close-black.svg"
+            class="pointer"
+            alt="close-icon"
+            (click)="onCitySearchClose()"
+          />
           <p
-            *ngIf="isCityFilter"
+            *ngIf="isCityFilter && !isCitySearchFocused"
             class="mb-0 pointer mobile-heading"
             (click)="resetProductsByCity()"
           >
@@ -589,6 +640,9 @@
             <span
               [ngClass]="{ activeCategory: this.cityName === city }"
               (click)="filterProductsByCity(city)"
+              routerLink="/homepage/search"
+              [queryParams]="{ city: city }"
+              queryParamsHandling="merge"
               class="each-cat py-2"
             >
               <span>{{ city }}</span>
@@ -640,8 +694,6 @@
               placeholder="Search"
               class="search-filter-input"
               autofocus
-              (focus)="onStateSearchFocus()"
-              (blur)="onStateSearchBlur()"
               (input)="onStateSearch($event.target.value)"
             />
           </form>
@@ -663,8 +715,15 @@
               />
             </svg>
           </button>
+          <img
+            *ngIf="isStateSearchFocused"
+            src="assets/svg/close-black.svg"
+            class="pointer"
+            alt="close-icon"
+            (click)="onStateSearchClose()"
+          />
           <p
-            *ngIf="isStateFilter"
+            *ngIf="isStateFilter && !isStateSearchFocused"
             class="mb-0 pointer mobile-heading"
             (click)="resetProductsByState()"
           >
@@ -681,6 +740,9 @@
             <span
               [ngClass]="{ activeCategory: this.stateName === state }"
               (click)="filterProductsByState(state)"
+              routerLink="/homepage/search"
+              [queryParams]="{ state: state }"
+              queryParamsHandling="merge"
               class="each-cat py-2"
             >
               <span>{{ state }}</span>
@@ -778,7 +840,13 @@
                 </div> -->
 
         <div class="px-3 pb-3 col-12">
-          <button (click)="filterProductsByPrice()" class="w-100 apply-btn">
+          <button
+            routerLink="/homepage/search"
+            [queryParams]="{ minPrice: minValue, maxPrice: maxValue }"
+            queryParamsHandling="merge"
+            (click)="filterProductsByPrice()"
+            class="w-100 apply-btn"
+          >
             Apply
           </button>
         </div>
@@ -813,15 +881,24 @@
               'col-lg-4': columnCount === 3
             }"
             class="col-6"
-            *ngFor="let product of products; let last = last"
+            *ngFor="
+              let product of products
+                | paginate
+                  : {
+                      itemsPerPage: tableSize,
+                      currentPage: page,
+                      totalItems: count
+                    };
+              let last = last
+            "
           >
             <app-product-card [product]="product"></app-product-card>
           </div>
         </div>
         <div *ngIf="!loadingProducts" class="w-100 text-center">
-          <button (click)="showMoreProducts()" class="show-more-products">
+          <!-- <button (click)="showMoreProducts()" class="show-more-products">
             Show more
-          </button>
+          </button> -->
         </div>
 
         <div *ngIf="!loadingProducts && products.length === 0" class="p-5">
@@ -924,6 +1001,12 @@
             </div>
           </div>
         </div>
+        <pagination-controls
+          previousLabel="Prev"
+          nextLabel="Next"
+          (pageChange)="onTableDataChange($event)"
+        >
+        </pagination-controls>
         <!-- <div class="uk-flex uk-flex-right">
                     <pagination-controls (pageChange)="fetchAllProducts($event)"></pagination-controls>
                 </div> -->
