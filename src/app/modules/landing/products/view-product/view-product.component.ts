@@ -18,7 +18,7 @@ export class ViewProductComponent implements OnInit {
   previewImg: string;
   id: any;
   product: any;
-  variationList: any;
+  variationList: any[] = [];
   user: any;
   orderDetails: any;
   variation: any;
@@ -46,11 +46,13 @@ export class ViewProductComponent implements OnInit {
 
   getProduct(id: any) {
     this.loading = true;
-    this.productService.getProduct(id).subscribe(
-      (res) => {
+    this.productService.getProduct(id).subscribe({
+      next: (res) => {
         if (res.status === 'success') {
           this.loading = false;
           this.product = res.data;
+          console.log(this.product);
+
           this.previewImg = this.product.productImages[0];
           let variations = [];
           for (
@@ -66,14 +68,17 @@ export class ViewProductComponent implements OnInit {
               variations.push(element);
             }
           }
-          this.setVariation(variations);
+          this.variationList = [...variations];
+          console.log(this.variationList);
+
+          // this.setVariation(variations);
         }
       },
-      (err) => {
+      error: (err) => {
         this.loading = false;
         this.toastservice.error(err.message);
-      }
-    );
+      },
+    });
   }
 
   getProductOrderSummary() {
@@ -81,7 +86,6 @@ export class ViewProductComponent implements OnInit {
     this.productService.productOrderSummary(this.user.id, this.id).subscribe(
       (res) => {
         this.orderDetails = res.data;
-        console.log(this.orderDetails);
 
         this.loadingSummary = false;
       },
@@ -164,16 +168,18 @@ export class ViewProductComponent implements OnInit {
   }
 
   setVariation(list: any) {
-    const result = list.reduce((acc, { title, value }) => {
-      acc[title] ??= { title: title, value: [] };
-      if (Array.isArray(value))
-        // if it's array type then concat
-        acc[title].value = acc[title].value.concat(value);
-      else acc[title].value.push(value);
-      return acc;
-    }, {});
+    console.log(list);
+    this.variationList = list;
+    // const result = list.reduce((acc, { title, value }) => {
+    //   acc[title] ??= { title: title, value: [] };
+    //   if (Array.isArray(value))
+    //     // if it's array type then concat
+    //     acc[title].value = acc[title].value.concat(value);
+    //   else acc[title].value.push(value);
+    //   return acc;
+    // }, {});
 
-    this.variationList = Object.values(result);
+    // this.variationList = Object.values(result);
   }
 
   showImg(img: string) {

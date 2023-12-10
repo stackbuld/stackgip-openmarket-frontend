@@ -23,12 +23,19 @@
       <p class="item-name">{{ product?.name || "N/A" }}</p>
       <p class="item-price">{{ product?.price | currency : "₦" }}</p>
 
-      <div class="mt-3" *ngFor="let item of variationList">
-        <p class="item-name mb-0 capitalize">{{ item?.title }}</p>
-        <div style="display: flex; flex-wrap: wrap">
-          <span class="mt-2 mr-2 value" *ngFor="let it of item?.value">{{
-            it
-          }}</span>
+      <div class="variant-container">
+        <div class="variant-heading">Variants</div>
+        <div class="variant-main">
+          <div class="variant" *ngFor="let item of variationList">
+            <p class="item-name mb-0 capitalize" style="font-size: 16px">
+              {{ item?.title }}
+            </p>
+            <div style="display: flex; flex-wrap: wrap">
+              <span class="mt-2 mr-2 value">{{ item.value }}</span>
+            </div>
+            <div class="price">Price: {{ item.cost }}</div>
+            <div class="unit">Unit: {{ item.unit }}</div>
+          </div>
         </div>
       </div>
       <div class="mt-3">
@@ -36,7 +43,7 @@
           Unit Available: <span>{{ product?.unit }}</span>
         </p>
         <p class="text-sty">
-          Unit Sold: <span>{{ product?.unit_sold }}</span>
+          Unit Sold: <span>{{ product?.unit_sold ?? 0 }}</span>
         </p>
       </div>
     </div>
@@ -330,6 +337,14 @@
   </div>
 </div>
 
-<div *ngIf="loading" style="display: flex; align-items: center; justify-content: center; min-height: 300px;">
+<div
+  *ngIf="loading"
+  style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+  "
+>
   <img src="/assets/svg/loader-icon.svg" alt="" width="100" height="100" />
 </div>
