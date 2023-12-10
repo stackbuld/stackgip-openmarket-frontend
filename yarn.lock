@@ -5496,6 +5496,11 @@
   "resolved" "https://registry.npmjs.org/hdr-histogram-percentiles-obj/-/hdr-histogram-percentiles-obj-3.0.0.tgz"
   "version" "3.0.0"
 
+"highlight.run@^8.3.0":
+  "integrity" "sha512-lRR2RQgKwSxX3uofhPtWrJCBHV1F7NXXMaDxZkfot7xQkK4wxCGMr51QvSIZm4rB4HgayVnoGa40eXOTSq76Pw=="
+  "resolved" "https://registry.npmjs.org/highlight.run/-/highlight.run-8.3.0.tgz"
+  "version" "8.3.0"
+
 "hogan.js@^3.0.2":
   "integrity" "sha512-RqGs4wavGYJWE07t35JQccByczmNUXQT0E12ZYV1VKYu5UiAU9lsos/yBAcf840+zrUQQxgVduCR5/B8nNtibg=="
   "resolved" "https://registry.npmjs.org/hogan.js/-/hogan.js-3.0.2.tgz"
