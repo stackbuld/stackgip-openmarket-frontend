@@ -366,10 +366,6 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       this.storeAvailabilties
     );
 
-    delete this.sellerStoreAddressForm.value.postalCode;
-    delete this.sellerStoreAddressForm.value.landmark;
-    delete this.sellerStoreAddressForm.value.countryCode;
-
     if (this.modalInfo.mode == 'create') {
       this.onCreate({
         ...this.sellerStoreAddressForm.value,
