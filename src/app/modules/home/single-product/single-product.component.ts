@@ -208,9 +208,9 @@ export class SingleProductComponent implements OnInit {
     });
   }
 
-  goToStoreFront = (id: string) => {
-    this.router.navigate([`/homepage/storefront/${this.user.id}`]);
-  };
+  viewSellerStore(userId: string) {
+    this.router.navigate(['/homepage/seller-store', userId]);
+  }
 
   setUserAddress() {
     if (localStorage.getItem('shippingAddress')) {

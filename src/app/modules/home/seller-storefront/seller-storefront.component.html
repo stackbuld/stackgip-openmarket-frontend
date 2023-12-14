@@ -4,7 +4,7 @@
       <ul class="uk-breadcrumb">
         <li><a routerLink="/">Home</a></li>
         <li>
-          <a routerLink="/homepage/storefront">
+          <a routerLink="/homepage/seller-store">
             <span *ngIf="loadingData">Loading...</span>
             <span *ngIf="!loadingData">
               {{ sellerStorefrontDetails?.businessName || null }}
@@ -17,7 +17,7 @@
   <section id="banner">
     <span *ngIf="loadingData">Loading Image...</span>
     <span *ngIf="!loadingData">
-      <img [src]="tempVariable" alt="Storefront" />
+      <img src="assets/img/general-store.jpg" alt="Storefront" />
     </span>
   </section>
 
@@ -29,7 +29,7 @@
           getImageResolution(
             sellerStorefrontDetails?.businessLogoUrl ||
               'assets/img/store-logo.png',
-            1200,
+            300,
             300
           )
         }}"

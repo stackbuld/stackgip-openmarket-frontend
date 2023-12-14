@@ -69,11 +69,13 @@
 
                   <!-- <div class="order-count">100 orders</div> -->
                 </div>
-                <div
-                  class="seller-store"
-                  routerLink="/homepage/storefront/{{ product.userId }}"
-                >
-                  Visit seller's store
+                <div class="seller-store">
+                  <button
+                    class="uk-button uk-button-default"
+                    (click)="viewSellerStore(product.userId)"
+                  >
+                    Visit seller's store
+                  </button>
                 </div>
               </div>
             </div>

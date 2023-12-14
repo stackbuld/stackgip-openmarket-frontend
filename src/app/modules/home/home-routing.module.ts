@@ -23,7 +23,7 @@ const routes: Routes = [
       { path: 'payment-confirmation', component: PaymentConfirmationComponent },
       { path: 'search', component: ProductListComponent },
       {
-        path: 'storefront/:sellerId',
+        path: 'seller-store/:sellerId',
         component: SellerStorefrontComponent,
       },
       {
@@ -32,14 +32,6 @@ const routes: Routes = [
           import('../../shared/wallet/wallet.module').then(
             (m) => m.WalletModule
           ),
-      },
-      {
-        path: 'storefront/:sellerId',
-        component: SellerStorefrontComponent,
-      },
-      {
-        path: 'storefront/:sellerId',
-        component: SellerStorefrontComponent,
       },
       {
         path: '**',
