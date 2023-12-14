@@ -17,25 +17,13 @@
   <section id="banner">
     <span *ngIf="loadingData">Loading Image...</span>
     <span *ngIf="!loadingData">
-      <img src="assets/img/general-store.jpg" alt="Storefront" />
+      <img src="{{ tempVariable }}" alt="Storefront" />
     </span>
   </section>
 
   <section id="hero">
     <div class="hero-section">
-      <img
-        class="circle-storefront"
-        src="{{
-          getImageResolution(
-            sellerStorefrontDetails?.businessLogoUrl ||
-              'assets/img/store-logo.png',
-            300,
-            300
-          )
-        }}"
-        [src]=""
-        alt=""
-      />
+      <img class="circle-storefront" src="assets/img/store-logo.png" alt="" />
 
       <div class="hero-text">
         <p *ngIf="loadingData">Loading...</p>

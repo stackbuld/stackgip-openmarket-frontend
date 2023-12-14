@@ -168,14 +168,6 @@ export class ProductListComponent implements OnInit {
       this.maxValue = Number(maxPrice);
       currentParamsObj['maxPrice'] = this.maxValue;
     }
-
-    this.router.navigate(['/homepage/search'], {
-      queryParams: {
-        ...currentParamsObj,
-      },
-      queryParamsHandling: 'merge',
-    });
-
     return currentParamsObj;
   }
 
