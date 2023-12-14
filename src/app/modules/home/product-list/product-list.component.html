@@ -85,11 +85,7 @@
           <div class="p-2">
             <div class="d-flex align-items-center justify-content-between">
               <p class="tag">Browse and filter</p>
-              <button
-                class="clear-all-btn"
-                routerLink="/homepage/search"
-                (click)="resetProducts()"
-              >
+              <button class="clear-all-btn" (click)="resetProducts()">
                 Clear all
               </button>
             </div>
@@ -169,9 +165,6 @@
                     activeCategory: this.categoryName === category
                   }"
                   (click)="filterProductsByCategory(category)"
-                  routerLink="/homepage/search"
-                  [queryParams]="{ category: category }"
-                  queryParamsHandling="merge"
                 >
                   <span class="pointer">{{ category }}</span>
                 </span>
@@ -289,9 +282,6 @@
                 <span
                   [ngClass]="{ activeCategory: this.cityName === city }"
                   (click)="filterProductsByCity(city)"
-                  routerLink="/homepage/search"
-                  [queryParams]="{ city: city }"
-                  queryParamsHandling="merge"
                 >
                   <span class="pointer">{{ city }}</span>
                 </span>
@@ -408,9 +398,6 @@
                 <span
                   [ngClass]="{ activeCategory: this.stateName === state }"
                   (click)="filterProductsByState(state)"
-                  routerLink="/homepage/search"
-                  [queryParams]="{ state: state }"
-                  queryParamsHandling="merge"
                 >
                   <span class="pointer">{{ state }}</span>
                 </span>
@@ -470,11 +457,7 @@
       <div class="p-2">
         <div class="d-flex align-items-center justify-content-between">
           <p class="tag">Browse and filter</p>
-          <button
-            class="clear-all-btn"
-            routerLink="/homepage/search"
-            (click)="resetProducts()"
-          >
+          <button class="clear-all-btn" (click)="resetProducts()">
             Clear all
           </button>
         </div>
@@ -538,9 +521,6 @@
               }"
               (click)="filterProductsByCategory(category)"
               class="each-cat py-2"
-              routerLink="/homepage/search"
-              [queryParams]="{ category: category }"
-              queryParamsHandling="merge"
             >
               <span>{{ category }}</span>
             </span>
@@ -640,9 +620,6 @@
             <span
               [ngClass]="{ activeCategory: this.cityName === city }"
               (click)="filterProductsByCity(city)"
-              routerLink="/homepage/search"
-              [queryParams]="{ city: city }"
-              queryParamsHandling="merge"
               class="each-cat py-2"
             >
               <span>{{ city }}</span>
@@ -740,9 +717,6 @@
             <span
               [ngClass]="{ activeCategory: this.stateName === state }"
               (click)="filterProductsByState(state)"
-              routerLink="/homepage/search"
-              [queryParams]="{ state: state }"
-              queryParamsHandling="merge"
               class="each-cat py-2"
             >
               <span>{{ state }}</span>
