@@ -208,10 +208,6 @@ export class SingleProductComponent implements OnInit {
     });
   }
 
-  viewSellerStore(userId: string) {
-    this.router.navigate(['/homepage/seller-store', userId]);
-  }
-
   setUserAddress() {
     if (localStorage.getItem('shippingAddress')) {
       const address = JSON.parse(
