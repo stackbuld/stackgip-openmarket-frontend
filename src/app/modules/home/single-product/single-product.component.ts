@@ -129,6 +129,8 @@ export class SingleProductComponent implements OnInit {
   isGoogleAddressSelected: boolean = false;
   isShippingMethodFetched: boolean = false;
 
+  videoUrl: string = 'assets/videos/short-video.mp4';
+
   constructor(
     private toastService: ToastrService,
     private activatedRoute: ActivatedRoute,
@@ -207,10 +209,6 @@ export class SingleProductComponent implements OnInit {
       }
     });
   }
-
-  goToStoreFront = (id: string) => {
-    this.router.navigate([`/homepage/storefront/${this.user.id}`]);
-  };
 
   setUserAddress() {
     if (localStorage.getItem('shippingAddress')) {

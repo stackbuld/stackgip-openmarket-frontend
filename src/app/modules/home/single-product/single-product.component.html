@@ -7,22 +7,34 @@
     <div class="mobile-pad-1 left-section">
       <div class="product-images">
         <div class="product-image-main">
-          <swiper-container
-            thumbs-swiper=".swiper2"
-            [config]="swiperConfig"
-            pagination="true"
-          >
-            <swiper-slide
-              class="swiper"
-              *ngFor="let image of productImages; let i = index"
+          <div *ngIf="product.id === '5ac14020-ba6a-48e2-a200-8c0a475e395a'">
+            <video
+              src="https://yootheme.com/site/images/media/yootheme-pro.mp4"
+              width="637"
+              height="400"
+              controls
+              playsinline
+              uk-video
+            ></video>
+          </div>
+          <div *ngIf="product.id !== '5ac14020-ba6a-48e2-a200-8c0a475e395a'">
+            <swiper-container
+              thumbs-swiper=".swiper2"
+              [config]="swiperConfig"
+              pagination="true"
             >
-              <div
-                class="image-test"
-                [ngStyle]="{ backgroundImage: 'url(' + image.image + ')' }"
-                (click)="showLightbox(i)"
-              ></div>
-            </swiper-slide>
-          </swiper-container>
+              <swiper-slide
+                class="swiper"
+                *ngFor="let image of productImages; let i = index"
+              >
+                <div
+                  class="image-test"
+                  [ngStyle]="{ backgroundImage: 'url(' + image.image + ')' }"
+                  (click)="showLightbox(i)"
+                ></div>
+              </swiper-slide>
+            </swiper-container>
+          </div>
         </div>
 
         <div class="product-image-slider">
@@ -71,7 +83,7 @@
                 </div>
                 <div
                   class="seller-store"
-                  routerLink="/homepage/storefront/{{ product.userId }}"
+                  routerLink="/homepage/seller-store/{{ product.userId }}"
                 >
                   Visit seller's store
                 </div>

@@ -17,6 +17,7 @@ export class SellerStorefrontComponent implements OnInit {
   loadingData: boolean = true;
 
   tempVariable: string;
+  bannerImg: string = 'assets/img/general-store.jpg';
 
   sellerStorefrontDetails: ISeller;
   // productsDiv = document.querySelector('.products');

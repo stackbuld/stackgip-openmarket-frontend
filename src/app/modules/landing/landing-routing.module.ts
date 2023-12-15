@@ -25,7 +25,7 @@ import { OrderComponent } from './order/order.component';
 const routes: Routes = [
     { path: '', component: LandingComponent, 
       children: [
-        // { path: '', component: HomeLandingComponent},
+        { path: '', component: HomeLandingComponent},
         { path: 'learn-more', component: HomeLandingComponent},
         { path: 'ourservices', component: OurservicesComponent },
         { path: 'private-policy', component: PrivatePolicyComponent },
