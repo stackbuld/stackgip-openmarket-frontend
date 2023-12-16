@@ -182,12 +182,27 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       });
   }
 
+  onEditAvail(index: number) {
+    this.storeAvailability.controls[index].patchValue({
+      openingTime: this.storeAvailabilties[index].openingTime,
+      closingTime: this.storeAvailabilties[index].closingTime,
+    });
+    this.isEditingAvail(index);
+  }
+
   isEditingAvail(index: number) {
     this.isEditing[index] = !this.isEditing[index];
+
     this.editingIndex = index;
   }
 
   deleteAvail(index: number) {
+    if (this.editingIndex) {
+      this.isEditing[this.editingIndex] = false;
+      this.editingIndex = null;
+      return;
+    }
+
     this.isEditing[index] = false;
 
     this.storeAvailabilties.map((avail, availIndex) => {
@@ -211,6 +226,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
         return availability;
       }
     });
+
     const newFormattedAvailabilities = [];
     this.formattedAvailabilities.filter((formattedAvailability) => {
       if (
