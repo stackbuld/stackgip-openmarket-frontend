@@ -370,7 +370,9 @@ export class CreateProductComponent implements OnInit {
 
   addStore() {
     this.dialogService
-      .openDialog(SellerStoreCreateDialogComponent, false)
+      .openDialog(SellerStoreCreateDialogComponent, {
+        data: { data: null, mode: 'create' },
+      })
       .afterClosed()
       .subscribe((response) => {
         response ? this.getStores(this.user.id) : null;
@@ -856,7 +858,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   onUploadVideo() {
-    if (this.videoUrls.length > 4) {
+    if (this.videoUrls.length >= 4) {
       this.toast.warining('You can only upload up to four videos');
       return;
     }
