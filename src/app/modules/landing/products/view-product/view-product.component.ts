@@ -74,7 +74,9 @@ export class ViewProductComponent implements OnInit {
               variations.push(element);
             }
           }
-          this.variationList = [...variations];
+
+          this.setVariation(variations);
+          // this.variationList = [...variations];
         }
       },
       error: (err) => {
@@ -82,6 +84,22 @@ export class ViewProductComponent implements OnInit {
         this.toastservice.error(err.message);
       },
     });
+  }
+
+  setVariation(list: any) {
+    const groupedOptions = list.reduce((acc, option) => {
+      const title = option.title;
+      const existingOptions = acc[title] || [];
+
+      return {
+        ...acc,
+        [title]: [...existingOptions, option],
+      };
+    }, {});
+
+    const groupedOptionsArray = Object.values(groupedOptions);
+    this.variationList = groupedOptionsArray;
+    console.log(this.variationList);
   }
 
   getProductOrderSummary() {
@@ -170,20 +188,20 @@ export class ViewProductComponent implements OnInit {
     );
   }
 
-  setVariation(list: any) {
-    console.log(list);
-    this.variationList = list;
-    // const result = list.reduce((acc, { title, value }) => {
-    //   acc[title] ??= { title: title, value: [] };
-    //   if (Array.isArray(value))
-    //     // if it's array type then concat
-    //     acc[title].value = acc[title].value.concat(value);
-    //   else acc[title].value.push(value);
-    //   return acc;
-    // }, {});
+  // setVariation(list: any) {
+  //   console.log(list);
+  //   this.variationList = list;
+  //   const result = list.reduce((acc, { title, value }) => {
+  //     acc[title] ??= { title: title, value: [] };
+  //     if (Array.isArray(value))
+  //       // if it's array type then concat
+  //       acc[title].value = acc[title].value.concat(value);
+  //     else acc[title].value.push(value);
+  //     return acc;
+  //   }, {});
 
-    // this.variationList = Object.values(result);
-  }
+  //   this.variationList = Object.values(result);
+  // }
 
   showImg(img: string) {
     this.previewImg = img;

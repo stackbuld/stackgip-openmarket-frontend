@@ -125,8 +125,10 @@
         <div
           class="mb-3 uk-grid block-up uk-grid-row-small uk-child-width-1-2@s input-sec"
         >
-          <div class="uk-width-expand input-sec">
-            <div for="name" class="label">Available Units</div>
+          <div class="uk-width-expand input-sec" #availableUnitsContainer>
+            <div for="name" class="label availableUnitsHeading">
+              Available Units
+            </div>
             <mat-form-field class="uk-width-expand">
               <input
                 (keypress)="preventLetter($event)"
@@ -136,6 +138,7 @@
                 placeholder="200"
                 formControlName="unit"
                 required
+                #availableUnitsInput
               />
             </mat-form-field>
           </div>
@@ -369,8 +372,8 @@
             class="the-btn"
             type="button"
           >
-            + Add Variation
-            <small>(i.e Products' different color, size and price)</small>
+            Add different variations of your product, such as color or size,
+            along with their prices and available quantities
           </button>
           &nbsp;
           <img
@@ -395,6 +398,7 @@
       <div
         *ngIf="addingComplimentaryOptions"
         class="mt-5 uk-flex uk-flex-column flex-1"
+        #complementaryForm
       >
         <h2>Complementary Products Details</h2>
         <p class="sub-text">
@@ -420,6 +424,7 @@
                         placeholder="Type info here"
                         formControlName="title"
                         required
+                        #complementaryItemNameInput
                       />
                     </mat-form-field>
                     <div
@@ -831,7 +836,9 @@
                     </div>
                   </div>
                   <div>
-                    <div for="name" class="label">Variant Type</div>
+                    <div for="name" class="label">
+                      Variant Type (e.g Blue, Green, Large, Small, etc)
+                    </div>
                     <mat-form-field
                       class="no-mobile-margin full-width uk-width-1-4 mt-2 create-product-form-field"
                     >
