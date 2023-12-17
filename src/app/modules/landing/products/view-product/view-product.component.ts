@@ -54,7 +54,6 @@ export class ViewProductComponent implements OnInit {
           this.loading = false;
 
           this.product = res.data;
-          console.log(this.product);
 
           this.previewImg = this.product.productImages[0];
           let variations = [];
@@ -76,7 +75,6 @@ export class ViewProductComponent implements OnInit {
           }
 
           this.setVariation(variations);
-          // this.variationList = [...variations];
         }
       },
       error: (err) => {
@@ -99,7 +97,6 @@ export class ViewProductComponent implements OnInit {
 
     const groupedOptionsArray = Object.values(groupedOptions);
     this.variationList = groupedOptionsArray;
-    console.log(this.variationList);
   }
 
   getProductOrderSummary() {
@@ -187,21 +184,6 @@ export class ViewProductComponent implements OnInit {
       }
     );
   }
-
-  // setVariation(list: any) {
-  //   console.log(list);
-  //   this.variationList = list;
-  //   const result = list.reduce((acc, { title, value }) => {
-  //     acc[title] ??= { title: title, value: [] };
-  //     if (Array.isArray(value))
-  //       // if it's array type then concat
-  //       acc[title].value = acc[title].value.concat(value);
-  //     else acc[title].value.push(value);
-  //     return acc;
-  //   }, {});
-
-  //   this.variationList = Object.values(result);
-  // }
 
   showImg(img: string) {
     this.previewImg = img;

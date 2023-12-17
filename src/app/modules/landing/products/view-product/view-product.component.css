@@ -12,6 +12,12 @@
   margin-right: 10px;
 }
 
+.item-variations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .color-tag {
   padding: 0.5rem 1rem;
   border: 1px solid black;
