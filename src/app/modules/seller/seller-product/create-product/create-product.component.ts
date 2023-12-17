@@ -2,7 +2,7 @@ import { IUser } from '../../../../models/IUserModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CreateProductResponse } from '../../../../models/products.model';
-import { Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import {
@@ -14,6 +14,7 @@ import {
   ElementRef,
   ViewChild,
   ChangeDetectorRef,
+  Renderer2,
 } from '@angular/core';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { ProductsService } from '../../../../services/products/products.service';
@@ -29,6 +30,7 @@ import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { VariationsAlertDialogComponent } from './variations-alert-dialog/variations-alert-dialog.component';
 import { initial } from 'lodash';
+import { PageScrollService } from 'ngx-page-scroll-core';
 
 declare var cloudinary: any;
 @Component({
@@ -172,8 +174,23 @@ export class CreateProductComponent implements OnInit {
   isProductUnitExceeded: boolean = false;
   videoUrls: string[] = [];
   videoWidget: any;
+
   @ViewChild('variationForm', { static: false })
   variationForm: ElementRef<HTMLElement>;
+
+  @ViewChild('complementaryForm', { static: false })
+  complementaryForm: ElementRef<HTMLElement>;
+
+  @ViewChild('complementaryItemNameInput', { static: false })
+  complementaryItemNameInput: ElementRef<HTMLElement>;
+
+  @ViewChild('availableUnitsContainer', { static: false })
+  availableUnitsContainer: ElementRef<HTMLElement>;
+
+  @ViewChild('availableUnitsInput', { static: false })
+  availableUnitsInput: ElementRef<HTMLElement>;
+
+  exceededUnitAction$: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -187,7 +204,8 @@ export class CreateProductComponent implements OnInit {
     private dialogService: DialogService,
     @Inject(DOCUMENT) private document: Document,
     private dialog: MatDialog,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private pageScrollService: PageScrollService
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
     this.initVariationForm();
@@ -220,7 +238,7 @@ export class CreateProductComponent implements OnInit {
       {
         cloudName: environment.cloudinaryName,
         uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif', 'mp4'],
+        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
@@ -320,15 +338,34 @@ export class CreateProductComponent implements OnInit {
         this.availableProductUnit = value;
       }
       this.initialProductUnit = value;
+      console.log(value, this.availableProductUnit);
     });
 
     this.getUnitValues();
 
     this.productService.newProductUnit.subscribe((value) => {
       this.initialProductUnit = value;
+      this.availableProductUnit = 0;
       this.form.patchValue({ unit: value });
-      this.availableProductUnit = value - this.variationProps.get('unit').value;
+      // this.availableProductUnit = value - this.variationProps.get('unit').value;
+      console.log(this.initialProductUnit, this.availableProductUnit);
+
+      this.isProductUnitExceeded = false;
     });
+
+    this.exceededUnitAction$ = this.productService.exceededUnitAction.subscribe(
+      (action) => {
+        if (action) {
+          console.log(1);
+          this.availableUnitsInput.nativeElement.focus();
+
+          this.pageScrollService.scroll({
+            document: this.document,
+            scrollTarget: '.availableUnitsHeading',
+          });
+        }
+      }
+    );
   }
 
   addStore() {
@@ -767,6 +804,9 @@ export class CreateProductComponent implements OnInit {
   addEditOption(): void {
     this.addingComplimentaryOptions = true;
     this.editProps = this.createOptions();
+    this.changeDetector.detectChanges();
+    this.complementaryForm.nativeElement.scrollIntoView();
+    this.complementaryItemNameInput.nativeElement.focus();
   }
 
   // this method is to add the complimentary/related products card to the options variable of the main form

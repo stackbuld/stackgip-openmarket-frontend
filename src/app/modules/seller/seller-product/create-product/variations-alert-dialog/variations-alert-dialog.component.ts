@@ -26,6 +26,9 @@ export class VariationsAlertDialogComponent implements OnInit {
     if (action == 'increase') {
       this.productService.newProductUnit.next(this.exceededProductUnit);
     }
+    if (action == 'adjust') {
+      this.productService.exceededUnitAction.next(true);
+    }
     this.dialog.closeAll();
   }
 }

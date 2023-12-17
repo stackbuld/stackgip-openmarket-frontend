@@ -12,6 +12,21 @@
   margin-right: 10px;
 }
 
+.item-variations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.color-tag {
+  padding: 0.5rem 1rem;
+  border: 1px solid black;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
 .main-img {
   background: #f6f6fd;
   border: 0.4px solid #bdbdbd;
