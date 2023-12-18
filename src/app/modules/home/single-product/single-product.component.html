@@ -20,8 +20,6 @@
                 <div class="video-test">
                   <video
                     src="{{ media.url }}"
-                    width="400"
-                    height="400"
                     controls
                     uk-video="autoplay: false, automute: true"
                   ></video>
@@ -46,9 +44,10 @@
             >
               <ng-container *ngIf="media.isVideo">
                 <video
+                  class="thumb-video"
                   src="{{ media.url }}"
-                  width="300"
-                  height="300"
+                  width="80"
+                  height="80"
                   controls
                   uk-video="autoplay: false"
                 ></video>
