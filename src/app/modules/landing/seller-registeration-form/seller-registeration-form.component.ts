@@ -43,10 +43,11 @@ export class SellerRegisterationFormComponent
   uploadWidget: any;
   uploadID: any;
   sellerRegFormGroup: FormGroup;
-  applicant: FormGroup;
   idCardTypes = ['NIN', 'BVN'];
   regSeller$: Subscription;
   user: any;
+  sellerApprovalStatus: string = 'pending';
+  rejectionReason: string = '';
 
   states = nigeriaSates.map((a) => a.name.toLowerCase());
   constructor(
@@ -63,11 +64,11 @@ export class SellerRegisterationFormComponent
     this.authService.isLogin.subscribe((a) => {
       if (a) {
         this.user = JSON.parse(localStorage.getItem('user')) as IUser;
+        this.initializeFormWithSellerDetails();
         console.log('USER IN SELLER FORM', this.user);
       }
     });
 
-    this.initializeFormWithSellerDetails();
     this.sellerRegForm();
     this.setBusinessCategoryValidators();
 
@@ -109,7 +110,19 @@ export class SellerRegisterationFormComponent
     this.sellerS.getSellerById(this.user.id).subscribe((res) => {
       if (res.status === 'success') {
         const sellerData: ISeller = res.data;
+        this.sellerApprovalStatus = sellerData.sellerApprovalStatus;
+        if (this.sellerApprovalStatus === 'approved') {
+          this.router.navigate(['/seller/dashboard']);
+        }
+
+        console.log('SELLER DATA', sellerData);
         this.sellerRegFormGroup.patchValue(sellerData);
+        this.sellerRegFormGroup.patchValue({
+          lga: sellerData.userLga,
+          personalIDNumber: sellerData.idVerificationNumber,
+          personalIDType: sellerData.idVerificationType,
+          landmark: sellerData.userAddressLandMark,
+        });
         this.image = sellerData.businessLogo;
       }
     });
@@ -122,7 +135,6 @@ export class SellerRegisterationFormComponent
       businessAddress: ['', Validators.required],
       businessState: ['', Validators.required],
       businessRegistrationNumber: ['', Validators.required],
-      // businessType: [''],
       personalIDType: ['', Validators.required],
       personalIDNumber: [
         '',
