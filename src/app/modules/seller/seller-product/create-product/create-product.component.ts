@@ -15,6 +15,8 @@ import {
   ViewChild,
   ChangeDetectorRef,
   Renderer2,
+  AfterViewInit,
+  AfterViewChecked,
 } from '@angular/core';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { ProductsService } from '../../../../services/products/products.service';
@@ -31,6 +33,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { VariationsAlertDialogComponent } from './variations-alert-dialog/variations-alert-dialog.component';
 import { initial } from 'lodash';
 import { PageScrollService } from 'ngx-page-scroll-core';
+import { WindowRefService } from 'src/app/shared/services/window.service';
 
 declare var cloudinary: any;
 @Component({
@@ -39,7 +42,7 @@ declare var cloudinary: any;
   styleUrls: ['./create-product.component.scss'],
   providers: [SafeHtmlPipe],
 })
-export class CreateProductComponent implements OnInit {
+export class CreateProductComponent implements OnInit, AfterViewChecked {
   previewEditorConfig: AngularEditorConfig = {
     editable: false,
     showToolbar: false,
@@ -191,6 +194,7 @@ export class CreateProductComponent implements OnInit {
   availableUnitsInput: ElementRef<HTMLElement>;
 
   exceededUnitAction$: Subscription;
+  isScroll: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -204,8 +208,7 @@ export class CreateProductComponent implements OnInit {
     private dialogService: DialogService,
     @Inject(DOCUMENT) private document: Document,
     private dialog: MatDialog,
-    private changeDetector: ChangeDetectorRef,
-    private pageScrollService: PageScrollService
+    private changeDetector: ChangeDetectorRef
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
     this.initVariationForm();
@@ -338,7 +341,6 @@ export class CreateProductComponent implements OnInit {
         this.availableProductUnit = value;
       }
       this.initialProductUnit = value;
-      console.log(value, this.availableProductUnit);
     });
 
     this.getUnitValues();
@@ -347,8 +349,6 @@ export class CreateProductComponent implements OnInit {
       this.initialProductUnit = value;
       this.availableProductUnit = 0;
       this.form.patchValue({ unit: value });
-      // this.availableProductUnit = value - this.variationProps.get('unit').value;
-      console.log(this.initialProductUnit, this.availableProductUnit);
 
       this.isProductUnitExceeded = false;
     });
@@ -356,17 +356,20 @@ export class CreateProductComponent implements OnInit {
     this.exceededUnitAction$ = this.productService.exceededUnitAction.subscribe(
       (action) => {
         if (action) {
-          console.log(1);
+          this.isScroll = true;
+          setTimeout(() => {
+            window.scrollTo(
+              0,
+              this.availableUnitsContainer.nativeElement.offsetTop
+            );
+          }, 100);
           this.availableUnitsInput.nativeElement.focus();
-
-          this.pageScrollService.scroll({
-            document: this.document,
-            scrollTarget: '.availableUnitsHeading',
-          });
         }
       }
     );
   }
+
+  ngAfterViewChecked(): void {}
 
   addStore() {
     this.dialogService

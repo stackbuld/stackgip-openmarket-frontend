@@ -17,7 +17,7 @@
           [bankLists]="bankLists"
           [chosenBank]="selectedBankDetails"
           placeholder="Please type your bank name"
-          [controls]="bankDetailsForm.controls['bankCode']"
+          [controls]="bankCode"
           (newBankEvent)="changeBank($event)"
         ></app-custom-dropdown>
       </div>

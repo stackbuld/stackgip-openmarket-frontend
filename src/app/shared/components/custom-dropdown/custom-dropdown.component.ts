@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import UIkit from 'uikit';
 
@@ -54,6 +54,9 @@ export class CustomDropdownComponent implements OnInit {
   }
 
   selectedBank: string = '';
+
+  accountsListForm: FormControl = new FormControl(null, Validators.required);
+  bankListForm: FormControl = new FormControl(null, Validators.required);
 
   constructor(public cd: ChangeDetectorRef) {}
   ngOnInit() {
