@@ -129,7 +129,8 @@ export class SingleProductComponent implements OnInit {
   isGoogleAddressSelected: boolean = false;
   isShippingMethodFetched: boolean = false;
 
-  videoUrl: string = 'assets/videos/short-video.mp4';
+  sliderMedia: object[] = [];
+  videoUrls: string[] = [];
 
   constructor(
     private toastService: ToastrService,
@@ -369,6 +370,7 @@ export class SingleProductComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       this.productId = params.id;
       this.getProductDetails();
+      console.log('slider items', this.sliderMedia);
     });
   };
 
@@ -400,7 +402,16 @@ export class SingleProductComponent implements OnInit {
 
         this.product.productImages.forEach((image) => {
           this.productImages.push({ image: image });
+          this.sliderMedia.push({ isVideo: false, url: image });
         });
+        this.videoUrls = this.product.videoUrls;
+        if (this.product.videoUrls.length > 0) {
+          this.product.videoUrls.forEach((video) => {
+            this.sliderMedia.push({ isVideo: true, url: video });
+          });
+        }
+
+        console.log('slider media', this.sliderMedia);
 
         this.productUnit = res.data.unit;
 
