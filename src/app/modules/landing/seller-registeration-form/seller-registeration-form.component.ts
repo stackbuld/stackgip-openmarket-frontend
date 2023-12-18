@@ -117,6 +117,12 @@ export class SellerRegisterationFormComponent
 
         console.log('SELLER DATA', sellerData);
         this.sellerRegFormGroup.patchValue(sellerData);
+        this.sellerRegFormGroup.patchValue({
+          lga: sellerData.userLga,
+          personalIDNumber: sellerData.idVerificationNumber,
+          personalIDType: sellerData.idVerificationType,
+          landmark: sellerData.userAddressLandMark,
+        });
         this.image = sellerData.businessLogo;
       }
     });

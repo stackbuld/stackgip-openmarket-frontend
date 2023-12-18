@@ -25,13 +25,12 @@ export interface ISeller {
   isBusinessRegistered: boolean;
   state: 'string';
   landmark: 'string';
-  applicant: {
-    idType: 'string';
-    idNumber: 'string';
-    dateOfBirth: '10-10-string';
-  };
   coverPhotoUrl?: 'string' | string;
   sellerApprovalStatus: 'string';
+  userLga: 'string';
+  idVerificationType: 'string';
+  idVerificationNumber: 'string';
+  userAddressLandMark: 'string';
 }
 
 export interface GetSeller extends ResponseModel {
