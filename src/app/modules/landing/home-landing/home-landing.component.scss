@@ -1,3 +1,161 @@
+.contact-us {
+  border: 1px solid #b9b9b9;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.contact-us-main {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.contact-us-left {
+  flex-basis: 40%;
+  background-color: #000000;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 30px;
+  margin-right: 20px;
+  height: 100%;
+
+  & .contact-us-heading {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  & .contact-us-copy {
+    color: #c9c9c9;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  & .contact-us-infos {
+    margin-top: 50px;
+
+    & .contact-us-info {
+      display: flex;
+      align-items: center;
+
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+
+      & p {
+        margin-left: 20px;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.contact-us-right {
+  width: 100%;
+  & form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  & .main-inputs {
+    display: grid;
+    grid-gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  & .input-group {
+    &.message-group {
+      margin-top: 40px;
+    }
+    & label {
+      display: block;
+      color: #8d8d8d;
+      font-size: 12px;
+
+      &.invalid {
+        color: rgb(248, 29, 29);
+      }
+    }
+
+    & input {
+      &:focus {
+        outline: none;
+      }
+
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid #8d8d8d;
+
+      &.invalid {
+        border-bottom: 1px solid rgb(248, 29, 29);
+
+        &::placeholder {
+          color: rgb(248, 29, 29);
+        }
+      }
+    }
+
+    & .subject-input {
+      position: relative;
+      display: block;
+      width: 100%;
+
+      & input {
+        cursor: pointer;
+      }
+
+      & i {
+        position: absolute;
+        right: 5px;
+        color: #8d8d8d;
+        bottom: 5px;
+      }
+    }
+  }
+
+  & button {
+    width: 200px;
+    background-color: #000000;
+    color: #ffffff;
+    border-radius: 8px;
+    height: 54px;
+    margin-top: 30px;
+    align-self: flex-end;
+  }
+}
+
+.subjects {
+  padding: 15px;
+
+  & .subject-group {
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  .contact-us-main {
+    flex-direction: column;
+  }
+
+  .contact-us-left {
+    flex-basis: 100%;
+    margin-right: 0;
+    margin-bottom: 40px;
+  }
+
+  .contact-us-right {
+    width: 100%;
+
+    & button {
+      width: 100%;
+      align-self: center;
+    }
+  }
+}
+
 .container-wrapper {
   background-color: #fff;
 }
@@ -31,7 +189,7 @@
   padding: 1.5rem 6rem;
 }
 
-.pl-6{
+.pl-6 {
   padding-left: 6rem;
 }
 
@@ -51,7 +209,7 @@
   width: 45%;
 }
 
-.w-50{
+.w-50 {
   width: 50%;
 }
 
@@ -67,7 +225,7 @@
   justify-content: center;
   align-items: center;
   padding: 16px 35px;
-  color: #FFFFFF;
+  color: #ffffff;
   background: #000000;
   // border: 1px solid #FFFFFF;
   border-radius: 6px;
@@ -76,7 +234,7 @@
   line-height: 19px;
 
   &:hover {
-    background: #FFFFFF;
+    background: #ffffff;
     color: #000000;
     border: 1px solid #000000;
   }
@@ -93,7 +251,6 @@
   &:hover {
     box-shadow: 0px 56.2299px 64.2628px rgba(222, 222, 222, 0.4);
   }
-
 }
 
 .small-box-heading {
@@ -136,7 +293,7 @@
   }
 
   .two-sides-subtext {
-    font-family: 'Avenir LT Std';
+    font-family: "Avenir LT Std";
     font-weight: 350;
     font-size: 18px;
     line-height: 22px;
@@ -204,10 +361,10 @@
   width: 100%;
   text-transform: none !important;
   cursor: pointer;
-  color: #FFFFFF !important;
+  color: #ffffff !important;
 
   &:hover {
-    background: #FFFFFF;
+    background: #ffffff;
     color: #000000 !important;
     border: 1px solid #000000;
   }
@@ -256,7 +413,7 @@
   text-align: center;
   // width: 75%;
   margin-top: 5rem;
-  font-family: 'Avenir LT Std';
+  font-family: "Avenir LT Std";
   font-style: normal;
   font-weight: 750;
   font-size: 49.1597px;
@@ -291,10 +448,9 @@
 }
 
 .join-comm {
-  background: #FAFAFA;
+  background: #fafafa;
   padding: 3rem;
 }
-
 
 .box-image {
   width: 3.5rem;
@@ -342,7 +498,7 @@
 
 .bottom-heading {
   font-size: 1.5rem;
-  font-family: 'Avenir LT Std';
+  font-family: "Avenir LT Std";
   color: #000000;
   font-weight: 750;
   margin-bottom: 1.5rem;
@@ -357,29 +513,26 @@
 }
 
 .benefits {
-
   padding: 3rem 2rem 5rem 2rem;
   margin-bottom: 7rem;
 }
 
 .waitList_benefit_wrapper {
-  background: #FFFFFF;
+  background: #ffffff;
   padding: 1.25rem;
   margin: 0.5rem 0rem 2.5rem 0rem;
   border-radius: 0.25rem;
-
 }
 
 .referral_benefit_wrapper {
-  background: #FFFFFF;
+  background: #ffffff;
   padding: 1.25rem;
   margin: 0.5rem 0rem 2.5rem 0rem;
   border-radius: 0.25rem;
-
 }
 
 .benefit_heading {
-  font-family: 'Avenir LT Std';
+  font-family: "Avenir LT Std";
   font-style: normal;
   font-weight: 700;
   font-size: 0.9rem;
@@ -394,7 +547,7 @@
 }
 
 .benefit_text {
-  font-family: 'Avenir LT Std';
+  font-family: "Avenir LT Std";
   font-style: normal;
   font-weight: 400;
   font-size: 0.625rem;
@@ -433,16 +586,16 @@
   justify-content: center;
   align-items: center;
   padding: 16px 35px;
-  color: #FFFFFF;
+  color: #ffffff;
   background: #000000;
-  border: 1px solid #FFFFFF;
+  border: 1px solid #ffffff;
   border-radius: 6px;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
 
   &:hover {
-    background: #FFFFFF;
+    background: #ffffff;
     color: #000000;
     border: 1px solid #000000;
   }
@@ -505,11 +658,11 @@
   display: block;
 }
 
-.flex-col{
+.flex-col {
   flex-direction: initial;
 }
 
-a:hover{
+a:hover {
   text-decoration: none !important;
 }
 .up-navBar {
@@ -527,7 +680,7 @@ a:hover{
   width: 100%;
 }
 
-.ds-none{
+.ds-none {
   display: none;
 }
 
@@ -550,17 +703,15 @@ ul {
   margin: 1.5rem 0rem;
 }
 .mobile-side-menu li a {
-  font-family: 'Avenir LT Std';
+  font-family: "Avenir LT Std";
   color: black;
-  
 }
 .mobile-side-menu li a:hover {
   color: #584dcd;
 }
 
-
 @media only screen and (max-width: 767px) {
-  .w-md-90{
+  .w-md-90 {
     width: 90px;
   }
 
@@ -573,12 +724,12 @@ ul {
     height: 60px;
   }
 
-  .mt-md-1{
+  .mt-md-1 {
     margin-top: 1.4rem;
   }
 
   .pl-x-md-2 {
-    padding:0 2rem !important;
+    padding: 0 2rem !important;
   }
   .display-default {
     display: none;
@@ -644,8 +795,8 @@ ul {
     padding: 0 2rem;
   }
 
-  .pl-6{
-    padding:0 2rem !important;
+  .pl-6 {
+    padding: 0 2rem !important;
   }
 
   .box-heading {
@@ -672,10 +823,10 @@ ul {
     }
 
     .two-sides-subtext {
-      font-family: 'Avenir LT Std';
+      font-family: "Avenir LT Std";
       font-weight: 350;
       font-size: 16px;
-    line-height: 21px;
+      line-height: 21px;
       text-align: left;
     }
   }
@@ -714,7 +865,6 @@ ul {
 }
 
 @media only screen and (min-width: 768px) {
-
   .top-text {
     text-align: justify;
     font-size: 2rem;
@@ -730,12 +880,12 @@ ul {
     width: 4rem;
   }
 
-  .pl-md-2{
-    padding-left:2rem !important;
+  .pl-md-2 {
+    padding-left: 2rem !important;
   }
 
-  .pr-md-2{
-    padding-right:2rem !important;
+  .pr-md-2 {
+    padding-right: 2rem !important;
   }
 
   .features-wrapper {
@@ -759,7 +909,7 @@ ul {
   }
 
   .top-subtext {
-    font-size: 14px!important;
+    font-size: 14px !important;
     line-height: 20px !important;
   }
 
@@ -837,14 +987,12 @@ ul {
     padding: 1.25rem;
     margin: 0.5rem 0rem 2.5rem 0rem;
     border-radius: 0.25rem;
-
   }
 
   .referral_benefit_wrapper {
     padding: 1.25rem;
     margin: 0.5rem 0rem 2.5rem 0rem;
     border-radius: 0.25rem;
-
   }
 
   .benefit_heading {
@@ -874,7 +1022,6 @@ ul {
     justify-content: center;
     margin-bottom: 0rem;
     width: 47.5%;
-
   }
 
   .buttom-image-wrapper {
@@ -885,7 +1032,6 @@ ul {
     position: relative;
     object-fit: contain;
     margin-left: 1rem;
-
   }
 
   .buttom-image-two {
@@ -913,20 +1059,20 @@ ul {
   .order-A {
     order: 2;
   }
-  
+
   .order-B {
     order: 1;
   }
 
-  .flex-col{
+  .flex-col {
     flex-direction: column;
   }
 
-  .ds-none{
+  .ds-none {
     display: block;
   }
 
-  .display-default{
+  .display-default {
     display: none;
   }
 
@@ -938,8 +1084,8 @@ ul {
     width: initial;
   }
 
-  .pl-6{
-    padding:0 5rem;
+  .pl-6 {
+    padding: 0 5rem;
   }
 
   .top-text {
@@ -1087,14 +1233,12 @@ ul {
     padding: 1.25rem;
     margin: 0.5rem 0rem 2.5rem 0rem;
     border-radius: 0.25rem;
-
   }
 
   .referral_benefit_wrapper {
     padding: 1.25rem;
     margin: 0.5rem 0rem 2.5rem 0rem;
     border-radius: 0.25rem;
-
   }
 
   .benefit_heading {
@@ -1150,7 +1294,6 @@ ul {
   .product-recommendation .left-group,
   .product-recommendation .right-group {
     width: 48%;
-
   }
 
   .buttom-image-wrapper .right-group {
@@ -1179,7 +1322,6 @@ ul {
 }
 
 @media only screen and (min-width: 1200px) {
-
   .top-segment {
     justify-content: space-between;
     margin-bottom: 5rem;
@@ -1348,9 +1490,8 @@ ul {
     padding: 1.25rem;
     margin: 0.5rem 0rem 2.5rem 0rem;
     width: 366.72px;
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 6.2025px;
-
   }
 
   // .referral_benefit_wrapper {
@@ -1424,7 +1565,6 @@ ul {
   .product-recommendation .left-group,
   .product-recommendation .right-group {
     width: 48%;
-
   }
 
   .buttom-image-wrapper .right-group {

@@ -9,6 +9,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { WindowRefService } from 'src/app/shared/services/window.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home-landing',
@@ -17,6 +18,8 @@ import { WindowRefService } from 'src/app/shared/services/window.service';
 })
 export class HomeLandingComponent implements AfterViewInit, OnInit {
   window: Window;
+  contactForm: FormGroup;
+  subjectSelect: FormControl = new FormControl(null);
   constructor(
     private http: HttpClient,
     private activeRoute: ActivatedRoute,
@@ -47,8 +50,25 @@ export class HomeLandingComponent implements AfterViewInit, OnInit {
   @ViewChild('container') container: ElementRef<HTMLElement>;
 
   ngOnInit() {
-    this.windowRefS.nativeWindow.document.body.scrollTop = 0;
-  this.window.document.documentElement.scrollTop = 0;
+    //   this.windowRefS.nativeWindow.document.body.scrollTop = 0;
+    // this.window.document.documentElement.scrollTop = 0;
+
+    this.contactForm = new FormGroup({
+      firstName: new FormControl(null, Validators.required),
+      lastName: new FormControl(null, Validators.required),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      phoneNumber: new FormControl(null, Validators.required),
+      subject: new FormControl(null, Validators.required),
+      message: new FormControl(null, Validators.required),
+    });
+
+    this.subjectSelect.valueChanges.subscribe((value) => {
+      if (value) {
+        this.contactForm.patchValue({
+          subject: value,
+        });
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -62,5 +82,15 @@ export class HomeLandingComponent implements AfterViewInit, OnInit {
         section?.scrollIntoView();
       }
     });
+  }
+
+  onSubmit() {
+    if (this.contactForm.invalid) {
+      console.log(1);
+
+      this.contactForm.markAllAsTouched();
+      return;
+    }
+    console.log(this.contactForm.value);
   }
 }
