@@ -43,10 +43,11 @@ export class SellerRegisterationFormComponent
   uploadWidget: any;
   uploadID: any;
   sellerRegFormGroup: FormGroup;
-  applicant: FormGroup;
   idCardTypes = ['NIN', 'BVN'];
   regSeller$: Subscription;
   user: any;
+  sellerApprovalStatus: string = 'pending';
+  rejectionReason: string = '';
 
   states = nigeriaSates.map((a) => a.name.toLowerCase());
   constructor(
@@ -109,6 +110,12 @@ export class SellerRegisterationFormComponent
     this.sellerS.getSellerById(this.user.id).subscribe((res) => {
       if (res.status === 'success') {
         const sellerData: ISeller = res.data;
+        this.sellerApprovalStatus = sellerData.sellerApprovalStatus;
+        if (this.sellerApprovalStatus === 'approved') {
+          this.router.navigate(['/seller/dashboard']);
+        }
+
+        console.log('SELLER DATA', sellerData);
         this.sellerRegFormGroup.patchValue(sellerData);
         this.image = sellerData.businessLogo;
       }
@@ -122,7 +129,6 @@ export class SellerRegisterationFormComponent
       businessAddress: ['', Validators.required],
       businessState: ['', Validators.required],
       businessRegistrationNumber: ['', Validators.required],
-      // businessType: [''],
       personalIDType: ['', Validators.required],
       personalIDNumber: [
         '',

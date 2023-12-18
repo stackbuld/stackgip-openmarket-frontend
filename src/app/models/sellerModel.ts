@@ -31,6 +31,7 @@ export interface ISeller {
     dateOfBirth: '10-10-string';
   };
   coverPhotoUrl?: 'string' | string;
+  sellerApprovalStatus: 'string';
 }
 
 export interface GetSeller extends ResponseModel {
