@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
+import { ProductModel } from 'src/app/models/products.model';
 
 @Component({
   selector: 'app-product-card',
@@ -9,7 +10,7 @@ import { AppLocalStorage } from 'src/app/helpers/local-storage';
   styleUrls: ['./product-card.component.scss'],
 })
 export class ProductCardComponent {
-  @Input() product: any;
+  @Input() product: ProductModel;
 
   constructor(private appLocal: AppLocalStorage, private router: Router) {}
 
@@ -21,5 +22,9 @@ export class ProductCardComponent {
 
   getImageResolution = (url: string, width: number, height: number) => {
     return ImageResolutionUtility.getImageResolution(url, width, height);
+  };
+
+  getVideoResolution = (url: string, width: number, height: number) => {
+    return ImageResolutionUtility.getVideoResolution(url, width, height);
   };
 }
