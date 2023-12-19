@@ -402,6 +402,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.sellerStoreService.createSellerStore(form).subscribe({
       next: (response: any) => {
         this.loading = false;
+        this.toastr.success('Store created successfully!');
         response.status == 'success' ? this.dialogRef.close(response) : null;
       },
       error: (err) => {

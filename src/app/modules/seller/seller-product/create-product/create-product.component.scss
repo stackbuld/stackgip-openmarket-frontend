@@ -49,9 +49,6 @@ p {
   margin: 0;
 }
 
-.input-sec {
-}
-
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   background-color: red;
 }
@@ -312,7 +309,13 @@ table {
 .video-container {
   margin-bottom: 10px;
 
-  .video {
+  & .video-main {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+
+  & .video {
     position: relative;
 
     &:not(:last-child) {
