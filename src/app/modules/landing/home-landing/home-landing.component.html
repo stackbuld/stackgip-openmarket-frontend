@@ -695,29 +695,6 @@
       </div>
     </section>
 
-    <!-- NEED HELP? -->
-    <!-- <section id="contact">
-      <div
-        style="
-          background: #000000;
-          border-radius: 20px;
-          margin: 4rem 0rem;
-          padding-bottom: 2.5rem;
-        "
-      >
-        <div class="features-wrapper">
-          <h2 class="features-heading" style="color: #ffffff">Need Help?</h2>
-          <div class="features-subtext" style="color: #ffffff">
-            Check our customer support page for complaints <br />
-            and refund policies.
-          </div>
-        </div>
-        <div class="mt-2 display-center">
-          <button class="ouline-button pointer">Contact Us</button>
-        </div>
-      </div>
-    </section> -->
-
     <section>
       <div class="contact-us">
         <div class="contact-us-main">
@@ -981,7 +958,10 @@
                 />
               </div>
 
-              <button type="submit">Send Message</button>
+              <button type="submit">
+                <span *ngIf="!isSending">Send Message</span>
+                <span class="loader" *ngIf="isSending"></span>
+              </button>
             </form>
           </div>
         </div>
