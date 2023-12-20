@@ -15,7 +15,7 @@
   background-color: #000000;
   color: #ffffff;
   border-radius: 10px;
-  padding: 30px;
+  padding: 30px 30px;
   margin-right: 20px;
   height: 100%;
 
@@ -43,7 +43,7 @@
       }
 
       & p {
-        margin-left: 20px;
+        margin-left: 10px;
         margin-bottom: 0;
       }
     }
@@ -132,6 +132,26 @@
     &:not(:last-child) {
       margin-bottom: 10px;
     }
+  }
+}
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 

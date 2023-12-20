@@ -10,6 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { WindowRefService } from 'src/app/shared/services/window.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { HomeService } from 'src/app/services/home/home.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-home-landing',
@@ -20,12 +22,14 @@ export class HomeLandingComponent implements AfterViewInit, OnInit {
   window: Window;
   contactForm: FormGroup;
   subjectSelect: FormControl = new FormControl(null);
+  isSending: boolean = false;
   constructor(
-    private http: HttpClient,
     private activeRoute: ActivatedRoute,
     private meta: Meta,
     private title: Title,
-    private windowRefS: WindowRefService
+    private windowRefS: WindowRefService,
+    private homeService: HomeService,
+    private toastr: ToastrService
   ) {
     this.meta.addTags([
       {
@@ -86,11 +90,21 @@ export class HomeLandingComponent implements AfterViewInit, OnInit {
 
   onSubmit() {
     if (this.contactForm.invalid) {
-      console.log(1);
-
       this.contactForm.markAllAsTouched();
       return;
     }
-    console.log(this.contactForm.value);
+
+    this.isSending = true;
+    this.homeService.sendContactUsRequest(this.contactForm.value).subscribe({
+      next: (res) => {
+        this.toastr.success('Message sent successfully!');
+        this.contactForm.reset();
+        this.isSending = false;
+      },
+      error: (err) => {
+        this.isSending = false;
+        this.toastr.success('Something went wrong!');
+      },
+    });
   }
 }
