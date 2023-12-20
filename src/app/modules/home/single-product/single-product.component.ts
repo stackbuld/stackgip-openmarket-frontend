@@ -50,6 +50,7 @@ export class SingleProductComponent implements OnInit {
   productId = null;
   product = null;
   loading: boolean;
+  loadingProductDescription: boolean;
   allVariationsList: any[] = [];
   sortedVariationsList: any[] = [];
   selectedVariations: any[] = [];
@@ -386,6 +387,7 @@ export class SingleProductComponent implements OnInit {
 
   getProductDetails = () => {
     this.loading = true;
+    this.loadingProductDescription = true;
     const productService$ = this.productService.getCachedProductById(
       this.productId
     );
@@ -393,6 +395,7 @@ export class SingleProductComponent implements OnInit {
       next: (res) => {
         this.isLoadingDetails = false;
         this.product = res.data;
+        this.loadingProductDescription = false;
         console.log('product in single cart', this.product);
         this.sellerStores = res.data?.sellerStores;
 
