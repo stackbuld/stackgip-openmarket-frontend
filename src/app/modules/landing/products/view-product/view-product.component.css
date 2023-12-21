@@ -261,6 +261,27 @@
   margin-left: 10px;
 }
 
+.video-container {
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+.video-heading {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.video-container .video-main {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+
+.video-container .video-main .video video {
+  height: 200px;
+  width: 100%;
+}
+
 @media screen and (max-width: 768px) {
   .w-30,
   .w-70 {
