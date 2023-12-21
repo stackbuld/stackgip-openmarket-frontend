@@ -25,6 +25,7 @@ export class ViewProductComponent implements OnInit {
   complimentartProducts: any[] = [];
   isFullDescription = false;
   hasFullDesc: boolean;
+  videoUrls: string[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -54,7 +55,7 @@ export class ViewProductComponent implements OnInit {
           this.loading = false;
 
           this.product = res.data;
-
+          this.videoUrls = res.data.videoUrls;
           this.previewImg = this.product.productImages[0];
           let variations = [];
 

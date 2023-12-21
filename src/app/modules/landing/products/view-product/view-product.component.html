@@ -52,6 +52,15 @@
     </div>
   </div>
 
+  <div class="video-container">
+    <div class="video-heading">Product Videos</div>
+    <div class="video-main" *ngIf="videoUrls.length > 0">
+      <div class="video" *ngFor="let video of videoUrls; let i = index">
+        <video [src]="video" height="75" controls></video>
+      </div>
+    </div>
+  </div>
+
   <div class="mt-5">
     <p class="gen-st mb-3">Order Summary</p>
     <div class="mobile-block uk-flex">
