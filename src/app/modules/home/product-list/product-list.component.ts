@@ -316,6 +316,7 @@ export class ProductListComponent implements OnInit {
           } else {
             this.products = [...this.products, ...data];
           }
+          console.log('THIRD ITEM', this.products[2]);
         },
         error: (err) => {
           this.loadingProducts = false;

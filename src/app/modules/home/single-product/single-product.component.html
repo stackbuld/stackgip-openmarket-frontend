@@ -7,43 +7,54 @@
     <div class="mobile-pad-1 left-section">
       <div class="product-images">
         <div class="product-image-main">
-          <div *ngIf="product.id === '5ac14020-ba6a-48e2-a200-8c0a475e395a'">
-            <video
-              src="https://yootheme.com/site/images/media/yootheme-pro.mp4"
-              width="637"
-              height="400"
-              controls
-              playsinline
-              uk-video
-            ></video>
-          </div>
-          <div *ngIf="product.id !== '5ac14020-ba6a-48e2-a200-8c0a475e395a'">
-            <swiper-container
-              thumbs-swiper=".swiper2"
-              [config]="swiperConfig"
-              pagination="true"
+          <swiper-container
+            thumbs-swiper=".swiper2"
+            [config]="swiperConfig"
+            pagination="true"
+          >
+            <swiper-slide
+              class="swiper"
+              *ngFor="let media of sliderMedia; let i = index"
             >
-              <swiper-slide
-                class="swiper"
-                *ngFor="let image of productImages; let i = index"
-              >
+              <ng-container *ngIf="media.isVideo">
+                <div class="video-test">
+                  <video
+                    src="{{ media.url }}"
+                    controls
+                    uk-video="autoplay: false, automute: true"
+                  ></video>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="media.isVideo == false">
                 <div
                   class="image-test"
-                  [ngStyle]="{ backgroundImage: 'url(' + image.image + ')' }"
+                  [ngStyle]="{ backgroundImage: 'url(' + media.url + ')' }"
                   (click)="showLightbox(i)"
                 ></div>
-              </swiper-slide>
-            </swiper-container>
-          </div>
+              </ng-container>
+            </swiper-slide>
+          </swiper-container>
         </div>
 
         <div class="product-image-slider">
           <swiper-container class="swiper2">
             <swiper-slide
               class="swiper-slide"
-              *ngFor="let image of productImages"
+              *ngFor="let media of sliderMedia; let i = index"
             >
-              <img [src]="image.image" alt="" class="thumb-image" />
+              <ng-container *ngIf="media.isVideo">
+                <video
+                  class="thumb-video"
+                  src="{{ media.url }}"
+                  width="80"
+                  height="80"
+                  controls
+                  uk-video="autoplay: false"
+                ></video>
+              </ng-container>
+              <ng-container *ngIf="media.isVideo == false">
+                <img [src]="media.url" alt="" class="thumb-image" />
+              </ng-container>
             </swiper-slide>
           </swiper-container>
         </div>
@@ -408,8 +419,10 @@
 
   <div class="mobile-pad-1 mt-3">
     <h2>Product Description</h2>
-    <p *ngIf="!loading">{{ product?.description || "N/A" }}</p>
-    <div *ngIf="loading" class="w-100">
+    <p *ngIf="!loadingProductDescription">
+      {{ product?.description || "N/A" }}
+    </p>
+    <div *ngIf="loadingProductDescription" class="w-100">
       <br />
       <ngx-shimmer-loading height="50px"></ngx-shimmer-loading>
     </div>

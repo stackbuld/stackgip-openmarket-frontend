@@ -68,7 +68,7 @@ export class SearchService implements ISearchService {
         productImages: product.productImages,
         unit: product.unit,
         userId: product.userId,
-        videoUrls: product.productVideos,
+        videoUrls: product.videoUrls,
       };
     });
     return results;
