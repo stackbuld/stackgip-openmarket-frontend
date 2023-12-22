@@ -1,7 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subscription, fromEvent, of } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
+
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { AuthService } from 'src/app/services/auth.service';
 import { OrderService } from 'src/app/services/order/order.service';
@@ -11,7 +27,9 @@ import { OrderService } from 'src/app/services/order/order.service';
   templateUrl: './order-management.component.html',
   styleUrls: ['./order-management.component.scss'],
 })
-export class OrderManagementComponent implements OnInit, OnDestroy {
+export class OrderManagementComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   cancelledTab = false;
   confirmedTab = false;
   newTab = false;
@@ -39,6 +57,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   overviewData: any;
   loadingOverviewData: boolean;
   orderActionTaken$: Subscription;
+  @ViewChild('orderSearch', { static: true }) searchQuery: ElementRef;
 
   constructor(
     private orderService: OrderService,
@@ -63,6 +82,10 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngAfterViewInit(): void {
+    this.getSearch();
+  }
+
   getDashboardOverview = () => {
     this.loadingOverviewData = true;
     this.orderService.getOrderDashboardOverview(this.sellerId).subscribe(
@@ -81,6 +104,43 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.router.navigate([`seller/orders/detail/${item.id}`]);
   }
 
+  getSearch() {
+    fromEvent(this.searchQuery.nativeElement, 'keyup')
+      .pipe(
+        tap(() => {
+          this.loadingOrders = true;
+        }),
+        filter(Boolean),
+        debounceTime(300),
+        distinctUntilChanged(),
+        map((data) => this.searchQuery.nativeElement.value.toLowerCase()),
+        switchMap((searchValue: any) => {
+          console.log(searchValue);
+
+          this.search = searchValue;
+          // this.fetchAllOrders(this.defaultPage);
+          return this.orderService.fetchAllOrders(
+            1,
+            this.maximumItem,
+            this.sellerId,
+            this.buyerId,
+            this.paymentReferenceId,
+            this.type,
+            this.startDate,
+            this.endDate,
+            this.dateType,
+            this.orderStatus,
+            this.deliveryStatus,
+            this.paymentStatus,
+            this.search
+          );
+        })
+      )
+      .subscribe((data) => {
+        console.log(data);
+      });
+  }
+
   filterOrders = (e: any) => {
     if (e.target.value === 'custom') {
       this.isCustomDate = true;
@@ -95,7 +155,11 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   };
 
   searchOrders = () => {
-    this.fetchAllOrders(this.defaultPage);
+    if (this.search !== '') {
+      console.log(this.search);
+
+      this.fetchAllOrders(this.defaultPage);
+    }
   };
 
   customFilter = () => {
@@ -124,7 +188,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.switchTabs('newTab');
   };
 
-  fetchAllOrders = (pageNumber: any) => {
+  fetchAllOrders = (pageNumber: number) => {
     this.loadingOrders = true;
     this.orders = [];
     this.orderService

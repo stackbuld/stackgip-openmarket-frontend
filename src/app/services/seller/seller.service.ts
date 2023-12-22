@@ -30,6 +30,7 @@ export class SellerService {
   phoneNumberConfirmed = new Subject<boolean>();
   businessPhoneConfirmed = new Subject<boolean>();
   isSellerActivated = new Subject<boolean>();
+  newProfilePicture = new Subject<string>();
 
   constructor(
     private reqS: RequestService,
