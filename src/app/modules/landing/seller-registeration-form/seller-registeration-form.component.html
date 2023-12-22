@@ -47,7 +47,7 @@
             <!-- Rejected -->
             <div
               *ngIf="sellerApprovalStatus == 'rejected'"
-              class="d-flex flex-column p-3"
+              class="d-flex flex-column p-3 rounded"
               [ngStyle]="{
                 color: '#ED1832',
                 'background-color': '#FBEAEA'
@@ -72,7 +72,7 @@
             <!-- Pending -->
             <div
               *ngIf="sellerApprovalStatus == 'pending'"
-              class="d-flex flex-column p-3"
+              class="d-flex flex-column p-3 rounded"
               [ngStyle]="{
                 color: '#1847ED',
                 'background-color': '#ECEEFC'
@@ -87,7 +87,7 @@
             <!-- Approved -->
             <div
               *ngIf="sellerApprovalStatus == 'approved'"
-              class="d-flex flex-column p-3"
+              class="d-flex flex-column p-3 rounded"
               [ngStyle]="{
                 color: '#04901A',
                 'background-color': '#F0FEF1'
