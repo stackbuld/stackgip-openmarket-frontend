@@ -54,9 +54,14 @@ export class SidebarHeaderDisplayComponent
   ngOnInit(): void {
     this.userId = this.authService.getLoggedInUser().id;
 
-    this.userProfilePicture = localStorage.getItem('profilePicUrl')
-      ? localStorage.getItem('profilePicUrl')
-      : 'assets/image/default-profile-picture-3.png';
+    if (this.authService.getLoggedInUser().profileImageUrl) {
+      this.userProfilePicture =
+        this.authService.getLoggedInUser().profileImageUrl;
+    } else {
+      this.userProfilePicture = localStorage.getItem('profilePicUrl')
+        ? localStorage.getItem('profilePicUrl')
+        : 'assets/image/default-profile-picture-3.png';
+    }
 
     this.profilePictureSub = this.sellerService.newProfilePicture.subscribe(
       (value) => (this.userProfilePicture = value)
