@@ -209,8 +209,6 @@ export class OrderManagementComponent
       )
       .subscribe({
         next: (res) => {
-          console.log(res.data);
-
           this.orders = res.data.data;
           this.pageNumber = res.data.pager.pageNumber;
           this.totalItemCount = res.data.pager.totalItemCount;
