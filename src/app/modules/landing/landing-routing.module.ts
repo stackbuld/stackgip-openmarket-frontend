@@ -23,29 +23,39 @@ import { AuthGuard } from 'src/app/guard/auth.guard';
 import { OrderComponent } from './order/order.component';
 
 const routes: Routes = [
-    { path: '', component: LandingComponent, 
-      children: [
-        { path: '', component: HomeLandingComponent},
-        { path: 'learn-more', component: HomeLandingComponent},
-        { path: 'ourservices', component: OurservicesComponent },
-        { path: 'private-policy', component: PrivatePolicyComponent },
-        { path: 'seller-agreement', component: SellerAgreementComponent },
-        { path: 'terms', component: TermsComponent },
-        { path: 'faqs', component: FaqsComponent },
-        { path: 'contact', component: ContactComponent },
-        { path: 'features', component: FeaturesComponent },
-        { path: 'market-place', component: MarketPlaceComponent },
-        { path: 'wait-list', component: JoinWaitlistComponent },
-        { path: 'join', component: SuccessModalComponent },
-        { path: 'cart', component: CartComponent },
-        { path: 'checkout', component: CheckoutComponent },
-        { path: 'home', component: IndexComponent },
-        { path: 'products', component: ListProductComponent },
-        { path: 'seller-form', component: SellerRegisterationFormComponent},
-        { path: 'orders', component: OrderComponent, canActivate: [AuthGuard] },
-        { path: 'order/:id', component: OrderInvoiceComponent, canActivate: [AuthGuard] },
-      ]
-    },
+  {
+    path: '',
+    component: LandingComponent,
+    children: [
+      { path: '', component: HomeLandingComponent },
+      { path: 'learn-more', component: HomeLandingComponent },
+      { path: 'ourservices', component: OurservicesComponent },
+      { path: 'private-policy', component: PrivatePolicyComponent },
+      { path: 'seller-agreement', component: SellerAgreementComponent },
+      { path: 'terms', component: TermsComponent },
+      { path: 'faqs', component: FaqsComponent },
+      { path: 'contact', component: ContactComponent },
+      { path: 'features', component: FeaturesComponent },
+      { path: 'market-place', component: MarketPlaceComponent },
+      { path: 'wait-list', component: JoinWaitlistComponent },
+      { path: 'join', component: SuccessModalComponent },
+      { path: 'cart', component: CartComponent },
+      { path: 'checkout', component: CheckoutComponent },
+      { path: 'home', component: IndexComponent },
+      { path: 'products', component: ListProductComponent },
+      {
+        path: 'seller-form',
+        component: SellerRegisterationFormComponent,
+        canActivate: [AuthGuard],
+      },
+      { path: 'orders', component: OrderComponent, canActivate: [AuthGuard] },
+      {
+        path: 'order/:id',
+        component: OrderInvoiceComponent,
+        canActivate: [AuthGuard],
+      },
+    ],
+  },
 ];
 
 @NgModule({

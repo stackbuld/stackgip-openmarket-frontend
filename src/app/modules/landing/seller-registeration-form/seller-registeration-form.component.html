@@ -47,46 +47,56 @@
             <!-- Rejected -->
             <div
               *ngIf="sellerApprovalStatus == 'rejected'"
-              class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center align-items-md-start"
+              class="d-flex flex-column p-3"
+              [ngStyle]="{
+                color: '#ED1832',
+                'background-color': '#FBEAEA'
+              }"
             >
-              <button mat-raised-button color="warn">Rejected</button>
               <div class="d-flex flex-column">
                 <p>
                   We're unable to verify your submission. Please check your
                   details and re-submit.
                 </p>
-                <p>
-                  {{ rejectionReason }}
-                </p>
+                <a
+                  [ngStyle]="{
+                    color: '#E78B8B'
+                  }"
+                  routerLink="/homepage/seller-store/{{ user.id }}"
+                >
+                  Click to go back to dashboard
+                </a>
               </div>
             </div>
 
             <!-- Pending -->
             <div
               *ngIf="sellerApprovalStatus == 'pending'"
-              class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center align-items-md-start"
+              class="d-flex flex-column p-3"
+              [ngStyle]="{
+                color: '#1847ED',
+                'background-color': '#ECEEFC'
+              }"
             >
-              <button mat-raised-button color="primary">Pending</button>
-              <div class="d-flex flex-column">
-                <p>
-                  Your submission is being reviewed. You can visit your store to
-                  add products.
-                </p>
-                <a
-                  mat-raised-button
-                  routerLink="/homepage/seller-store/{{ user.id }}"
-                >
-                  Visit Store
-                </a>
-              </div>
+              <p>Your submission is being reviewed.</p>
+              <a routerLink="/homepage/seller-store/{{ user.id }}">
+                Click to go back to dashboard
+              </a>
             </div>
 
             <!-- Approved -->
             <div
               *ngIf="sellerApprovalStatus == 'approved'"
-              class="d-flex justify-content-center align-items-center"
+              class="d-flex flex-column p-3"
+              [ngStyle]="{
+                color: '#04901A',
+                'background-color': '#F0FEF1'
+              }"
             >
-              <button mat-raised-button color="primary">Approved</button>
+              <p>Your submission has been approved</p>
+              <a routerLink="/homepage/seller-store/{{ user.id }}">
+                Click to go back to dashboard
+              </a>
             </div>
 
             <!-- --------------------------------------- -->
