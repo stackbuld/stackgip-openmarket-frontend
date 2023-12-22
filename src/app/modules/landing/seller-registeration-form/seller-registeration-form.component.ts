@@ -46,7 +46,7 @@ export class SellerRegisterationFormComponent
   idCardTypes = ['NIN', 'BVN'];
   regSeller$: Subscription;
   user: any;
-  sellerApprovalStatus: string = 'pending';
+  sellerApprovalStatus: string = '';
   rejectionReason: string = '';
 
   states = nigeriaSates.map((a) => a.name.toLowerCase());
@@ -60,7 +60,6 @@ export class SellerRegisterationFormComponent
   ) {}
 
   ngOnInit(): void {
-    console.log(countryCodes);
     this.authService.isLogin.subscribe((a) => {
       if (a) {
         this.user = JSON.parse(localStorage.getItem('user')) as IUser;
@@ -107,7 +106,7 @@ export class SellerRegisterationFormComponent
   };
 
   initializeFormWithSellerDetails() {
-    this.sellerS.getSellerById(this.user.id).subscribe((res) => {
+    this.sellerS.getSellerById(this.user?.id).subscribe((res) => {
       if (res.status === 'success') {
         const sellerData: ISeller = res.data;
         this.sellerApprovalStatus = sellerData.sellerApprovalStatus;

@@ -408,7 +408,7 @@ export class SingleProductComponent implements OnInit {
           this.sliderMedia.push({ isVideo: false, url: image });
         });
         this.videoUrls = this.product.videoUrls;
-        if (this.product.videoUrls.length > 0) {
+        if (this.product.videoUrls) {
           this.product.videoUrls.forEach((video) => {
             this.sliderMedia.unshift({ isVideo: true, url: video });
           });

@@ -38,6 +38,7 @@ export class SidebarHeaderDisplayComponent
   isFetching: boolean = false;
   clearSearchInput$: Subscription;
   isTyping: boolean = false;
+  profilePictureSub: Subscription;
 
   constructor(
     private router: Router,
@@ -52,15 +53,19 @@ export class SidebarHeaderDisplayComponent
 
   ngOnInit(): void {
     this.userId = this.authService.getLoggedInUser().id;
-    this.userProfilePicture =
-      localStorage.getItem('profilePicUrl') ||
-      'assets/image/default-profile-picture-3.png';
-    this.sellerService.getSeller(this.userId).subscribe({
-      next: (data) => {
-        this.userProfilePicture = data.data.profileImageUrl;
-        localStorage.setItem('profilePicUrl', this.userProfilePicture);
-      },
-    });
+
+    if (this.authService.getLoggedInUser().profileImageUrl) {
+      this.userProfilePicture =
+        this.authService.getLoggedInUser().profileImageUrl;
+    } else {
+      this.userProfilePicture = localStorage.getItem('profilePicUrl')
+        ? localStorage.getItem('profilePicUrl')
+        : 'assets/image/default-profile-picture-3.png';
+    }
+
+    this.profilePictureSub = this.sellerService.newProfilePicture.subscribe(
+      (value) => (this.userProfilePicture = value)
+    );
 
     this.searchInput = new FormControl(null);
 
@@ -120,6 +125,10 @@ export class SidebarHeaderDisplayComponent
   ngOnDestroy(): void {
     if (this.clearSearchInput$) {
       this.clearSearchInput$.unsubscribe();
+    }
+
+    if (this.profilePictureSub) {
+      this.profilePictureSub.unsubscribe();
     }
   }
 }
