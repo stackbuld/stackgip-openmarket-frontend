@@ -46,7 +46,6 @@ const routes: Routes = [
       {
         path: 'seller-form',
         component: SellerRegisterationFormComponent,
-        canActivate: [AuthGuard],
       },
       { path: 'orders', component: OrderComponent, canActivate: [AuthGuard] },
       {
