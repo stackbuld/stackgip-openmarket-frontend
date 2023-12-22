@@ -124,8 +124,6 @@ export class OrderService {
     const actualDate = momentObj.format('YYYY-MM-DD');
     const actualTime = momentObj.format('HH:mm:ss');
 
-    console.log(`Actual Date: ${actualDate}, Actual Time: ${actualTime}`);
-
     return isoString;
   }
 
