@@ -46,7 +46,7 @@
 
             <!-- Rejected -->
             <div
-              *ngIf="sellerApprovalStatus == 'rejected'"
+              *ngIf="sellerApprovalStatus == 'failed'"
               class="d-flex flex-column p-3 rounded"
               [ngStyle]="{
                 color: '#ED1832',
@@ -57,6 +57,9 @@
                 <p>
                   We're unable to verify your submission. Please check your
                   details and re-submit.
+                </p>
+                <p>
+                  Rejection reason: <i>{{ rejectionReason }}</i>
                 </p>
                 <a
                   [ngStyle]="{
@@ -78,15 +81,18 @@
                 'background-color': '#ECEEFC'
               }"
             >
-              <p>Your submission is being reviewed.</p>
-              <a routerLink="/seller/dashboard">
-                Click to go back to dashboard
+              <p>
+                We're currently verifying your info, you can visit your store to
+                add products.
+              </p>
+              <a routerLink="/homepage/seller-store/{{ user.id }}">
+                Visit store
               </a>
             </div>
 
             <!-- Approved -->
             <div
-              *ngIf="sellerApprovalStatus == 'approved'"
+              *ngIf="sellerApprovalStatus === 'approved'"
               class="d-flex flex-column p-3 rounded"
               [ngStyle]="{
                 color: '#04901A',
@@ -94,7 +100,12 @@
               }"
             >
               <p>Your submission has been approved</p>
-              <a routerLink="/homepage/seller-store/{{ user.id }}">
+              <a
+                [ngStyle]="{
+                  color: '#73CA79'
+                }"
+                routerLink="/homepage/seller-store/{{ user.id }}"
+              >
                 Click to go back to dashboard
               </a>
             </div>
