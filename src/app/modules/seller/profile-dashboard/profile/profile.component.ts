@@ -199,6 +199,8 @@ export class ProfileComponent implements OnInit {
 
           this.profilePhotoUrl = result.info.secure_url;
 
+          this.sellerService.newProfilePicture.next(this.profilePhotoUrl);
+          localStorage.setItem('profilePicUrl', this.profilePhotoUrl);
           this.sellerService
             .updateSellerPersonalProfile({
               ...this.specificUserData,

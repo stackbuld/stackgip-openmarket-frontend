@@ -3,7 +3,10 @@ import { SellerStores } from 'src/app/models/StoreModels';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { HelperService } from 'src/app/shared/services/helper.service';
 import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
-import { CreateProductResponse } from '../../../../models/products.model';
+import {
+  CreateProductResponse,
+  SellerStore,
+} from '../../../../models/products.model';
 import { SellerStoreCreateDialogComponent } from '../seller-store-create-dialog/seller-store-create-dialog.component';
 
 @Component({
@@ -82,6 +85,8 @@ export class SellerStoreComponent implements OnInit {
       .getSellerstores(this.helperService.getLoggedInUserId())
       .subscribe((sellerStores) => {
         this.sellerStores = sellerStores;
+        console.log(this.sellerStores);
+
         this.isLoading = false;
       });
   }
