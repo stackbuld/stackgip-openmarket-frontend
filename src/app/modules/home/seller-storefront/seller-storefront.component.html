@@ -4,7 +4,7 @@
       <ul class="uk-breadcrumb">
         <li><a routerLink="/">Home</a></li>
         <li>
-          <a routerLink="/homepage/seller-store">
+          <a routerLink="/homepage/seller-store/{{ sellerId }}">
             <span *ngIf="loadingData">Loading...</span>
             <span *ngIf="!loadingData">
               {{ sellerStorefrontDetails?.businessName || null }}
