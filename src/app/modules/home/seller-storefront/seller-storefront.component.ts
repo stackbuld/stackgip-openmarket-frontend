@@ -42,6 +42,7 @@ export class SellerStorefrontComponent implements OnInit {
       .getSellerStorefrontDetails(this.sellerId)
       .subscribe((data) => {
         this.sellerStorefrontDetails = data.data;
+
         /* The code snippet is assigning a value to the `bannerImgUrl` property based on the value of
         `sellerStorefrontDetails.coverPhotoUrl`. */
         this.bannerImgUrl =
@@ -63,7 +64,6 @@ export class SellerStorefrontComponent implements OnInit {
         );
         this.logoImgUrl = this.getImageResolution(this.logoImgUrl, 300, 300);
         this.loadingData = false;
-        console.log('SELLER STOREFRONT DETAILS', data);
       });
   }
 

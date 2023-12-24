@@ -40,11 +40,17 @@
             *ngIf="sellerStore.isDefault == true; else setAsDefaultTemplate"
           >
             <p>
-              <em class="text-success"> Default Store </em>
+              <em
+                class="text-success"
+                style="cursor: pointer"
+                (click)="onEdit(sellerStore, false)"
+              >
+                Default Store
+              </em>
             </p>
           </ng-container>
           <ng-template #setAsDefaultTemplate>
-            <p (click)="onEdit(sellerStore)">
+            <p (click)="onEdit(sellerStore, true)">
               <em class="text-warning" style="cursor: pointer">
                 Set As Default
               </em>
