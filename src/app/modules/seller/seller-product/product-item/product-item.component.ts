@@ -161,18 +161,19 @@ export class ProductItemComponent implements OnInit {
         this.byAscending,
         productStatus
       )
-      .subscribe(
-        (productDetail) => {
+      .subscribe({
+        next: (productDetail) => {
           this.loading = false;
           this.productDetails = productDetail.data.data;
+          console.log(this.productDetails);
 
           this.pageNumber = productDetail.data.pager.pageNumber;
           this.totalItemCount = productDetail.data.pager.totalItemCount;
         },
-        (error) => {
+        error: (error) => {
           this.loading = false;
-        }
-      );
+        },
+      });
   }
 
   onSearch(data): void {

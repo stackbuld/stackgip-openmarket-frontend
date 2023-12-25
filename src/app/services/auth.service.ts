@@ -34,6 +34,7 @@ import { JwtHelperService } from './jwt-helper.service';
 import { ToastrService } from 'ngx-toastr';
 import uikit from 'uikit';
 import { AppLocalStorage } from '../helpers/local-storage';
+import { H } from 'highlight.run';
 
 export interface IAuth {
   isLoggedId: boolean;
@@ -490,5 +491,11 @@ export class AuthService {
     }
     this.isLogin.next(true);
     this.SetAuthLocalStorage(res);
+
+    H.identify(res?.email, {
+      id: res?.id,
+      firstName: res?.firstName,
+      lastName: res?.lastName,
+    });
   }
 }

@@ -21,15 +21,13 @@ import { ToastrService } from 'src/app/services/toastr.service';
 import { LocationStrategy } from '@angular/common';
 import { countryCodes } from '../../../data/countryCodes';
 import { Router } from '@angular/router';
-import {AuthService} from '../../../services/auth.service';
-
+import { AuthService } from '../../../services/auth.service';
 
 declare var cloudinary: any;
 @Component({
   selector: 'app-seller-registeration-form',
   templateUrl: './seller-registeration-form.component.html',
   styleUrls: ['./seller-registeration-form.component.css'],
-  
 })
 export class SellerRegisterationFormComponent
   implements OnInit, AfterViewChecked, OnDestroy
@@ -45,10 +43,11 @@ export class SellerRegisterationFormComponent
   uploadWidget: any;
   uploadID: any;
   sellerRegFormGroup: FormGroup;
-  applicant: FormGroup;
   idCardTypes = ['NIN', 'BVN'];
   regSeller$: Subscription;
   user: any;
+  sellerApprovalStatus: string = '';
+  rejectionReason: string = '';
 
   states = nigeriaSates.map((a) => a.name.toLowerCase());
   constructor(
@@ -61,18 +60,16 @@ export class SellerRegisterationFormComponent
   ) {}
 
   ngOnInit(): void {
-
-    console.log(countryCodes)
-    this.authService.isLogin.subscribe(a=> {
-      if(a){
+    this.authService.isLogin.subscribe((a) => {
+      if (a) {
         this.user = JSON.parse(localStorage.getItem('user')) as IUser;
+        this.initializeFormWithSellerDetails();
+        console.log('USER IN SELLER FORM', this.user);
       }
-    })
-
+    });
 
     this.sellerRegForm();
     this.setBusinessCategoryValidators();
-
 
     this.uploadWidget = cloudinary.createUploadWidget(
       {
@@ -108,6 +105,29 @@ export class SellerRegisterationFormComponent
     this.locationStrategy.back();
   };
 
+  initializeFormWithSellerDetails() {
+    this.sellerS.getSellerById(this.user?.id).subscribe((res) => {
+      if (res.status === 'success') {
+        const sellerData: ISeller = res.data;
+        this.sellerApprovalStatus = sellerData.sellerApprovalStatus;
+        this.rejectionReason = sellerData.rejectionReason;
+        if (this.sellerApprovalStatus === 'approved') {
+          this.router.navigate(['/seller/dashboard']);
+        }
+
+        console.log('SELLER DATA', sellerData);
+        this.sellerRegFormGroup.patchValue(sellerData);
+        this.sellerRegFormGroup.patchValue({
+          lga: sellerData.userLga,
+          personalIDNumber: sellerData.idVerificationNumber,
+          personalIDType: sellerData.idVerificationType,
+          landmark: sellerData.userAddressLandMark,
+        });
+        this.image = sellerData.businessLogo;
+      }
+    });
+  }
+
   sellerRegForm(): void {
     this.sellerRegFormGroup = this.fb.group({
       businessName: ['', Validators.required],
@@ -115,9 +135,15 @@ export class SellerRegisterationFormComponent
       businessAddress: ['', Validators.required],
       businessState: ['', Validators.required],
       businessRegistrationNumber: ['', Validators.required],
-      // businessType: [''],
       personalIDType: ['', Validators.required],
-      personalIDNumber: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+      personalIDNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(11),
+          Validators.maxLength(11),
+        ],
+      ],
       landmark: [''],
       lga: ['', Validators.required],
       dateOfBirth: ['', Validators.required],
@@ -151,14 +177,15 @@ export class SellerRegisterationFormComponent
   submit() {
     // console.log(this.sellerRegFormGroup)
     // return;
-    if(!this.user?.id){
+    if (!this.user?.id) {
       this.authService.showSharedLoginModal();
       return;
     }
     const payload = {
       userId: this.user.id,
       businessName: this.sellerRegFormGroup.get('businessName')?.value,
-      businessDescription: this.sellerRegFormGroup.get('businessDescription')?.value,
+      businessDescription: this.sellerRegFormGroup.get('businessDescription')
+        ?.value,
       businessAddress: this.sellerRegFormGroup.get('businessAddress')?.value,
       state: this.sellerRegFormGroup.get('businessState')?.value,
       businessRegistrationNumber:
@@ -170,21 +197,27 @@ export class SellerRegisterationFormComponent
       lga: this.sellerRegFormGroup.get('lga')?.value,
       landmark: this.sellerRegFormGroup.get('landmark')?.value,
       street: this.sellerRegFormGroup.get('businessAddress')?.value,
-      isBusinessRegistered: this.sellerRegFormGroup.get('isBusinessRegistered')?.value,
+      isBusinessRegistered: this.sellerRegFormGroup.get('isBusinessRegistered')
+        ?.value,
       applicant: {
         idType: this.sellerRegFormGroup.get('personalIDType')?.value,
         idNumber: this.sellerRegFormGroup.get('personalIDNumber')?.value,
         dateOfBirth: new Date(
           this.sellerRegFormGroup.get('dateOfBirth')?.value
         ).toISOString(),
-        ...(this.sellerRegFormGroup.get('personalIDType')?.value === "NIN" && ({idUrl: this.imageID}))
+        ...(this.sellerRegFormGroup.get('personalIDType')?.value === 'NIN' && {
+          idUrl: this.imageID,
+        }),
       },
     };
 
-    if (this.sellerRegFormGroup.get('personalIDType')?.value === "NIN" && !this.imageID) {
+    if (
+      this.sellerRegFormGroup.get('personalIDType')?.value === 'NIN' &&
+      !this.imageID
+    ) {
       this.toast.error('NIN slip image is required');
       return;
-    }else {
+    } else {
       this.isLoading = true;
 
       this.regSeller$ = this.sellerS.registerSeller(payload).subscribe(
@@ -193,7 +226,7 @@ export class SellerRegisterationFormComponent
             this.isLoading = false;
             this.toast.success('Registeration successfully submited');
             // this.closeModal(true);
-            uikit.modal("#confirm-seller-register").show();
+            uikit.modal('#confirm-seller-register').show();
             this.router.navigate(['/seller/dashboard']);
           }
         },
@@ -203,8 +236,6 @@ export class SellerRegisterationFormComponent
         }
       );
     }
-
-    
 
     // this.isLoading = true;
     // this.regSeller$ = this.sellerS.registerSeller(sellerData).subscribe(
@@ -253,7 +284,6 @@ export class SellerRegisterationFormComponent
     uikit.modal('#seller-modal-full').hide();
   }
 
- 
   upload(): void {
     this.uploadWidget.open();
   }
@@ -280,7 +310,8 @@ export class SellerRegisterationFormComponent
     // );
 
     this.sellerRegFormGroup
-      .get('isBusinessRegistered')?.valueChanges.subscribe((isBusinessRegistered) => {
+      .get('isBusinessRegistered')
+      ?.valueChanges.subscribe((isBusinessRegistered) => {
         if (isBusinessRegistered === 'true') {
           businessRegNumberControl?.setValidators([Validators.required]);
           // businessApplicantAddressControl.setValidators(null);

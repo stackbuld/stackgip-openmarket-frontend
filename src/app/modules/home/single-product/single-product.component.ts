@@ -50,6 +50,7 @@ export class SingleProductComponent implements OnInit {
   productId = null;
   product = null;
   loading: boolean;
+  loadingProductDescription: boolean;
   allVariationsList: any[] = [];
   sortedVariationsList: any[] = [];
   selectedVariations: any[] = [];
@@ -129,6 +130,9 @@ export class SingleProductComponent implements OnInit {
   isGoogleAddressSelected: boolean = false;
   isShippingMethodFetched: boolean = false;
 
+  sliderMedia: object[] = [];
+  videoUrls: string[] = [];
+
   constructor(
     private toastService: ToastrService,
     private activatedRoute: ActivatedRoute,
@@ -207,10 +211,6 @@ export class SingleProductComponent implements OnInit {
       }
     });
   }
-
-  goToStoreFront = (id: string) => {
-    this.router.navigate([`/homepage/storefront/${this.user.id}`]);
-  };
 
   setUserAddress() {
     if (localStorage.getItem('shippingAddress')) {
@@ -371,6 +371,7 @@ export class SingleProductComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       this.productId = params.id;
       this.getProductDetails();
+      console.log('slider items', this.sliderMedia);
     });
   };
 
@@ -386,6 +387,7 @@ export class SingleProductComponent implements OnInit {
 
   getProductDetails = () => {
     this.loading = true;
+    this.loadingProductDescription = true;
     const productService$ = this.productService.getCachedProductById(
       this.productId
     );
@@ -393,6 +395,7 @@ export class SingleProductComponent implements OnInit {
       next: (res) => {
         this.isLoadingDetails = false;
         this.product = res.data;
+        this.loadingProductDescription = false;
         console.log('product in single cart', this.product);
         this.sellerStores = res.data?.sellerStores;
 
@@ -402,7 +405,16 @@ export class SingleProductComponent implements OnInit {
 
         this.product.productImages.forEach((image) => {
           this.productImages.push({ image: image });
+          this.sliderMedia.push({ isVideo: false, url: image });
         });
+        this.videoUrls = this.product.videoUrls;
+        if (this.product.videoUrls) {
+          this.product.videoUrls.forEach((video) => {
+            this.sliderMedia.unshift({ isVideo: true, url: video });
+          });
+        }
+
+        console.log('slider media', this.sliderMedia);
 
         this.productUnit = res.data.unit;
 

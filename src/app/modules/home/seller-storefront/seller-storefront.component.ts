@@ -15,8 +15,13 @@ export class SellerStorefrontComponent implements OnInit {
   activeTab: string = 'products'; // default tab
   sellerId: string = '';
   loadingData: boolean = true;
+  bannerImgUrl: string = '';
+  logoImgUrl: string = '';
 
-  tempVariable: string;
+  defaultBannerUrl: string =
+    'https://res.cloudinary.com/dbmgmudf0/image/upload/v1702892561/seller-store-default_eptfpw.jpg';
+  defaultLogoImgUrl: string =
+    'https://res.cloudinary.com/dbmgmudf0/image/upload/v1702892615/store-logo_isqyts.png';
 
   sellerStorefrontDetails: ISeller;
   // productsDiv = document.querySelector('.products');
@@ -37,13 +42,28 @@ export class SellerStorefrontComponent implements OnInit {
       .getSellerStorefrontDetails(this.sellerId)
       .subscribe((data) => {
         this.sellerStorefrontDetails = data.data;
-        this.tempVariable =
+
+        /* The code snippet is assigning a value to the `bannerImgUrl` property based on the value of
+        `sellerStorefrontDetails.coverPhotoUrl`. */
+        this.bannerImgUrl =
           !this.sellerStorefrontDetails.coverPhotoUrl ||
           this.sellerStorefrontDetails.coverPhotoUrl === 'string'
-            ? 'assets/img/general-store.jpg'
+            ? this.defaultBannerUrl
             : this.sellerStorefrontDetails.coverPhotoUrl;
+        /* The code snippet is assigning a value to the `logoImgUrl` property based on the value of
+        `sellerStorefrontDetails.businessLogoUrl`. */
+        this.logoImgUrl = !this.sellerStorefrontDetails.businessLogoUrl
+          ? this.defaultLogoImgUrl
+          : this.sellerStorefrontDetails.businessLogoUrl;
+        /* The code snippet is calling the `getImageResolution` method to modify the `bannerImgUrl` and
+        `logoImgUrl` properties. */
+        this.bannerImgUrl = this.getImageResolution(
+          this.bannerImgUrl,
+          1200,
+          300
+        );
+        this.logoImgUrl = this.getImageResolution(this.logoImgUrl, 300, 300);
         this.loadingData = false;
-        console.log('SELLER STOREFRONT DETAILS', data);
       });
   }
 

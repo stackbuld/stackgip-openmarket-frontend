@@ -12,6 +12,21 @@
   margin-right: 10px;
 }
 
+.item-variations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.color-tag {
+  padding: 0.5rem 1rem;
+  border: 1px solid black;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
 .main-img {
   background: #f6f6fd;
   border: 0.4px solid #bdbdbd;
@@ -244,6 +259,27 @@
 .w-70 {
   width: 60%;
   margin-left: 10px;
+}
+
+.video-container {
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+.video-heading {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.video-container .video-main {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+
+.video-container .video-main .video video {
+  height: 200px;
+  width: 100%;
 }
 
 @media screen and (max-width: 768px) {

@@ -168,14 +168,6 @@ export class ProductListComponent implements OnInit {
       this.maxValue = Number(maxPrice);
       currentParamsObj['maxPrice'] = this.maxValue;
     }
-
-    this.router.navigate(['/homepage/search'], {
-      queryParams: {
-        ...currentParamsObj,
-      },
-      queryParamsHandling: 'merge',
-    });
-
     return currentParamsObj;
   }
 
@@ -258,6 +250,17 @@ export class ProductListComponent implements OnInit {
     this.minValue = 1;
     this.maxValue = 500000;
     this.fetchAllProducts(0);
+    const queryParams = { ...this.route.snapshot.queryParams };
+    queryParams.category = null;
+    queryParams.city = null;
+    queryParams.state = null;
+    queryParams.minPrice = null;
+    queryParams.maxPrice = null;
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: 'merge',
+    });
   };
 
   resetProductsByCategory = () => {
@@ -313,6 +316,7 @@ export class ProductListComponent implements OnInit {
           } else {
             this.products = [...this.products, ...data];
           }
+          console.log('THIRD ITEM', this.products[2]);
         },
         error: (err) => {
           this.loadingProducts = false;
@@ -386,22 +390,34 @@ export class ProductListComponent implements OnInit {
     if (!this.isCategorySearchFocused) {
       this.fetchCategories();
     }
+    this.router.navigate([], {
+      queryParams: { category },
+      queryParamsHandling: 'merge',
+    });
   }
 
-  filterProductsByCity(item: string) {
-    this.cityName = item;
+  filterProductsByCity(city: string) {
+    this.cityName = city;
     this.fetchAllProducts(0);
     if (!this.isCitySearchFocused) {
       this.fetchCities();
     }
+    this.router.navigate([], {
+      queryParams: { city },
+      queryParamsHandling: 'merge',
+    });
   }
 
-  filterProductsByState(item: string) {
-    this.stateName = item;
+  filterProductsByState(state: string) {
+    this.stateName = state;
     this.fetchAllProducts(0);
     if (!this.isStateSearchFocused) {
       this.fetchStates();
     }
+    this.router.navigate([], {
+      queryParams: { state },
+      queryParamsHandling: 'merge',
+    });
   }
 
   setColumn(e: any) {

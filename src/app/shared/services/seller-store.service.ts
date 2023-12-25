@@ -27,19 +27,33 @@ export class SellerStoreService {
   defaultAvailability: StoreAvailability[] = [
     {
       dayOfWeek: 'Monday',
-      openingTime: '09:00',
-      closingTime: '18:00',
+      openingTime: '08:00',
+      closingTime: '16:00',
     },
-
+    {
+      dayOfWeek: 'Tuesday',
+      openingTime: '08:00',
+      closingTime: '16:00',
+    },
+    {
+      dayOfWeek: 'Wednesday',
+      openingTime: '08:00',
+      closingTime: '16:00',
+    },
     {
       dayOfWeek: 'Thursday',
-      openingTime: '10:00',
-      closingTime: '17:00',
+      openingTime: '08:00',
+      closingTime: '16:00',
+    },
+    {
+      dayOfWeek: 'Friday',
+      openingTime: '08:00',
+      closingTime: '16:00',
     },
     {
       dayOfWeek: 'Saturday',
-      openingTime: '11:00',
-      closingTime: '17:00',
+      openingTime: '08:00',
+      closingTime: '16:00',
     },
   ];
   storeAvailabilitiesSubj = new Subject<any>();

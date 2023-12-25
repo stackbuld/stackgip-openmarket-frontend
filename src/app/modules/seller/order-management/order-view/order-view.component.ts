@@ -180,11 +180,10 @@ export class OrderViewComponent implements OnInit {
       pickupDate: '',
     };
 
-    uikit.modal('#reject-modal').hide();
-
     this.orderService.acceptRejectOrder(payload).subscribe({
       next: (res) => {
         if (res.status === 'success') {
+          uikit.modal('#reject-modal').hide();
           this.rejectingOrder = false;
           this.closeRejectDialog();
           this.toastr.success(res.message, 'SUCCESS');
@@ -227,16 +226,11 @@ export class OrderViewComponent implements OnInit {
 
     this.orderService.acceptRejectOrder(payload).subscribe({
       next: (res) => {
-        if (res.status === 'success') {
-          this.acceptingOrder = false;
-          uikit.modal('#accept-modal').hide();
-          this.toastr.success(res.message, 'SUCCESS');
-          this.router.navigate(['/seller/orders']);
-          this.orderService.orderActionTaken.next(true);
-        } else {
-          this.acceptingOrder = false;
-          this.toastr.success(res.message, 'SUCCESS');
-        }
+        uikit.modal('#accept-modal').hide();
+        this.acceptingOrder = false;
+        this.toastr.success(res.message, 'SUCCESS');
+        this.router.navigate(['/seller/orders']);
+        this.orderService.orderActionTaken.next(true);
       },
       error: (err) => {
         this.acceptingOrder = false;
