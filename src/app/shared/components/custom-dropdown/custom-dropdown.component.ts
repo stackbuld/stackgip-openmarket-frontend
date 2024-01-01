@@ -113,7 +113,6 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
 
     this.bankValueSub = this.walletService.setValue.subscribe((value) => {
       this.bankListForm.setValue({ bank: this.bankListData[value] });
-      // this.newBankEvent.emit(this.bankListData[value]);
     });
   }
 
@@ -139,20 +138,6 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
 
   findBankOrAccount(listType: any[], accountDetail: string, prop: string) {
     return listType.find((account) => account[prop] == accountDetail);
-  }
-
-  handleSelect(_, item) {
-    this.target.nativeElement.classList.toggle('uk-open');
-    // this.el.nativeElement.querySelector(".uk-drop").classList.remove(".uk-open")
-    this.selectedBank = item.name;
-    this.newBankEvent.emit(item.code);
-  }
-
-  handleAccountSelect(_, item) {
-    this.target.nativeElement.classList.toggle('uk-open');
-    this.selectedBank = item.bankName;
-
-    this.detailsEvent.emit(item);
   }
 
   ngOnDestroy(): void {
