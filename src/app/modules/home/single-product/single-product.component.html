@@ -482,7 +482,10 @@
 <div id="information-modal" uk-modal>
   <div *ngIf="isInformation" class="uk-modal-dialog uk-modal-body">
     <div class="uk-flex uk-flex-between">
-      <h2 class="uk-modal-title mb-0">Delivery Information</h2>
+      <h2 class="uk-modal-title mb-0">
+        Enter Your Address for Nearby Store Options
+      </h2>
+
       <svg
         class="pointer uk-modal-close"
         width="22"
@@ -507,6 +510,11 @@
         />
       </svg>
     </div>
+
+    <p style="margin-top: 10px">
+      Please fill in your address to find the closest store for faster and more
+      affordable delivery
+    </p>
     <div class="mt-4">
       <span
         (click)="toggleSocialModal()"
@@ -532,6 +540,7 @@
             ngx-google-places-autocomplete
             [options]="options"
             #placesRef="ngx-places"
+            #placesValue
             (onAddressChange)="handleAddressChange($event)"
             class="w-100 input-field"
             type="text"
