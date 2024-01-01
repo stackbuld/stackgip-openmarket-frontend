@@ -261,7 +261,7 @@ export class WalletWithdrawComponent {
     this.withdrawLoading = true;
     this.walletService
       .requestWithdrawal({
-        amount: this.bankDetailsForm.value.amount as string,
+        amount: this.bankDetailsForm.value.amount,
         walletId: this.walletDetails.id,
         bankaccountId: this.selectedBankDetails.id,
         currencyCode: this.walletDetails.currencyCode,
@@ -273,7 +273,7 @@ export class WalletWithdrawComponent {
           this.withdrawLoading = false;
           uikit.modal('#modal-withdrawal').hide();
 
-          if (!res.succeded) {
+          if (!res.succeeded) {
             this.serverResponse = res.message;
             uikit.modal('#modal-message').show();
           } else {

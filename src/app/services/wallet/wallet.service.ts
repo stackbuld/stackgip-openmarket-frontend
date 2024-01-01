@@ -1,9 +1,13 @@
 import { IResponseModel } from './../../shared/models/IResponseModel';
 import {
+  BankAccountDetails,
   IBankAccount,
   IRequestResponse,
   ITransactionsResponse,
   IWalletResponse,
+  WalletActionsResponse,
+  WalletWithdrawalRequest,
+  bankData,
 } from '../../models/wallet.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { IUpdateUser, IUserResponse } from './../../models/IUserModel';
@@ -46,8 +50,8 @@ export class WalletService {
     );
   }
 
-  getAccountName(body): Observable<any> {
-    return this.http.post<any>(
+  getAccountName(body: BankAccountDetails): Observable<WalletActionsResponse> {
+    return this.http.post<WalletActionsResponse>(
       this.baseUrl + `bankaccount/banks/validate-account`,
       body
     );
@@ -57,19 +61,24 @@ export class WalletService {
     return this.http.get<IBankAccount>(this.baseUrl + `bankaccount/user`);
   }
 
-  sendOtp(): Observable<any> {
-    return this.http.post<any>(
+  sendOtp(): Observable<bankData> {
+    return this.http.post<bankData>(
       this.baseUrl + `wallet/withdrawal-request-otp`,
       null
     );
   }
 
-  addToAccountsLists(body): Observable<any> {
-    return this.http.post<any>(this.baseUrl + `bankaccount`, body);
+  addToAccountsLists(body: bankData): Observable<WalletActionsResponse> {
+    return this.http.post<WalletActionsResponse>(
+      this.baseUrl + `bankaccount`,
+      body
+    );
   }
 
-  requestWithdrawal(body): Observable<any> {
-    return this.http.post<any>(
+  requestWithdrawal(
+    body: WalletWithdrawalRequest
+  ): Observable<WalletActionsResponse> {
+    return this.http.post<WalletActionsResponse>(
       this.baseUrl + `wallet/withdrawal-request`,
       body
     );
