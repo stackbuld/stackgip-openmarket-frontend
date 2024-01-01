@@ -75,11 +75,26 @@
   margin-bottom: 0.2rem;
 }
 
-select {
+mat-form-field {
   width: 100%;
+
+  & .cdk-overlay-pane {
+    width: 100%;
+  }
+
+  & .mat-mdc-select-panel {
+    width: 100%;
+  }
 }
 
 .accounts-list {
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 770px) {
+  .bank-select,
+  .account-select {
+    margin-top: 10px;
+  }
 }

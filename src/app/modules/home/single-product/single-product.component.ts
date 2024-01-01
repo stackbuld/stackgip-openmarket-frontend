@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  NgZone,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
@@ -21,19 +27,19 @@ import {
 } from '../../../services/cart/model/logistic.model';
 import { NotificationResponseModel } from '../../../models/notificationResponse.model';
 import * as lodash from 'lodash';
-import { forEach } from 'lodash';
 import * as cryptoJs from 'crypto-js';
 import { FooterService } from 'src/app/services/footer.service';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { BehaviorSubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { WindowRefService } from '../../../shared/services/window.service';
 import uikit from 'uikit';
 
 import { CountryService } from 'src/app/services/country/country.service';
 import { CountryInfo } from 'src/app/models/country.model';
-import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
 import { SellerStoreLocationService } from 'src/app/services/cart/seller-store.service';
 import { SearchService } from 'src/app/services/search/search.service';
+import { DeliveryAddressService } from 'src/app/services/cart/deliver-address.service';
 @Component({
   selector: 'app-single-product',
   templateUrl: './single-product.component.html',
@@ -83,6 +89,7 @@ export class SingleProductComponent implements OnInit {
 
   requestId = '';
   @ViewChild('placesRef') placesRef: GooglePlaceDirective;
+  @ViewChild('placesRef', { static: false }) placesValue: ElementRef;
   options: any = {
     types: ['address'],
     componentRestrictions: { country: 'NG' },
@@ -147,10 +154,20 @@ export class SingleProductComponent implements OnInit {
     private userService: UserService,
     private countryService: CountryService,
     private sellerStoreLocationService: SellerStoreLocationService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private deliverAddressService: DeliveryAddressService,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
+    this.deliverAddressService.getCurrentLocation();
+    this.deliverAddressService.deliveryAddress
+      .pipe(take(1))
+      .subscribe((address) => {
+        this.addressForm.get('fullAddress').setValue(address);
+        this.handleAddressChange(address);
+      });
+
     this.currentShippingMethod = new BehaviorSubject<GetShippingEstimatePrice>(
       null
     );
@@ -788,8 +805,9 @@ export class SingleProductComponent implements OnInit {
     }
   }
 
-  public handleAddressChange(address: Address) {
+  public handleAddressChange(address: Address | any) {
     this.isGoogleAddressSelected = true;
+
     const country = address.address_components.filter((element) => {
       return element.types.includes('country');
     });
@@ -817,6 +835,7 @@ export class SingleProductComponent implements OnInit {
       city: city.length > 0 ? city[0].long_name : state[0].long_name,
     });
     this.addressForm.patchValue({ state: state[0].long_name });
+
     // this.landmark.patchValue(landmark[0].long_name);
     // this.postalCode.patchValue(postalCode[0].long_name);
     // this.streetName.patchValue(streetName[0].long_name);
@@ -1013,8 +1032,8 @@ export class SingleProductComponent implements OnInit {
     this.resetModalView();
 
     uikit.modal('#information-modal').show();
-    //
   }
+
   setAddressField = () => {
     this.notReady = false;
   };
