@@ -110,6 +110,7 @@ export class SellerRegisterationFormComponent
       if (res.status === 'success') {
         const sellerData: ISeller = res.data;
         this.sellerApprovalStatus = sellerData.sellerApprovalStatus;
+        this.rejectionReason = sellerData.rejectionReason;
         if (this.sellerApprovalStatus === 'approved') {
           this.router.navigate(['/seller/dashboard']);
         }

@@ -459,7 +459,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       description: [data.description, [Validators.required]],
       price: [data.price, [Validators.required]],
       weight: [data.weight, [Validators.required]],
-      previousPrice: [data.previousPrice],
+      previousPrice: [data.previousPrice === ''? 0: data.previousPrice],
       imageUrls: [data.productImages],
       pickupOption: [data.pickupOption, [Validators.required]],
       imageUrl: [data.imageUrl],

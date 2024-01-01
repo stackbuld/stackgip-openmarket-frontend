@@ -31,6 +31,7 @@ export interface ISeller {
   idVerificationType: string;
   idVerificationNumber: string;
   userAddressLandMark: string;
+  rejectionReason: string;
 }
 
 export interface GetSeller extends ResponseModel {
