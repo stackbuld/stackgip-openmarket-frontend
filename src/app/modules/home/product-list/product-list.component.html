@@ -101,7 +101,8 @@
                   placeholder="Search"
                   class="search-filter-input"
                   autofocus
-                  (input)="onCategorySearch($event.target.value)"
+                  #searchInput
+                  (input)="onCategorySearch(searchInput.value)"
                 />
               </form>
               <button
@@ -220,7 +221,8 @@
                   placeholder="Search"
                   class="search-filter-input"
                   autofocus
-                  (input)="onCitySearch($event.target.value)"
+                  #citySearch
+                  (input)="onCitySearch(citySearch.value)"
                 />
               </form>
               <button
@@ -336,7 +338,8 @@
                   placeholder="Search"
                   class="search-filter-input"
                   autofocus
-                  (input)="onStateSearch($event.target.value)"
+                  #stateSearch
+                  (input)="onStateSearch(stateSearch.value)"
                 />
               </form>
               <button
@@ -472,7 +475,8 @@
               placeholder="Search"
               class="search-filter-input"
               autofocus
-              (input)="onCategorySearch($event.target.value)"
+              #categorySearch
+              (input)="onCategorySearch(categorySearch.value)"
             />
           </form>
           <button
@@ -574,7 +578,8 @@
               placeholder="Search"
               class="search-filter-input"
               autofocus
-              (input)="onCitySearch($event.target.value)"
+              #citySearch
+              (input)="onCitySearch(citySearch.value)"
             />
           </form>
           <button
@@ -671,7 +676,8 @@
               placeholder="Search"
               class="search-filter-input"
               autofocus
-              (input)="onStateSearch($event.target.value)"
+              #stateSearch
+              (input)="onStateSearch(stateSearch.value)"
             />
           </form>
           <button

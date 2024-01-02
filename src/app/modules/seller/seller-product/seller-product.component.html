@@ -1,14 +1,17 @@
 <button
   class="uk-button uk-button-secondary radius"
-  type="button" routerLink="/seller/products/create">
+  type="button"
+  routerLink="/seller/products/create"
+>
   Add Product
 </button>
 <!-- uk-toggle="target: #modal-add-product" -->
 
-<app-product-item (cp)="cp($event)"
+<app-product-item
   (productIdSend)="editProduct.setProduct($event)"
   (viewedMore)="viewMore.setProduct($event)"
-  #productList>
+  #productList
+>
 </app-product-item>
 
 <!-- This is the modal with the outside close button -->
@@ -25,10 +28,17 @@
 <!-- This is the modal with the outside close button -->
 <div id="modal-edit-product" uk-modal="bg-close: false">
   <div class="uk-modal-dialog uk-modal-body">
-    <button class="uk-modal-close-outside" type="button" uk-close #closeEdit></button>
-    <app-edit-product #editProduct
+    <button
+      class="uk-modal-close-outside"
+      type="button"
+      uk-close
+      #closeEdit
+    ></button>
+    <app-edit-product
+      #editProduct
       (closed)="closeEditProductModal()"
-      (edited)="productList.updateProduct($event)">
+      (edited)="productList.updateProduct($event)"
+    >
     </app-edit-product>
   </div>
 </div>
@@ -41,4 +51,7 @@
   </div>
 </div>
 
-<script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
+<script
+  src="https://widget.cloudinary.com/v2.0/global/all.js"
+  type="text/javascript"
+></script>

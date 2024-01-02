@@ -137,7 +137,7 @@ export class SingleProductComponent implements OnInit {
   isGoogleAddressSelected: boolean = false;
   isShippingMethodFetched: boolean = false;
 
-  sliderMedia: object[] = [];
+  sliderMedia: { isVideo: boolean; url: string }[] = [];
   videoUrls: string[] = [];
 
   constructor(

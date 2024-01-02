@@ -4,6 +4,7 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { HelperService } from 'src/app/shared/services/helper.service';
 import { BankAccountService } from 'src/app/shared/services/bank-account.service';
 import { BankAccountCreateDialogComponent } from '../bank-account-create-dialog/bank-account-create-dialog.component';
+import { bankData } from 'src/app/models/wallet.model';
 
 @Component({
   selector: 'app-bank-account-list',
@@ -11,7 +12,7 @@ import { BankAccountCreateDialogComponent } from '../bank-account-create-dialog/
   styleUrls: ['./bank-account-list.component.scss'],
 })
 export class BankAccountListComponent implements OnInit {
-  bankAccountList: SellerStores[];
+  bankAccountList: bankData[];
   isLoading: boolean = true;
   constructor(
     private helperService: HelperService,
