@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription, fromEvent, of } from 'rxjs';
@@ -22,6 +23,18 @@ import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { AuthService } from 'src/app/services/auth.service';
 import { OrderService } from 'src/app/services/order/order.service';
 
+enum Tabs {
+  All = 'allTab',
+  New = 'newTab',
+  Cancelled = 'cancelledTab',
+  Confirmed = 'confirmedTab',
+  InTransit = 'inTransitTab',
+  Delivered = 'delivered',
+  Delivering = 'delivering',
+  AwaitingPickup = 'awaitingPickup',
+  InTransitAll = 'inTransitAll',
+}
+
 @Component({
   selector: 'app-order-management',
   templateUrl: './order-management.component.html',
@@ -34,6 +47,11 @@ export class OrderManagementComponent
   confirmedTab = false;
   newTab = false;
   allTab = false;
+  inTransitTab: boolean = false;
+  delivered: boolean = false;
+  delivering: boolean = false;
+  awaitingPickup: boolean = false;
+  inTransitAll: boolean = false;
 
   user: any;
   totalItemCount: number;
@@ -58,6 +76,8 @@ export class OrderManagementComponent
   loadingOverviewData: boolean;
   orderActionTaken$: Subscription;
   @ViewChild('orderSearch', { static: true }) searchQuery: ElementRef;
+  orderDeliveryStatus: string[] = ['Delivered', 'Pending', 'Cancelled'];
+  allFilterInput: FormControl;
 
   constructor(
     private orderService: OrderService,
@@ -68,6 +88,13 @@ export class OrderManagementComponent
   ) {}
 
   ngOnInit(): void {
+    this.allFilterInput = new FormControl(null);
+    this.allFilterInput.valueChanges.subscribe((value) => {
+      if (value) {
+        this.deliveryStatus = value;
+        this.fetchAllOrders(this.defaultPage);
+      }
+    });
     this.switchTabs('newTab');
     this.user = this.authService.getLoggedInUser();
     this.sellerId = this.user.id;
@@ -209,6 +236,8 @@ export class OrderManagementComponent
       )
       .subscribe({
         next: (res) => {
+          console.log(res);
+
           this.orders = res.data.data;
           this.pageNumber = res.data.pager.pageNumber;
           this.totalItemCount = res.data.pager.totalItemCount;
@@ -220,41 +249,73 @@ export class OrderManagementComponent
       });
   };
 
+  test = 2;
+
+  setTabs(activeTab: string): void {
+    Object.keys(Tabs).forEach((tab) => {
+      this[Tabs[tab]] = false;
+    });
+
+    if (
+      activeTab == Tabs.Delivered ||
+      activeTab == Tabs.Delivering ||
+      activeTab == Tabs.AwaitingPickup ||
+      activeTab == Tabs.InTransitAll
+    ) {
+      this.inTransitTab = true;
+    } else if (activeTab == Tabs.InTransit) {
+      this.awaitingPickup = true;
+    }
+
+    this[activeTab] = true;
+  }
+
   switchTabs = (key: string) => {
-    if (key === 'allTab') {
-      this.orderStatus = '';
-      this.allTab = true;
-      this.newTab = false;
-      this.cancelledTab = false;
-      this.confirmedTab = false;
-      this.fetchAllOrders(this.defaultPage);
-    }
-
-    if (key === 'newTab') {
-      this.orderStatus = 'pending,notset';
-      this.allTab = false;
-      this.newTab = true;
-      this.cancelledTab = false;
-      this.confirmedTab = false;
-      this.fetchAllOrders(this.defaultPage);
-    }
-
-    if (key === 'cancelledTab') {
-      this.orderStatus = 'rejected,returned';
-      this.allTab = false;
-      this.newTab = false;
-      this.cancelledTab = true;
-      this.confirmedTab = false;
-      this.fetchAllOrders(this.defaultPage);
-    }
-
-    if (key === 'confirmedTab') {
-      this.orderStatus = 'confirmed';
-      this.allTab = false;
-      this.newTab = false;
-      this.cancelledTab = false;
-      this.confirmedTab = true;
-      this.fetchAllOrders(this.defaultPage);
+    switch (key) {
+      case Tabs.All:
+        this.orderStatus = '';
+        this.setTabs(Tabs.All);
+        this.fetchAllOrders(this.defaultPage);
+        break;
+      case Tabs.New:
+        this.orderStatus = 'pending,notset';
+        this.setTabs(Tabs.New);
+        this.fetchAllOrders(this.defaultPage);
+        break;
+      case Tabs.Cancelled:
+        this.orderStatus = 'rejected,returned';
+        this.setTabs(Tabs.Cancelled);
+        this.fetchAllOrders(this.defaultPage);
+        break;
+      case Tabs.Confirmed:
+        this.orderStatus = 'confirmed';
+        this.setTabs(Tabs.Confirmed);
+        this.fetchAllOrders(this.defaultPage);
+        break;
+      case Tabs.InTransit:
+        this.orderStatus = '';
+        this.setTabs(Tabs.InTransit);
+        this.fetchAllOrders(this.defaultPage);
+        break;
+      case Tabs.AwaitingPickup:
+        this.orderStatus = '';
+        this.setTabs(Tabs.AwaitingPickup);
+        this.fetchAllOrders(this.defaultPage);
+        break;
+      case Tabs.Delivering:
+        this.orderStatus = '';
+        this.setTabs(Tabs.Delivering);
+        this.fetchAllOrders(this.defaultPage);
+        break;
+      case Tabs.Delivered:
+        this.orderStatus = '';
+        this.setTabs(Tabs.Delivered);
+        this.fetchAllOrders(this.defaultPage);
+        break;
+      case Tabs.InTransitAll:
+        this.orderStatus = '';
+        this.setTabs(Tabs.InTransitAll);
+        this.fetchAllOrders(this.defaultPage);
     }
   };
 

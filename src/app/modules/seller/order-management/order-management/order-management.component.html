@@ -219,14 +219,67 @@
     >
       All
     </p>
+    &nbsp; &nbsp; &nbsp; &nbsp;
+    <p
+      (click)="switchTabs('inTransitTab')"
+      [ngClass]="{ activeTab: inTransitTab === true }"
+    >
+      In transit
+    </p>
   </div>
 
   <div class="web-only p-0 w-100 uk-card uk-card-default">
+    <div class="all-filter" *ngIf="allTab == true">
+      <h3>Filter orders by Delivery status</h3>
+      <mat-form-field>
+        <mat-label>Delivery status</mat-label>
+        <mat-select [formControl]="allFilterInput">
+          <mat-option
+            [value]="status.toLowerCase()"
+            *ngFor="let status of orderDeliveryStatus"
+            >{{ status }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="intransit-tab" *ngIf="inTransitTab == true">
+      <div class="mt-4 tabs" style="margin-top: 10px">
+        <p
+          (click)="switchTabs('awaitingPickup')"
+          [ngClass]="{ activeTab: awaitingPickup === true }"
+        >
+          Awaiting Pickup
+        </p>
+        &nbsp; &nbsp; &nbsp; &nbsp;
+        <p
+          (click)="switchTabs('delivering')"
+          [ngClass]="{ activeTab: delivering === true }"
+        >
+          Delivering
+        </p>
+        &nbsp; &nbsp; &nbsp; &nbsp;
+        <p
+          (click)="switchTabs('delivered')"
+          [ngClass]="{ activeTab: delivered === true }"
+        >
+          Delivered
+        </p>
+        &nbsp; &nbsp; &nbsp; &nbsp;
+        <p
+          (click)="switchTabs('inTransitAll')"
+          [ngClass]="{ activeTab: inTransitAll === true }"
+        >
+          All
+        </p>
+      </div>
+    </div>
     <div class="w-100 table-head d-flex align-items-center">
       <span class="w-15">Order ID</span>
       <span class="w-20">Product Name</span>
       <span class="w-20">Date Ordered</span>
       <span class="w-15">Amount</span>
+      <span class="w-15">Delivery status</span>
       <span class="w-15">Status</span>
       <span class="w-15">Action</span>
     </div>
@@ -251,11 +304,14 @@
         <span class="w-15">{{ item?.amountPaid || 0 | currency : "₦" }}</span>
         <span class="w-15">
           <span
-            *ngIf="
-              item?.orderStatus.toLowerCase() === 'pending' ||
-              item?.orderStatus.toLowerCase() === 'notset'
-            "
-          >
+            class="delivery-status"
+            appDeliveryStatus
+            [appDeliveryStatus]="item?.deliveryStatus"
+            >{{ item?.deliveryStatus }}</span
+          ></span
+        >
+        <span class="w-15">
+          <span style="white-space: nowrap">
             <svg
               widspan="8"
               height="9"
@@ -263,38 +319,13 @@
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <circle cx="4" cy="4.5" r="4" fill="#F9AA4B" />
-            </svg>
-            &nbsp;
-            <span class="ml-3">Pending</span>
-          </span>
-          <span *ngIf="item?.orderStatus.toLowerCase() === 'confirmed'">
-            <svg
-              widspan="8"
-              height="9"
-              viewBox="0 0 8 9"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="4" cy="4.5" r="4" fill="#4CAF50" />
-            </svg>
-            &nbsp;
-            <span class="ml-3">{{ item?.orderStatus }}</span>
-          </span>
-          <span
-            *ngIf="
-              item?.orderStatus.toLowerCase() === 'rejected' ||
-              item?.orderStatus.toLowerCase() === 'returned'
-            "
-          >
-            <svg
-              widspan="8"
-              height="9"
-              viewBox="0 0 8 9"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="4" cy="4.5" r="4" fill="#EF0606" />
+              <circle
+                cx="4"
+                cy="4.5"
+                r="4"
+                appOrderStatusDirective
+                [appOrderStatusDirective]="item?.orderStatus"
+              />
             </svg>
             &nbsp;
             <span class="ml-3">{{ item?.orderStatus }}</span>
@@ -321,6 +352,19 @@
   </div>
 
   <div class="mt-3 mobile-only">
+    <div class="all-filter" *ngIf="allTab == true">
+      <h3>Filter orders by Delivery status</h3>
+      <mat-form-field>
+        <mat-label>Delivery status</mat-label>
+        <mat-select [formControl]="allFilterInput">
+          <mat-option
+            [value]="status.toLowerCase()"
+            *ngFor="let status of orderDeliveryStatus"
+            >{{ status }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
     <div *ngIf="!loadingOrders && orders.length > 0">
       <div
         *ngFor="
@@ -334,15 +378,20 @@
         "
       >
         <div class="mb-3 p-3 uk-card uk-card-default">
-          <div class="d-flex justify-content-between align-items-center">
-            <p>Order ID: {{ item?.orderNo || "N/A" }}</p>
-            <p
-              *ngIf="
-                item?.orderStatus.toLowerCase() === 'pending' ||
-                item?.orderStatus.toLowerCase() === 'notset'
-              "
-              class="d-flex"
-            >
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <p>Order ID: {{ item?.orderNo || "N/A" }}</p>
+              <p>
+                Delivery status:
+                <span
+                  class="delivery-status mobile"
+                  appDeliveryStatus
+                  [appDeliveryStatus]="item?.deliveryStatus"
+                  >{{ item?.deliveryStatus }}</span
+                >
+              </p>
+            </div>
+            <div class="d-flex align-items-center">
               <svg
                 widspan="8"
                 height="9"
@@ -350,46 +399,17 @@
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <circle cx="4" cy="4.5" r="4" fill="#F9AA4B" />
-              </svg>
-              &nbsp;
-              <span class="ml-3">Pending</span>
-            </p>
-            <p
-              *ngIf="item?.orderStatus.toLowerCase() === 'confirmed'"
-              class="d-flex"
-            >
-              <svg
-                widspan="8"
-                height="9"
-                viewBox="0 0 8 9"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle cx="4" cy="4.5" r="4" fill="#4CAF50" />
+                <circle
+                  cx="4"
+                  cy="4.5"
+                  r="4"
+                  appOrderStatusDirective
+                  [appOrderStatusDirective]="item?.orderStatus"
+                />
               </svg>
               &nbsp;
               <span class="ml-3">{{ item?.orderStatus }}</span>
-            </p>
-            <p
-              *ngIf="
-                item?.orderStatus.toLowerCase() === 'rejected' ||
-                item?.orderStatus.toLowerCase() === 'returned'
-              "
-              class="d-flex"
-            >
-              <svg
-                widspan="8"
-                height="9"
-                viewBox="0 0 8 9"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle cx="4" cy="4.5" r="4" fill="#EF0606" />
-              </svg>
-              &nbsp;
-              <span class="ml-3">{{ item?.orderStatus }}</span>
-            </p>
+            </div>
           </div>
           <p class="name">{{ item?.cartProduct?.product?.name || "N/A" }}</p>
           <div class="d-flex justify-content-between align-items-center">
