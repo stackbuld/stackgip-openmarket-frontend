@@ -128,30 +128,41 @@
       </tbody>
     </table>
 
-    <table *ngIf="tab === 2">
-      <thead>
-        <tr>
-          <th>Transaction ID</th>
-          <th>Amount</th>
-          <th>Date</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <div *ngIf="loadingRequests">
-        <span class="loader" uk-spinner="ratio: 1"> </span>
-      </div>
-      <tbody>
-        <tr *ngFor="let item of withdrawalRequests?.items">
-          <td>{{ item.id }}</td>
-          <td>₦{{ item.amount }}</td>
-          <td>
-            <p>{{ formatDate(item?.createdAt) }}</p>
-            <p>{{ formatTime(item?.createdAt) }}</p>
-          </td>
-          <td>{{ item.status }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div *ngIf="tab === 2">
+      <table
+        *ngIf="
+          tab === 2 && withdrawalRequests?.items.length > 0;
+          else noRequest
+        "
+      >
+        <thead>
+          <tr>
+            <th>Transaction ID</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <div *ngIf="loadingRequests">
+          <span class="loader" uk-spinner="ratio: 1"> </span>
+        </div>
+        <tbody>
+          <tr *ngFor="let item of withdrawalRequests?.items">
+            <td>{{ item.id }}</td>
+            <td>₦{{ item.amount }}</td>
+            <td>
+              <p>{{ formatDate(item?.createdAt) }}</p>
+              <p>{{ formatTime(item?.createdAt) }}</p>
+            </td>
+            <td>{{ item.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ng-template #noRequest>
+        <div>No withdrawal requests</div>
+      </ng-template>
+    </div>
   </div>
 
   <div class="card-container-sm" *ngIf="tab === 1">

@@ -13,7 +13,7 @@ import {
   CreateShipmentModel,
   SingleProductResponse,
 } from '../../models/products.model';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { CategoryResponse } from './../../models/CategoryModels';
 import { IUser } from 'src/app/models/IUserModel';
 import { HttpClient } from '@angular/common/http';
@@ -27,6 +27,8 @@ import { map, retry } from 'rxjs/operators';
 export class ProductsService {
   baseUrl = '';
   newProductUnit = new Subject<number>();
+  exceededUnitAction = new BehaviorSubject<boolean>(false);
+  scrollTo = new Subject<boolean>();
 
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;

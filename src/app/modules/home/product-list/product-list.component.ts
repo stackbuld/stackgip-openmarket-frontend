@@ -17,6 +17,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ProductListComponent implements OnInit {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
   @Input() storefrontSellerId: string = '';
+
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 7;
+  tableSizes: any = [3, 6, 9, 12];
+
   categories: string[] = [];
   products: ProductModel[] = [];
   cities: string[] = [];
@@ -94,6 +100,17 @@ export class ProductListComponent implements OnInit {
     this.fetchStates();
   }
 
+  onTableDataChange(event: any) {
+    this.page = event;
+    this.pageNumber = event - 1;
+    this.fetchAllProducts(this.pageNumber);
+  }
+  onTableSizeChange(event: any): void {
+    this.tableSize = event.target.value;
+    this.page = 1;
+    this.fetchAllProducts(this.pageNumber);
+  }
+
   removeQueryParam(filter: string) {
     // Get the current query parameters
     const queryParams = { ...this.route.snapshot.queryParams };
@@ -151,19 +168,10 @@ export class ProductListComponent implements OnInit {
       this.maxValue = Number(maxPrice);
       currentParamsObj['maxPrice'] = this.maxValue;
     }
-
-    this.router.navigate(['/homepage/search'], {
-      queryParams: {
-        ...currentParamsObj,
-      },
-      queryParamsHandling: 'merge',
-    });
-
     return currentParamsObj;
   }
 
   onCategorySearch(category: string) {
-    this.categoryName = category;
     this.loadingCategories = true;
     this.categoryService
       .searchCategories(category, this.storefrontSellerId)
@@ -178,17 +186,12 @@ export class ProductListComponent implements OnInit {
       });
   }
 
-  onCategorySearchFocus() {
-    this.isCategorySearchFocused = true;
-  }
-
-  onCategorySearchBlur() {
+  onCategorySearchClose() {
     this.isCategorySearchFocused = false;
     this.fetchCategories();
   }
 
   onCitySearch(city: string) {
-    this.cityName = city;
     this.loadingCities = true;
     this.cityService.searchCities(city, this.storefrontSellerId).subscribe({
       next: (data) => {
@@ -201,17 +204,12 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  onCitySearchFocus() {
-    this.isCitySearchFocused = true;
-  }
-
-  onCitySearchBlur() {
+  onCitySearchClose() {
     this.isCitySearchFocused = false;
     this.fetchCities();
   }
 
   onStateSearch(state: string) {
-    this.stateName = state;
     this.loadingStates = true;
     this.stateService.searchStates(state, this.storefrontSellerId).subscribe({
       next: (data) => {
@@ -224,11 +222,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  onStateSearchFocus() {
-    this.isStateSearchFocused = true;
-  }
-
-  onStateSearchBlur() {
+  onStateSearchClose() {
     this.isStateSearchFocused = false;
     this.fetchStates();
   }
@@ -256,6 +250,17 @@ export class ProductListComponent implements OnInit {
     this.minValue = 1;
     this.maxValue = 500000;
     this.fetchAllProducts(0);
+    const queryParams = { ...this.route.snapshot.queryParams };
+    queryParams.category = null;
+    queryParams.city = null;
+    queryParams.state = null;
+    queryParams.minPrice = null;
+    queryParams.maxPrice = null;
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: 'merge',
+    });
   };
 
   resetProductsByCategory = () => {
@@ -311,6 +316,7 @@ export class ProductListComponent implements OnInit {
           } else {
             this.products = [...this.products, ...data];
           }
+          console.log('THIRD ITEM', this.products[2]);
         },
         error: (err) => {
           this.loadingProducts = false;
@@ -374,46 +380,45 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  filterProducts(isWhichFilter?: string, filterValue?: string) {
-    if (isWhichFilter === 'category') {
-      this.categoryName = filterValue;
-      this.fetchCategories();
-    }
-
-    if (isWhichFilter === 'city') {
-      this.cityName = filterValue;
-      this.fetchCities();
-    }
-
-    if (isWhichFilter === 'state') {
-      this.stateName = filterValue;
-      this.fetchStates();
-    }
-    // this.fetchQueryParamsFromUrl();
+  filterProductsByPrice() {
     this.fetchAllProducts(0);
   }
 
-  // filterProductsByPrice() {
-  //   this.fetchAllProducts(0);
-  // }
+  filterProductsByCategory(category: string) {
+    this.categoryName = category;
+    this.fetchAllProducts(0);
+    if (!this.isCategorySearchFocused) {
+      this.fetchCategories();
+    }
+    this.router.navigate([], {
+      queryParams: { category },
+      queryParamsHandling: 'merge',
+    });
+  }
 
-  // filterProductsByCategory(category: string) {
-  //   this.categoryName = category;
-  //   this.fetchAllProducts(0);
-  //   this.fetchCategories();
-  // }
+  filterProductsByCity(city: string) {
+    this.cityName = city;
+    this.fetchAllProducts(0);
+    if (!this.isCitySearchFocused) {
+      this.fetchCities();
+    }
+    this.router.navigate([], {
+      queryParams: { city },
+      queryParamsHandling: 'merge',
+    });
+  }
 
-  // filterProductsByCity(item: string) {
-  //   this.cityName = item;
-  //   this.fetchAllProducts(0);
-  //   this.fetchCities();
-  // }
-
-  // filterProductsByState(item: string) {
-  //   this.stateName = item;
-  //   this.fetchAllProducts(0);
-  //   this.fetchStates();
-  // }
+  filterProductsByState(state: string) {
+    this.stateName = state;
+    this.fetchAllProducts(0);
+    if (!this.isStateSearchFocused) {
+      this.fetchStates();
+    }
+    this.router.navigate([], {
+      queryParams: { state },
+      queryParamsHandling: 'merge',
+    });
+  }
 
   setColumn(e: any) {
     this.columnCount = Number(e.target.value);

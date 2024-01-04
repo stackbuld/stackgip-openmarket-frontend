@@ -14,13 +14,24 @@
           >
             <swiper-slide
               class="swiper"
-              *ngFor="let image of productImages; let i = index"
+              *ngFor="let media of sliderMedia; let i = index"
             >
-              <div
-                class="image-test"
-                [ngStyle]="{ backgroundImage: 'url(' + image.image + ')' }"
-                (click)="showLightbox(i)"
-              ></div>
+              <ng-container *ngIf="media.isVideo">
+                <div class="video-test">
+                  <video
+                    src="{{ media.url }}"
+                    controls
+                    uk-video="autoplay: false, automute: true"
+                  ></video>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="media.isVideo == false">
+                <div
+                  class="image-test"
+                  [ngStyle]="{ backgroundImage: 'url(' + media.url + ')' }"
+                  (click)="showLightbox(i)"
+                ></div>
+              </ng-container>
             </swiper-slide>
           </swiper-container>
         </div>
@@ -29,9 +40,21 @@
           <swiper-container class="swiper2">
             <swiper-slide
               class="swiper-slide"
-              *ngFor="let image of productImages"
+              *ngFor="let media of sliderMedia; let i = index"
             >
-              <img [src]="image.image" alt="" class="thumb-image" />
+              <ng-container *ngIf="media.isVideo">
+                <video
+                  class="thumb-video"
+                  src="{{ media.url }}"
+                  width="80"
+                  height="80"
+                  controls
+                  uk-video="autoplay: false"
+                ></video>
+              </ng-container>
+              <ng-container *ngIf="media.isVideo == false">
+                <img [src]="media.url" alt="" class="thumb-image" />
+              </ng-container>
             </swiper-slide>
           </swiper-container>
         </div>
@@ -71,7 +94,7 @@
                 </div>
                 <div
                   class="seller-store"
-                  routerLink="/homepage/storefront/{{ product.userId }}"
+                  routerLink="/homepage/seller-store/{{ product.userId }}"
                 >
                   Visit seller's store
                 </div>
@@ -309,8 +332,6 @@
       <div class="complimentary-products-heading-main">
         Complimentary Products
       </div>
-
-      <div class="see-all">See all <i class="fa fa-arrow-right"></i></div>
     </div>
 
     <div class="complimentary-products-main">
@@ -396,8 +417,10 @@
 
   <div class="mobile-pad-1 mt-3">
     <h2>Product Description</h2>
-    <p *ngIf="!loading">{{ product?.description || "N/A" }}</p>
-    <div *ngIf="loading" class="w-100">
+    <p *ngIf="!loadingProductDescription">
+      {{ product?.description || "N/A" }}
+    </p>
+    <div *ngIf="loadingProductDescription" class="w-100">
       <br />
       <ngx-shimmer-loading height="50px"></ngx-shimmer-loading>
     </div>
@@ -459,7 +482,10 @@
 <div id="information-modal" uk-modal>
   <div *ngIf="isInformation" class="uk-modal-dialog uk-modal-body">
     <div class="uk-flex uk-flex-between">
-      <h2 class="uk-modal-title mb-0">Delivery Information</h2>
+      <h2 class="uk-modal-title mb-0">
+        Enter Your Address for Nearby Store Options
+      </h2>
+
       <svg
         class="pointer uk-modal-close"
         width="22"
@@ -484,6 +510,11 @@
         />
       </svg>
     </div>
+
+    <p style="margin-top: 10px">
+      Please fill in your address to find the closest store for faster and more
+      affordable delivery
+    </p>
     <div class="mt-4">
       <span
         (click)="toggleSocialModal()"
@@ -509,6 +540,7 @@
             ngx-google-places-autocomplete
             [options]="options"
             #placesRef="ngx-places"
+            #placesValue
             (onAddressChange)="handleAddressChange($event)"
             class="w-100 input-field"
             type="text"

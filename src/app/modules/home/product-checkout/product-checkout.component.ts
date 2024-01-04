@@ -14,8 +14,8 @@ import { Observable } from 'rxjs';
 import { WindowRefService } from '../../../shared/services/window.service';
 import { FooterService } from 'src/app/services/footer.service';
 import { AuthService } from '../../../services/auth.service';
-import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
+import uikit from 'uikit';
 
 @Component({
   selector: 'app-product-checkout',
@@ -66,6 +66,7 @@ export class ProductCheckoutComponent implements OnInit {
       });
     }
   }
+
   init() {
     this.user = JSON.parse(localStorage.getItem('user') as string);
     this.referenceId = this.authService.getUserReferenceNumber();
@@ -151,7 +152,7 @@ export class ProductCheckoutComponent implements OnInit {
   };
 
   closeDeleteDialog = () => {
-    document.getElementById('closeDeleteCartModalDialog').click();
+    uikit.modal('#delete-cart-modal').hide();
   };
 
   deleteCartItem = () => {
@@ -289,7 +290,7 @@ export class ProductCheckoutComponent implements OnInit {
               if (res.status === 'success') {
                 // this.router.navigateByUrl(res.data.redirectUrl);
                 this.windowService.nativeWindow.window.open(
-                  res.data.redirectUrl
+                  res.data.redirectUrl,'_blank'
                 );
                 this.loadingPayment = false;
               } else {

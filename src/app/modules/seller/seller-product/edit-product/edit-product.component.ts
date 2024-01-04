@@ -3,6 +3,7 @@ import {
   CreateProductOption,
   CreateShipmentModel,
   EditProductModel,
+  ProductOption,
 } from '../../../../models/products.model';
 import { CreateProductModel } from '../../../../models/products.model';
 import { Observable } from 'rxjs';
@@ -33,7 +34,7 @@ export class EditProductComponent implements OnInit {
   productId: number;
   states: string[] = nigeriaSates.map((a) => a.name);
   images: string[] = [];
-  productOptions: CreateProductOption[];
+  productOptions: ProductOption[];
   productShipments: CreateShipmentModel[];
   user = {} as IUser;
   constructor(

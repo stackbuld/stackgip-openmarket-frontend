@@ -20,14 +20,26 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgAisModule } from 'angular-instantsearch';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { RouterModule } from '@angular/router';
-
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import {
-  NgxMatDatetimePickerModule,
   NgxMatNativeDateModule,
   NgxMatTimepickerModule,
 } from '@angular-material-components/datetime-picker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { H } from 'highlight.run';
+
+H.init('ng2orond', {
+  environment: 'production',
+  version: 'commit:abcdefg12345',
+  tracingOrigins: true,
+  networkRecording: {
+    enabled: true,
+    recordHeadersAndBody: true,
+    urlBlocklist: [
+      'https://www.googleapis.com/identitytoolkit',
+      'https://securetoken.googleapis.com',
+    ],
+  },
+});
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -43,9 +55,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatPaginatorModule,
     NgxMatNativeDateModule,
     NgxMatTimepickerModule,
-    NgxMatDatetimePickerModule,
-    NgxMaterialTimepickerModule,
-    MatNativeDateModule,
 
     NgAisModule.forRoot(),
     StoreModule.forRoot(

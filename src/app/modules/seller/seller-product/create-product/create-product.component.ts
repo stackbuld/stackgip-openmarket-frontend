@@ -2,7 +2,7 @@ import { IUser } from '../../../../models/IUserModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CreateProductResponse } from '../../../../models/products.model';
-import { Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import {
@@ -14,6 +14,9 @@ import {
   ElementRef,
   ViewChild,
   ChangeDetectorRef,
+  Renderer2,
+  AfterViewInit,
+  AfterViewChecked,
 } from '@angular/core';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { ProductsService } from '../../../../services/products/products.service';
@@ -29,6 +32,8 @@ import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { VariationsAlertDialogComponent } from './variations-alert-dialog/variations-alert-dialog.component';
 import { initial } from 'lodash';
+import { PageScrollService } from 'ngx-page-scroll-core';
+import { WindowRefService } from 'src/app/shared/services/window.service';
 
 declare var cloudinary: any;
 @Component({
@@ -37,7 +42,7 @@ declare var cloudinary: any;
   styleUrls: ['./create-product.component.scss'],
   providers: [SafeHtmlPipe],
 })
-export class CreateProductComponent implements OnInit {
+export class CreateProductComponent implements OnInit, AfterViewChecked {
   previewEditorConfig: AngularEditorConfig = {
     editable: false,
     showToolbar: false,
@@ -172,8 +177,24 @@ export class CreateProductComponent implements OnInit {
   isProductUnitExceeded: boolean = false;
   videoUrls: string[] = [];
   videoWidget: any;
+
   @ViewChild('variationForm', { static: false })
   variationForm: ElementRef<HTMLElement>;
+
+  @ViewChild('complementaryForm', { static: false })
+  complementaryForm: ElementRef<HTMLElement>;
+
+  @ViewChild('complementaryItemNameInput', { static: false })
+  complementaryItemNameInput: ElementRef<HTMLElement>;
+
+  @ViewChild('availableUnitsContainer', { static: false })
+  availableUnitsContainer: ElementRef<HTMLElement>;
+
+  @ViewChild('availableUnitsInput', { static: false })
+  availableUnitsInput: ElementRef<HTMLElement>;
+
+  exceededUnitAction$: Subscription;
+  isScroll: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -220,7 +241,7 @@ export class CreateProductComponent implements OnInit {
       {
         cloudName: environment.cloudinaryName,
         uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif', 'mp4'],
+        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
@@ -243,7 +264,6 @@ export class CreateProductComponent implements OnInit {
         if (!error && result && result.event === 'success') {
           if (this.videoUrls.length < 4) {
             this.videoUrls.push(result.info.secure_url);
-            console.log(this.videoUrls);
           }
         }
       }
@@ -327,14 +347,35 @@ export class CreateProductComponent implements OnInit {
 
     this.productService.newProductUnit.subscribe((value) => {
       this.initialProductUnit = value;
+      this.availableProductUnit = 0;
       this.form.patchValue({ unit: value });
-      this.availableProductUnit = value - this.variationProps.get('unit').value;
+
+      this.isProductUnitExceeded = false;
     });
+
+    this.exceededUnitAction$ = this.productService.exceededUnitAction.subscribe(
+      (action) => {
+        if (action) {
+          this.isScroll = true;
+          setTimeout(() => {
+            window.scrollTo(
+              0,
+              this.availableUnitsContainer.nativeElement.offsetTop
+            );
+          }, 100);
+          this.availableUnitsInput.nativeElement.focus();
+        }
+      }
+    );
   }
+
+  ngAfterViewChecked(): void {}
 
   addStore() {
     this.dialogService
-      .openDialog(SellerStoreCreateDialogComponent, false)
+      .openDialog(SellerStoreCreateDialogComponent, {
+        data: { data: null, mode: 'create' },
+      })
       .afterClosed()
       .subscribe((response) => {
         response ? this.getStores(this.user.id) : null;
@@ -372,7 +413,6 @@ export class CreateProductComponent implements OnInit {
           this.getSubCategories(res.data.category.id);
           this.setComplementaryImageForUpdate(res.data);
           this.images = res.data.productImages;
-          console.log(res.data);
 
           this.productImage = this.images[0];
           this.videoUrls = res.data.videoUrls;
@@ -419,7 +459,7 @@ export class CreateProductComponent implements OnInit {
       description: [data.description, [Validators.required]],
       price: [data.price, [Validators.required]],
       weight: [data.weight, [Validators.required]],
-      previousPrice: [data.previousPrice],
+      previousPrice: [data.previousPrice === ''? 0: data.previousPrice],
       imageUrls: [data.productImages],
       pickupOption: [data.pickupOption, [Validators.required]],
       imageUrl: [data.imageUrl],
@@ -451,10 +491,8 @@ export class CreateProductComponent implements OnInit {
         this.allVariantList.push(element);
       }
     }
-    console.log(this.allVariantList);
 
     this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
-    console.log(this.initialProductUnit, this.totalVariationsUnit);
 
     this.availableProductUnit =
       this.initialProductUnit - this.totalVariationsUnit;
@@ -679,6 +717,8 @@ export class CreateProductComponent implements OnInit {
 
     this.editingVariation = false;
     this.editingVariationUnit = 0;
+
+    this.toast.success('Product variant added');
   }
 
   getTotalVariationUnit(list: any[]) {
@@ -689,12 +729,21 @@ export class CreateProductComponent implements OnInit {
 
   // this method is to close the variation of products card
   removeEditVariation(): void {
+    uikit.modal('#delete-modal').show();
+  }
+
+  onCancelRemoveEditVariation() {
+    uikit.modal('#delete-modal').hide();
+  }
+
+  onConfirmRemoveEditVariation() {
     this.variationProps.reset();
     this.editingTotalVariationsUnit = 0;
     this.totalVariationsUnit += this.editingVariationUnit;
     this.editingVariationUnit = 0;
     this.addingVariation = false;
     this.editingVariation = false;
+    uikit.modal('#delete-modal').hide();
   }
 
   // this method is to remove already created product varaints
@@ -760,6 +809,9 @@ export class CreateProductComponent implements OnInit {
   addEditOption(): void {
     this.addingComplimentaryOptions = true;
     this.editProps = this.createOptions();
+    this.changeDetector.detectChanges();
+    this.complementaryForm.nativeElement.scrollIntoView();
+    this.complementaryItemNameInput.nativeElement.focus();
   }
 
   // this method is to add the complimentary/related products card to the options variable of the main form
@@ -809,7 +861,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   onUploadVideo() {
-    if (this.videoUrls.length > 4) {
+    if (this.videoUrls.length >= 4) {
       this.toast.warining('You can only upload up to four videos');
       return;
     }

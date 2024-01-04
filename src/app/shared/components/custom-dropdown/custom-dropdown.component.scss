@@ -1,72 +1,100 @@
 .input-container {
+  width: 100%;
+  outline: none;
+  border-radius: 4px;
+  border: 1px solid #bdbdbd;
+  padding: 0;
+  height: 3rem;
+  // overflow: hidden;
+  align-items: center;
+  position: relative;
+
+  & .input-main {
     width: 100%;
+  }
+
+  input {
+    border: 0;
     outline: none;
-    border-radius: 4px;
-    border: 1px solid #BDBDBD;
-    padding: 0;
-    height: 3rem;
-    // overflow: hidden;
+    flex-grow: 1;
+    border-right: 1px solid #bdbdbd;
+    padding: 12.5px 20px;
+    // width: 100%;
+
+    &:focus {
+      border: 0;
+      outline: none;
+      border-right: 1px solid #bdbdbd;
+    }
+
+    &:disabled {
+      background-color: white;
+    }
+  }
+
+  .dropdown-icon {
+    padding: 0 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    position: relative;
+  }
 
-
-    input {
-        border: 0;
-        outline: none;
-        flex-grow: 1;
-        border-right: 1px solid #BDBDBD;
-        padding: 12.5px 20px;
-
-        &:focus {
-            border: 0;
-            outline: none;
-            border-right: 1px solid #BDBDBD;
-        }
-
-        &:disabled {
-            background-color: white;
-        }
-    }
-
-    .dropdown-icon {
-        padding: 0 1rem;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .content-body {
-        position: absolute;
-        z-index: 50;
-        margin-bottom: .5rem;
-        box-shadow: 0 0 5px rgba($color: #000000, $alpha: .4);
-        top: 3rem;
-        height: 6rem;
-        background: #fff;
-        width: 100%;
-    }
+  .content-body {
+    position: absolute;
+    z-index: 50;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.4);
+    top: 3rem;
+    height: 6rem;
+    background: #fff;
+    width: 100%;
+  }
 }
 
 .dropdown-contents {
-    overflow-y: auto;
-    max-height: 18rem;
+  overflow-y: auto;
+  max-height: 18rem;
 
-    .contents-item {
-        cursor: pointer;
-        padding: 0.5rem;
+  .contents-item {
+    cursor: pointer;
+    padding: 0.5rem;
 
-        p {
-            margin: 0;
-        }
-
-        &:hover,
-        &-selected {
-            background-color: #f2f2f2;
-        }
+    p {
+      margin: 0;
     }
+
+    &:hover,
+    &-selected {
+      background-color: #f2f2f2;
+    }
+  }
 }
 
 .mb-1 {
-    margin-bottom: .2rem;
+  margin-bottom: 0.2rem;
+}
+
+mat-form-field {
+  width: 100%;
+
+  & .cdk-overlay-pane {
+    width: 100%;
+  }
+
+  & .mat-mdc-select-panel {
+    width: 100%;
+  }
+}
+
+.accounts-list {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 770px) {
+  .bank-select,
+  .account-select {
+    margin-top: 10px;
+  }
 }

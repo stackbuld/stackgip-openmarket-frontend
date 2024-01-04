@@ -16,8 +16,10 @@ export class BankAccountService {
   constructor(private http: HttpClient) {}
 
   validateAccount(payload) {
-    return this.http
-    .post(`${this.baseUrl}api/v1/bankaccount/banks/validate-account/`, payload)
+    return this.http.post(
+      `${this.baseUrl}api/v1/bankaccount/banks/validate-account/`,
+      payload
+    );
   }
 
   getUserBankList(userId) {

@@ -20,6 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { VariationsAlertDialogComponent } from './create-product/variations-alert-dialog/variations-alert-dialog.component';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { VariationsAlertDialogComponent } from './create-product/variations-aler
     MatFormFieldModule,
     MatInputModule,
     AngularEditorModule,
+    NgxPageScrollCoreModule.forRoot({ duration: 2500, scrollInView: false }),
   ],
 })
 export class InventoryModule {}

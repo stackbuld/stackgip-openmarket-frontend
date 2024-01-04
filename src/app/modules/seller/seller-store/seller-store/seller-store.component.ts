@@ -3,8 +3,12 @@ import { SellerStores } from 'src/app/models/StoreModels';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { HelperService } from 'src/app/shared/services/helper.service';
 import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
-import { CreateProductResponse } from '../../../../models/products.model';
+import {
+  CreateProductResponse,
+  SellerStore,
+} from '../../../../models/products.model';
 import { SellerStoreCreateDialogComponent } from '../seller-store-create-dialog/seller-store-create-dialog.component';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-seller-store',
@@ -22,7 +26,8 @@ export class SellerStoreComponent implements OnInit {
   constructor(
     private helperService: HelperService,
     private sellerStoreService: SellerStoreService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -40,8 +45,8 @@ export class SellerStoreComponent implements OnInit {
       });
   }
 
-  onEdit(sellerStore: SellerStores) {
-    sellerStore.isDefault = true;
+  onEdit(sellerStore: SellerStores, isDefault: boolean) {
+    sellerStore.isDefault = isDefault;
     this.sellerStoreService
       .updateSellerStore(sellerStore, sellerStore.id)
       .subscribe((response: any) => {
@@ -64,12 +69,15 @@ export class SellerStoreComponent implements OnInit {
   }
 
   deleteSeller(sellerStore) {
-    this.sellerStoreService
-      .deleteSellerStore(sellerStore)
-      .subscribe((res: any) => {
+    this.sellerStoreService.deleteSellerStore(sellerStore).subscribe({
+      next: (res: any) => {
         this.dialogService.openSuccessfulDialog(res.data, 'OK');
         this.getSellerStoreList();
-      });
+      },
+      error: (err) => {
+        this.toast.error('Can not delete a default store!');
+      },
+    });
   }
 
   closeEditProductModal(): void {
@@ -82,6 +90,12 @@ export class SellerStoreComponent implements OnInit {
       .getSellerstores(this.helperService.getLoggedInUserId())
       .subscribe((sellerStores) => {
         this.sellerStores = sellerStores;
+        if (!this.sellerStores.find((store) => store.isDefault == true)) {
+          this.sellerStores[0].isDefault = true;
+          this.onEdit(this.sellerStores[0], true);
+        }
+        console.log(this.sellerStores);
+
         this.isLoading = false;
       });
   }

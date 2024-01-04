@@ -18,13 +18,14 @@ export class ViewProductComponent implements OnInit {
   previewImg: string;
   id: any;
   product: any;
-  variationList: any;
+  variationList: any[] = [];
   user: any;
   orderDetails: any;
   variation: any;
   complimentartProducts: any[] = [];
   isFullDescription = false;
   hasFullDesc: boolean;
+  videoUrls: string[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -48,20 +49,13 @@ export class ViewProductComponent implements OnInit {
 
   getProduct(id: string) {
     this.loading = true;
-    this.complimentartProducts = [];
-    this.variation = [];
-    this.productService.getProduct(id).subscribe(
-      (res) => {
+    this.productService.getProduct(id).subscribe({
+      next: (res) => {
         if (res.status === 'success') {
           this.loading = false;
 
           this.product = res.data;
-
-          this.product['productImages'] = [
-            this.product.imageUrl,
-            ...this.product.productImages,
-          ];
-
+          this.videoUrls = res.data.videoUrls;
           this.previewImg = this.product.productImages[0];
           let variations = [];
 
@@ -80,14 +74,30 @@ export class ViewProductComponent implements OnInit {
               variations.push(element);
             }
           }
+
           this.setVariation(variations);
         }
       },
-      (err) => {
+      error: (err) => {
         this.loading = false;
         this.toastservice.error(err.message);
-      }
-    );
+      },
+    });
+  }
+
+  setVariation(list: any) {
+    const groupedOptions = list.reduce((acc, option) => {
+      const title = option.title;
+      const existingOptions = acc[title] || [];
+
+      return {
+        ...acc,
+        [title]: [...existingOptions, option],
+      };
+    }, {});
+
+    const groupedOptionsArray = Object.values(groupedOptions);
+    this.variationList = groupedOptionsArray;
   }
 
   getProductOrderSummary() {
@@ -174,19 +184,6 @@ export class ViewProductComponent implements OnInit {
         this.toastservice.error(err.message);
       }
     );
-  }
-
-  setVariation(list: any) {
-    const result = list.reduce((acc, { title, value }) => {
-      acc[title] ??= { title: title, value: [] };
-      if (Array.isArray(value))
-        // if it's array type then concat
-        acc[title].value = acc[title].value.concat(value);
-      else acc[title].value.push(value);
-      return acc;
-    }, {});
-
-    this.variationList = Object.values(result);
   }
 
   showImg(img: string) {
