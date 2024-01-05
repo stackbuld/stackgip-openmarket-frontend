@@ -3,11 +3,12 @@ import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import uikit from 'uikit';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
+import { OrderAcceptRejectPayload } from 'src/app/models/order.model';
 
 declare var cloudinary: any;
 
@@ -43,11 +44,16 @@ export class OrderViewComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private sellerStore: SellerStoreService
-  ) {
-    this.getDetails();
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        window.scrollTo(0, 0);
+      }
+    });
+
+    this.getDetails();
     this.initMediaWidget();
     this.initVideoWidget();
 
@@ -169,7 +175,7 @@ export class OrderViewComponent implements OnInit {
 
   rejectOrder = () => {
     this.rejectingOrder = true;
-    const payload = {
+    const payload: OrderAcceptRejectPayload = {
       orderId: this.order.id,
       photoUrl: '',
       videoUrl: '',
@@ -177,25 +183,20 @@ export class OrderViewComponent implements OnInit {
       additionalInformation: '',
       rejectionReason: this.rejectionReason,
       isConfirmed: false,
-      pickupDate: '',
+      pickupDate: '2024-01-05T04:20:39.842Z',
     };
 
     this.orderService.acceptRejectOrder(payload).subscribe({
       next: (res) => {
-        if (res.status === 'success') {
-          uikit.modal('#reject-modal').hide();
-          this.rejectingOrder = false;
-          this.closeRejectDialog();
-          this.toastr.success(res.message, 'SUCCESS');
-          this.router.navigate(['/seller/orders']);
-          this.orderService.orderActionTaken.next(true);
-        } else {
-          this.rejectingOrder = false;
-          this.toastr.success(res.message, 'SUCCESS');
-        }
+        this.rejectingOrder = false;
+        this.toastr.success(res.message, 'SUCCESS');
+        uikit.modal('#reject-modal').hide();
+        this.router.navigate(['/seller/orders']);
+        this.orderService.orderActionTaken.next(true);
       },
       error: (err) => {
         this.rejectingOrder = false;
+        this.toastr.error('An error ocurred! Try again ');
       },
     });
   };

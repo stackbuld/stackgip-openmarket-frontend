@@ -1,47 +1,50 @@
 import {
-    ProductModel, CreateShipmentModel, IPagerResponse,
-    CreateProductOption, IApiResponseModel
-} from "./products.model";
+  ProductModel,
+  CreateShipmentModel,
+  IPagerResponse,
+  CreateProductOption,
+  IApiResponseModel,
+} from './products.model';
 import { IUserResponse } from './IUserModel';
 import { Observable } from 'rxjs';
 
 export interface OrderResponce extends IApiResponseModel {
-    data: OrderDetail[];
+  data: OrderDetail[];
 }
 
 export interface OrderApiModel extends IApiResponseModel {
-    data: IOrderPage;
+  data: IOrderPage;
 }
 
 export interface IOrderPage extends IPagerResponse {
-    data: OrderDetail[];
+  data: OrderDetail[];
 }
 
 export interface OrderDetail {
-    userId:         string;
-    billingAddress: string;
-    country:        string;
-    state:          string;
-    city:           string;
-    status:         string;
-    orders:         Order[];
-    id:             number;
-    createdOn:      Date;
-    viewMore?:      boolean;
-    user$?:         Observable<IUserResponse>
+  userId: string;
+  billingAddress: string;
+  country: string;
+  state: string;
+  city: string;
+  status: string;
+  orders: Order[];
+  id: number;
+  createdOn: Date;
+  viewMore?: boolean;
+  user$?: Observable<IUserResponse>;
 }
 
 export interface Order {
-    productId: number;
-    product:   ProductModel;
-    unit:      number;
-    price:     number;
-    discount:  number;
-    total:     number;
-    status:    string;
-    invoiceId: number;
-    id:        number;
-    createdOn: Date;
+  productId: number;
+  product: ProductModel;
+  unit: number;
+  price: number;
+  discount: number;
+  total: number;
+  status: string;
+  invoiceId: number;
+  id: number;
+  createdOn: Date;
 }
 
 export interface OrderProductModel extends ProductModel {
@@ -50,10 +53,22 @@ export interface OrderProductModel extends ProductModel {
 }
 
 export interface OrderStatus {
-    status?:           string
-    reason?:           string
-    itemLocationInfo?: string
+  status?: string;
+  reason?: string;
+  itemLocationInfo?: string;
 }
+
+export interface OrderAcceptRejectPayload {
+  orderId: string;
+  photoUrl: string;
+  videoUrl: string;
+  serialNumber: string;
+  additionalInformation: string;
+  rejectionReason: string;
+  isConfirmed: boolean;
+  pickupDate: string;
+}
+
 // export interface Product {
 //     name:             string;
 //     price:            number;
