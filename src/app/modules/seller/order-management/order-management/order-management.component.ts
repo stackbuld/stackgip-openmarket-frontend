@@ -294,26 +294,31 @@ export class OrderManagementComponent
         break;
       case Tabs.InTransit:
         this.orderStatus = '';
+        this.deliveryStatus = 'pending';
         this.setTabs(Tabs.InTransit);
         this.fetchAllOrders(this.defaultPage);
         break;
       case Tabs.AwaitingPickup:
         this.orderStatus = '';
+        this.deliveryStatus = 'pending';
         this.setTabs(Tabs.AwaitingPickup);
         this.fetchAllOrders(this.defaultPage);
         break;
       case Tabs.Delivering:
         this.orderStatus = '';
+        this.deliveryStatus = 'scheduled';
         this.setTabs(Tabs.Delivering);
         this.fetchAllOrders(this.defaultPage);
         break;
       case Tabs.Delivered:
         this.orderStatus = '';
+        this.deliveryStatus = Tabs.Delivered;
         this.setTabs(Tabs.Delivered);
         this.fetchAllOrders(this.defaultPage);
         break;
       case Tabs.InTransitAll:
         this.orderStatus = '';
+        this.deliveryStatus = '';
         this.setTabs(Tabs.InTransitAll);
         this.fetchAllOrders(this.defaultPage);
     }
