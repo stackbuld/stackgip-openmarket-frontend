@@ -7,6 +7,7 @@ import {
   Order,
   OrderApiModel,
   OrderStatus,
+  OrderAcceptRejectPayload,
 } from './../../models/order.model';
 import { IApiResponseModel } from 'src/app/models/products.model';
 import * as moment from 'moment';
@@ -81,7 +82,9 @@ export class OrderService {
     );
   }
 
-  acceptRejectOrder(payload): Observable<OrderResponce> {
+  acceptRejectOrder(
+    payload: OrderAcceptRejectPayload
+  ): Observable<OrderResponce> {
     return this.http.post<OrderResponce>(
       `${this.baseUrl}order/accept-decline`,
       payload
