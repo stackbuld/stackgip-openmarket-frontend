@@ -459,7 +459,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       description: [data.description, [Validators.required]],
       price: [data.price, [Validators.required]],
       weight: [data.weight, [Validators.required]],
-      previousPrice: [data.previousPrice === ''? 0: data.previousPrice],
+      previousPrice: [data.previousPrice === '' ? 0 : data.previousPrice],
       imageUrls: [data.productImages],
       pickupOption: [data.pickupOption, [Validators.required]],
       imageUrl: [data.imageUrl],
@@ -888,7 +888,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
   removeVariationImage(image_url): void {
     this.imageErr = null;
     this.variationImages = this.variationImages.filter((a) => a !== image_url);
-    this.variationProps.patchValue({ imageUrl: image_url });
+    this.variationProps.patchValue({ imageUrl: '' });
   }
 
   removeRelatedImage(): void {
