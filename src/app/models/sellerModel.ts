@@ -32,6 +32,7 @@ export interface ISeller {
   idVerificationNumber: string;
   userAddressLandMark: string;
   rejectionReason: string;
+  profileImageUrl?: string;
 }
 
 export interface GetSeller extends ResponseModel {
