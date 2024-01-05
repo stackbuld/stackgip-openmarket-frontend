@@ -220,21 +220,21 @@ export class SellerRegisterationFormComponent
     } else {
       this.isLoading = true;
 
-      this.regSeller$ = this.sellerS.registerSeller(payload).subscribe(
-        (res: { user: IUser; response: ResponseModel }) => {
+      this.regSeller$ = this.sellerS.registerSeller(payload).subscribe({
+        next: (res: { user: IUser; response: ResponseModel }) => {
           if (res.response.status === 'success') {
             this.isLoading = false;
             this.toast.success('Registeration successfully submited');
             // this.closeModal(true);
             uikit.modal('#confirm-seller-register').show();
-            this.router.navigate(['/seller/dashboard']);
+            // this.router.navigate(['/seller/dashboard']);
           }
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
           this.toast.error(err.error.message);
-        }
-      );
+        },
+      });
     }
 
     // this.isLoading = true;
