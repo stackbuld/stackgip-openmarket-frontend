@@ -88,15 +88,22 @@ export class SellerStoreComponent implements OnInit {
     this.isLoading = true;
     this.sellerStoreService
       .getSellerstores(this.helperService.getLoggedInUserId())
-      .subscribe((sellerStores) => {
-        this.sellerStores = sellerStores;
-        if (!this.sellerStores.find((store) => store.isDefault == true)) {
-          this.sellerStores[0].isDefault = true;
-          this.onEdit(this.sellerStores[0], true);
-        }
-        console.log(this.sellerStores);
+      .subscribe({
+        next: (sellerStores) => {
+          this.sellerStores = sellerStores;
+          if (sellerStores.length > 0) {
+            if (!this.sellerStores.find((store) => store.isDefault == true)) {
+              this.sellerStores[0].isDefault = true;
+              this.onEdit(this.sellerStores[0], true);
+            }
+          }
 
-        this.isLoading = false;
+          this.isLoading = false;
+        },
+        error: (err) => {
+          this.toast.error('An error ocurred!');
+          this.isLoading = false;
+        },
       });
   }
 
