@@ -174,9 +174,18 @@ export class SellerRegisterationFormComponent
   openModalForMe() {
     this.authService.showSharedSignupModal();
   }
+
+  updateSellerLocalDetails() {
+    const sellerId = this.authService.getLoggedInUser().id;
+    this.sellerS.getSeller(sellerId).subscribe({
+      next: (seller) => {
+        localStorage.setItem('user', JSON.stringify(seller.data));
+      },
+      error: (err) => {},
+    });
+  }
+
   submit() {
-    // console.log(this.sellerRegFormGroup)
-    // return;
     if (!this.user?.id) {
       this.authService.showSharedLoginModal();
       return;
@@ -192,7 +201,6 @@ export class SellerRegisterationFormComponent
         this.isBusinessRegistered === true
           ? this.sellerRegFormGroup.get('businessRegistrationNumber')?.value
           : null,
-      // ...(this.image && ({businessLogo: this.image,})),
       businessType: '',
       lga: this.sellerRegFormGroup.get('lga')?.value,
       landmark: this.sellerRegFormGroup.get('landmark')?.value,
@@ -225,6 +233,7 @@ export class SellerRegisterationFormComponent
           if (res.response.status === 'success') {
             this.isLoading = false;
             this.toast.success('Registeration successfully submited');
+            this.updateSellerLocalDetails();
             // this.closeModal(true);
             uikit.modal('#confirm-seller-register').show();
             // this.router.navigate(['/seller/dashboard']);
