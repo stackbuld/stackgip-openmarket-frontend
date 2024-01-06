@@ -51,10 +51,10 @@ export class SellerStorefrontComponent implements OnInit {
             ? this.defaultBannerUrl
             : this.sellerStorefrontDetails.coverPhotoUrl;
         /* The code snippet is assigning a value to the `logoImgUrl` property based on the value of
-        `sellerStorefrontDetails.businessLogoUrl`. */
-        this.logoImgUrl = !this.sellerStorefrontDetails.businessLogoUrl
+        `sellerStorefrontDetails.profileImageUrl`. */
+        this.logoImgUrl = !this.sellerStorefrontDetails.profileImageUrl
           ? this.defaultLogoImgUrl
-          : this.sellerStorefrontDetails.businessLogoUrl;
+          : this.sellerStorefrontDetails.profileImageUrl;
         /* The code snippet is calling the `getImageResolution` method to modify the `bannerImgUrl` and
         `logoImgUrl` properties. */
         this.bannerImgUrl = this.getImageResolution(

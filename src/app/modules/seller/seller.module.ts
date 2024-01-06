@@ -42,6 +42,8 @@ import { OTPDialogComponent } from './profile-dashboard/otp-dialog/otp-dialog.co
 import { EmailDialogComponent } from './profile-dashboard/email-dialog/email-dialog.component';
 import { SellerProductSearchComponent } from './seller-product-search/seller-product-search.component';
 import { ProductSearchImageDirective } from './seller-product-search/product-search-image.directive';
+import { OrderStatusDirective } from './order-management/order-management/order-status.directive';
+import { DeliveryStatusDirective } from './order-management/order-management/delivery-status.directive';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,8 @@ import { ProductSearchImageDirective } from './seller-product-search/product-sea
     EmailDialogComponent,
     SellerProductSearchComponent,
     ProductSearchImageDirective,
+    OrderStatusDirective,
+    DeliveryStatusDirective,
   ],
   imports: [
     CommonModule,
