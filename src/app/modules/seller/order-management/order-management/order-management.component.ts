@@ -247,8 +247,6 @@ export class OrderManagementComponent
       });
   };
 
-  test = 2;
-
   setTabs(activeTab: string): void {
     Object.keys(Tabs).forEach((tab) => {
       this[Tabs[tab]] = false;
@@ -262,7 +260,7 @@ export class OrderManagementComponent
     ) {
       this.inTransitTab = true;
     } else if (activeTab == Tabs.InTransit) {
-      this.awaitingPickup = true;
+      this.inTransitAll = true;
     }
 
     this[activeTab] = true;
@@ -292,19 +290,19 @@ export class OrderManagementComponent
         break;
       case Tabs.InTransit:
         this.orderStatus = '';
-        this.deliveryStatus = 'pending';
+        this.deliveryStatus = '';
         this.setTabs(Tabs.InTransit);
         this.fetchAllOrders(this.defaultPage);
         break;
       case Tabs.AwaitingPickup:
         this.orderStatus = '';
-        this.deliveryStatus = 'pending';
+        this.deliveryStatus = 'assignedForPickup';
         this.setTabs(Tabs.AwaitingPickup);
         this.fetchAllOrders(this.defaultPage);
         break;
       case Tabs.Delivering:
         this.orderStatus = '';
-        this.deliveryStatus = 'scheduled';
+        this.deliveryStatus = 'pickedUpFromStore ' || 'assignedForDelivery';
         this.setTabs(Tabs.Delivering);
         this.fetchAllOrders(this.defaultPage);
         break;
