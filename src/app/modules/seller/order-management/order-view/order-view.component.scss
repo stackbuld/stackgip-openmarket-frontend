@@ -225,6 +225,21 @@
   text-transform: capitalize;
 }
 
+.upload-image {
+  margin: 50px 0;
+
+  & .upload-btn {
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    font-size: 16px;
+    background: transparent;
+    color: #000;
+    outline: none !important;
+    border: 1px solid #000;
+    margin-bottom: 10px;
+  }
+}
+
 .accept-btn {
   padding: 1rem 2rem;
   border-radius: 4px;
@@ -276,11 +291,31 @@ textarea {
 }
 
 .file-div {
+  position: relative;
+  height: 250px;
   border: 1px solid #979797 !important;
   border-radius: 5px;
-  // object-fit: cover;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-position: center center;
+  background-size: contain;
+
+  & .remove-image {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    border-radius: 4px;
+    cursor: pointer;
+
+    & i {
+      color: #fff;
+      font-size: 20px;
+    }
+  }
 }
 
 .name-70 {
@@ -365,10 +400,6 @@ label {
     & img {
       min-width: 20px;
     }
-  }
-
-  &-copy {
-    color: rgba(151, 151, 151, 1);
   }
 }
 

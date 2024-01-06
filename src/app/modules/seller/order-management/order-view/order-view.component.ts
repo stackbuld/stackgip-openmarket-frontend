@@ -98,6 +98,7 @@ export class OrderViewComponent implements OnInit {
       (error, result) => {
         if (!error && result && result.event === 'success') {
           this.photoUrl = result.info.secure_url;
+          console.log(this.photoUrl);
         }
       }
     );
@@ -172,6 +173,10 @@ export class OrderViewComponent implements OnInit {
   closeRejectDialog = () => {
     document.getElementById('closeRejectOrderDialog').click();
   };
+
+  onRemovePhoto() {
+    this.photoUrl = '';
+  }
 
   rejectOrder = () => {
     this.rejectingOrder = true;
