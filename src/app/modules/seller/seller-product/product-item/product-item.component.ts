@@ -9,7 +9,10 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
-import { ProductModel } from '../../../../models/products.model';
+import {
+  ProductModel,
+  ProductsOverview,
+} from '../../../../models/products.model';
 import { ProductsService } from '../../../../services/products/products.service';
 import { ToastrService } from '../../../../services/toastr.service';
 
@@ -48,7 +51,7 @@ export class ProductItemComponent implements OnInit {
   loadingStock: boolean;
   loadingOverview: boolean;
   lowStock: any;
-  overview: any;
+  overview: ProductsOverview;
   stockForm: FormGroup;
   selectedStock: any;
   tab = 1;
@@ -165,7 +168,6 @@ export class ProductItemComponent implements OnInit {
         next: (productDetail) => {
           this.loading = false;
           this.productDetails = productDetail.data.data;
-          console.log(this.productDetails);
 
           this.pageNumber = productDetail.data.pager.pageNumber;
           this.totalItemCount = productDetail.data.pager.totalItemCount;

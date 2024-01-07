@@ -26,6 +26,15 @@ export interface PromotedProduct {
   createdOn: string;
 }
 
+export interface ProductsOverview {
+  lowStock: number;
+  pendingOrders: number;
+  totalOrders: number;
+  sales: number;
+  revenue: number;
+  totalProducts: number;
+}
+
 export interface Category {
   name: string;
   description: string;
