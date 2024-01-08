@@ -140,31 +140,10 @@ export class OrderManagementComponent
         filter(Boolean),
         debounceTime(300),
         distinctUntilChanged(),
-        map((data) => this.searchQuery.nativeElement.value.toLowerCase()),
-        switchMap((searchValue: any) => {
-          console.log(searchValue);
-
-          this.search = searchValue;
-          // this.fetchAllOrders(this.defaultPage);
-          return this.orderService.fetchAllOrders(
-            1,
-            this.maximumItem,
-            this.sellerId,
-            this.buyerId,
-            this.paymentReferenceId,
-            this.type,
-            this.startDate,
-            this.endDate,
-            this.dateType,
-            this.orderStatus,
-            this.deliveryStatus,
-            this.paymentStatus,
-            this.search
-          );
-        })
+        map((data) => this.searchQuery.nativeElement.value.toLowerCase())
       )
-      .subscribe((data) => {
-        console.log(data);
+      .subscribe((searchTerm) => {
+        this.fetchAllOrders(this.defaultPage);
       });
   }
 
@@ -236,6 +215,7 @@ export class OrderManagementComponent
       )
       .subscribe({
         next: (res) => {
+
           this.orders = res.data.data;
           this.pageNumber = res.data.pager.pageNumber;
           this.totalItemCount = res.data.pager.totalItemCount;
@@ -248,6 +228,7 @@ export class OrderManagementComponent
   };
 
   setTabs(activeTab: string): void {
+
     Object.keys(Tabs).forEach((tab) => {
       this[Tabs[tab]] = false;
     });
