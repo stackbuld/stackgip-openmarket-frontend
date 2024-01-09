@@ -69,18 +69,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.count$ = this.store.select(getcount);
-    if (this.swUpdate.isEnabled) {
-      this.swUpdate.available.subscribe(() => {
-        if (confirm('New version available. Load New Version?')) {
-          window.location.reload();
-        }
-      });
-    }
-    console.log(1);
-
-    this.swUpdate.versionUpdates.subscribe((event) => {
-      console.log(event);
-    });
   }
 
   increment() {
