@@ -230,7 +230,7 @@
             {{
               currentShippingMethod?.value?.logisticName == "Renaship"
                 ? "Price: Available on Order Summary"
-                : "Shipping: Starting from" +
+                : "Shipping: Starting from " +
                   (currentShippingMethod?.value?.startingPrice || 0
                     | currency : "NGN")
             }}
