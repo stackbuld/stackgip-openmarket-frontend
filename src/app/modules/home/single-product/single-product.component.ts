@@ -331,6 +331,7 @@ export class SingleProductComponent implements OnInit {
     this.complimentaryProductsList = [];
     this.productImages = [];
     this.shippingMethods = [this.defaultShipping];
+    this.currentShippingMethod.next(this.defaultShipping);
     this.imgUrls = [];
     this.sellerStores = [];
     this.router.navigate(['/homepage/product', id]);
