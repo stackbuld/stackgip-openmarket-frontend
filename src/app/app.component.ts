@@ -12,6 +12,7 @@ import {
   Router,
   RouterState,
 } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
 
 const selectCounter = (state: AppState) => state.count;
 
@@ -23,17 +24,17 @@ declare var gtag: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ecommerce-app';
 
   count$: Observable<number>;
-
 
   constructor(
     private store: Store<AppState>,
     private router: Router,
     private titleService: Title,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    private swUpdate: SwUpdate
   ) {
     this.handleRouteEvents();
   }

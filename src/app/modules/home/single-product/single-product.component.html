@@ -1,5 +1,4 @@
 <div class="loader-container" *ngIf="isLoadingDetails">
-  <!-- <img src="/assets/svg/loader-icon.svg" alt="" style="width: 150px" /> -->
   <span class="loader"></span>
 </div>
 <div class="main" *ngIf="!isLoadingDetails">
@@ -11,10 +10,12 @@
             thumbs-swiper=".swiper2"
             [config]="swiperConfig"
             pagination="true"
+            class="main-swiper-container"
           >
             <swiper-slide
               class="swiper"
               *ngFor="let media of sliderMedia; let i = index"
+              class="main-swiper-slide"
             >
               <ng-container *ngIf="media.isVideo">
                 <div class="video-test">
@@ -22,6 +23,7 @@
                     src="{{ media.url }}"
                     controls
                     uk-video="autoplay: false, automute: true"
+                    height="280"
                   ></video>
                 </div>
               </ng-container>
@@ -52,11 +54,10 @@
                   src="{{ media.url }}"
                   width="80"
                   height="80"
-                  controls
                   uk-video="autoplay: false"
                 ></video> -->
               </ng-container>
-              <ng-container *ngIf="media.isVideo == false">
+              <ng-container *ngIf="!media.isVideo">
                 <img [src]="media.url" alt="" class="thumb-image" />
               </ng-container>
             </swiper-slide>
@@ -233,7 +234,7 @@
             {{
               currentShippingMethod?.value?.logisticName == "Renaship"
                 ? "Price: Available on Order Summary"
-                : "Shipping: Starting from" +
+                : "Shipping: Starting from " +
                   (currentShippingMethod?.value?.startingPrice || 0
                     | currency : "NGN")
             }}

@@ -285,6 +285,10 @@
         <span class="w-200-px">Company Name:</span> &nbsp;
         <span>{{ order?.logistic?.logisticName || "N/A" }}</span>
       </p>
+      <p class="txt d-flex">
+        <span class="w-200-px">Shipping fee:</span> &nbsp;
+        <span>{{ (order?.shippingCost | currency : "NGN") || "N/A" }} </span>
+      </p>
     </div>
   </div>
 

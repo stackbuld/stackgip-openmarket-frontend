@@ -215,11 +215,11 @@ export class OrderManagementComponent
       )
       .subscribe({
         next: (res) => {
-
           this.orders = res.data.data;
           this.pageNumber = res.data.pager.pageNumber;
           this.totalItemCount = res.data.pager.totalItemCount;
           this.loadingOrders = false;
+          console.log(res.data);
         },
         error: (error) => {
           this.loadingOrders = false;
@@ -228,7 +228,6 @@ export class OrderManagementComponent
   };
 
   setTabs(activeTab: string): void {
-
     Object.keys(Tabs).forEach((tab) => {
       this[Tabs[tab]] = false;
     });
