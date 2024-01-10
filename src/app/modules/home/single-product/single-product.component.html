@@ -45,13 +45,17 @@
               *ngFor="let media of sliderMedia; let i = index"
             >
               <ng-container *ngIf="media.isVideo">
-                <video
+                <img
+                  src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1704632003/Video-placeholder_c7pakj.png"
+                  class="thumb-image"
+                />
+                <!-- <video
                   class="thumb-video"
                   src="{{ media.url }}"
                   width="80"
                   height="80"
                   uk-video="autoplay: false"
-                ></video>
+                ></video> -->
               </ng-container>
               <ng-container *ngIf="!media.isVideo">
                 <img [src]="media.url" alt="" class="thumb-image" />
