@@ -599,14 +599,15 @@ input[type="radio"] {
   & .product-image-main {
     & .main-swiper-image {
       width: 400px;
-      height: 400px;
+      height: 350px;
       object-fit: contain;
     }
   }
 
-  & .swiper-container {
+  & .main-swiper-container {
     display: flex;
     position: relative;
+    height: 310px !important;
   }
 
   & .swiper-slide {
@@ -619,7 +620,7 @@ input[type="radio"] {
 
   & .image-test {
     width: 100%;
-    height: 400px;
+    height: 280px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
@@ -627,7 +628,7 @@ input[type="radio"] {
 
   & .video-test {
     width: 100%;
-    height: 400px;
+    height: 280px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1102,10 +1103,6 @@ input[type="radio"] {
         height: 400px;
         object-fit: contain;
       }
-    }
-
-    & .product-image-slider {
-      display: none;
     }
   }
 }

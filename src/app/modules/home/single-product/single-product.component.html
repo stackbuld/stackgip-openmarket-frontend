@@ -10,10 +10,12 @@
             thumbs-swiper=".swiper2"
             [config]="swiperConfig"
             pagination="true"
+            class="main-swiper-container"
           >
             <swiper-slide
               class="swiper"
               *ngFor="let media of sliderMedia; let i = index"
+              class="main-swiper-slide"
             >
               <ng-container *ngIf="media.isVideo">
                 <div class="video-test">
@@ -21,6 +23,7 @@
                     src="{{ media.url }}"
                     controls
                     uk-video="autoplay: false, automute: true"
+                    height="280"
                   ></video>
                 </div>
               </ng-container>
