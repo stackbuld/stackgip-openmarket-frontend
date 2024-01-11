@@ -290,7 +290,8 @@ export class ProductCheckoutComponent implements OnInit {
               if (res.status === 'success') {
                 // this.router.navigateByUrl(res.data.redirectUrl);
                 this.windowService.nativeWindow.window.open(
-                  res.data.redirectUrl,'_blank'
+                  res.data.redirectUrl,
+                  '_blank'
                 );
                 this.loadingPayment = false;
               } else {

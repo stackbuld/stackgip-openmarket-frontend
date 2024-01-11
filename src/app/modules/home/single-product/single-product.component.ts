@@ -39,7 +39,7 @@ import { CountryService } from 'src/app/services/country/country.service';
 import { CountryInfo } from 'src/app/models/country.model';
 import { SellerStoreLocationService } from 'src/app/services/cart/seller-store.service';
 import { SearchService } from 'src/app/services/search/search.service';
-import { DeliveryAddressService } from 'src/app/services/cart/deliver-address.service';
+import { DeliveryAddressService } from 'src/app/services/cart/delivery-address.service';
 @Component({
   selector: 'app-single-product',
   templateUrl: './single-product.component.html',
@@ -69,7 +69,6 @@ export class SingleProductComponent implements OnInit {
   currentAddress!: CartAddress;
   selectedShippingMethod: GetShippingEstimatePrice;
   shippingMethods: GetShippingEstimatePrice[] = [];
-  // currentShippingMethod : GetShippingEstimatePrice = null;
   currentShippingMethod: BehaviorSubject<GetShippingEstimatePrice>;
   deletingAddress: boolean;
   loadingShippingEstimate: boolean = true;
@@ -172,6 +171,8 @@ export class SingleProductComponent implements OnInit {
       null
     );
 
+    console.log('shipping method', this.shippingMethods);
+
     this.currentShippingMethod.next(this.defaultShipping);
     this.shippingMethods.push(this.defaultShipping);
 
@@ -260,6 +261,7 @@ export class SingleProductComponent implements OnInit {
       });
     });
   }
+
   processRealTimeShippingPrice(
     notificationResponse: NotificationResponseModel
   ) {
@@ -268,7 +270,7 @@ export class SingleProductComponent implements OnInit {
         notificationResponse.notificationType ===
         'GET_LOGISTIC_PRICES_COMPLETED'
       ) {
-        this.isShippingMethodFetched = true;
+        // this.isShippingMethodFetched = true;
         this.loadingShippingEstimate = false;
         this.loadingShippingStatus = 'completed';
 
@@ -307,10 +309,11 @@ export class SingleProductComponent implements OnInit {
             this.shippingMethods,
             (a) => a.logisticCode === findExisting.logisticCode
           );
-          this.shippingMethods.push(data);
+          // this.shippingMethods.push(data);
         } else {
-          this.shippingMethods.push(data);
+          // this.shippingMethods.push(data);
         }
+        this.shippingMethods.push(data);
       }
       if (this.shippingMethods.length > 1) {
         this.isShippingMethodFetched = true;
@@ -318,6 +321,7 @@ export class SingleProductComponent implements OnInit {
       } else if (this.shippingMethods.length === 1) {
         this.currentShippingMethod.next(this.defaultShipping);
       }
+
       this.orderAndSelectDefaultShippingMethod();
     }
   }
@@ -328,16 +332,18 @@ export class SingleProductComponent implements OnInit {
 
   viewProduct = (id: any) => {
     this.isLoadingDetails = true;
+    this.router.navigate(['/homepage/product', id]);
     this.complimentaryProductsList = [];
     this.productImages = [];
-    this.shippingMethods = [this.defaultShipping];
-
-    this.currentShippingMethod.next(this.defaultShipping);
-    this.currentShippingMethod.subscribe((value) => {});
     this.imgUrls = [];
     this.sellerStores = [];
-    this.router.navigate(['/homepage/product', id]);
-    this.getShippingEstimate();
+    this.sliderMedia = [];
+
+    // this.getShippingEstimate();
+    this.isShippingMethodFetched = false;
+    this.shippingMethods = [this.defaultShipping];
+    this.currentShippingMethod.next(this.defaultShipping);
+    this.currentShippingMethod.subscribe();
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   };

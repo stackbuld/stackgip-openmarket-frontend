@@ -20,14 +20,16 @@ export class DeliveryAddressService {
   }
 
   setCurrentLocation(latitude: number, longitude: number) {
-    const geocoder = new google.maps.Geocoder();
-    const latLng = new google.maps.LatLng(latitude, longitude);
+    try {
+      const geocoder = new google.maps.Geocoder();
+      const latLng = new google.maps.LatLng(latitude, longitude);
 
-    geocoder.geocode({ location: latLng }, (results, status) => {
-      if (status === 'OK' && results[0]) {
-        this.deliveryAddress.next(results[0]);
-        const address = results[0].formatted_address;
-      }
-    });
+      geocoder.geocode({ location: latLng }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          this.deliveryAddress.next(results[0]);
+          const address = results[0].formatted_address;
+        }
+      });
+    } catch {}
   }
 }
