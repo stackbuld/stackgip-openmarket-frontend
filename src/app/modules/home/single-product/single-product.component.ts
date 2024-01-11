@@ -309,11 +309,10 @@ export class SingleProductComponent implements OnInit {
             this.shippingMethods,
             (a) => a.logisticCode === findExisting.logisticCode
           );
-          // this.shippingMethods.push(data);
+          this.shippingMethods.push(data);
         } else {
-          // this.shippingMethods.push(data);
+          this.shippingMethods.push(data);
         }
-        this.shippingMethods.push(data);
       }
       if (this.shippingMethods.length > 1) {
         this.isShippingMethodFetched = true;
@@ -338,8 +337,6 @@ export class SingleProductComponent implements OnInit {
     this.imgUrls = [];
     this.sellerStores = [];
     this.sliderMedia = [];
-
-    // this.getShippingEstimate();
     this.isShippingMethodFetched = false;
     this.shippingMethods = [this.defaultShipping];
     this.currentShippingMethod.next(this.defaultShipping);
