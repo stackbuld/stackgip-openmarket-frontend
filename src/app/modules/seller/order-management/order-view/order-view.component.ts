@@ -208,7 +208,7 @@ export class OrderViewComponent implements OnInit {
 
   acceptOrder = () => {
     if (!this.pickupTime.value || this.pickupTime.value == '') {
-      this.toastr.warning('Select a time');
+      this.toastr.warning('Select a pick up date and time for this order');
       return;
     }
     this.acceptingOrder = true;

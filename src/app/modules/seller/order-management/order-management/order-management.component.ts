@@ -219,7 +219,6 @@ export class OrderManagementComponent
           this.pageNumber = res.data.pager.pageNumber;
           this.totalItemCount = res.data.pager.totalItemCount;
           this.loadingOrders = false;
-          console.log(res.data);
         },
         error: (error) => {
           this.loadingOrders = false;

@@ -301,7 +301,9 @@
           item?.cartProduct?.product?.name || "N/A"
         }}</span>
         <span class="w-20">{{ item?.createdOn | date : "mediumDate" }}</span>
-        <span class="w-15">{{ item?.amountPaid || 0 | currency : "₦" }}</span>
+        <span class="w-15">{{
+          item?.productAmount || 0 | currency : "₦"
+        }}</span>
         <span class="w-15">
           <span
             class="delivery-status"
@@ -414,7 +416,7 @@
           <p class="name">{{ item?.cartProduct?.product?.name || "N/A" }}</p>
           <div class="d-flex justify-content-between align-items-center">
             <p>{{ item?.createdOn | date : "mediumDate" }}</p>
-            <p class="name">{{ item?.amountPaid || 0 | currency : "₦" }}</p>
+            <p class="name">{{ item?.productAmount || 0 | currency : "₦" }}</p>
           </div>
           <button (click)="viewOrder(item)" class="view-btn">View</button>
         </div>

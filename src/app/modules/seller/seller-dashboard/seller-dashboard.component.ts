@@ -52,15 +52,16 @@ export class SellerDashboardComponent implements OnInit {
 
   getMostSelling() {
     this.loading = true;
-    this.dashboardService.getMostSellingProducts(this.user.id).subscribe(
-      (res) => {
+    this.dashboardService.getMostSellingProducts(this.user.id).subscribe({
+      next: (res) => {
         this.mostSelling = res.data;
         this.loading = false;
+        console.log(res);
       },
-      (err) => {
+      error: (err) => {
         this.loading = false;
-      }
-    );
+      },
+    });
   }
 
   getImageResolution = (url: string, width: number, height: number) => {
