@@ -1,10 +1,20 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HelperService } from 'src/app/shared/services/helper.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { ToastrService } from 'src/app/services/toastr.service';
+import { SellerStores, StoreAvailability } from 'src/app/models/StoreModels';
+import { CountryInfo } from 'src/app/models/country.model';
+import { CountryService } from 'src/app/services/country/country.service';
 
 @Component({
   selector: 'app-seller-store-create-dialog',
@@ -12,49 +22,248 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
   styleUrls: ['./seller-store-create-dialog.component.scss'],
 })
 export class SellerStoreCreateDialogComponent implements OnInit {
+  sellerStoreAddressForm: FormGroup = new FormGroup({});
   mode: string = 'create';
   private phonePattern = /^234[789][01]\d{8}$/;
   setter = 'Please type your store name';
   notReady = true;
   loading: boolean;
+  times: string[] = [];
+  days: string[] = [];
+  isGoogleAddressSelected: boolean = false;
+  countryInfo: CountryInfo[] = [];
+  storeAvailabilties: StoreAvailability[] = [];
+  isEditing: boolean[] = [];
+  editingIndex: number;
+  storeId: string;
+  isAvailabilityAdded: boolean = true;
+  formattedAvailabilities: StoreAvailability[] = [];
 
   constructor(
     private fb: FormBuilder,
     private sellerStoreService: SellerStoreService,
     private dialogRef: MatDialogRef<SellerStoreCreateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private helperService: HelperService
+    @Inject(MAT_DIALOG_DATA)
+    private modalInfo: { data: SellerStores; mode: string },
+    private helperService: HelperService,
+    private toastr: ToastrService,
+    private countryService: CountryService
   ) {}
 
-  sellerStoreAddressForm: FormGroup = new FormGroup({});
-
   @ViewChild('placesRef') placesRef: GooglePlaceDirective;
-  options = {
+  options: any = {
     types: ['address'],
-    // componentRestrictions: { country: 'NG' },
+    componentRestrictions: { country: 'NG' },
   };
+
+  ngOnInit(): void {
+    const countryCodes = JSON.parse(localStorage.getItem('countryCodesInfo')!);
+
+    if (countryCodes) {
+      this.countryInfo = countryCodes;
+    } else {
+      this.countryService.getCountry().subscribe({
+        next: (data) => {
+          this.countryInfo = data;
+        },
+      });
+    }
+
+    this.days = this.sellerStoreService.days;
+
+    this.sellerStoreAddressForm = this.fb.group({
+      countryCode: ['+234'],
+      storeName: ['', [Validators.required]],
+      fullAddress: ['', [Validators.required]],
+      lat: ['100', [Validators.required]],
+      lng: ['100', [Validators.required]],
+      city: ['', [Validators.required]],
+      landmark: [''],
+      postalCode: [''],
+      state: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      isDefault: [false],
+      userId: [this.helperService.getLoggedInUserId(), [Validators.required]],
+      contactPhoneNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(11),
+          Validators.minLength(10),
+        ],
+      ],
+      storeAvailabilties: this.fb.array([]),
+    });
+
+    this.days.forEach((day) => {
+      this.addAvailability(day);
+    });
+
+    if (this.modalInfo.mode === 'edit') {
+      this.isGoogleAddressSelected = true;
+      this.setter = this.modalInfo.data.fullAddress;
+      this.storeId = this.modalInfo.data.id;
+
+      const phoneNumber = this.modalInfo.data.contactPhoneNumber.slice(-10);
+      let countryCode = this.modalInfo.data.contactPhoneNumber.slice(0, -10);
+      if (countryCode.charAt(0) !== '+') {
+        countryCode = '+234';
+      }
+
+      while (this.storeAvailability.length != 0) {
+        this.storeAvailability.clear();
+      }
+
+      this.days.forEach((day) => {
+        this.addAvailability(day);
+      });
+
+      this.sellerStoreAddressForm.patchValue({
+        countryCode: countryCode,
+        id: this.modalInfo.data.id,
+        storeName: this.modalInfo.data.storeName,
+        fullAddress: this.modalInfo.data.fullAddress,
+        lat: this.modalInfo.data.lat,
+        lng: this.modalInfo.data.lng,
+        city: this.modalInfo.data.city,
+        landmark: this.modalInfo.data.landmark ?? 'null',
+        postalCode: this.modalInfo.data.postalCode ?? 'null',
+        state: this.modalInfo.data.state,
+        country: this.modalInfo.data.country,
+        isDefault: this.modalInfo.data.isDefault,
+        userId: this.modalInfo.data.userId,
+        contactPhoneNumber: phoneNumber,
+      });
+
+      this.storeAvailabilties = this.sellerStoreService.mergeAvailabilities(
+        this.storeAvailability.value,
+        this.modalInfo.data.storeAvailabilties
+      );
+    } else {
+      this.storeAvailabilties = this.storeAvailability.value;
+      this.storeAvailabilties = this.sellerStoreService.mergeAvailabilities(
+        this.storeAvailability.value,
+        this.sellerStoreService.defaultAvailability
+      );
+    }
+
+    this.sellerStoreAddressForm.valueChanges.subscribe((value) => {
+      if (value.storeAvailabilties[this.editingIndex]?.closingTime !== null) {
+        this.sellerStoreService.storeAvailabilitiesSubj.next(value);
+        this.isEditing[this.editingIndex] = false;
+      }
+    });
+
+    this.sellerStoreService.storeAvailabilitiesSubj.subscribe((value) => {
+      this.storeAvailabilties = this.sellerStoreService.mergeAvailabilities(
+        this.storeAvailabilties,
+        value.storeAvailabilties
+      );
+
+      this.formattedAvailabilities =
+        this.sellerStoreService.formatStoreAvailability(
+          this.storeAvailabilties
+        );
+
+      if (this.formattedAvailabilities.length > 0) {
+        this.isAvailabilityAdded = true;
+      }
+    });
+
+    this.formattedAvailabilities =
+      this.sellerStoreService.formatStoreAvailability(this.storeAvailabilties);
+
+    this.sellerStoreAddressForm
+      .get('fullAddress')
+      .valueChanges.subscribe((value) => {
+        if (!value || value == '') {
+          this.isGoogleAddressSelected = false;
+        }
+      });
+  }
+
+  onEditAvail(index: number) {
+    this.storeAvailability.controls[index].patchValue({
+      openingTime: this.storeAvailabilties[index].openingTime,
+      closingTime: this.storeAvailabilties[index].closingTime,
+    });
+    this.isEditingAvail(index);
+  }
+
+  isEditingAvail(index: number) {
+    this.isEditing[index] = !this.isEditing[index];
+
+    this.editingIndex = index;
+  }
+
+  deleteAvail(index: number) {
+    if (this.editingIndex) {
+      this.isEditing[this.editingIndex] = false;
+      this.editingIndex = null;
+      return;
+    }
+
+    this.isEditing[index] = false;
+
+    this.storeAvailabilties.map((avail, availIndex) => {
+      if (availIndex == index) {
+        avail.closingTime = null;
+        avail.openingTime = null;
+      }
+    });
+
+    this.storeAvailability.controls.forEach((control, ctrlIndex) => {
+      if (ctrlIndex == index) {
+        control.patchValue({ closingTime: null, openingTime: null });
+      }
+    });
+
+    this.storeAvailabilties.filter((availability, availIndex) => {
+      if (availIndex == index) {
+        availability.closingTime = null;
+        availability.openingTime = null;
+
+        return availability;
+      }
+    });
+
+    const newFormattedAvailabilities = [];
+    this.formattedAvailabilities.filter((formattedAvailability) => {
+      if (
+        formattedAvailability.dayOfWeek !==
+        this.storeAvailabilties[index].dayOfWeek
+      ) {
+        newFormattedAvailabilities.push(formattedAvailability);
+      }
+      if (newFormattedAvailabilities.length > 0) {
+        this.isAvailabilityAdded = true;
+      } else {
+        this.isAvailabilityAdded = false;
+      }
+    });
+    this.formattedAvailabilities = newFormattedAvailabilities;
+  }
+
+  getTimeForTimeEdit(time: string) {
+    const newTime = new Date();
+
+    const [hours, minutes] = time.split(':');
+
+    newTime.setHours(Number(hours), Number(minutes), 0, 0);
+
+    return newTime;
+  }
+
+  changeOption(e: any) {
+    this.sellerStoreAddressForm.patchValue({ countryCode: e.target.value });
+  }
 
   setAddressField = () => {
     this.notReady = false;
-  }
+  };
 
-  ngOnInit(): void {
-    // this.sellerStoreAddressForm = this.fb.group({
-    //   id: [''],
-    //   streetName: ['', [Validators.required]],
-    //   fullAddress: ['', [Validators.required]],
-    //   lat: ['', [Validators.required]],
-    //   lng: ['', [Validators.required]],
-    //   city: ['', [Validators.required]],
-    //   landmark: ['', [Validators.required]],
-    //   postalCode: ['', [Validators.required]],
-    //   state: ['', [Validators.required]],
-    //   country: ['', [Validators.required]],
-    //   isDefault: [''],
-    //   userId: ['', [Validators.required]],
-    //   contactPhoneNumber: ['', [Validators.required, Validators.pattern(this.phonePattern)]],
-    // });
-    this.checkMode();
+  get countryCode() {
+    return <FormControl>this.sellerStoreAddressForm.get('countryCode');
   }
 
   get storeName() {
@@ -63,10 +272,6 @@ export class SellerStoreCreateDialogComponent implements OnInit {
 
   get fullAddress() {
     return this.sellerStoreAddressForm.get('fullAddress');
-  }
-
-  get streetName() {
-    return this.sellerStoreAddressForm.get('streetName');
   }
 
   get lat() {
@@ -101,13 +306,26 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     return this.sellerStoreAddressForm.get('contactPhoneNumber');
   }
 
+  get storeAvailability() {
+    return <FormArray>this.sellerStoreAddressForm.get('storeAvailabilties');
+  }
+
+  addAvailability(day: string) {
+    this.storeAvailability.push(
+      this.fb.group({
+        dayOfWeek: [day],
+        openingTime: [null],
+        closingTime: [null],
+      })
+    );
+  }
+
   public handleAddressChange(address: Address) {
+    this.isGoogleAddressSelected = true;
     let postalCode = address.address_components.filter((element) => {
       return element.types.includes('postal_code');
     });
-    let streetName = address.address_components.filter((element) => {
-      return element.types.includes('route');
-    });
+
     let country = address.address_components.filter((element) => {
       return element.types.includes('country');
     });
@@ -124,77 +342,75 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.lng.patchValue(address.geometry.location.lng());
     this.lat.patchValue(address.geometry.location.lat());
     this.postalCode.patchValue(postalCode[0].long_name);
-    this.streetName.patchValue(streetName[0].long_name);
     this.country.patchValue(country[0].long_name);
     this.city.patchValue(city[0].long_name);
     this.state.patchValue(state[0].long_name);
     this.landmark.patchValue(landmark[0].long_name);
     this.sellerStoreAddressForm.updateValueAndValidity();
   }
-  
-  checkMode() {
-    if (this.data) {
-      this.mode = 'edit';
-      this.setter = this.data.fullAddress;
-      this.sellerStoreAddressForm = this.fb.group({
-        id: [this.data.id, Validators.required],
-        storeName: [this.data.storeName, [Validators.required]],
-        streetName: [this.data.streetName, ],
-        fullAddress: [this.data.fullAddress, [Validators.required]],
-        lat: [this.data.lat, [Validators.required]],
-        lng: [this.data.lng, [Validators.required]],
-        city: [this.data.city, [Validators.required]],
-        landmark: [this.data.landmark],
-        postalCode: [this.data.postalCode, [Validators.required]],
-        state: [this.data.state, [Validators.required]],
-        country: [this.data.country, [Validators.required]],
-        isDefault: [this.data.isDefault],
-        userId: [this.data.userId, [Validators.required]],
-        contactPhoneNumber: [this.data.contactPhoneNumber, [Validators.required]]
-        // Validators.pattern(this.phonePattern)
-      });
-      return;
-    }
-    this.mode = 'create';
-    this.sellerStoreAddressForm = this.fb.group({
-      storeName: ['', [Validators.required]],
-      streetName: ['', ],
-      fullAddress: ['', [Validators.required]],
-      lat: ['100', [Validators.required]],
-      lng: ['100', [Validators.required]],
-      city: ['', [Validators.required]],
-      landmark: [''],
-      postalCode: ['', [Validators.required]],
-      state: ['', [Validators.required]],
-      country: ['', [Validators.required]],
-      isDefault: [false],
-      userId: [this.helperService.getLoggedInUserId(), [Validators.required]],
-      contactPhoneNumber: ['', [Validators.required]],
-      // Validators.pattern(this.phonePattern)
-    });
-  }
 
   onSave() {
     if (this.sellerStoreAddressForm.invalid) {
       this.helperService.validateAllFormFields(this.sellerStoreAddressForm);
+
+      if (this.formattedAvailabilities.length == 0) {
+        this.isAvailabilityAdded = false;
+      }
       return;
     }
-    if (this.mode == 'create') {
-      this.onCreate();
+
+    if (!this.isGoogleAddressSelected) {
+      this.toastr.warining(
+        'Select an address from the options that shows as you type'
+      );
       return;
     }
-    this.onEdit();
+    if (this.formattedAvailabilities.length == 0) {
+      this.isAvailabilityAdded = false;
+      return;
+    }
+
+    const formValue = this.sellerStoreAddressForm.value;
+    const phoneNumber = this.sellerStoreAddressForm.value.contactPhoneNumber
+      .slice(-10)
+      .toString();
+
+    const formattedPhoneNumber =
+      this.countryCode.value.toString() + phoneNumber;
+
+    const storeAvailabilties = this.sellerStoreService.formatStoreAvailability(
+      this.storeAvailabilties
+    );
+
+    if (this.modalInfo.mode == 'create') {
+      this.onCreate({
+        ...this.sellerStoreAddressForm.value,
+        storeAvailabilties: storeAvailabilties,
+        contactPhoneNumber: formattedPhoneNumber,
+      });
+      return;
+    }
+    this.onEdit({
+      ...this.sellerStoreAddressForm.value,
+      storeAvailabilties: storeAvailabilties,
+      contactPhoneNumber: formattedPhoneNumber,
+    });
   }
 
-  onCreate() {
+  onCreate(form) {
     this.loading = true;
-    this.sellerStoreService
-      .createSellerStore(this.sellerStoreAddressForm.value)
-      .subscribe((response: any) => {
+    this.sellerStoreService.createSellerStore(form).subscribe({
+      next: (response: any) => {
         this.loading = false;
+        this.toastr.success('Store created successfully!');
         response.status == 'success' ? this.dialogRef.close(response) : null;
-    }, err => {
-      this.loading = false;
+      },
+      error: (err) => {
+        if (err.error.message) {
+          this.toastr.error(err.error.message);
+        }
+        this.loading = false;
+      },
     });
   }
 
@@ -204,15 +420,19 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     return true;
   }
 
-  onEdit() {
+  onEdit(form) {
     this.loading = true;
-    this.sellerStoreService
-      .updateSellerStore(this.sellerStoreAddressForm.value)
-      .subscribe((response: any) => {
+    this.sellerStoreService.updateSellerStore(form, this.storeId).subscribe({
+      next: (response: any) => {
         this.loading = false;
         response.status == 'success' ? this.dialogRef.close(response) : null;
-      }, err => {
+      },
+      error: (err) => {
+        if (err.error.message) {
+          this.toastr.error(err.error.message);
+        }
         this.loading = false;
-      });
+      },
+    });
   }
 }

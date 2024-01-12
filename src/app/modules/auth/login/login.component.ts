@@ -9,7 +9,6 @@ import {
 
 import { Component, OnInit, NgZone } from '@angular/core';
 
-
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { SignInModel } from 'src/app/models/signin-model';
 // import { UIkit } from "uikit";
@@ -25,9 +24,9 @@ import { delay } from 'rxjs/operators';
 import { JwtHelperService } from '../../../services/jwt-helper.service';
 import { environment } from 'src/environments/environment';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
+import { WindowRefService } from '../../../shared/services/window.service';
 
-
-declare const FB: any
+declare const FB: any;
 
 // declare var gapi: any;
 
@@ -36,13 +35,13 @@ declare const FB: any
 // declare var  statusChangeCallback: any;
 // end of facebook decla
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   hasError = false;
-  passwordType:  boolean
+  passwordType: boolean;
   errors: any[] = [];
   errorMessage: string = '';
   loginForm: FormGroup;
@@ -52,8 +51,8 @@ export class LoginComponent implements OnInit {
   tokenSubscription = new Subscription();
   decodedJwt;
   private _ngZone: any;
-  private clientId = environment.googleClientId
-
+  private clientId = environment.googleClientId;
+  window: Window;
   constructor(
     public authService: AuthService,
     // private socialAuthService: SocialAuthService,
@@ -61,8 +60,11 @@ export class LoginComponent implements OnInit {
     private toast: ToastrService,
     private router: Router,
     private ngxService: NgxUiLoaderService,
-    private jwtHelperService: JwtHelperService
-  ) { }
+    private jwtHelperService: JwtHelperService,
+    windowRefService: WindowRefService,
+  ) {
+    this.window = windowRefService.nativeWindow;
+  }
 
   get f() {
     return this.loginForm.controls;
@@ -74,159 +76,81 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required]],
     });
 
-          // @ts-ignore
-          window.onGoogleLibraryLoad = () => {
-            // @ts-ignore
-            google.accounts.id.initialize({
-              client_id: this.clientId,
-              callback: this.handleGoogleAuth.bind(this),
-              auto_select: false,
-              cancel_on_tap_outside: true
-            });
-            // @ts-ignore
-            google.accounts.id.renderButton(
-            // @ts-ignore
-            document.getElementById("buttonDiv"),
-              { size: "large", width: 100} 
-            );
-            // @ts-ignore
-            google.accounts.id.prompt((notification: PromptMomentNotification) => {});
-          };
-        }
-    
-        async handleGoogleAuth(response: CredentialResponse) {
-          console.log("Response",response);
-          this.ngxService.startLoader('loader-01');
-          await this.authService.LoginWithGoogle(response.credential).subscribe(
+    // @ts-ignore
+    this.window.onGoogleLibraryLoad = () => {
+      // @ts-ignore
+      google.accounts.id.initialize({
+        client_id: this.clientId,
+        callback: this.handleGoogleAuth.bind(this),
+        auto_select: false,
+        cancel_on_tap_outside: true,
+      });
+      // @ts-ignore
+      google.accounts.id.renderButton(
+        // @ts-ignore
+        document.getElementById('googleButton'),
+        { size: 'large', width: 100 }
+      );
+      // @ts-ignore
+      google.accounts.id.prompt((notification: PromptMomentNotification) => {});
+    };
 
-            (res) => {
-              this.ngxService.stopAll();
-              if (res.data.canLogin === true) {
-                if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
-                  this.ngxService.stopLoader('loader-01');
-                  this.authService.SetAuthLocalStorage(res);
-                  if (
-                    res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
-                    res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
-                    res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
-                  ) {
-                    this.toast.success("Login Successful");
-                    this.router.navigate(['/seller/dashboard']);
-                  } else {
-                    this.toast.success("Login Successful");
-                    this.router.navigate(['/']);
-                  }
-                } else {
-                  console.log('helllllo')
-                  this.ngxService.stopLoader('loader-01');
-                  this.authService.SetAuthLocalStorage(res);
-                  this.toast.success("Login Successful");
-                  this.router.navigate(['/homepage']);
-                }
-              } 
-              this.authService.SetAuthLocalStorage(res);
-            },
-            (err) => {
-              this.toast.error(err.error.message);
-              this.ngxService.stopLoader('loader-01');
-              this.ngxService.stopAll();
-            }
-            );  
+    FB.getLoginStatus(function (response) {
+      console.log('facebook log, ', response);
+    });
+  }
+
+  async handleGoogleAuth(response: CredentialResponse) {
+    this.ngxService.startLoader('loader-01');
+    await this.authService.LoginWithGoogle(response.credential).subscribe(
+      (res) => {
+        this.authService.handleAuthResponse(res, 'signin', 'google');
+      },
+      (err) => {
+        this.toast.error(err.error.message);
+        this.ngxService.stopLoader('loader-01');
+        this.ngxService.stopAll();
       }
-
-  
+    );
+  }
 
   showPassword() {
     this.passwordType = !this.passwordType;
   }
 
   async facebookLogin() {
-    FB.login(async (result:any) => {
-      console.log("Result",result)
-      let token = result.authResponse.accessToken;
-      let userId = result.authResponse.userID;
-      this.ngxService.startLoader('loader-01');
-        await this.authService.LoginWithFacebook(token, userId ).subscribe(
-
- (res) => {
-              this.ngxService.stopAll();
-              if (res.data.canLogin === true) {
-                if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
-                  this.ngxService.stopLoader('loader-01');
-                  this.authService.SetAuthLocalStorage(res);
-                  if (
-                    res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
-                    res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
-                    res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
-                  ) {
-                    this.toast.success("Login Successful");
-                    this.router.navigate(['/seller/dashboard']);
-                  } else {
-                    this.toast.success("Login Successful");
-                    this.router.navigate(['/']);
-                  }
-                } else {
-                  console.log('helllllo')
-                  this.ngxService.stopLoader('loader-01');
-                  this.authService.SetAuthLocalStorage(res);
-                  this.toast.success("Login Successful");
-                  this.router.navigate(['/homepage']);
-                }
-              } 
-              this.authService.SetAuthLocalStorage(res);
-            },
-            (err) => {
-              this.toast.error(err.error.message);
-              this.ngxService.stopLoader('loader-01');
-              this.ngxService.stopAll();
-            }
-
-          );  
-    }, { scope: 'email' });
-    
+    FB.login(
+      async (result: any) => {
+        if(!result.authResponse){
+          return;
+        }
+        let token = result.authResponse.accessToken;
+        let userId = result.authResponse.userID;
+        this.ngxService.startLoader('loader-01');
+        await this.authService.LoginWithFacebook(token, userId).subscribe(
+          (res) => {
+            this.authService.handleAuthResponse(
+              res,
+              'signin',
+              'facebook'
+            );
+          },
+          (err) => {
+            this.toast.error(err.error.message);
+            this.ngxService.stopLoader('loader-01');
+            this.ngxService.stopAll();
+          }
+        );
+      }
+      // { scope: 'email' }
+    );
   }
-
 
   login(): void {
     this.ngxService.startLoader('loader-01');
     this.authService.signIn(this.loginForm.value).subscribe(
       (res) => {
-        this.ngxService.stopAll();
-        // if (res.status == 'success') {
-
-        if (res.data.canLogin === true) {
-          if (res.data.user.preferredProfileType.toLowerCase() === 'seller') {
-            this.ngxService.stopLoader('loader-01');
-            this.authService.SetAuthLocalStorage(res);
-            if (
-              res.data.user.sellerApprovalStatus.toLowerCase() === 'approved' ||
-              res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
-              res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
-            ) {
-              this.toast.success("Login Successful");
-              this.router.navigate(['/seller/dashboard']);
-            } else {
-              this.toast.success("Login Successful");
-              this.router.navigate(['/']);
-            }
-          } else {
-            this.ngxService.stopLoader('loader-01');
-            this.authService.SetAuthLocalStorage(res);
-            this.toast.success("Login Successful");
-            this.router.navigate(['/']);
-          }
-        } else {
-          this.ngxService.stopLoader('loader-01');
-          this.toast.error('Please confirm your email address');
-          this.router.navigate(['/auth/confirm-email']);
-        }
-        this.authService.SetAuthLocalStorage(res);
-
-        //}
-        //  else {
-        //   this.ngxService.stopLoader('loader-01');
-        //   this.toast.error(res.message);
-        // }
+        this.authService.handleAuthResponse(res, 'signin', 'login');
       },
       (err) => {
         this.toast.error(err.error.message);

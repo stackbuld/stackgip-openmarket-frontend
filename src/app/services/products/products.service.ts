@@ -12,35 +12,37 @@ import {
   ProductShipmentResponse,
   CreateShipmentModel,
   SingleProductResponse,
-} from "../../models/products.model";
-import { Observable } from "rxjs";
-import { CategoryResponse } from "./../../models/CategoryModels";
-import { IUser } from "src/app/models/IUserModel";
-import { HttpClient } from "@angular/common/http";
-import { ApiAppUrlService } from "../api-app-url.service";
-import { Injectable } from "@angular/core";
-import { retry } from "rxjs/operators";
+} from '../../models/products.model';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { CategoryResponse } from './../../models/CategoryModels';
+import { IUser } from 'src/app/models/IUserModel';
+import { HttpClient } from '@angular/common/http';
+import { ApiAppUrlService } from '../api-app-url.service';
+import { Injectable } from '@angular/core';
+import { map, retry } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ProductsService {
-  baseUrll = "";
-  baseUrl = "";
+  baseUrl = '';
+  newProductUnit = new Subject<number>();
+  exceededUnitAction = new BehaviorSubject<boolean>(false);
+  scrollTo = new Subject<boolean>();
 
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
 
   public GetCategory(): Observable<CategoryResponse> {
-    return this.http.get<CategoryResponse>(this.baseUrll + "categories");
+    return this.http.get<CategoryResponse>(this.baseUrl + 'categories');
   }
 
   getProducts(
     pageNumber: number = 1,
     maxItem = 50,
-    search = "",
-    categoryId = "",
+    search = '',
+    categoryId = '',
     minPrice = 10,
     maxPrice = 500000
   ): Observable<ProductsApiModel> {
@@ -54,19 +56,22 @@ export class ProductsService {
     userId: string,
     pageNumber: number = 1,
     maxItem = 50,
-    search = "",
-    categoryId = "",
+    search = '',
+    categoryId = '',
     min = 10,
     max = 500000,
-    type = "All",
-    startDate = "",
-    endDate = "",
-    productSort = "Date",
-    byAscending = false
+    type = 'All',
+    startDate = '',
+    endDate = '',
+    productSort = 'Date',
+    byAscending = false,
+    productStatus?: string | null
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
       this.baseUrl +
-        `seller/${userId}/products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&min=${min}&max=${max}&categoryId=${categoryId}&type=${type}&startDate=${startDate}&endDate=${endDate}&productSort=${productSort}&byAscending=${byAscending}`
+        `seller/${userId}/products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&min=${min}&max=${max}&categoryId=${categoryId}&type=${type}&startDate=${startDate}&endDate=${endDate}&productSort=${productSort}&byAscending=${byAscending}${
+          productStatus && '&status=' + productStatus
+        }`
     );
   }
 
@@ -83,7 +88,7 @@ export class ProductsService {
     product: CreateProductModel
   ): Observable<CreateProductResponse> {
     return this.http.post<CreateProductResponse>(
-      this.baseUrl + "products",
+      this.baseUrl + 'products',
       product
     );
   }
@@ -106,36 +111,23 @@ export class ProductsService {
     return this.http.get(this.baseUrl + `products/${id}`);
   }
 
-  getCart(payload: any): Observable<any> {
-    if (payload.key === 'user') {
-      return this.http.get(this.baseUrl + `cart?userId=${payload.id}`);
-    } else {
-      return this.http.get(this.baseUrl + `cart?referenceId=${payload.id}`);
-    }
+  getCategoriesData(id: string): Observable<ProductModel[]> {
+    return this.http.get(this.baseUrl + `products/categories/${id}`).pipe(
+      map((res: any) => {
+        return res?.data?.data;
+      })
+    );
   }
 
-  deleteCartItem(payload: any): Observable<any> {
-    if (payload.key === 'user') {
-      return this.http.delete(this.baseUrl + `cart?userId=${payload.id}&productId=${payload.productId}`);
-    } else {
-      return this.http.delete(this.baseUrl + `cart?referenceId=${payload.id}&productId=${payload.productId}`);
-    }
-  }
-
-  getPaymentMethods(): Observable<any> {
-    return this.http.get(this.baseUrl + `cart/payment-methods`);
-  }
-
-  makePayment(payload: any): Observable<any> {
-    return this.http.post(this.baseUrl + `cart/pay`, payload);
-  }
-
-  updateCartItemUnit(payload: any): Observable<any> {
-    return this.http.put(this.baseUrl + `cart/update-unit`, payload);
-  }
-
-  getLowStockProducts(): Observable<any> {
-    return this.http.get(this.baseUrl + `products/low-stocks`);
+  getLowStockProducts(data: {
+    userId: string;
+    pageNumber: number;
+    maxItem: number;
+  }): Observable<any> {
+    return this.http.get(
+      this.baseUrl +
+        `seller/${data.userId}/low-stocks?PageNumber=${data.pageNumber}&MaxItem=${data.maxItem}`
+    );
   }
 
   productOrderSummary(userId: string, productId: any): Observable<any> {
@@ -158,18 +150,14 @@ export class ProductsService {
     return this.http.post(this.baseUrl + `productoption/variations`, payload);
   }
 
-  addToCart(payload: any): Observable<any> {
-    return this.http.post(this.baseUrl + `cart`, payload);
-  }
-
   getAllCategories(): Observable<any> {
     return this.http.get(this.baseUrl + `categories`);
   }
 
-  getVariations(categoryId?: any): Observable<any> {
-    if (categoryId) {
+  getVariations(userId?: any): Observable<any> {
+    if (userId) {
       return this.http.get(
-        this.baseUrl + `productoption/variations?categoryId=${categoryId}`
+        this.baseUrl + `productoption/variations?userId=${userId}`
       );
     } else {
       return this.http.get(this.baseUrl + `productoption/variations`);
@@ -177,20 +165,20 @@ export class ProductsService {
   }
 
   createNewProduct(payload: any): Observable<any> {
-    for (let index = 0; index < payload.variations.length; index++) {
-      const element = payload.variations[index];
-      payload.options.push(element);
-    }
-    delete payload.variations;
+    // for (let index = 0; index < payload.variations.length; index++) {
+    //   const element = payload.variations[index];
+    //   payload.options.push(element);
+    // }
+    // delete payload.variations;
     return this.http.post(this.baseUrl + `products`, payload);
   }
 
   updateProduct(payload: any, productId: any): Observable<any> {
-    for (let index = 0; index < payload.variations.length; index++) {
-      const element = payload.variations[index];
-      payload.options.push(element);
-    }
-    delete payload.variations;
+    // for (let index = 0; index < payload.variations.length; index++) {
+    //   const element = payload.variations[index];
+    //   payload.options.push(element);
+    // }
+    // delete payload.variations;
     return this.http.put(this.baseUrl + `products/${productId}`, payload);
   }
 
@@ -205,7 +193,7 @@ export class ProductsService {
     );
   }
 
-  getMostSelling(userId: string = ""): Observable<MostSellingResponse> {
+  getMostSelling(userId: string = ''): Observable<MostSellingResponse> {
     return this.http.get<MostSellingResponse>(
       this.baseUrl + `seller/${userId}/most-selling`
     );
@@ -229,9 +217,7 @@ export class ProductsService {
   }
 
   getCachedProductById(productId: string): Observable<SingleProductResponse> {
-    return this.http.get<any>(
-      this.baseUrl + `products/${productId}/cached`
-    );
+    return this.http.get<any>(this.baseUrl + `products/${productId}/cached`);
   }
 
   deleteProduct(productId: number): Observable<any> {

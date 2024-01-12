@@ -1,7 +1,18 @@
 import { IUser } from '../../../../models/IUserModel';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
-import { ProductModel } from '../../../../models/products.model';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Inject,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
+import {
+  ProductModel,
+  ProductsOverview,
+} from '../../../../models/products.model';
 import { ProductsService } from '../../../../services/products/products.service';
 import { ToastrService } from '../../../../services/toastr.service';
 
@@ -40,9 +51,16 @@ export class ProductItemComponent implements OnInit {
   loadingStock: boolean;
   loadingOverview: boolean;
   lowStock: any;
-  overview: any;
+  overview: ProductsOverview;
   stockForm: FormGroup;
   selectedStock: any;
+  tab = 1;
+  draftProductDetails: ProductModel[] = [];
+  lowStockTotal: number = 0;
+  lowStockDefaultPageNumber: number = 1;
+  lowStockPageNumber: number = 1;
+  lowStockMaxItem: number = 10;
+  lowStockTotalItem: number;
 
   constructor(
     private productService: ProductsService,
@@ -59,18 +77,29 @@ export class ProductItemComponent implements OnInit {
     this.document.body.scrollTop = 0;
     this.document.documentElement.scrollTop = 0;
     this.fetchNextProducts(this.defaultPage);
-    this.getLowStockProducts();
+    this.getLowStockProducts(this.lowStockDefaultPageNumber);
     this.getProductsOverview();
     this.initStockForm();
   }
 
-  getLowStockProducts = () => {
+  getLowStockProducts(pageNumber: number) {
     this.loadingStock = true;
-    this.productService.getLowStockProducts().subscribe((res) => {
-      this.lowStock = res.data.data;
-      this.loadingStock = false;
-    });
-  };
+
+    this.lowStockPageNumber = pageNumber;
+
+    this.productService
+      .getLowStockProducts({
+        userId: this.user.id,
+        pageNumber: pageNumber,
+        maxItem: this.lowStockMaxItem,
+      })
+      .subscribe((res) => {
+        this.loadingStock = false;
+        this.lowStockTotal = res.data.pager.totalItemCount;
+        this.lowStock = res.data.data;
+        this.lowStockTotalItem = res.data.pager.totalItemCount;
+      });
+  }
 
   getProductsOverview() {
     this.loadingOverview = true;
@@ -117,7 +146,7 @@ export class ProductItemComponent implements OnInit {
     this.viewedMore.emit({ productId });
   }
 
-  fetchNextProducts(pageNumber: number) {
+  fetchNextProducts(pageNumber: number, productStatus?: string | null) {
     this.loading = true;
     this.productService
       .getSellerProducts(
@@ -132,19 +161,21 @@ export class ProductItemComponent implements OnInit {
         this.startDate,
         this.endDate,
         this.productSort,
-        this.byAscending
+        this.byAscending,
+        productStatus
       )
-      .subscribe(
-        (productDetail) => {
+      .subscribe({
+        next: (productDetail) => {
           this.loading = false;
           this.productDetails = productDetail.data.data;
+
           this.pageNumber = productDetail.data.pager.pageNumber;
           this.totalItemCount = productDetail.data.pager.totalItemCount;
         },
-        (error) => {
+        error: (error) => {
           this.loading = false;
-        }
-      );
+        },
+      });
   }
 
   onSearch(data): void {
@@ -164,6 +195,13 @@ export class ProductItemComponent implements OnInit {
     if (e.target.value !== '') {
       this.maximumItem = e.target.value;
       this.fetchNextProducts(this.defaultPage);
+    }
+  }
+
+  onLowStockPageSizeChange(e: any) {
+    if (e.target.value !== '') {
+      this.lowStockMaxItem = e.target.value;
+      this.getLowStockProducts(this.lowStockDefaultPageNumber);
     }
   }
 
@@ -193,6 +231,21 @@ export class ProductItemComponent implements OnInit {
     this.selectedStock = item;
   }
 
+  getDrafts() {
+    this.loading = true;
+    this.fetchNextProducts(this.defaultPage, 'Draft');
+  }
+
+  getPublished() {
+    this.loading = true;
+    this.fetchNextProducts(this.defaultPage, 'Published');
+  }
+
+  getRejected() {
+    this.loading = true;
+    this.fetchNextProducts(this.defaultPage, 'Rejected');
+  }
+
   updateStockUnit(): void {
     if (this.stockForm.value.unit > this.selectedStock.unit) {
       this.productService
@@ -203,7 +256,7 @@ export class ProductItemComponent implements OnInit {
               this.document.getElementById('closeStockModalBtn').click();
               this.loadingStock = false;
               this.toast.success(res.message);
-              this.getLowStockProducts();
+              this.getLowStockProducts(this.lowStockDefaultPageNumber);
               this.initStockForm();
             } else {
               this.loadingStock = false;

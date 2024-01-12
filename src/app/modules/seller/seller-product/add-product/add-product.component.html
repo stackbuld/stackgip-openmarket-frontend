@@ -36,8 +36,8 @@
           <mat-label>Store Address</mat-label>
           <mat-select formControlName="storeIds" multiple required>
             <mat-option disabled="true">Select</mat-option>
-            <mat-option *ngFor="let store of stores" [(value)]="store.id">
-              {{ store.fullAddress }}
+            <mat-option *ngFor="let store of stores" [value]="store.id">
+              {{ store.storeName }} <span>({{ store.city }})</span>
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -52,7 +52,7 @@
               <mat-option disabled="true">Select</mat-option>
               <mat-option
                 *ngFor="let category of categories"
-                [(value)]="category.id"
+                [value]="category.id"
               >
                 {{ category.name }}
               </mat-option>
@@ -66,10 +66,7 @@
             <mat-label>Sub Category</mat-label>
             <mat-select formControlName="categoryId">
               <mat-option disabled="true">Select</mat-option>
-              <mat-option
-                *ngFor="let item of subCategories"
-                [(value)]="item.id"
-              >
+              <mat-option *ngFor="let item of subCategories" [value]="item.id">
                 {{ item?.name }}
               </mat-option>
             </mat-select>
@@ -148,15 +145,17 @@
           </div>
         </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Description</mat-label>
-          <textarea
-            matInput
-            required
-            placeholder="provide more information about this product"
-            formControlName="description"
-          ></textarea>
-        </mat-form-field>
+        <div class="full-width">
+          <mat-form-field style="width: 100%">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              required
+              placeholder="provide more information about this product"
+              formControlName="description"
+            ></textarea>
+          </mat-form-field>
+        </div>
       </div>
 
       <div class="full-width uk-width-1-2 uk-flex uk-flex-center">
@@ -823,7 +822,7 @@
               <mat-option disabled="true">Select</mat-option>
               <mat-option
                 *ngFor="let category of categories"
-                [(value)]="category.id"
+                [value]="category.id"
               >
                 {{ category.name }}
               </mat-option>

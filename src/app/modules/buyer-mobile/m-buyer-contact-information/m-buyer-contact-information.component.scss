@@ -1,0 +1,25 @@
+@import "config";
+.contact-information-container {
+  margin-top: 40px;
+}
+
+.nav-back {
+  border: 2px solid $border-line-color;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-bottom: 40px;
+
+  & i {
+    font-size: 20px;
+  }
+}
+
+.heading {
+  font-size: 24px;
+  margin-bottom: 30px;
+}

@@ -3,8 +3,12 @@ import { SellerStores } from 'src/app/models/StoreModels';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { HelperService } from 'src/app/shared/services/helper.service';
 import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
-import { CreateProductResponse } from '../../../../models/products.model';
+import {
+  CreateProductResponse,
+  SellerStore,
+} from '../../../../models/products.model';
 import { SellerStoreCreateDialogComponent } from '../seller-store-create-dialog/seller-store-create-dialog.component';
+import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
   selector: 'app-seller-store',
@@ -16,30 +20,35 @@ export class SellerStoreComponent implements OnInit {
   cproduct: CreateProductResponse[];
   sellerStores: SellerStores[];
   isLoading: boolean = true;
+  panelOpenState: boolean[] = [];
+  storeId: string;
 
   constructor(
     private helperService: HelperService,
     private sellerStoreService: SellerStoreService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.getSellerStoreList();
   }
 
-  createSellerStoreCreate(data) {
+  createSellerStoreCreate(data: SellerStores | null, mode: string) {
     this.dialogService
-      .openDialog(SellerStoreCreateDialogComponent, { data })
+      .openDialog(SellerStoreCreateDialogComponent, {
+        data: { data, mode },
+      })
       .afterClosed()
       .subscribe((response) => {
         response ? this.getSellerStoreList() : null;
       });
   }
 
-  onEdit(sellerStore) {
-    sellerStore.isDefault = true;
+  onEdit(sellerStore: SellerStores, isDefault: boolean) {
+    sellerStore.isDefault = isDefault;
     this.sellerStoreService
-      .updateSellerStore(sellerStore)
+      .updateSellerStore(sellerStore, sellerStore.id)
       .subscribe((response: any) => {
         this.getSellerStoreList();
         // response.status == "success" ? this.dialogRef.close(response) : null
@@ -60,12 +69,15 @@ export class SellerStoreComponent implements OnInit {
   }
 
   deleteSeller(sellerStore) {
-    this.sellerStoreService
-      .deleteSellerStore(sellerStore)
-      .subscribe((res: any) => {
+    this.sellerStoreService.deleteSellerStore(sellerStore).subscribe({
+      next: (res: any) => {
         this.dialogService.openSuccessfulDialog(res.data, 'OK');
         this.getSellerStoreList();
-      });
+      },
+      error: (err) => {
+        this.toast.error('Can not delete a default store!');
+      },
+    });
   }
 
   closeEditProductModal(): void {
@@ -76,9 +88,26 @@ export class SellerStoreComponent implements OnInit {
     this.isLoading = true;
     this.sellerStoreService
       .getSellerstores(this.helperService.getLoggedInUserId())
-      .subscribe((sellerStores) => {
-        this.sellerStores = sellerStores;
-        this.isLoading = false;
+      .subscribe({
+        next: (sellerStores) => {
+          this.sellerStores = sellerStores;
+          if (sellerStores.length > 0) {
+            if (!this.sellerStores.find((store) => store.isDefault == true)) {
+              this.sellerStores[0].isDefault = true;
+              this.onEdit(this.sellerStores[0], true);
+            }
+          }
+
+          this.isLoading = false;
+        },
+        error: (err) => {
+          this.toast.error('An error ocurred!');
+          this.isLoading = false;
+        },
       });
+  }
+
+  onExpand(index: number) {
+    this.panelOpenState[index] = !this.panelOpenState[index];
   }
 }

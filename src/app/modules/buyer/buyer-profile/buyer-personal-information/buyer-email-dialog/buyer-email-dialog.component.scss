@@ -1,0 +1,75 @@
+@import "config";
+
+.email-dialog-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.email-icon {
+  width: 140px;
+
+  & img {
+    width: 100%;
+  }
+}
+
+.email-dialog-header {
+  font-size: 25px;
+  font-weight: bold;
+  margin: 40px 0;
+}
+
+.email-remark {
+  font-size: 18px;
+  width: 80%;
+  padding: 0 20px;
+
+  & span {
+    font-weight: bold;
+  }
+}
+
+.email-action {
+  padding: 0 20px;
+  font-size: 18px;
+  width: 100%;
+  border-top: 1px solid $border-line-color;
+  padding-top: 30px;
+  margin-top: 30px;
+
+  & .resend {
+    color: $error;
+    text-decoration: none;
+
+    & #resend-main {
+      text-decoration: underline;
+    }
+
+    & #reload {
+      color: $bold-text-color;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: none;
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .email-dialog-header {
+    font-size: 20px;
+    padding: 0 20px;
+  }
+
+  .email-remark {
+    font-size: 15px;
+    width: 100%;
+  }
+
+  .email-action {
+    font-size: 15px;
+  }
+}

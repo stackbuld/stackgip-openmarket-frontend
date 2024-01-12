@@ -1,5 +1,6 @@
 import { DashboardService } from '../../../services/dashboard/dashboard.service';
 import { Component, OnInit } from '@angular/core';
+import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -18,7 +19,7 @@ export class SellerDashboardComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private userService: UserService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -28,39 +29,42 @@ export class SellerDashboardComponent implements OnInit {
   }
 
   getUserDetails() {
-    this.userService.getUserById(this.user.id).subscribe(
-      (res) => {
+    this.userService.getUserById(this.user.id).subscribe({
+      next: (res) => {
         this.userDetails = res.data;
       },
-      (err) => {
-        
-      }
-    );
+      error: (err) => {},
+    });
   }
 
   getDashboardData() {
     this.loadingSummary = true;
-    this.dashboardService.getSellerDashboardSummary(this.user.id).subscribe(
-      (res) => {
+    this.dashboardService.getSellerDashboardSummary(this.user.id).subscribe({
+      next: (res) => {
         this.dashboardData = res.data;
         this.loadingSummary = false;
       },
-      (err) => {
+      error: (err) => {
         this.loadingSummary = false;
-      }
-    );
+      },
+    });
   }
 
   getMostSelling() {
     this.loading = true;
-    this.dashboardService.getMostSellingProducts(this.user.id).subscribe(
-      (res) => {
+    this.dashboardService.getMostSellingProducts(this.user.id).subscribe({
+      next: (res) => {
         this.mostSelling = res.data;
         this.loading = false;
+        console.log(res);
       },
-      (err) => {
+      error: (err) => {
         this.loading = false;
-      }
-    );
+      },
+    });
   }
+
+  getImageResolution = (url: string, width: number, height: number) => {
+    return ImageResolutionUtility.getImageResolution(url, width, height);
+  };
 }

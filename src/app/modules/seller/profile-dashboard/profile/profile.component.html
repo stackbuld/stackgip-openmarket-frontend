@@ -1,104 +1,341 @@
-<div class="uk-container">
-  <div
-    class="uk-margin uk-padding uk-padding-top-remove uk-card uk-card-default"
-  >
-    <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
-      <div class="uk-grid uk-child-width-1-2@s">
-        <div>
+<div class="personal-information-container">
+  <div class="fetch-loader" *ngIf="isFetching">
+    <img src="/assets/svg/loader-icon.svg" alt="" />
+  </div>
+  <div class="personal-information-main" *ngIf="!isFetching">
+    <div class="profile-photos">
+      <div
+        class="profile-banner"
+        [ngStyle]="{
+          backgroundImage: 'url(' + coverPhotoUrl + ')'
+        }"
+      >
+        <div class="profile-banner-hints">
+          <div class="profile-banner-hints-text">Business Photo</div>
           <span
-            *ngIf="
-              f.firstname.invalid && (f.firstname.dirty || f.firstname.touched)
-            "
+            class="profile-banner-hints-icon"
+            (click)="onUploadCoverPhoto()"
+            matTooltip="Upload or change cover photo"
           >
-            <span class="uk-text-warning" *ngIf="f.firstname.errors.required">
-              firstname required
-            </span>
+            <svg
+              width="20"
+              height="18"
+              viewBox="0 0 20 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M13.04 1.0515C14.05 1.4535 14.359 2.8535 14.772 3.3035C15.185 3.7535 15.776 3.9065 16.103 3.9065C17.841 3.9065 19.25 5.3155 19.25 7.0525V12.8475C19.25 15.1775 17.36 17.0675 15.03 17.0675H4.97C2.639 17.0675 0.75 15.1775 0.75 12.8475V7.0525C0.75 5.3155 2.159 3.9065 3.897 3.9065C4.223 3.9065 4.814 3.7535 5.228 3.3035C5.641 2.8535 5.949 1.4535 6.959 1.0515C7.97 0.6495 12.03 0.6495 13.04 1.0515Z"
+                stroke="#fff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M15.4955 6.5H15.5045"
+                stroke="#fff"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M13.1783 10.1282C13.1783 8.37222 11.7553 6.94922 9.99931 6.94922C8.24331 6.94922 6.82031 8.37222 6.82031 10.1282C6.82031 11.8842 8.24331 13.3072 9.99931 13.3072C11.7553 13.3072 13.1783 11.8842 13.1783 10.1282Z"
+                stroke="#fff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </span>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>First Name</mat-label>
-            <input formControlName="firstname" type="text" matInput />
-          </mat-form-field>
-        </div>
-        <div>
-          <span
-            *ngIf="
-              f.lastname.invalid && (f.lastname.dirty || f.lastname.touched)
-            "
-          >
-            <span class="uk-text-warning" *ngIf="f.lastname.errors.required">
-              Lastname required
-            </span>
-          </span>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>Last Name</mat-label>
-            <input formControlName="lastname" type="text" matInput required />
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>Email</mat-label>
-            <input type="email" value="{{ user.email }}" matInput disabled />
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>Phone number</mat-label>
-            <input formControlName="phoneNumber" type="tel" matInput required />
-          </mat-form-field>
         </div>
       </div>
-      <div class="uk-grid uk-child-width-1-3@s uk-margin-remove-top">
-        <div>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>Country</mat-label>
-            <mat-select formControlName="country" required>
-              <mat-option value="ng">Nigeria</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>State</mat-label>
-            <mat-select formControlName="state" required>
-              <mat-option>Select</mat-option>
 
-              <mat-option
-                *ngFor="let state of states"
-                value="{{ state.toLowerCase() }}"
-                >{{ state }}</mat-option
+      <div class="profile-photo">
+        <div class="profile-photo-container">
+          <div class="new-profile-photo-container">
+            <div class="profile-photo-main">
+              <img [src]="profilePhotoUrl" alt="" />
+            </div>
+            <div
+              class="profile-photo-icon"
+              matTooltip="Upload or change profile photo"
+              (click)="onUploadProfilePhoto()"
+            >
+              <svg
+                width="20"
+                height="18"
+                viewBox="0 0 20 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-            </mat-select>
-          </mat-form-field>
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M13.04 1.0515C14.05 1.4535 14.359 2.8535 14.772 3.3035C15.185 3.7535 15.776 3.9065 16.103 3.9065C17.841 3.9065 19.25 5.3155 19.25 7.0525V12.8475C19.25 15.1775 17.36 17.0675 15.03 17.0675H4.97C2.639 17.0675 0.75 15.1775 0.75 12.8475V7.0525C0.75 5.3155 2.159 3.9065 3.897 3.9065C4.223 3.9065 4.814 3.7535 5.228 3.3035C5.641 2.8535 5.949 1.4535 6.959 1.0515C7.97 0.6495 12.03 0.6495 13.04 1.0515Z"
+                  stroke="#7A7A7D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M15.4955 6.5H15.5045"
+                  stroke="#7A7A7D"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M13.1783 10.1282C13.1783 8.37222 11.7553 6.94922 9.99931 6.94922C8.24331 6.94922 6.82031 8.37222 6.82031 10.1282C6.82031 11.8842 8.24331 13.3072 9.99931 13.3072C11.7553 13.3072 13.1783 11.8842 13.1783 10.1282Z"
+                  stroke="#7A7A7D"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="profile-photo-text">Business logo</div>
         </div>
-        <div>
-          <mat-form-field class="uk-width-expand">
-            <mat-label>City / town</mat-label>
-            <input formControlName="city" type="text" matInput required />
-          </mat-form-field>
-        </div>
-      </div>
-      <div>
-        <mat-form-field class="uk-width-expand">
-          <mat-label>Address</mat-label>
-          <textarea
-            matInput
-            placeholder="Delivery Address  ......"
-            required
-            formControlName="address"
-          ></textarea>
-        </mat-form-field>
-      </div>
 
-      <div class="uk-text-center">
-        <button
-          [disabled]="profileForm.invalid || isSubmited"
-          type="submit"
-          class="uk-button uk-button-primary"
-        >
-          <img *ngIf="isSubmited" width="30" src="assets/svg/loader-icon.svg" />
-          Save
-        </button>
+        <!-- <div class="profile-photo-btns desktop">
+          <button id="cancel">Cancel</button>
+          <button id="save" (click)="onUpdateProfile()">Save</button>
+        </div> -->
       </div>
-    </form>
+    </div>
+
+    <div class="profile-information-content">
+      <form
+        [formGroup]="profileForm"
+        class="profile-form-main"
+        (ngSubmit)="onUpdateProfile()"
+      >
+        <div class="information-group name-group">
+          <div class="information-group-label">Full Name</div>
+
+          <div class="information-group-inputs">
+            <div class="input-group">
+              <input
+                type="text"
+                class="input-o"
+                id="first-name"
+                placeholder="First Name"
+                formControlName="firstName"
+              />
+            </div>
+            <div class="input-group">
+              <input
+                type="text"
+                class="input-o"
+                id="last-name"
+                placeholder="Last Name"
+                formControlName="lastName"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="information-group">
+          <div class="information-group-label">Email</div>
+
+          <div class="information-group-inputs">
+            <div class="input-group">
+              <input
+                type="text"
+                placeholder="myemail@gmail.com"
+                class="input-o"
+                formControlName="email"
+              />
+            </div>
+            <div class="input-alert" *ngIf="!isEmailVerified">
+              You haven’t verified your email address.
+            </div>
+            <button
+              *ngIf="!isEmailVerified"
+              (click)="onEmailVerify()"
+              type="button"
+            >
+              <span class="login-btn-text" *ngIf="!isSendingEmailVerification">
+                Verify <span id="verify-email-text">Email</span> </span
+              ><span
+                class="login-btn-loader"
+                *ngIf="isSendingEmailVerification"
+              ></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="information-group">
+          <div class="information-group-label">
+            Bio
+            <div id="bio-hint">
+              Write a short description of your brand and products
+            </div>
+          </div>
+
+          <div class="information-group-inputs">
+            <div class="input-group textarea">
+              <textarea
+                cols="20"
+                rows="10"
+                placeholder="Please provide a detailed description"
+                formControlName="bio"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="information-group">
+          <div class="information-group-label">State</div>
+
+          <div class="information-group-inputs">
+            <div class="input-group contact">
+              <select
+                class="location-select"
+                name="select"
+                formControlName="state"
+                [value]="profileForm.value.state"
+              >
+                <option
+                  *ngFor="let state of states"
+                  [value]="state.toLowerCase()"
+                >
+                  {{ state }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="information-group">
+          <div class="information-group-label">Country</div>
+
+          <div class="information-group-inputs">
+            <div class="input-group contact">
+              <select
+                class="location-select"
+                name="select"
+                formControlName="country"
+                [value]="profileForm.value.country || 'NGN'"
+              >
+                <option
+                  [value]="country.alpha2Code || 'NGN'"
+                  *ngFor="let country of countryInfo"
+                >
+                  {{ country.countryName }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="information-group phone-number">
+          <div class="information-group-label">Phone Number</div>
+
+          <div class="information-group-inputs">
+            <div class="input-group" #test>
+              <!-- <input
+                #telInput
+                type="tel"
+                class="input-o"
+                id="phone-number"
+                ng2TelInput
+                [ng2TelInputOptions]="{
+                  initialCountry: 'ng',
+                  separateDialCode: true,
+                 
+                }"
+                (countryChange)="countryChange($event)"
+                (intlTelInputObject)="telInputObject($event)"
+                (hasError)="onError($event)"
+                formControlName="phoneNumber"
+              /> -->
+              <mat-form-field class="custom-text-field">
+                <input
+                  matInput
+                  #myInput
+                  placeholder="8023434567"
+                  pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$"
+                  type="tel"
+                  class="tel-input"
+                  formControlName="phoneNumber"
+                  required
+                />
+                <div class="country-code" matPrefix>
+                  <mat-select
+                    (change)="changeOption($event)"
+                    formControlName="countryCode"
+                  >
+                    <mat-select-trigger>
+                      {{ f.countryCode.value }}
+                    </mat-select-trigger>
+                    <mat-option
+                      *ngFor="let country of countryInfo"
+                      [value]="country.phoneCode"
+                    >
+                      <img
+                        [src]="country.flag"
+                        alt=""
+                        width="25px"
+                        height="25px"
+                      />
+                      <span
+                        style="
+                          font-size: 14px;
+                          margin-left: 7px;
+                          font-weight: bold;
+                        "
+                        >{{ country.countryName }}
+                      </span>
+                      <span style="font-size: 14px">
+                        {{ country.phoneCode }}
+                      </span>
+                    </mat-option>
+                  </mat-select>
+                </div>
+              </mat-form-field>
+            </div>
+            <div
+              class="input-alert phone-number-alert"
+              *ngIf="!isPhoneVerified"
+            >
+              You need to verify this new number via an OTP
+            </div>
+            <button
+              (click)="onVerifyPhoneNumber()"
+              *ngIf="!isPhoneVerified"
+              [disabled]="isFetchingOtp"
+              type="button"
+            >
+              <span class="login-btn-text" *ngIf="!isFetchingOtp">
+                Verify <span id="verify-number-text">Number</span> </span
+              ><span class="login-btn-loader" *ngIf="isFetchingOtp"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="profile-photo-btns mobile" *ngIf="showUserUpdateButtons">
+          <button
+            id="cancel"
+            [disabled]="isSubmitting"
+            (click)="onCancelUpdate()"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button id="save" [disabled]="isSubmitting" type="submit">
+            <span class="login-btn-text" *ngIf="!isSubmitting">
+              Save Changes </span
+            ><span class="login-btn-loader" *ngIf="isSubmitting"></span>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

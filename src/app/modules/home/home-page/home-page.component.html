@@ -1,0 +1,232 @@
+<div class="uk-container uk-container-expand main">
+  <section id="hero">
+    <div class="hero-container row">
+      <div class="categories-container d-none d-md-block col-md-2">
+        <h2 class="">Categories</h2>
+        <div *ngIf="!loadingCategories">
+          <div
+            *ngFor="let category of categories; let i = index"
+            class="pointer category"
+            routerLink="/homepage/search"
+            [queryParams]="{ category: category.name }"
+            queryParamsHandling="merge"
+          >
+            {{ category.name }}
+          </div>
+          <div *ngIf="categories.length === 0" class="text-center p-5">
+            No Results
+          </div>
+        </div>
+
+        <div *ngIf="loadingCategories" class="">
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
+          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading>
+        </div>
+      </div>
+      <!-- Thumbnail -->
+      <!-- <div class="thumbnail col-12 col-md-9">
+          <img src="assets/img/hero-home.png" alt="" />
+        </div> -->
+      <div
+        class="uk-position-relative uk-visible-toggle uk-light d-none d-md-block col col-md thumbnail"
+        tabindex="-1"
+        uk-slideshow="autoplay: true"
+      >
+        <ul class="uk-slideshow-items w-100 h-100">
+          <li *ngFor="let slide of heroSlides" class="w-100 h-100">
+            <img src="{{ slide }}" alt="" uk-cover />
+            <div class="uk-position-medium uk-position-bottom-right">
+              <button
+                class="uk-button uk-button-secondary"
+                routerLink="/homepage/search"
+              >
+                Shop Now
+              </button>
+            </div>
+          </li>
+        </ul>
+
+        <a
+          class="uk-position-center-left uk-position-small uk-hidden-hover uk-border-circle bg-white text-black"
+          href
+          uk-slidenav-previous
+          uk-slideshow-item="previous"
+        ></a>
+        <a
+          class="uk-position-center-right uk-position-small uk-hidden-hover uk-border-circle bg-white text-black"
+          href
+          uk-slidenav-next
+          uk-slideshow-item="next"
+        ></a>
+      </div>
+      <!-- MOBILE BANNER -->
+      <div
+        class="uk-position-relative uk-visible-toggle uk-light col d-block d-md-none"
+        tabindex="-1"
+        uk-slider="autoplay: true"
+      >
+        <ul class="uk-slider-items uk-grid">
+          <li
+            *ngFor="let slide of heroSlides; let i = index"
+            class="uk-width-4-5"
+          >
+            <div class="uk-panel">
+              <img src="{{ slide }}" width="1800" height="1200" alt="" />
+              <!-- <div class="uk-position-center uk-text-center">
+                <h2 uk-slider-parallax="x: 100,-100">{{ i + 1 }}</h2>
+                <p uk-slider-parallax="x: 200,-200">
+                  Lorem ipsum dolor sit amet.
+                </p>
+              </div> -->
+              <div class="uk-position-medium uk-position-bottom-right mb-1">
+                <button
+                  class="uk-button uk-button-secondary"
+                  routerLink="/homepage/search"
+                >
+                  Shop Now
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <a
+          class="uk-position-center-left uk-position-small uk-hidden-hover"
+          href
+          uk-slidenav-previous
+          uk-slider-item="previous"
+        ></a>
+        <a
+          class="uk-position-center-right uk-position-small uk-hidden-hover"
+          href
+          uk-slidenav-next
+          uk-slider-item="next"
+        ></a>
+      </div>
+      <!-- END OF MOBILE BANNER -->
+    </div>
+  </section>
+
+  <section id="promoted-product">
+    <div class="promoted-product-container">
+      <div class="header-text">
+        <p class="fs-5 fs-md-2">Promoted Product</p>
+        <span class="pointer">
+          <span routerLink="/homepage/search"> See All </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="24"
+            viewBox="0 0 25 24"
+            fill="none"
+          >
+            <path
+              d="M16.2175 12.7199C16.3582 12.5793 16.4373 12.3887 16.4375 12.1899V11.8099C16.4352 11.6114 16.3564 11.4216 16.2175 11.2799L11.0775 6.14985C10.9836 6.0552 10.8558 6.00195 10.7225 6.00195C10.5892 6.00195 10.4614 6.0552 10.3675 6.14985L9.6575 6.85985C9.56344 6.95202 9.51043 7.07816 9.51043 7.20985C9.51043 7.34154 9.56344 7.46769 9.6575 7.55985L14.1075 11.9999L9.6575 16.4399C9.56284 16.5337 9.5096 16.6615 9.5096 16.7949C9.5096 16.9282 9.56284 17.056 9.6575 17.1499L10.3675 17.8499C10.4614 17.9445 10.5892 17.9978 10.7225 17.9978C10.8558 17.9978 10.9836 17.9445 11.0775 17.8499L16.2175 12.7199Z"
+              fill="#FF8B00"
+            />
+          </svg>
+        </span>
+      </div>
+
+      <div *ngIf="!loadingPromotedProducts" class="product-container row">
+        <div
+          *ngFor="let product of promotedProducts | slice : 0 : 6"
+          class="mb-3 col-6 col-md-3"
+        >
+          <app-product-card [product]="product"></app-product-card>
+        </div>
+      </div>
+
+      <!-- If loading products -->
+      <div *ngIf="loadingPromotedProducts" class="p-5">
+        <div class="uk-flex uk-flex-center">
+          <div uk-spinner></div>
+        </div>
+      </div>
+
+      <!-- If there are no products -->
+      <div
+        *ngIf="!loadingPromotedProducts && promotedProducts.length === 0"
+        class="p-5"
+      >
+        <p *ngIf="categoryName === ''" class="text-center p-5">
+          There are no products available.
+        </p>
+        <p *ngIf="categoryName !== ''" class="text-center p-5">
+          There are no products in the selected category.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="deals-first">
+    <div class="row">
+      <img src="assets/img/deals-1.png" class="col-sm-4" alt="Black Friday" />
+      <img src="assets/img/deals-2.png" class="col-sm-8" alt="Mega Sale" />
+    </div>
+  </section>
+
+  <section id="deals-second">
+    <div class="row">
+      <img src="assets/img/deals-3.png" class="col-sm-8" alt="" />
+      <img src="assets/img/deals-4.png" class="col-sm-4" alt="" />
+    </div>
+  </section>
+
+  <section id="recommended-product">
+    <div class="recommended-product-container">
+      <div class="header-text">
+        <p class="fs-3 fs-md-2">Recommended Product</p>
+        <span class="pointer">
+          <span routerLink="/homepage/search"> See All </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="24"
+            viewBox="0 0 25 24"
+            fill="none"
+          >
+            <path
+              d="M16.2175 12.7199C16.3582 12.5793 16.4373 12.3887 16.4375 12.1899V11.8099C16.4352 11.6114 16.3564 11.4216 16.2175 11.2799L11.0775 6.14985C10.9836 6.0552 10.8558 6.00195 10.7225 6.00195C10.5892 6.00195 10.4614 6.0552 10.3675 6.14985L9.6575 6.85985C9.56344 6.95202 9.51043 7.07816 9.51043 7.20985C9.51043 7.34154 9.56344 7.46769 9.6575 7.55985L14.1075 11.9999L9.6575 16.4399C9.56284 16.5337 9.5096 16.6615 9.5096 16.7949C9.5096 16.9282 9.56284 17.056 9.6575 17.1499L10.3675 17.8499C10.4614 17.9445 10.5892 17.9978 10.7225 17.9978C10.8558 17.9978 10.9836 17.9445 11.0775 17.8499L16.2175 12.7199Z"
+              fill="#FF8B00"
+            />
+          </svg>
+        </span>
+      </div>
+
+      <div *ngIf="!loadingRecommendedProducts" class="product-container row">
+        <div
+          *ngFor="let product of recommendedProducts | slice : 0 : 6"
+          class="mb-3 col-6 col-md-3"
+        >
+          <app-product-card [product]="product"></app-product-card>
+        </div>
+      </div>
+
+      <!-- If loading products -->
+      <div *ngIf="loadingRecommendedProducts" class="p-5">
+        <div class="uk-flex uk-flex-center">
+          <div uk-spinner></div>
+        </div>
+      </div>
+
+      <!-- If there are no products -->
+      <div
+        *ngIf="!loadingRecommendedProducts && recommendedProducts.length === 0"
+        class="p-5"
+      >
+        <p *ngIf="categoryName === ''" class="text-center p-5">
+          There are no products available.
+        </p>
+        <p *ngIf="categoryName !== ''" class="text-center p-5">
+          There are no products in the selected category.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,52 +1,68 @@
-import { IResponseModel } from "./../../shared/models/IResponseModel";
-import { Observable } from "rxjs";
-import { IUpdateUser, IUserResponse } from "./../../models/IUserModel";
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { ApiAppUrlService } from "../api-app-url.service";
+import { IResponseModel } from './../../shared/models/IResponseModel';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import {
+  IUpdateUser,
+  IUserResponse,
+  PostAddressReturnData,
+  UserAddressData,
+  UserAddressRawInfo,
+} from './../../models/IUserModel';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ApiAppUrlService } from '../api-app-url.service';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class UserService {
+  isPhoneVerified = new Subject<boolean>();
+  isEditingUserInfo = new BehaviorSubject<boolean>(false);
+  userProfileUpdated = new BehaviorSubject<boolean>(true);
+  userActivated = new Subject<boolean>();
   constructor(private api: ApiAppUrlService, private http: HttpClient) {}
 
   updateUser(userInfo: IUpdateUser): Observable<IResponseModel> {
     return this.http.put<IResponseModel>(
-      this.api.baseApiUrl + "users",
+      this.api.baseApiUrl + 'users',
       userInfo
     );
   }
 
   getCurrentUser(): Observable<IUserResponse> {
-    return this.http.get<IUserResponse>("auth/getcurrentuser");
+    return this.http.get<IUserResponse>('auth/getcurrentuser');
   }
 
-  getUserById(userId:string):
-  Observable<IUserResponse>{
+  getUserById(userId: string): Observable<IUserResponse> {
     return this.http.get<IUserResponse>(
       this.api.baseApiUrl + `users/${userId}`
     );
   }
 
-  createAddress(payload: any): Observable<any> {
-    return this.http.post<any>(`${this.api.ecommerceBaseUrl}useraddress`, payload);
+  getUserAddress(userId: string) {
+    return this.http
+      .get<UserAddressRawInfo>(
+        this.api.ecommerceBaseUrl + 'useraddress/users/' + userId
+      )
+      .pipe(
+        map((data) => {
+          return data.data.data;
+        })
+      );
   }
 
-  fetchUserAddresses(userId: any): Observable<any> {
-    return this.http.get<any>(`${this.api.ecommerceBaseUrl}useraddress/users/${userId}`);
+  addUserAddress(data: UserAddressData) {
+    return this.http.post<PostAddressReturnData>(
+      this.api.ecommerceBaseUrl + 'useraddress',
+      data
+    );
   }
 
-  setDefaultAddress(payload: any, id: string): Observable<any> {
-    return this.http.put<any>(`${this.api.ecommerceBaseUrl}useraddress/${id}`, payload);
+  updateUserAddress(id: string, data: UserAddressData) {
+    return this.http.put(this.api.ecommerceBaseUrl + 'useraddress/' + id, data);
   }
 
-  deleteAddress(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.api.ecommerceBaseUrl}useraddress/${id}`);
+  deleteUserAddress(id: string) {
+    return this.http.delete(this.api.ecommerceBaseUrl + 'useraddress/' + id);
   }
-
-  getShippingEstimate(payload: any): Observable<any> {
-    return this.http.post<any>(`${this.api.ecommerceBaseUrl}shipping/price-estimates`, payload);
-  }
-
 }

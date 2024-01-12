@@ -15,6 +15,12 @@ import { ProductOptionComponent } from './product-option/product-option.componen
 import { SearchItemComponent } from './search-item/search-item.component';
 import { ViewMoreComponent } from './view-more/view-more.component';
 import { ProductShipmentComponent } from './product-shipment/product-shipment.component';
+import { CreateProductComponent } from './create-product/create-product.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { VariationsAlertDialogComponent } from './create-product/variations-alert-dialog/variations-alert-dialog.component';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 
 @NgModule({
   declarations: [
@@ -27,6 +33,8 @@ import { ProductShipmentComponent } from './product-shipment/product-shipment.co
     ProductOptionComponent,
     ProductItemComponent,
     ViewMoreComponent,
+    CreateProductComponent,
+    VariationsAlertDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +46,10 @@ import { ProductShipmentComponent } from './product-shipment/product-shipment.co
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    AngularEditorModule,
+    NgxPageScrollCoreModule.forRoot({ duration: 2500, scrollInView: false }),
   ],
 })
 export class InventoryModule {}

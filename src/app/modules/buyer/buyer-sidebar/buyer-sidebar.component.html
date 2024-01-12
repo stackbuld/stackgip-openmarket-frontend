@@ -1,0 +1,176 @@
+<div class="buyer-sidebar-container">
+  <div class="profile-details-container">
+    <div class="fetch-loader" *ngIf="isFetching">
+      <img src="/assets/svg/loader-icon.svg" width="100px" alt="" />
+    </div>
+    <div class="profile-details" *ngIf="!isFetching">
+      <div class="profile-photo">
+        <img [src]="profileImgUrl" alt="" />
+      </div>
+      <div class="profile-name">
+        <div>Hello, {{ user?.firstName }} {{ user?.lastName }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="home" routerLink="/homepage">
+    <a><i class="fa fa-home"></i> Home</a>
+  </div>
+
+  <div
+    class="profile-information"
+    [ngClass]="{ closed: isPersonalOpened == false }"
+  >
+    <div
+      class="profile-information-heading"
+      (click)="onTogglePersonal('information')"
+    >
+      <div class="profile-information-heading-main">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12.3327 13V11.6667C12.3327 10.9594 12.0517 10.2811 11.5516 9.78105C11.0515 9.28095 10.3733 9 9.66602 9H4.33268C3.62544 9 2.94716 9.28095 2.44706 9.78105C1.94697 10.2811 1.66602 10.9594 1.66602 11.6667V13M9.66602 3.66667C9.66602 5.13943 8.47211 6.33333 6.99935 6.33333C5.52659 6.33333 4.33268 5.13943 4.33268 3.66667C4.33268 2.19391 5.52659 1 6.99935 1C8.47211 1 9.66602 2.19391 9.66602 3.66667Z"
+            stroke="black"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Profile
+      </div>
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="dropdown"
+      >
+        <path
+          d="M4 6L8 10L12 6"
+          stroke="black"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+
+    <div class="profile-information-links">
+      <ul>
+        <li
+          routerLink="/buyer/profile/personal-information"
+          routerLinkActive="active"
+        >
+          Personal Information
+        </li>
+        <li
+          routerLink="/buyer/profile/contact-information"
+          routerLinkActive="active"
+        >
+          Contact Information
+        </li>
+        <li
+          routerLink="/buyer/profile/address-information"
+          routerLinkActive="active"
+        >
+          Address Information
+        </li>
+        <li routerLink="/buyer/profile/wallet" routerLinkActive="active">
+          Wallet
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div
+    class="profile-settings"
+    [ngClass]="{ closed: isSettingsOpened == false }"
+  >
+    <div
+      class="profile-settings-heading"
+      (click)="onTogglePersonal('settings')"
+    >
+      <div class="profile-settings-heading-main">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.1667 9.16667V6.66667C14.1667 4.36548 12.3012 2.5 10 2.5C7.69881 2.5 5.83333 4.36548 5.83333 6.66667V9.16667M6.5 17.5H13.5C14.9001 17.5 15.6002 17.5 16.135 17.2275C16.6054 16.9878 16.9878 16.6054 17.2275 16.135C17.5 15.6002 17.5 14.9001 17.5 13.5V13.1667C17.5 11.7665 17.5 11.0665 17.2275 10.5317C16.9878 10.0613 16.6054 9.67883 16.135 9.43915C15.6002 9.16667 14.9001 9.16667 13.5 9.16667H6.5C5.09987 9.16667 4.3998 9.16667 3.86502 9.43915C3.39462 9.67883 3.01217 10.0613 2.77248 10.5317C2.5 11.0665 2.5 11.7665 2.5 13.1667V13.5C2.5 14.9001 2.5 15.6002 2.77248 16.135C3.01217 16.6054 3.39462 16.9878 3.86502 17.2275C4.3998 17.5 5.09987 17.5 6.5 17.5Z"
+            stroke="black"
+            stroke-width="1.67"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+
+        Security Settings
+      </div>
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="dropdown"
+      >
+        <path
+          d="M4 6L8 10L12 6"
+          stroke="black"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+
+    <div class="profile-information-links">
+      <ul>
+        <li
+          routerLink="/buyer/profile/change-password"
+          routerLinkActive="active"
+        >
+          Change Password
+        </li>
+        <li routerLink="/buyer/profile/pin-settings" routerLinkActive="active">
+          Pin Settings
+        </li>
+        <li
+          routerLink="/buyer/profile/deactivate"
+          routerLinkActive="active"
+          id="delete-account"
+        >
+          Delete Account
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="logout" (click)="onLogout()">
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M5 13H2.33333C1.97971 13 1.64057 12.8595 1.39052 12.6095C1.14048 12.3594 1 12.0203 1 11.6667V2.33333C1 1.97971 1.14048 1.64057 1.39052 1.39052C1.64057 1.14048 1.97971 1 2.33333 1H5M9.66667 10.3333L13 7M13 7L9.66667 3.66667M13 7H5"
+        stroke="#000"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+    Logout
+  </div>
+</div>

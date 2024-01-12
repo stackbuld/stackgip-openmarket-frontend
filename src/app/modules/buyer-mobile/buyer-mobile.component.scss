@@ -1,0 +1,16 @@
+@import "config";
+
+.buyer-container {
+  height: 100%;
+}
+
+.buyer-main-container {
+  width: 95%;
+  margin-inline: auto;
+  margin-top: 105px;
+
+  & .main-content {
+    width: 100%;
+    padding-bottom: 30px;
+  }
+}

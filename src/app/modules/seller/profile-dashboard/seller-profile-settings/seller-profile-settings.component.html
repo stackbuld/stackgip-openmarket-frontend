@@ -1,0 +1,126 @@
+<div class="profile-settings-container">
+  <div class="change-settings change-password">
+    <div class="change-settings-heading">Change Password</div>
+
+    <div class="change-settings-main">
+      <form
+        class="change-settings-form"
+        [formGroup]="passwordForm"
+        (ngSubmit)="onVerify()"
+      >
+        <div class="form-group">
+          <label>New Password</label>
+          <input
+            type="password"
+            placeholder="New Password"
+            formControlName="password"
+            (keyup)="onKey($event)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            (keyup)="onKey($event)"
+            formControlName="confirmPassword"
+          />
+          <p class="p-match" *ngIf="!passwordMatch && confirmPassword.dirty">
+            Passwords do not match
+          </p>
+        </div>
+
+        <button
+          type="submit"
+          [ngClass]="{ disabled: !passwordMatch || passwordForm.invalid }"
+          [disabled]="isSendingPasswordOTP"
+        >
+          <span class="login-btn-text" *ngIf="!isSendingPasswordOTP">
+            Verify via OTP </span
+          ><span class="login-btn-loader" *ngIf="isSendingPasswordOTP"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="change-settings change-pin">
+    <div class="change-settings-heading">Change Transaction Pin</div>
+
+    <div class="change-settings-main">
+      <form
+        class="change-settings-form"
+        [formGroup]="pinForm"
+        (ngSubmit)="onVerifyOTPForPin()"
+      >
+        <div class="form-group">
+          <label>New Pin</label>
+          <input
+            type="password"
+            placeholder="New Pin"
+            formControlName="newPin"
+            (keyup)="onPin($event)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Confirm Pin</label>
+          <input
+            type="password"
+            placeholder="Confirm Pin"
+            formControlName="confirmPin"
+            (keyup)="onPin($event)"
+          />
+          <p class="hint" *ngIf="newPin.invalid">Pin must be four(4) digits</p>
+          <p class="hint" *ngIf="!pinMatch && confirmPin.dirty">
+            Pins do not match
+          </p>
+        </div>
+
+        <button
+          [ngClass]="{ disabled: !pinMatch || pinForm.invalid }"
+          [disabled]="isSendingPinOTP"
+          type="submit"
+        >
+          <span class="login-btn-text" *ngIf="!isSendingPinOTP">
+            Verify via OTP </span
+          ><span class="login-btn-loader" *ngIf="isSendingPinOTP"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="change-settings deactivate">
+    <div class="deactivate-loader">
+      <img src="/assets/svg/loader-icon.svg" alt="" *ngIf="isFetching" />
+    </div>
+
+    <div *ngIf="!isFetching">
+      <div class="change-settings-heading">Other Settings</div>
+
+      <div class="change-settings-main">
+        <div class="toggler" (click)="toggle()" [ngClass]="{ roll: !isActive }">
+          <div class="roller"></div>
+        </div>
+
+        <div class="deactivate-main">
+          <div class="deactivate-main-text warn">
+            {{ sellerStatus ? "Deactivate Account" : "Activate Account" }}
+          </div>
+          <div class="deactivate-main-text">
+            {{ sellerStatus ? "Deactivate" : "Activate" }} my seller Account
+          </div>
+        </div>
+      </div>
+      <button
+        (click)="onVerifyDeactivate()"
+        [disabled]="sellerStatus == isActive"
+        [ngClass]="{ disabled: sellerStatus == isActive }"
+      >
+        <span class="login-btn-text" *ngIf="!isSendingDeactivateOTP">
+          Verify via OTP </span
+        ><span class="login-btn-loader" *ngIf="isSendingDeactivateOTP"></span>
+      </button>
+    </div>
+  </div>
+</div>

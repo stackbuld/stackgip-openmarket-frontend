@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
+import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
   selector: 'app-payment-confirmation',
@@ -14,6 +15,7 @@ export class PaymentConfirmationComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private applocal: AppLocalStorage,
+    private footerService: FooterService,
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.paymentStatus = params['isPaymentSuccessful'];
@@ -26,7 +28,7 @@ export class PaymentConfirmationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    this.footerService.setShowFooter(true);
   }
 
 }

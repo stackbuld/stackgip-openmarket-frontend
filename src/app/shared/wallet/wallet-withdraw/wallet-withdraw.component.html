@@ -1,0 +1,140 @@
+<form [formGroup]="bankDetailsForm">
+  <div class="card-container uk-card uk-card-default uk-card-body">
+    <div class="card-row">
+      <p>Select new or existing account</p>
+      <div>
+        <app-custom-dropdown
+          [accountsLists]="bankDetails"
+          (detailsEvent)="changeDetails($event)"
+          placeholder="Select new or existing account"
+        ></app-custom-dropdown>
+      </div>
+    </div>
+    <div class="card-row">
+      <p>Bank Name</p>
+      <div>
+        <app-custom-dropdown
+          [bankLists]="bankLists"
+          [chosenBank]="selectedBankDetails"
+          placeholder="Please type your bank name"
+          [controls]="bankCode"
+          (newBankEvent)="changeBank($event)"
+        ></app-custom-dropdown>
+      </div>
+    </div>
+    <div class="card-row">
+      <p>Bank Account Number</p>
+      <input
+        type="text"
+        class="custom-input"
+        formControlName="accountNumber"
+        placeholder="Enter your account number"
+        (blur)="getAccountName()"
+      />
+    </div>
+
+    <div class="card-row">
+      <p>Bank Account Name</p>
+      <input
+        type="text"
+        readonly
+        class="custom-input"
+        formControlName="accountName"
+        placeholder="Enter your account name"
+      />
+    </div>
+
+    <div class="card-row">
+      <p>Enter Withdrawal Amount</p>
+      <input
+        type="number"
+        ng-required="true"
+        (blur)="validateAmount()"
+        class="custom-input"
+        formControlName="amount"
+        placeholder="0.00"
+      />
+    </div>
+
+    <div class="error" *ngIf="errorMsg">{{ errorMsg }}</div>
+  </div>
+
+  <div class="action-section">
+    <div class="info item">
+      <p>Processing Time:</p>
+      <p>5 - 7 Working Days</p>
+    </div>
+    <div class="security-method item uk-flex">
+      <div class="uk-flex entity" ng-init="radioption='show'">
+        <input type="radio" aria-selected="true" checked="true" />
+        <p>OTP</p>
+      </div>
+    </div>
+    <button
+      class="uk-button uk-button-secondary item button"
+      [disabled]="
+        withdrawLoading ||
+        bankDetailsForm.invalid ||
+        errorMsg ||
+        1 > bankDetailsForm.value.amount ||
+        bankDetailsForm.value.amount > walletDetails.availableAmount
+      "
+      (click)="sendWithdrawalOtp()"
+    >
+      <span *ngIf="!withdrawLoading"> Withdraw</span>
+      <span *ngIf="withdrawLoading" uk-spinner="ratio: 1"></span>
+    </button>
+
+    <!-- This is the modal -->
+    <div id="modal-withdrawal" uk-modal bg-close="false">
+      <div
+        class="uk-modal-dialog uk-modal-body uk-flex modal-body align-center"
+      >
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <h2 class="uk-modal-title">OTP</h2>
+
+        <ng-otp-input
+          (onInputChange)="handeOtpChange($event)"
+          [config]="{ length: 6 }"
+          #ngotp
+        ></ng-otp-input>
+        <a (click)="sendWithdrawalOtp()">Resend otp</a>
+        <div class="action-button">
+          <button
+            class="uk-button uk-button-secondary relative"
+            type="button"
+            (click)="handleWithdraw()"
+          >
+            <span *ngIf="!withdrawLoading">Confirm</span>
+            <span *ngIf="withdrawLoading" uk-spinner="ratio: 1"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<router-outlet></router-outlet>
+
+<div id="modal-message" uk-modal bg-close="false">
+  <div class="uk-modal-dialog uk-modal-body uk-flex modal-body align-center">
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+
+    <p>{{ serverResponse }}</p>
+    <div class="action-button uk-flex uk-flex-between">
+      <button
+        class="uk-button uk-button-secondary sm-btn uk-modal-close-default"
+        type="button"
+        routerLink="../"
+      >
+        <span>Back to Wallet</span>
+      </button>
+      <button
+        class="uk-button uk-button-default sm-btn uk-modal-close-default"
+        type="button"
+      >
+        <span>Continue</span>
+      </button>
+    </div>
+  </div>
+</div>

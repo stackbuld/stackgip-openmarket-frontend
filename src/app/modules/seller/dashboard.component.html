@@ -12,7 +12,7 @@
   </ng-container>
 </ng-container> -->
 
-<div>
+<div class="dashboard-container">
   <div class="topbar">
     <div class="uk-flex">
       <!-- Menu for large or desktop screen -->
@@ -20,25 +20,31 @@
         <app-seller-sidebar></app-seller-sidebar>
       </div>
 
-      <div class="uk-width-4-5@m main_content">
-
+      <div class="uk-width-4-5@m main_content uk-overflow-auto">
         <div class="uk-visible@m">
           <app-sidebar-header-display></app-sidebar-header-display>
-          </div>
-          <div  class="uk-hidden@m">
-            <app-seller-header></app-seller-header>
-            <app-sidebar-header-display></app-sidebar-header-display>
+        </div>
+        <div class="uk-hidden@m">
+          <app-seller-header></app-seller-header>
+          <app-sidebar-header-display></app-sidebar-header-display>
+        </div>
 
-          </div>
-
-
-        <div style="padding: 1rem;" class="uk-margin-top">
+        <div
+          [ngStyle]="{
+            padding: currentRoute?.includes('wallet') ? '0' : '1rem'
+          }"
+          class="uk-margin-top"
+        >
           <!-- <div style="margin: auto; width: 96%;" class="uk-margin-top"> -->
 
           <router-outlet></router-outlet>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="search-results" *ngIf="isSearching | async">
+    <app-seller-product-search></app-seller-product-search>
   </div>
 </div>
 

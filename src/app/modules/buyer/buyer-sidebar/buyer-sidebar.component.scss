@@ -1,0 +1,138 @@
+@import "config";
+
+.buyer-sidebar-container {
+  height: 100%;
+  border: 1px solid $border-line-color;
+  padding: 0 20px;
+  width: 300px !important;
+}
+
+.profile-details-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-details {
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & .profile-photo {
+    width: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    & img {
+      width: 100%;
+    }
+  }
+
+  & .profile-name {
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+
+    & div {
+      white-space: normal;
+      display: -webkit-box;
+      line-height: 1.2;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+}
+
+.home {
+  margin: 30px 0;
+  & a {
+    font-size: 16px;
+  }
+}
+
+.profile-information,
+.profile-settings {
+  width: 100%;
+  margin-bottom: 10px;
+  transition: all 300ms;
+  overflow: hidden;
+  background: $white;
+
+  & .dropdown {
+    transition: all 300ms;
+  }
+
+  &.closed {
+    height: 20px;
+    margin-bottom: 30px;
+
+    & .dropdown {
+      margin-right: 0;
+      transition: all 300ms;
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.profile-information {
+  height: 240px;
+}
+
+.profile-settings {
+  height: 170px;
+}
+
+.profile-information-heading,
+.profile-settings-heading {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+
+  &-main {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+
+    & svg {
+      margin-right: 10px;
+    }
+  }
+}
+
+.profile-information-links {
+  & ul {
+    padding: 0;
+
+    & li {
+      list-style: none;
+      margin-top: 30px;
+      cursor: pointer;
+
+      &.active {
+        font-weight: 600;
+      }
+      &#delete-account {
+        color: $error;
+      }
+    }
+  }
+}
+
+.logout {
+  margin-top: 40px;
+  padding-bottom: 50px;
+  cursor: pointer;
+}
+
+@media (max-width: 920px) {
+  .buyer-sidebar-container {
+    min-width: 275px;
+    width: 100% !important;
+  }
+}

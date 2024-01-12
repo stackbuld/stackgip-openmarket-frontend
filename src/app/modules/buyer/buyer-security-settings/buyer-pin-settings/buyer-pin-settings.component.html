@@ -1,0 +1,38 @@
+<div class="change-pin-container">
+  <form id="address-edit-form" [formGroup]="pinForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="new-pin">New Pin</label>
+      <div class="input-group">
+        <input
+          type="password"
+          id="new-pin"
+          formControlName="newPin"
+          (keyup)="onPinEnter($event)"
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="confirm-pin">Confirm Pin</label>
+      <div class="input-group">
+        <input
+          type="password"
+          id="confirm-pin"
+          formControlName="confirmPin"
+          (keyup)="onPinEnter($event)"
+        />
+        <p class="hint" *ngIf="newPin.invalid">Pin must be four(4) digits</p>
+        <p class="hint" *ngIf="!pinMatch && confirmPin.dirty">
+          Pins do not match
+        </p>
+      </div>
+    </div>
+
+    <div class="btn">
+      <button type="submit" id="submit-btn" [disabled]="isSubmitting">
+        <span class="login-btn-text" *ngIf="!isSubmitting"> Save Changes </span
+        ><span class="login-btn-loader" *ngIf="isSubmitting"></span>
+      </button>
+    </div>
+  </form>
+</div>

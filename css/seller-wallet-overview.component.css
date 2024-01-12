@@ -1,0 +1,121 @@
+.sub-section {
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+  gap: 1.5rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.button {
+  border-radius: 8px;
+  width: 12.75rem;
+  line-height: 1rem;
+  text-transform: capitalize;
+  padding: 1rem;
+}
+.button.uk-button-default {
+  border-color: #222;
+}
+
+.action-section {
+  gap: 1.5rem;
+}
+.action-section small {
+  color: #979797;
+  font-weight: 300;
+}
+.action-section .card-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid #DADADA;
+  border-radius: 8px;
+}
+.action-section .card-img {
+  width: 52px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+}
+.action-section .card-img.send {
+  background-color: rgba(108, 108, 228, 0.1019607843);
+}
+.action-section .card-img.money {
+  background-color: rgba(255, 181, 94, 0.2);
+}
+.action-section .card-img.wifi {
+  background-color: rgba(252, 207, 0, 0.1019607843);
+}
+.action-section .action-text {
+  font-size: 1rem;
+  color: #243853;
+  font-weight: 300;
+}
+
+.transactions-section {
+  margin-top: 5rem;
+}
+.transactions-section .title {
+  font-weight: 400;
+  color: #243853;
+}
+.transactions-section .filters {
+  gap: 1rem;
+}
+.transactions-section .filters div {
+  background-color: #F2F2F2;
+  border: 1px solid #B7BECD;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+.transactions-section .filters div select {
+  padding: 10px 18px;
+  height: -moz-fit-content;
+  height: fit-content;
+  border-right: 16px solid #f2f2f2;
+  border-color: #F2F2F2;
+  background-color: transparent;
+  margin: 0;
+  cursor: pointer;
+  color: #072755;
+  font-size: 18px;
+  outline: none;
+}
+.transactions-section .card-container {
+  min-height: 10rem;
+  width: 100%;
+  margin-top: 0.75rem;
+  border-radius: 0.5rem;
+}
+.transactions-section .card-container table {
+  border-spacing: 0 0.5rem;
+  width: 100%;
+  border-collapse: separate;
+}
+.transactions-section .card-container table thead tr th {
+  font-size: 1rem;
+  padding: 0.875rem 1.25rem;
+  color: #979797;
+  min-width: 8rem;
+  margin-right: 1rem;
+}
+.transactions-section .card-container table tbody tr {
+  margin-top: 10px;
+  background: #FAF9F9;
+}
+.transactions-section .card-container table tbody tr td {
+  font-weight: 400;
+  padding: 0.875rem 1.25rem;
+  color: #333;
+  margin-right: 1rem;
+  min-width: 8rem;
+  font-size: 1rem;
+}/*# sourceMappingURL=seller-wallet-overview.component.css.map */

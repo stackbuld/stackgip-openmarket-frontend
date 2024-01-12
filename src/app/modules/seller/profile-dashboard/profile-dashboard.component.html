@@ -1,13 +1,82 @@
-<div class="uk-section uk-section-large">
-  <div class="uk-container">
-    <h1>My Profile</h1>
-    <ul class="uk-tab-bottom" data-uk-tab="media: @s">
+<div class="profile-dashboard-container">
+  <div class="profile-dashboard-main">
+    <div class="profile-content">
+      <div class="profile-content-btn">
+        <ul class="profile-content-btn-main">
+          <li
+            class="profile-btn"
+            routerLink="personal-information"
+            routerLinkActive="active"
+          >
+            Personal Information
+          </li>
 
-      <li class="uk-active" routerLink="my"><a>Profile</a></li>
-      <li><a routerLink="manage-account">Manage Account</a></li>
-      
-    </ul>
+          <li
+            class="profile-btn"
+            routerLink="business-information"
+            routerLinkActive="active"
+          >
+            Business Information
+          </li>
 
-    <router-outlet></router-outlet>
+          <li
+            class="profile-btn"
+            routerLink="kyc-verification"
+            routerLinkActive="active"
+          >
+            KYC Verification
+          </li>
+
+          <li
+            class="profile-btn"
+            routerLink="settings"
+            routerLinkActive="active"
+          >
+            Settings
+          </li>
+        </ul>
+      </div>
+
+      <div class="carousel-container-main">
+        <carousel class="carousel" style="height: 40px">
+          <div
+            class="profile-btn carousel-cell"
+            routerLink="personal-information"
+            routerLinkActive="active"
+          >
+            <div class="profile-btn-content">Personal Information</div>
+          </div>
+
+          <div
+            class="profile-btn carousel-cell"
+            routerLink="business-information"
+            routerLinkActive="active"
+          >
+            <div class="profile-btn-content">Business Information</div>
+          </div>
+
+          <div
+            class="profile-btn carousel-cell"
+            routerLink="kyc-verification"
+            routerLinkActive="active"
+          >
+            <div class="profile-btn-content">KYC Verification</div>
+          </div>
+
+          <div
+            class="profile-btn carousel-cell"
+            routerLink="settings"
+            routerLinkActive="active"
+            style="transform: translateX(0)"
+          >
+            <div class="profile-btn-content">Settings</div>
+          </div>
+        </carousel>
+      </div>
+
+      <div class="profile-content-main">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
 </div>
