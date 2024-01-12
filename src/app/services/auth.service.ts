@@ -425,6 +425,14 @@ export class AuthService {
   }
 
   async handleAuthResponse(res: any, accessType: string, authType: string) {
+    const user = res.data.user;
+
+    H.identify(user.email, {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    });
+
     this.ngxService.stopAll();
     if (
       accessType === 'signin' &&
@@ -491,11 +499,5 @@ export class AuthService {
     }
     this.isLogin.next(true);
     this.SetAuthLocalStorage(res);
-
-    H.identify(res?.email, {
-      id: res?.id,
-      firstName: res?.firstName,
-      lastName: res?.lastName,
-    });
   }
 }
