@@ -1493,6 +1493,30 @@
   resolved "https://registry.npmjs.org/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
+"@dotenv-run/core@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@dotenv-run/core/-/core-1.3.3.tgz#ad1fe7162f4bf716c9dd0c8c48fec3671c1d7eaa"
+  integrity sha512-MmAJE+urEGZorI04NRPfGaPqgTj9A+kQcS2PwrMOFs32PDk14uQcgya2Xx9v7jlbSg1Nw5RehnBVUdI00kDstg==
+  dependencies:
+    chalk "^4.1.0"
+    dotenv "^16.1.4"
+    dotenv-expand "^10.0.0"
+    find-up "^5.0.0"
+
+"@dotenv-run/esbuild@^1.3.2":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@dotenv-run/esbuild/-/esbuild-1.3.3.tgz#f83d121d6422257ba5e81babddd858e46d2e2b6b"
+  integrity sha512-gFYi9YRyMu01osKz7iYzYpqeFwnD7npMQgtHuTs8IsRqMFB9VEXKyrht2pk2Oipsu6bwMjS8v0RF/OA1obmZdQ==
+  dependencies:
+    "@dotenv-run/core" "^1.3.3"
+
+"@dotenv-run/webpack@^1.3.2":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@dotenv-run/webpack/-/webpack-1.3.3.tgz#123142673e2812bb8d7f193f10339f767121cf43"
+  integrity sha512-DCKl0B3nrB6Tbh0EluVQoNHS87d1nUoR9mn7DJHLX1wiA3E7balDBi+3EhjKJD4C1ixzinsGP9Ynl7utoB+E3A==
+  dependencies:
+    "@dotenv-run/core" "^1.3.3"
+
 "@esbuild/android-arm64@0.17.8":
   version "0.17.8"
   resolved "https://registry.yarnpkg.com/@esbuild/android-arm64/-/android-arm64-0.17.8.tgz#b3d5b65a3b2e073a6c7ee36b1f3c30c8f000315b"
@@ -2676,6 +2700,15 @@
   dependencies:
     "@nguniversal/common" "15.2.1"
     tslib "^2.3.0"
+
+"@ngx-env/builder@17.0.7":
+  version "17.0.7"
+  resolved "https://registry.yarnpkg.com/@ngx-env/builder/-/builder-17.0.7.tgz#8ba40815b75b5acf8a863d83fce630c2e9b900f9"
+  integrity sha512-+qR75khSL96FM2iANvAT2ZP3havpNj2FfulN5AGDRHdDUdm0Ke9I0PXKpulCq9IqnFD3+H3vdsIktwr4ngTVmg==
+  dependencies:
+    "@dotenv-run/esbuild" "^1.3.2"
+    "@dotenv-run/webpack" "^1.3.2"
+    glob "^10.3.10"
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -4781,6 +4814,16 @@ domutils@^2.8.0:
     domelementtype "^2.2.0"
     domhandler "^4.2.0"
 
+dotenv-expand@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv-expand/-/dotenv-expand-10.0.0.tgz#12605d00fb0af6d0a592e6558585784032e4ef37"
+  integrity sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==
+
+dotenv@^16.1.4:
+  version "16.3.1"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.3.1.tgz#369034de7d7e5b120972693352a3bf112172cc3e"
+  integrity sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==
+
 eastasianwidth@^0.2.0:
   version "0.2.0"
   resolved "https://registry.npmjs.org/eastasianwidth/-/eastasianwidth-0.2.0.tgz"
@@ -5270,6 +5313,14 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
+find-up@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/find-up/-/find-up-5.0.0.tgz#4c92819ecb7083561e4f4a240a86be5198f536fc"
+  integrity sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==
+  dependencies:
+    locate-path "^6.0.0"
+    path-exists "^4.0.0"
+
 flatted@^3.2.7:
   version "3.2.9"
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.2.9.tgz#7eb4c67ca1ba34232ca9d2d93e9886e611ad7daf"
@@ -5491,7 +5542,7 @@ glob@8.1.0, glob@^8.0.1:
     minimatch "^5.0.1"
     once "^1.3.0"
 
-glob@^10.2.2:
+glob@^10.2.2, glob@^10.3.10:
   version "10.3.10"
   resolved "https://registry.yarnpkg.com/glob/-/glob-10.3.10.tgz#0351ebb809fd187fe421ab96af83d3a70715df4b"
   integrity sha512-fa46+tv1Ak0UPK1TOy/pZrIybNNt4HCv7SDzwyfiOZkvZLEbjsZkJBPtDHVshZjbecAoAGSC20MjLDG/qr679g==
@@ -6625,6 +6676,13 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
+locate-path@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-6.0.0.tgz#55321eb309febbc59c4801d931a72452a681d286"
+  integrity sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==
+  dependencies:
+    p-locate "^5.0.0"
+
 lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
@@ -7440,12 +7498,26 @@ p-limit@^2.2.0:
   dependencies:
     p-try "^2.0.0"
 
+p-limit@^3.0.2:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-3.1.0.tgz#e1daccbe78d0d1388ca18c64fea38e3e57e3706b"
+  integrity sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==
+  dependencies:
+    yocto-queue "^0.1.0"
+
 p-locate@^4.1.0:
   version "4.1.0"
   resolved "https://registry.npmjs.org/p-locate/-/p-locate-4.1.0.tgz"
   integrity sha512-R79ZZ/0wAxKGu3oYMlz8jy/kbhsNrS7SKZ7PxEHBgJ5+F2mtFW2fK2cOtBh1cHYkQsbzFV7I+EoRKe6Yt0oK7A==
   dependencies:
     p-limit "^2.2.0"
+
+p-locate@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/p-locate/-/p-locate-5.0.0.tgz#83c8315c6785005e3bd021839411c9e110e6d834"
+  integrity sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==
+  dependencies:
+    p-limit "^3.0.2"
 
 p-map@^4.0.0:
   version "4.0.0"
@@ -9731,6 +9803,11 @@ yn@3.1.1:
   version "3.1.1"
   resolved "https://registry.npmjs.org/yn/-/yn-3.1.1.tgz"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
+
+yocto-queue@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
+  integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
 zone.js@~0.10.3:
   version "0.10.3"
