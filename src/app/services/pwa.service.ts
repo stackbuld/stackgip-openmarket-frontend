@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { Subject } from 'rxjs';
+import { Subject, map, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PwaService {
@@ -10,14 +10,6 @@ export class PwaService {
   constructor(private swUpdate: SwUpdate) {}
 
   initPwaPrompt() {
-    if (this.swUpdate.isEnabled) {
-      this.swUpdate.versionUpdates.subscribe(() => {
-        if (confirm('New version available. Load New Version?')) {
-          window.location.reload();
-        }
-      });
-    }
-
     window.addEventListener('beforeinstallprompt', (event) => {
       event.preventDefault();
       this.deferredPrompt = event;
