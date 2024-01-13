@@ -1,8 +1,15 @@
 import { AppState } from './reducers/index';
-import { Component, OnInit, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { increment, decrement, reset } from './reducers/action/actions';
 import { DOCUMENT } from '@angular/common';
 import { Title } from '@angular/platform-browser';
@@ -12,13 +19,15 @@ import {
   Router,
   RouterState,
 } from '@angular/router';
-import { SwUpdate } from '@angular/service-worker';
+import { PwaService } from './services/pwa.service';
+import uikit from 'uikit';
 
 const selectCounter = (state: AppState) => state.count;
 
 export const selectState = createFeatureSelector<AppState>('counterReducer');
 export const getcount = createSelector(selectState, selectCounter);
 declare var gtag: any;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -34,9 +43,21 @@ export class AppComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     @Inject(DOCUMENT) private document: Document,
-    private swUpdate: SwUpdate
+    private pwaService: PwaService
   ) {
     this.handleRouteEvents();
+  }
+
+  ngOnInit(): void {
+    this.count$ = this.store.select(getcount);
+
+    this.pwaService.initPwaPrompt();
+
+    this.pwaService.showModal.pipe(take(1)).subscribe((status) => {
+      if (status) {
+        uikit.modal('#prompt-modal').show();
+      }
+    });
   }
 
   handleRouteEvents() {
@@ -67,8 +88,8 @@ export class AppComponent implements OnInit {
     return data;
   }
 
-  ngOnInit(): void {
-    this.count$ = this.store.select(getcount);
+  onPromptInstall() {
+    this.pwaService.showInstallPrompt();
   }
 
   increment() {
