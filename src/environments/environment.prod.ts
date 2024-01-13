@@ -10,7 +10,7 @@ export const environment = {
   cloudinaryName: process.env.cloudinaryName ?? 'dimxqjzpr',
   cloudinaryUploadPerset: process.env.cloudinaryUploadPerset?? 'unsigned1_openmarket',
   sellerStorefrontApi: process.env.sellerStorefrontApi?? 'https://api-identity.renamarkets.com/api/v1/sellers/',
-
+  walletApi: process.env.walletApi?? 'https://api-wallet.renamarkets.com/api/v1/',
   algolia: {
     appId: process.env.algolia__appId?? 'FFW9XSFVBK',
     apiKey: process.env.algolia__apiKey?? '8e009ce54b2cb72e747aad9fb4ca822c',
