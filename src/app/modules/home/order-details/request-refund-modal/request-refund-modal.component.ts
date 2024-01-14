@@ -17,7 +17,9 @@ export class RequestRefundModalComponent implements OnInit {
     'Item seem to be fake and unauthentic',
   ];
   uploadWidget: any;
-  mediaUrl: string;
+  mediaUrl: string = '';
+  mediaType: string;
+  selectedReason: string = '';
 
   constructor(private dialog: MatDialog) {}
 
@@ -31,14 +33,26 @@ export class RequestRefundModalComponent implements OnInit {
       (error, result) => {
         if (!error && result && result.event === 'success') {
           this.mediaUrl = result.info.secure_url;
-          console.log(this.mediaUrl);
+          this.mediaType = this.mediaUrl.slice(-3);
         }
       }
     );
+    console.log(this.selectedReason);
+  }
+
+  onRefund() {
+    if (this.mediaUrl == '' || this.selectedReason == '') {
+      return;
+    }
   }
 
   onUploadMedia() {
     this.uploadWidget.open();
+  }
+
+  onRemoveMedia() {
+    this.mediaUrl = '';
+    this.mediaType = null;
   }
 
   onCloseModal() {
