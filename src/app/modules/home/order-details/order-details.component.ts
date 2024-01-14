@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from 'express';
 import { ToastrService } from 'ngx-toastr';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { FooterService } from 'src/app/services/footer.service';
 import { OrderService } from 'src/app/services/order/order.service';
+import { RequestRefundModalComponent } from './request-refund-modal/request-refund-modal.component';
 
 @Component({
   selector: 'app-order-details',
@@ -28,7 +30,8 @@ export class OrderDetailsComponent implements OnInit {
 
   constructor(
     private appLocal: AppLocalStorage,
-    private footerService: FooterService
+    private footerService: FooterService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +39,7 @@ export class OrderDetailsComponent implements OnInit {
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(true);
     this.getDetails();
+    this.onRefundRequest();
   }
 
   getDetails = () => {
@@ -78,5 +82,9 @@ export class OrderDetailsComponent implements OnInit {
     }, {});
     const groupedOptionsArray = Object.values(groupedOptions);
     this.variations = groupedOptionsArray;
+  }
+
+  onRefundRequest() {
+    this.dialog.open(RequestRefundModalComponent, {});
   }
 }
