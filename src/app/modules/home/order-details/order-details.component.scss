@@ -15,6 +15,7 @@
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 
   & #request-btn {
     border-radius: 8px;
@@ -385,10 +386,6 @@ label {
 
   .mobile-only {
     display: block;
-  }
-
-  .btn-top {
-    // display: block !important;
   }
 
   .web-only {

@@ -39,7 +39,6 @@ export class OrderDetailsComponent implements OnInit {
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(true);
     this.getDetails();
-    this.onRefundRequest();
   }
 
   getDetails = () => {
