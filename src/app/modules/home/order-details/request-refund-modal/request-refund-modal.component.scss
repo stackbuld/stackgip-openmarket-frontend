@@ -1,6 +1,7 @@
 .refund-container {
   width: 70vw;
   padding: 30px;
+  max-width: 800px;
 }
 
 .refund {
@@ -58,6 +59,11 @@
     border-style: dashed;
     border-radius: 8px;
     background-color: rgba(58, 59, 60, 0.2);
+    padding: 10px;
+
+    & svg {
+      margin-bottom: 10px;
+    }
 
     & div {
       font-weight: bold;
@@ -66,5 +72,48 @@
         font-weight: lighter;
       }
     }
+
+    & p {
+      color: rgba(102, 112, 133, 1);
+      margin-top: 5px;
+    }
+  }
+
+  & .media {
+    width: 140px;
+    height: 140px;
+
+    & img {
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+.refund-action {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  & button {
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    padding: 0.8rem 2rem;
+    box-shadow: none;
+    color: white;
+    background-color: #000;
+    align-self: flex-end;
+    width: auto;
+  }
+
+  & div {
+    color: rgba(238, 130, 1, 1);
+    text-decoration: underline;
+    cursor: pointer;
   }
 }
