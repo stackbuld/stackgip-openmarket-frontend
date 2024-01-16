@@ -11,6 +11,8 @@ import { IUser } from 'src/app/models/IUserModel';
 import { AuthService } from '../../../services/auth.service';
 import { WindowRefService } from '../../services/window.service';
 import { SearchService } from 'src/app/services/search/search.service';
+import { MatDialog } from '@angular/material/dialog';
+import { LogoutModalComponent } from '../logout-modal/logout-modal.component';
 
 @Component({
   selector: 'app-home-nav',
@@ -35,7 +37,8 @@ export class HomeNavComponent implements OnInit {
     private applocal: AppLocalStorage,
     private authService: AuthService,
     private windowService: WindowRefService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private dialog: MatDialog
   ) {
     // this.user = JSON.parse(localStorage.getItem('user'));
   }
@@ -80,18 +83,10 @@ export class HomeNavComponent implements OnInit {
     return this.user || null;
   };
 
-  cancel = () => {
-    this.windowService.nativeWindow.document
-      .getElementById('closeLogoutModalBtn')!
-      .click();
-  };
-
-  logout() {
-    localStorage.clear();
-    sessionStorage.clear();
-    this.applocal.currentUser.next(null);
-    this.cancel();
-    this.router.navigate(['/']);
+  onLogout() {
+    this.dialog.open(LogoutModalComponent, {
+      position: { top: '40px' },
+    });
   }
 
   viewProduct = (item: any) => {
