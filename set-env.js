@@ -1,6 +1,6 @@
 // const fs = require('fs');
 const  fs = require('fs');
-const  path = require('path');
+
 
 
 // Path to your environment.prod.ts
