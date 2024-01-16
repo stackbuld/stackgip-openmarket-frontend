@@ -20,7 +20,6 @@ import { HttpClient } from '@angular/common/http';
 import { ApiAppUrlService } from '../api-app-url.service';
 import { Injectable } from '@angular/core';
 import { map, retry } from 'rxjs/operators';
-import { Meta } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root',
@@ -31,72 +30,12 @@ export class ProductsService {
   exceededUnitAction = new BehaviorSubject<boolean>(false);
   scrollTo = new Subject<boolean>();
 
-  constructor(
-    private apiUrls: ApiAppUrlService,
-    private http: HttpClient,
-    private meta: Meta
-  ) {
+  constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
 
   public GetCategory(): Observable<CategoryResponse> {
     return this.http.get<CategoryResponse>(this.baseUrl + 'categories');
-  }
-
-  updateMetaTags(data: ProductModel) {
-    return [
-      {
-        name: 'description',
-        content: data.description,
-      },
-      {
-        name: 'keywords',
-        content:
-          'business,buy,btc,commerce,crypto,cryptocurrency,currency,customer,delivery,ecommerce,flexible,market,online,online payment,online shopping,online store, rena,renafam,renamarket,payment,product,purchase,safe,sales,secure,sell,shop,shopping,transaction',
-      },
-      {
-        property: 'og:title',
-        content: 'RENAMARKET - ' + data.name,
-      },
-      {
-        property: 'og:description',
-        content: 'RENAMARKET - ' + data.description,
-      },
-      {
-        property: 'og:url',
-        content:
-          'https://renamarkets.com/homepage/product/2b9610d8-fc3e-4aa0-86a4-0a8e11f720b9' +
-          data.id,
-      },
-      {
-        property: 'og:site_name',
-        content: 'Renamarket',
-      },
-      {
-        property: 'og:image',
-        content: data.imageUrl,
-      },
-      {
-        property: 'og:logo',
-        content:
-          'https://res.cloudinary.com/dbmgmudf0/image/upload/v1680620527/Rena-market-OG-meta-2_rpkpjp.jpg',
-        size: '250x250',
-      },
-      {
-        property: 'og:keywords',
-        content:
-          'business,buy,btc,commerce,crypto,cryptocurrency,currency,customer,delivery,ecommerce,flexible,market,online,online payment,online shopping,online store, rena,renafam,renamarket,payment,product,purchase,safe,sales,secure,sell,shop,shopping,transaction ',
-      },
-      {
-        property: 'og:image:secure_url',
-        content:
-          'https://res.cloudinary.com/dbmgmudf0/image/upload/v1680620527/Rena-market-OG-meta-2_rpkpjp.jpg',
-      },
-      {
-        property: 'twitter:image',
-        content: data.imageUrl,
-      },
-    ];
   }
 
   getProducts(
