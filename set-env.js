@@ -1,15 +1,15 @@
 // const fs = require('fs');
 const  fs = require('fs');
-
+const  path = require('path');
 
 
 // Path to your environment.prod.ts
-let path = 'src/environments/environment.ts';
+let envfile = 'src/environments/environment.ts';
 console.log("environment: ", process.env.production)
 if(process.env.production === true){
-  path = 'src/environments/environment.prod.ts';
+  envfile = 'src/environments/environment.prod.ts';
 }
-const envFilePath = path.join(__dirname, path);
+const envFilePath = path.join(__dirname, envfile);
 let envFileContent = fs.readFileSync(envFilePath, 'utf8');
 
 // Regular expression to match process.env.VARIABLE_NAME patterns
