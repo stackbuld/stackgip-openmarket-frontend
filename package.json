@@ -12,6 +12,7 @@
     "dev:ssr": "ng run stackbuld-ecommerce:serve-ssr",
     "serve:ssr": "node dist/stackbuld-ecommerce/server/main.js",
     "prerender": "ng run stackbuld-ecommerce:prerender --no-guess-routes --routes / ",
+    "build-dev:ssr": "node set-env.js && ng build --configuration development && ng run stackbuld-ecommerce:server:development",
     "build:ssr": "node set-env.js && ng build --configuration production && ng run stackbuld-ecommerce:server:production",
     "build:ssr-with-prerender": "ng build --configuration production && ng run stackbuld-ecommerce:server:production && yarn run prerender",
     "vercel-build": "yarn run build:ssr"
