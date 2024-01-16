@@ -8,7 +8,7 @@ import { OrderService } from 'src/app/services/order/order.service';
 @Component({
   selector: 'app-order-details',
   templateUrl: './order-details.component.html',
-  styleUrls: ['./order-details.component.scss']
+  styleUrls: ['./order-details.component.scss'],
 })
 export class OrderDetailsComponent implements OnInit {
   order: any;
@@ -28,20 +28,19 @@ export class OrderDetailsComponent implements OnInit {
 
   constructor(
     private appLocal: AppLocalStorage,
-    private footerService: FooterService,
-  ) {
-    this.getDetails();
-  }
+    private footerService: FooterService
+  ) {}
 
   ngOnInit(): void {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(true);
+    this.getDetails();
   }
 
   getDetails = () => {
-    this.appLocal.messageSource.subscribe(res => {
-      if(res) {
+    this.appLocal.messageSource.subscribe((res) => {
+      if (res) {
         this.order = res;
         this.appLocal.storeToStorage('page_data', res);
       } else {
@@ -51,17 +50,21 @@ export class OrderDetailsComponent implements OnInit {
       //   const element = this.order.cartProduct.complementaryProducts[index];
       //   if (element.isMultiple === true) {
       //     this.complementaryProducts.push(element);
-      //   } 
+      //   }
       //   if (element.isMultiple === false) {
       //     this.tempVariations.push(element);
       //   }
       // }
       this.setVariation(this.order.cartProduct.varations);
-    })
-  }
+    });
+  };
 
   getObjectByStatus(status: string): any {
-    return this.order?.deliveryTrackingEvents.find(it => it.status.toLowerCase() === status.toLowerCase()) || null;
+    return (
+      this.order?.deliveryTrackingEvents.find(
+        (it) => it.status.toLowerCase() === status.toLowerCase()
+      ) || null
+    );
   }
 
   setVariation(list: any) {
@@ -76,5 +79,4 @@ export class OrderDetailsComponent implements OnInit {
     const groupedOptionsArray = Object.values(groupedOptions);
     this.variations = groupedOptionsArray;
   }
-
 }

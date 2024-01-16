@@ -171,8 +171,6 @@ export class SingleProductComponent implements OnInit {
       null
     );
 
-    console.log('shipping method', this.shippingMethods);
-
     this.currentShippingMethod.next(this.defaultShipping);
     this.shippingMethods.push(this.defaultShipping);
 
@@ -394,7 +392,6 @@ export class SingleProductComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       this.productId = params.id;
       this.getProductDetails();
-      console.log('slider items', this.sliderMedia);
     });
   };
 
@@ -419,7 +416,6 @@ export class SingleProductComponent implements OnInit {
         this.isLoadingDetails = false;
         this.product = res.data;
         this.loadingProductDescription = false;
-        console.log('product in single cart', this.product);
         this.sellerStores = res.data?.sellerStores;
 
         if (this.currentAddress) {
@@ -436,8 +432,6 @@ export class SingleProductComponent implements OnInit {
             this.sliderMedia.unshift({ isVideo: true, url: video });
           });
         }
-
-        console.log('slider media', this.sliderMedia);
 
         this.productUnit = res.data.unit;
 
