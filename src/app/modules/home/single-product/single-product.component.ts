@@ -1035,7 +1035,9 @@ export class SingleProductComponent implements OnInit {
   showDeliveryAddressModal() {
     this.resetModalView();
 
-    uikit.modal('#information-modal').show();
+    try {
+      uikit.modal('#information-modal').show();
+    } catch {}
   }
 
   setAddressField = () => {
