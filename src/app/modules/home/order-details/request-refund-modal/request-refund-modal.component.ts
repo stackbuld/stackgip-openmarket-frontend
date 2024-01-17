@@ -57,13 +57,18 @@ export class RequestRefundModalComponent implements OnInit {
       orderNumber: this.data.productId,
       unit: this.data.unit,
       refundReason: this.selectedReason,
-      imageUrls:
-        this.mediaType == 'peg' || 'png' || 'jpg' ? [this.mediaUrl] : [],
-      videoUrl: this.mediaType == 'mp4' || 'gif' ? [this.mediaUrl] : [],
+      imageUrls: ['peg', 'jpg', 'png'].includes(this.mediaType)
+        ? [this.mediaUrl]
+        : [],
+      videoUrl: ['gif', 'mp4'].includes(this.mediaType) ? [this.mediaUrl] : [],
     };
 
+    console.log(this.mediaType, payload);
+
     this.refundService.requestRefund(payload).subscribe({
-      next: (res) => {},
+      next: (res) => {
+        console.log(res);
+      },
       error: (err) => {},
     });
   }
