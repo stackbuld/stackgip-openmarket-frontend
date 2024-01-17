@@ -45,6 +45,8 @@ export class HomeNavComponent implements OnInit {
 
   ngOnInit(): void {
     this.cartService.cartCount.subscribe((count) => {
+      console.log(count);
+
       this.cartCount = count;
     });
     this.referenceId = this.authService.getUserReferenceNumber();
@@ -62,15 +64,17 @@ export class HomeNavComponent implements OnInit {
     if (this.referenceId !== null || this.user !== null) {
       this.getCustomerCart();
     }
-    this.appLocalStorage.cartCount.subscribe((res) => {
-      if (res) {
-        let it = res - 1;
-        this.cartCount = it === -1 ? 0 : it;
-      } else {
-        let it = this.appLocalStorage.getFromStorage('cartCount') - 1;
-        this.cartCount = it === -1 ? 0 : it;
-      }
-    });
+
+    // this.appLocalStorage.cartCount.subscribe((res) => {
+    //   if (res) {
+    //     let it = res - 1;
+    //     this.cartCount = it === -1 ? 0 : it;
+    //   } else {
+    //     let it = this.appLocalStorage.getFromStorage('cartCount') - 1;
+    //     this.cartCount = it === -1 ? 0 : it;
+    //   }
+
+    // });
   }
 
   closeSidebar = () => {
@@ -113,19 +117,14 @@ export class HomeNavComponent implements OnInit {
     const reference = this.referenceId ?? '';
 
     cart$ = this.cartService.getCart(userId, reference);
-    cart$
-      .subscribe
-      // (res) => {
-      //   if (res.status === 'success') {
-      //     this.cartCount = res.data.cartItems.length;
-      //     console.log('api', this.cartCount);
-      //   } else {
-      //     this.toastService.warning(res.message, 'MESSAGE');
-      //   }
-      // },
-      // (error) => {
-      //   this.toastService.error(error.message, 'ERROR');
-      // }
-      ();
+    cart$.subscribe({
+      next: (res) => {
+        this.cartCount = res.data.cartItems.length;
+        console.log('api', this.cartCount);
+      },
+      error: (error) => {
+        this.toastService.error(error.message, 'ERROR');
+      },
+    });
   };
 }
