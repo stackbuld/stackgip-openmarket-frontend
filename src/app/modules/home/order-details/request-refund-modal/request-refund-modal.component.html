@@ -99,7 +99,10 @@
         >
           <img [src]="mediaUrl" alt="" />
         </div>
-        <div class="video-media" *ngIf="mediaUrl != '' && mediaType == 'mp4'">
+        <div
+          class="video-media"
+          *ngIf="mediaUrl != '' && (mediaType == 'mp4' || mediaType == 'gif')"
+        >
           <video [src]="mediaUrl" height="140" controls></video>
         </div>
       </div>

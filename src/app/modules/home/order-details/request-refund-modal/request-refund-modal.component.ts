@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+  RefundPayload,
+  RefundService,
+} from 'src/app/services/refund/refund.service';
 import { environment } from 'src/environments/environment';
 declare var cloudinary: any;
 
@@ -21,7 +25,11 @@ export class RequestRefundModalComponent implements OnInit {
   mediaType: string;
   selectedReason: string = '';
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private refundService: RefundService,
+    @Inject(MAT_DIALOG_DATA) private data: { unit: number; productId: string }
+  ) {}
 
   ngOnInit(): void {
     this.uploadWidget = cloudinary.createUploadWidget(
@@ -44,6 +52,25 @@ export class RequestRefundModalComponent implements OnInit {
     if (this.mediaUrl == '' || this.selectedReason == '') {
       return;
     }
+
+    const payload: RefundPayload = {
+      orderNumber: this.data.productId,
+      unit: this.data.unit,
+      refundReason: this.selectedReason,
+      imageUrls: ['peg', 'jpg', 'png'].includes(this.mediaType)
+        ? [this.mediaUrl]
+        : [],
+      videoUrl: ['gif', 'mp4'].includes(this.mediaType) ? [this.mediaUrl] : [],
+    };
+
+    console.log(this.mediaType, payload);
+
+    this.refundService.requestRefund(payload).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {},
+    });
   }
 
   onUploadMedia() {

@@ -45,10 +45,12 @@ export class OrderDetailsComponent implements OnInit {
     this.appLocal.messageSource.subscribe((res) => {
       if (res) {
         this.order = res;
+
         this.appLocal.storeToStorage('page_data', res);
       } else {
         this.order = this.appLocal.getFromStorage('page_data');
       }
+      console.log(this.order);
       // for (let index = 0; index < this.order.cartProduct.complementaryProducts.length; index++) {
       //   const element = this.order.cartProduct.complementaryProducts[index];
       //   if (element.isMultiple === true) {
@@ -84,6 +86,8 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   onRefundRequest() {
-    this.dialog.open(RequestRefundModalComponent, {});
+    this.dialog.open(RequestRefundModalComponent, {
+      data: { unit: this.order.unit, productId: this.order.productId },
+    });
   }
 }

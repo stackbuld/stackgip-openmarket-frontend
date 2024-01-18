@@ -1035,7 +1035,9 @@ export class SingleProductComponent implements OnInit {
   showDeliveryAddressModal() {
     this.resetModalView();
 
-    uikit.modal('#information-modal').show();
+    try {
+      uikit.modal('#information-modal').show();
+    } catch {}
   }
 
   setAddressField = () => {
@@ -1079,7 +1081,7 @@ export class SingleProductComponent implements OnInit {
           productId: this.productId,
           unit: this.count,
           logisticCode: this.currentShippingMethod.value.logisticCode,
-          storeId: this.closestStoreId,
+          storeId: this.product.userId,
           logistic: {
             logisticId: this.currentShippingMethod.value.logisticCode,
             logisticCode: this.currentShippingMethod.value.logisticCode,

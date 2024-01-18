@@ -45,8 +45,6 @@ export class HomeNavComponent implements OnInit {
 
   ngOnInit(): void {
     this.cartService.cartCount.subscribe((count) => {
-      console.log(count);
-
       this.cartCount = count;
     });
     this.referenceId = this.authService.getUserReferenceNumber();
@@ -120,7 +118,6 @@ export class HomeNavComponent implements OnInit {
     cart$.subscribe({
       next: (res) => {
         this.cartCount = res.data.cartItems.length;
-        console.log('api', this.cartCount);
       },
       error: (error) => {
         this.toastService.error(error.message, 'ERROR');
