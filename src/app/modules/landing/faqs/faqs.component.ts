@@ -74,8 +74,6 @@ export class FaqsComponent implements OnInit {
   faqsLength: number = 3;
   @ViewChild('answer') answerContainer: ElementRef<HTMLDivElement>;
 
-  constructor() {}
-
   ngOnInit(): void {
     this.faqs = this.mainFaqs.slice(0, this.faqsLength);
     this.faqsOpened = Array(this.mainFaqs.length).fill(false);
@@ -88,7 +86,6 @@ export class FaqsComponent implements OnInit {
     }
     this.faqsOpened = this.faqsOpened.map((_, i) => i === index);
     this.previousIndex = index;
-    console.log(this.faqsOpened[index]);
   }
 
   onLoadMore() {

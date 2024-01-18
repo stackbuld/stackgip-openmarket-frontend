@@ -25,7 +25,7 @@
 }
 
 .faq-main {
-  max-height: 150px;
+  max-height: 75px;
   overflow: hidden;
   width: 100%;
   padding: 30px 0;
@@ -34,7 +34,7 @@
 
   &.opened {
     transition: all 300ms ease;
-    max-height: 200px;
+    max-height: 300px;
   }
 
   &:first-child {
@@ -46,9 +46,12 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+    width: 100%;
+    cursor: pointer;
 
     & .question-main {
       font-size: 18px;
+      margin-right: 20px;
       font-weight: 700;
     }
 
@@ -101,6 +104,21 @@
 
 @media (max-width: 842px) {
   .faq-main {
-    max-height: 80px;
+    max-height: 100px;
+  }
+}
+@media (max-width: 482px) {
+  .faq {
+    padding: 40px 30px;
+  }
+}
+@media (max-width: 376px) {
+  .faq-main {
+    max-height: 120px;
+  }
+}
+@media (max-width: 330px) {
+  .faq-main {
+    max-height: 130px;
   }
 }

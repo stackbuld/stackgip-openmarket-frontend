@@ -11,12 +11,9 @@
       [ngClass]="{ opened: faqsOpened[i] }"
       *ngFor="let faq of faqs; let i = index"
     >
-      <div class="faq-main-question">
+      <div class="faq-main-question" (click)="onOpenFaq(i)">
         <span class="question-main">{{ faq.question }}</span>
-        <span
-          class="faq-main-toggles"
-          [ngClass]="{ opened: faqsOpened[i] }"
-          (click)="onOpenFaq(i)"
+        <span class="faq-main-toggles" [ngClass]="{ opened: faqsOpened[i] }"
           ><i class="fa fa-times"></i> <i class="fa fa-plus"></i
         ></span>
       </div>
