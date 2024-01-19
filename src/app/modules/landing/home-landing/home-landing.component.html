@@ -1,4 +1,4 @@
-<div class="">
+<div class="" #container>
   <div
     uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky"
   >
@@ -17,11 +17,15 @@
             <li class="uk-active nav-text">
               <a routerLink="/homepage">Product</a>
             </li>
-            <li class="nav-text">
-              <a href="/learn-more#features">Features</a>
+            <li class="nav-text" (click)="onScrollToSection('features')">
+              <a>Features</a>
             </li>
-            <li class="nav-text"><a href="/learn-more#about">About</a></li>
-            <li class="nav-text"><a href="/learn-more#contact">Contact</a></li>
+            <li class="nav-text" (click)="onScrollToSection('about-us')">
+              <a>About</a>
+            </li>
+            <li class="nav-text" (click)="onScrollToSection('contact')">
+              <a>Contact</a>
+            </li>
             <!-- <li class="nav-text" [routerLink]="['/homepage']"><a>Search</a></li> -->
           </ul>
         </div>
@@ -99,19 +103,28 @@
                 </a>
               </li>
               <li>
-                <a href="/learn-more#features">
+                <a
+                  href="/learn-more#features"
+                  (click)="onScrollToSection('features')"
+                >
                   <span class="uk-icon uk-margin-small-right"></span>
                   Features
                 </a>
               </li>
               <li>
-                <a href="/learn-more#about">
+                <a
+                  href="/learn-more#about"
+                  (click)="onScrollToSection('about-us')"
+                >
                   <span class="uk-icon uk-margin-small-right"></span>
                   About
                 </a>
               </li>
               <li>
-                <a href="/learn-more#contact">
+                <a
+                  href="/learn-more#contact"
+                  (click)="onScrollToSection('contact')"
+                >
                   <span class="uk-icon uk-margin-small-right"></span>
                   Contact
                 </a>
@@ -469,7 +482,7 @@
     </section>
 
     <!-- ABOUT US -->
-    <div id="about">
+    <div id="about" #aboutUs>
       <div class="two-sides-sec mt-2">
         <div class="w-45">
           <div>
@@ -585,7 +598,7 @@
 
     <!-- FEATURE -->
     <section id="features">
-      <div class="features-wrapper">
+      <div class="features-wrapper" #features>
         <h2 class="features-heading section-heading">Features</h2>
       </div>
 
@@ -700,7 +713,7 @@
     </section>
 
     <section>
-      <div class="contact-us">
+      <div id="contact" class="contact-us" #contactUs>
         <div class="contact-us-main">
           <div class="contact-us-left">
             <div class="contact-us-heading">Contact us</div>
