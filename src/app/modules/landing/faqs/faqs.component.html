@@ -28,5 +28,11 @@
     </div>
   </div>
 
-  <button class="load-more" (click)="onLoadMore()">Load more</button>
+  <button
+    class="load-more"
+    (click)="onLoadMore()"
+    *ngIf="faqs.length != mainFaqs.length"
+  >
+    Load more
+  </button>
 </div>
