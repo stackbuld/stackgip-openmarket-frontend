@@ -678,6 +678,7 @@ input[type="radio"] {
     align-items: center;
     flex-wrap: wrap;
     margin-bottom: 25px;
+    gap: 10px;
 
     & .new-price {
       font-weight: 900;
@@ -1148,7 +1149,7 @@ input[type="radio"] {
   }
 
   .complimentary-products-main {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
   }
 
   .complimentary-products {
