@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from 'express';
 import { ToastrService } from 'ngx-toastr';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { FooterService } from 'src/app/services/footer.service';
 import { OrderService } from 'src/app/services/order/order.service';
+import { RequestRefundModalComponent } from './request-refund-modal/request-refund-modal.component';
 
 @Component({
   selector: 'app-order-details',
@@ -28,7 +30,8 @@ export class OrderDetailsComponent implements OnInit {
 
   constructor(
     private appLocal: AppLocalStorage,
-    private footerService: FooterService
+    private footerService: FooterService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -42,10 +45,12 @@ export class OrderDetailsComponent implements OnInit {
     this.appLocal.messageSource.subscribe((res) => {
       if (res) {
         this.order = res;
+
         this.appLocal.storeToStorage('page_data', res);
       } else {
         this.order = this.appLocal.getFromStorage('page_data');
       }
+      console.log(this.order);
       // for (let index = 0; index < this.order.cartProduct.complementaryProducts.length; index++) {
       //   const element = this.order.cartProduct.complementaryProducts[index];
       //   if (element.isMultiple === true) {
@@ -78,5 +83,11 @@ export class OrderDetailsComponent implements OnInit {
     }, {});
     const groupedOptionsArray = Object.values(groupedOptions);
     this.variations = groupedOptionsArray;
+  }
+
+  onRefundRequest() {
+    this.dialog.open(RequestRefundModalComponent, {
+      data: { unit: this.order.unit, productId: this.order.productId },
+    });
   }
 }

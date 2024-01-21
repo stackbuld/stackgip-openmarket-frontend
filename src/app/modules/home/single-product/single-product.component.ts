@@ -40,6 +40,7 @@ import { CountryInfo } from 'src/app/models/country.model';
 import { SellerStoreLocationService } from 'src/app/services/cart/seller-store.service';
 import { SearchService } from 'src/app/services/search/search.service';
 import { DeliveryAddressService } from 'src/app/services/cart/delivery-address.service';
+import { MetaService } from 'src/app/shared/services/meta.service';
 @Component({
   selector: 'app-single-product',
   templateUrl: './single-product.component.html',
@@ -155,7 +156,8 @@ export class SingleProductComponent implements OnInit {
     private sellerStoreLocationService: SellerStoreLocationService,
     private searchService: SearchService,
     private deliverAddressService: DeliveryAddressService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private metaService: MetaService
   ) {}
 
   ngOnInit() {
@@ -417,6 +419,8 @@ export class SingleProductComponent implements OnInit {
         this.product = res.data;
         this.loadingProductDescription = false;
         this.sellerStores = res.data?.sellerStores;
+
+        this.metaService.updateMetaTags(res.data);
 
         if (this.currentAddress) {
           this.getClosestSellerStore(this.currentAddress);
@@ -1031,7 +1035,9 @@ export class SingleProductComponent implements OnInit {
   showDeliveryAddressModal() {
     this.resetModalView();
 
-    uikit.modal('#information-modal').show();
+    try {
+      uikit.modal('#information-modal').show();
+    } catch {}
   }
 
   setAddressField = () => {
@@ -1075,7 +1081,7 @@ export class SingleProductComponent implements OnInit {
           productId: this.productId,
           unit: this.count,
           logisticCode: this.currentShippingMethod.value.logisticCode,
-          storeId: this.closestStoreId,
+          storeId: this.product.userId,
           logistic: {
             logisticId: this.currentShippingMethod.value.logisticCode,
             logisticCode: this.currentShippingMethod.value.logisticCode,

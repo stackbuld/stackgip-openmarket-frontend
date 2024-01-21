@@ -47,18 +47,19 @@ export class CartService {
 
   deleteCartItem(payload: {
     key: string;
-    id: string;
+    userId: string;
+    referenceId: string;
     productId: string;
   }): Observable<DeleteCartResponseModel> {
     if (payload.key === 'user') {
       return this.http.delete<DeleteCartResponseModel>(
         this.baseUrl +
-          `cart?userId=${payload.id}&productId=${payload.productId}`
+          `cart?referenceId=${payload.referenceId}&userId=${payload.userId}&productId=${payload.productId}`
       );
     } else if (payload.key === 'reference') {
       return this.http.delete<DeleteCartResponseModel>(
         this.baseUrl +
-          `cart?referenceId=${payload.id}&productId=${payload.productId}`
+          `cart?referenceId=${payload.referenceId}&productId=${payload.productId}`
       );
     }
   }

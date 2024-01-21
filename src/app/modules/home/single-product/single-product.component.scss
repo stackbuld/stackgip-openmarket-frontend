@@ -1027,6 +1027,7 @@ input[type="radio"] {
       height: 80px;
       width: 100%;
       z-index: 1000;
+      bottom: -10px;
     }
 
     .mobile-pad-1 {
@@ -1144,6 +1145,10 @@ input[type="radio"] {
     &-heading {
       font-size: 15px;
     }
+  }
+
+  .complimentary-products-main {
+    margin-bottom: 15px;
   }
 
   .complimentary-products {

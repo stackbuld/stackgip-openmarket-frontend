@@ -142,11 +142,7 @@
           </span>
           <br />
           <br />
-          <span
-            class="pointer"
-            uk-toggle="target: #logout-modal"
-            id="js-modal-prompt"
-          >
+          <span class="pointer" id="js-modal-prompt" (click)="onLogout()">
             <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout
           </span>
         </span>
@@ -172,11 +168,7 @@
           </span>
           <br />
           <br />
-          <span
-            class="pointer"
-            uk-toggle="target: #logout-modal"
-            id="js-modal-prompt"
-          >
+          <span class="pointer" id="js-modal-prompt" (click)="onLogout()">
             <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout
           </span>
         </span>
@@ -274,8 +266,8 @@
                   <br />
                   <span
                     class="pointer"
-                    uk-toggle="target: #logout-modal"
                     id="js-modal-prompt"
+                    (click)="onLogout()"
                   >
                     <img
                       src="/assets/icons/nav/sign-in.svg"
@@ -360,8 +352,8 @@
                   <br />
                   <span
                     class="pointer"
-                    uk-toggle="target: #logout-modal"
                     id="js-modal-prompt"
+                    (click)="onLogout()"
                   >
                     <img
                       src="/assets/icons/nav/sign-in.svg"
@@ -505,11 +497,7 @@
               <br />
               <br />
 
-              <span
-                class="pointer"
-                uk-toggle="target: #logout-modal"
-                id="js-modal-prompt"
-              >
+              <span class="pointer" id="js-modal-prompt" (click)="onLogout()">
                 <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout
               </span>
             </span>
@@ -536,11 +524,7 @@
               </span>
               <br />
               <br />
-              <span
-                class="pointer"
-                uk-toggle="target: #logout-modal"
-                id="js-modal-prompt"
-              >
+              <span class="pointer" id="js-modal-prompt" (click)="onLogout()">
                 <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout
               </span>
             </span>
@@ -664,28 +648,4 @@
       </div>
     </div>
   </ais-instantsearch>
-</div>
-
-<div id="logout-modal" uk-modal="bg-close: false">
-  <div class="uk-modal-dialog uk-modal-body">
-    <button
-      class="hide uk-modal-close-outside"
-      id="closeLogoutModalBtn"
-      type="button"
-      uk-close
-      #closeEdit
-    ></button>
-    <div>
-      <h1 class="text-center">Are you sure you want to Logout ?</h1>
-      <div class="d-flex justify-content-center mt-5">
-        <button type="submit" class="btn-edit" (click)="cancel()">
-          Cancel
-        </button>
-        &nbsp; &nbsp;
-        <button (click)="logout()" type="submit" class="btn-submit">
-          Logout
-        </button>
-      </div>
-    </div>
-  </div>
 </div>

@@ -1,1 +1,38 @@
-<p>Development in Process</p>
+<div class="faq">
+  <div class="faq-heading">FAQs</div>
+
+  <p class="faq-copy">
+    Frequently asked questions by our customers and prospective clients.
+  </p>
+
+  <div class="faq-container">
+    <div
+      class="faq-main"
+      [ngClass]="{ opened: faqsOpened[i] }"
+      *ngFor="let faq of faqs; let i = index"
+    >
+      <div class="faq-main-question" (click)="onOpenFaq(i)">
+        <span class="question-main">{{ faq.question }}</span>
+        <span class="faq-main-toggles" [ngClass]="{ opened: faqsOpened[i] }"
+          ><i class="fa fa-times"></i> <i class="fa fa-plus"></i
+        ></span>
+      </div>
+
+      <div
+        class="faq-main-answer"
+        #answer
+        [ngClass]="{ opened: faqsOpened[i] }"
+      >
+        {{ faq.answer }}
+      </div>
+    </div>
+  </div>
+
+  <button
+    class="load-more"
+    (click)="onLoadMore()"
+    *ngIf="faqs.length != mainFaqs.length"
+  >
+    Load more
+  </button>
+</div>

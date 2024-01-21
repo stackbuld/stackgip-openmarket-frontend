@@ -21,6 +21,8 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
 import { SellerStorefrontComponent } from './seller-storefront/seller-storefront.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { RequestRefundModalComponent } from './order-details/request-refund-modal/request-refund-modal.component';
+import { MAT_SELECT_CONFIG } from '@angular/material/select';
 
 // import { register } from 'swiper/element/bundle';
 // register();
@@ -35,6 +37,7 @@ import { HomePageComponent } from './home-page/home-page.component';
     PaymentConfirmationComponent,
     SellerStorefrontComponent,
     HomePageComponent,
+    RequestRefundModalComponent,
   ],
   imports: [
     CommonModule,
@@ -52,5 +55,11 @@ import { HomePageComponent } from './home-page/home-page.component';
     NgImageFullscreenViewModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [
+    {
+      provide: MAT_SELECT_CONFIG,
+      useValue: { overlayPanelClass: 'matSelectCustom2' },
+    },
+  ],
 })
 export class HomeModule {}

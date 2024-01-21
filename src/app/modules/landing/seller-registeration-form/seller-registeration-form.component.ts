@@ -63,10 +63,14 @@ export class SellerRegisterationFormComponent
     this.authService.isLogin.subscribe((a) => {
       if (a) {
         this.user = JSON.parse(localStorage.getItem('user')) as IUser;
-        this.initializeFormWithSellerDetails();
         console.log('USER IN SELLER FORM', this.user);
       }
     });
+
+    this.user = this.authService.getLoggedInUser();
+    if (this.user) {
+      this.initializeFormWithSellerDetails();
+    }
 
     this.sellerRegForm();
     this.setBusinessCategoryValidators();

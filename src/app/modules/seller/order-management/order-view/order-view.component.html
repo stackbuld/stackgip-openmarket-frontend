@@ -144,7 +144,7 @@
               >
             </div>
             <p class="txt mb-0">
-              {{ order?.amountPaid || 0 | currency : "₦" }}
+              {{ order?.productAmount || 0 | currency : "₦" }}
             </p>
             <br />
             <div
@@ -964,7 +964,7 @@
                 >
               </div>
               <p class="txt mb-0">
-                {{ order?.amountPaid || 0 | currency : "₦" }}
+                {{ order?.productAmount || 0 | currency : "₦" }}
               </p>
               <br />
             </div>

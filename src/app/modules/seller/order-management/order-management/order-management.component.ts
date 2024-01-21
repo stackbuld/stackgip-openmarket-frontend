@@ -118,6 +118,8 @@ export class OrderManagementComponent
     this.orderService.getOrderDashboardOverview(this.sellerId).subscribe(
       (res) => {
         this.overviewData = res.data;
+        console.log(res);
+
         this.loadingOverviewData = false;
       },
       (error) => {

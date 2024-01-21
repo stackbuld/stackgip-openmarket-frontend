@@ -63,6 +63,7 @@ import { SignupModule } from './components/signup-component/signup.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { OnVisibleDirective } from './directives/on-visible.directive';
 import { DemoNgZorroAntdModule } from '../modules/seller/seller-store/ng-zoro.module';
+import { LogoutModalComponent } from './components/logout-modal/logout-modal.component';
 
 export const DOCUMENT_TOKEN = new InjectionToken<Document>('Document');
 export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
@@ -96,6 +97,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     PopupComponent,
     LoginPopUpModalComponent,
     OnVisibleDirective,
+    LogoutModalComponent,
   ],
   imports: [
     CommonModule,

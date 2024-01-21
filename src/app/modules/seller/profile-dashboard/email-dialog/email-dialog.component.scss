@@ -9,6 +9,17 @@
   text-align: center;
 }
 
+.email-dialog-close {
+  align-self: flex-end;
+  padding-right: 40px;
+
+  & i {
+    font-size: 24px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+}
+
 .email-icon {
   width: 140px;
 
