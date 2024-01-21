@@ -881,12 +881,11 @@
               />
             </div>
             <p class="mb-0 w-90">
-              <span class="address-name"
-                >Shipping:
+              <span class="address-name">
                 {{
                   item?.logisticName == "Renaship"
-                    ? "Available on Order Summary"
-                    : "Starting from " +
+                    ? "Flexible shipping option"
+                    : "Shipping: Starting from " +
                       (item?.startingPrice || 0 | currency : "NGN")
                 }}</span
               >
