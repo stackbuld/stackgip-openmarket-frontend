@@ -100,3 +100,10 @@ section {
     padding: 0rem 2rem 1rem 2rem;
   }
 }
+
+@media (max-width: 573px) {
+  .small-img,
+  .large-img {
+    margin-top: 10px;
+  }
+}
