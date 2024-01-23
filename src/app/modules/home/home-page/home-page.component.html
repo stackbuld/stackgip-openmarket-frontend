@@ -33,12 +33,12 @@
           <img src="assets/img/hero-home.png" alt="" />
         </div> -->
       <div
-        class="uk-position-relative uk-visible-toggle uk-light d-none d-md-block col col-md thumbnail"
+        class="uk-position-relative uk-visible-toggle uk-light d-none d-md-block col col-md thumbnail slider-img-container"
         tabindex="-1"
         uk-slideshow="autoplay: true"
       >
         <ul class="uk-slideshow-items w-100 h-100">
-          <li *ngFor="let slide of heroSlides" class="w-100 h-100">
+          <li *ngFor="let slide of heroSlides" class="w-100 h-100 slider-img">
             <img src="{{ slide }}" alt="" uk-cover />
             <div class="uk-position-medium uk-position-bottom-right">
               <button
@@ -65,7 +65,7 @@
         ></a>
       </div>
       <!-- MOBILE BANNER -->
-      <div
+      <!-- <div
         class="uk-position-relative uk-visible-toggle uk-light col d-block d-md-none"
         tabindex="-1"
         uk-slider="autoplay: true"
@@ -78,12 +78,7 @@
           >
             <div class="uk-panel">
               <img src="{{ slide }}" width="1800" height="1200" alt="" />
-              <!-- <div class="uk-position-center uk-text-center">
-                <h2 uk-slider-parallax="x: 100,-100">{{ i + 1 }}</h2>
-                <p uk-slider-parallax="x: 200,-200">
-                  Lorem ipsum dolor sit amet.
-                </p>
-              </div> -->
+        
               <div class="uk-position-medium uk-position-bottom-right mb-1">
                 <button
                   class="uk-button uk-button-secondary"
@@ -108,7 +103,7 @@
           uk-slidenav-next
           uk-slider-item="next"
         ></a>
-      </div>
+      </div> -->
       <!-- END OF MOBILE BANNER -->
     </div>
   </section>
@@ -165,6 +160,12 @@
     </div>
   </section>
 
+  <section class="section-deals">
+    <div class="section-image" *ngFor="let banner of banners">
+      <img [src]="banner" alt="" />
+    </div>
+  </section>
+  <!-- 
   <section id="deals-first">
     <div class="row">
       <img [src]="banners[1]" class="col-sm-4" alt="Black Friday" />
@@ -177,7 +178,7 @@
       <img [src]="banners[2]" class="col-sm-8" alt="" />
       <img [src]="banners[3]" class="col-sm-4 small-img" alt="" />
     </div>
-  </section>
+  </section> -->
 
   <section id="recommended-product">
     <div class="recommended-product-container">
