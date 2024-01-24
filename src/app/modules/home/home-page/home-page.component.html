@@ -6,10 +6,10 @@
         <div *ngIf="!loadingCategories">
           <div
             *ngFor="let category of categories; let i = index"
-            class="pointer category"
-            routerLink="/homepage/search"
             [queryParams]="{ category: category.name }"
+            class="pointer category"
             queryParamsHandling="merge"
+            routerLink="/homepage/search"
           >
             {{ category.name }}
           </div>
@@ -19,12 +19,15 @@
         </div>
 
         <div *ngIf="loadingCategories" class="">
-          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
-          <br />
-          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
-          <br />
-          <ngx-shimmer-loading></ngx-shimmer-loading> <br />
-          <br />
+          <ngx-shimmer-loading></ngx-shimmer-loading>
+          <br/>
+          <br/>
+          <ngx-shimmer-loading></ngx-shimmer-loading>
+          <br/>
+          <br/>
+          <ngx-shimmer-loading></ngx-shimmer-loading>
+          <br/>
+          <br/>
           <ngx-shimmer-loading></ngx-shimmer-loading>
         </div>
       </div>
@@ -33,16 +36,16 @@
           <img src="assets/img/hero-home.png" alt="" />
         </div> -->
       <div
-        class="uk-position-relative uk-visible-toggle uk-light d-none d-md-block col col-md thumbnail"
+        class="uk-position-relative uk-visible-toggle uk-light col col-md thumbnail slider-img-container"
         tabindex="-1"
         uk-slideshow="autoplay: true"
       >
         <ul class="uk-slideshow-items w-100 h-100">
-          <li *ngFor="let slide of heroSlides" class="w-100 h-100">
-            <img src="{{ slide }}" alt="" uk-cover />
-            <div class="uk-position-medium uk-position-bottom-right">
+          <li *ngFor="let slide of heroSlides" class="w-100 h-100 slider-img">
+            <img [src]=" slide " alt="" uk-cover/>
+            <div class="uk-position-medium uk-position-bottom-right shop-now-btn-container">
               <button
-                class="uk-button uk-button-secondary"
+                class="uk-button uk-button-secondary shop-now-btn"
                 routerLink="/homepage/search"
               >
                 Shop Now
@@ -65,10 +68,11 @@
         ></a>
       </div>
       <!-- MOBILE BANNER -->
-      <div
+      <!-- <div
         class="uk-position-relative uk-visible-toggle uk-light col d-block d-md-none"
         tabindex="-1"
         uk-slider="autoplay: true"
+        autoplay-interval=" 1000"
       >
         <ul class="uk-slider-items uk-grid">
           <li
@@ -77,12 +81,7 @@
           >
             <div class="uk-panel">
               <img src="{{ slide }}" width="1800" height="1200" alt="" />
-              <!-- <div class="uk-position-center uk-text-center">
-                <h2 uk-slider-parallax="x: 100,-100">{{ i + 1 }}</h2>
-                <p uk-slider-parallax="x: 200,-200">
-                  Lorem ipsum dolor sit amet.
-                </p>
-              </div> -->
+
               <div class="uk-position-medium uk-position-bottom-right mb-1">
                 <button
                   class="uk-button uk-button-secondary"
@@ -107,7 +106,7 @@
           uk-slidenav-next
           uk-slider-item="next"
         ></a>
-      </div>
+      </div> -->
       <!-- END OF MOBILE BANNER -->
     </div>
   </section>
@@ -119,11 +118,11 @@
         <span class="pointer">
           <span routerLink="/homepage/search"> See All </span>
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="25"
+            fill="none"
             height="24"
             viewBox="0 0 25 24"
-            fill="none"
+            width="25"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
               d="M16.2175 12.7199C16.3582 12.5793 16.4373 12.3887 16.4375 12.1899V11.8099C16.4352 11.6114 16.3564 11.4216 16.2175 11.2799L11.0775 6.14985C10.9836 6.0552 10.8558 6.00195 10.7225 6.00195C10.5892 6.00195 10.4614 6.0552 10.3675 6.14985L9.6575 6.85985C9.56344 6.95202 9.51043 7.07816 9.51043 7.20985C9.51043 7.34154 9.56344 7.46769 9.6575 7.55985L14.1075 11.9999L9.6575 16.4399C9.56284 16.5337 9.5096 16.6615 9.5096 16.7949C9.5096 16.9282 9.56284 17.056 9.6575 17.1499L10.3675 17.8499C10.4614 17.9445 10.5892 17.9978 10.7225 17.9978C10.8558 17.9978 10.9836 17.9445 11.0775 17.8499L16.2175 12.7199Z"
@@ -164,6 +163,12 @@
     </div>
   </section>
 
+  <section class="section-deals">
+    <div *ngFor="let banner of banners" class="section-image">
+      <img [src]="banner" alt=""/>
+    </div>
+  </section>
+  <!--
   <section id="deals-first">
     <div class="row">
       <img [src]="banners[1]" class="col-sm-4" alt="Black Friday" />
@@ -176,7 +181,7 @@
       <img [src]="banners[2]" class="col-sm-8" alt="" />
       <img [src]="banners[3]" class="col-sm-4 small-img" alt="" />
     </div>
-  </section>
+  </section> -->
 
   <section id="recommended-product">
     <div class="recommended-product-container">
@@ -185,11 +190,11 @@
         <span class="pointer">
           <span routerLink="/homepage/search"> See All </span>
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="25"
+            fill="none"
             height="24"
             viewBox="0 0 25 24"
-            fill="none"
+            width="25"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
               d="M16.2175 12.7199C16.3582 12.5793 16.4373 12.3887 16.4375 12.1899V11.8099C16.4352 11.6114 16.3564 11.4216 16.2175 11.2799L11.0775 6.14985C10.9836 6.0552 10.8558 6.00195 10.7225 6.00195C10.5892 6.00195 10.4614 6.0552 10.3675 6.14985L9.6575 6.85985C9.56344 6.95202 9.51043 7.07816 9.51043 7.20985C9.51043 7.34154 9.56344 7.46769 9.6575 7.55985L14.1075 11.9999L9.6575 16.4399C9.56284 16.5337 9.5096 16.6615 9.5096 16.7949C9.5096 16.9282 9.56284 17.056 9.6575 17.1499L10.3675 17.8499C10.4614 17.9445 10.5892 17.9978 10.7225 17.9978C10.8558 17.9978 10.9836 17.9445 11.0775 17.8499L16.2175 12.7199Z"
