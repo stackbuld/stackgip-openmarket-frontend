@@ -25,4 +25,9 @@ export const environment = {
   },
   contactUsWebhook:
     'https://n8n-workflow.renamarkets.com/webhook/prod/renamaket-contact-us',
+  
+  highlightInfo: {
+    id: 'ng2orond',
+    commmitVersion: 'abcdefg12345'
+  }
 };
