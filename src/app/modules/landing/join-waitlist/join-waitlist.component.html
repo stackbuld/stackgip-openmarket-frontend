@@ -6,17 +6,17 @@
       </div>
       <div>
         <button
+          (click)="goBack()"
           class="uk-offcanvas-close"
           type="button"
-          uk-toggle="target: #offcanvas-usage"
           uk-close
-          (click)="goBack()"
+          uk-toggle="target: #offcanvas-usage"
         ></button>
         <div class="waitList-heading">
           <p>Join waitlist</p>
         </div>
       </div>
-      <form [formGroup]="waitListForm" (ngSubmit)="submit()">
+      <form (ngSubmit)="submit()" [formGroup]="waitListForm">
         <p
           *ngIf="waitListForm.controls.interest.invalid"
           class="uk-text-danger"
@@ -25,47 +25,47 @@
         </p>
         <div class="waitList-radioBtn">
           <label for="seller"
-            ><input
-              formControlName="interest"
-              type="radio"
-              checked="checked"
-              name="interest"
-              id="seller"
-              value="seller"
-              class="uk-radio"
-              [class.uk-form-danger]="waitListForm.controls.interest.invalid"
-            />
+          ><input
+            [class.uk-form-danger]="waitListForm.controls.interest.invalid"
+            checked="checked"
+            class="uk-radio"
+            formControlName="interest"
+            id="seller"
+            name="interest"
+            type="radio"
+            value="seller"
+          />
             <span>Seller</span></label
           >
-          <label for=""
-            ><input
-              formControlName="interest"
-              type="radio"
-              name="interest"
-              id="buyer"
-              value="buyer"
-              class="uk-radio"
-              [class.uk-form-danger]="waitListForm.controls.interest.invalid"
-            />
+          <label for="buyer"
+          ><input
+            [class.uk-form-danger]="waitListForm.controls.interest.invalid"
+            class="uk-radio"
+            formControlName="interest"
+            id="buyer"
+            name="interest"
+            type="radio"
+            value="buyer"
+          />
             <span>Buyer</span></label
           >
           <label for="both"
-            ><input
-              formControlName="interest"
-              type="radio"
-              name="interest"
-              id="both"
-              value="both"
-              class="uk-radio"
-              [class.uk-form-danger]="waitListForm.controls.interest.invalid"
-            />
+          ><input
+            [class.uk-form-danger]="waitListForm.controls.interest.invalid"
+            class="uk-radio"
+            formControlName="interest"
+            id="both"
+            name="interest"
+            type="radio"
+            value="both"
+          />
             <span>Both</span></label
           >
         </div>
         <div class="group-wrapper">
           <div>
             <label for="fullname"
-              >Full Name
+            >Full Name
               <span
                 *ngIf="
                   waitListForm.controls.fullName.invalid &&
@@ -78,20 +78,21 @@
             </label>
 
             <input
-              type="text"
-              name="fullname"
-              formControlName="fullName"
-              placeholder="Enter Full Name"
-              class="uk-input"
               [class.uk-form-danger]="
                 waitListForm.controls.fullName.touched &&
                 waitListForm.controls.fullName.invalid
               "
+              class="uk-input"
+              formControlName="fullName"
+              id="fullname"
+              name="fullname"
+              placeholder="Enter Full Name"
+              type="text"
             />
           </div>
           <div>
             <label for="email"
-              >Email Address
+            >Email Address
 
               <span
                 *ngIf="
@@ -105,20 +106,21 @@
             </label>
 
             <input
-              type="email"
-              name="email"
-              formControlName="email"
-              placeholder="Enter Email Address"
-              class="uk-input"
               [class.uk-form-danger]="
                 waitListForm.controls.email.touched &&
                 waitListForm.controls.email.invalid
               "
+              class="uk-input"
+              formControlName="email"
+              id="email"
+              name="email"
+              placeholder="Enter Email Address"
+              type="email"
             />
           </div>
           <div>
             <label for="phone"
-              >Phone Number
+            >Phone Number
               <span
                 *ngIf="
                   waitListForm.controls.phoneNumber.invalid &&
@@ -130,30 +132,31 @@
               </span>
             </label>
             <input
-              type="tel"
-              name="phone"
-              formControlName="phoneNumber"
-              placeholder="Enter Phone Number"
-              class="uk-input"
               [class.uk-form-danger]="
                 waitListForm.controls.phoneNumber.touched &&
                 waitListForm.controls.phoneNumber.invalid
               "
+              class="uk-input"
+              formControlName="phoneNumber"
+              id="phone"
+              name="phone"
+              placeholder="Enter Phone Number"
+              type="tel"
             />
           </div>
 
           <div>
             <button
+              [disabled]="!waitListForm.valid || isLoading"
               class="uk-button uk-button-secondary joinBtn"
               type="submit"
-              [disabled]="!waitListForm.valid || isLoading"
             >
               Join Wait List
               <img
                 *ngIf="isLoading"
+                height="50"
                 src="assets/svg/loader-icon.svg"
                 width="50"
-                height="50"
               />
               <!-- <a [routerLink]="['/join']">Join</a> -->
             </button>
@@ -164,28 +167,28 @@
     <div *ngIf="!showForm">
       <div>
         <img
+          alt=""
           class="uk-align-center"
           src="../../../../assets/image/Done.svg"
-          alt=""
         />
       </div>
       <div>
         <p class="uk-text-lead">
           Hello <span>{{ referralUser?.profile?.first_name }}</span
-          >, Thank you for joining the waitlist
+        >, Thank you for joining the waitlist
         </p>
         <ul class="uk-list uk-list-striped">
           <li>
             Your Referral Link :
             <a
+              (click)="copyLink(referralUser?.referral_link)"
               class="uk-icon-link uk-margin-small-right"
               uk-icon="copy"
-              (click)="copyLink(referralUser?.referral_link)"
             ></a>
 
             <a href="{{ referralUser?.referral_link }}">{{
-              referralUser.referral_link
-            }}</a>
+                referralUser.referral_link
+              }}</a>
           </li>
           <li>
             No of Referral:
@@ -205,8 +208,8 @@
       </div>
       <div>
         <a
-          class="uk-button uk-button-secondary joinBtn"
           [routerLink]="['/landing']"
+          class="uk-button uk-button-secondary joinBtn"
         >
           Back To Home
         </a>
