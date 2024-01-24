@@ -120,20 +120,32 @@ section {
   .large-img {
     margin-top: 10px;
   }
-}
 
-@media (max-width: 450px) {
   .slider-img-container {
     height: 70vh !important;
-    width: 100%;
+    width: 100vw;
   }
 
   .slider-img {
-    height: 70vh;
-    width: 100%;
     & img {
-      width: 100%;
-      object-fit: contain;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
     }
   }
 }
+
+//@media (max-width: 450px) {
+//  .slider-img-container {
+//    height: 40vh !important;
+//    width: 100vw;
+//  }
+//
+//  .slider-img {
+//    & img {
+//      width: 100% !important;
+//      height: 100% !important;
+//      object-fit: cover !important;
+//    }
+//  }
+//}

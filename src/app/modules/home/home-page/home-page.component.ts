@@ -7,6 +7,7 @@ import { CatgoryService } from 'src/app/services/category/catgory.service';
 import { ICategory } from 'src/app/models/CategoryModels';
 import { PromotedProductsService } from 'src/app/services/promoted-products/promoted-products.service';
 import { RecommendedProductService } from 'src/app/services/recomended-product/recommended-product.service';
+import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -100,4 +101,8 @@ export class HomePageComponent {
       },
     });
   };
+
+  getImageResolution(url: string, width: any, height: any) {
+    return ImageResolutionUtility.getImageResolution(url, width, height);
+  }
 }

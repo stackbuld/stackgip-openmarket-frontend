@@ -1,33 +1,33 @@
 <div class="main">
   <img
-    routerLink="/"
     [style]="{ cursor: 'pointer', delay: '0.5s' }"
-    src="assets/image/quality-logo.svg"
     alt="home-nav"
+    routerLink="/"
+    src="assets/image/quality-logo.svg"
   />
   <div (click)="toggleSearch()" class="search-section uk-flex uk-flex-between">
     <div class="uk-flex">
       <svg
         class="icn-search"
-        width="19"
+        fill="none"
         height="18"
         viewBox="0 0 19 18"
-        fill="none"
+        width="19"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
           d="M8.8877 14.25C12.2014 14.25 14.8877 11.5637 14.8877 8.25C14.8877 4.93629 12.2014 2.25 8.8877 2.25C5.57399 2.25 2.8877 4.93629 2.8877 8.25C2.8877 11.5637 5.57399 14.25 8.8877 14.25Z"
           stroke="#828282"
-          stroke-width="1.01393"
           stroke-linecap="round"
           stroke-linejoin="round"
+          stroke-width="1.01393"
         />
         <path
           d="M16.3855 15.7508L13.123 12.4883"
           stroke="#828282"
-          stroke-width="1.01393"
           stroke-linecap="round"
           stroke-linejoin="round"
+          stroke-width="1.01393"
         />
       </svg>
       <span class="txt">Search for products...</span>
@@ -35,25 +35,25 @@
     <button class="search-btn">
       <svg
         class="icn-search"
-        width="19"
+        fill="none"
         height="18"
         viewBox="0 0 19 18"
-        fill="none"
+        width="19"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
           d="M8.8877 14.25C12.2014 14.25 14.8877 11.5637 14.8877 8.25C14.8877 4.93629 12.2014 2.25 8.8877 2.25C5.57399 2.25 2.8877 4.93629 2.8877 8.25C2.8877 11.5637 5.57399 14.25 8.8877 14.25Z"
           stroke="#828282"
-          stroke-width="1.01393"
           stroke-linecap="round"
           stroke-linejoin="round"
+          stroke-width="1.01393"
         />
         <path
           d="M16.3855 15.7508L13.123 12.4883"
           stroke="#828282"
-          stroke-width="1.01393"
           stroke-linecap="round"
           stroke-linejoin="round"
+          stroke-width="1.01393"
         />
       </svg>
     </button>
@@ -61,7 +61,7 @@
 
   <div class="flex">
     <span class="txt pointer uk-margin-small-left" routerLink="/seller-form"
-      >Sell</span
+    >Sell</span
     >
     &nbsp; &nbsp; &nbsp;
     <span class="txt pointer" routerLink="/learn-more">Learn More</span>
@@ -71,26 +71,26 @@
     </span>
     &nbsp; &nbsp; &nbsp; -->
 
-    <span routerLink="/homepage/checkout" class="txt pointer cart-tag">
+    <span class="txt pointer cart-tag" routerLink="/homepage/checkout">
       <span class="tag">{{ cartCount }}</span>
-      <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
+      <img alt="cart-icn" src="/assets/images/cart-icn.svg"/>
     </span>
     &nbsp; &nbsp; &nbsp;
 
     <div class="uk-inline">
       <span class="txt pointer flex-align">
-        <img src="/assets/images/user-icn.svg" alt="user-icn" /> &nbsp;
+        <img alt="user-icn" src="/assets/images/user-icn.svg"/> &nbsp;
         <span>Account</span>
       </span>
-      <div uk-dropdown="mode: click" class="d-down">
+      <div class="d-down" uk-dropdown="mode: click">
         <span *ngIf="credentials() === null">
           <span class="pointer" routerLink="/auth">
-            <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign In
+            <img src="/assets/icons/nav/sign-in.svg"/> &nbsp; Sign In
           </span>
-          <br />
-          <br />
+          <br/>
+          <br/>
           <span class="pointer" routerLink="/auth/signup">
-            <img src="/assets/icons/nav/sign-up.svg" /> &nbsp; Sign Up
+            <img src="/assets/icons/nav/sign-up.svg"/> &nbsp; Sign Up
           </span>
         </span>
 
@@ -101,10 +101,10 @@
           "
         >
           <span
-            class="pointer"
             *ngIf="
               credentials()?.preferredProfileType?.toLowerCase() === 'seller'
             "
+            class="pointer"
             routerLink="/seller/wallet"
           >
             <img
@@ -114,19 +114,19 @@
             &nbsp; Wallet
           </span>
           <span class="pointer" routerLink="/buyer/profile">
-            <img src="/assets/images/user-icn.svg" /> &nbsp; My Account
+            <img src="/assets/images/user-icn.svg"/> &nbsp; My Account
           </span>
 
           <!-- <span class="pointer" routerLink="credentials()?.preferredProfileType?.toLowerCase() === 'buyer' ? /homepage/wallet : /seller/wallet">
               <img src="/assets/icons/cash-outline-dark.svg" style="scale: 1.4;"/> &nbsp;
                 Wallet
               </span> -->
-          <br /><br />
+          <br/><br/>
           <span
-            class="pointer"
             *ngIf="
               credentials()?.preferredProfileType?.toLowerCase() === 'buyer'
             "
+            class="pointer"
             routerLink="/homepage/wallet"
           >
             <img
@@ -135,15 +135,15 @@
             />
             &nbsp; Wallet
           </span>
-          <br />
-          <br />
+          <br/>
+          <br/>
           <span class="pointer" routerLink="/homepage/history">
-            <img src="/assets/images/orders-iccn.svg" /> &nbsp; Orders
+            <img src="/assets/images/orders-iccn.svg"/> &nbsp; Orders
           </span>
-          <br />
-          <br />
-          <span class="pointer" id="js-modal-prompt" (click)="onLogout()">
-            <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout
+          <br/>
+          <br/>
+          <span (click)="onLogout()" class="pointer" id="js-modal-prompt">
+            <img src="/assets/icons/nav/sign-in.svg"/> &nbsp; Logout
           </span>
         </span>
 
@@ -154,22 +154,23 @@
           "
         >
           <span class="pointer" routerLink="/seller/dashboard">
-            <img src="/assets/images/user-icn.svg" /> &nbsp; Dashboard
+            <img src="/assets/images/user-icn.svg"/> &nbsp; Dashboard
           </span>
-          <br />
-          <br />
+          
+          <br/>
+          <br/>
           <span class="pointer" routerLink="/seller/orders">
-            <img src="/assets/images/orders-iccn.svg" /> &nbsp; Sales
+            <img src="/assets/images/orders-iccn.svg"/> &nbsp; Sales
           </span>
-          <br />
-          <br />
+          <br/>
+          <br/>
           <span class="pointer" routerLink="/seller/store">
-            <img src="/assets/icons/nav/store.svg" /> &nbsp; My Store
+            <img src="/assets/icons/nav/store.svg"/> &nbsp; My Store
           </span>
-          <br />
-          <br />
-          <span class="pointer" id="js-modal-prompt" (click)="onLogout()">
-            <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout
+          <br/>
+          <br/>
+          <span (click)="onLogout()" class="pointer" id="js-modal-prompt">
+            <img src="/assets/icons/nav/sign-in.svg"/> &nbsp; Logout
           </span>
         </span>
       </div>
@@ -178,8 +179,8 @@
 </div>
 
 <div
-  uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky"
   class="mobile"
+  uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky"
 >
   <div class="mobile-main">
     <div class="flex-inner uk-navbar-container head pl-x-md-2" uk-navbar>
@@ -187,8 +188,8 @@
         <div class="uk-navbar-right pr-md-2">
           <div
             class="uk-button uk-button-default navy"
-            uk-toggle="target: #offcanvas-flip"
             style="border-color: transparent; padding: 0px !important"
+            uk-toggle="target: #offcanvas-flip"
           >
             <div uk-navbar-toggle-icon></div>
           </div>
@@ -198,16 +199,16 @@
               <div class="pb-3 border-bottom d-flex align-items-center">
                 <div class="uk-navbar-left">
                   <a class="uk-navbar-item uk-logo navy" href="#"
-                    ><img
-                      src="assets/image/quality-logo.svg"
-                      alt="RENA MARKET"
-                      width="90"
+                  ><img
+                    alt="RENA MARKET"
+                    src="assets/image/quality-logo.svg"
+                    width="90"
                   /></a>
                 </div>
                 <div uk-offcanvas-bar>
                   <button
-                    id="closeSidebarBtn"
                     class="uk-offcanvas-close"
+                    id="closeSidebarBtn"
                     style="background-color: grey"
                     type="button"
                     uk-close
@@ -217,9 +218,9 @@
 
               <div class="py-2 border-bottom">
                 <span class="mobile-item" routerLink="/seller-form">Sell</span>
-                <br />
+                <br/>
                 <span class="mobile-item" routerLink="/learn-more"
-                  >Learn More</span
+                >Learn More</span
                 >
               </div>
 
@@ -235,44 +236,44 @@
                 >
                   <span class="pointer" routerLink="/seller/dashboard">
                     <img
+                      height="20"
                       src="/assets/images/user-icn.svg"
                       width="20"
-                      height="20"
                     />
                     &nbsp;
                     <span class="text-black">Dashboard</span>
                   </span>
-                  <br />
+                  <br/>
 
                   <span class="pointer" routerLink="/seller/orders">
                     <img
+                      height="20"
                       src="/assets/images/orders-iccn.svg"
                       width="20"
-                      height="20"
                     />
                     &nbsp;
                     <span class="text-black">Sales</span>
                   </span>
-                  <br />
+                  <br/>
                   <span class="pointer" routerLink="/seller/store">
                     <img
+                      height="20"
                       src="/assets/icons/nav/store.svg"
                       width="20"
-                      height="20"
                     />
                     &nbsp;
                     <span class="text-black">My Store </span>
                   </span>
-                  <br />
+                  <br/>
                   <span
+                    (click)="onLogout()"
                     class="pointer"
                     id="js-modal-prompt"
-                    (click)="onLogout()"
                   >
                     <img
+                      height="20"
                       src="/assets/icons/nav/sign-in.svg"
                       width="20"
-                      height="20"
                     />
                     &nbsp;
                     <span class="text-black">Logout</span>
@@ -282,19 +283,19 @@
                 <span *ngIf="credentials() === null">
                   <span class="pointer" routerLink="/auth">
                     <img
+                      height="20"
                       src="/assets/icons/nav/sign-in.svg"
                       width="20"
-                      height="20"
                     />
                     &nbsp;
                     <span class="text-black">Sign In </span>
                   </span>
-                  <br />
+                  <br/>
                   <span class="pointer" routerLink="/auth/signup">
                     <img
+                      height="20"
                       src="/assets/icons/nav/sign-up.svg"
                       width="20"
-                      height="20"
                     />
                     &nbsp;
                     <span class="text-black">Sign Up </span>
@@ -309,19 +310,19 @@
                   "
                 >
                   <span
+                    (click)="closeSidebar()"
                     class="pointer"
                     routerLink="/buyer/profile"
-                    (click)="closeSidebar()"
                   >
                     <img
+                      height="20"
                       src="/assets/images/user-icn.svg"
                       width="20"
-                      height="20"
                     />
                     &nbsp;
                     <span class="text-black">My Account </span>
                   </span>
-                  <br />
+                  <br/>
                   <span
                     class="pointer"
                     id="wallet-text-container"
@@ -334,31 +335,31 @@
                     &nbsp;<span id="wallet-text">Wallet</span>
                   </span>
 
-                  <br />
+                  <br/>
 
                   <span
+                    (click)="closeSidebar()"
                     class="pointer"
                     routerLink="/homepage/history"
-                    (click)="closeSidebar()"
                   >
                     <img
+                      height="20"
                       src="/assets/images/orders-iccn.svg"
                       width="20"
-                      height="20"
                     />
                     &nbsp;
                     <span class="text-black">Orders </span>
                   </span>
-                  <br />
+                  <br/>
                   <span
+                    (click)="onLogout()"
                     class="pointer"
                     id="js-modal-prompt"
-                    (click)="onLogout()"
                   >
                     <img
+                      height="20"
                       src="/assets/icons/nav/sign-in.svg"
                       width="20"
-                      height="20"
                     />
                     &nbsp;
                     <span class="text-black">Logout </span>
@@ -372,10 +373,10 @@
                   <p class="see-btn pointer">
                     <span routerLink="/homepage/search">See All</span> &nbsp;
                     <svg
-                      width="9"
+                      fill="none"
                       height="10"
                       viewBox="0 0 9 10"
-                      fill="none"
+                      width="9"
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
@@ -390,10 +391,10 @@
                 >
                   <p
                     *ngFor="let category of categories"
-                    routerLink="/homepage/search"
                     [queryParams]="{ category: category.name }"
-                    queryParamsHandling="merge"
                     class="mobile-item pointer"
+                    queryParamsHandling="merge"
+                    routerLink="/homepage/search"
                   >
                     <!-- <svg width="12" height="12" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M11.959 4.74113C11.9592 4.7044 11.9542 4.66781 11.9442 4.63247L11.2354 2.15302C11.1878 1.9885 11.0882 1.84381 10.9515 1.74055C10.8149 1.63729 10.6485 1.58099 10.4772 1.58008H3.16729C2.99602 1.58099 2.82964 1.63729 2.69299 1.74055C2.55635 1.84381 2.45677 1.9885 2.40913 2.15302L1.70086 4.63247C1.69066 4.66779 1.6855 4.70437 1.68555 4.74113V5.5314C1.68555 5.83811 1.75696 6.14061 1.89412 6.41494C2.03129 6.68927 2.23044 6.9279 2.47581 7.11193V10.273C2.47581 10.4826 2.55907 10.6836 2.70727 10.8318C2.85548 10.98 3.05648 11.0632 3.26608 11.0632H10.3785C10.588 11.0632 10.7891 10.98 10.9373 10.8318C11.0855 10.6836 11.1687 10.4826 11.1687 10.273V7.11193C11.4141 6.9279 11.6132 6.68927 11.7504 6.41494C11.8876 6.14061 11.959 5.83811 11.959 5.5314V4.74113ZM3.16729 2.37034H10.4772L11.0413 4.346H2.60472L3.16729 2.37034ZM5.63687 5.13627H8.00766V5.5314C8.00766 5.84579 7.88277 6.1473 7.66047 6.3696C7.43816 6.59191 7.13665 6.7168 6.82227 6.7168C6.50788 6.7168 6.20637 6.59191 5.98406 6.3696C5.76176 6.1473 5.63687 5.84579 5.63687 5.5314V5.13627ZM4.84661 5.13627V5.5314C4.84661 5.84579 4.72172 6.1473 4.49941 6.3696C4.27711 6.59191 3.97559 6.7168 3.66121 6.7168C3.34682 6.7168 3.04531 6.59191 2.82301 6.3696C2.6007 6.1473 2.47581 5.84579 2.47581 5.5314V5.13627H4.84661ZM10.3785 10.273H3.26608V7.46755C3.39615 7.49377 3.52851 7.507 3.66121 7.50706C3.96792 7.50706 4.27042 7.43565 4.54475 7.29848C4.81908 7.16132 5.05771 6.96216 5.24174 6.7168C5.42576 6.96216 5.66439 7.16132 5.93872 7.29848C6.21306 7.43565 6.51555 7.50706 6.82227 7.50706C7.12898 7.50706 7.43148 7.43565 7.70581 7.29848C7.98014 7.16132 8.21877 6.96216 8.40279 6.7168C8.58682 6.96216 8.82545 7.16132 9.09978 7.29848C9.37411 7.43565 9.67661 7.50706 9.98332 7.50706C10.116 7.507 10.2484 7.49377 10.3785 7.46755V10.273ZM9.98332 6.7168C9.66894 6.7168 9.36743 6.59191 9.14512 6.3696C8.92282 6.1473 8.79793 5.84579 8.79793 5.5314V5.13627H11.1687V5.5314C11.1687 5.84579 11.0438 6.1473 10.8215 6.3696C10.5992 6.59191 10.2977 6.7168 9.98332 6.7168Z" fill="black"/>
@@ -407,12 +408,12 @@
         </div>
 
         <img
-          src="/assets/images/home-nav-logo.svg"
-          alt="home-nav"
-          width="70"
-          height="30"
           [style]="{ cursor: 'pointer' }"
+          alt="home-nav"
+          height="30"
           routerLink="/"
+          src="/assets/images/home-nav-logo.svg"
+          width="70"
         />
       </div>
 
@@ -420,48 +421,48 @@
         <svg
           (click)="toggleSearch()"
           class="icn-search"
-          width="19"
+          fill="none"
           height="18"
           viewBox="0 0 19 18"
-          fill="none"
+          width="19"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
             d="M8.8877 14.25C12.2014 14.25 14.8877 11.5637 14.8877 8.25C14.8877 4.93629 12.2014 2.25 8.8877 2.25C5.57399 2.25 2.8877 4.93629 2.8877 8.25C2.8877 11.5637 5.57399 14.25 8.8877 14.25Z"
             stroke="#828282"
-            stroke-width="1.01393"
             stroke-linecap="round"
             stroke-linejoin="round"
+            stroke-width="1.01393"
           />
           <path
             d="M16.3855 15.7508L13.123 12.4883"
             stroke="#828282"
-            stroke-width="1.01393"
             stroke-linecap="round"
             stroke-linejoin="round"
+            stroke-width="1.01393"
           />
         </svg>
         &nbsp; &nbsp; &nbsp;
-        <span routerLink="/homepage/checkout" class="txt pointer cart-tag">
+        <span class="txt pointer cart-tag" routerLink="/homepage/checkout">
           <span class="tag">{{ cartCount }}</span>
-          <img src="/assets/images/cart-icn.svg" alt="cart-icn" />
+          <img alt="cart-icn" src="/assets/images/cart-icn.svg"/>
         </span>
         &nbsp; &nbsp; &nbsp;
         <!-- <img src="/assets/images/user-icn.svg" alt="user-icn" /> -->
 
         <div class="uk-inline">
           <span class="txt pointer flex-align">
-            <img src="/assets/images/user-icn.svg" alt="user-icn" />
+            <img alt="user-icn" src="/assets/images/user-icn.svg"/>
           </span>
-          <div data-uk-dropdown class="d-down">
+          <div class="d-down" data-uk-dropdown>
             <span *ngIf="credentials() === null">
               <span class="pointer" routerLink="/auth">
-                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Sign In
+                <img src="/assets/icons/nav/sign-in.svg"/> &nbsp; Sign In
               </span>
-              <br />
-              <br />
+              <br/>
+              <br/>
               <span class="pointer" routerLink="/auth/signup">
-                <img src="/assets/icons/nav/sign-up.svg" /> &nbsp; Sign Up
+                <img src="/assets/icons/nav/sign-up.svg"/> &nbsp; Sign Up
               </span>
             </span>
 
@@ -472,15 +473,15 @@
               "
             >
               <span class="pointer" routerLink="/buyer/profile">
-                <img src="/assets/images/user-icn.svg" /> &nbsp; My Account
+                <img src="/assets/images/user-icn.svg"/> &nbsp; My Account
               </span>
-              <br />
-              <br />
+              <br/>
+              <br/>
               <span
-                class="pointer"
                 *ngIf="
                   credentials()?.preferredProfileType?.toLowerCase() === 'buyer'
                 "
+                class="pointer"
                 routerLink="/homepage/wallet"
               >
                 <img
@@ -489,16 +490,16 @@
                 />
                 &nbsp; Wallet
               </span>
-              <br />
-              <br />
+              <br/>
+              <br/>
               <span class="pointer" routerLink="/homepage/history">
-                <img src="/assets/images/orders-iccn.svg" /> &nbsp; Orders
+                <img src="/assets/images/orders-iccn.svg"/> &nbsp; Orders
               </span>
-              <br />
-              <br />
+              <br/>
+              <br/>
 
-              <span class="pointer" id="js-modal-prompt" (click)="onLogout()">
-                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout
+              <span (click)="onLogout()" class="pointer" id="js-modal-prompt">
+                <img src="/assets/icons/nav/sign-in.svg"/> &nbsp; Logout
               </span>
             </span>
 
@@ -509,23 +510,23 @@
               "
             >
               <span class="pointer" routerLink="/seller/dashboard">
-                <img src="/assets/images/user-icn.svg" /> &nbsp; Dashboard
+                <img src="/assets/images/user-icn.svg"/> &nbsp; Dashboard
               </span>
-              <br />
-              <br />
+              <br/>
+              <br/>
 
               <span class="pointer" routerLink="/seller/orders">
-                <img src="/assets/images/orders-iccn.svg" /> &nbsp; Sales
+                <img src="/assets/images/orders-iccn.svg"/> &nbsp; Sales
               </span>
-              <br />
-              <br />
+              <br/>
+              <br/>
               <span class="pointer" routerLink="/seller/store">
-                <img src="/assets/icons/nav/store.svg" /> &nbsp; My Store
+                <img src="/assets/icons/nav/store.svg"/> &nbsp; My Store
               </span>
-              <br />
-              <br />
-              <span class="pointer" id="js-modal-prompt" (click)="onLogout()">
-                <img src="/assets/icons/nav/sign-in.svg" /> &nbsp; Logout
+              <br/>
+              <br/>
+              <span (click)="onLogout()" class="pointer" id="js-modal-prompt">
+                <img src="/assets/icons/nav/sign-in.svg"/> &nbsp; Logout
               </span>
             </span>
           </div>
@@ -538,15 +539,15 @@
 <div *ngIf="isSearch" class="search-main">
   <ais-instantsearch [config]="config">
     <ais-configure [searchParameters]="{ hitsPerPage: 8 }"></ais-configure>
-    <ais-search-box placeholder="Enter search" />
+    <ais-search-box placeholder="Enter search"/>
     <div class="main-panel">
       <div class="mb-3 d-flex justify-content-end">
-        <span class="pointer" (click)="toggleSearch()">
+        <span (click)="toggleSearch()" class="pointer">
           <img
+            alt="close-icn"
+            height="20"
             src="/assets/icons/close.png"
             width="20"
-            height="20"
-            alt="close-icn"
           />
         </span>
       </div>
@@ -570,11 +571,11 @@
               </p>
               <span *ngIf="results?.query && results?.query?.length > 0">
                 <span
-                  class="mb-3 d-flex align-items-center"
                   *ngIf="hits.length !== 0"
+                  class="mb-3 d-flex align-items-center"
                 >
                   <span class="search-title"
-                    >Products for {{ results?.query }}</span
+                  >Products for {{ results?.query }}</span
                   >
                   &nbsp; &nbsp;
                   <span class="title-line-two"></span>
@@ -584,7 +585,7 @@
                     <span (click)="viewProduct(hit)" class="pointer">
                       <span class="w-100 d-flex justify-content-center">
                         <div class="img-cover">
-                          <img [src]="hit.imageUrl" class="img" />
+                          <img [src]="hit.imageUrl" class="img"/>
                           <!-- <p class="text-center mb-0">loading...</p> -->
                         </div>
                       </span>
@@ -598,8 +599,8 @@
                             {{ hit?.sellingPrice || 0 | currency : "₦" }}
                           </p>
                           <img
-                            src="/assets/images/cart-icn-prod.svg"
                             alt="cart-icn-prod"
+                            src="/assets/images/cart-icn-prod.svg"
                           />
                         </div>
                       </div>
@@ -611,12 +612,12 @@
                   *ngIf="hits.length !== 0"
                   class="mt-3 pl-3 d-flex justify-content-start"
                 >
-                  <ais-pagination [padding]="5" />
+                  <ais-pagination [padding]="5"/>
                 </div>
                 <div
-                  routerLink="/homepage/search"
                   (click)="toggleSearch()"
                   class="w-100 mt-3 d-flex justify-content-center"
+                  routerLink="/homepage/search"
                 >
                   <button class="see-all-prod">See all Products</button>
                 </div>
