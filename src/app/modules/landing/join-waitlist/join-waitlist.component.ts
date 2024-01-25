@@ -56,9 +56,9 @@ export class JoinWaitlistComponent implements OnInit {
             this.isLoading = false;
             this.referralUser = record as ReferralUser;
             this.showForm = false;
-            this.router.navigate(['/', 'homepage'])
           });
         } else {
+          this.router.navigate(['/', 'homepage'])
           this.isLoading = false;
           this.referralUser = user.data as ReferralUser;
           this.showForm = false;

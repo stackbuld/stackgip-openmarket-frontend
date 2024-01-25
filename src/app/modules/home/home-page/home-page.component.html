@@ -36,7 +36,7 @@
           <img src="assets/img/hero-home.png" alt="" />
         </div> -->
       <div
-        class="uk-position-relative uk-visible-toggle uk-light col col-md thumbnail slider-img-container"
+        class="uk-position-relative d-none d-md-block uk-visible-toggle uk-light col col-md thumbnail slider-img-container"
         tabindex="-1"
         uk-slideshow="autoplay: true"
       >
@@ -68,11 +68,11 @@
         ></a>
       </div>
       <!-- MOBILE BANNER -->
-      <!-- <div
+      <div
+        autoplay-interval=" 1000"
         class="uk-position-relative uk-visible-toggle uk-light col d-block d-md-none"
         tabindex="-1"
         uk-slider="autoplay: true"
-        autoplay-interval=" 1000"
       >
         <ul class="uk-slider-items uk-grid">
           <li
@@ -80,7 +80,7 @@
             class="uk-width-4-5"
           >
             <div class="uk-panel">
-              <img src="{{ slide }}" width="1800" height="1200" alt="" />
+              <img alt="" height="1200" src="{{ slide }}" width="1800"/>
 
               <div class="uk-position-medium uk-position-bottom-right mb-1">
                 <button
@@ -106,7 +106,7 @@
           uk-slidenav-next
           uk-slider-item="next"
         ></a>
-      </div> -->
+      </div>
       <!-- END OF MOBILE BANNER -->
     </div>
   </section>
