@@ -24,7 +24,7 @@ export const environment = {
     // urlSync: false
   },
   contactUsWebhook:
-    'https://n8n-workflow.renamarkets.com/webhook/prod/renamaket-contact-us',
+    'https://n8n-workflow.renamarkets.com/webhook/renamaket-contact-us',
   highlightInfo: {
     id: 'ng2orond',
     commmitVersion: 'abcdefg12345'
