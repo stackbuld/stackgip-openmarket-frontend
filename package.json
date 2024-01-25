@@ -16,7 +16,7 @@
     "build-dev:ssr": "node set-env.js && ng build --configuration development && ng run stackbuld-ecommerce:server:development",
     "build:ssr": "node set-env.js && ng build --configuration production && ng run stackbuld-ecommerce:server:production",
     "build:ssr-with-prerender": "ng build --configuration production && ng run stackbuld-ecommerce:server:production && yarn run prerender",
-    "vercel-build": "yarn run build:ssr"
+    "vercel-build": "yarn run build-prod"
   },
   "private": true,
   "dependencies": {

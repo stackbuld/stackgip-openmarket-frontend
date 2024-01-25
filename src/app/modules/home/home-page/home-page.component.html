@@ -38,14 +38,14 @@
       <div
         class="uk-position-relative d-none d-md-block uk-visible-toggle uk-light col col-md thumbnail slider-img-container"
         tabindex="-1"
-        uk-slideshow="autoplay: true"
+        uk-slideshow="autoplay: true; autoplay-interval	: 5000"
       >
         <ul class="uk-slideshow-items w-100 h-100">
           <li *ngFor="let slide of heroSlides" class="w-100 h-100 slider-img">
-            <img [src]=" slide " alt="" uk-cover/>
+            <img [src]="slide " alt="" uk-cover/>
             <div class="uk-position-medium uk-position-bottom-right shop-now-btn-container">
               <button
-                class="uk-button uk-button-secondary shop-now-btn"
+                class="ghost-button"
                 routerLink="/homepage/search"
               >
                 Shop Now
@@ -69,22 +69,21 @@
       </div>
       <!-- MOBILE BANNER -->
       <div
-        autoplay-interval=" 1000"
+        autoplay-interval="5000"
         class="uk-position-relative uk-visible-toggle uk-light col d-block d-md-none"
         tabindex="-1"
-        uk-slider="autoplay: true"
+        uk-slider="autoplay: false"
       >
         <ul class="uk-slider-items uk-grid">
           <li
             *ngFor="let slide of heroSlides; let i = index"
-            class="uk-width-4-5"
           >
             <div class="uk-panel">
               <img alt="" height="1200" src="{{ slide }}" width="1800"/>
 
               <div class="uk-position-medium uk-position-bottom-right mb-1">
                 <button
-                  class="uk-button uk-button-secondary"
+                  class="ghost-button"
                   routerLink="/homepage/search"
                 >
                   Shop Now
