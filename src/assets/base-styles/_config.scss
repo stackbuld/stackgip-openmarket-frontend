@@ -63,6 +63,10 @@ mat-form-field {
   min-width: 340px !important;
 }
 
+.mat-mdc-menu-panel.home-mat-menu {
+  min-width: 320px !important;
+}
+
 mat-select {
   &.mat-mdc-select.my-mat-select {
     & .mat-mdc-select-arrow-wrapper {

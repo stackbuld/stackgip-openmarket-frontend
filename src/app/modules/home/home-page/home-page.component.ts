@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {
   PromotedProduct,
   RecommendedProduct,
 } from 'src/app/models/products.model';
-import { CatgoryService } from 'src/app/services/category/catgory.service';
-import { ICategory } from 'src/app/models/CategoryModels';
-import { PromotedProductsService } from 'src/app/services/promoted-products/promoted-products.service';
-import { RecommendedProductService } from 'src/app/services/recomended-product/recommended-product.service';
+import {CatgoryService} from 'src/app/services/category/catgory.service';
+import {ICategory} from 'src/app/models/CategoryModels';
+import {PromotedProductsService} from 'src/app/services/promoted-products/promoted-products.service';
+import {RecommendedProductService} from 'src/app/services/recomended-product/recommended-product.service';
+import {ImageResolutionUtility} from 'src/app/helpers/image-resolution.utility';
+
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -29,9 +31,16 @@ export class HomePageComponent {
   categoryName: string = '';
 
   heroSlides = [
-    'assets/img/hero-home.png',
-    'assets/img/hero-home.png',
-    'assets/img/hero-home.png',
+    'https://res.cloudinary.com/dbmgmudf0/image/upload/v1705855793/renamarket-website-files/Homepage/Carousel/cnks64byzw4uzedp20j9.jpg',
+    'https://res.cloudinary.com/dbmgmudf0/image/upload/v1705855793/renamarket-website-files/Homepage/Carousel/vjnllg4osi05ugoo7g83.jpg',
+    'https://res.cloudinary.com/dbmgmudf0/image/upload/v1705855793/renamarket-website-files/Homepage/Carousel/ktgjemfgtjf3itbtbh41.jpg',
+  ];
+
+  banners: string[] = [
+    'https://res.cloudinary.com/dbmgmudf0/image/upload/v1705855777/renamarket-website-files/Homepage/vce5hudxcdrakjkefuuf.jpg',
+    'https://res.cloudinary.com/dbmgmudf0/image/upload/v1705855777/renamarket-website-files/Homepage/t7fsczsdvduybzb7wvv8.jpg',
+    'https://res.cloudinary.com/dbmgmudf0/image/upload/v1705855777/renamarket-website-files/Homepage/qr7equdph7cf6ltallrx.jpg',
+    'https://res.cloudinary.com/dbmgmudf0/image/upload/v1705855776/renamarket-website-files/Homepage/wbw332e998mom5gufabo.jpg',
   ];
 
   loadingCategories: boolean = false;
@@ -40,7 +49,8 @@ export class HomePageComponent {
     private promotedProductsService: PromotedProductsService,
     private recommendedProductsService: RecommendedProductService,
     private categoryService: CatgoryService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.fetchRecommendedProducts();

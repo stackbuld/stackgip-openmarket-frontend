@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -15,7 +15,8 @@ export class EmailDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { email: string },
     private authService: AuthService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +30,10 @@ export class EmailDialogComponent implements OnInit {
         this.resendTimer = timer;
       }
     }, 1000);
+  }
+
+  onCloseEmailDialog() {
+    this.dialog.closeAll();
   }
 
   onResendConfirmationEmail() {

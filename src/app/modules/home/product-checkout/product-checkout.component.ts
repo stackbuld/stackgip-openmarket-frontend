@@ -161,13 +161,15 @@ export class ProductCheckoutComponent implements OnInit {
     if (this.user !== null) {
       payload = {
         key: 'user',
-        id: this.user.id,
+        userId: this.user.id,
+        referenceId: this.referenceId,
         productId: this.selectedCartItem.product.id,
       };
     } else {
       payload = {
         key: 'reference',
-        id: this.referenceId,
+        referenceId: this.referenceId,
+        userId: null,
         productId: this.selectedCartItem.product.id,
       };
     }

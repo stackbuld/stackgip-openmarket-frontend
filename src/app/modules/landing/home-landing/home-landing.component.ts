@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  HostListener,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -52,6 +53,15 @@ export class HomeLandingComponent implements AfterViewInit, OnInit {
     this.title.setTitle(newTitle);
   }
   @ViewChild('container') container: ElementRef<HTMLElement>;
+  @ViewChild('containerMain', { static: false })
+  containerMain!: ElementRef<HTMLDivElement>;
+  @ViewChild('aboutUs', { static: false })
+  aboutUs!: ElementRef;
+  @ViewChild('contactUs', { static: false })
+  contactUs!: ElementRef;
+  @ViewChild('features', { static: false })
+  features!: ElementRef;
+  navbarHeight: number;
 
   ngOnInit() {
     //   this.windowRefS.nativeWindow.document.body.scrollTop = 0;
@@ -73,6 +83,8 @@ export class HomeLandingComponent implements AfterViewInit, OnInit {
         });
       }
     });
+
+    this.setNavbarHeight();
   }
 
   ngAfterViewInit(): void {
@@ -85,6 +97,41 @@ export class HomeLandingComponent implements AfterViewInit, OnInit {
 
         section?.scrollIntoView();
       }
+    });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.setNavbarHeight();
+  }
+
+  setNavbarHeight(): void {
+    const isMobile = window.innerWidth <= 768;
+    this.navbarHeight = isMobile ? 60 : 100;
+  }
+
+  onScrollToSection(section: string) {
+    let targetPosition;
+    switch (section) {
+      case 'about-us':
+        targetPosition =
+          this.aboutUs.nativeElement.offsetTop - this.navbarHeight;
+        break;
+
+      case 'contact':
+        targetPosition =
+          this.contactUs.nativeElement.offsetTop - this.navbarHeight;
+        break;
+
+      case 'features':
+        targetPosition =
+          this.features.nativeElement.offsetTop - this.navbarHeight;
+        break;
+    }
+
+    this.window.scrollTo({
+      top: targetPosition,
+      behavior: 'smooth',
     });
   }
 

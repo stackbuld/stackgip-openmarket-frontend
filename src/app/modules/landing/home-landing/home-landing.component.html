@@ -1,4 +1,4 @@
-<div class="">
+<div #container class="">
   <div
     uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky"
   >
@@ -6,9 +6,9 @@
       <div uk-navbar>
         <div class="uk-navbar-left">
           <img
-            src="/assets/image/quality-logo.svg"
-            loading="lazy"
             alt="RENA MARKET"
+            loading="lazy"
+            src="/assets/image/quality-logo.svg"
           />
         </div>
 
@@ -17,11 +17,15 @@
             <li class="uk-active nav-text">
               <a routerLink="/homepage">Product</a>
             </li>
-            <li class="nav-text">
-              <a href="/learn-more#features">Features</a>
+            <li (click)="onScrollToSection('features')" class="nav-text">
+              <a>Features</a>
             </li>
-            <li class="nav-text"><a href="/learn-more#about">About</a></li>
-            <li class="nav-text"><a href="/learn-more#contact">Contact</a></li>
+            <li (click)="onScrollToSection('about-us')" class="nav-text">
+              <a>About</a>
+            </li>
+            <li (click)="onScrollToSection('contact')" class="nav-text">
+              <a>Contact</a>
+            </li>
             <!-- <li class="nav-text" [routerLink]="['/homepage']"><a>Search</a></li> -->
           </ul>
         </div>
@@ -42,26 +46,26 @@
   </div>
 
   <div
-    uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky"
     class="ds-none"
+    uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky"
   >
     <div class="uk-navbar-container head pl-x-md-2" uk-navbar>
       <div class="uk-navbar-left pl-md-2">
         <a
-          class="uk-navbar-item uk-logo navy space-ml w-md-90"
           [routerLink]="['/']"
-          ><img
-            src="/assets/image/quality-logo.svg"
-            loading="lazy"
-            alt="RENA MARKET"
+          class="uk-navbar-item uk-logo navy space-ml w-md-90"
+        ><img
+          alt="RENA MARKET"
+          loading="lazy"
+          src="/assets/image/quality-logo.svg"
         /></a>
       </div>
 
       <div class="uk-navbar-right pr-md-2">
         <div
           class="uk-button uk-button-default navy"
-          uk-toggle="target: #offcanvas-flip"
           style="border-color: transparent"
+          uk-toggle="target: #offcanvas-flip"
         >
           <div uk-navbar-toggle-icon></div>
         </div>
@@ -71,11 +75,11 @@
             <div class="up-navBar">
               <div class="uk-navbar-left">
                 <a class="uk-navbar-item uk-logo navy" href="#"
-                  ><img
-                    src="../../../../assets/image/quality-logo.svg"
-                    loading="lazy"
-                    alt="RENA MARKET"
-                    width="90"
+                ><img
+                  alt="RENA MARKET"
+                  loading="lazy"
+                  src="../../../../assets/image/quality-logo.svg"
+                  width="90"
                 /></a>
               </div>
               <div uk-offcanvas-bar>
@@ -99,19 +103,28 @@
                 </a>
               </li>
               <li>
-                <a href="/learn-more#features">
+                <a
+                  (click)="onScrollToSection('features')"
+                  href="/learn-more#features"
+                >
                   <span class="uk-icon uk-margin-small-right"></span>
                   Features
                 </a>
               </li>
               <li>
-                <a href="/learn-more#about">
+                <a
+                  (click)="onScrollToSection('about-us')"
+                  href="/learn-more#about"
+                >
                   <span class="uk-icon uk-margin-small-right"></span>
                   About
                 </a>
               </li>
               <li>
-                <a href="/learn-more#contact">
+                <a
+                  (click)="onScrollToSection('contact')"
+                  href="/learn-more#contact"
+                >
                   <span class="uk-icon uk-margin-small-right"></span>
                   Contact
                 </a>
@@ -150,7 +163,7 @@
         the best prices for a variety of products.
       </div>
       <button
-        routerLink="/wait-list"
+        [routerLink]="[ '/wait-list']"
         class="uk-button uk-button-default uk-text-capitalize waitList mt-2"
       >
         Get Started
@@ -158,10 +171,10 @@
     </div>
     <div class="w-50 pl-6 mt-md-1">
       <img
-        class=""
-        src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1685769291/renamarket-website-files/main-right-img_jh6okk.svg"
-        loading="lazy"
         alt="right-Image"
+        class=""
+        loading="lazy"
+        src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1685769291/renamarket-website-files/main-right-img_jh6okk.svg"
       />
     </div>
   </section>
@@ -170,16 +183,18 @@
     <!-- WHY BUY ON REN-MARKET -->
     <section>
       <div class="features-wrapper">
-        <h2 class="features-heading">Why Buy on Rena Market?</h2>
+        <h2 class="features-heading section-heading">
+          Why Buy on Rena Market?
+        </h2>
       </div>
 
       <div class="mainer">
         <div class="boxers">
           <img
-            class="box-image"
-            src="/assets/icons/verify-green-icon.svg"
-            loading="lazy"
             alt="icon"
+            class="box-image"
+            loading="lazy"
+            src="/assets/icons/verify-green-icon.svg"
           />
           <h4 class="box-heading">Variety of Products</h4>
           <p class="box-text">
@@ -190,10 +205,10 @@
         </div>
         <div class="boxers">
           <img
-            class="box-image"
-            src="/assets/image/Group 603.svg"
-            loading="lazy"
             alt="icon"
+            class="box-image"
+            loading="lazy"
+            src="/assets/image/Group 603.svg"
           />
           <h4 class="box-heading">Ultra-Fast Delivery</h4>
           <p class="box-text">
@@ -203,10 +218,10 @@
         </div>
         <div class="boxers">
           <img
-            class="box-image"
-            src="/assets/image/Group 604.svg"
-            loading="lazy"
             alt="icon"
+            class="box-image"
+            loading="lazy"
+            src="/assets/image/Group 604.svg"
           />
           <h4 class="box-heading">Multiple Payment Options</h4>
           <p class="box-text">
@@ -216,10 +231,10 @@
         </div>
         <div class="boxers">
           <img
-            class="box-image"
-            src="/assets/image/Group 604.svg"
-            loading="lazy"
             alt="icon"
+            class="box-image"
+            loading="lazy"
+            src="/assets/image/Group 604.svg"
           />
           <h4 class="box-heading">Quick Refunds</h4>
           <p class="box-text">
@@ -228,7 +243,7 @@
           </p>
         </div>
         <div class="boxers">
-          <img src="/assets/icons/safty-icon.svg" alt="icon" loading="lazy" />
+          <img alt="icon" loading="lazy" src="/assets/icons/safty-icon.svg"/>
           <h4 class="box-heading">Safety</h4>
           <p class="box-text">
             We ensure all sellers are checked and verified to avoid fraudulent
@@ -242,16 +257,18 @@
     <!-- WHY SELL ON REN-MARKET -->
     <section>
       <div class="features-wrapper">
-        <h2 class="features-heading">Why Sell on Rena Market?</h2>
+        <h2 class="features-heading section-heading">
+          Why Sell on Rena Market?
+        </h2>
       </div>
 
       <div class="mainer">
         <div class="boxers">
           <img
-            class="box-image"
-            src="/assets/image/Group 604.svg"
-            loading="lazy"
             alt="icon"
+            class="box-image"
+            loading="lazy"
+            src="/assets/image/Group 604.svg"
           />
           <h4 class="box-heading">Zero Fee & Commission</h4>
           <p class="box-text">
@@ -261,10 +278,10 @@
         </div>
         <div class="boxers">
           <img
-            class="box-image"
-            src="/assets/image/Group 604 (1).svg"
-            loading="lazy"
             alt="icon"
+            class="box-image"
+            loading="lazy"
+            src="/assets/image/Group 604 (1).svg"
           />
           <h4 class="box-heading">Increased Sales and Visibility</h4>
           <p class="box-text">
@@ -276,10 +293,10 @@
         </div>
         <div class="boxers">
           <img
-            class="box-image"
-            src="/assets/image/Group 603.svg"
-            loading="lazy"
             alt="icons"
+            class="box-image"
+            loading="lazy"
+            src="/assets/image/Group 603.svg"
           />
           <h4 class="box-heading">Fast Product Delivery</h4>
           <p class="box-text">
@@ -290,10 +307,10 @@
         </div>
         <div class="boxers">
           <img
-            class="box-image"
-            src="/assets/image/Group 604.svg"
-            loading="lazy"
             alt="icons"
+            class="box-image"
+            loading="lazy"
+            src="/assets/image/Group 604.svg"
           />
           <h4 class="box-heading">Flexible Payout Options</h4>
           <p class="box-text">
@@ -303,9 +320,9 @@
         </div>
         <div class="boxers">
           <img
-            src="/assets/image/Group 604 (1).svg"
-            loading="lazy"
             alt="icon"
+            loading="lazy"
+            src="/assets/image/Group 604 (1).svg"
           />
           <h4 class="box-heading">Product Recommendation</h4>
           <p class="box-text">
@@ -313,6 +330,15 @@
             data on customer search and purchase behaviour, identifies customer
             demands and makes recommendations on new products to meet their
             needs.
+          </p>
+        </div>
+        <div class="boxers">
+          <img alt="icon" loading="lazy" src="/assets/image/Group 603.svg"/>
+          <h4 class="box-heading">Loan Offering</h4>
+          <p class="box-text">
+            We offer multiple loan options to foster an effective e-commerce
+            service for sellers and merchants on Renamarket for maximum customer
+            satisfaction .
           </p>
         </div>
       </div>
@@ -325,7 +351,7 @@
           <h2 class="features-heading">Refer and Earn Today</h2>
           <div class="features-subtext">
             You can make money off the first purchase of every friend you invite
-            to Rena market. The more <br />
+            to Rena market. The more <br/>
             people you refer, the more money you earn!
           </div>
         </div>
@@ -336,45 +362,45 @@
             <div class="waitList_benefit_wrapper">
               <div class="benefit_wrapper">
                 <img
-                  src="/assets/image/New Group 603.svg"
-                  loading="lazy"
                   alt=""
+                  loading="lazy"
+                  src="/assets/image/New Group 603.svg"
                 />
                 <p class="benefit_text">
                   Buyers get access to exclusive deals and discounts on a
                   variety of products
                 </p>
               </div>
-              <hr />
+              <hr/>
               <div class="benefit_wrapper">
                 <img
-                  src="/assets/image/New Group 611.svg"
-                  loading="lazy"
                   alt=""
+                  loading="lazy"
+                  src="/assets/image/New Group 611.svg"
                 />
                 <p class="benefit_text">
                   Free technical assistance for sellers from our support team to
                   launch, manage, and grow your business on Rena market
                 </p>
               </div>
-              <hr />
+              <hr/>
               <div class="benefit_wrapper">
                 <img
-                  src="/assets/image/New Group 610.svg"
-                  loading="lazy"
                   alt=""
+                  loading="lazy"
+                  src="/assets/image/New Group 610.svg"
                 />
                 <p class="benefit_text">
                   Business insights for sellers on consumer behaviour and
                   purchase patterns.
                 </p>
               </div>
-              <hr />
+              <hr/>
               <div class="benefit_wrapper">
                 <img
-                  src="/assets/icons/orange-cash-icon.svg"
-                  loading="lazy"
                   alt=""
+                  loading="lazy"
+                  src="/assets/icons/orange-cash-icon.svg"
                 />
                 <p class="benefit_text">
                   Free business promotion and product marketing for sellers
@@ -387,32 +413,32 @@
             <div class="waitList_benefit_wrapper">
               <div class="benefit_wrapper">
                 <img
-                  src="../../../../assets/image/New Group 611.svg"
-                  loading="lazy"
                   alt=""
+                  loading="lazy"
+                  src="../../../../assets/image/New Group 611.svg"
                 />
                 <p class="benefit_text">
                   You get 2000 NGN for every successful signup using your
                   referral link
                 </p>
               </div>
-              <hr />
+              <hr/>
               <div class="benefit_wrapper">
                 <img
-                  src="../../../../assets/image/New Group 604.svg"
-                  loading="lazy"
                   alt=""
+                  loading="lazy"
+                  src="../../../../assets/image/New Group 604.svg"
                 />
                 <p class="benefit_text">
                   You get 10% discount on 5 orders for any product
                 </p>
               </div>
-              <hr />
+              <hr/>
               <div class="benefit_wrapper">
                 <img
-                  src="../../../../assets/image/New Group 610.svg"
-                  loading="lazy"
                   alt=""
+                  loading="lazy"
+                  src="../../../../assets/image/New Group 610.svg"
                 />
                 <p class="benefit_text">
                   You become a part of the Rena market community gaining access
@@ -429,15 +455,15 @@
     <section>
       <div class="two-sides-sec mt-2">
         <div class="w-45 order-A">
-          <h2 class="two-sides-header">Start selling today</h2>
+          <h2 class="two-sides-header section-heading">Start selling today</h2>
           <p class="two-sides-subtext">
             Get amazing product recommendation to sell and for customers to use
             your product
           </p>
           <div class="bottom-section mt-2">
             <button
-              routerLink="/wait-list"
               class="uk-button uk-button-default uk-text-capitalize waitList"
+              routerLink="/wait-list"
             >
               Sign Up
             </button>
@@ -446,9 +472,9 @@
         <div class="w-45 order-B">
           <div>
             <img
-              src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1685771637/renamarket-website-files/watch-image_fdchkx.svg"
-              loading="lazy"
               alt="icon-watch"
+              loading="lazy"
+              src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1685771637/renamarket-website-files/watch-image_fdchkx.svg"
             />
           </div>
         </div>
@@ -456,21 +482,21 @@
     </section>
 
     <!-- ABOUT US -->
-    <div id="about">
+    <div #aboutUs id="about">
       <div class="two-sides-sec mt-2">
         <div class="w-45">
           <div>
             <img
-              src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1685771168/renamarket-website-files/lady-yellow-bag_mxzzg3.svg"
-              loading="lazy"
               alt="icon-watch"
+              loading="lazy"
+              src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1685771168/renamarket-website-files/lady-yellow-bag_mxzzg3.svg"
             />
           </div>
         </div>
 
         <div class="w-45">
           <div>
-            <h2 class="two-sides-header">About Us</h2>
+            <h2 class="two-sides-header section-heading">About Us</h2>
             <p class="two-sides-subtext">
               Rena market is Nigeria’s fastest retail shopping platform that
               uses a diverse network system to connect buyers and sellers. We
@@ -500,7 +526,7 @@
       <div class="two-sides-sec mt-2">
         <div class="w-45 order-A">
           <div>
-            <h2 class="two-sides-header">Our Mission</h2>
+            <h2 class="two-sides-header section-heading">Our Mission</h2>
             <p class="two-sides-subtext">
               To provide fast and easy online shopping experience to customers
               at the best market prices
@@ -508,7 +534,7 @@
           </div>
 
           <div class="mt-2">
-            <h2 class="two-sides-header">Our Vision</h2>
+            <h2 class="two-sides-header section-heading">Our Vision</h2>
             <p class="two-sides-subtext">
               To be Africa’s biggest e-commerce hub helping SMEs grow and
               promote their business on a global scale. To build a network that
@@ -521,9 +547,9 @@
         <div class="w-45 order-B">
           <div>
             <img
-              src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1685771714/renamarket-website-files/canvas-image_aslhst.svg"
-              loading="lazy"
               alt="icon-watch"
+              loading="lazy"
+              src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1685771714/renamarket-website-files/canvas-image_aslhst.svg"
             />
           </div>
         </div>
@@ -536,16 +562,16 @@
         <div class="w-45">
           <div>
             <img
-              src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1685771537/renamarket-website-files/lady-blue-bag_npsplg.svg"
-              loading="lazy"
               alt="icon-watch"
+              loading="lazy"
+              src="https://res.cloudinary.com/dbmgmudf0/image/upload/v1685771537/renamarket-website-files/lady-blue-bag_npsplg.svg"
             />
           </div>
         </div>
 
         <div class="w-45">
           <div>
-            <h2 class="two-sides-header">Culture and Values</h2>
+            <h2 class="two-sides-header section-heading">Culture and Values</h2>
             <p class="two-sides-subtext">
               Rena market is Nigeria’s fastest retail shopping platform that
               uses a diverse network system to connect buyers and sellers. We
@@ -572,131 +598,122 @@
 
     <!-- FEATURE -->
     <section id="features">
-      <div class="features-wrapper">
-        <h2 class="features-heading">Features</h2>
+      <div #features class="features-wrapper">
+        <h2 class="features-heading section-heading">Features</h2>
       </div>
 
-      <div class="">
-        <div class="justify-cont-btw">
-          <div class="justify-cont-btw">
-            <div class="display-center small-box">
-              <img
-                class="small-box-image"
-                src="/assets/icons/one-person-icon.svg"
-                loading="lazy"
-                alt="icon"
-              />
-              <h4 class="small-box-heading mt-1">User- Friendly Platform</h4>
-              <p class="small-box-subtext">
-                Our platform features the best user experience for both buyers
-                and sellers to perform their business transactions effectively.
-              </p>
-            </div>
-
-            <div class="display-center small-box">
-              <img
-                class="small-box-image"
-                src="/assets/icons/two-person-icon.svg"
-                loading="lazy"
-                alt="icon"
-              />
-              <h4 class="small-box-heading mt-1">Expert Service Providers</h4>
-              <p class="small-box-subtext">
-                For business owners, we have a team of technical experts ready
-                to help you get started on Renamarket for product promotion and
-                to grow your business. From setting up your brand store, to
-                product listing, and shooting great images for your products to
-                increase sales.
-              </p>
-            </div>
-          </div>
-
-          <div class="justify-cont-btw">
-            <div class="display-center small-box">
-              <img
-                class="small-box-image"
-                src="/assets/icons/arrow-up-icon.svg"
-                loading="lazy"
-                alt="icon"
-              />
-              <h4 class="small-box-heading mt-1">Brand Analytics</h4>
-              <p class="small-box-subtext">
-                With the Renamarket analytic tools, you can learn how to better
-                serve your customers by analyzing your store’s key metrics like
-                sales, visits, page views, and traffic sources.
-              </p>
-            </div>
-
-            <div class="display-center small-box">
-              <img
-                class="small-box-image"
-                src="/assets/icons/safty-icon.svg"
-                loading="lazy"
-                alt="icon"
-              />
-              <h4 class="small-box-heading mt-1">Security</h4>
-              <p class="small-box-subtext">
-                We provide a secure network for sellers to promote their
-                business using advanced programming and powerful tools to
-                protect their intellectual property.
-              </p>
-            </div>
-          </div>
+      <div class="features-main">
+        <div class="small-box">
+          <img
+            alt="icon"
+            class="small-box-image"
+            loading="lazy"
+            src="/assets/icons/one-person-icon.svg"
+          />
+          <h4 class="small-box-heading mt-1">User- Friendly Platform</h4>
+          <p class="small-box-subtext">
+            Our platform features the best user experience for both buyers and
+            sellers to perform their business transactions effectively.
+          </p>
         </div>
 
-        <div class="display-center flex-col mt-1">
-          <div class="justify-cont-btw">
-            <div class="display-center small-box">
-              <img
-                class="small-box-image"
-                src="/assets/image/Group 604 (1).svg"
-                loading="lazy"
-                alt="icon"
-              />
-              <h4 class="small-box-heading mt-1">Quality</h4>
-              <p class="small-box-subtext">
-                Customer satisfaction is our priority and with our network of
-                verified sellers, we make available quality and top-notch
-                products for customers.
-              </p>
-            </div>
-            <div class="display-center small-box">
-              <img
-                class="small-box-image"
-                src="/assets/icons/checked-icon.svg"
-                loading="lazy"
-                alt="icon"
-              />
-              <h4 class="small-box-heading mt-1">Affordable Pricing</h4>
-              <p class="small-box-subtext">
-                Rena market is the home for a variety of products available for
-                you to shop at the best market prices.
-              </p>
-            </div>
-          </div>
+        <div class="small-box">
+          <img
+            alt="icon"
+            class="small-box-image"
+            loading="lazy"
+            src="/assets/icons/two-person-icon.svg"
+          />
+          <h4 class="small-box-heading mt-1">Expert Service Providers</h4>
+          <p class="small-box-subtext">
+            For business owners, we have a team of technical experts ready to
+            help you get started on Renamarket for product promotion and to grow
+            your business. From setting up your brand store, to product listing,
+            and shooting great images for your products to increase sales.
+          </p>
+        </div>
 
-          <div class="justify-cont-btw">
-            <div class="display-center small-box">
-              <img
-                class="small-box-image"
-                src="/assets/image/Group 603.svg"
-                loading="lazy"
-                alt="icon"
-              />
-              <h4 class="small-box-heading mt-1">Delivery Service</h4>
-              <p class="small-box-subtext">
-                Our core promise to customers is fast and reliable delivery. We
-                boast of well-equipped and trained professionals who make it
-                possible to deliver optimum customer satisfaction.
-              </p>
-            </div>
-          </div>
+        <div class="small-box">
+          <img
+            alt="icon"
+            class="small-box-image"
+            loading="lazy"
+            src="/assets/icons/arrow-up-icon.svg"
+          />
+          <h4 class="small-box-heading mt-1">Brand Analytics</h4>
+          <p class="small-box-subtext">
+            With the Renamarket analytic tools, you can learn how to better
+            serve your customers by analyzing your store’s key metrics like
+            sales, visits, page views, and traffic sources.
+          </p>
+        </div>
+
+        <div class="small-box">
+          <img
+            alt="icon"
+            class="small-box-image"
+            loading="lazy"
+            src="/assets/icons/safty-icon.svg"
+          />
+          <h4 class="small-box-heading mt-1">Security</h4>
+          <p class="small-box-subtext">
+            We provide a secure network for sellers to promote their business
+            using advanced programming and powerful tools to protect their
+            intellectual property.
+          </p>
+        </div>
+
+        <div class="small-box">
+          <img
+            alt="icon"
+            class="small-box-image"
+            loading="lazy"
+            src="/assets/image/Group 604 (1).svg"
+          />
+          <h4 class="small-box-heading mt-1">Quality</h4>
+          <p class="small-box-subtext">
+            Customer satisfaction is our priority and with our network of
+            verified sellers, we make available quality and top-notch products
+            for customers.
+          </p>
+        </div>
+        <div class="small-box">
+          <img
+            alt="icon"
+            class="small-box-image"
+            loading="lazy"
+            src="/assets/icons/checked-icon.svg"
+          />
+          <h4 class="small-box-heading mt-1">Affordable Pricing</h4>
+          <p class="small-box-subtext">
+            Rena market is the home for a variety of products available for you
+            to shop at the best market prices.
+          </p>
+        </div>
+
+        <div class="small-box">
+          <img
+            alt="icon"
+            class="small-box-image"
+            loading="lazy"
+            src="/assets/image/Group 603.svg"
+          />
+          <h4 class="small-box-heading mt-1">Delivery Service</h4>
+          <p class="small-box-subtext">
+            Our core promise to customers is fast and reliable delivery. We
+            boast of well-equipped and trained professionals who make it
+            possible to deliver optimum customer satisfaction.
+          </p>
         </div>
       </div>
     </section>
 
+    <section class="faq">
+      <app-faqs></app-faqs>
+    </section>
+
     <section>
-      <div class="contact-us">
+      <div #contactUs class="contact-us" id="contact">
         <div class="contact-us-main">
           <div class="contact-us-left">
             <div class="contact-us-heading">Contact us</div>
@@ -708,10 +725,10 @@
             <div class="contact-us-infos">
               <div class="contact-us-info phone">
                 <svg
-                  width="24"
+                  fill="none"
                   height="24"
                   viewBox="0 0 24 24"
-                  fill="none"
+                  width="24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
@@ -726,15 +743,15 @@
                 <p>07080639031</p>
               </div>
               <div class="contact-us-info email">
-                <img src="assets/images/ic_sharp-email.png" alt="" />
-                <p>partner@renamarket.com</p>
+                <img alt="" src="assets/images/ic_sharp-email.png"/>
+                <p>Renamarkets@gmail.com</p>
               </div>
               <div class="contact-us-info location">
                 <svg
-                  width="24"
+                  fill="none"
                   height="24"
                   viewBox="0 0 24 24"
-                  fill="none"
+                  width="24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
@@ -748,158 +765,158 @@
           </div>
 
           <div class="contact-us-right">
-            <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+            <form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
               <div class="main-inputs">
                 <div class="input-group">
                   <label
+                    [ngClass]="{
+                      invalid:
+                        contactForm.get('firstName').touched &&
+                        contactForm.get('firstName').invalid
+                    }"
                     for="firstName"
+                  >First Name</label
+                  >
+                  <input
                     [ngClass]="{
                       invalid:
                         contactForm.get('firstName').touched &&
                         contactForm.get('firstName').invalid
                     }"
-                    >First Name</label
-                  >
-                  <input
-                    type="text"
-                    id="firstName"
                     formControlName="firstName"
-                    [ngClass]="{
-                      invalid:
-                        contactForm.get('firstName').touched &&
-                        contactForm.get('firstName').invalid
-                    }"
+                    id="firstName"
+                    type="text"
                   />
                 </div>
 
                 <div class="input-group">
                   <label
+                    [ngClass]="{
+                      invalid:
+                        contactForm.get('lastName').touched &&
+                        contactForm.get('lastName').invalid
+                    }"
                     for="lastName"
+                  >Last Name</label
+                  >
+                  <input
                     [ngClass]="{
                       invalid:
                         contactForm.get('lastName').touched &&
                         contactForm.get('lastName').invalid
                     }"
-                    >Last Name</label
-                  >
-                  <input
-                    type="text"
-                    id="lastName"
                     formControlName="lastName"
-                    [ngClass]="{
-                      invalid:
-                        contactForm.get('lastName').touched &&
-                        contactForm.get('lastName').invalid
-                    }"
+                    id="lastName"
+                    type="text"
                   />
                 </div>
 
                 <div class="input-group">
                   <label
+                    [ngClass]="{
+                      invalid:
+                        contactForm.get('email').touched &&
+                        contactForm.get('email').invalid
+                    }"
                     for="email"
+                  >Email</label
+                  >
+                  <input
                     [ngClass]="{
                       invalid:
                         contactForm.get('email').touched &&
                         contactForm.get('email').invalid
                     }"
-                    >Email</label
-                  >
-                  <input
-                    type="text"
-                    id="email"
                     formControlName="email"
-                    [ngClass]="{
-                      invalid:
-                        contactForm.get('email').touched &&
-                        contactForm.get('email').invalid
-                    }"
+                    id="email"
+                    type="text"
                   />
                 </div>
 
                 <div class="input-group">
                   <label
-                    for="phoneNumber"
                     [ngClass]="{
                       invalid:
                         contactForm.get('phoneNumber').touched &&
                         contactForm.get('phoneNumber').invalid
                     }"
-                    >Phone Number</label
+                    for="phoneNumber"
+                  >Phone Number</label
                   >
                   <input
-                    type="text"
-                    id="phoneNumber"
-                    formControlName="phoneNumber"
                     [ngClass]="{
                       invalid:
                         contactForm.get('phoneNumber').touched &&
                         contactForm.get('phoneNumber').invalid
                     }"
+                    formControlName="phoneNumber"
+                    id="phoneNumber"
+                    type="text"
                   />
                 </div>
 
                 <div class="input-group">
                   <label
-                    for="subject"
                     [ngClass]="{
                       invalid:
                         contactForm.get('subject').touched &&
                         contactForm.get('subject').invalid
                     }"
-                    >Select Subject</label
+                    for="subject"
+                  >Select Subject</label
                   >
                   <div class="subject-input">
                     <input
-                      type="text"
-                      id="subject"
                       [mat-menu-trigger-for]="subjectMenu"
-                      formControlName="subject"
-                      readonly
                       [ngClass]="{
                         invalid:
                           contactForm.get('subject').touched &&
                           contactForm.get('subject').invalid
                       }"
+                      formControlName="subject"
+                      id="subject"
+                      readonly
+                      type="text"
                     />
                     <i class="fa fa-angle-down"></i>
                   </div>
                 </div>
 
-                <mat-menu #subjectMenu>
+                <mat-menu #subjectMenu class="home-mat-menu">
                   <div class="subjects">
                     <div class="subject-group">
                       <label for="shipping-and-delivery-questions">
                         <input
-                          type="radio"
+                          [formControl]="subjectSelect"
                           id="shipping-and-delivery-questions"
                           name="subjects"
+                          type="radio"
                           value="Shipping and Delivery Questions"
-                          [formControl]="subjectSelect"
                         />
                         Shipping and Delivery Questions</label
-                      ><br />
+                      ><br/>
                     </div>
 
                     <div class="subject-group">
                       <label for="Product-vailability-and-restocking">
                         <input
-                          type="radio"
+                          [formControl]="subjectSelect"
                           id="Product-vailability-and-restocking"
                           name="subjects"
-                          [formControl]="subjectSelect"
+                          type="radio"
                           value="Product Availability and Restocking"
                         />
                         Product Availability and Restocking</label
-                      ><br />
+                      ><br/>
                     </div>
 
                     <div class="subject-group">
                       <label for="Feedback-and-suggestions">
                         <input
-                          type="radio"
+                          [formControl]="subjectSelect"
                           id="Feedback-and-suggestions"
                           name="subjects"
-                          [formControl]="subjectSelect"
+                          type="radio"
                           value="Feedback and Suggestions"
                         />
                         Feedback and Suggestions</label
@@ -909,10 +926,10 @@
                     <div class="subject-group">
                       <label for="General-inquiry">
                         <input
-                          type="radio"
+                          [formControl]="subjectSelect"
                           id="General-inquiry"
                           name="subjects"
-                          [formControl]="subjectSelect"
+                          type="radio"
                           value="General Inquiry"
                         />
                         General Inquiry</label
@@ -922,10 +939,10 @@
                     <div class="subject-group">
                       <label for="Partnership">
                         <input
-                          type="radio"
+                          [formControl]="subjectSelect"
                           id="Partnership"
                           name="subjects"
-                          [formControl]="subjectSelect"
+                          type="radio"
                           value="Partnership"
                         />
                         Partnership</label
@@ -937,30 +954,30 @@
 
               <div class="input-group message-group">
                 <label
-                  for="message"
                   [ngClass]="{
                     invalid:
                       contactForm.get('message').touched &&
                       contactForm.get('message').invalid
                   }"
-                  >Message</label
+                  for="message"
+                >Message</label
                 >
                 <input
-                  type="text"
-                  id="message"
-                  placeholder="Write your message..."
-                  formControlName="message"
                   [ngClass]="{
                     invalid:
                       contactForm.get('message').touched &&
                       contactForm.get('message').invalid
                   }"
+                  formControlName="message"
+                  id="message"
+                  placeholder="Write your message..."
+                  type="text"
                 />
               </div>
 
               <button type="submit">
                 <span *ngIf="!isSending">Send Message</span>
-                <span class="loader" *ngIf="isSending"></span>
+                <span *ngIf="isSending" class="loader"></span>
               </button>
             </form>
           </div>

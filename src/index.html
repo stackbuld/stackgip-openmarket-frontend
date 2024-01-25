@@ -182,10 +182,24 @@
   <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
 
+  <script defer>
+    function initMap() {
+      async function initMap() {
+        const { Map } = await google.maps.importLibrary("maps");
+        map = new Map(document.getElementById("map"), {
+          center: { lat: -34.397, lng: 150.644 },
+          zoom: 8,
+        });
+      }
+    }
+  </script>
+
   <script
+    async
     defer=""
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUYvg0eGjaDVKJg735TWp9Z7RybQsXLvU&amp;libraries=places&amp;language=en"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUYvg0eGjaDVKJg735TWp9Z7RybQsXLvU&libraries=places&language=en&callback=initMap"
   ></script>
+
   <!-- end of google place script -->
   <script
     defer=""
