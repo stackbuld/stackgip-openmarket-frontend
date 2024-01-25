@@ -1,31 +1,37 @@
-import { ReferralUser } from '../../../models/referraluser.model';
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { WindowRefService } from '../../../shared/services/window.service';
+import {ReferralUser} from '../../../models/referraluser.model';
+import {Component, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {WindowRefService} from '../../../shared/services/window.service';
 import * as crypto from 'crypto-js';
+import {Router} from "@angular/router";
+
 declare var UIkit: any;
+
 @Component({
   selector: 'app-join-waitlist',
   templateUrl: './join-waitlist.component.html',
   styleUrls: ['./join-waitlist.component.css'],
 })
 export class JoinWaitlistComponent implements OnInit {
-  constructor(windowService: WindowRefService) {
-    this.window = windowService.nativeWindow;
-  }
   window: Window;
   isLoading: boolean = false;
   showForm = true;
   referralUser: ReferralUser;
   waitListForm = new FormGroup({
-    fullName: new FormControl('', { validators: [Validators.required] }),
+    fullName: new FormControl('', {validators: [Validators.required]}),
     email: new FormControl('', {
       validators: [Validators.email, Validators.required],
     }),
-    phoneNumber: new FormControl('', { validators: [Validators.required] }),
-    interest: new FormControl('', { validators: [Validators.required] }),
+    phoneNumber: new FormControl('', {validators: [Validators.required]}),
+    interest: new FormControl('', {validators: [Validators.required]}),
   });
+
+  constructor(windowService: WindowRefService, private router: Router) {
+    this.window = windowService.nativeWindow;
+
+  }
+
   goBack() {
     this.window?.history?.back();
   }
@@ -52,6 +58,7 @@ export class JoinWaitlistComponent implements OnInit {
             this.showForm = false;
           });
         } else {
+          this.router.navigate(['/', 'homepage'])
           this.isLoading = false;
           this.referralUser = user.data as ReferralUser;
           this.showForm = false;
@@ -86,6 +93,7 @@ export class JoinWaitlistComponent implements OnInit {
   hideForm() {
     this.showForm = false;
   }
+
   computeHash(data: string) {
     const signature = crypto
       .HmacSHA256(data, 'pd9NRpF3vaj5VJQogJsrg3pB')
@@ -115,6 +123,7 @@ export class JoinWaitlistComponent implements OnInit {
     this.window?.navigator?.clipboard?.writeText(link);
     this.initializeNotification();
   }
+
   initializeNotification() {
     UIkit.notification({
       message: 'Copied!',
