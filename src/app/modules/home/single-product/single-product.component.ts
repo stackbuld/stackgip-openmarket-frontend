@@ -5,42 +5,43 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ProductsService } from 'src/app/services/products/products.service';
-import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/user/user.service';
-import { ToastrService } from 'ngx-toastr';
-import { AppLocalStorage } from 'src/app/helpers/local-storage';
-import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
-import { AuthService } from 'src/app/services/auth.service';
-import { IUser, UserAddressData } from '../../../models/IUserModel';
-import { CartService } from '../../../services/cart/cart.service';
-import { CartAddress, SellerStores } from '../../../models/StoreModels';
-import { WebsocketService } from '../../../services/websocket';
-import { AddToCartRequestModel } from '../../../services/cart/model/add-cart-model';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ProductsService} from 'src/app/services/products/products.service';
+import {Address} from 'ngx-google-places-autocomplete/objects/address';
+import {GooglePlaceDirective} from 'ngx-google-places-autocomplete';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UserService} from 'src/app/services/user/user.service';
+import {ToastrService} from 'ngx-toastr';
+import {AppLocalStorage} from 'src/app/helpers/local-storage';
+import {ImageResolutionUtility} from 'src/app/helpers/image-resolution.utility';
+import {AuthService} from 'src/app/services/auth.service';
+import {IUser, UserAddressData} from '../../../models/IUserModel';
+import {CartService} from '../../../services/cart/cart.service';
+import {CartAddress, SellerStores} from '../../../models/StoreModels';
+import {WebsocketService} from '../../../services/websocket';
+import {AddToCartRequestModel} from '../../../services/cart/model/add-cart-model';
 import {
   GetShippingEstimatePrice,
   GetShippingPriceEstimateData,
   GetShippingPriceEstimateRequest,
 } from '../../../services/cart/model/logistic.model';
-import { NotificationResponseModel } from '../../../models/notificationResponse.model';
+import {NotificationResponseModel} from '../../../models/notificationResponse.model';
 import * as lodash from 'lodash';
 import * as cryptoJs from 'crypto-js';
-import { FooterService } from 'src/app/services/footer.service';
-import { WebSocketSubject } from 'rxjs/webSocket';
-import { BehaviorSubject } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { WindowRefService } from '../../../shared/services/window.service';
+import {FooterService} from 'src/app/services/footer.service';
+import {WebSocketSubject} from 'rxjs/webSocket';
+import {BehaviorSubject} from 'rxjs';
+import {take} from 'rxjs/operators';
+import {WindowRefService} from '../../../shared/services/window.service';
 import uikit from 'uikit';
 
-import { CountryService } from 'src/app/services/country/country.service';
-import { CountryInfo } from 'src/app/models/country.model';
-import { SellerStoreLocationService } from 'src/app/services/cart/seller-store.service';
-import { SearchService } from 'src/app/services/search/search.service';
-import { DeliveryAddressService } from 'src/app/services/cart/delivery-address.service';
-import { MetaService } from 'src/app/shared/services/meta.service';
+import {CountryService} from 'src/app/services/country/country.service';
+import {CountryInfo} from 'src/app/models/country.model';
+import {SellerStoreLocationService} from 'src/app/services/cart/seller-store.service';
+import {SearchService} from 'src/app/services/search/search.service';
+import {DeliveryAddressService} from 'src/app/services/cart/delivery-address.service';
+import {MetaService} from 'src/app/shared/services/meta.service';
+
 @Component({
   selector: 'app-single-product',
   templateUrl: './single-product.component.html',
@@ -89,10 +90,10 @@ export class SingleProductComponent implements OnInit {
 
   requestId = '';
   @ViewChild('placesRef') placesRef: GooglePlaceDirective;
-  @ViewChild('placesRef', { static: false }) placesValue: ElementRef;
+  @ViewChild('placesRef', {static: false}) placesValue: ElementRef;
   options: any = {
     types: ['address'],
-    componentRestrictions: { country: 'NG' },
+    componentRestrictions: {country: 'NG'},
   };
   socket$: WebSocketSubject<NotificationResponseModel>;
   isColorMenuOpened: boolean = false;
@@ -158,7 +159,12 @@ export class SingleProductComponent implements OnInit {
     private deliverAddressService: DeliveryAddressService,
     private ngZone: NgZone,
     private metaService: MetaService
-  ) {}
+  ) {
+  }
+
+  get formControls() {
+    return this.addressForm.controls;
+  }
 
   ngOnInit() {
     this.deliverAddressService.getCurrentLocation();
@@ -246,6 +252,7 @@ export class SingleProductComponent implements OnInit {
     }
     this.displayDeliveryAddressOnLoad();
   }
+
   setRequestId = () => {
     const toHash = cryptoJs.MD5(this.currentAddress?.fullAddress);
 
@@ -383,11 +390,8 @@ export class SingleProductComponent implements OnInit {
     });
   };
 
-  get formControls() {
-    return this.addressForm.controls;
-  }
   changeOption(e: any) {
-    this.addressForm.patchValue({ countryCode: e.target.value });
+    this.addressForm.patchValue({countryCode: e.target.value});
   }
 
   getParams = () => {
@@ -427,13 +431,13 @@ export class SingleProductComponent implements OnInit {
         }
 
         this.product.productImages.forEach((image) => {
-          this.productImages.push({ image: image });
-          this.sliderMedia.push({ isVideo: false, url: image });
+          this.productImages.push({image: image});
+          this.sliderMedia.push({isVideo: false, url: image});
         });
         this.videoUrls = this.product.videoUrls;
         if (this.product.videoUrls) {
           this.product.videoUrls.forEach((video) => {
-            this.sliderMedia.unshift({ isVideo: true, url: video });
+            this.sliderMedia.unshift({isVideo: true, url: video});
           });
         }
 
@@ -591,7 +595,8 @@ export class SingleProductComponent implements OnInit {
           (product) => product.id !== this.productId
         );
       },
-      (error) => {}
+      (error) => {
+      }
     );
   };
 
@@ -611,11 +616,11 @@ export class SingleProductComponent implements OnInit {
       element.isSelected = false;
       if (
         element.startingPrice ===
-          this.currentShippingMethod.value.startingPrice &&
+        this.currentShippingMethod.value.startingPrice &&
         element.logisticName ===
-          this.currentShippingMethod.value.logisticName &&
+        this.currentShippingMethod.value.logisticName &&
         element.logisticLogoUrl ===
-          this.currentShippingMethod.value.logisticLogoUrl
+        this.currentShippingMethod.value.logisticLogoUrl
       ) {
         element.isSelected = true;
       }
@@ -635,7 +640,7 @@ export class SingleProductComponent implements OnInit {
     this.isInformation = true;
     this.isEditingAddress = false;
     this.addressForm.reset();
-    this.addressForm.patchValue({ countryCode: '+234' });
+    this.addressForm.patchValue({countryCode: '+234'});
   }
 
   setCurrentAddress = () => {
@@ -670,7 +675,8 @@ export class SingleProductComponent implements OnInit {
         localStorage.setItem('userAddress', JSON.stringify(addresses));
         this.fetchUserAddresses();
       },
-      error: (err) => {},
+      error: (err) => {
+      },
     });
   }
 
@@ -729,6 +735,7 @@ export class SingleProductComponent implements OnInit {
     }
     this.setRequestId();
   }
+
   getShippingEstimate = () => {
     this.displayDeliveryAddressOnLoad();
 
@@ -831,14 +838,14 @@ export class SingleProductComponent implements OnInit {
       return element.types.includes('route');
     });
 
-    this.addressForm.patchValue({ fullAddress: address.formatted_address });
-    this.addressForm.patchValue({ lng: address.geometry.location.lng() });
-    this.addressForm.patchValue({ lat: address.geometry.location.lat() });
-    this.addressForm.patchValue({ country: country[0].short_name });
+    this.addressForm.patchValue({fullAddress: address.formatted_address});
+    this.addressForm.patchValue({lng: address.geometry.location.lng()});
+    this.addressForm.patchValue({lat: address.geometry.location.lat()});
+    this.addressForm.patchValue({country: country[0].short_name});
     this.addressForm.patchValue({
       city: city.length > 0 ? city[0].long_name : state[0].long_name,
     });
-    this.addressForm.patchValue({ state: state[0].long_name });
+    this.addressForm.patchValue({state: state[0].long_name});
 
     // this.landmark.patchValue(landmark[0].long_name);
     // this.postalCode.patchValue(postalCode[0].long_name);
@@ -894,10 +901,11 @@ export class SingleProductComponent implements OnInit {
               document.getElementById('closeAddressFormDialog').click();
               this.initAddressForm();
             },
-            error: (err) => {},
+            error: (err) => {
+            },
           });
       } else {
-        this.addressForm.patchValue({ userId: this.user.id });
+        this.addressForm.patchValue({userId: this.user.id});
         const cartService$ = this.cartService.createAddress(
           this.addressForm.value
         );
@@ -961,10 +969,10 @@ export class SingleProductComponent implements OnInit {
   };
 
   getClosestSellerStore(address: CartAddress) {
-    const { lat, lng } = address;
+    const {lat, lng} = address;
 
     const closestStore: any = this.sellerStoreLocationService.findClosestStore(
-      { lat: +lat, lng: +lng },
+      {lat: +lat, lng: +lng},
       this.sellerStores
     );
 
@@ -1037,7 +1045,8 @@ export class SingleProductComponent implements OnInit {
 
     try {
       uikit.modal('#information-modal').show();
-    } catch {}
+    } catch {
+    }
   }
 
   setAddressField = () => {
@@ -1081,14 +1090,14 @@ export class SingleProductComponent implements OnInit {
           productId: this.productId,
           unit: this.count,
           logisticCode: this.currentShippingMethod.value.logisticCode,
-          storeId: this.product.userId,
+          storeId: this.closestStore.id,
           logistic: {
             logisticId: this.currentShippingMethod.value.logisticCode,
             logisticCode: this.currentShippingMethod.value.logisticCode,
             logisticLogo: this.currentShippingMethod.value.logisticLogoUrl,
             logisticName: this.currentShippingMethod.value.logisticName,
             estimateShippingCost:
-              this.currentShippingMethod.value.startingPrice,
+            this.currentShippingMethod.value.startingPrice,
           },
           paymentOption: 'online',
           destination: {
