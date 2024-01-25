@@ -1,9 +1,11 @@
+
+require('dotenv').config()
 const exec = require('child_process').exec;
 
 const env = process.env.BUILD_ENV;
 
 let command;
-
+console.log("environment selected :", env)
 switch (env) {
   case 'production':
     command = 'yarn build:ssr';
