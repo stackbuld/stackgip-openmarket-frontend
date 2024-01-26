@@ -22,8 +22,10 @@ import { LocationStrategy } from '@angular/common';
 import { countryCodes } from '../../../data/countryCodes';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
 declare var cloudinary: any;
+
 @Component({
   selector: 'app-seller-registeration-form',
   templateUrl: './seller-registeration-form.component.html',
@@ -48,16 +50,27 @@ export class SellerRegisterationFormComponent
   user: any;
   sellerApprovalStatus: string = '';
   rejectionReason: string = '';
+  options = {
+    types: ['address'],
+    componentRestrictions: { country: 'NG' },
+  };
+  addressCity: string;
+  googleAddressSelected: boolean = false;
 
   states = nigeriaSates.map((a) => a.name.toLowerCase());
+
   constructor(
     private fb: FormBuilder,
     private sellerS: SellerService,
     private toast: ToastrService,
     private locationStrategy: LocationStrategy,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
+
+  get isBusinessRegistered() {
+    return this.sellerRegFormGroup.get('isBusinessRegistered')?.value;
+  }
 
   ngOnInit(): void {
     this.authService.isLogin.subscribe((a) => {
@@ -87,7 +100,7 @@ export class SellerRegisterationFormComponent
           this.image = result.info.secure_url;
           this.imageName = result.info.original_filename;
         }
-      }
+      },
     );
 
     this.uploadID = cloudinary.createUploadWidget(
@@ -101,13 +114,44 @@ export class SellerRegisterationFormComponent
           this.imageID = result.info.secure_url;
           this.imageNameID = result.info.original_filename;
         }
-      }
+      },
     );
+
+    this.sellerRegFormGroup
+      .get('businessAddress')
+      .valueChanges.subscribe((value) => {
+        if (value === '') {
+          this.googleAddressSelected = false;
+        }
+      });
   }
 
   back = () => {
     this.locationStrategy.back();
   };
+
+  handleAddressChange(address: Address) {
+    console.log(address);
+    try {
+      this.googleAddressSelected = true;
+      let state = address.address_components.filter((element) => {
+        return element.types.includes('administrative_area_level_1');
+      });
+      let lga = address.address_components.filter((element) => {
+        return element.types.includes('administrative_area_level_2');
+      });
+      let locality = address.address_components.filter((element) => {
+        return element.types.includes('locality');
+      });
+
+      this.sellerRegFormGroup.patchValue({
+        businessAddress: address.formatted_address,
+        businessState: state[0].long_name.toLowerCase(),
+        lga: lga.length > 0 ? lga[0].long_name : locality[0].long_name,
+        landmark: address.name,
+      });
+    } catch {}
+  }
 
   initializeFormWithSellerDetails() {
     this.sellerS.getSellerById(this.user?.id).subscribe((res) => {
@@ -155,6 +199,10 @@ export class SellerRegisterationFormComponent
     });
   }
 
+  // get registerationStatus() {
+  //   return this.componentForm.get("registerationStatus").value;
+  // }
+
   ngAfterViewChecked(): void {
     if (this.sellerRegFormGroup.get('isBusinessRegistered')?.value == false) {
       this.sellerRegFormGroup.get('businessRegistrationNumber')?.disable();
@@ -165,14 +213,6 @@ export class SellerRegisterationFormComponent
     // if (this.imageName) {
     //   this.sellerRegFormGroup.get("businessLogo").setValue(this.imageName);
     // }
-  }
-
-  // get registerationStatus() {
-  //   return this.componentForm.get("registerationStatus").value;
-  // }
-
-  get isBusinessRegistered() {
-    return this.sellerRegFormGroup.get('isBusinessRegistered')?.value;
   }
 
   openModalForMe() {
@@ -192,6 +232,10 @@ export class SellerRegisterationFormComponent
   submit() {
     if (!this.user?.id) {
       this.authService.showSharedLoginModal();
+      return;
+    }
+    if (!this.googleAddressSelected) {
+      this.toast.warining('Select an address that shows as you type!');
       return;
     }
     const payload = {
@@ -215,7 +259,7 @@ export class SellerRegisterationFormComponent
         idType: this.sellerRegFormGroup.get('personalIDType')?.value,
         idNumber: this.sellerRegFormGroup.get('personalIDNumber')?.value,
         dateOfBirth: new Date(
-          this.sellerRegFormGroup.get('dateOfBirth')?.value
+          this.sellerRegFormGroup.get('dateOfBirth')?.value,
         ).toISOString(),
         ...(this.sellerRegFormGroup.get('personalIDType')?.value === 'NIN' && {
           idUrl: this.imageID,
@@ -313,7 +357,7 @@ export class SellerRegisterationFormComponent
 
   setBusinessCategoryValidators() {
     const businessRegNumberControl = this.sellerRegFormGroup.get(
-      'businessRegistrationNumber'
+      'businessRegistrationNumber',
     );
     // const businessApplicantAddressControl = this.componentForm.get(
     //   "businessApplicantAddress"

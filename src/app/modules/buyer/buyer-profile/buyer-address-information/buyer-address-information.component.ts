@@ -40,12 +40,17 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   addressCity: string;
   fallbackAddressCity: string;
   googleAddressSelected: boolean = false;
+
   constructor(
     private countryService: CountryService,
     private authService: AuthService,
     private userService: UserService,
-    private toast: ToastrService
+    private toast: ToastrService,
   ) {}
+
+  get f() {
+    return this.addressForm.controls;
+  }
 
   ngOnInit(): void {
     this.isFetching = true;
@@ -83,10 +88,6 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
         }
       },
     });
-  }
-
-  get f() {
-    return this.addressForm.controls;
   }
 
   updateAddresses() {
@@ -223,7 +224,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
                   ...data[0],
                   isDefault: true,
                 });
-              })
+              }),
             )
             .subscribe({
               next: (data) => {
@@ -250,7 +251,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (!this.googleAddressSelected) {
       this.toast.error(
-        'Please, select an address from the address suggestion provided!'
+        'Please, select an address from the address suggestion provided!',
       );
 
       return;
