@@ -1,15 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { Subscription, retry, switchMap } from 'rxjs';
-import { ToastrService } from 'src/app/services/toastr.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Address} from 'ngx-google-places-autocomplete/objects/address';
+import {Subscription, retry, switchMap} from 'rxjs';
+import {ToastrService} from 'src/app/services/toastr.service';
 
-import { CountryInfo } from 'src/app/models/country.model';
-import { CountryService } from 'src/app/services/country/country.service';
-import { nigeriaSates } from 'src/app/data/nigeriastates';
-import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user/user.service';
-import { IUser, UserAddressData } from 'src/app/models/IUserModel';
+import {CountryInfo} from 'src/app/models/country.model';
+import {CountryService} from 'src/app/services/country/country.service';
+import {nigeriaSates} from 'src/app/data/nigeriastates';
+import {AuthService} from 'src/app/services/auth.service';
+import {UserService} from 'src/app/services/user/user.service';
+import {IUser, UserAddressData} from 'src/app/models/IUserModel';
 
 @Component({
   selector: 'app-buyer-address-information',
@@ -33,19 +33,25 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   isSubmitting: boolean = false;
   options = {
     types: ['address'],
-    componentRestrictions: { country: 'NG' },
+    componentRestrictions: {country: 'NG'},
   };
   addressLatitude: number;
   addressLongitude: number;
   addressCity: string;
   fallbackAddressCity: string;
   googleAddressSelected: boolean = false;
+
   constructor(
     private countryService: CountryService,
     private authService: AuthService,
     private userService: UserService,
     private toast: ToastrService
-  ) {}
+  ) {
+  }
+
+  get f() {
+    return this.addressForm.controls;
+  }
 
   ngOnInit(): void {
     this.isFetching = true;
@@ -59,12 +65,30 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
 
     this.addressForm = new FormGroup({
       countryCode: new FormControl('+234'),
-      firstName: new FormControl(null, Validators.required),
-      lastName: new FormControl(null, Validators.required),
-      phoneNumber: new FormControl(null, Validators.required),
-      address: new FormControl(null, Validators.required),
-      state: new FormControl(null, Validators.required),
-      country: new FormControl(null, Validators.required),
+      firstName: new FormControl(
+        null,
+        Validators.required
+      ),
+      lastName: new FormControl(
+        null,
+        Validators.required
+      ),
+      phoneNumber: new FormControl(
+        null,
+        Validators.required
+      ),
+      address: new FormControl(
+        null,
+        Validators.required
+      ),
+      state: new FormControl(
+        null,
+        Validators.required
+      ),
+      country: new FormControl(
+        null,
+        Validators.required
+      ),
     });
 
     this.userId = this.authService.getLoggedInUser().id;
@@ -85,10 +109,6 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
     });
   }
 
-  get f() {
-    return this.addressForm.controls;
-  }
-
   updateAddresses() {
     this.userService
       .getUserAddress(this.userId)
@@ -107,7 +127,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   }
 
   changeOption(e: any) {
-    this.addressForm.patchValue({ countryCodes: e.target.value });
+    this.addressForm.patchValue({countryCodes: e.target.value});
   }
 
   handleAddressChange(address: Address) {
@@ -140,7 +160,8 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
       } else {
         this.addressCity = city[0].long_name;
       }
-    } catch {}
+    } catch {
+    }
   }
 
   toggle(id: string) {
@@ -154,7 +175,10 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
     this.isFetching = true;
 
     this.userService
-      .updateUserAddress(id, { ...address, isDefault: true })
+      .updateUserAddress(
+        id,
+        {...address, isDefault: true}
+      )
       .subscribe({
         next: (data) => {
           this.toast.success('Default address updated successfully!');
@@ -190,7 +214,10 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
 
     const phoneNumber = address.contactPhoneNumber;
     const phoneNumberOnly = phoneNumber.slice(-10);
-    const countryCode = phoneNumber.slice(0, -10);
+    const countryCode = phoneNumber.slice(
+      0,
+      -10
+    );
 
     this.addressForm.setValue({
       countryCode: countryCode,
@@ -219,10 +246,13 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
             .pipe(
               retry(1),
               switchMap((data) => {
-                return this.userService.updateUserAddress(data[0].id, {
-                  ...data[0],
-                  isDefault: true,
-                });
+                return this.userService.updateUserAddress(
+                  data[0].id,
+                  {
+                    ...data[0],
+                    isDefault: true,
+                  }
+                );
               })
             )
             .subscribe({
@@ -289,10 +319,13 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
 
     if (this.isEditingAddress) {
       this.userService
-        .updateUserAddress(this.userAddress.id, {
-          ...this.userAddress,
-          ...data,
-        })
+        .updateUserAddress(
+          this.userAddress.id,
+          {
+            ...this.userAddress,
+            ...data,
+          }
+        )
         .subscribe({
           next: (data) => {
             this.isEditing = false;

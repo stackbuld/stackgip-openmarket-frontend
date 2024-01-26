@@ -1,351 +1,360 @@
 <div
-  class="uk-flex uk-flex-between uk-flex-middle form-container overflow-y-hidden"
+		class="uk-flex uk-flex-between uk-flex-middle form-container overflow-y-hidden"
 >
-  <div class="form-img"></div>
+	<div class="form-img"></div>
 
-  <div class="form uk-margin-small-top">
-    <!-- (click)="closeModal()" -->
-    <div (click)="back()" class="go-back">
-      <img
-        alt="go-back"
-        src="https://cdn.iconscout.com/icon/free/png-512/back-arrow-1767531-1502435.png"
-      />
-      <span>Go Back</span>
-    </div>
-    <div class="seller-info">
-      <div class="seller-info-main">
-        <div class="form-heading uk-margin-small-bottom">Get Started</div>
-        <div class="uk-margin-medium-bottom form-subtext">
-          Enter your business details
-        </div>
-        <div>
-          <form (submit)="submit()" [formGroup]="sellerRegFormGroup">
-            <div class="business-status">
-              <label
-              ><input
-                [value]="true"
-                checked
-                formControlName="isBusinessRegistered"
-                id="select"
-                name="isBusinessRegistered"
-                type="radio"
-              />
-                <span class="radio-text">Registered Business</span></label
-              >
-              <label
-              ><input
-                [value]="false"
-                formControlName="isBusinessRegistered"
-                id="select"
-                name="isBusinessRegistered"
-                type="radio"
-              />
-                <span class="radio-text"> Individual</span></label
-              >
-            </div>
+	<div class="form uk-margin-small-top">
+		<!-- (click)="closeModal()" -->
+		<div (click)="back()" class="go-back">
+			<img
+					alt="go-back"
+					src="https://cdn.iconscout.com/icon/free/png-512/back-arrow-1767531-1502435.png"
+			/>
+			<span>Go Back</span>
+		</div>
+		<div class="seller-info">
+			<div class="seller-info-main">
+				<div class="form-heading uk-margin-small-bottom">Get Started</div>
+				<div class="uk-margin-medium-bottom form-subtext">
+					Enter your business details
+				</div>
+				<div>
+					<form (submit)="submit()" [formGroup]="sellerRegFormGroup">
+						<div class="business-status">
+							<label
+							><input
+									[value]="true"
+									checked
+									formControlName="isBusinessRegistered"
+									id="select"
+									name="isBusinessRegistered"
+									type="radio"
+							/>
+								<span class="radio-text">Registered Business</span></label
+							>
+							<label
+							><input
+									[value]="false"
+									formControlName="isBusinessRegistered"
+									id="select"
+									name="isBusinessRegistered"
+									type="radio"
+							/>
+								<span class="radio-text"> Individual</span></label
+							>
+						</div>
 
-            <!-- Rejected -->
-            <div
-              *ngIf="sellerApprovalStatus == 'failed'"
-              [ngStyle]="{
+						<!-- Rejected -->
+						<div
+								*ngIf="sellerApprovalStatus == 'failed'"
+								[ngStyle]="{
                 color: '#ED1832',
                 'background-color': '#FBEAEA'
               }"
-              class="d-flex flex-column p-3 rounded"
-            >
-              <div class="d-flex flex-column">
-                <p>
-                  We're unable to verify your submission. Please check your
-                  details and re-submit.
-                </p>
-                <p>
-                  Rejection reason: <i>{{ rejectionReason }}</i>
-                </p>
-                <a
-                  [ngStyle]="{
+								class="d-flex flex-column p-3 rounded"
+						>
+							<div class="d-flex flex-column">
+								<p>
+									We're unable to verify your submission. Please check your
+									details and re-submit.
+								</p>
+								<p>
+									Rejection reason: <i>{{ rejectionReason }}</i>
+								</p>
+								<a
+										[ngStyle]="{
                     color: '#E78B8B'
                   }"
-                  routerLink="/seller/dashboard"
-                >
-                  Click to go back to dashboard
-                </a>
-              </div>
-            </div>
+										routerLink="/seller/dashboard"
+								>
+									Click to go back to dashboard
+								</a>
+							</div>
+						</div>
 
-            <!-- Pending -->
-            <div
-              *ngIf="sellerApprovalStatus == 'pending'"
-              [ngStyle]="{
+						<!-- Pending -->
+						<div
+								*ngIf="sellerApprovalStatus == 'pending'"
+								[ngStyle]="{
                 color: '#1847ED',
                 'background-color': '#ECEEFC'
               }"
-              class="d-flex flex-column p-3 rounded"
-            >
-              <p>
-                We're currently verifying your info, you can visit your store to
-                add products.
-              </p>
-              <a routerLink="/seller/dashboard"> Visit store </a>
-              <!-- <a routerLink="/homepage/seller-store/{{ user.id }}">
-                Visit store
-              </a> -->
-            </div>
+								class="d-flex flex-column p-3 rounded"
+						>
+							<p>
+								We're currently verifying your info, you can visit your store to
+								add products.
+							</p>
+							<a routerLink="/seller/dashboard"> Visit store </a>
+							<!-- <a routerLink="/homepage/seller-store/{{ user.id }}">
+							  Visit store
+							</a> -->
+						</div>
 
-            <!-- Approved -->
-            <div
-              *ngIf="sellerApprovalStatus === 'approved'"
-              [ngStyle]="{
+						<!-- Approved -->
+						<div
+								*ngIf="sellerApprovalStatus === 'approved'"
+								[ngStyle]="{
                 color: '#04901A',
                 'background-color': '#F0FEF1'
               }"
-              class="d-flex flex-column p-3 rounded"
-            >
-              <p>Your submission has been approved</p>
-              <a
-                [ngStyle]="{
+								class="d-flex flex-column p-3 rounded"
+						>
+							<p>Your submission has been approved</p>
+							<a
+									[ngStyle]="{
                   color: '#73CA79'
                 }"
-                routerLink="/homepage/seller-store/{{ user.id }}"
-              >
-                Click to go back to dashboard
-              </a>
-            </div>
+									routerLink="/homepage/seller-store/{{ user.id }}"
+							>
+								Click to go back to dashboard
+							</a>
+						</div>
 
-            <!-- --------------------------------------- -->
-            <div class="uk-margin-medium-top uk-margin-medium-bottom subText">
-              Business Information
-            </div>
+						<!-- --------------------------------------- -->
+						<div class="uk-margin-medium-top uk-margin-medium-bottom subText">
+							Business Information
+						</div>
 
-            <div class="d-flex">
-              <mat-form-field appearance="outline" class="form-group w-100">
-                <mat-label
-                  [ngClass]="{
+						<div class="d-flex">
+							<mat-form-field appearance="outline" class="form-group w-100">
+								<mat-label
+										[ngClass]="{
                     invalid:
                       sellerRegFormGroup.get('businessName').invalid &&
                       !sellerRegFormGroup.get('businessName').untouched
                   }"
-                >Business Name
-                </mat-label
-                >
-                <input formControlName="businessName" matInput type="text"/>
-              </mat-form-field>
-            </div>
+								>Business Name
+								</mat-label
+								>
+								<input formControlName="businessName" matInput type="text"/>
+							</mat-form-field>
+						</div>
 
-            <div class="d-flex">
-              <mat-form-field appearance="outline" class="form-group w-55">
-                <mat-label
-                  [ngClass]="{
+						<div class="d-flex">
+							<mat-form-field appearance="outline" class="form-group w-55">
+								<mat-label
+										[ngClass]="{
                     invalid:
                       sellerRegFormGroup.get('businessAddress').invalid &&
                       !sellerRegFormGroup.get('businessAddress').untouched
                   }"
-                >Business Address
-                </mat-label
-                >
-                <input formControlName="businessAddress" matInput type="text"/>
-              </mat-form-field>
+								>Business Address
+								</mat-label
+								>
+								<input #placesRef="ngx-places"
+									   (onAddressChange)="handleAddressChange($event)"
+									   formControlName="businessAddress"
+									   matInput
+									   ngx-google-places-autocomplete
+									   type="text"/>
+							</mat-form-field>
 
-              <mat-form-field appearance="outline" class="form-group w-40">
-                <mat-label>L.G.A</mat-label>
-                <input formControlName="lga" matInput type="text"/>
-              </mat-form-field>
-            </div>
+							<mat-form-field appearance="outline" class="form-group w-40">
+								<mat-label>L.G.A</mat-label>
+								<input formControlName="lga" matInput type="text"/>
+							</mat-form-field>
+						</div>
+						<p style="margin-top: -20px; margin-bottom: 10px">Select an address that shows
+																		  as you type</p>
 
-            <div class="d-flex">
-              <mat-form-field appearance="outline" class="form-group w-55">
-                <mat-label
-                  [ngClass]="{
+						<div class="d-flex">
+							<mat-form-field appearance="outline" class="form-group w-55">
+								<mat-label
+										[ngClass]="{
                     invalid:
                       sellerRegFormGroup.get('businessState').invalid &&
                       !sellerRegFormGroup.get('businessState').untouched
                   }"
-                >Business State
-                </mat-label
-                >
-                <mat-select
-                  formControlName="businessState"
-                  placeholder="Select state"
-                  style="text-transform: capitalize"
-                >
-                  <mat-option *ngFor="let id of states" [value]="id" style="text-transform: capitalize">
-                    {{ id }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+								>Business State
+								</mat-label
+								>
+								<mat-select
+										formControlName="businessState"
+										placeholder="Select state"
+										style="text-transform: capitalize"
+								>
+									<mat-option *ngFor="let id of states"
+												[value]="id"
+												style="text-transform: capitalize">
+										{{ id }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
 
-              <mat-form-field appearance="outline" class="form-group w-40">
-                <mat-label>Landmark</mat-label>
-                <input formControlName="landmark" matInput type="text"/>
-              </mat-form-field>
-            </div>
+							<mat-form-field appearance="outline" class="form-group w-40">
+								<mat-label>Landmark</mat-label>
+								<input formControlName="landmark" matInput type="text"/>
+							</mat-form-field>
+						</div>
 
-            <div class="d-flex">
-              <mat-form-field
-                *ngIf="isBusinessRegistered == true"
-                appearance="outline"
-                class="form-group w-55"
-              >
-                <mat-label
-                  [ngClass]="{
+						<div class="d-flex">
+							<mat-form-field
+									*ngIf="isBusinessRegistered == true"
+									appearance="outline"
+									class="form-group w-55"
+							>
+								<mat-label
+										[ngClass]="{
                     invalid:
                       sellerRegFormGroup.get('businessRegistrationNumber')
                         .invalid &&
                       !sellerRegFormGroup.get('businessRegistrationNumber')
                         .untouched
                   }"
-                >Business Registration Number
-                </mat-label
-                >
-                <input
-                  formControlName="businessRegistrationNumber"
-                  matInput
-                  type="text"
-                />
-              </mat-form-field>
+								>Business Registration Number
+								</mat-label
+								>
+								<input
+										formControlName="businessRegistrationNumber"
+										matInput
+										type="text"
+								/>
+							</mat-form-field>
 
-              <!-- <div (click)="upload()" class="border-form mb-30 d-flex justify-content-center align-items-center"
-                     [ngClass]="isBusinessRegistered == false ? 'mb-md-25' : 'w-40'">
-                  <div *ngIf="!imageName" class="d-flex justify-content-center align-items-center px-8"> Upload Business Logo*
-                  </div>
-                  <div *ngIf="imageName" class="d-flex justify-content-center align-items-center px-8">
-                    <span  class="upload-text">uploaded -{{imageName}}</span>
-                  </div>
-                </div> -->
-            </div>
+							<!-- <div (click)="upload()" class="border-form mb-30 d-flex justify-content-center align-items-center"
+								   [ngClass]="isBusinessRegistered == false ? 'mb-md-25' : 'w-40'">
+								<div *ngIf="!imageName" class="d-flex justify-content-center align-items-center px-8"> Upload Business Logo*
+								</div>
+								<div *ngIf="imageName" class="d-flex justify-content-center align-items-center px-8">
+								  <span  class="upload-text">uploaded -{{imageName}}</span>
+								</div>
+							  </div> -->
+						</div>
 
-            <div class="d-flex">
-              <mat-form-field appearance="outline" class="form-group w-100">
-                <mat-label
-                  [ngClass]="{
+						<div class="d-flex">
+							<mat-form-field appearance="outline" class="form-group w-100">
+								<mat-label
+										[ngClass]="{
                     invalid:
                       sellerRegFormGroup.get('businessDescription').invalid &&
                       !sellerRegFormGroup.get('businessDescription').untouched
                   }"
-                >Business Description
-                </mat-label
-                >
-                <textarea
-                  formControlName="businessDescription"
-                  matInput
-                ></textarea>
-              </mat-form-field>
+								>Business Description
+								</mat-label
+								>
+								<textarea
+										formControlName="businessDescription"
+										matInput
+								></textarea>
+							</mat-form-field>
 
-              <!-- <mat-form-field appearance="outline" class="form-group w-40">
-                  <mat-label>Business Type</mat-label>
-                  <input type="text" matInput formControlName="businessType" />
-                </mat-form-field> -->
-            </div>
+							<!-- <mat-form-field appearance="outline" class="form-group w-40">
+								<mat-label>Business Type</mat-label>
+								<input type="text" matInput formControlName="businessType" />
+							  </mat-form-field> -->
+						</div>
 
-            <!-- For registered business only -->
+						<!-- For registered business only -->
 
-            <div class="uk-margin-medium-top uk-margin-medium-bottom subText">
-              Personal Information
-            </div>
+						<div class="uk-margin-medium-top uk-margin-medium-bottom subText">
+							Personal Information
+						</div>
 
-            <div class="d-flex">
-              <mat-form-field appearance="outline" class="form-group w-100">
-                <mat-label
-                  [ngClass]="{
+						<div class="d-flex">
+							<mat-form-field appearance="outline" class="form-group w-100">
+								<mat-label
+										[ngClass]="{
                     invalid:
                       sellerRegFormGroup.get('personalIDType').invalid &&
                       !sellerRegFormGroup.get('personalIDType').untouched
                   }"
-                >Identity Document
-                </mat-label
-                >
-                <mat-select
-                  formControlName="personalIDType"
-                  placeholder="Select ID type"
-                >
-                  <mat-option *ngFor="let id of idCardTypes" [value]="id">
-                    {{ id }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
+								>Identity Document
+								</mat-label
+								>
+								<mat-select
+										formControlName="personalIDType"
+										placeholder="Select ID type"
+								>
+									<mat-option *ngFor="let id of idCardTypes" [value]="id">
+										{{ id }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
 
-            <div class="d-flex">
-              <mat-form-field appearance="outline" class="form-group w-55">
-                <mat-label
-                  [ngClass]="{
+						<div class="d-flex">
+							<mat-form-field appearance="outline" class="form-group w-55">
+								<mat-label
+										[ngClass]="{
                     invalid:
                       sellerRegFormGroup.get('personalIDNumber').invalid &&
                       !sellerRegFormGroup.get('personalIDNumber').untouched
                   }"
-                >Identity Number
-                </mat-label
-                >
-                <input
-                  formControlName="personalIDNumber"
-                  matInput
-                  type="text"
-                />
-              </mat-form-field>
+								>Identity Number
+								</mat-label
+								>
+								<input
+										formControlName="personalIDNumber"
+										matInput
+										type="text"
+								/>
+							</mat-form-field>
 
-              <mat-form-field appearance="outline" class="form-group w-40">
-                <mat-label
-                  [ngClass]="{
+							<mat-form-field appearance="outline" class="form-group w-40">
+								<mat-label
+										[ngClass]="{
                     invalid:
                       sellerRegFormGroup.get('dateOfBirth').invalid &&
                       !sellerRegFormGroup.get('dateOfBirth').untouched
                   }"
-                >Date Of Birth
-                </mat-label
-                >
-                <input
-                  (click)="picker.open()"
-                  [matDatepicker]="picker"
-                  formControlName="dateOfBirth"
-                  matInput
-                  placeholder="Choose a date"
-                />
-                <mat-hint>DD/MM/YYYY</mat-hint>
-                <mat-datepicker-toggle
-                  [for]="picker"
-                  matIconSuffix
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-            </div>
-            <div
-              (click)="uploadIDCard()"
-              *ngIf="sellerRegFormGroup.get('personalIDType').value === 'NIN'"
-              [ngClass]="isBusinessRegistered == false ? 'mb-md-25' : 'w-40'"
-              class="border-form mb-30 w-100 d-flex justify-content-center align-items-center"
-            >
-              <div
-                *ngIf="!imageNameID"
-                class="d-flex justify-content-center align-items-center px-8"
-              >
-                Upload NIN Slip*
-              </div>
-              <div
-                *ngIf="imageNameID"
-                class="d-flex justify-content-center align-items-center px-8"
-              >
-                <span class="upload-text">uploaded -{{ imageNameID }}</span>
-              </div>
-            </div>
+								>Date Of Birth
+								</mat-label
+								>
+								<input
+										(click)="picker.open()"
+										[matDatepicker]="picker"
+										formControlName="dateOfBirth"
+										matInput
+										placeholder="Choose a date"
+								/>
+								<mat-hint>DD/MM/YYYY</mat-hint>
+								<mat-datepicker-toggle
+										[for]="picker"
+										matIconSuffix
+								></mat-datepicker-toggle>
+								<mat-datepicker #picker></mat-datepicker>
+							</mat-form-field>
+						</div>
+						<div
+								(click)="uploadIDCard()"
+								*ngIf="sellerRegFormGroup.get('personalIDType').value === 'NIN'"
+								[ngClass]="isBusinessRegistered == false ? 'mb-md-25' : 'w-40'"
+								class="border-form mb-30 w-100 d-flex justify-content-center align-items-center"
+						>
+							<div
+									*ngIf="!imageNameID"
+									class="d-flex justify-content-center align-items-center px-8"
+							>
+								Upload NIN Slip*
+							</div>
+							<div
+									*ngIf="imageNameID"
+									class="d-flex justify-content-center align-items-center px-8"
+							>
+								<span class="upload-text">uploaded -{{ imageNameID }}</span>
+							</div>
+						</div>
 
-            <div>
-              <button
-                [disabled]="
+						<div>
+							<button
+									[disabled]="
                   isLoading ||
                   sellerRegFormGroup.invalid ||
                   sellerApprovalStatus == 'pending'
                 "
-                class="reg-btn"
-                type="submit"
-              >
-                <span *ngIf="isLoading" uk-spinner="ratio: 1"></span>
-                Submit
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+									class="reg-btn"
+									type="submit"
+							>
+								<span *ngIf="isLoading" uk-spinner="ratio: 1"></span>
+								Submit
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!--<div id="seller-modal-full" class="uk-modal-full modal-container" uk-modal>-->
