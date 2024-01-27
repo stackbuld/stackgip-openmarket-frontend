@@ -1117,7 +1117,7 @@ export class SingleProductComponent implements OnInit {
                 },
             } as AddToCartRequestModel;
 
-            this.cartService.getCart(this.user.id, this.referenceId).subscribe({
+            this.cartService.getCart(this.user?.id ?? '', this.referenceId).subscribe({
                 next: (res) => {
                     if (
                         res.data.cartItems.some((item) => item.productId == this.productId)
