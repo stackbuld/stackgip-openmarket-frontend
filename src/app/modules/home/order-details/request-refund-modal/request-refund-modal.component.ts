@@ -5,6 +5,7 @@ import {
     RefundService,
 } from 'src/app/services/refund/refund.service';
 import {environment} from 'src/environments/environment';
+import {ToastrService} from "ngx-toastr";
 
 declare var cloudinary: any;
 
@@ -38,7 +39,8 @@ export class RequestRefundModalComponent implements OnInit {
     constructor(
         private dialog: MatDialog,
         private refundService: RefundService,
-        @Inject(MAT_DIALOG_DATA) private data: { unit: number; orderNumber: string }
+        @Inject(MAT_DIALOG_DATA) private data: { unit: number; orderNumber: string },
+        private toast: ToastrService
     ) {
     }
 
@@ -73,21 +75,23 @@ export class RequestRefundModalComponent implements OnInit {
             imageUrls: ['peg', 'jpg', 'png'].includes(this.mediaType)
                 ? [this.mediaUrl]
                 : [],
-            videoUrl: ['gif', 'mp4'].includes(this.mediaType) ? [this.mediaUrl] : [],
+            videoUrl: ['gif', 'mp4'].includes(this.mediaType) ? this.mediaUrl : '',
         };
 
         this.refundService.requestRefund(payload).subscribe({
             next: (res) => {
-                console.log(res);
                 if (res.succeeded) {
                     this.isLoading = false
                     this.onCloseModal()
+                    this.toast.success('Refund request made successfully!')
                 } else {
                     this.isLoading = false
+                    this.toast.error(res.errors[0])
                 }
             },
             error: (err) => {
                 this.isLoading = false
+                this.toast.error('Something went wrong!')
             },
         });
     }

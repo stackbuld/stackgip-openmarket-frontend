@@ -7,7 +7,7 @@ export interface RefundPayload {
     unit: number;
     refundReason: string;
     imageUrls: string[];
-    videoUrl: string[];
+    videoUrl: string;
 }
 
 @Injectable({providedIn: 'root'})
