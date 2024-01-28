@@ -115,6 +115,7 @@
         <div class="refund-action">
             <button
                     (click)="onRefund()"
+                    [disabled]="isLoading"
                     [ngClass]="{ invalid: mediaUrl == '' || selectedReason == '' }"
             >
                 <span *ngIf="!isLoading">Refund</span>

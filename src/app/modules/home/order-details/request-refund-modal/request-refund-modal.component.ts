@@ -8,6 +8,14 @@ import {environment} from 'src/environments/environment';
 
 declare var cloudinary: any;
 
+enum Reasons {
+    'I changed my mind' = 'I_changed_my_mind',
+    'Item stopped working' = 'Item_stopped_working',
+    'Packaging was damaged' = 'Packaging_was_damaged',
+    'Item received broken or damaged' = 'Item_received_broken_or_damaged',
+    'Item seem to be fake and unauthentic' = 'Item_seem_to_be_fake_and_unauthentic'
+}
+
 @Component({
     selector: 'app-request-refund-modal',
     templateUrl: './request-refund-modal.component.html',
@@ -61,7 +69,7 @@ export class RequestRefundModalComponent implements OnInit {
         const payload: RefundPayload = {
             orderNumber: this.data.orderNumber,
             unit: this.data.unit,
-            refundReason: this.selectedReason,
+            refundReason: Reasons[this.selectedReason],
             imageUrls: ['peg', 'jpg', 'png'].includes(this.mediaType)
                 ? [this.mediaUrl]
                 : [],
@@ -74,6 +82,8 @@ export class RequestRefundModalComponent implements OnInit {
                 if (res.succeeded) {
                     this.isLoading = false
                     this.onCloseModal()
+                } else {
+                    this.isLoading = false
                 }
             },
             error: (err) => {
