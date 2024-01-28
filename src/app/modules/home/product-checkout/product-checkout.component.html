@@ -24,7 +24,6 @@
                                 <div
                                         (click)="setSelectedCartItem(item)"
                                         class="remove-icon"
-                                        uk-toggle="target: #delete-cart-modal"
                                 >
                                     <svg
                                             fill="none"
@@ -504,34 +503,6 @@
                     <p class="big">Total</p>
                     <p class="big">{{ cart?.totalCost || 0 | currency : "₦" }}</p>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<button
-        class="d-none"
-        id="closeDeleteCartModalDialog"
-        uk-toggle="target: #delete-cart-modal"
-></button>
-<div id="delete-cart-modal" uk-modal>
-    <div class="uk-modal-dialog uk-modal-body">
-        <div class="">
-            <h4 class="uk-modal-title mb-0 text-center">
-                Are you sure you want to delete cart Item ?
-            </h4>
-            <div class="d-flex justify-content-between mt-5">
-                <button (click)="closeDeleteDialog()" class="w-47 cancel-btn">
-                    Cancel
-                </button>
-                <button
-                        (click)="deleteCartItem()"
-                        [disabled]="deletingCartItem"
-                        class="w-47 delete-btn"
-                >
-                    <span *ngIf="!deletingCartItem">Yes, delete</span>
-                    <span *ngIf="deletingCartItem">Deleting...</span>
-                </button>
             </div>
         </div>
     </div>

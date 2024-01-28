@@ -51,7 +51,6 @@ export class OrderDetailsComponent implements OnInit {
             } else {
                 this.order = this.appLocal.getFromStorage('page_data');
             }
-            console.log(this.order)
             // for (let index = 0; index < this.order.cartProduct.complementaryProducts.length; index++) {
             //   const element = this.order.cartProduct.complementaryProducts[index];
             //   if (element.isMultiple === true) {
@@ -61,7 +60,10 @@ export class OrderDetailsComponent implements OnInit {
             //     this.tempVariations.push(element);
             //   }
             // }
-            this.setVariation(this.order.cartProduct.varations);
+            try {
+                this.setVariation(this.order.cartProduct.varations);
+            } catch {
+            }
         });
     };
 

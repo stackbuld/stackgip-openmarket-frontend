@@ -1,0 +1,20 @@
+<div class="delete-dialog-container">
+    <div class="">
+        <h4 class="mb-0 text-center">
+            Are you sure you want to delete cart Item ?
+        </h4>
+        <div class="d-flex justify-content-between mt-5 button-container">
+            <button (click)="closeDeleteDialog()" class="w-47 cancel-btn">
+                Cancel
+            </button>
+            <button
+                    (click)="deleteCartItem()"
+                    [disabled]="deletingCartItem"
+                    class="w-47 delete-btn"
+            >
+                <span *ngIf="!deletingCartItem">Yes, delete</span>
+                <span *ngIf="deletingCartItem">Deleting...</span>
+            </button>
+        </div>
+    </div>
+</div>
