@@ -6,6 +6,7 @@ import {
 } from 'src/app/services/refund/refund.service';
 import {environment} from 'src/environments/environment';
 import {ToastrService} from "ngx-toastr";
+import {ImageResolutionUtility} from "../../../../helpers/image-resolution.utility";
 
 declare var cloudinary: any;
 
@@ -34,13 +35,14 @@ export class RequestRefundModalComponent implements OnInit {
     mediaUrl: string = '';
     mediaType: string;
     selectedReason: string = '';
+    refundUnit: number = 0
     isLoading: boolean = false;
 
     constructor(
         private dialog: MatDialog,
         private refundService: RefundService,
         @Inject(MAT_DIALOG_DATA) private data: { unit: number; orderNumber: string },
-        private toast: ToastrService
+        private toast: ToastrService,
     ) {
     }
 
@@ -61,10 +63,16 @@ export class RequestRefundModalComponent implements OnInit {
             );
         } catch {
         }
+
+        this.refundUnit = this.data.unit
     }
 
     onRefund() {
-        if (this.mediaUrl == '' || this.selectedReason == '') {
+        if (this.refundUnit > this.data.unit) {
+            this.toast.error('Units can not be more than product unit!')
+            return
+        }
+        if (this.mediaUrl == '' || this.selectedReason == '' || this.refundUnit == 0) {
             return;
         }
         this.isLoading = true
@@ -83,10 +91,10 @@ export class RequestRefundModalComponent implements OnInit {
                 if (res.succeeded) {
                     this.isLoading = false
                     this.onCloseModal()
-                    this.toast.success('Refund request made successfully!')
+                    this.toast.success('Refund request made successfully!',)
                 } else {
                     this.isLoading = false
-                    this.toast.error(res.errors[0])
+                    this.toast.error(res.errors[0],)
                 }
             },
             error: (err) => {
@@ -94,6 +102,10 @@ export class RequestRefundModalComponent implements OnInit {
                 this.toast.error('Something went wrong!')
             },
         });
+    }
+
+    getImageResolution() {
+        return ImageResolutionUtility.getImageResolution(this.mediaUrl, 700, 140);
     }
 
     onUploadMedia() {

@@ -90,7 +90,7 @@ export class OrderDetailsComponent implements OnInit {
 
     onRefundRequest() {
         this.dialog.open(RequestRefundModalComponent, {
-            data: {unit: this.order.unit, orderNumber: this.order.orderNo},
+            data: {unit: this.order.unit, orderNumber: this.order.orderNo,},
         });
     }
 }

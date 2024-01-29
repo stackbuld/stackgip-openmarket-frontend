@@ -5,6 +5,11 @@
             <i (click)="onCloseModal()" class="fa fa-times"></i>
         </div>
 
+        <div class="product-desc">
+            <h3>Product description</h3>
+            <p>Nil</p>
+        </div>
+
         <div class="refund-select">
             <p>Select a reason</p>
 
@@ -16,6 +21,12 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+        </div>
+
+        <div class="refund-select refund-unit">
+            <p>Units</p>
+
+            <input [(ngModel)]="refundUnit" type="number">
         </div>
 
         <div class="evidence">
@@ -98,7 +109,7 @@
           "
                         class="photo-media"
                 >
-                    <img [src]="mediaUrl" alt=""/>
+                    <img [src]="getImageResolution()" alt=""/>
                 </div>
                 <div
                         *ngIf="mediaUrl != '' && (mediaType == 'mp4' || mediaType == 'gif')"
@@ -116,12 +127,11 @@
             <button
                     (click)="onRefund()"
                     [disabled]="isLoading"
-                    [ngClass]="{ invalid: mediaUrl == '' || selectedReason == '' }"
+                    [ngClass]="{ invalid: mediaUrl == '' || selectedReason == '' || this.refundUnit == 0}"
             >
                 <span *ngIf="!isLoading">Refund</span>
                 <span *ngIf="isLoading" class="loader"></span>
             </button>
-            <div>Notify seller on refund</div>
         </div>
     </div>
 </div>
