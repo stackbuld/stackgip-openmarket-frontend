@@ -140,6 +140,7 @@ export class SingleProductComponent implements OnInit {
 
   sliderMedia: { isVideo: boolean; url: string }[] = [];
   videoUrls: string[] = [];
+  isTimeLate: boolean = false;
 
   constructor(
     private toastService: ToastrService,
@@ -227,6 +228,17 @@ export class SingleProductComponent implements OnInit {
         this.isGoogleAddressSelected = false;
       }
     });
+
+    this.isTimeLate = this.getIfTimeLate();
+  }
+
+  getIfTimeLate(): boolean {
+    const currentTime = new Date();
+    const twoPM = new Date();
+
+    twoPM.setHours(14, 0, 0, 0);
+
+    return currentTime.getTime() > twoPM.getTime();
   }
 
   onUseCurrentAddress() {
@@ -351,6 +363,7 @@ export class SingleProductComponent implements OnInit {
     this.currentShippingMethod.subscribe();
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+    this.isTimeLate = this.getIfTimeLate();
   };
 
   populateAddressForm = (data: any) => {

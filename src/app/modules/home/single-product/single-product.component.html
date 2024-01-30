@@ -951,7 +951,23 @@
                   placed
                 </span>
                 <br />
-                <span> Delivered between: To be confirmed.</span>
+                <span>
+                  Delivery timeline:
+                  <span *ngIf="!isTimeLate">
+                    {{
+                      closestStore?.state.toLowerCase() ===
+                      currentAddress?.state.toLowerCase()
+                        ? "Same day"
+                        : "2 - 3 days"
+                    }}</span
+                  >
+                  <span *ngIf="isTimeLate">{{
+                    closestStore?.state.toLowerCase() ===
+                    currentAddress?.state.toLowerCase()
+                      ? "Next day"
+                      : "2 - 3 days"
+                  }}</span></span
+                >
               </span>
               <br />
               <span
@@ -969,7 +985,21 @@
                 </span>
               </span>
               <span *ngIf="item?.logisticName !== 'Renaship'"
-                >Delivered between {{ item?.deliveryDuration || "N/A" }}</span
+                >Delivery timeline:
+                <span *ngIf="!isTimeLate">
+                  {{
+                    closestStore?.state.toLowerCase() ===
+                    currentAddress?.state.toLowerCase()
+                      ? "Same day"
+                      : "2 - 3 days"
+                  }}</span
+                >
+                <span *ngIf="isTimeLate">{{
+                  closestStore?.state.toLowerCase() ===
+                  currentAddress?.state.toLowerCase()
+                    ? "Next day"
+                    : "2 - 3 days"
+                }}</span></span
               >
             </p>
           </label>
