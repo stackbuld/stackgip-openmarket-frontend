@@ -44,6 +44,9 @@ export class HomeNavComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.cartService.cartCount.subscribe((count) => {
+            this.cartCount = count;
+        });
         this.referenceId = this.authService.getUserReferenceNumber();
         this.appLocalStorage.currentUser.subscribe((res) => {
             if (res) {
