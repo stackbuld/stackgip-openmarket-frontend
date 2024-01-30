@@ -537,21 +537,24 @@
       </span>
             <form [formGroup]="addressForm" class="mt-3">
                 <div class="form-group">
-                    <label for="address">Receiver Address</label>
+                    <div class="d-flex justify-content-between">
+                        <label for="address">Receiver Address</label>
+                        <div (click)="onUseCurrentAddress()" class="select-existing" style="font-size: 14px">Use my
+                            current location here
+                        </div>
+                    </div>
                     <input
-                            #placesRef="ngx-places"
-                            #placesValue
-                            (onAddressChange)="handleAddressChange($event)"
-                            [options]="options"
-                            autocomplete="off"
-                            class="w-100 input-field"
-                            class="w-100 input-field"
-                            formControlName="fullAddress"
-                            id="address"
-                            ngx-google-places-autocomplete
-                            placeholder="Select delivery location"
-                            type="text"
-                            type="text"
+                        #placesRef="ngx-places"
+                        #placesValue
+                        (onAddressChange)="handleAddressChange($event)"
+                        [options]="options"
+                        autocomplete="off"
+                        class="w-100 input-field"
+                        formControlName="fullAddress"
+                        id="address"
+                        ngx-google-places-autocomplete
+                        placeholder="Select delivery location"
+                        type="text"
                     />
                     <p class="address-prompt">
                         Choose your address from the list that appears as you type

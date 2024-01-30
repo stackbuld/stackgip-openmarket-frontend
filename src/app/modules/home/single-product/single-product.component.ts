@@ -156,7 +156,7 @@ export class SingleProductComponent implements OnInit {
         private countryService: CountryService,
         private sellerStoreLocationService: SellerStoreLocationService,
         private searchService: SearchService,
-        private deliverAddressService: DeliveryAddressService,
+        private deliveryAddressService: DeliveryAddressService,
         private ngZone: NgZone,
         private metaService: MetaService,
     ) {
@@ -167,13 +167,8 @@ export class SingleProductComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.deliverAddressService.getCurrentLocation();
-        this.deliverAddressService.deliveryAddress
-            .pipe(take(1))
-            .subscribe((address) => {
-                this.addressForm.get('fullAddress').setValue(address);
-                this.handleAddressChange(address);
-            });
+        this.deliveryAddressService.getCurrentLocation();
+
 
         this.currentShippingMethod = new BehaviorSubject<GetShippingEstimatePrice>(
             null,
@@ -234,6 +229,14 @@ export class SingleProductComponent implements OnInit {
                 this.isGoogleAddressSelected = false;
             }
         });
+    }
+
+    onUseCurrentAddress() {
+        this.deliveryAddressService.deliveryAddress
+            .subscribe((address) => {
+                this.addressForm.get('fullAddress').setValue(address);
+                this.handleAddressChange(address);
+            });
     }
 
     setUserAddress() {
