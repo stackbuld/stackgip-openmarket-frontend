@@ -305,8 +305,8 @@ export class AuthService {
     }
 
     public Logout() {
-        localStorage.clear();
         this.isLogin.next(false)
+        localStorage.clear();
         this.store.dispatch(LogOutAction());
     }
 

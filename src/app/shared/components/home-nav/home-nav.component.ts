@@ -38,15 +38,12 @@ export class HomeNavComponent implements OnInit {
         private authService: AuthService,
         private windowService: WindowRefService,
         private searchService: SearchService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
     ) {
         // this.user = JSON.parse(localStorage.getItem('user'));
     }
 
     ngOnInit(): void {
-        // this.cartService.cartCount.subscribe((count) => {
-        //     this.cartCount = count;
-        // });
         this.referenceId = this.authService.getUserReferenceNumber();
         this.appLocalStorage.currentUser.subscribe((res) => {
             if (res) {
@@ -71,8 +68,13 @@ export class HomeNavComponent implements OnInit {
                 let it = this.appLocalStorage.getFromStorage('cartCount') - 1;
                 this.cartCount = it === -1 ? 0 : it;
             }
-
         });
+
+        this.authService.isLogin.subscribe(status => {
+            if (!status) {
+                this.cartCount = 0
+            }
+        })
     }
 
     closeSidebar = () => {
