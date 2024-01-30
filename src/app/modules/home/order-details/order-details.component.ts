@@ -6,6 +6,9 @@ import {AppLocalStorage} from 'src/app/helpers/local-storage';
 import {FooterService} from 'src/app/services/footer.service';
 import {OrderService} from 'src/app/services/order/order.service';
 import {RequestRefundModalComponent} from './request-refund-modal/request-refund-modal.component';
+import {ProductsService} from "../../../services/products/products.service";
+import {OrderDetail, OrderDetail2} from "../../../models/order.model";
+import {ProductOptions} from "../../../models/products.model";
 
 @Component({
     selector: 'app-order-details',
@@ -13,10 +16,10 @@ import {RequestRefundModalComponent} from './request-refund-modal/request-refund
     styleUrls: ['./order-details.component.scss'],
 })
 export class OrderDetailsComponent implements OnInit {
-    order: any;
+    order: OrderDetail2;
     // complementaryProducts: any[] = [];
     // tempVariations: any[] = [];
-    variations: any[] = [];
+    variations: ProductOptions[] | any[] = [];
     serialNumber: string = '';
     additionalInformation: string = '';
     rejectionReason: string = '';
@@ -27,11 +30,13 @@ export class OrderDetailsComponent implements OnInit {
     uploadWidget: any;
     uploadWidget2: any;
     videoName = '';
+    productDesc: string = ''
 
     constructor(
         private appLocal: AppLocalStorage,
         private footerService: FooterService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private productService: ProductsService
     ) {
     }
 
@@ -46,12 +51,17 @@ export class OrderDetailsComponent implements OnInit {
         this.appLocal.messageSource.subscribe((res) => {
             if (res) {
                 this.order = res;
-
                 this.appLocal.storeToStorage('page_data', res);
             } else {
                 this.order = this.appLocal.getFromStorage('page_data');
             }
-            // for (let index = 0; index < this.order.cartProduct.complementaryProducts.length; index++) {
+            this.productService.getProduct(this.order.productId).subscribe({
+                next: res => {
+                    this.productDesc = res.data.description
+                }
+            })
+            // for (let index = 0; index < this
+            // .order.cartProduct.complementaryProducts.length; index++) {
             //   const element = this.order.cartProduct.complementaryProducts[index];
             //   if (element.isMultiple === true) {
             //     this.complementaryProducts.push(element);
@@ -76,7 +86,7 @@ export class OrderDetailsComponent implements OnInit {
     }
 
     setVariation(list: any) {
-        const groupedOptions = list.reduce((acc, option) => {
+        const groupedOptions: any[] = list.reduce((acc, option) => {
             const title = option.title;
             const existingOptions = acc[title] || [];
             return {
@@ -90,7 +100,7 @@ export class OrderDetailsComponent implements OnInit {
 
     onRefundRequest() {
         this.dialog.open(RequestRefundModalComponent, {
-            data: {unit: this.order.unit, orderNumber: this.order.orderNo,},
+            data: {unit: this.order.unit, orderNumber: this.order.orderNo, productDesc: this.productDesc},
         });
     }
 }

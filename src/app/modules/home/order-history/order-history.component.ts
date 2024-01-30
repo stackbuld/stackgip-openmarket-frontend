@@ -5,6 +5,7 @@ import {AppLocalStorage} from 'src/app/helpers/local-storage';
 import {AuthService} from 'src/app/services/auth.service';
 import {FooterService} from 'src/app/services/footer.service';
 import {OrderService} from 'src/app/services/order/order.service';
+import {OrderDetail, OrderDetail2} from "../../../models/order.model";
 
 @Component({
     selector: 'app-order-history',
@@ -49,7 +50,7 @@ export class OrderHistoryComponent implements OnInit {
         this.fetchAllOrders(this.defaultPage);
     }
 
-    viewOrder(item: any) {
+    viewOrder(item: OrderDetail2) {
         this.appLocal.messageSource.next(item);
         this.router.navigate([`homepage/details/${item.id}`]);
     }
@@ -61,13 +62,15 @@ export class OrderHistoryComponent implements OnInit {
             pageNumber, this.maximumItem, '', this.buyerId,
             this.paymentReferenceId, this.type, '', '',
             this.dateType, this.orderStatus, this.deliveryStatus, this.paymentStatus, ''
-        ).subscribe((res) => {
-            this.orders = res.data.data;
-            this.pageNumber = res.data.pager.pageNumber;
-            this.totalItemCount = res.data.pager.totalItemCount;
-            this.loadingOrders = false;
-        }, error => {
-            this.loadingOrders = false;
+        ).subscribe({
+            next: (res) => {
+                this.orders = res.data.data;
+                this.pageNumber = res.data.pager.pageNumber;
+                this.totalItemCount = res.data.pager.totalItemCount;
+                this.loadingOrders = false;
+            }, error: error => {
+                this.loadingOrders = false;
+            }
         });
     }
 

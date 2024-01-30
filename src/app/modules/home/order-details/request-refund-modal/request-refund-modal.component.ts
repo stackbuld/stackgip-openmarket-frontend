@@ -37,12 +37,13 @@ export class RequestRefundModalComponent implements OnInit {
     selectedReason: string = '';
     refundUnit: number = 0
     isLoading: boolean = false;
+    productDesc: string = ''
 
     constructor(
         private dialog: MatDialog,
         private refundService: RefundService,
-        @Inject(MAT_DIALOG_DATA) private data: { unit: number; orderNumber: string },
-        private toast: ToastrService,
+        @Inject(MAT_DIALOG_DATA) private data: { unit: number; orderNumber: string, productDesc: string },
+        private toast: ToastrService
     ) {
     }
 
@@ -64,6 +65,7 @@ export class RequestRefundModalComponent implements OnInit {
         } catch {
         }
 
+        this.productDesc = this.data.productDesc
         this.refundUnit = this.data.unit
     }
 
