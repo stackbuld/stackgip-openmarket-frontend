@@ -338,6 +338,7 @@ export class SingleProductComponent implements OnInit {
 
     viewProduct = (id: any) => {
         this.isLoadingDetails = true;
+        this.addingItemToCart = false
         this.router.navigate(['/homepage/product', id]);
         this.complimentaryProductsList = [];
         this.productImages = [];
@@ -1117,7 +1118,7 @@ export class SingleProductComponent implements OnInit {
                 },
             } as AddToCartRequestModel;
 
-            this.cartService.getCart(this.user.id, this.referenceId).subscribe({
+            this.cartService.getCart(this.user?.id! ?? '', this.referenceId).subscribe({
                 next: (res) => {
                     if (
                         res.data.cartItems.some((item) => item.productId == this.productId)

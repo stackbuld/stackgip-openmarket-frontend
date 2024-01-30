@@ -1,29 +1,33 @@
-import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { AppLocalStorage } from 'src/app/helpers/local-storage';
+import {Component} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {Router} from '@angular/router';
+import {AppLocalStorage} from 'src/app/helpers/local-storage';
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
-  selector: 'app-logout-modal',
-  templateUrl: './logout-modal.component.html',
-  styleUrls: ['./logout-modal.component.scss'],
+    selector: 'app-logout-modal',
+    templateUrl: './logout-modal.component.html',
+    styleUrls: ['./logout-modal.component.scss'],
 })
 export class LogoutModalComponent {
-  constructor(
-    private router: Router,
-    private applocal: AppLocalStorage,
-    private dialog: MatDialog
-  ) {}
+    constructor(
+        private router: Router,
+        private applocal: AppLocalStorage,
+        private dialog: MatDialog,
+        private authService: AuthService
+    ) {
+    }
 
-  onCancel() {
-    this.dialog.closeAll();
-  }
+    onCancel() {
+        this.dialog.closeAll();
+    }
 
-  onLogout() {
-    localStorage.clear();
-    sessionStorage.clear();
-    this.applocal.currentUser.next(null);
-    this.onCancel();
-    this.router.navigate(['/']);
-  }
+    onLogout() {
+        localStorage.clear();
+        sessionStorage.clear();
+        this.authService.isLogin.next(false)
+        this.applocal.currentUser.next(null);
+        this.onCancel();
+        this.router.navigate(['/']);
+    }
 }
