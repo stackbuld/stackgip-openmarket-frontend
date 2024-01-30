@@ -261,6 +261,7 @@ form {
 .terms-and-conditions {
     display: flex;
     align-items: center;
+    margin-top: 10px;
 
     & span {
         font-family: "Avenir LT Std", sans-serif;

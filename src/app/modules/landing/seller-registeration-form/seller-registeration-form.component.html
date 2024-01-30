@@ -350,7 +350,8 @@
                 [disabled]="
                   isLoading ||
                   sellerRegFormGroup.invalid ||
-                  sellerApprovalStatus == 'pending'
+                  sellerApprovalStatus == 'pending' ||
+                  !isTermsAndConditionsAgreed.value
                 "
                 class="reg-btn"
                 type="submit"
