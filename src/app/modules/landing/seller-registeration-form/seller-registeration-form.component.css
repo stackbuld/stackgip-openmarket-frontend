@@ -258,6 +258,21 @@ form {
     color: #065f06;
 }
 
+.terms-and-conditions {
+    display: flex;
+    align-items: center;
+
+    & span {
+        font-family: "Avenir LT Std", sans-serif;
+    }
+
+    & #terms-main {
+        color: #FF8B00;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
 @media (max-width: 765px) {
     .modal-container {
         height: 100%;

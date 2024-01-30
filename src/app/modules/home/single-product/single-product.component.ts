@@ -435,6 +435,7 @@ export class SingleProductComponent implements OnInit {
       next: (res) => {
         this.isLoadingDetails = false;
         this.product = res.data;
+        console.log(res);
         this.loadingProductDescription = false;
         this.sellerStores = res.data?.sellerStores;
 
@@ -831,37 +832,35 @@ export class SingleProductComponent implements OnInit {
   public handleAddressChange(address: Address | any) {
     this.isGoogleAddressSelected = true;
 
-    const country = address.address_components.filter((element) => {
-      return element.types.includes('country');
-    });
-    const city = address.address_components.filter((element) => {
-      return element.types.includes('administrative_area_level_2');
-    });
-    const state = address.address_components.filter((element) => {
-      return element.types.includes('administrative_area_level_1');
-    });
-    const landmark = address.address_components.filter((element) => {
-      return element.types.includes('locality');
-    });
-    const postalCode = address.address_components.filter((element) => {
-      return element.types.includes('postal_code');
-    });
-    const streetName = address.address_components.filter((element) => {
-      return element.types.includes('route');
-    });
+    try {
+      const country = address.address_components.filter((element) => {
+        return element.types.includes('country');
+      });
+      const city = address.address_components.filter((element) => {
+        return element.types.includes('administrative_area_level_2');
+      });
+      const state = address.address_components.filter((element) => {
+        return element.types.includes('administrative_area_level_1');
+      });
+      const landmark = address.address_components.filter((element) => {
+        return element.types.includes('locality');
+      });
+      const postalCode = address.address_components.filter((element) => {
+        return element.types.includes('postal_code');
+      });
+      const streetName = address.address_components.filter((element) => {
+        return element.types.includes('route');
+      });
 
-    this.addressForm.patchValue({ fullAddress: address.formatted_address });
-    this.addressForm.patchValue({ lng: address.geometry.location.lng() });
-    this.addressForm.patchValue({ lat: address.geometry.location.lat() });
-    this.addressForm.patchValue({ country: country[0].short_name });
-    this.addressForm.patchValue({
-      city: city.length > 0 ? city[0].long_name : state[0].long_name,
-    });
-    this.addressForm.patchValue({ state: state[0].long_name });
-
-    // this.landmark.patchValue(landmark[0].long_name);
-    // this.postalCode.patchValue(postalCode[0].long_name);
-    // this.streetName.patchValue(streetName[0].long_name);
+      this.addressForm.patchValue({ fullAddress: address.formatted_address });
+      this.addressForm.patchValue({ lng: address.geometry.location.lng() });
+      this.addressForm.patchValue({ lat: address.geometry.location.lat() });
+      this.addressForm.patchValue({ country: country[0].short_name });
+      this.addressForm.patchValue({
+        city: city.length > 0 ? city[0].long_name : state[0].long_name,
+      });
+      this.addressForm.patchValue({ state: state[0].long_name });
+    } catch {}
   }
 
   applyAddress = () => {
