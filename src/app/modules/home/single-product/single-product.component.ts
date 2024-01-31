@@ -722,7 +722,7 @@ export class SingleProductComponent implements OnInit {
       (res) => {
         if ((res.sucess = true)) {
           this.reloadAddresses();
-          this.toastService.success(res.message, 'SUCCESS');
+          this.toastService.success('Record deleted successfully', 'SUCCESS');
           this.deletingAddress = false;
         } else {
           this.toastService.error(res.message, 'ERROR');

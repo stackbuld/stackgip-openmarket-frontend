@@ -17,7 +17,6 @@ import { IUser, UserAddressData } from 'src/app/models/IUserModel';
   styleUrls: ['./buyer-address-information.component.scss'],
 })
 export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
-  isToggled: boolean = false;
   states: string[] = [];
   userId: string;
   user: IUser;
@@ -38,7 +37,6 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   addressLatitude: number;
   addressLongitude: number;
   addressCity: string;
-  fallbackAddressCity: string;
   googleAddressSelected: boolean = false;
 
   constructor(
@@ -99,7 +97,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
           this.isFetching = false;
           this.userAddresses = data;
         },
-        error: (err) => {
+        error: () => {
           this.isFetching = false;
 
           this.toast.error('Something went wrong!');
@@ -124,9 +122,6 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
 
       let city = address.address_components.filter((element) => {
         return element.types.includes('administrative_area_level_2');
-      });
-      let fallbackCity = address.address_components.filter((element) => {
-        return element.types.includes('locality');
       });
 
       this.addressForm.get('address').patchValue(address.formatted_address);
@@ -157,11 +152,11 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
     this.userService
       .updateUserAddress(id, { ...address, isDefault: true })
       .subscribe({
-        next: (data) => {
+        next: () => {
           this.toast.success('Default address updated successfully!');
           this.updateAddresses();
         },
-        error: (err) => {
+        error: () => {
           this.toast.error('Something went wrong!');
         },
       });
@@ -211,7 +206,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
     });
 
     this.userService.deleteUserAddress(address.id).subscribe({
-      next: (data) => {
+      next: () => {
         this.toast.success('Address Deleted!');
 
         if (address.isDefault && this.userAddresses.length > 1) {
@@ -227,10 +222,10 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
               }),
             )
             .subscribe({
-              next: (data) => {
+              next: () => {
                 this.updateAddresses();
               },
-              error: (err) => {
+              error: () => {
                 this.isFetching = false;
 
                 this.toast.error('Something went wrong!');
@@ -240,7 +235,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
           this.updateAddresses();
         }
       },
-      error: (err) => {
+      error: () => {
         this.isFetching = false;
 
         this.toast.error('Something went wrong!');
@@ -295,7 +290,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
           ...data,
         })
         .subscribe({
-          next: (data) => {
+          next: () => {
             this.isEditing = false;
             this.isEditingAddress = false;
             this.userService.isEditingUserInfo.next(false);
@@ -312,7 +307,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
         });
     } else {
       this.userService.addUserAddress(data).subscribe({
-        next: (data) => {
+        next: () => {
           this.toast.success('New address added!');
 
           this.isEditing = false;
