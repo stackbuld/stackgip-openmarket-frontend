@@ -5,7 +5,8 @@ export const environment = {
   storeApi: 'https://dev-ecommerce.renamarkets.com/api/',
   paystackPublicKey: 'pk_test_8e75de0f0e2bba17ee0b37ed227e176b92b52d0b',
   notificationApi: 'https://dev-notification.renamarkets.com/',
-  googleClientId: '966209242791-ic7l4c7e00ltgb83hcnfe47fvrjfklbc.apps.googleusercontent.com',
+  googleClientId:
+    '966209242791-ic7l4c7e00ltgb83hcnfe47fvrjfklbc.apps.googleusercontent.com',
   facebookAppId: '6053468244757747',
   cloudinaryName: 'dimxqjzpr',
   cloudinaryUploadPerset: 'unsigned1_openmarket',
@@ -26,6 +27,8 @@ export const environment = {
     'https://n8n-workflow.renamarkets.com/webhook/renamaket-contact-us',
   highlightInfo: {
     id: 'ng2orond',
-    commmitVersion: 'abcdefg12345'
-  }
+    commmitVersion: 'abcdefg12345',
+  },
+  termsAndConditionsUrl:
+    'https://doc.clickup.com/4543060/d/4amjm-2412/renamarkets-seller-contract',
 };

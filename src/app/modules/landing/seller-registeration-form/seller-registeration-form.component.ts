@@ -50,7 +50,7 @@ export class SellerRegisterationFormComponent
   uploadWidget: any;
   uploadID: any;
   sellerRegFormGroup: FormGroup;
-  idCardTypes = ['NIN', 'BVN'];
+  idCardTypes = ['NIN'];
   regSeller$: Subscription;
   user: any;
   sellerApprovalStatus: string = '';

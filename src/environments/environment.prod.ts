@@ -29,4 +29,6 @@ export const environment = {
     id: '5g5x48ld',
     commmitVersion: 'abcdefg12345',
   },
+  termsAndConditionsUrl:
+    'https://doc.clickup.com/4543060/d/4amjm-2412/renamarkets-seller-contract',
 };
