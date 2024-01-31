@@ -1,35 +1,37 @@
-import { Injectable } from '@angular/core';
-import { google } from 'google-maps';
-import { Subject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {google} from 'google-maps';
+import {BehaviorSubject, Subject} from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class DeliveryAddressService {
-  deliveryAddress = new Subject<any>();
+    deliveryAddress = new BehaviorSubject<any>(null);
 
-  constructor() {}
-
-  getCurrentLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.setCurrentLocation(
-          position.coords.latitude,
-          position.coords.longitude
-        );
-      });
+    constructor() {
     }
-  }
 
-  setCurrentLocation(latitude: number, longitude: number) {
-    try {
-      const geocoder = new google.maps.Geocoder();
-      const latLng = new google.maps.LatLng(latitude, longitude);
-
-      geocoder.geocode({ location: latLng }, (results, status) => {
-        if (status === 'OK' && results[0]) {
-          this.deliveryAddress.next(results[0]);
-          const address = results[0].formatted_address;
+    getCurrentLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                this.setCurrentLocation(
+                    position.coords.latitude,
+                    position.coords.longitude
+                );
+            });
         }
-      });
-    } catch {}
-  }
+    }
+
+    setCurrentLocation(latitude: number, longitude: number) {
+        try {
+            const geocoder = new google.maps.Geocoder();
+            const latLng = new google.maps.LatLng(latitude, longitude);
+
+            geocoder.geocode({location: latLng}, (results, status) => {
+                if (status === 'OK' && results[0]) {
+                    this.deliveryAddress.next(results[0]);
+                    const address = results[0].formatted_address;
+                }
+            });
+        } catch {
+        }
+    }
 }

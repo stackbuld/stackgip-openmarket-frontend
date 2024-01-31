@@ -1,119 +1,115 @@
 <div class="main">
-    <div class="left-section">
-        <div class="top-left mb-3">
-            <div class="cart-items-main">
-                <h2 class="px-3 pt-3 cart-items-heading">
-                    Shopping Cart({{ cartItems?.length }})
-                </h2>
+  <div class="left-section">
+    <div class="top-left mb-3">
+      <div class="cart-items-main">
+        <h2 class="px-3 pt-3 cart-items-heading">
+          Shopping Cart({{ cartItems?.length }})
+        </h2>
 
+        <div
+          *ngIf="cartItems.length > 0 && !loadingCart"
+          class="cart-items-container"
+        >
+          <div
+            *ngFor="let item of cartItems; let i = index"
+            [ngClass]="{ bottom: cartItems.length > 1 }"
+            class="cart-item"
+          >
+            <div class="cart-item-container">
+              <div class="cart-item-img">
+                <div class="cart-item-img-main">
+                  <img [src]="item?.product?.imageUrl" alt="" />
+                </div>
+                <div (click)="setSelectedCartItem(item)" class="remove-icon">
+                  <svg
+                    fill="none"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M2.96484 5.92969H4.94149H20.7546"
+                      stroke="#D01717"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.6505"
+                    />
+                    <path
+                      d="M18.7779 5.92985V19.7663C18.7779 20.2906 18.5696 20.7933 18.199 21.164C17.8283 21.5347 17.3255 21.743 16.8013 21.743H6.91805C6.39381 21.743 5.89104 21.5347 5.52035 21.164C5.14966 20.7933 4.94141 20.2906 4.94141 19.7663V5.92985M7.90637 5.92985V3.9532C7.90637 3.42897 8.11462 2.9262 8.48531 2.55551C8.85601 2.18482 9.35877 1.97656 9.88301 1.97656H13.8363C14.3605 1.97656 14.8633 2.18482 15.234 2.55551C15.6047 2.9262 15.8129 3.42897 15.8129 3.9532V5.92985"
+                      stroke="#D01717"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.6505"
+                    />
+                    <path
+                      d="M9.88281 10.8716V16.8015"
+                      stroke="#D01717"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.6505"
+                    />
+                    <path
+                      d="M13.8369 10.8716V16.8015"
+                      stroke="#D01717"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.6505"
+                    />
+                  </svg>
+                  &nbsp;
+                  <span>Remove</span>
+                </div>
+              </div>
 
-                <div
-                        *ngIf="cartItems.length > 0 && !loadingCart"
-                        class="cart-items-container"
-                >
+              <div class="cart-item-details">
+                <div class="cart-item-details-main">
+                  <div class="cart-item-name">
+                    <div class="cart-item-name-main">
+                      {{ item?.product?.name || "N/A" }}
+                    </div>
+
                     <div
-                            *ngFor="let item of cartItems; let i = index"
-                            [ngClass]="{ bottom: cartItems.length > 1 }"
-                            class="cart-item"
-                    >
-                        <div class="cart-item-container">
-                            <div class="cart-item-img">
-                                <div class="cart-item-img-main">
-                                    <img [src]="item?.product?.imageUrl" alt=""/>
-                                </div>
-                                <div
-                                        (click)="setSelectedCartItem(item)"
-                                        class="remove-icon"
-                                >
-                                    <svg
-                                            fill="none"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            width="24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                                d="M2.96484 5.92969H4.94149H20.7546"
-                                                stroke="#D01717"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="1.6505"
-                                        />
-                                        <path
-                                                d="M18.7779 5.92985V19.7663C18.7779 20.2906 18.5696 20.7933 18.199 21.164C17.8283 21.5347 17.3255 21.743 16.8013 21.743H6.91805C6.39381 21.743 5.89104 21.5347 5.52035 21.164C5.14966 20.7933 4.94141 20.2906 4.94141 19.7663V5.92985M7.90637 5.92985V3.9532C7.90637 3.42897 8.11462 2.9262 8.48531 2.55551C8.85601 2.18482 9.35877 1.97656 9.88301 1.97656H13.8363C14.3605 1.97656 14.8633 2.18482 15.234 2.55551C15.6047 2.9262 15.8129 3.42897 15.8129 3.9532V5.92985"
-                                                stroke="#D01717"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="1.6505"
-                                        />
-                                        <path
-                                                d="M9.88281 10.8716V16.8015"
-                                                stroke="#D01717"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="1.6505"
-                                        />
-                                        <path
-                                                d="M13.8369 10.8716V16.8015"
-                                                stroke="#D01717"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="1.6505"
-                                        />
-                                    </svg>
-                                    &nbsp;
-                                    <span>Remove</span>
-                                </div>
-                            </div>
-
-                            <div class="cart-item-details">
-                                <div class="cart-item-details-main">
-                                    <div class="cart-item-name">
-                                        <div class="cart-item-name-main">
-                                            {{ item?.product?.name || "N/A" }}
-                                        </div>
-
-                                        <div
-                                                *ngIf="
+                      *ngIf="
                         item?.complementaryProducts &&
                         item?.complementaryProducts?.length > 0
                       "
-                                                class="cart-item-complimentary cart-item-complimentary-desktop"
-                                        >
-                                            <div class="cart-item-complimentary-heading">
-                                                Complementary Products
-                                            </div>
-                                            <ul class="complimentary-lists">
-                                                <li
-                                                        *ngFor="
+                      class="cart-item-complimentary cart-item-complimentary-desktop"
+                    >
+                      <div class="cart-item-complimentary-heading">
+                        Complementary Products
+                      </div>
+                      <ul class="complimentary-lists">
+                        <li
+                          *ngFor="
                             let compProduct of item?.complementaryProducts
                           "
-                                                >
-                                                    <span>•</span> {{ compProduct?.title }}
-                                                    <span class="comp-price">{{
-                                                            compProduct?.cost | currency : "NGN"
-                                                        }}</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div class="cart-item-price">
-                                        <div class="new-price">
-                                            {{ item?.product?.price | currency : "NGN" }}
-                                        </div>
-                                        <div
-                                                *ngIf="item?.product?.previousPrice > 0"
-                                                class="old-price"
-                                        >
-                      <span class="old-price-main">{{
-                              item?.product?.previousPrice | currency : "NGN"
+                        >
+                          <span>•</span> {{ compProduct?.title }}
+                          <span class="comp-price">{{
+                            compProduct?.cost | currency: "NGN"
                           }}</span>
-                                            <span class="price-percentage">9%</span>
-                                        </div>
-                                        <div class="cart-item-unit">
-                                            <button
-                                                    (click)="
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="cart-item-price">
+                    <div class="new-price">
+                      {{ item?.product?.price | currency: "NGN" }}
+                    </div>
+                    <div
+                      *ngIf="item?.product?.previousPrice > 0"
+                      class="old-price"
+                    >
+                      <span class="old-price-main">{{
+                        item?.product?.previousPrice | currency: "NGN"
+                      }}</span>
+                      <span class="price-percentage">9%</span>
+                    </div>
+                    <div class="cart-item-unit">
+                      <button
+                        (click)="
                           updateItemUnit(
                             'minus',
                             item?.unit,
@@ -121,23 +117,23 @@
                             i
                           )
                         "
-                                                    [disabled]="isUpdatingUnit[i]"
-                                                    [ngClass]="{ disabled: item?.unit <= 1 }"
-                                                    class="unit-btn"
-                                            >
-                                                <i class="fa fa-minus"></i>
-                                            </button>
+                        [disabled]="isUpdatingUnit[i]"
+                        [ngClass]="{ disabled: item?.unit <= 1 }"
+                        class="unit-btn"
+                      >
+                        <i class="fa fa-minus"></i>
+                      </button>
 
-                                            <span class="unit-text">
+                      <span class="unit-text">
                         <span *ngIf="!isUpdatingUnit[i]" class="btn-texts">
                           {{ item?.unit }}
                         </span>
 
                         <span *ngIf="isUpdatingUnit[i]" class="loader"></span
-                        ></span>
+                      ></span>
 
-                                            <button
-                                                    (click)="
+                      <button
+                        (click)="
                           updateItemUnit(
                             'plus',
                             item?.unit,
@@ -145,255 +141,261 @@
                             i
                           )
                         "
-                                                    [disabled]="
+                        [disabled]="
                           isUpdatingUnit[i] ||
                           item?.unit >= cartItemStockUnit[item.productId]
                         "
-                                                    [ngClass]="{
+                        [ngClass]="{
                           disabled:
                             item?.unit >= cartItemStockUnit[item.productId]
                         }"
-                                                    class="unit-btn"
-                                            >
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                        class="unit-btn"
+                      >
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
-                                <div class="shipping-cost shipping-cost-desktop">
-                                    Shipping: Starting from
-                                    {{
-                                        item?.logistic?.estimateShippingCost || 0 | currency : "NGN"
-                                    }}
-                                </div>
+                <div class="shipping-cost shipping-cost-desktop">
+                  Shipping: Starting from
+                  {{
+                    item?.logistic?.estimateShippingCost || 0 | currency: "NGN"
+                  }}
+                </div>
 
-                                <div class="cart-item-shipping cart-item-shipping-desktop">
-                                    <div class="cart-item-shipping-main">
-                                        <div class="shipping-address" style="word-break: break-word">
-                                            Delivering to {{ item?.destination?.fullAddress }} via
-                                            <span class="logistic-name">
+                <div class="cart-item-shipping cart-item-shipping-desktop">
+                  <div class="cart-item-shipping-main">
+                    <div
+                      class="shipping-address"
+                      style="word-break: break-word"
+                    >
+                      Delivering to {{ item?.destination?.fullAddress }} via
+                      <span class="logistic-name">
                         {{ item?.logistic?.logisticName }}
                       </span>
 
-                                            <div class="receiver">
-                                                Receiver:
-                                                <span
-                                                >{{ item?.destination?.firstname }}
-                                                    {{ item?.destination?.lastname }} -
-                                                    {{ item?.destination?.phoneNumber }}</span
-                                                >
-                                            </div>
-                                        </div>
-                                        <div class="payment">Payment online</div>
-                                    </div>
-                                    <div
-                                            *ngIf="variations.length > 0"
-                                            class="cart-item-variations"
-                                    >
-                                        <div class="cart-item-variations-heading">Variations</div>
-                                        <ul class="variations-lists">
-                                            <li
-                                                    *ngFor="let variation of variations[i]; let v = index"
-                                            >
+                      <div class="receiver">
+                        Receiver:
+                        <span
+                          >{{ item?.destination?.firstname }}
+                          {{ item?.destination?.lastname }} -
+                          {{ item?.destination?.phoneNumber }}</span
+                        >
+                      </div>
+                    </div>
+                    <div class="payment">Payment online</div>
+                  </div>
+                  <div
+                    *ngIf="variations.length > 0"
+                    class="cart-item-variations"
+                  >
+                    <div class="cart-item-variations-heading">Variations</div>
+                    <ul class="variations-lists">
+                      <li
+                        *ngFor="let variation of variations[i]; let v = index"
+                      >
                         <span class="variation-group">{{
-                                variations[i][v][0].title
-                            }}</span
+                          variations[i][v][0].title
+                        }}</span
                         >:
-                                                <span class="variation-value"
-                                                >{{ variation[0].value }}
-                                                    <span class="variation-cost">
+                        <span class="variation-value"
+                          >{{ variation[0].value }}
+                          <span class="variation-cost">
                             (NGN{{ variation[0].cost | number }})
                           </span></span
-                                                >
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                        <mat-accordion class="cart-item-accordion">
-                            <mat-expansion-panel
-                                    (click)="onExpand(i)"
-                                    (closed)="panelOpenState[i] = false"
-                                    (opened)="panelOpenState[i] = true"
-                            >
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title> More details</mat-panel-title>
-                                </mat-expansion-panel-header>
-                                <div class="cart-item-details cart-item-details-mobile">
-                                    <div
-                                            *ngIf="
+            <mat-accordion class="cart-item-accordion">
+              <mat-expansion-panel
+                (click)="onExpand(i)"
+                (closed)="panelOpenState[i] = false"
+                (opened)="panelOpenState[i] = true"
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title> More details</mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="cart-item-details cart-item-details-mobile">
+                  <div
+                    *ngIf="
                       item?.complementaryProducts &&
                       item?.complementaryProducts?.length > 0
                     "
-                                            class="cart-item-complimentary"
-                                    >
-                                        <div class="cart-item-complimentary-heading">
-                                            Complementary Products
-                                        </div>
-                                        <ul class="complimentary-lists">
-                                            <li
-                                                    *ngFor="let compProduct of item?.complementaryProducts"
-                                            >
-                                                <span>•</span> {{ compProduct?.title }}
-                                                <span class="comp-price">{{
-                                                        compProduct?.cost | currency : "NGN"
-                                                    }}</span>
-                                            </li>
-                                        </ul>
-                                    </div>
+                    class="cart-item-complimentary"
+                  >
+                    <div class="cart-item-complimentary-heading">
+                      Complementary Products
+                    </div>
+                    <ul class="complimentary-lists">
+                      <li
+                        *ngFor="let compProduct of item?.complementaryProducts"
+                      >
+                        <span>•</span> {{ compProduct?.title }}
+                        <span class="comp-price">{{
+                          compProduct?.cost | currency: "NGN"
+                        }}</span>
+                      </li>
+                    </ul>
+                  </div>
 
-                                    <div class="shipping-cost">
-                                        Shipping: Starting from
-                                        {{
-                                            item?.logistic?.estimateShippingCost || 0
-                                                | currency : "NGN"
-                                        }}
-                                    </div>
+                  <div class="shipping-cost">
+                    Shipping: Starting from
+                    {{
+                      item?.logistic?.estimateShippingCost || 0
+                        | currency: "NGN"
+                    }}
+                  </div>
 
-                                    <div class="cart-item-shipping">
-                                        <div class="cart-item-shipping-main">
-                                            <div class="shipping-address" style="word-break: break-word">
-                                                Delivering to {{ item?.destination?.fullAddress }} via
-                                                <span class="logistic-name">
+                  <div class="cart-item-shipping">
+                    <div class="cart-item-shipping-main">
+                      <div
+                        class="shipping-address"
+                        style="word-break: break-word"
+                      >
+                        Delivering to {{ item?.destination?.fullAddress }} via
+                        <span class="logistic-name">
                           {{ item?.logistic?.logisticName }}
                         </span>
 
-                                                <div class="receiver">
-                                                    Receiver:
-                                                    <span
-                                                    >{{ item?.destination?.firstname }}
-                                                        {{ item?.destination?.lastname }} -
-                                                        {{ item?.destination?.phoneNumber }}</span
-                                                    >
-                                                </div>
-                                            </div>
-                                            <div class="payment">Payment online</div>
-                                        </div>
-                                        <div
-                                                *ngIf="variations.length > 0"
-                                                class="cart-item-variations"
-                                        >
-                                            <div class="cart-item-variations-heading">Variations</div>
-                                            <ul class="variations-lists">
-                                                <li
-                                                        *ngFor="let variation of variations[i]; let v = index"
-                                                >
+                        <div class="receiver">
+                          Receiver:
+                          <span
+                            >{{ item?.destination?.firstname }}
+                            {{ item?.destination?.lastname }} -
+                            {{ item?.destination?.phoneNumber }}</span
+                          >
+                        </div>
+                      </div>
+                      <div class="payment">Payment online</div>
+                    </div>
+                    <div
+                      *ngIf="variations.length > 0"
+                      class="cart-item-variations"
+                    >
+                      <div class="cart-item-variations-heading">Variations</div>
+                      <ul class="variations-lists">
+                        <li
+                          *ngFor="let variation of variations[i]; let v = index"
+                        >
                           <span class="variation-group">{{
-                                  variations[i][v][0].title
-                              }}</span
+                            variations[i][v][0].title
+                          }}</span
                           >:
-                                                    <span class="variation-value"
-                                                    >{{ variation[0].value }}
-                                                        <span class="variation-cost">
+                          <span class="variation-value"
+                            >{{ variation[0].value }}
+                            <span class="variation-cost">
                               (NGN{{ variation[0].cost | number }})
                             </span></span
-                                                    >
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </mat-expansion-panel>
-                        </mat-accordion>
+                          >
+                        </li>
+                      </ul>
                     </div>
+                  </div>
                 </div>
-                <div *ngIf="cartItems.length === 0 && !loadingCart" class="p-5">
-                    <div class="p-5">
-                        <p class="loading text-center">No item(s) in your cart</p>
-                        <p class="text-center">
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </div>
+        <div *ngIf="cartItems.length === 0 && !loadingCart" class="p-5">
+          <div class="p-5">
+            <p class="loading text-center">No item(s) in your cart</p>
+            <p class="text-center">
               <span class="view-item-btn" routerLink="/homepage/search"
-              >Continue Shopping</span
+                >Continue Shopping</span
               >
-                        </p>
-                    </div>
-                </div>
-                <div *ngIf="loadingCart" class="p-5">
-                    <p class="loading text-center mb-0 p-5">Loading Shopping Cart...</p>
-                </div>
-            </div>
+            </p>
+          </div>
+        </div>
+        <div *ngIf="loadingCart" class="p-5">
+          <p class="loading text-center mb-0 p-5">Loading Shopping Cart...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-section mobile-view-only order-summary-container p-4">
+      <h2>Cart Summary</h2>
+      <div class="mt-3">
+        <p class="uk-flex uk-flex-between">
+          <span>Subtotal</span>
+          <span>{{ cart?.subTotal || 0 | currency: "₦" }}</span>
+        </p>
+
+        <p class="uk-flex uk-flex-between">
+          <span>Actual Shipping cost</span>
+          <span>{{ cart?.shippingCost?.cost || 0 | currency: "₦" }}</span>
+        </p>
+
+        <p class="uk-flex uk-flex-between">
+          <span>Shipping Discount</span>
+          <span>{{ cart?.shippingCost?.discount || 0 | currency: "₦" }}</span>
+        </p>
+
+        <p class="uk-flex uk-flex-between">
+          <span>Items Discount</span>
+          <span>{{ cart?.discount || 0 | currency: "₦" }}</span>
+        </p>
+
+        <p class="uk-flex uk-flex-between">
+          <span>Promo Code</span>
+          <span>{{ cart?.promoCode || "N/A" }}</span>
+        </p>
+
+        <p>
+          A promo code is a combination of letters (case sensitive) and numbers
+          without spacing
+        </p>
+
+        <div class="w-100 apply-section">
+          <input placeholder="Enter code here" type="text" />
+          <button>Apply</button>
         </div>
 
-        <div class="right-section mobile-view-only order-summary-container p-4">
-            <h2>Cart Summary</h2>
-            <div class="mt-3">
-                <p class="uk-flex uk-flex-between">
-                    <span>Subtotal</span>
-                    <span>{{ cart?.subTotal || 0 | currency : "₦" }}</span>
-                </p>
+        <div class="uk-flex uk-flex-between">
+          <p class="big">Total</p>
+          <p class="big">{{ cart?.totalCost || 0 | currency: "₦" }}</p>
+        </div>
+      </div>
+    </div>
 
-                <p class="uk-flex uk-flex-between">
-                    <span>Actual Shipping cost</span>
-                    <span>{{ cart?.shippingCost?.cost || 0 | currency : "₦" }}</span>
-                </p>
+    <div
+      *ngIf="cartItems.length > 0 && !loadingCart"
+      class="payment-section mt-3 p-4"
+    >
+      <h2 class="payment-methods-heading">How do you wish to pay?</h2>
+      <div *ngIf="paymentMethods.length > 0 && !loadingPaymentMethods">
+        <div class="payment-methods-container">
+          <div
+            *ngFor="let item of paymentMethods"
+            [ngClass]="{ margin_bottom: paymentMethods.length > 1 }"
+            class="payment-method"
+          >
+            <label
+              (click)="setPaymentMethod(item)"
+              class="d-flex align-items-flex-start"
+            >
+              <div>
+                <input name="payment-method" type="radio" />
+              </div>
+              <div class="method-name">
+                <div class="method-name-main">{{ item?.name }}</div>
 
-                <p class="uk-flex uk-flex-between">
-                    <span>Shipping Discount</span>
-                    <span>{{ cart?.shippingCost?.discount || 0 | currency : "₦" }}</span>
-                </p>
+                <div class="method-desc">({{ item?.description }})</div>
+              </div>
+            </label>
 
-                <p class="uk-flex uk-flex-between">
-                    <span>Items Discount</span>
-                    <span>{{ cart?.discount || 0 | currency : "₦" }}</span>
-                </p>
-
-                <p class="uk-flex uk-flex-between">
-                    <span>Promo Code</span>
-                    <span>{{ cart?.promoCode || "N/A" }}</span>
-                </p>
-
-                <p>
-                    A promo code is a combination of letters (case sensitive) and numbers
-                    without spacing
-                </p>
-
-                <div class="w-100 apply-section">
-                    <input placeholder="Enter code here" type="text"/>
-                    <button>Apply</button>
-                </div>
-
-                <div class="uk-flex uk-flex-between">
-                    <p class="big">Total</p>
-                    <p class="big">{{ cart?.totalCost || 0 | currency : "₦" }}</p>
-                </div>
+            <div class="payment-img">
+              <img [src]="item?.imageUrl" alt="" style="width: 60px" />
             </div>
+          </div>
         </div>
 
-        <div
-                *ngIf="cartItems.length > 0 && !loadingCart"
-                class="payment-section mt-3 p-4"
-        >
-            <h2 class="payment-methods-heading">How do you wish to pay?</h2>
-            <div *ngIf="paymentMethods.length > 0 && !loadingPaymentMethods">
-                <div class="payment-methods-container">
-                    <div
-                            *ngFor="let item of paymentMethods"
-                            [ngClass]="{ margin_bottom: paymentMethods.length > 1 }"
-                            class="payment-method"
-                    >
-                        <label
-                                (click)="setPaymentMethod(item)"
-                                class="d-flex align-items-flex-start"
-                        >
-                            <div>
-                                <input name="payment-method" type="radio"/>
-                            </div>
-                            <div class="method-name">
-                                <div class="method-name-main">{{ item?.name }}</div>
-
-                                <div class="method-desc">({{ item?.description }})</div>
-                            </div>
-                        </label>
-
-                        <div class="payment-img">
-                            <img [src]="item?.imageUrl" alt="" style="width: 60px"/>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- <div class="payment-alert">
+        <!-- <div class="payment-alert">
                   <div class="payment-alert-icon">
                     <img
                       src="assets/icons/payment-alert-icon.png"
@@ -412,98 +414,98 @@
                   </div>
                 </div> -->
 
-                <button
-                        (click)="makePayment()"
-                        [disabled]="loadingPayment"
-                        class="w-100 pay-btn mt-4"
-                >
-                    <span *ngIf="!loadingPayment">Pay </span>
-                    <span *ngIf="loadingPayment">
+        <button
+          (click)="makePayment()"
+          [disabled]="loadingPayment"
+          class="w-100 pay-btn mt-4"
+        >
+          <span *ngIf="!loadingPayment">Pay </span>
+          <span *ngIf="loadingPayment">
             <img
-                    alt=""
-                    class="web-only"
-                    height="40"
-                    src="/assets/svg/loader-icon.svg"
-                    width="40"
+              alt=""
+              class="web-only"
+              height="40"
+              src="/assets/svg/loader-icon.svg"
+              width="40"
             />
             <img
-                    alt=""
-                    height="40"
-                    src="/assets/svg/loader-icon.svg"
-                    width="40"
+              alt=""
+              height="40"
+              src="/assets/svg/loader-icon.svg"
+              width="40"
             />
             <img
-                    alt=""
-                    class="web-only"
-                    height="40"
-                    src="/assets/svg/loader-icon.svg"
-                    width="40"
+              alt=""
+              class="web-only"
+              height="40"
+              src="/assets/svg/loader-icon.svg"
+              width="40"
             />
           </span>
-                </button>
+        </button>
 
-                <p class="personal-info mt-3">
-                    Your personal data will be used to process your order, support your
-                    experience throughout this website, and for other purposes described
-                    in our privacy policy.
-                </p>
-            </div>
-            <div *ngIf="paymentMethods.length === 0 && !loadingPaymentMethods">
-                <p class="loading text-center mb-0 p-5">
-                    No payment method(s) available
-                </p>
-            </div>
+        <p class="personal-info mt-3">
+          Your personal data will be used to process your order, support your
+          experience throughout this website, and for other purposes described
+          in our privacy policy.
+        </p>
+      </div>
+      <div *ngIf="paymentMethods.length === 0 && !loadingPaymentMethods">
+        <p class="loading text-center mb-0 p-5">
+          No payment method(s) available
+        </p>
+      </div>
 
-            <div *ngIf="loadingPaymentMethods">
-                <p class="loading text-center mb-0 p-5">Loading payment methods...</p>
-            </div>
-        </div>
+      <div *ngIf="loadingPaymentMethods">
+        <p class="loading text-center mb-0 p-5">Loading payment methods...</p>
+      </div>
     </div>
-    <div class="web-only p-4 right-section order-summary-container">
-        <div class="order-summary-bg"></div>
-        <div>
-            <h2>Cart Summary</h2>
-            <div class="mt-3">
-                <p class="uk-flex uk-flex-between">
-                    <span>Subtotal</span>
-                    <span>{{ cart?.subTotal || 0 | currency : "₦" }}</span>
-                </p>
+  </div>
+  <div class="web-only p-4 right-section order-summary-container">
+    <div class="order-summary-bg"></div>
+    <div>
+      <h2>Cart Summary</h2>
+      <div class="mt-3">
+        <p class="uk-flex uk-flex-between">
+          <span>Subtotal</span>
+          <span>{{ cart?.subTotal || 0 | currency: "₦" }}</span>
+        </p>
 
-                <p class="uk-flex uk-flex-between">
-                    <span>Actual Shipping cost</span>
-                    <span>{{ cart?.shippingCost?.cost || 0 | currency : "₦" }}</span>
-                </p>
+        <p class="uk-flex uk-flex-between">
+          <span>Actual Shipping cost</span>
+          <span>{{ cart?.shippingCost?.cost || 0 | currency: "₦" }}</span>
+        </p>
 
-                <p class="uk-flex uk-flex-between">
-                    <span>Shipping Discount</span>
-                    <span>{{ cart?.shippingCost?.discount || 0 | currency : "₦" }}</span>
-                </p>
+        <p class="uk-flex uk-flex-between">
+          <span>Shipping Discount</span>
+          <span>{{ cart?.shippingCost?.discount || 0 | currency: "₦" }}</span>
+        </p>
 
-                <p class="uk-flex uk-flex-between">
-                    <span>Items Discount</span>
-                    <span>{{ cart?.discount || 0 | currency : "₦" }}</span>
-                </p>
+        <p class="uk-flex uk-flex-between">
+          <span>Items Discount</span>
+          <span>{{ cart?.discount || 0 | currency: "₦" }}</span>
+        </p>
 
-                <p class="uk-flex uk-flex-between">
-                    <span>Promo Code</span>
-                    <span>{{ cart?.promoCode || "N/A" }}</span>
-                </p>
+        <p class="uk-flex uk-flex-between">
+          <span>Promo Code</span>
+          <span>{{ cart?.promoCode || "N/A" }}</span>
+        </p>
 
-                <p>
-                    A promo code is a combination of letters (case sensitive) and numbers
-                    without spacing
-                </p>
+        <p>
+          A promo code is a combination of letters (case sensitive) and numbers
+          without spacing
+        </p>
 
-                <div class="w-100 apply-section">
-                    <input placeholder="Enter code here" type="text"/>
-                    <button>Apply</button>
-                </div>
-
-                <div class="uk-flex uk-flex-between">
-                    <p class="big">Total</p>
-                    <p class="big">{{ cart?.totalCost || 0 | currency : "₦" }}</p>
-                </div>
-            </div>
+        <div class="w-100 apply-section">
+          <input placeholder="Enter code here" type="text" />
+          <button>Apply</button>
         </div>
+
+        <div class="uk-flex uk-flex-between">
+          <p class="big">Total</p>
+          <p class="big">{{ cart?.totalCost || 0 | currency: "₦" }}</p>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
