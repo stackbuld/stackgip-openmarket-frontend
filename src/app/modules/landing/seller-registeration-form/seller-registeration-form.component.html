@@ -340,7 +340,9 @@
                 [formControl]="isTermsAndConditionsAgreed"
                 ><span
                   >I agree to
-                  <a id="terms-main">the seller terms and conditions</a></span
+                  <a id="terms-main" [href]="termsAndConditions" target="_blank"
+                    >the seller terms and conditions</a
+                  ></span
                 ></mat-checkbox
               >
             </div>

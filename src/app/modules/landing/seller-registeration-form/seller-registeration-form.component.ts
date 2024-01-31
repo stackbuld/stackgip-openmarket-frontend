@@ -65,6 +65,7 @@ export class SellerRegisterationFormComponent
   states = nigeriaSates.map((a) => a.name.toLowerCase());
 
   isTermsAndConditionsAgreed: FormControl = new FormControl(null);
+  termsAndConditions: string = environment.termsAndConditionsUrl;
 
   constructor(
     private fb: FormBuilder,
