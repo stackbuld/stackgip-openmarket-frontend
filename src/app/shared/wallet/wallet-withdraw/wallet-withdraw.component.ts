@@ -57,7 +57,7 @@ export class WalletWithdrawComponent {
     private dialog: MatDialog,
     private walletService: WalletService,
     private ngxService: NgxUiLoaderService,
-    private otpService: OtpService
+    private otpService: OtpService,
   ) {}
 
   ngOnInit(): void {
@@ -84,7 +84,7 @@ export class WalletWithdrawComponent {
     this.bankDetailsForm.patchValue({
       bankCode: newBankCode,
       bankName: this.bankLists.find(
-        (data) => data?.code?.toString() === newBankCode.toString()
+        (data) => data?.code?.toString() === newBankCode.toString(),
       )?.name,
       accountName: '',
     });
@@ -94,7 +94,7 @@ export class WalletWithdrawComponent {
     this.bankDetailsForm.patchValue({
       bankCode: details.bankCode.toString(),
       bankName: this.bankLists.find(
-        (data) => data.code.toString() === details.bankCode.toString()
+        (data) => data.code.toString() === details.bankCode.toString(),
       ).name,
       accountName: details.accountName,
       accountNumber: details.accountNumber,
@@ -107,21 +107,23 @@ export class WalletWithdrawComponent {
     this.loading = true;
     this.walletService.getBankAccounts().subscribe(
       (res) => {
-        const data = res.data[0];
-        this.bankDetailsForm.patchValue({
-          accountName: data.accountName,
-          accountNumber: data.accountNumber,
-          bankName: data.bankName,
-          bankCode: data.bankCode,
-        });
-        this.loading = false;
-        this.selectedBankDetails = data;
-        this.bankDetails = res.data;
+        if (res.data.length > 0) {
+          const data = res.data[0];
+
+          this.bankDetailsForm.patchValue({
+            accountName: data.accountName,
+            accountNumber: data.accountNumber,
+            bankName: data.bankName,
+            bankCode: data.bankCode,
+          });
+          this.loading = false;
+          this.selectedBankDetails = data;
+          this.bankDetails = res.data;
+        }
       },
       (err) => {
-        console.log(err);
         this.loading = false;
-      }
+      },
     );
   }
 
@@ -131,9 +133,8 @@ export class WalletWithdrawComponent {
         this.bankLists = res.data;
       },
       (err) => {
-        console.log(err);
         this.loading = false;
-      }
+      },
     );
   }
 
@@ -153,9 +154,8 @@ export class WalletWithdrawComponent {
           });
         },
         (err) => {
-          console.log(err);
           this.loading = false;
-        }
+        },
       );
   }
 
@@ -173,7 +173,7 @@ export class WalletWithdrawComponent {
       !this.bankDetails ||
       !this.bankDetails.find(
         (detail: any) =>
-          detail.accountNumber === this.bankDetailsForm.value.accountNumber
+          detail.accountNumber === this.bankDetailsForm.value.accountNumber,
       )
     ) {
       const { bankName, bankCode, accountNumber, accountName } =
@@ -188,7 +188,6 @@ export class WalletWithdrawComponent {
         })
         .subscribe(
           (res) => {
-            console.log(res);
             this.selectedBankDetails = res.data;
             this.walletService.sendOtp().subscribe(
               (res) => {
@@ -197,17 +196,15 @@ export class WalletWithdrawComponent {
                 uikit.modal('#modal-withdrawal').show();
               },
               (err) => {
-                console.log(err);
                 this.withdrawLoading = false;
                 this.ngxService.stopAllLoader('loader-01');
-              }
+              },
             );
           },
           (err) => {
-            console.log(err);
             this.ngxService.stopAllLoader('loader-01');
             this.withdrawLoading = false;
-          }
+          },
         );
     } else {
       this.walletService.sendOtp().subscribe(
@@ -217,10 +214,9 @@ export class WalletWithdrawComponent {
           uikit.modal('#modal-withdrawal').show();
         },
         (err) => {
-          console.log(err);
           this.ngxService.stopAllLoader('loader-01');
           this.withdrawLoading = false;
-        }
+        },
       );
     }
   }
@@ -238,9 +234,7 @@ export class WalletWithdrawComponent {
     }
   }
 
-  handleFillEvent(value: string): void {
-    console.log(value);
-  }
+  handleFillEvent(value: string): void {}
 
   validateAmount() {
     if (
@@ -283,9 +277,8 @@ export class WalletWithdrawComponent {
         (err) => {
           uikit.modal('#modal-withdrawal').hide();
           uikit.modal.alert('Something went wrong. Please try again Later');
-          console.log(err);
           this.withdrawLoading = false;
-        }
+        },
       );
   }
 }
