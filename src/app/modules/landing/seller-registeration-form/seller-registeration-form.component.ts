@@ -262,6 +262,11 @@ export class SellerRegisterationFormComponent
       this.toast.warining('Select an address that shows as you type!');
       return;
     }
+
+    if (this.isBusinessRegistered && this.businessDocuments.length == 0) {
+      this.toast.error('Upload your business documents!');
+      return;
+    }
     const payload = {
       userId: this.user.id,
       businessName: this.sellerRegFormGroup.get('businessName')?.value,
@@ -375,6 +380,12 @@ export class SellerRegisterationFormComponent
 
   onUploadBusinessDocuments() {
     this.uploadBusinessDocuments.open();
+  }
+
+  onRemoveDocument(id: number) {
+    this.businessDocuments = this.businessDocuments.filter(
+      (doc, index) => index != id,
+    );
   }
 
   setBusinessCategoryValidators() {
