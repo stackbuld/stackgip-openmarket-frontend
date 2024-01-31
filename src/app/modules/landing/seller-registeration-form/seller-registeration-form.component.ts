@@ -66,6 +66,8 @@ export class SellerRegisterationFormComponent
 
   isTermsAndConditionsAgreed: FormControl = new FormControl(null);
   termsAndConditions: string = environment.termsAndConditionsUrl;
+  uploadBusinessDocuments!: any;
+  businessDocuments: { fileName: string; url: string }[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -125,6 +127,22 @@ export class SellerRegisterationFormComponent
       },
     );
 
+    this.uploadBusinessDocuments = cloudinary.createUploadWidget(
+      {
+        cloudName: environment.cloudinaryName,
+        uploadPreset: environment.cloudinaryUploadPerset,
+        clientAllowedFormats: ['jpeg', 'jpg', 'png'],
+      },
+      (error, result) => {
+        if (!error && result && result.event === 'success') {
+          const fileName = result.info.original_filename;
+          const url = result.info.secure_url;
+          const businessDocumentObject = { fileName: fileName, url: url };
+          this.businessDocuments.push(businessDocumentObject);
+        }
+      },
+    );
+
     this.sellerRegFormGroup
       .get('businessAddress')
       .valueChanges.subscribe((value) => {
@@ -132,6 +150,18 @@ export class SellerRegisterationFormComponent
           this.googleAddressSelected = false;
         }
       });
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.sellerRegFormGroup.get('isBusinessRegistered')?.value == false) {
+      this.sellerRegFormGroup.get('businessRegistrationNumber')?.disable();
+    } else {
+      this.sellerRegFormGroup.get('businessRegistrationNumber')?.enable();
+    }
+
+    // if (this.imageName) {
+    //   this.sellerRegFormGroup.get("businessLogo").setValue(this.imageName);
+    // }
   }
 
   back = () => {
@@ -208,18 +238,6 @@ export class SellerRegisterationFormComponent
   // get registerationStatus() {
   //   return this.componentForm.get("registerationStatus").value;
   // }
-
-  ngAfterViewChecked(): void {
-    if (this.sellerRegFormGroup.get('isBusinessRegistered')?.value == false) {
-      this.sellerRegFormGroup.get('businessRegistrationNumber')?.disable();
-    } else {
-      this.sellerRegFormGroup.get('businessRegistrationNumber')?.enable();
-    }
-
-    // if (this.imageName) {
-    //   this.sellerRegFormGroup.get("businessLogo").setValue(this.imageName);
-    // }
-  }
 
   openModalForMe() {
     this.authService.showSharedSignupModal();
@@ -355,10 +373,8 @@ export class SellerRegisterationFormComponent
     this.uploadID.open();
   }
 
-  ngOnDestroy(): void {
-    if (this.regSeller$) {
-      this.regSeller$.unsubscribe();
-    }
+  onUploadBusinessDocuments() {
+    this.uploadBusinessDocuments.open();
   }
 
   setBusinessCategoryValidators() {
@@ -391,5 +407,11 @@ export class SellerRegisterationFormComponent
         // businessApplicantAddressControl.updateValueAndValidity();
         // businessAddressLandmarkControl.updateValueAndValidity();
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.regSeller$) {
+      this.regSeller$.unsubscribe();
+    }
   }
 }

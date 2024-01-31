@@ -86,8 +86,8 @@
               </p>
               <a routerLink="/seller/dashboard"> Visit store </a>
               <!-- <a routerLink="/homepage/seller-store/{{ user.id }}">
-                                                                                                                                Visit store
-                                                                                                                              </a> -->
+																																										  Visit store
+																																										</a> -->
             </div>
 
             <!-- Approved -->
@@ -213,15 +213,6 @@
                   type="text"
                 />
               </mat-form-field>
-
-              <!-- <div (click)="upload()" class="border-form mb-30 d-flex justify-content-center align-items-center"
-                                                                                                                                     [ngClass]="isBusinessRegistered == false ? 'mb-md-25' : 'w-40'">
-                                                                                                                                  <div *ngIf="!imageName" class="d-flex justify-content-center align-items-center px-8"> Upload Business Logo*
-                                                                                                                                  </div>
-                                                                                                                                  <div *ngIf="imageName" class="d-flex justify-content-center align-items-center px-8">
-                                                                                                                                    <span  class="upload-text">uploaded -{{imageName}}</span>
-                                                                                                                                  </div>
-                                                                                                                                </div> -->
             </div>
 
             <div class="d-flex">
@@ -239,11 +230,36 @@
                   matInput
                 ></textarea>
               </mat-form-field>
+            </div>
 
-              <!-- <mat-form-field appearance="outline" class="form-group w-40">
-                                                                                                                                  <mat-label>Business Type</mat-label>
-                                                                                                                                  <input type="text" matInput formControlName="businessType" />
-                                                                                                                                </mat-form-field> -->
+            <div class="upload-documents" *ngIf="isBusinessRegistered == true">
+              <div
+                class="border-form w-40 mb-30 w-100 d-flex justify-content-center align-items-center"
+              >
+                <div
+                  (click)="onUploadBusinessDocuments()"
+                  class="d-flex justify-content-center align-items-center px-8"
+                >
+                  Upload Business Documents*
+                </div>
+              </div>
+              <div
+                class="uploaded-documents"
+                *ngIf="businessDocuments.length > 0"
+              >
+                <h3>Uploaded business documents</h3>
+                <div
+                  class="uploaded-documents-main d-flex justify-content-between align-items-center p-2"
+                  style="padding-left: 0"
+                  *ngFor="let document of businessDocuments"
+                >
+                  <span>{{ document.fileName }}</span>
+                  <i
+                    class="fa fa-times"
+                    style="cursor: pointer; font-size: 18px"
+                  ></i>
+                </div>
+              </div>
             </div>
 
             <!-- For registered business only -->
