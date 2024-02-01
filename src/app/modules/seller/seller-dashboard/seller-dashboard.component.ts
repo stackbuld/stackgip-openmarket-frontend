@@ -12,13 +12,21 @@ export class SellerDashboardComponent implements OnInit {
   loadingSummary: boolean;
   loading: boolean;
   dashboardData: any;
-  mostSelling = [];
+  mostSelling: {
+    productId: string;
+    name: string;
+    imageUrl: string;
+    unit: number;
+    category: string;
+    unitSold: number;
+    revenue: number;
+  }[] = [];
   user: any;
   userDetails: any;
 
   constructor(
     private dashboardService: DashboardService,
-    private userService: UserService
+    private userService: UserService,
   ) {}
 
   ngOnInit(): void {
