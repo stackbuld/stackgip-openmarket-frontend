@@ -55,7 +55,7 @@ export class SellerRegisterationFormComponent
   user: any;
   sellerApprovalStatus: string = '';
   rejectionReason: string = '';
-  options = {
+  options: any = {
     types: ['address'],
     componentRestrictions: { country: 'NG' },
   };
