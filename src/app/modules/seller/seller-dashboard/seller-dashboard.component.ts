@@ -64,7 +64,6 @@ export class SellerDashboardComponent implements OnInit {
       next: (res) => {
         this.mostSelling = res.data;
         this.loading = false;
-        console.log(res);
       },
       error: (err) => {
         this.loading = false;
