@@ -88,7 +88,7 @@ export class ProductListComponent implements OnInit {
     private cityService: CityService,
     private stateService: StateService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -307,7 +307,7 @@ export class ProductListComponent implements OnInit {
         this.cityName,
         this.stateName,
         this.minValue,
-        this.maxValue
+        this.maxValue,
       )
       .subscribe({
         next: (data) => {

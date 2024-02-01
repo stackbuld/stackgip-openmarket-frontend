@@ -267,6 +267,11 @@ export class SellerRegisterationFormComponent
       this.toast.error('Upload your business documents!');
       return;
     }
+
+    const newBusinessDocuments = this.businessDocuments.map((document) => {
+      return { documentUrl: document.url };
+    });
+
     const payload = {
       userId: this.user.id,
       businessName: this.sellerRegFormGroup.get('businessName')?.value,
@@ -294,6 +299,7 @@ export class SellerRegisterationFormComponent
           idUrl: this.imageID,
         }),
       },
+      businessDocuments: [...newBusinessDocuments],
     };
 
     if (

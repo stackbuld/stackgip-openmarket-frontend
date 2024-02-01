@@ -153,7 +153,7 @@
             <div *ngIf="!loadingCategories">
               <div
                 *ngFor="
-                  let category of categories | slice : 0 : categoryListLimit;
+                  let category of categories | slice: 0 : categoryListLimit;
                   let i = index
                 "
                 class="mobile-item"
@@ -273,7 +273,7 @@
             <div *ngIf="!loadingCities">
               <div
                 *ngFor="
-                  let city of cities | slice : 0 : cityListLimit;
+                  let city of cities | slice: 0 : cityListLimit;
                   let i = index
                 "
                 class="mobile-item"
@@ -390,7 +390,7 @@
             <div *ngIf="!loadingStates">
               <div
                 *ngFor="
-                  let state of states | slice : 0 : stateListLimit;
+                  let state of states | slice: 0 : stateListLimit;
                   let i = index
                 "
                 class="mobile-item"
@@ -454,8 +454,8 @@
     <div
       class="left-section"
       [ngStyle]="{
-      'position': storefrontSellerId ? 'static' : 'fixed',
-    }"
+        position: storefrontSellerId ? 'static' : 'fixed'
+      }"
     >
       <div class="p-2">
         <div class="d-flex align-items-center justify-content-between">
@@ -515,7 +515,7 @@
         <div *ngIf="!loadingCategories">
           <div
             *ngFor="
-              let category of categories | slice : 0 : categoryListLimit;
+              let category of categories | slice: 0 : categoryListLimit;
               let i = index
             "
           >
@@ -618,7 +618,7 @@
         <div *ngIf="!loadingCities">
           <div
             *ngFor="
-              let city of cities | slice : 0 : cityListLimit;
+              let city of cities | slice: 0 : cityListLimit;
               let i = index
             "
           >
@@ -716,7 +716,7 @@
         <div *ngIf="!loadingStates">
           <div
             *ngFor="
-              let state of states | slice : 0 : stateListLimit;
+              let state of states | slice: 0 : stateListLimit;
               let i = index
             "
           >
