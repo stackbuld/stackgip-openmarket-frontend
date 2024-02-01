@@ -86,7 +86,6 @@ export class SellerRegisterationFormComponent
     this.authService.isLogin.subscribe((a) => {
       if (a) {
         this.user = JSON.parse(localStorage.getItem('user')) as IUser;
-        console.log('USER IN SELLER FORM', this.user);
       }
     });
 
@@ -199,7 +198,6 @@ export class SellerRegisterationFormComponent
           this.router.navigate(['/seller/dashboard']);
         }
 
-        console.log('SELLER DATA', sellerData);
         this.sellerRegFormGroup.patchValue(sellerData);
         this.sellerRegFormGroup.patchValue({
           lga: sellerData.userLga,
@@ -267,6 +265,11 @@ export class SellerRegisterationFormComponent
       this.toast.error('Upload your business documents!');
       return;
     }
+
+    const newBusinessDocuments = this.businessDocuments.map((document) => {
+      return { documentUrl: document.url };
+    });
+
     const payload = {
       userId: this.user.id,
       businessName: this.sellerRegFormGroup.get('businessName')?.value,
@@ -294,6 +297,7 @@ export class SellerRegisterationFormComponent
           idUrl: this.imageID,
         }),
       },
+      businessDocuments: [...newBusinessDocuments],
     };
 
     if (

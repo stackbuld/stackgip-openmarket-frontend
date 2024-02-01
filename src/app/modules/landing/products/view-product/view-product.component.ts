@@ -32,7 +32,7 @@ export class ViewProductComponent implements OnInit {
     private toastservice: ToastrService,
     private router: Router,
     private productService: ProductsService,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +53,6 @@ export class ViewProductComponent implements OnInit {
       next: (res) => {
         if (res.status === 'success') {
           this.loading = false;
-
           this.product = res.data;
           this.videoUrls = res.data.videoUrls;
           this.previewImg = this.product.productImages[0];
@@ -133,7 +132,7 @@ export class ViewProductComponent implements OnInit {
     if (unit >= 0) {
       uikit.modal
         .confirm(
-          `Are you sure you want to update <strong>${product.name}</strong> unit ?`
+          `Are you sure you want to update <strong>${product.name}</strong> unit ?`,
         )
         .then(
           () => {
@@ -157,7 +156,7 @@ export class ViewProductComponent implements OnInit {
           (err) => {
             this.loading = false;
             this.toastservice.error(err.message);
-          }
+          },
         );
     } else {
       this.toastservice.error(`Prouct Unit is already zero.`);
@@ -182,7 +181,7 @@ export class ViewProductComponent implements OnInit {
       (err) => {
         this.loading = false;
         this.toastservice.error(err.message);
-      }
+      },
     );
   }
 

@@ -191,7 +191,7 @@
           />
         </div>
         <p *ngIf="!loadingSummary" class="firstCard-num">
-          {{ dashboardData?.sales | currency : "₦" }}
+          {{ dashboardData?.sales | currency: "₦" }}
         </p>
         <div class="firstCard-text">Total sales</div>
       </div>
@@ -246,10 +246,17 @@
             <div class="productDetails">
               <div class="productDesc">
                 <p class="table-data-desc">{{ item?.name }}</p>
-                <p class="table-data-unit">{{ item?.unit }} units left</p>
+                <p class="table-data-unit">
+                  {{
+                    item?.unit - item?.unitSold < 1
+                      ? "0"
+                      : item?.unit - item?.unitSold
+                  }}
+                  unit{{ item?.unit - item?.unitSold < 2 ? "" : "s" }} left
+                </p>
               </div>
               <div class="totalAmt">
-                <p>{{ item?.revenue | currency : "₦" }}</p>
+                <p>{{ item?.revenue | currency: "₦" }}</p>
               </div>
               <div class="unitSold">
                 <p class="mb-0">{{ item?.unitSold }} units sold</p>
