@@ -23,6 +23,8 @@ import { SellerStorefrontComponent } from './seller-storefront/seller-storefront
 import { HomePageComponent } from './home-page/home-page.component';
 import { RequestRefundModalComponent } from './order-details/request-refund-modal/request-refund-modal.component';
 import { MAT_SELECT_CONFIG } from '@angular/material/select';
+import { ProductDeleteModalComponent } from './product-checkout/product-delete-modal/product-delete-modal.component';
+import { SingleProductAddressDialogComponent } from './single-product/single-product-address-dialog/single-product-address-dialog.component';
 
 // import { register } from 'swiper/element/bundle';
 // register();
@@ -38,6 +40,8 @@ import { MAT_SELECT_CONFIG } from '@angular/material/select';
     SellerStorefrontComponent,
     HomePageComponent,
     RequestRefundModalComponent,
+    ProductDeleteModalComponent,
+    SingleProductAddressDialogComponent,
   ],
   imports: [
     CommonModule,

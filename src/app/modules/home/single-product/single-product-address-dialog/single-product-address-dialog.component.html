@@ -1,0 +1,271 @@
+<!--<div id="information-modal" >-->
+<!--        <div class="uk-flex uk-flex-between">-->
+<!--            <h2 class="uk-modal-title mb-0">-->
+<!--                Enter Your Address for Nearby Store Options-->
+<!--            </h2>-->
+
+<!--            <svg-->
+<!--                    class="pointer uk-modal-close"-->
+<!--                    fill="none"-->
+<!--                    height="22"-->
+<!--                    viewBox="0 0 22 22"-->
+<!--                    width="22"-->
+<!--                    xmlns="http://www.w3.org/2000/svg"-->
+<!--            >-->
+<!--                <path-->
+<!--                        d="M16.501 5.50024L5.50098 16.5002"-->
+<!--                        stroke="#979797"-->
+<!--                        stroke-linecap="round"-->
+<!--                        stroke-linejoin="round"-->
+<!--                        stroke-width="2.5"-->
+<!--                />-->
+<!--                <path-->
+<!--                        d="M5.50098 5.50024L16.501 16.5002"-->
+<!--                        stroke="#979797"-->
+<!--                        stroke-linecap="round"-->
+<!--                        stroke-linejoin="round"-->
+<!--                        stroke-width="2.5"-->
+<!--                />-->
+<!--            </svg>-->
+<!--        </div>-->
+
+<!--        <p style="margin-top: 10px">-->
+<!--            Please fill in your address to find the closest store for faster and more-->
+<!--            affordable delivery-->
+<!--        </p>-->
+<!--        <div class="mt-4">-->
+<!--      <span-->
+<!--              (click)="toggleSocialModal()"-->
+<!--              *ngIf="user === null"-->
+<!--              class="select-existing"-->
+<!--      >-->
+<!--        Log In to Use Your Previously Saved Address-->
+<!--      </span>-->
+<!--            <span-->
+<!--                    (click)="isInformation = false"-->
+<!--                    *ngIf="user !== null"-->
+<!--                    class="select-existing"-->
+<!--            >-->
+<!--        Click Here To Use Your Previously Saved Address-->
+<!--      </span>-->
+<!--            <form [formGroup]="addressForm" class="mt-3">-->
+<!--                <div class="form-group">-->
+<!--                    <label for="address">Receiver Address</label>-->
+<!--                    <input-->
+<!--                        #placesRef="ngx-places"-->
+<!--                        #placesValue-->
+<!--                        (onAddressChange)="handleAddressChange($event)"-->
+<!--                        [options]="options"-->
+<!--                        autocomplete="off"-->
+<!--                        class="w-100 input-field"-->
+<!--                        formControlName="fullAddress"-->
+<!--                        id="address"-->
+<!--                        ngx-google-places-autocomplete-->
+<!--                        placeholder="Select delivery location"-->
+<!--                        type="text"-->
+<!--                    />-->
+<!--                    <p class="address-prompt">-->
+<!--                        Choose your address from the list that appears as you type-->
+<!--                    </p>-->
+<!--                </div>-->
+
+<!--                <div class="form-group">-->
+<!--                    <label for="firstName">Receiver First Name</label>-->
+<!--                    <input-->
+<!--                            class="w-100 input-field"-->
+<!--                            formControlName="firstname"-->
+<!--                            id="firstName"-->
+<!--                            type="text"-->
+<!--                    />-->
+<!--                </div>-->
+
+<!--                <div class="form-group">-->
+<!--                    <label for="lastName">Receiver Last Name</label>-->
+<!--                    <input-->
+<!--                            class="w-100 input-field"-->
+<!--                            formControlName="lastname"-->
+<!--                            id="lastName"-->
+<!--                            type="text"-->
+<!--                    />-->
+<!--                </div>-->
+
+<!--                <div class="form-group contact-inputs">-->
+<!--                    <label for="phone">Phone Number</label>-->
+<!--                    <div class="contact-inputs">-->
+<!--                        <input-->
+<!--                                class="w-100 input-field"-->
+<!--                                formControlName="contactPhoneNumber"-->
+<!--                                id="phone"-->
+<!--                                placeholder="8023434567"-->
+<!--                                type="tel"-->
+<!--                        />-->
+
+<!--                        <div class="country-code" matPrefix>-->
+<!--                            <mat-select-->
+<!--                                    (change)="changeOption($event)"-->
+<!--                                    class="my-mat-select"-->
+<!--                                    formControlName="countryCode"-->
+<!--                            >-->
+<!--                                <mat-select-trigger class="country-code-text">-->
+<!--                                    {{ formControls.countryCode.value }}-->
+<!--                                </mat-select-trigger>-->
+<!--                                <mat-option-->
+<!--                                        *ngFor="let country of countryInfo"-->
+<!--                                        [value]="country.phoneCode"-->
+<!--                                >-->
+<!--                                    <img [src]="country.flag" alt="" height="25px" width="25px"/>-->
+<!--                                    <span-->
+<!--                                            style="font-size: 14px; margin-left: 7px; font-weight: bold"-->
+<!--                                    >{{ country.countryName }}-->
+<!--                  </span>-->
+<!--                                    <span style="font-size: 14px">-->
+<!--                    {{ country.phoneCode }}-->
+<!--                  </span>-->
+<!--                                </mat-option>-->
+<!--                            </mat-select>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <button-->
+<!--                        (click)="applyAddress()"-->
+<!--                        [ngClass]="{-->
+<!--            greyed: addressForm.invalid || !isGoogleAddressSelected-->
+<!--          }"-->
+<!--                        class="w-100 apply-btn"-->
+<!--                >-->
+<!--          <span *ngIf="!loadingAddress">{{-->
+<!--                  isEditingAddress ? "Save Changes" : "Apply"-->
+<!--              }}</span>-->
+<!--                    <span *ngIf="loadingAddress">Loading...</span>-->
+<!--                </button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div *ngIf="!isInformation" class="uk-modal-dialog uk-modal-body">-->
+<!--        <div class="uk-flex uk-flex-between">-->
+<!--            <div class="uk-flex">-->
+<!--                <svg-->
+<!--                        (click)="onEditAddress()"-->
+<!--                        class="pointer"-->
+<!--                        fill="none"-->
+<!--                        height="25"-->
+<!--                        viewBox="0 0 26 25"-->
+<!--                        width="26"-->
+<!--                        xmlns="http://www.w3.org/2000/svg"-->
+<!--                >-->
+<!--                    <path-->
+<!--                            d="M20.0738 12.5H5.2832"-->
+<!--                            stroke="black"-->
+<!--                            stroke-linecap="round"-->
+<!--                            stroke-linejoin="round"-->
+<!--                            stroke-width="1.37056"-->
+<!--                    />-->
+<!--                    <path-->
+<!--                            d="M12.6785 19.496L5.2832 12.5004L12.6785 5.50488"-->
+<!--                            stroke="black"-->
+<!--                            stroke-linecap="round"-->
+<!--                            stroke-linejoin="round"-->
+<!--                            stroke-width="1.37056"-->
+<!--                    />-->
+<!--                </svg>-->
+<!--                &nbsp;-->
+<!--                <h2 class="uk-modal-title mb-0">Delivery Location</h2>-->
+<!--            </div>-->
+<!--            <svg-->
+<!--                    class="pointer uk-modal-close"-->
+<!--                    fill="none"-->
+<!--                    height="22"-->
+<!--                    viewBox="0 0 22 22"-->
+<!--                    width="22"-->
+<!--                    xmlns="http://www.w3.org/2000/svg"-->
+<!--            >-->
+<!--                <path-->
+<!--                        d="M16.501 5.50024L5.50098 16.5002"-->
+<!--                        stroke="#979797"-->
+<!--                        stroke-linecap="round"-->
+<!--                        stroke-linejoin="round"-->
+<!--                        stroke-width="2.5"-->
+<!--                />-->
+<!--                <path-->
+<!--                        d="M5.50098 5.50024L16.501 16.5002"-->
+<!--                        stroke="#979797"-->
+<!--                        stroke-linecap="round"-->
+<!--                        stroke-linejoin="round"-->
+<!--                        stroke-width="2.5"-->
+<!--                />-->
+<!--            </svg>-->
+<!--        </div>-->
+<!--        <div *ngIf="addresses.length > 0">-->
+<!--            <div *ngFor="let item of addresses" class="mt-4">-->
+<!--                <div class="each-address">-->
+<!--                    <label-->
+<!--                            (click)="setSelectedAddress(item)"-->
+<!--                            class="p-3 w-100 pointer flex-center"-->
+<!--                    >-->
+<!--                        <p class="mb-0 w-80" style="word-break: break-word">-->
+<!--              <span class="address-name"-->
+<!--              >{{ item?.firstname || "N/A" }}-->
+<!--                  {{ item?.lastname || "N/A" }}</span-->
+<!--              >-->
+<!--                            <br/>-->
+<!--                            <span>{{ item?.fullAddress || "N/A" }}</span> <br/>-->
+<!--                            <span>{{ item?.city || "N/A" }}, {{ item?.state || "N/A" }}</span>-->
+<!--                            <br/>-->
+<!--                            <span>{{ item?.contactPhoneNumber || "N/A" }}</span>-->
+<!--                        </p>-->
+<!--                        <div class="w-20 d-flex justify-content-end">-->
+<!--                            <input [checked]="item?.isSelected" name="address" type="radio"/>-->
+<!--                        </div>-->
+<!--                    </label>-->
+<!--                    <div class="actions-top">-->
+<!--                        <div>-->
+<!--              <span *ngIf="item.isDefault" class="isDefault">-->
+<!--                Default Address-->
+<!--              </span>-->
+<!--                            <span-->
+<!--                                    (click)="setDefaultAddress(item)"-->
+<!--                                    *ngIf="!item.isDefault"-->
+<!--                                    class="default-txt"-->
+<!--                            >Set as Default-->
+<!--              </span>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--              <span-->
+<!--                      (click)="deleteAddress(item?.id)"-->
+<!--                      *ngIf="!deletingAddress"-->
+<!--                      class="delete-add"-->
+<!--              >Delete</span-->
+<!--              >-->
+<!--                            <span-->
+<!--                                    *ngIf="deletingAddress && deleteId === item?.id"-->
+<!--                                    class="default-txt"-->
+<!--                            >Deleting...</span-->
+<!--                            >-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="pointer my-3">-->
+<!--                <span (click)="onAddNewAddress()"> + Add Address </span>-->
+<!--            </div>-->
+
+<!--            <div class="w-100 mt-4 col-12">-->
+<!--                <button (click)="setCurrentAddress()" class="w-100 apply-btn">-->
+<!--                    Apply-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div *ngIf="addresses.length === 0">-->
+<!--            <div class="pointer my-3">-->
+<!--                <span (click)="onAddNewAddress()"> + Add Address </span>-->
+<!--            </div>-->
+
+<!--            <div class="p-5">-->
+<!--                <p class="text-center loading">No Address available</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->

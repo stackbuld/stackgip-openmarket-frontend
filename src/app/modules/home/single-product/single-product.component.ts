@@ -5,42 +5,42 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ProductsService} from 'src/app/services/products/products.service';
-import {Address} from 'ngx-google-places-autocomplete/objects/address';
-import {GooglePlaceDirective} from 'ngx-google-places-autocomplete';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserService} from 'src/app/services/user/user.service';
-import {ToastrService} from 'ngx-toastr';
-import {AppLocalStorage} from 'src/app/helpers/local-storage';
-import {ImageResolutionUtility} from 'src/app/helpers/image-resolution.utility';
-import {AuthService} from 'src/app/services/auth.service';
-import {IUser, UserAddressData} from '../../../models/IUserModel';
-import {CartService} from '../../../services/cart/cart.service';
-import {CartAddress, SellerStores} from '../../../models/StoreModels';
-import {WebsocketService} from '../../../services/websocket';
-import {AddToCartRequestModel} from '../../../services/cart/model/add-cart-model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProductsService } from 'src/app/services/products/products.service';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user/user.service';
+import { ToastrService } from 'ngx-toastr';
+import { AppLocalStorage } from 'src/app/helpers/local-storage';
+import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
+import { AuthService } from 'src/app/services/auth.service';
+import { IUser, UserAddressData } from '../../../models/IUserModel';
+import { CartService } from '../../../services/cart/cart.service';
+import { CartAddress, SellerStores } from '../../../models/StoreModels';
+import { WebsocketService } from '../../../services/websocket';
+import { AddToCartRequestModel } from '../../../services/cart/model/add-cart-model';
 import {
   GetShippingEstimatePrice,
   GetShippingPriceEstimateData,
   GetShippingPriceEstimateRequest,
 } from '../../../services/cart/model/logistic.model';
-import {NotificationResponseModel} from '../../../models/notificationResponse.model';
+import { NotificationResponseModel } from '../../../models/notificationResponse.model';
 import * as lodash from 'lodash';
 import * as cryptoJs from 'crypto-js';
-import {FooterService} from 'src/app/services/footer.service';
-import {WebSocketSubject} from 'rxjs/webSocket';
-import {BehaviorSubject} from 'rxjs';
-import {take} from 'rxjs/operators';
-import {WindowRefService} from '../../../shared/services/window.service';
+import { FooterService } from 'src/app/services/footer.service';
+import { WebSocketSubject } from 'rxjs/webSocket';
+import { BehaviorSubject } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { WindowRefService } from '../../../shared/services/window.service';
 import uikit from 'uikit';
 
-import {CountryService} from 'src/app/services/country/country.service';
-import {CountryInfo} from 'src/app/models/country.model';
-import {SellerStoreLocationService} from 'src/app/services/cart/seller-store.service';
-import {SearchService} from 'src/app/services/search/search.service';
-import {DeliveryAddressService} from 'src/app/services/cart/delivery-address.service';
-import {MetaService} from 'src/app/shared/services/meta.service';
+import { CountryService } from 'src/app/services/country/country.service';
+import { CountryInfo } from 'src/app/models/country.model';
+import { SellerStoreLocationService } from 'src/app/services/cart/seller-store.service';
+import { SearchService } from 'src/app/services/search/search.service';
+import { DeliveryAddressService } from 'src/app/services/cart/delivery-address.service';
+import { MetaService } from 'src/app/shared/services/meta.service';
 
 @Component({
   selector: 'app-single-product',
@@ -90,10 +90,10 @@ export class SingleProductComponent implements OnInit {
 
   requestId = '';
   @ViewChild('placesRef') placesRef: GooglePlaceDirective;
-  @ViewChild('placesRef', {static: false}) placesValue: ElementRef;
+  @ViewChild('placesRef', { static: false }) placesValue: ElementRef;
   options: any = {
     types: ['address'],
-    componentRestrictions: {country: 'NG'},
+    componentRestrictions: { country: 'NG' },
   };
   socket$: WebSocketSubject<NotificationResponseModel>;
   isColorMenuOpened: boolean = false;
@@ -140,6 +140,7 @@ export class SingleProductComponent implements OnInit {
 
   sliderMedia: { isVideo: boolean; url: string }[] = [];
   videoUrls: string[] = [];
+  isTimeLate: boolean = false;
 
   constructor(
     private toastService: ToastrService,
@@ -156,27 +157,20 @@ export class SingleProductComponent implements OnInit {
     private countryService: CountryService,
     private sellerStoreLocationService: SellerStoreLocationService,
     private searchService: SearchService,
-    private deliverAddressService: DeliveryAddressService,
+    private deliveryAddressService: DeliveryAddressService,
     private ngZone: NgZone,
-    private metaService: MetaService
-  ) {
-  }
+    private metaService: MetaService,
+  ) {}
 
   get formControls() {
     return this.addressForm.controls;
   }
 
   ngOnInit() {
-    this.deliverAddressService.getCurrentLocation();
-    this.deliverAddressService.deliveryAddress
-      .pipe(take(1))
-      .subscribe((address) => {
-        this.addressForm.get('fullAddress').setValue(address);
-        this.handleAddressChange(address);
-      });
+    this.deliveryAddressService.getCurrentLocation();
 
     this.currentShippingMethod = new BehaviorSubject<GetShippingEstimatePrice>(
-      null
+      null,
     );
 
     this.currentShippingMethod.next(this.defaultShipping);
@@ -234,12 +228,30 @@ export class SingleProductComponent implements OnInit {
         this.isGoogleAddressSelected = false;
       }
     });
+
+    this.isTimeLate = this.getIfTimeLate();
+  }
+
+  getIfTimeLate(): boolean {
+    const currentTime = new Date();
+    const twoPM = new Date();
+
+    twoPM.setHours(14, 0, 0, 0);
+
+    return currentTime.getTime() > twoPM.getTime();
+  }
+
+  onUseCurrentAddress() {
+    this.deliveryAddressService.deliveryAddress.subscribe((address) => {
+      this.addressForm.get('fullAddress').setValue(address);
+      this.handleAddressChange(address);
+    });
   }
 
   setUserAddress() {
     if (localStorage.getItem('shippingAddress')) {
       const address = JSON.parse(
-        localStorage.getItem('shippingAddress') as string
+        localStorage.getItem('shippingAddress') as string,
       );
 
       this.currentAddress = address;
@@ -270,7 +282,7 @@ export class SingleProductComponent implements OnInit {
   }
 
   processRealTimeShippingPrice(
-    notificationResponse: NotificationResponseModel
+    notificationResponse: NotificationResponseModel,
   ) {
     if (notificationResponse.requestId === this.requestId) {
       if (
@@ -284,7 +296,7 @@ export class SingleProductComponent implements OnInit {
         const shippingData =
           notificationResponse.data as GetShippingPriceEstimateData[];
         const shippingEsitmateData = shippingData.flatMap(
-          (a) => a.estimatePrices
+          (a) => a.estimatePrices,
         );
         const hasSelected = this.shippingMethods.some((a) => a.isSelected);
         if (hasSelected) {
@@ -308,13 +320,13 @@ export class SingleProductComponent implements OnInit {
         this.loadingShippingStatus = 'in_progress';
         const data = notificationResponse.data as GetShippingEstimatePrice;
         const findExisting = this.shippingMethods.find(
-          (a) => a.logisticCode === data.logisticCode
+          (a) => a.logisticCode === data.logisticCode,
         );
         if (findExisting) {
           data.isSelected = findExisting.isSelected;
           lodash.remove(
             this.shippingMethods,
-            (a) => a.logisticCode === findExisting.logisticCode
+            (a) => a.logisticCode === findExisting.logisticCode,
           );
           this.shippingMethods.push(data);
         } else {
@@ -338,6 +350,7 @@ export class SingleProductComponent implements OnInit {
 
   viewProduct = (id: any) => {
     this.isLoadingDetails = true;
+    this.addingItemToCart = false;
     this.router.navigate(['/homepage/product', id]);
     this.complimentaryProductsList = [];
     this.productImages = [];
@@ -350,6 +363,7 @@ export class SingleProductComponent implements OnInit {
     this.currentShippingMethod.subscribe();
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+    this.isTimeLate = this.getIfTimeLate();
   };
 
   populateAddressForm = (data: any) => {
@@ -391,7 +405,7 @@ export class SingleProductComponent implements OnInit {
   };
 
   changeOption(e: any) {
-    this.addressForm.patchValue({countryCode: e.target.value});
+    this.addressForm.patchValue({ countryCode: e.target.value });
   }
 
   getParams = () => {
@@ -415,12 +429,13 @@ export class SingleProductComponent implements OnInit {
     this.loading = true;
     this.loadingProductDescription = true;
     const productService$ = this.productService.getCachedProductById(
-      this.productId
+      this.productId,
     );
     productService$.subscribe({
       next: (res) => {
         this.isLoadingDetails = false;
         this.product = res.data;
+        console.log(res);
         this.loadingProductDescription = false;
         this.sellerStores = res.data?.sellerStores;
 
@@ -431,13 +446,13 @@ export class SingleProductComponent implements OnInit {
         }
 
         this.product.productImages.forEach((image) => {
-          this.productImages.push({image: image});
-          this.sliderMedia.push({isVideo: false, url: image});
+          this.productImages.push({ image: image });
+          this.sliderMedia.push({ isVideo: false, url: image });
         });
         this.videoUrls = this.product.videoUrls;
         if (this.product.videoUrls) {
           this.product.videoUrls.forEach((video) => {
-            this.sliderMedia.unshift({isVideo: true, url: video});
+            this.sliderMedia.unshift({ isVideo: true, url: video });
           });
         }
 
@@ -485,16 +500,16 @@ export class SingleProductComponent implements OnInit {
 
   setSelectedVariation = (item: any) => {
     const matchingItem = this.allVariationsList.find(
-      (element) => element.id === item.id
+      (element) => element.id === item.id,
     );
 
     if (matchingItem) {
       const matchingIndex = this.selectedVariations.findIndex(
-        (selected) => selected.id === item.id
+        (selected) => selected.id === item.id,
       );
 
       const matchingTitleIndex = this.selectedVariations.findIndex(
-        (selected) => selected.title === item.title
+        (selected) => selected.title === item.title,
       );
 
       if (matchingIndex >= 0) {
@@ -534,7 +549,7 @@ export class SingleProductComponent implements OnInit {
           element.isSelected = false;
           this.selectedComplementaryProducts = this.deleteSelectedItem(
             this.selectedComplementaryProducts,
-            element.id
+            element.id,
           );
         }
       }
@@ -543,7 +558,7 @@ export class SingleProductComponent implements OnInit {
 
   deleteSelectedItem = (
     arr: { id: string }[],
-    idToDelete: string
+    idToDelete: string,
   ): { id: string }[] => {
     const index = arr.findIndex((obj) => obj.id === idToDelete);
     if (index === -1) return arr; // If object with the specified id not found, return the original array
@@ -587,16 +602,15 @@ export class SingleProductComponent implements OnInit {
       '',
       this.product.categoryId,
       1,
-      5000000
+      5000000,
     );
     productService$.subscribe(
       (products) => {
         this.products = products.data.data.filter(
-          (product) => product.id !== this.productId
+          (product) => product.id !== this.productId,
         );
       },
-      (error) => {
-      }
+      (error) => {},
     );
   };
 
@@ -616,11 +630,11 @@ export class SingleProductComponent implements OnInit {
       element.isSelected = false;
       if (
         element.startingPrice ===
-        this.currentShippingMethod.value.startingPrice &&
+          this.currentShippingMethod.value.startingPrice &&
         element.logisticName ===
-        this.currentShippingMethod.value.logisticName &&
+          this.currentShippingMethod.value.logisticName &&
         element.logisticLogoUrl ===
-        this.currentShippingMethod.value.logisticLogoUrl
+          this.currentShippingMethod.value.logisticLogoUrl
       ) {
         element.isSelected = true;
       }
@@ -640,7 +654,7 @@ export class SingleProductComponent implements OnInit {
     this.isInformation = true;
     this.isEditingAddress = false;
     this.addressForm.reset();
-    this.addressForm.patchValue({countryCode: '+234'});
+    this.addressForm.patchValue({ countryCode: '+234' });
   }
 
   setCurrentAddress = () => {
@@ -658,7 +672,7 @@ export class SingleProductComponent implements OnInit {
     document.getElementById('closeAddressFormDialog').click();
     localStorage.setItem(
       'shippingAddress',
-      JSON.stringify(this.currentAddress)
+      JSON.stringify(this.currentAddress),
     );
     // localStorage.removeItem('shippingAddress');
     this.populateAddressForm(this.currentAddress);
@@ -675,8 +689,7 @@ export class SingleProductComponent implements OnInit {
         localStorage.setItem('userAddress', JSON.stringify(addresses));
         this.fetchUserAddresses();
       },
-      error: (err) => {
-      },
+      error: (err) => {},
     });
   }
 
@@ -687,7 +700,7 @@ export class SingleProductComponent implements OnInit {
     localStorage.setItem('shippingAddress', JSON.stringify(address));
     const cartService$ = this.cartService.setDefaultAddress(
       address,
-      address.id
+      address.id,
     );
     delete address.id;
     cartService$.subscribe({
@@ -709,7 +722,7 @@ export class SingleProductComponent implements OnInit {
       (res) => {
         if ((res.sucess = true)) {
           this.reloadAddresses();
-          this.toastService.success(res.message, 'SUCCESS');
+          this.toastService.success('Record deleted successfully', 'SUCCESS');
           this.deletingAddress = false;
         } else {
           this.toastService.error(res.message, 'ERROR');
@@ -719,7 +732,7 @@ export class SingleProductComponent implements OnInit {
       (error) => {
         this.toastService.error(error.message, 'ERROR');
         this.deletingAddress = false;
-      }
+      },
     );
   };
 
@@ -819,37 +832,35 @@ export class SingleProductComponent implements OnInit {
   public handleAddressChange(address: Address | any) {
     this.isGoogleAddressSelected = true;
 
-    const country = address.address_components.filter((element) => {
-      return element.types.includes('country');
-    });
-    const city = address.address_components.filter((element) => {
-      return element.types.includes('administrative_area_level_2');
-    });
-    const state = address.address_components.filter((element) => {
-      return element.types.includes('administrative_area_level_1');
-    });
-    const landmark = address.address_components.filter((element) => {
-      return element.types.includes('locality');
-    });
-    const postalCode = address.address_components.filter((element) => {
-      return element.types.includes('postal_code');
-    });
-    const streetName = address.address_components.filter((element) => {
-      return element.types.includes('route');
-    });
+    try {
+      const country = address.address_components.filter((element) => {
+        return element.types.includes('country');
+      });
+      const city = address.address_components.filter((element) => {
+        return element.types.includes('administrative_area_level_2');
+      });
+      const state = address.address_components.filter((element) => {
+        return element.types.includes('administrative_area_level_1');
+      });
+      const landmark = address.address_components.filter((element) => {
+        return element.types.includes('locality');
+      });
+      const postalCode = address.address_components.filter((element) => {
+        return element.types.includes('postal_code');
+      });
+      const streetName = address.address_components.filter((element) => {
+        return element.types.includes('route');
+      });
 
-    this.addressForm.patchValue({fullAddress: address.formatted_address});
-    this.addressForm.patchValue({lng: address.geometry.location.lng()});
-    this.addressForm.patchValue({lat: address.geometry.location.lat()});
-    this.addressForm.patchValue({country: country[0].short_name});
-    this.addressForm.patchValue({
-      city: city.length > 0 ? city[0].long_name : state[0].long_name,
-    });
-    this.addressForm.patchValue({state: state[0].long_name});
-
-    // this.landmark.patchValue(landmark[0].long_name);
-    // this.postalCode.patchValue(postalCode[0].long_name);
-    // this.streetName.patchValue(streetName[0].long_name);
+      this.addressForm.patchValue({ fullAddress: address.formatted_address });
+      this.addressForm.patchValue({ lng: address.geometry.location.lng() });
+      this.addressForm.patchValue({ lat: address.geometry.location.lat() });
+      this.addressForm.patchValue({ country: country[0].short_name });
+      this.addressForm.patchValue({
+        city: city.length > 0 ? city[0].long_name : state[0].long_name,
+      });
+      this.addressForm.patchValue({ state: state[0].long_name });
+    } catch {}
   }
 
   applyAddress = () => {
@@ -860,7 +871,7 @@ export class SingleProductComponent implements OnInit {
 
     if (!this.isGoogleAddressSelected) {
       this.toastService.warning(
-        'Select your address from the list that shows while typing'
+        'Select your address from the list that shows while typing',
       );
       return;
     }
@@ -901,20 +912,19 @@ export class SingleProductComponent implements OnInit {
               document.getElementById('closeAddressFormDialog').click();
               this.initAddressForm();
             },
-            error: (err) => {
-            },
+            error: (err) => {},
           });
       } else {
-        this.addressForm.patchValue({userId: this.user.id});
+        this.addressForm.patchValue({ userId: this.user.id });
         const cartService$ = this.cartService.createAddress(
-          this.addressForm.value
+          this.addressForm.value,
         );
         cartService$.subscribe({
           next: (res) => {
             if (res.status === 'success') {
               this.toastService.success(
                 'Address created successfully',
-                'SUCCESS'
+                'SUCCESS',
               );
 
               localStorage.setItem(
@@ -922,7 +932,7 @@ export class SingleProductComponent implements OnInit {
                 JSON.stringify({
                   ...this.addressForm.value,
                   contactPhoneNumber: formattedPhoneNumber,
-                })
+                }),
               );
               this.currentAddress = {
                 ...this.addressForm.value,
@@ -953,7 +963,7 @@ export class SingleProductComponent implements OnInit {
         JSON.stringify({
           ...this.addressForm.value,
           contactPhoneNumber: formattedPhoneNumber,
-        })
+        }),
       );
       this.currentAddress = {
         ...this.addressForm.value,
@@ -969,11 +979,11 @@ export class SingleProductComponent implements OnInit {
   };
 
   getClosestSellerStore(address: CartAddress) {
-    const {lat, lng} = address;
+    const { lat, lng } = address;
 
     const closestStore: any = this.sellerStoreLocationService.findClosestStore(
-      {lat: +lat, lng: +lng},
-      this.sellerStores
+      { lat: +lat, lng: +lng },
+      this.sellerStores,
     );
 
     this.closestStore = closestStore;
@@ -1045,8 +1055,7 @@ export class SingleProductComponent implements OnInit {
 
     try {
       uikit.modal('#information-modal').show();
-    } catch {
-    }
+    } catch {}
   }
 
   setAddressField = () => {
@@ -1097,7 +1106,7 @@ export class SingleProductComponent implements OnInit {
             logisticLogo: this.currentShippingMethod.value.logisticLogoUrl,
             logisticName: this.currentShippingMethod.value.logisticName,
             estimateShippingCost:
-            this.currentShippingMethod.value.startingPrice,
+              this.currentShippingMethod.value.startingPrice,
           },
           paymentOption: 'online',
           destination: {
@@ -1117,26 +1126,43 @@ export class SingleProductComponent implements OnInit {
         },
       } as AddToCartRequestModel;
 
-      const productService$ = this.cartService.addToCart(payload);
-      productService$.subscribe(
-        (res) => {
-          if (res.status === 'success') {
-            this.addingItemToCart = false;
-            this.toastService.success(
-              'Item successfully added to cart',
-              'SUCCESS'
-            );
-            this.getCustomerCart();
-          } else {
-            this.addingItemToCart = false;
-            this.toastService.error(res.message, 'ERROR');
-          }
-        },
-        (error) => {
-          this.addingItemToCart = false;
-          this.toastService.error(error.message, 'ERROR');
-        }
-      );
+      this.cartService
+        .getCart(this.user?.id! ?? '', this.referenceId)
+        .subscribe({
+          next: (res) => {
+            if (
+              res.data.cartItems.some(
+                (item) => item.productId == this.productId,
+              )
+            ) {
+              this.addingItemToCart = false;
+              this.toastService.error('Item is already in cart!');
+              return;
+            }
+
+            const productService$ = this.cartService.addToCart(payload);
+            productService$.subscribe({
+              next: (res) => {
+                if (res.status === 'success') {
+                  this.addingItemToCart = false;
+                  this.toastService.success(
+                    'Item successfully added to cart',
+                    'SUCCESS',
+                  );
+                  this.getCustomerCart();
+                } else {
+                  this.addingItemToCart = false;
+                  this.toastService.error(res.message, 'ERROR');
+                }
+              },
+              error: (error) => {
+                this.addingItemToCart = false;
+                this.toastService.error(error.message, 'ERROR');
+              },
+            });
+          },
+          error: (err) => {},
+        });
     }
   };
 
@@ -1153,7 +1179,7 @@ export class SingleProductComponent implements OnInit {
           this.applocal.cartCount.next(res.data.cartItems.length + 1);
           this.applocal.storeToStorage(
             'cartCount',
-            res.data.cartItems.length + 1
+            res.data.cartItems.length + 1,
           );
         } else {
           this.toastService.warning(res.message, 'MESSAGE');
@@ -1161,7 +1187,7 @@ export class SingleProductComponent implements OnInit {
       },
       (error) => {
         this.toastService.error(error.message, 'ERROR');
-      }
+      },
     );
   };
 
@@ -1207,7 +1233,7 @@ export class SingleProductComponent implements OnInit {
       // });
 
       this.currentAddress = JSON.parse(
-        localStorage.getItem('shippingAddress')!
+        localStorage.getItem('shippingAddress')!,
       );
       this.addresses = JSON.parse(localStorage.getItem('userAddress')!);
       this.setRequestId();

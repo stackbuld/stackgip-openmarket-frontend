@@ -1,16 +1,13 @@
 <div id="social-modal" class="uk-flex-top" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-
     <button class="uk-modal-close-default" type="button" uk-close></button>
 
     <app-social-modal></app-social-modal>
   </div>
 </div>
 
-
 <div id="signup-modal" class="uk-flex-top" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-
     <button class="uk-modal-close-default" type="button" uk-close></button>
 
     <app-signup></app-signup>
@@ -19,7 +16,6 @@
 
 <div id="login-modal" class="uk-flex-top" uk-modal>
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-
     <button class="uk-modal-close-default" type="button" uk-close></button>
 
     <app-login-modal></app-login-modal>
@@ -28,26 +24,28 @@
 
 <div id="confirm-seller-register" class="uk-flex-top" uk-modal bg-close="false">
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-
     <button class="uk-modal-close-default" type="button" uk-close></button>
 
     <h2 class="success-title">Successful!!!</h2>
     <div>
-      We have recieved your registration, and we are currently reviewing it, you can start setting up your store by uploading your products.
+      We have recieved your registration, and we are currently reviewing it, you
+      can start setting up your store by uploading your products.
     </div>
 
-    <button class="modal-btn" routerLink="/seller/store" (click)="closeModal()">Go to My Store</button>
+    <button class="modal-btn" routerLink="/seller/store" (click)="closeModal()">
+      Go to My Store
+    </button>
   </div>
 </div>
 
 <div id="confirm-seller-signup" class="uk-flex-top" uk-modal bg-close="false">
   <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-
     <button class="uk-modal-close-default" type="button" uk-close></button>
 
     <h2 class="success-title">Successful!!!</h2>
     <div>
-     Your Signup was successful, kindly check your email to confirm your account.
+      Your Signup was successful, kindly check your email to confirm your
+      account.
     </div>
 
     <button class="modal-btn" (click)="closeModal()">Close</button>
