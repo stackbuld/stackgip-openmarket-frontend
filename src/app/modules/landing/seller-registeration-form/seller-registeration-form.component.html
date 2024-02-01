@@ -142,6 +142,7 @@
                   </mat-label>
                   <input
                     #placesRef="ngx-places"
+                    [options]="options"
                     (onAddressChange)="handleAddressChange($event)"
                     formControlName="businessAddress"
                     matInput
