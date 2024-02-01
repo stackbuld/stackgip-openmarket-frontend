@@ -86,7 +86,6 @@ export class SellerRegisterationFormComponent
     this.authService.isLogin.subscribe((a) => {
       if (a) {
         this.user = JSON.parse(localStorage.getItem('user')) as IUser;
-        console.log('USER IN SELLER FORM', this.user);
       }
     });
 
@@ -199,7 +198,6 @@ export class SellerRegisterationFormComponent
           this.router.navigate(['/seller/dashboard']);
         }
 
-        console.log('SELLER DATA', sellerData);
         this.sellerRegFormGroup.patchValue(sellerData);
         this.sellerRegFormGroup.patchValue({
           lga: sellerData.userLga,
