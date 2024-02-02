@@ -369,23 +369,25 @@ export class SingleProductComponent implements OnInit {
   populateAddressForm = (data: any) => {
     this.setter = data?.fullAddress;
 
-    const phoneNumber = data.contactPhoneNumber.slice(-10);
-    const countryCode = data.contactPhoneNumber.slice(0, -10);
-    if (this.isEditingAddress) {
-      this.addressForm = new FormGroup({
-        firstname: new FormControl(data.firstname, Validators.required),
-        lastname: new FormControl(data.lastname, Validators.required),
-        fullAddress: new FormControl(data.fullAddress),
-        lat: new FormControl(data.lat),
-        lng: new FormControl(data.lng),
-        city: new FormControl(data.city),
-        state: new FormControl(data.state),
-        country: new FormControl(data.country),
-        userId: new FormControl(null),
-        contactPhoneNumber: new FormControl(phoneNumber, Validators.required),
-        countryCode: new FormControl(countryCode),
-      });
-    }
+    try {
+      const phoneNumber = data.contactPhoneNumber.slice(-10);
+      const countryCode = data.contactPhoneNumber.slice(0, -10);
+      if (this.isEditingAddress) {
+        this.addressForm = new FormGroup({
+          firstname: new FormControl(data.firstname, Validators.required),
+          lastname: new FormControl(data.lastname, Validators.required),
+          fullAddress: new FormControl(data.fullAddress),
+          lat: new FormControl(data.lat),
+          lng: new FormControl(data.lng),
+          city: new FormControl(data.city),
+          state: new FormControl(data.state),
+          country: new FormControl(data.country),
+          userId: new FormControl(null),
+          contactPhoneNumber: new FormControl(phoneNumber, Validators.required),
+          countryCode: new FormControl(countryCode),
+        });
+      }
+    } catch {}
   };
 
   initAddressForm = () => {
@@ -1072,11 +1074,13 @@ export class SingleProductComponent implements OnInit {
     if (this.currentAddress !== null) {
       this.isEditAddress = true;
     }
+
     if (this.user !== null) {
       this.isInformation = false;
     } else {
       // this.resetModalView();
       this.isInformation = true;
+
       if (this.currentAddress) {
         this.isEditingAddress = true;
 
