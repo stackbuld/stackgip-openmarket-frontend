@@ -686,7 +686,13 @@ export class SingleProductComponent implements OnInit {
     this.userService.getUserAddress(this.user.id).subscribe({
       next: (addresses) => {
         this.addresses = addresses;
+
         localStorage.setItem('userAddress', JSON.stringify(addresses));
+
+        if (addresses.length == 0) {
+          localStorage.setItem('shippingAddress', null);
+        }
+
         this.fetchUserAddresses();
       },
       error: (err) => {},
@@ -1193,45 +1199,6 @@ export class SingleProductComponent implements OnInit {
 
   fetchUserAddresses() {
     if (this.user !== null) {
-      // const cartService$ = this.cartService.fetchUserAddresses(this.user.id);
-      // cartService$.subscribe({
-      //   next: (res) => {
-      //     this.addresses = res.data.data;
-      //     console.log(res);
-
-      //     const storedAddress = localStorage.getItem('shippingAddress') ?? null;
-
-      //     if (storedAddress) {
-      //       const parsedStoredAddress = JSON.parse(storedAddress);
-      //       this.currentAddress = parsedStoredAddress;
-      //       this.addresses.forEach((element) => {
-      //         element.isSelected = this.areAddressesEqual(
-      //           element,
-      //           this.currentAddress
-      //         );
-      //       });
-      //     } else {
-      //       let defaultAddressFound = false;
-      //       for (let index = 0; index < this.addresses.length; index++) {
-      //         const element = this.addresses[index];
-      //         element.isSelected = false;
-      //         if (element.isDefault) {
-      //           this.currentAddress = element;
-      //           element.isSelected = true;
-      //           defaultAddressFound = true;
-      //           this.getShippingEstimate();
-      //         }
-      //       }
-      //       if (!defaultAddressFound) {
-      //         this.currentAddress = null;
-      //       }
-      //     }
-      //     this.setRequestId();
-      //     this.getShippingEstimate();
-      //   },
-      //   error: (error) => {},
-      // });
-
       this.currentAddress = JSON.parse(
         localStorage.getItem('shippingAddress')!,
       );
