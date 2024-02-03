@@ -90,6 +90,9 @@ export class WalletWithdrawComponent {
       )?.name,
       accountName: '',
     });
+    if (this.bankDetailsForm.value.accountNumber !== '') {
+      this.getAccountName();
+    }
   }
 
   changeDetails(details: any) {
@@ -101,7 +104,6 @@ export class WalletWithdrawComponent {
       accountName: details.accountName,
       accountNumber: details.accountNumber,
     });
-
     this.selectedBankDetails = details;
   }
 
@@ -109,7 +111,6 @@ export class WalletWithdrawComponent {
     this.loading = true;
     this.walletService.getBankAccounts(this.user.id).subscribe(
       (res) => {
-        console.log(res);
         if (res.data.length > 0) {
           const data = res.data[0];
 
@@ -143,12 +144,11 @@ export class WalletWithdrawComponent {
   }
 
   getAccountName() {
+    if (this.bankDetailsForm.value.bankCode === '') {
+      return;
+    }
     this.ngxService.startLoader('loader-01');
-    console.log({
-      bankCode: this.bankDetailsForm.value.bankCode,
-      accountNumber: this.bankDetailsForm.value.accountNumber,
-      countryCode: 'NGN',
-    });
+
     this.walletService
       .getAccountName({
         bankCode: this.bankDetailsForm.value.bankCode,
@@ -157,7 +157,6 @@ export class WalletWithdrawComponent {
       })
       .subscribe({
         next: (res) => {
-          console.log(res);
           this.ngxService.stopAllLoader('loader-01');
           this.bankDetailsForm.patchValue({
             accountName: res.data.accountName,

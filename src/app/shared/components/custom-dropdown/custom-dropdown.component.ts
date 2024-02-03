@@ -98,13 +98,16 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
       )?.name;
     });
 
+    this.bankListForm.valueChanges.subscribe((value) => {
+      this.newBankEvent.emit(value.bank.code);
+    });
+
     this.accountsListForm.valueChanges.subscribe((value) => {
       const account = this.findBankOrAccount(
         this.accountsLists,
         value,
         'accountNumber',
       );
-
       this.detailsEvent.emit(account);
 
       this.bankIndex = this.bankListData.findIndex(
@@ -123,7 +126,6 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
       event.value,
       'accountNumber',
     );
-
     this.bankIndex = this.bankListData.findIndex(
       (bank) => bank.code == account?.bankCode,
     );
