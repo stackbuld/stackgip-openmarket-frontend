@@ -117,6 +117,7 @@ export class WalletWithdrawComponent {
             bankName: data.bankName,
             bankCode: data.bankCode,
           });
+
           this.loading = false;
           this.selectedBankDetails = data;
           this.bankDetails = res.data;
