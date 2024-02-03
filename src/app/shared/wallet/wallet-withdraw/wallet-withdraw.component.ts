@@ -61,12 +61,12 @@ export class WalletWithdrawComponent {
   ) {}
 
   ngOnInit(): void {
+    this.user = JSON.parse(localStorage.getItem('user') as string);
     this.getBanks();
     this.getBankAccount();
     this.walletService.getWalletInfo.subscribe((data) => {
       this.walletDetails = data;
     });
-    this.user = JSON.parse(localStorage.getItem('user') as string);
     this.bankDetailsForm = this.fb.group({
       bankName: ['', [Validators.required]],
       bankCode: ['', [Validators.required]],
@@ -105,8 +105,9 @@ export class WalletWithdrawComponent {
 
   getBankAccount() {
     this.loading = true;
-    this.walletService.getBankAccounts().subscribe(
+    this.walletService.getBankAccounts(this.user.id).subscribe(
       (res) => {
+        console.log(res);
         if (res.data.length > 0) {
           const data = res.data[0];
 
