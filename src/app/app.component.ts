@@ -1,11 +1,5 @@
 import { AppState } from './reducers/index';
-import {
-  Component,
-  OnInit,
-  Inject,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
@@ -43,7 +37,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     @Inject(DOCUMENT) private document: Document,
-    private pwaService: PwaService
+    private pwaService: PwaService,
   ) {
     this.handleRouteEvents();
   }
@@ -65,7 +59,7 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         const title = this.getTitle(
           this.router.routerState,
-          this.router.routerState.root
+          this.router.routerState.root,
         ).join('-');
         this.titleService.setTitle(title);
         // gtag('event', 'page_view', {
