@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { IUser } from 'src/app/models/IUserModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { LogoutModalComponent } from '../../../shared/components/logout-modal/logout-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-buyer-sidebar',
@@ -22,7 +23,7 @@ export class BuyerSidebarComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private router: Router
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +44,7 @@ export class BuyerSidebarComponent implements OnInit, OnDestroy {
             this.isFetching = false;
           },
         });
-      }
+      },
     );
   }
 
@@ -57,8 +58,9 @@ export class BuyerSidebarComponent implements OnInit, OnDestroy {
   }
 
   onLogout() {
-    this.authService.Logout();
-    this.router.navigate(['/', 'homepage']);
+    this.dialog.open(LogoutModalComponent, {
+      position: { top: '40px' },
+    });
   }
 
   ngOnDestroy(): void {

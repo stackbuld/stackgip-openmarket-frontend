@@ -64,7 +64,7 @@ export class SellerRegisterationFormComponent
 
   states = nigeriaSates.map((a) => a.name.toLowerCase());
 
-  isTermsAndConditionsAgreed: FormControl = new FormControl(null);
+  isTermsAndConditionsAgreed: FormControl = new FormControl(true);
   termsAndConditions: string = environment.termsAndConditionsUrl;
   uploadBusinessDocuments!: any;
   businessDocuments: { fileName: string; url: string }[] = [];

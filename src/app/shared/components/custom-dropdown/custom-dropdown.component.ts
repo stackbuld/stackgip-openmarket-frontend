@@ -35,6 +35,7 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
   @Output() detailsEvent = new EventEmitter<any>();
   @Input('placeholder') placeholder: string;
   @Input() controls: FormControl;
+  @Input() type!: string;
   @Input()
   set chosenBank(value) {
     this._bankData.next(value);
@@ -75,39 +76,42 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
 
   constructor(
     public cd: ChangeDetectorRef,
-    private walletService: WalletService
+    private walletService: WalletService,
   ) {}
 
   ngOnInit() {
     this.bankListData = JSON.parse(localStorage.getItem('bankList')) ?? [];
 
     this.bankListForm = new FormGroup({
-      bank: new FormControl(this.bankListData[0], Validators.required),
+      bank: new FormControl(null, Validators.required),
     });
 
     this._data.subscribe((x) => {
       this.selectedBank = x?.find(
-        (data) => data?.code?.toString() === this.controls?.value?.toString()
+        (data) => data?.code?.toString() === this.controls?.value?.toString(),
       )?.name;
     });
 
     this._bankData.subscribe((value) => {
       this.selectedBank = this.bankLists?.find(
-        (data) => data?.code?.toString() === value?.bankCode?.toString()
+        (data) => data?.code?.toString() === value?.bankCode?.toString(),
       )?.name;
+    });
+
+    this.bankListForm.valueChanges.subscribe((value) => {
+      this.newBankEvent.emit(value.bank.code);
     });
 
     this.accountsListForm.valueChanges.subscribe((value) => {
       const account = this.findBankOrAccount(
         this.accountsLists,
         value,
-        'accountNumber'
+        'accountNumber',
       );
-
       this.detailsEvent.emit(account);
 
       this.bankIndex = this.bankListData.findIndex(
-        (bank) => bank.code == account?.bankCode
+        (bank) => bank.code == account?.bankCode,
       );
     });
 
@@ -120,11 +124,10 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
     const account = this.findBankOrAccount(
       this.accountsLists,
       event.value,
-      'accountNumber'
+      'accountNumber',
     );
-
     this.bankIndex = this.bankListData.findIndex(
-      (bank) => bank.code == account?.bankCode
+      (bank) => bank.code == account?.bankCode,
     );
 
     this.walletService.setValue.next(this.bankIndex);

@@ -25,6 +25,7 @@ import { JwtHelperService } from '../../../services/jwt-helper.service';
 import { environment } from 'src/environments/environment';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { WindowRefService } from '../../../shared/services/window.service';
+import { CountryService } from '../../../services/country/country.service';
 
 declare const FB: any;
 
@@ -63,6 +64,7 @@ export class LoginComponent implements OnInit {
     private ngxService: NgxUiLoaderService,
     private jwtHelperService: JwtHelperService,
     windowRefService: WindowRefService,
+    private countryService: CountryService,
   ) {
     this.window = windowRefService.nativeWindow;
   }
@@ -76,6 +78,8 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
+
+    this.countryService.getCountry().subscribe();
 
     if (this.authService.getLoggedInUser()) {
       this.router.navigate(['/homepage']);
