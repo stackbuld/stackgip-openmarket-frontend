@@ -144,23 +144,29 @@ export class WalletWithdrawComponent {
 
   getAccountName() {
     this.ngxService.startLoader('loader-01');
+    console.log({
+      bankCode: this.bankDetailsForm.value.bankCode,
+      accountNumber: this.bankDetailsForm.value.accountNumber,
+      countryCode: 'NGN',
+    });
     this.walletService
       .getAccountName({
         bankCode: this.bankDetailsForm.value.bankCode,
         accountNumber: this.bankDetailsForm.value.accountNumber,
         countryCode: 'NGN',
       })
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
+          console.log(res);
           this.ngxService.stopAllLoader('loader-01');
           this.bankDetailsForm.patchValue({
             accountName: res.data.accountName,
           });
         },
-        (err) => {
+        error: (err) => {
           this.loading = false;
         },
-      );
+      });
   }
 
   sendWithdrawalOtp() {
