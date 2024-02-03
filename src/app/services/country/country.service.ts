@@ -11,12 +11,15 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class CountryService {
-  constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {}
+  constructor(
+    private apiUrls: ApiAppUrlService,
+    private http: HttpClient,
+  ) {}
 
   getCountry() {
     return this.http
       .get<HttpCountryInfoResponse>(
-        this.apiUrls.ecommerceBaseUrl + 'products/countries'
+        this.apiUrls.ecommerceBaseUrl + 'products/countries',
       )
       .pipe(
         map((res) => {
@@ -32,7 +35,7 @@ export class CountryService {
         }),
         tap((res) => {
           localStorage.setItem('countryCodesInfo', JSON.stringify(res));
-        })
+        }),
       );
   }
 }

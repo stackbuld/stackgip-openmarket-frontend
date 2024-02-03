@@ -222,10 +222,10 @@
                 class="location-select"
                 name="select"
                 formControlName="country"
-                [value]="profileForm.value.country || 'NGN'"
+                [value]="profileForm.value.country"
               >
                 <option
-                  [value]="country.alpha2Code || 'NGN'"
+                  [value]="country.alpha2Code"
                   *ngFor="let country of countryInfo"
                 >
                   {{ country.countryName }}
