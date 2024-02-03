@@ -5,7 +5,6 @@ import { Subscription, retry, switchMap } from 'rxjs';
 import { ToastrService } from 'src/app/services/toastr.service';
 
 import { CountryInfo } from 'src/app/models/country.model';
-import { CountryService } from 'src/app/services/country/country.service';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
@@ -40,7 +39,6 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   googleAddressSelected: boolean = false;
 
   constructor(
-    private countryService: CountryService,
     private authService: AuthService,
     private userService: UserService,
     private toast: ToastrService,
@@ -54,12 +52,10 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
     this.isFetching = true;
     this.states = nigeriaSates.map((a) => a.name);
 
-    this.countryService.getCountry().subscribe({
-      next: (data) => {
-        this.countryInfo = data;
-      },
-    });
-
+    this.countryInfo = localStorage.getItem('countryCodesInfo')
+      ? JSON.parse(localStorage.getItem('countryCodesInfo'))!
+      : [];
+    console.log(this.countryInfo);
     this.addressForm = new FormGroup({
       countryCode: new FormControl('+234'),
       firstName: new FormControl(null, Validators.required),
@@ -165,6 +161,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   onAddAddress() {
     this.isEditing = true;
     this.userService.isEditingUserInfo.next(true);
+    this.addressForm.patchValue({ countryCode: '+234' });
   }
 
   onSetAsDefault() {
