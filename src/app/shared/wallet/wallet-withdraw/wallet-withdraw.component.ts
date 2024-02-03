@@ -14,6 +14,7 @@ import { PopupComponent } from '../../components/popup/popup.component';
 import uikit from 'uikit';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { NgOtpInputComponent } from 'ng-otp-input';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-wallet-withdraw',
@@ -58,6 +59,7 @@ export class WalletWithdrawComponent {
     private walletService: WalletService,
     private ngxService: NgxUiLoaderService,
     private otpService: OtpService,
+    private toast: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -188,38 +190,40 @@ export class WalletWithdrawComponent {
           accountName: accountName,
           userId: this.user.id,
         })
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: (res) => {
             this.selectedBankDetails = res.data;
-            this.walletService.sendOtp().subscribe(
-              (res) => {
+            this.walletService.sendOtp().subscribe({
+              next: (res) => {
                 this.withdrawLoading = false;
+                this.toast.success('OTP sent successfully!');
                 this.ngxService.stopAllLoader('loader-01');
                 uikit.modal('#modal-withdrawal').show();
               },
-              (err) => {
+              error: (err) => {
                 this.withdrawLoading = false;
                 this.ngxService.stopAllLoader('loader-01');
               },
-            );
+            });
           },
-          (err) => {
+          error: (err) => {
             this.ngxService.stopAllLoader('loader-01');
             this.withdrawLoading = false;
           },
-        );
+        });
     } else {
-      this.walletService.sendOtp().subscribe(
-        (res) => {
+      this.walletService.sendOtp().subscribe({
+        next: (res) => {
+          this.toast.success('OTP sent successfully!');
           this.withdrawLoading = false;
           this.ngxService.stopAllLoader('loader-01');
           uikit.modal('#modal-withdrawal').show();
         },
-        (err) => {
+        error: (err) => {
           this.ngxService.stopAllLoader('loader-01');
           this.withdrawLoading = false;
         },
-      );
+      });
     }
   }
 
