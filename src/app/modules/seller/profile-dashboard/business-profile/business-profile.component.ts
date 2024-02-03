@@ -46,7 +46,7 @@ export class BusinessProfileComponent implements OnInit {
     private sellerService: SellerService,
     private toast: ToastrService,
     private dialog: MatDialog,
-    private countryService: CountryService
+    private countryService: CountryService,
   ) {}
 
   ngOnInit(): void {
@@ -97,7 +97,10 @@ export class BusinessProfileComponent implements OnInit {
           businessPhoneNumber: reformedPhoneNumber,
           businessAddress: this.user.businessAddress,
           businessState: this.user.businessState,
-          businessCountry: 'NG',
+          businessCountry:
+            this.user.businessCountryCode === 'NGN'
+              ? 'NG'
+              : this.user.businessCountryCode,
           businessWebsite: this.user.businessWebsite,
           businessSocialFacebook: this.user.businessSocialLinks?.facebook || '',
           businessSocialX: this.user.businessSocialLinks?.twitter || '',
