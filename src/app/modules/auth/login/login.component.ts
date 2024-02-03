@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required]],
     });
 
-    this.countryService.getCountry();
+    this.countryService.getCountry().subscribe();
 
     if (this.authService.getLoggedInUser()) {
       this.router.navigate(['/homepage']);
