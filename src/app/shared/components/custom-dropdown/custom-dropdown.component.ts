@@ -116,7 +116,9 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
     });
 
     this.bankValueSub = this.walletService.setValue.subscribe((value) => {
-      this.bankListForm.setValue({ bank: this.bankListData[value] });
+      if (value) {
+        this.bankListForm.setValue({ bank: this.bankListData[value] });
+      }
     });
   }
 
@@ -131,6 +133,7 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
     );
 
     this.walletService.setValue.next(this.bankIndex);
+    this.bankListForm.setValue({ bank: this.bankListData[this.bankIndex] });
   }
 
   onAdd() {
