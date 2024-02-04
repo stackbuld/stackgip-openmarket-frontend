@@ -168,7 +168,6 @@ export class ProductItemComponent implements OnInit {
         next: (productDetail) => {
           this.loading = false;
           this.productDetails = productDetail.data.data;
-          console.log(productDetail);
           this.pageNumber = productDetail.data.pager.pageNumber;
           this.totalItemCount = productDetail.data.pager.totalItemCount;
         },
