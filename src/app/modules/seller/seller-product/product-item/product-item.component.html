@@ -116,7 +116,7 @@
           class="uk-card-title uk-margin-remove-bottom"
           style="font-weight: 750; font-size: 24px"
         >
-          {{ overview?.revenue | currency : "₦" }}
+          {{ overview?.revenue | currency: "₦" }}
         </h2>
         <p
           class="mb-0"
@@ -306,7 +306,7 @@
               </span>
             </td>
             <td>
-              <p class="mb-0">{{ productDetail?.price | currency : "₦" }}</p>
+              <p class="mb-0">{{ productDetail?.price | currency: "₦" }}</p>
             </td>
             <td>
               <p class="mb-0">{{ productDetail?.unit }}</p>
@@ -315,24 +315,25 @@
               <p class="mb-0">{{ productDetail?.unitSold }}</p>
             </td>
             <td>
-              <p class="mb-0">{{ productDetail?.revenue | currency : "₦" }}</p>
+              <p class="mb-0">{{ productDetail?.revenue | currency: "₦" }}</p>
             </td>
             <td>
               <p class="mb-0">
-                {{ productDetail?.createdOn | date : "short" }}
+                {{ productDetail?.createdOn | date: "short" }}
               </p>
             </td>
             <td>
               <p
                 class="mb-0 badge"
-                [ngClass]="
-                  {
-                    'badge-red': productDetail?.status.toLowerCase() === 'rejected',
-                    'badge-blue': productDetail?.status.toLowerCase() === 'draft',
-                    'badge-yellow': productDetail?.status.toLowerCase() === 'review',
-                    'badge-green': productDetail?.status.toLowerCase() === 'published',
-                  }
-                "
+                [ngClass]="{
+                  'badge-red':
+                    productDetail?.status.toLowerCase() === 'rejected',
+                  'badge-blue': productDetail?.status.toLowerCase() === 'draft',
+                  'badge-yellow':
+                    productDetail?.status.toLowerCase() === 'review',
+                  'badge-green':
+                    productDetail?.status.toLowerCase() === 'published'
+                }"
               >
                 {{ productDetail?.status }}
               </p>
@@ -388,12 +389,22 @@
               <strong>{{ productDetail?.name }}</strong>
             </p>
             <div class="uk-flex mb-1">
-              <p class="unit-style">{{ productDetail?.unit }} Unit left</p>
+              <p class="unit-style">
+                {{
+                  productDetail?.unit - productDetail?.unitSold < 1
+                    ? "0"
+                    : productDetail?.unit - productDetail?.unitSold
+                }}
+                unit{{
+                  productDetail?.unit - productDetail?.unitSold < 2 ? "" : "s"
+                }}
+                left
+              </p>
               &nbsp; &nbsp;
               <p class="mb-0">{{ productDetail?.unitSold }} Unit sold</p>
             </div>
-            <p>Price: {{ productDetail?.price | currency : "₦" }}</p>
-            <p>Amount Sold: {{ productDetail?.revenue | currency : "₦" }}</p>
+            <p>Price: {{ productDetail?.price | currency: "₦" }}</p>
+            <p>Amount Sold: {{ productDetail?.revenue | currency: "₦" }}</p>
             <div class="btw-justify">
               <p>{{ productDetail?.createdOn | date }}</p>
               <div class="uk-flex">

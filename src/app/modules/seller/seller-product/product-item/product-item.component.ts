@@ -67,7 +67,7 @@ export class ProductItemComponent implements OnInit {
     private toast: ToastrService,
     private fb: FormBuilder,
     private authService: AuthService,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
   ) {
     this.formatDateToLocal = formatDateToLocal;
     this.user = this.authService.getLoggedInUser();
@@ -110,7 +110,7 @@ export class ProductItemComponent implements OnInit {
       },
       (err) => {
         this.loadingOverview = false;
-      }
+      },
     );
   }
 
@@ -162,13 +162,13 @@ export class ProductItemComponent implements OnInit {
         this.endDate,
         this.productSort,
         this.byAscending,
-        productStatus
+        productStatus,
       )
       .subscribe({
         next: (productDetail) => {
           this.loading = false;
           this.productDetails = productDetail.data.data;
-
+          console.log(productDetail);
           this.pageNumber = productDetail.data.pager.pageNumber;
           this.totalItemCount = productDetail.data.pager.totalItemCount;
         },
@@ -266,7 +266,7 @@ export class ProductItemComponent implements OnInit {
           (err) => {
             this.loadingStock = false;
             this.toast.error(err.message);
-          }
+          },
         );
     } else if (this.stockForm.value.unit === 0) {
       this.toast.error(`Prouct Unit can not be zero.`);
