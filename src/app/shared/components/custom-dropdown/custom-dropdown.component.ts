@@ -57,7 +57,7 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
     if (value.length > 0) {
       localStorage.setItem('bankList', JSON.stringify(value));
     }
-
+    this.bankListData = value;
     this._data.next(value);
   }
 
@@ -80,7 +80,7 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.bankListData = JSON.parse(localStorage.getItem('bankList')) ?? [];
+    this.bankListData = JSON.parse(localStorage.getItem('bankList'))!;
 
     this.bankListForm = new FormGroup({
       bank: new FormControl(null, Validators.required),
@@ -109,16 +109,14 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
         'accountNumber',
       );
       this.detailsEvent.emit(account);
-
+      this.bankListData = JSON.parse(localStorage.getItem('bankList'))!;
       this.bankIndex = this.bankListData.findIndex(
         (bank) => bank.code == account?.bankCode,
       );
     });
 
     this.bankValueSub = this.walletService.setValue.subscribe((value) => {
-      if (value) {
-        this.bankListForm.setValue({ bank: this.bankListData[value] });
-      }
+      this.bankListForm.setValue({ bank: this.bankListData[value] });
     });
   }
 
@@ -128,12 +126,13 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
       event.value,
       'accountNumber',
     );
+
+    this.bankListData = JSON.parse(localStorage.getItem('bankList'))!;
     this.bankIndex = this.bankListData.findIndex(
       (bank) => bank.code == account?.bankCode,
     );
 
     this.walletService.setValue.next(this.bankIndex);
-    this.bankListForm.setValue({ bank: this.bankListData[this.bankIndex] });
   }
 
   onAdd() {

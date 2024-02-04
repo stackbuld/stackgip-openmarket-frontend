@@ -21,7 +21,7 @@ import { ApiAppUrlService } from '../api-app-url.service';
 export class WalletService {
   baseUrl: string;
   private userWalletData = new BehaviorSubject([]);
-  setValue = new BehaviorSubject<number | null>(null);
+  setValue = new Subject<number>();
 
   getWalletInfo = this.userWalletData.asObservable();
   constructor(

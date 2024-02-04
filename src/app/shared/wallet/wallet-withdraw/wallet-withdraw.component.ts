@@ -136,6 +136,7 @@ export class WalletWithdrawComponent {
     this.walletService.getBanks().subscribe(
       (res) => {
         this.bankLists = res.data;
+        localStorage.setItem('bankList', JSON.stringify(this.bankLists));
       },
       (err) => {
         this.loading = false;
@@ -163,6 +164,7 @@ export class WalletWithdrawComponent {
           });
         },
         error: (err) => {
+          this.ngxService.stopAllLoader('loader-01');
           this.loading = false;
         },
       });
