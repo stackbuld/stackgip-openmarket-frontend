@@ -247,12 +247,8 @@
               <div class="productDesc">
                 <p class="table-data-desc">{{ item?.name }}</p>
                 <p class="table-data-unit">
-                  {{
-                    item?.unit - item?.unitSold < 1
-                      ? "0"
-                      : item?.unit - item?.unitSold
-                  }}
-                  unit{{ item?.unit - item?.unitSold < 2 ? "" : "s" }} left
+                  {{ item?.unit }}
+                  unit{{ item?.unit < 2 ? "" : "s" }} left
                 </p>
               </div>
               <div class="totalAmt">
