@@ -471,6 +471,9 @@ export class AuthService {
           );
           if (this.currentUrl.includes('auth')) {
             this.router.navigate(['/seller/dashboard']);
+            try {
+              uikit.modal('#information-modal').hide();
+            } catch {}
           } else {
             this.hideSharedLoginModal();
           }
