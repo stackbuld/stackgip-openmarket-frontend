@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Options } from '@angular-slider/ngx-slider';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductModel } from 'src/app/models/products.model';
@@ -9,18 +9,19 @@ import { CityService } from 'src/app/services/city/city.service';
 import { StateService } from 'src/app/services/state/state.service';
 import { ICategory } from 'src/app/models/CategoryModels';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnDestroy {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;
   @Input() storefrontSellerId: string = '';
 
-  page: number = 1;
+  page: number = 0;
   count: number = 0;
-  tableSize: number = 7;
+  tableSize: number = 30;
   tableSizes: any = [3, 6, 9, 12];
 
   categories: string[] = [];
@@ -38,7 +39,7 @@ export class ProductListComponent implements OnInit {
   stateMoreLimit: number = 6;
 
   // totalItemCount: number;
-  maximumItem: number = 12;
+  maximumItem: number = 30;
   pageNumber: number = 0;
   search: string = '';
   minValue: number = 1;
@@ -79,6 +80,7 @@ export class ProductListComponent implements OnInit {
     floor: 0,
     ceil: 200,
   };
+  destroyed = new Subject<boolean>();
 
   constructor(
     private productService: ProductsService,
@@ -98,6 +100,9 @@ export class ProductListComponent implements OnInit {
     this.fetchCategories();
     this.fetchCities();
     this.fetchStates();
+    this.searchService.numberOfItems
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((value) => (this.count = value));
   }
 
   onTableDataChange(event: any) {
@@ -180,9 +185,7 @@ export class ProductListComponent implements OnInit {
           this.categories = data;
           this.loadingCategories = false;
         },
-        error: (err) => {
-          console.log(err);
-        },
+        error: (err) => {},
       });
   }
 
@@ -198,9 +201,7 @@ export class ProductListComponent implements OnInit {
         this.cities = data;
         this.loadingCities = false;
       },
-      error: (err) => {
-        console.log(err);
-      },
+      error: (err) => {},
     });
   }
 
@@ -216,9 +217,7 @@ export class ProductListComponent implements OnInit {
         this.states = data;
         this.loadingStates = false;
       },
-      error: (err) => {
-        console.log(err);
-      },
+      error: (err) => {},
     });
   }
 
@@ -316,12 +315,10 @@ export class ProductListComponent implements OnInit {
           } else {
             this.products = [...this.products, ...data];
           }
-          console.log('THIRD ITEM', this.products[2]);
         },
         error: (err) => {
           this.loadingProducts = false;
           this.loadingMoreProducts = false;
-          console.log(err);
         },
         complete: () => {
           this.loadingProducts = false;
@@ -422,5 +419,10 @@ export class ProductListComponent implements OnInit {
 
   setColumn(e: any) {
     this.columnCount = Number(e.target.value);
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed.next(true);
+    this.destroyed.complete();
   }
 }
