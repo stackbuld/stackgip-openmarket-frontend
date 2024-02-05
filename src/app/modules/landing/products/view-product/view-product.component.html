@@ -45,11 +45,7 @@
         <p class="text-sty">
           Units Available:
           <span>
-            {{
-              product?.unit - product?.unitSold < 1
-                ? "0"
-                : product?.unit - product?.unitSold
-            }}
+            {{ product?.unit }}
           </span>
         </p>
         <p class="text-sty">
