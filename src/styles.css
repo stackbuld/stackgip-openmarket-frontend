@@ -107,3 +107,11 @@ body {
 .terms-checkbox.mat-mdc-checkbox.mat-accent{
     --mdc-checkbox-selected-hover-icon-color: rgba(0, 0, 0, 0.9);
 }
+
+.tawk-icon-right img{
+    width: 80px;
+    height: 52px;
+}
+
+.tawk-min-container .tawk-button-circle.tawk-button-large{
+}
