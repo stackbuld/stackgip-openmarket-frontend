@@ -79,17 +79,24 @@ body {
 .otp_dialog .mat-dialog-container,
 .contact_dialog .mat-dialog-container {
     padding: 20px !important;
-    background-color: var(--dialogBg);
     background-color: red !important;
     width: 600px !important;
 }
 
-.toast-bottom-full-width {
+.toast-bottom-full-width{
     position: fixed;
     bottom: 10px;
     right: 10px;
-    z-index: 999999999;
+    z-index: 999999999 !important;
 }
+
+ .toast-top-right{
+     position: fixed;
+     top: 10px;
+     right: 10px;
+     z-index: 999999999 !important;
+}
+
 
 .terms-checkbox.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background{
     background-color: #000;
@@ -106,12 +113,4 @@ body {
 
 .terms-checkbox.mat-mdc-checkbox.mat-accent{
     --mdc-checkbox-selected-hover-icon-color: rgba(0, 0, 0, 0.9);
-}
-
-.tawk-icon-right img{
-    width: 80px;
-    height: 52px;
-}
-
-.tawk-min-container .tawk-button-circle.tawk-button-large{
 }
