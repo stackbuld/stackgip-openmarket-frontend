@@ -1,4 +1,7 @@
-<div class="main">
+<div *ngIf="isLoading" class="loader-container">
+  <span class="loader"></span>
+</div>
+<div class="main" *ngIf="!isLoading">
   <div class="mb-3 d-flex align-items-center">
     <svg
       class="pointer"
@@ -33,9 +36,7 @@
       <p class="title">Item in order</p>
       <button
         (click)="onRefundRequest()"
-        *ngIf="
-          order?.deliveryStatus === 'Delivered' && !(refundRequested | async)
-        "
+        *ngIf="order?.deliveryStatus === 'Delivered' && !refundRequested"
         id="request-btn"
       >
         Request for refund

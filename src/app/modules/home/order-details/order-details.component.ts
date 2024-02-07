@@ -32,7 +32,8 @@ export class OrderDetailsComponent implements OnInit {
   uploadWidget2: any;
   videoName = '';
   productDesc: string = '';
-  refundRequested!: Observable<boolean>;
+  refundRequested: boolean = false;
+  isLoading: boolean = false;
 
   constructor(
     private appLocal: AppLocalStorage,
@@ -47,10 +48,10 @@ export class OrderDetailsComponent implements OnInit {
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(true);
     this.getDetails();
-    this.refundRequested = this.orderService.isRefundMade;
   }
 
   getDetails = () => {
+    this.isLoading = true;
     this.appLocal.messageSource.subscribe((res) => {
       if (res) {
         this.order = res;
@@ -62,6 +63,10 @@ export class OrderDetailsComponent implements OnInit {
         next: (res) => {
           this.productDesc = res.data.description;
         },
+      });
+      this.orderService.getOrder(this.order.id).subscribe((res) => {
+        this.isLoading = false;
+        this.refundRequested = res['data'].isRefundRequested;
       });
       console.log(this.order);
       // for (let index = 0; index < this
@@ -102,12 +107,16 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   onRefundRequest() {
-    this.dialog.open(RequestRefundModalComponent, {
+    const dialogRef = this.dialog.open(RequestRefundModalComponent, {
       data: {
         unit: this.order.unit,
         orderNumber: this.order.orderNo,
         productDesc: this.productDesc,
       },
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getDetails();
     });
   }
 }

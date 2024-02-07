@@ -51,10 +51,7 @@ export class OrderHistoryComponent implements OnInit {
 
   viewOrder(item: OrderDetail2) {
     this.appLocal.messageSource.next(item);
-    console.log(item);
-    this.orderService.getOrder(item.id).subscribe((res) => {
-      this.orderService.isRefundMade.next(res['data'].isRefundRequested);
-    });
+
     this.router.navigate([`homepage/details/${item.id}`]);
   }
 
@@ -80,7 +77,6 @@ export class OrderHistoryComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.orders = res.data.data;
-          console.log(this.orders);
           this.pageNumber = res.data.pager.pageNumber;
           this.totalItemCount = res.data.pager.totalItemCount;
           this.loadingOrders = false;
