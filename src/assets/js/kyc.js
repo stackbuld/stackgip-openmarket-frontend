@@ -1,10 +1,10 @@
-import { environment } from "../../environments/environment";
+// import { environment } from "../../environments/environment";
 
-function test(id) {
+function test(id, key) {
   console.log(id);
   const options = {
     app_id: id, //your app_id here
-    p_key: environment.kycVerificationWidgetId.key, //your production public key here
+    p_key: key, //your production public key here
     type: "custom",
     user_data: {
       first_name: "precious", //optional

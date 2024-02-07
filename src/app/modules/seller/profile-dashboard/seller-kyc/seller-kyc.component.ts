@@ -6,7 +6,7 @@ import { SellerService } from 'src/app/services/seller/seller.service';
 import { IUser } from '../../../../models/IUserModel';
 import { environment } from '../../../../../environments/environment';
 
-declare var test: any;
+declare function test(id: string, key: string): any;
 
 @Component({
   selector: 'app-seller-kyc',
@@ -57,6 +57,6 @@ export class SellerKycComponent implements OnInit {
       id = environment.kycVerificationWidgetId.individual;
     }
 
-    test(id);
+    test(id, environment.kycVerificationWidgetId.key);
   }
 }
