@@ -33,7 +33,7 @@
                 <div class="uk-navbar-right">
                     <div class="">
                         <button
-                                [routerLink]="['/wait-list']"
+                                [routerLink]="['/auth/login']"
                                 class="block-button"
                                 type="button"
                         >
@@ -163,7 +163,7 @@
                 the best prices for a variety of products.
             </div>
             <button
-                    [routerLink]="isLoggedIn ? ['/homepage'] : [ '/wait-list']"
+                    [routerLink]="isLoggedIn ? ['/homepage'] : [ '/auth/login']"
                     class="uk-button uk-button-default uk-text-capitalize waitList mt-2"
             >
                 Get Started
