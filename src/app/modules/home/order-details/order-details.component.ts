@@ -59,6 +59,7 @@ export class OrderDetailsComponent implements OnInit {
           this.productDesc = res.data.description;
         },
       });
+      console.log(this.order);
       // for (let index = 0; index < this
       // .order.cartProduct.complementaryProducts.length; index++) {
       //   const element = this.order.cartProduct.complementaryProducts[index];

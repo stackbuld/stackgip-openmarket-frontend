@@ -75,6 +75,16 @@
       To authorize this transaction, you will receive a one-time password (OTP)
       on your device
     </div>
+
+    <div class="verification-prompt">
+      <div class="icon"><i class="fas fa-comment-dots"></i></div>
+      <div class="comment">
+        <div class="comment-main">Complete KYC registration to continue</div>
+        <a [routerLink]="['/seller/profile/kyc-verification']"
+          >Click here to continue</a
+        >
+      </div>
+    </div>
     <button
       class="uk-button uk-button-secondary item button"
       [disabled]="

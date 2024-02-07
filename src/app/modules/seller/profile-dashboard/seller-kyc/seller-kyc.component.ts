@@ -20,7 +20,7 @@ export class SellerKycComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private sellerService: SellerService,
-    private toast: ToastrService
+    private toast: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +34,7 @@ export class SellerKycComponent implements OnInit {
 
         this.verificationFailureReason = user.data.rejectionReason;
         this.approvalStatus = user.data.sellerApprovalStatus;
-        this.kycVerified = user.data.isSellerApproved;
+        this.kycVerified = user.data.isKycVerified;
       },
       error: (err) => {
         this.toast.error(err.error.message);

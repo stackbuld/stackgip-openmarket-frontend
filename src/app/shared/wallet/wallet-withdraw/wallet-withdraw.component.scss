@@ -223,3 +223,30 @@ input::-webkit-inner-spin-button {
 .uk-modal-body {
   padding: 20px;
 }
+
+.verification-prompt {
+  width: 60%;
+  margin-inline: auto;
+  display: flex;
+  align-items: flex-start;
+  background: #000;
+  border-radius: 8px;
+  padding: 10px;
+  color: #fff;
+
+  & i {
+    font-size: 25px;
+  }
+
+  & .comment {
+    margin-left: 20px;
+
+    &-main {
+      margin-bottom: 5px;
+    }
+
+    & a {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+}

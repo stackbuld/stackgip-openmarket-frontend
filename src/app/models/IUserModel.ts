@@ -33,6 +33,7 @@ export interface IUser {
   coverPhotoUrl?: string;
   rejectionReason?: string | null;
   isActive: boolean;
+  isKycVerified?: boolean;
 }
 
 export interface IUserResponse extends ResponseModel {
