@@ -235,6 +235,7 @@ input::-webkit-inner-spin-button {
   border-radius: 8px;
   padding: 10px;
   color: #fff;
+  margin-bottom: 20px;
 
   & i {
     font-size: 25px;
@@ -250,5 +251,11 @@ input::-webkit-inner-spin-button {
     & a {
       color: rgba(255, 255, 255, 0.7);
     }
+  }
+}
+
+@media (max-width: 450px) {
+  .verification-prompt {
+    width: 90%;
   }
 }
