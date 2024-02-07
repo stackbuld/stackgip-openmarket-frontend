@@ -3,6 +3,10 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { SellerService } from 'src/app/services/seller/seller.service';
+import { IUser } from '../../../../models/IUserModel';
+import { environment } from '../../../../../environments/environment';
+
+declare var test: any;
 
 @Component({
   selector: 'app-seller-kyc',
@@ -14,6 +18,7 @@ export class SellerKycComponent implements OnInit {
   kycVerified: boolean = false;
   userId: string;
   verificationFailureReason: string;
+  user!: IUser;
   approvalStatus: string;
 
   constructor(
@@ -29,6 +34,7 @@ export class SellerKycComponent implements OnInit {
 
     this.sellerService.getSeller(this.userId).subscribe({
       next: (user) => {
+        this.user = user.data;
         this.isFetching = false;
         console.log(user);
 
@@ -43,6 +49,14 @@ export class SellerKycComponent implements OnInit {
   }
 
   onVerify() {
-    this.router.navigate(['/', 'seller-form']);
+    let id: string;
+
+    if (this.user.isBusinessRegistered) {
+      id = environment.kycVerificationWidgetId.business;
+    } else if (!this.user.isBusinessRegistered) {
+      id = environment.kycVerificationWidgetId.individual;
+    }
+
+    test(id);
   }
 }
