@@ -38,9 +38,4 @@ function test(id, key) {
   const connect = new Connect(options);
   connect.setup();
   connect.open();
-  // const button = document.querySelector("#button-connect");
-  // button.addEventListener("click", function () {
-  //   connect.setup();
-  //   connect.open();
-  // });
 }
