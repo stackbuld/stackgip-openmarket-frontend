@@ -9,6 +9,7 @@ import { RequestRefundModalComponent } from './request-refund-modal/request-refu
 import { ProductsService } from '../../../services/products/products.service';
 import { OrderDetail, OrderDetail2 } from '../../../models/order.model';
 import { ProductOptions } from '../../../models/products.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-order-details',
@@ -31,12 +32,14 @@ export class OrderDetailsComponent implements OnInit {
   uploadWidget2: any;
   videoName = '';
   productDesc: string = '';
+  refundRequested!: Observable<boolean>;
 
   constructor(
     private appLocal: AppLocalStorage,
     private footerService: FooterService,
     private dialog: MatDialog,
     private productService: ProductsService,
+    private orderService: OrderService,
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +47,7 @@ export class OrderDetailsComponent implements OnInit {
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(true);
     this.getDetails();
+    this.refundRequested = this.orderService.isRefundMade;
   }
 
   getDetails = () => {
