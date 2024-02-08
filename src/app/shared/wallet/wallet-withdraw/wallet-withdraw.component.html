@@ -75,6 +75,7 @@
       To authorize this transaction, you will receive a one-time password (OTP)
       on your device
     </div>
+
     <button
       class="uk-button uk-button-secondary item button"
       [disabled]="
@@ -82,13 +83,24 @@
         bankDetailsForm.invalid ||
         errorMsg ||
         1 > bankDetailsForm.value.amount ||
-        bankDetailsForm.value.amount > walletDetails.availableAmount
+        bankDetailsForm.value.amount > walletDetails.availableAmount ||
+        !user.isKycVerified
       "
       (click)="sendWithdrawalOtp()"
     >
       <span *ngIf="!withdrawLoading"> Withdraw</span>
       <span *ngIf="withdrawLoading" uk-spinner="ratio: 1"></span>
     </button>
+
+    <div class="verification-prompt" *ngIf="!user.isKycVerified">
+      <div class="icon"><i class="fas fa-comment-dots"></i></div>
+      <div class="comment">
+        <div class="comment-main">Complete KYC registration to continue</div>
+        <a [routerLink]="['/seller/profile/kyc-verification']"
+          >Click here to continue</a
+        >
+      </div>
+    </div>
 
     <!-- This is the modal -->
     <div id="modal-withdrawal" uk-modal bg-close="false">

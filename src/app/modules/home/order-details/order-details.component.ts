@@ -9,6 +9,7 @@ import { RequestRefundModalComponent } from './request-refund-modal/request-refu
 import { ProductsService } from '../../../services/products/products.service';
 import { OrderDetail, OrderDetail2 } from '../../../models/order.model';
 import { ProductOptions } from '../../../models/products.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-order-details',
@@ -31,12 +32,15 @@ export class OrderDetailsComponent implements OnInit {
   uploadWidget2: any;
   videoName = '';
   productDesc: string = '';
+  refundRequested: boolean = false;
+  isLoading: boolean = false;
 
   constructor(
     private appLocal: AppLocalStorage,
     private footerService: FooterService,
     private dialog: MatDialog,
     private productService: ProductsService,
+    private orderService: OrderService,
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +51,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   getDetails = () => {
+    this.isLoading = true;
     this.appLocal.messageSource.subscribe((res) => {
       if (res) {
         this.order = res;
@@ -59,6 +64,11 @@ export class OrderDetailsComponent implements OnInit {
           this.productDesc = res.data.description;
         },
       });
+      this.orderService.getOrder(this.order.id).subscribe((res) => {
+        this.isLoading = false;
+        this.refundRequested = res['data'].isRefundRequested;
+      });
+      console.log(this.order);
       // for (let index = 0; index < this
       // .order.cartProduct.complementaryProducts.length; index++) {
       //   const element = this.order.cartProduct.complementaryProducts[index];
@@ -97,12 +107,16 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   onRefundRequest() {
-    this.dialog.open(RequestRefundModalComponent, {
+    const dialogRef = this.dialog.open(RequestRefundModalComponent, {
       data: {
         unit: this.order.unit,
         orderNumber: this.order.orderNo,
         productDesc: this.productDesc,
       },
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getDetails();
     });
   }
 }
