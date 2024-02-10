@@ -3,21 +3,30 @@ import { environment } from 'src/environments/environment';
 import algoliasearch, { SearchClient, SearchIndex } from 'algoliasearch';
 import { IProductPage, ProductModel } from '../../models/products.model';
 import { ISearchService } from './iSearchService.interface';
-import { Observable, from, of, switchMap } from 'rxjs';
+import {
+  Observable,
+  from,
+  of,
+  switchMap,
+  Subject,
+  BehaviorSubject,
+} from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { SearchQueryModel } from 'src/app/models/query-params.model';
+import { tap } from 'rxjs/operators';
 
 const searchClient = algoliasearch(
   environment.algolia.appId,
-  environment.algolia.apiKey
+  environment.algolia.apiKey,
 );
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService implements ISearchService {
+  numberOfItems = new BehaviorSubject<number>(0);
   index: SearchIndex = searchClient.initIndex(
-    environment.algolia.indexName.products
+    environment.algolia.indexName.products,
   );
   config = {
     indexName: environment.algolia.indexName.products,
@@ -34,7 +43,7 @@ export class SearchService implements ISearchService {
     searchQuery: string,
     currentPage: number,
     maxItem: number,
-    filters: string
+    filters: string,
   ) {
     return this.index.search(searchQuery, {
       hitsPerPage: maxItem,
@@ -99,14 +108,14 @@ export class SearchService implements ISearchService {
 
   getAllProducts(
     pageNumber: number = 0,
-    maxItem: number = 12,
+    maxItem: number = 30,
     searchQuery: string = '',
     storefrontSellerId: string = '',
     category: string = '',
     city: string = '',
     state: string = '',
     minPrice: number = 1,
-    maxPrice: number = 500000
+    maxPrice: number = 500000,
   ): Observable<ProductModel[]> {
     let filters = `price:${minPrice} TO ${maxPrice}`;
 
@@ -132,13 +141,15 @@ export class SearchService implements ISearchService {
       searchQuery,
       pageNumber,
       maxItem,
-      filters
+      filters,
     );
-
     /* The code block is a loop that fetches search results from the Algolia index for each page of
     results. */
     for (let firstPage = 0; firstPage < pageNumber + 1; firstPage++) {
       formattedResults = from(searchResults).pipe(
+        tap((data) => {
+          this.numberOfItems.next(data.nbHits);
+        }),
         switchMap((data) => {
           const formattedHits = this.convertToProductModel(data.hits);
 
@@ -148,10 +159,9 @@ export class SearchService implements ISearchService {
             tempHits = [...tempHits, ...formattedHits];
           }
           return of(tempHits);
-        })
+        }),
       );
     }
-
     return formattedResults;
   }
 
@@ -171,11 +181,8 @@ export class SearchService implements ISearchService {
         queryParams.maxPrice = params.maxPrice || queryParams.maxPrice;
         queryParams.minPrice = params.minPrice || queryParams.minPrice;
       },
-      error: (err) => {
-        console.log(err);
-      },
+      error: (err) => {},
       complete: () => {
-        console.log('FETCHED QUERY PARAMS', queryParams);
         return queryParams;
       },
     });

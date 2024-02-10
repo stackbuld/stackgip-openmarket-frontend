@@ -31,4 +31,9 @@ export const environment = {
   },
   termsAndConditionsUrl:
     'https://doc.clickup.com/4543060/d/4amjm-2412/renamarkets-seller-contract',
+  kycVerificationWidgetId: {
+    key: 'prod_pk_SCP9XK8h3yHoSVYSIp40KGkhY',
+    business: '65bb6ea17063700040c23802',
+    individual: '65baf9e6cd21f60040595585',
+  },
 };

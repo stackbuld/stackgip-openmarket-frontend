@@ -14,6 +14,7 @@ import { PopupComponent } from '../../components/popup/popup.component';
 import uikit from 'uikit';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { NgOtpInputComponent } from 'ng-otp-input';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-wallet-withdraw',
@@ -58,15 +59,16 @@ export class WalletWithdrawComponent {
     private walletService: WalletService,
     private ngxService: NgxUiLoaderService,
     private otpService: OtpService,
+    private toast: ToastrService,
   ) {}
 
   ngOnInit(): void {
+    this.user = JSON.parse(localStorage.getItem('user') as string);
     this.getBanks();
     this.getBankAccount();
     this.walletService.getWalletInfo.subscribe((data) => {
       this.walletDetails = data;
     });
-    this.user = JSON.parse(localStorage.getItem('user') as string);
     this.bankDetailsForm = this.fb.group({
       bankName: ['', [Validators.required]],
       bankCode: ['', [Validators.required]],
@@ -88,6 +90,9 @@ export class WalletWithdrawComponent {
       )?.name,
       accountName: '',
     });
+    if (this.bankDetailsForm.value.accountNumber !== '') {
+      this.getAccountName();
+    }
   }
 
   changeDetails(details: any) {
@@ -99,13 +104,12 @@ export class WalletWithdrawComponent {
       accountName: details.accountName,
       accountNumber: details.accountNumber,
     });
-
     this.selectedBankDetails = details;
   }
 
   getBankAccount() {
     this.loading = true;
-    this.walletService.getBankAccounts().subscribe(
+    this.walletService.getBankAccounts(this.user.id).subscribe(
       (res) => {
         if (res.data.length > 0) {
           const data = res.data[0];
@@ -116,6 +120,7 @@ export class WalletWithdrawComponent {
             bankName: data.bankName,
             bankCode: data.bankCode,
           });
+
           this.loading = false;
           this.selectedBankDetails = data;
           this.bankDetails = res.data;
@@ -131,6 +136,7 @@ export class WalletWithdrawComponent {
     this.walletService.getBanks().subscribe(
       (res) => {
         this.bankLists = res.data;
+        localStorage.setItem('bankList', JSON.stringify(this.bankLists));
       },
       (err) => {
         this.loading = false;
@@ -139,24 +145,30 @@ export class WalletWithdrawComponent {
   }
 
   getAccountName() {
+    if (this.bankDetailsForm.value.bankCode === '') {
+      return;
+    }
     this.ngxService.startLoader('loader-01');
-    this.walletService
-      .getAccountName({
-        bankCode: this.bankDetailsForm.value.bankCode,
-        accountNumber: this.bankDetailsForm.value.accountNumber,
-        countryCode: 'NGN',
-      })
-      .subscribe(
-        (res) => {
-          this.ngxService.stopAllLoader('loader-01');
-          this.bankDetailsForm.patchValue({
-            accountName: res.data.accountName,
-          });
-        },
-        (err) => {
-          this.loading = false;
-        },
-      );
+    try {
+      this.walletService
+        .getAccountName({
+          bankCode: this.bankDetailsForm.value.bankCode,
+          accountNumber: this.bankDetailsForm.value.accountNumber,
+          countryCode: 'NGN',
+        })
+        .subscribe({
+          next: (res) => {
+            this.ngxService.stopAllLoader('loader-01');
+            this.bankDetailsForm.patchValue({
+              accountName: res.data.accountName,
+            });
+          },
+          error: (err) => {
+            this.ngxService.stopAllLoader('loader-01');
+            this.loading = false;
+          },
+        });
+    } catch {}
   }
 
   sendWithdrawalOtp() {
@@ -186,38 +198,40 @@ export class WalletWithdrawComponent {
           accountName: accountName,
           userId: this.user.id,
         })
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: (res) => {
             this.selectedBankDetails = res.data;
-            this.walletService.sendOtp().subscribe(
-              (res) => {
+            this.walletService.sendOtp().subscribe({
+              next: (res) => {
                 this.withdrawLoading = false;
+                this.toast.success('OTP sent successfully!');
                 this.ngxService.stopAllLoader('loader-01');
                 uikit.modal('#modal-withdrawal').show();
               },
-              (err) => {
+              error: (err) => {
                 this.withdrawLoading = false;
                 this.ngxService.stopAllLoader('loader-01');
               },
-            );
+            });
           },
-          (err) => {
+          error: (err) => {
             this.ngxService.stopAllLoader('loader-01');
             this.withdrawLoading = false;
           },
-        );
+        });
     } else {
-      this.walletService.sendOtp().subscribe(
-        (res) => {
+      this.walletService.sendOtp().subscribe({
+        next: (res) => {
+          this.toast.success('OTP sent successfully!');
           this.withdrawLoading = false;
           this.ngxService.stopAllLoader('loader-01');
           uikit.modal('#modal-withdrawal').show();
         },
-        (err) => {
+        error: (err) => {
           this.ngxService.stopAllLoader('loader-01');
           this.withdrawLoading = false;
         },
-      );
+      });
     }
   }
 

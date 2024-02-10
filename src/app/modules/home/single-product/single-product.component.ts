@@ -369,23 +369,25 @@ export class SingleProductComponent implements OnInit {
   populateAddressForm = (data: any) => {
     this.setter = data?.fullAddress;
 
-    const phoneNumber = data.contactPhoneNumber.slice(-10);
-    const countryCode = data.contactPhoneNumber.slice(0, -10);
-    if (this.isEditingAddress) {
-      this.addressForm = new FormGroup({
-        firstname: new FormControl(data.firstname, Validators.required),
-        lastname: new FormControl(data.lastname, Validators.required),
-        fullAddress: new FormControl(data.fullAddress),
-        lat: new FormControl(data.lat),
-        lng: new FormControl(data.lng),
-        city: new FormControl(data.city),
-        state: new FormControl(data.state),
-        country: new FormControl(data.country),
-        userId: new FormControl(null),
-        contactPhoneNumber: new FormControl(phoneNumber, Validators.required),
-        countryCode: new FormControl(countryCode),
-      });
-    }
+    try {
+      const phoneNumber = data.contactPhoneNumber.slice(-10);
+      const countryCode = data.contactPhoneNumber.slice(0, -10);
+      if (this.isEditingAddress) {
+        this.addressForm = new FormGroup({
+          firstname: new FormControl(data.firstname, Validators.required),
+          lastname: new FormControl(data.lastname, Validators.required),
+          fullAddress: new FormControl(data.fullAddress),
+          lat: new FormControl(data.lat),
+          lng: new FormControl(data.lng),
+          city: new FormControl(data.city),
+          state: new FormControl(data.state),
+          country: new FormControl(data.country),
+          userId: new FormControl(null),
+          contactPhoneNumber: new FormControl(phoneNumber, Validators.required),
+          countryCode: new FormControl(countryCode),
+        });
+      }
+    } catch {}
   };
 
   initAddressForm = () => {
@@ -686,7 +688,13 @@ export class SingleProductComponent implements OnInit {
     this.userService.getUserAddress(this.user.id).subscribe({
       next: (addresses) => {
         this.addresses = addresses;
+
         localStorage.setItem('userAddress', JSON.stringify(addresses));
+
+        if (addresses.length == 0) {
+          localStorage.setItem('shippingAddress', null);
+        }
+
         this.fetchUserAddresses();
       },
       error: (err) => {},
@@ -1066,11 +1074,13 @@ export class SingleProductComponent implements OnInit {
     if (this.currentAddress !== null) {
       this.isEditAddress = true;
     }
+
     if (this.user !== null) {
       this.isInformation = false;
     } else {
       // this.resetModalView();
       this.isInformation = true;
+
       if (this.currentAddress) {
         this.isEditingAddress = true;
 
@@ -1193,45 +1203,6 @@ export class SingleProductComponent implements OnInit {
 
   fetchUserAddresses() {
     if (this.user !== null) {
-      // const cartService$ = this.cartService.fetchUserAddresses(this.user.id);
-      // cartService$.subscribe({
-      //   next: (res) => {
-      //     this.addresses = res.data.data;
-      //     console.log(res);
-
-      //     const storedAddress = localStorage.getItem('shippingAddress') ?? null;
-
-      //     if (storedAddress) {
-      //       const parsedStoredAddress = JSON.parse(storedAddress);
-      //       this.currentAddress = parsedStoredAddress;
-      //       this.addresses.forEach((element) => {
-      //         element.isSelected = this.areAddressesEqual(
-      //           element,
-      //           this.currentAddress
-      //         );
-      //       });
-      //     } else {
-      //       let defaultAddressFound = false;
-      //       for (let index = 0; index < this.addresses.length; index++) {
-      //         const element = this.addresses[index];
-      //         element.isSelected = false;
-      //         if (element.isDefault) {
-      //           this.currentAddress = element;
-      //           element.isSelected = true;
-      //           defaultAddressFound = true;
-      //           this.getShippingEstimate();
-      //         }
-      //       }
-      //       if (!defaultAddressFound) {
-      //         this.currentAddress = null;
-      //       }
-      //     }
-      //     this.setRequestId();
-      //     this.getShippingEstimate();
-      //   },
-      //   error: (error) => {},
-      // });
-
       this.currentAddress = JSON.parse(
         localStorage.getItem('shippingAddress')!,
       );

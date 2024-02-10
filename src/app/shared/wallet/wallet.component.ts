@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { IUser } from '../../models/IUserModel';
 import { IWallet } from '../../models/wallet.model';
@@ -9,7 +9,7 @@ import { WalletService } from '../../services/wallet/wallet.service';
   templateUrl: './wallet.component.html',
   styleUrls: ['./wallet.component.scss'],
 })
-export class WalletComponent {
+export class WalletComponent implements OnInit {
   wallet: IWallet[];
   loading: boolean;
   currentRoute: string[] = [];
@@ -18,7 +18,10 @@ export class WalletComponent {
   cashbackFunds?: IWallet;
   mainFunds?: IWallet;
 
-  constructor(private router: Router, private walletService: WalletService) {
+  constructor(
+    private router: Router,
+    private walletService: WalletService,
+  ) {
     this.router.events.subscribe((event) => {
       event instanceof NavigationEnd
         ? (this.currentRoute = event.url.split('/'))
@@ -37,13 +40,13 @@ export class WalletComponent {
       next: (res) => {
         this.wallet = res.data;
         this.mainFunds = [...res.data].find(
-          (value: IWallet) => value.walletType === 'MAIN'
+          (value: IWallet) => value.walletType === 'MAIN',
         );
         this.escrowFunds = [...res.data].find(
-          (value: IWallet) => value.walletType === 'ESCROW'
+          (value: IWallet) => value.walletType === 'ESCROW',
         );
         this.cashbackFunds = [...res.data].find(
-          (value: IWallet) => value.walletType === 'CASHBACK'
+          (value: IWallet) => value.walletType === 'CASHBACK',
         );
         this.loading = false;
         this.walletService.setWalletInfo(res.data[0]);
@@ -57,15 +60,13 @@ export class WalletComponent {
 
   getBankAccount() {
     this.loading = true;
-    this.walletService.getBankAccounts().subscribe(
-      (res) => {
-        console.log(res);
+    this.walletService.getBankAccounts(this.user.id).subscribe({
+      next: () => {
         this.loading = false;
       },
-      (err) => {
-        console.log(err);
+      error: () => {
         this.loading = false;
-      }
-    );
+      },
+    });
   }
 }
