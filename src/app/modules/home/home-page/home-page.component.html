@@ -1,7 +1,15 @@
 <div class="uk-container uk-container-expand main">
   <section id="hero">
     <div class="hero-container row">
-      <div class="categories-container d-none d-md-block col-md-2">
+      <div
+        class="categories-container d-none d-md-block col-md-2"
+        style="
+          min-height: 565px;
+          max-height: 565px;
+          overflow-x: hidden;
+          overflow-y: scroll;
+        "
+      >
         <h2 class="">Categories</h2>
         <div *ngIf="!loadingCategories">
           <div
@@ -39,11 +47,14 @@
         class="uk-position-relative d-none d-md-block uk-visible-toggle uk-light col col-md thumbnail slider-img-container"
         tabindex="-1"
         uk-slideshow="autoplay: true; autoplay-interval	: 5000"
-        style="max-height: 565px"
       >
         <ul class="uk-slideshow-items w-100 h-100">
-          <li *ngFor="let slide of heroSlides" class="w-100 h-100 slider-img">
-            <img [src]="slide" alt="" uk-cover />
+          <li
+            *ngFor="let slide of heroSlides"
+            class="w-100 slider-img"
+            style="max-height: 565px"
+          >
+            <img [src]="slide" alt="" uk-cover style="width: 100%" />
             <div
               class="uk-position-medium uk-position-bottom-right shop-now-btn-container"
             >
