@@ -15,6 +15,8 @@ import uikit from 'uikit';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { NgOtpInputComponent } from 'ng-otp-input';
 import { ToastrService } from 'ngx-toastr';
+import { WalletKycPromptComponent } from '../wallet-kyc-prompt/wallet-kyc-prompt.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wallet-withdraw',
@@ -60,6 +62,7 @@ export class WalletWithdrawComponent {
     private ngxService: NgxUiLoaderService,
     private otpService: OtpService,
     private toast: ToastrService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -75,6 +78,10 @@ export class WalletWithdrawComponent {
       accountName: [''],
       accountNumber: ['', [Validators.required]],
       amount: ['', [Validators.required]],
+    });
+
+    this.bankDetailsForm.get('amount').valueChanges.subscribe((value) => {
+      this.validateAmount(value);
     });
   }
 
@@ -172,6 +179,14 @@ export class WalletWithdrawComponent {
   }
 
   sendWithdrawalOtp() {
+    if (!this.user.isKycVerified) {
+      const dialogRef = this.dialog.open(WalletKycPromptComponent, {
+        width: '600px',
+        height: '200px',
+      });
+      return;
+    }
+
     if (
       !this.bankDetailsForm.value.accountName ||
       !this.bankDetailsForm.value.accountNumber
@@ -250,12 +265,10 @@ export class WalletWithdrawComponent {
 
   handleFillEvent(value: string): void {}
 
-  validateAmount() {
-    if (
-      this.bankDetailsForm.value.amount > this.walletDetails.availableAmount
-    ) {
+  validateAmount(value: number) {
+    if (value > this.walletDetails.availableAmount) {
       this.errorMsg = 'Insufficient Funds';
-    } else if (!(this.bankDetailsForm.value.amount > 1)) {
+    } else if (!(value > 1)) {
       this.errorMsg = `Minimum withdrawal must be atleast ${this.walletDetails.currencyCode} 1`;
     } else {
       this.errorMsg = null;
@@ -275,8 +288,8 @@ export class WalletWithdrawComponent {
         currencyCode: this.walletDetails.currencyCode,
         otp: this.otpInput,
       })
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           this.ngOtp.setValue([]);
           this.withdrawLoading = false;
           uikit.modal('#modal-withdrawal').hide();
@@ -285,14 +298,16 @@ export class WalletWithdrawComponent {
             this.serverResponse = res.message;
             uikit.modal('#modal-message').show();
           } else {
+            this.toast.success('Withdrawal made successfully!');
+            this.router.navigate(['/seller/wallet']);
             uikit.modal.alert('Successful');
           }
         },
-        (err) => {
+        error: (err) => {
           uikit.modal('#modal-withdrawal').hide();
           uikit.modal.alert('Something went wrong. Please try again Later');
           this.withdrawLoading = false;
         },
-      );
+      });
   }
 }
