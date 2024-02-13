@@ -48,9 +48,9 @@ export class WalletService {
       this.baseUrl + `payments/transactions`,
     );
   }
-  getRequests(): Observable<IRequestResponse> {
+  getRequests(id: string): Observable<IRequestResponse> {
     return this.http.get<IRequestResponse>(
-      this.baseUrl + `wallet/withdrawal-requests`,
+      this.baseUrl + `wallet/withdrawal-requests?UserId=${id}`,
     );
   }
 
