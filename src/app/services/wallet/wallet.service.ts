@@ -22,6 +22,7 @@ export class WalletService {
   baseUrl: string;
   private userWalletData = new BehaviorSubject([]);
   setValue = new Subject<number>();
+  walletRefresh = new BehaviorSubject<boolean>(true);
 
   getWalletInfo = this.userWalletData.asObservable();
   constructor(

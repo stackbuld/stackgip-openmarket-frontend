@@ -298,9 +298,9 @@ export class WalletWithdrawComponent {
             this.serverResponse = res.message;
             uikit.modal('#modal-message').show();
           } else {
+            this.walletService.walletRefresh.next(true);
             this.toast.success('Withdrawal made successfully!');
             this.router.navigate(['/seller/wallet']);
-            uikit.modal.alert('Successful');
           }
         },
         error: (err) => {
