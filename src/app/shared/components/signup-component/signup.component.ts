@@ -79,12 +79,12 @@ export class SignupComponent implements OnInit {
     });
 
     this.registerForm = this.fb.group({
-      firstname: ['', [Validators.required]],
-      lastname: ['', [Validators.required]],
+      firstname: [null, [Validators.required]],
+      lastname: [null, [Validators.required]],
       countryCode: ['+234'],
-      email: ['', [Validators.required, Validators.email]],
+      email: [null, [Validators.required, Validators.email]],
       password: [
-        '',
+        null,
         Validators.compose([
           Validators.required,
           Validators.minLength(6),
@@ -104,7 +104,7 @@ export class SignupComponent implements OnInit {
       ],
 
       phoneNumber: [
-        '',
+        null,
         [
           Validators.required,
           Validators.maxLength(10),
@@ -139,16 +139,16 @@ export class SignupComponent implements OnInit {
   }
   async handleGoogleSignup(response: CredentialResponse) {
     this.ngxService.startLoader('loader-01');
-    await this.authService.LoginWithGoogle(response.credential).subscribe(
-      (res) => {
+    await this.authService.LoginWithGoogle(response.credential).subscribe({
+      next: (res) => {
         this.authService.handleAuthResponse(res, 'signup', 'google');
       },
-      (err) => {
+      error: (err) => {
         this.toast.error(err.error.message);
         this.ngxService.stopLoader('loader-01');
         this.ngxService.stopAll();
       },
-    );
+    });
   }
 
   get f() {
@@ -197,9 +197,14 @@ export class SignupComponent implements OnInit {
     this.errors = [];
     this.errorMessage = '';
 
+    if (!this.isTermsAndConditionsAgreed.value) {
+      this.toast.warining('Terms and conditions must be accepted!');
+      return;
+    }
     if (this.registerForm.invalid) {
       return;
     }
+    console.log(1);
     const payload = {
       firstName: this.registerForm.get('firstname').value,
       lastName: this.registerForm.get('lastname').value,
@@ -213,13 +218,8 @@ export class SignupComponent implements OnInit {
 
     this.authService.register(payload).subscribe(
       (d) => {
-        // this.ngxService.stopLoader('loader-01');
-        // this.message = d.message;
-        // this.toast.success(d.message, 'notification');
-        // uikit.modal('#signup-modal').hide()
         this.authService.handleAuthResponse(d, 'signup', 'register');
-        // uikit.modal("#confirm-seller-signup").show()
-        // this.router.navigateByUrl('auth/confirm-email')
+
         this.hasError = false;
       },
       (err) => {
@@ -312,7 +312,6 @@ export class SignupComponent implements OnInit {
         return null;
       }
 
-      console.log(this.f.phoneNumber);
       // test the value of the control against the regexp supplied
       const valid = regex.test(control.value);
 

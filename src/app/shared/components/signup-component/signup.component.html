@@ -218,7 +218,9 @@
           </div>
 
           <button
-            [disabled]="registerForm.invalid"
+            [disabled]="
+              registerForm.invalid || !isTermsAndConditionsAgreed.value
+            "
             class="uk-button uk-width-1-1 signup-btn1"
             type="submit"
           >
@@ -242,7 +244,7 @@
             />
           </button>
         </div>
-        <div class="signup-route">
+        <div class="signup-route mt-4">
           Already registered?
           <a (click)="toggleSignupModal()" class="fw-500">Login</a>
         </div>

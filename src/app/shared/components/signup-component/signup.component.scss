@@ -1,3 +1,7 @@
+.signup-form-section {
+  padding-bottom: 30px;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -173,6 +177,7 @@ form {
 .terms-and-conditions {
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-top: 10px;
 
   & span {
