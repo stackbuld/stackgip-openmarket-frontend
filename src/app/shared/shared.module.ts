@@ -64,6 +64,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { OnVisibleDirective } from './directives/on-visible.directive';
 import { DemoNgZorroAntdModule } from '../modules/seller/seller-store/ng-zoro.module';
 import { LogoutModalComponent } from './components/logout-modal/logout-modal.component';
+import { WalletKycPromptComponent } from './wallet/wallet-kyc-prompt/wallet-kyc-prompt.component';
 
 export const DOCUMENT_TOKEN = new InjectionToken<Document>('Document');
 export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
@@ -98,6 +99,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     LoginPopUpModalComponent,
     OnVisibleDirective,
     LogoutModalComponent,
+    WalletKycPromptComponent,
   ],
   imports: [
     CommonModule,

@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { IUser } from '../../models/IUserModel';
 import { IWallet } from '../../models/wallet.model';
 import { WalletService } from '../../services/wallet/wallet.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
   styleUrls: ['./wallet.component.scss'],
 })
-export class WalletComponent implements OnInit {
+export class WalletComponent implements OnInit, OnDestroy {
   wallet: IWallet[];
   loading: boolean;
   currentRoute: string[] = [];
@@ -17,6 +19,7 @@ export class WalletComponent implements OnInit {
   escrowFunds?: IWallet;
   cashbackFunds?: IWallet;
   mainFunds?: IWallet;
+  destroy$ = new Subject<void>();
 
   constructor(
     private router: Router,
@@ -32,6 +35,11 @@ export class WalletComponent implements OnInit {
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.getWalletDetails();
+    this.walletService.walletRefresh
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.getWalletDetails();
+      });
   }
 
   getWalletDetails() {
@@ -68,5 +76,10 @@ export class WalletComponent implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 }

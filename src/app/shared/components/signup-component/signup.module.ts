@@ -7,11 +7,10 @@ import { SharedModule } from "../../shared.module";
 import { NgModule } from "@angular/core";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
-  declarations: [
-    SignupComponent
-  ],
+  declarations: [SignupComponent],
   imports: [
     CommonModule,
     NgxOtpInputModule,
@@ -20,9 +19,8 @@ import { MatSelectModule } from "@angular/material/select";
     MatInputModule,
     ReactiveFormsModule,
     MatSelectModule,
+    MatCheckboxModule,
   ],
-  exports: [
-    SignupComponent,
-  ]
+  exports: [SignupComponent],
 })
-export class SignupModule { }
+export class SignupModule {}

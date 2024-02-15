@@ -50,7 +50,6 @@
       <input
         type="number"
         ng-required="true"
-        (blur)="validateAmount()"
         class="custom-input"
         formControlName="amount"
         placeholder="0.00"
@@ -68,11 +67,11 @@
     <div class="security-method item uk-flex">
       <div class="uk-flex entity" ng-init="radioption='show'">
         <input type="radio" aria-selected="true" checked="true" />
-        <p>OTP</p>
+        <p>One-time Password</p>
       </div>
     </div>
     <div class="alert" style="font-size: 16px">
-      To authorize this transaction, you will receive a one-time password (OTP)
+      To authorize this transaction, you will receive a One-time Password (OTP)
       on your device
     </div>
 
@@ -83,24 +82,13 @@
         bankDetailsForm.invalid ||
         errorMsg ||
         1 > bankDetailsForm.value.amount ||
-        bankDetailsForm.value.amount > walletDetails.availableAmount ||
-        !user.isKycVerified
+        bankDetailsForm.value.amount > walletDetails.availableAmount
       "
       (click)="sendWithdrawalOtp()"
     >
       <span *ngIf="!withdrawLoading"> Withdraw</span>
       <span *ngIf="withdrawLoading" uk-spinner="ratio: 1"></span>
     </button>
-
-    <div class="verification-prompt" *ngIf="!user.isKycVerified">
-      <div class="icon"><i class="fas fa-comment-dots"></i></div>
-      <div class="comment">
-        <div class="comment-main">Complete KYC registration to continue</div>
-        <a [routerLink]="['/seller/profile/kyc-verification']"
-          >Click here to continue</a
-        >
-      </div>
-    </div>
 
     <!-- This is the modal -->
     <div id="modal-withdrawal" uk-modal bg-close="false">
@@ -115,6 +103,7 @@
           [config]="{ length: 6 }"
           #ngotp
         ></ng-otp-input>
+        <p>Did not receive OTP? Check your spam folder</p>
         <a (click)="sendWithdrawalOtp()">Resend otp</a>
         <div class="action-button">
           <button
