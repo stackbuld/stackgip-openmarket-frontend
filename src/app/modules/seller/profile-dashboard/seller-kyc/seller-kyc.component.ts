@@ -36,7 +36,6 @@ export class SellerKycComponent implements OnInit {
       next: (user) => {
         this.user = user.data;
         this.isFetching = false;
-        console.log(user);
 
         this.verificationFailureReason = user.data.rejectionReason;
         this.approvalStatus = user.data.sellerApprovalStatus;
