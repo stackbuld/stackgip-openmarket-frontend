@@ -1,30 +1,35 @@
-// import { environment } from "../../environments/environment";
+function test(id, key, user) {
+  const dateString = user.dateOfBirth;
+  const dateObject = new Date(dateString);
 
-function test(id, key) {
-  console.log(id);
+  const formatOptions = { year: "numeric", month: "2-digit", day: "2-digit" };
+  const newDate = dateObject.toLocaleDateString("en-CA", formatOptions);
+
   const options = {
     app_id: id, //your app_id here
     p_key: key, //your production public key here
     type: "custom",
     user_data: {
-      first_name: "precious", //optional
-      last_name: "iyeritufu", //optional
-      dob: "1997-04-10", //YYYY-MM-DD Optional
-      residence_country: "NG", //optional
-      email: "iyeritufu@gmail.com", //optional
+      first_name: user.firstName, //optional
+      last_name: user.lastName, //optional
+      dob: newDate ?? "", //YYYY-MM-DD Optional
+      residence_country: user.alpha2CountryCode, //optional
+      email: user.email, //optional
     },
-    reference_id: "12345678_user",
+    reference_id: user.verificationReferenceNumber,
     metadata: {
-      user_id: "12345678_user",
+      user_id: user.id,
     },
     gov_data: {
-      nin: "68481249264",
+      nin: user.idVerificationNumber,
     },
 
     config: {
       widget_id: "65baf9e6cd21f60040595585", //this is generated from easyonboard
     },
     onSuccess: function (response) {
+      alert(response.message);
+      window.location.reload();
       console.log("Success", response);
     },
     onError: function (err) {
