@@ -4,8 +4,9 @@
       <div
         class="categories-container d-none d-md-block col-md-2"
         style="
-          min-height: 565px;
-          max-height: 565px;
+          /*min-height: 70vh;*/
+          /*max-height: 35rem;*/
+          height: 75vh;
           overflow-x: hidden;
           overflow-y: scroll;
         "
@@ -52,7 +53,7 @@
           <li
             *ngFor="let slide of heroSlides"
             class="w-100 slider-img"
-            style="max-height: 565px"
+            style="height: 75vh"
           >
             <img
               [src]="slide"
