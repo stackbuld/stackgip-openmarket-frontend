@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   FormGroup,
   ValidationErrors,
   ValidatorFn,
@@ -46,6 +47,8 @@ export class SignupComponent implements OnInit {
   ];
   FB: any;
   private clientId = environment.googleClientId;
+  isTermsAndConditionsAgreed: FormControl = new FormControl(true);
+  termsAndConditions: string = environment.buyerTermsAndConditionsUrl;
   constructor(
     public authService: AuthService,
     private fb: FormBuilder,
@@ -53,7 +56,7 @@ export class SignupComponent implements OnInit {
     private router: Router,
     private ngxService: NgxUiLoaderService,
     windowRefService: WindowRefService,
-    private countryService: CountryService
+    private countryService: CountryService,
   ) {
     this.window = windowRefService.nativeWindow;
     router.events
@@ -76,12 +79,12 @@ export class SignupComponent implements OnInit {
     });
 
     this.registerForm = this.fb.group({
-      firstname: ['', [Validators.required]],
-      lastname: ['', [Validators.required]],
+      firstname: [null, [Validators.required]],
+      lastname: [null, [Validators.required]],
       countryCode: ['+234'],
-      email: ['', [Validators.required, Validators.email]],
+      email: [null, [Validators.required, Validators.email]],
       password: [
-        '',
+        null,
         Validators.compose([
           Validators.required,
           Validators.minLength(6),
@@ -100,16 +103,15 @@ export class SignupComponent implements OnInit {
         ]),
       ],
 
-      phoneNumber: ['',
+      phoneNumber: [
+        null,
         [
           Validators.required,
           Validators.maxLength(10),
           Validators.pattern('^[0-9]*$'),
-        ]
+        ],
       ],
     });
-
-    
 
     // @ts-ignore
     this.window.onGoogleLibraryLoad = () => {
@@ -124,7 +126,7 @@ export class SignupComponent implements OnInit {
       google.accounts.id.renderButton(
         // @ts-ignore
         document.getElementById('buttonDiv'),
-        { theme: 'outline', size: 'large', width: 100, text: 'signup_with' }
+        { theme: 'outline', size: 'large', width: 100, text: 'signup_with' },
       );
       // @ts-ignore
       google.accounts.id.prompt((notification: PromptMomentNotification) => {});
@@ -137,16 +139,16 @@ export class SignupComponent implements OnInit {
   }
   async handleGoogleSignup(response: CredentialResponse) {
     this.ngxService.startLoader('loader-01');
-    await this.authService.LoginWithGoogle(response.credential).subscribe(
-      (res) => {
+    await this.authService.LoginWithGoogle(response.credential).subscribe({
+      next: (res) => {
         this.authService.handleAuthResponse(res, 'signup', 'google');
       },
-      (err) => {
+      error: (err) => {
         this.toast.error(err.error.message);
         this.ngxService.stopLoader('loader-01');
         this.ngxService.stopAll();
-      }
-    );
+      },
+    });
   }
 
   get f() {
@@ -171,19 +173,19 @@ export class SignupComponent implements OnInit {
 
   get requiresUppercaseValid() {
     return !this.registerForm.controls['password'].hasError(
-      'requiresUppercase'
+      'requiresUppercase',
     );
   }
 
   get requiresLowercaseValid() {
     return !this.registerForm.controls['password'].hasError(
-      'requiresLowercase'
+      'requiresLowercase',
     );
   }
 
   get requiresSpecialCharsValid() {
     return !this.registerForm.controls['password'].hasError(
-      'requiresSpecialChars'
+      'requiresSpecialChars',
     );
   }
 
@@ -195,9 +197,14 @@ export class SignupComponent implements OnInit {
     this.errors = [];
     this.errorMessage = '';
 
+    if (!this.isTermsAndConditionsAgreed.value) {
+      this.toast.warining('Terms and conditions must be accepted!');
+      return;
+    }
     if (this.registerForm.invalid) {
       return;
     }
+    console.log(1);
     const payload = {
       firstName: this.registerForm.get('firstname').value,
       lastName: this.registerForm.get('lastname').value,
@@ -211,13 +218,8 @@ export class SignupComponent implements OnInit {
 
     this.authService.register(payload).subscribe(
       (d) => {
-        // this.ngxService.stopLoader('loader-01');
-        // this.message = d.message;
-        // this.toast.success(d.message, 'notification');
-        // uikit.modal('#signup-modal').hide()
         this.authService.handleAuthResponse(d, 'signup', 'register');
-        // uikit.modal("#confirm-seller-signup").show()
-        // this.router.navigateByUrl('auth/confirm-email')
+
         this.hasError = false;
       },
       (err) => {
@@ -228,13 +230,13 @@ export class SignupComponent implements OnInit {
           this.errors.push('something went wrong please try again later');
           this.toast.error(
             'something went wrong please try again later',
-            'notification'
+            'notification',
           );
         } else {
           this.errors.push(...err.error.message.split(','));
         }
         this.toast.error(err.error.message, 'notification');
-      }
+      },
     );
   }
 
@@ -253,10 +255,10 @@ export class SignupComponent implements OnInit {
             this.toast.error(err.error.message);
             this.ngxService.stopLoader('loader-01');
             this.ngxService.stopAll();
-          }
+          },
         );
       },
-      { scope: 'email' }
+      { scope: 'email' },
     );
   }
 
@@ -293,7 +295,7 @@ export class SignupComponent implements OnInit {
           this.errors.push(...err.error.message.split(','));
         }
         this.ngxService.stopLoader('loader-01');
-      }
+      },
     );
   }
 
@@ -310,7 +312,6 @@ export class SignupComponent implements OnInit {
         return null;
       }
 
-      console.log(this.f.phoneNumber);
       // test the value of the control against the regexp supplied
       const valid = regex.test(control.value);
 

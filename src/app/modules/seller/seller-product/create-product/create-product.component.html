@@ -1233,7 +1233,7 @@
         [class.spinner]="loading"
         [disabled]="loading"
       >
-        Preview & Save
+        Preview and Publish
       </button>
 
       <button
@@ -1272,7 +1272,7 @@
           </div>
           <br />
         </div>
-        <span *ngIf="!creatingProduct"> Save in Drafts</span>
+        <span *ngIf="!creatingProduct"> Save as Draft</span>
       </button>
     </div>
   </form>
@@ -1305,7 +1305,7 @@
       <div class="mt-4">
         <p class="item-label">Price</p>
         <p class="item-price mt-2">
-          {{ form.value.price | currency : "NGN " }}
+          {{ form.value.price | currency: "NGN " }}
         </p>
       </div>
 
@@ -1515,7 +1515,7 @@
                 {{ item.title }}
               </p>
               <p class="card-price" style="word-wrap: break-word">
-                {{ item.cost | currency : "₦" }}
+                {{ item.cost | currency: "₦" }}
               </p>
             </div>
           </div>

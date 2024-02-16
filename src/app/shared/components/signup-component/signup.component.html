@@ -70,9 +70,18 @@
                     *ngFor="let country of countryInfo"
                     [value]="country.phoneCode"
                   >
-                    <img [src]="country.flag" alt="" width="25px" height="25px" />
+                    <img
+                      [src]="country.flag"
+                      alt=""
+                      width="25px"
+                      height="25px"
+                    />
                     <span
-                      style="font-size: 14px; margin-left: 7px; font-weight: bold"
+                      style="
+                        font-size: 14px;
+                        margin-left: 7px;
+                        font-weight: bold;
+                      "
                       >{{ country.countryName }}
                     </span>
                     <span style="font-size: 14px">
@@ -195,8 +204,23 @@
             </div>
           </section>
 
+          <div class="terms-and-conditions">
+            <mat-checkbox
+              class="terms-checkbox"
+              [formControl]="isTermsAndConditionsAgreed"
+              ><span
+                >I agree to
+                <a id="terms-main" [href]="termsAndConditions" target="_blank"
+                  >the terms and conditions</a
+                ></span
+              ></mat-checkbox
+            >
+          </div>
+
           <button
-            [disabled]="registerForm.invalid"
+            [disabled]="
+              registerForm.invalid || !isTermsAndConditionsAgreed.value
+            "
             class="uk-button uk-width-1-1 signup-btn1"
             type="submit"
           >
@@ -220,7 +244,7 @@
             />
           </button>
         </div>
-        <div class="signup-route">
+        <div class="signup-route mt-4">
           Already registered?
           <a (click)="toggleSignupModal()" class="fw-500">Login</a>
         </div>

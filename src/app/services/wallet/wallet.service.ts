@@ -22,6 +22,7 @@ export class WalletService {
   baseUrl: string;
   private userWalletData = new BehaviorSubject([]);
   setValue = new Subject<number>();
+  walletRefresh = new BehaviorSubject<boolean>(true);
 
   getWalletInfo = this.userWalletData.asObservable();
   constructor(
@@ -47,9 +48,9 @@ export class WalletService {
       this.baseUrl + `payments/transactions`,
     );
   }
-  getRequests(): Observable<IRequestResponse> {
+  getRequests(id: string): Observable<IRequestResponse> {
     return this.http.get<IRequestResponse>(
-      this.baseUrl + `wallet/withdrawal-requests`,
+      this.baseUrl + `wallet/withdrawal-requests?UserId=${id}`,
     );
   }
 
