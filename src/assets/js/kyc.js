@@ -1,4 +1,4 @@
-function test(id, key, user) {
+function verifyKyc(appId, widgetId, key, user) {
   const dateString = user.dateOfBirth;
   const dateObject = new Date(dateString);
 
@@ -6,7 +6,7 @@ function test(id, key, user) {
   const newDate = dateObject.toLocaleDateString("en-CA", formatOptions);
 
   const options = {
-    app_id: id, //your app_id here
+    app_id: appId, //your app_id here
     p_key: key, //your production public key here
     type: "custom",
     user_data: {
@@ -25,7 +25,7 @@ function test(id, key, user) {
     },
 
     config: {
-      widget_id: "65baf9e6cd21f60040595585", //this is generated from easyonboard
+      widget_id: widgetId, //this is generated from easyonboard
     },
     onSuccess: function (response) {
       alert(response.message);

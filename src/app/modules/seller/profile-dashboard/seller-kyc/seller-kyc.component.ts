@@ -6,7 +6,12 @@ import { SellerService } from 'src/app/services/seller/seller.service';
 import { IUser } from '../../../../models/IUserModel';
 import { environment } from '../../../../../environments/environment';
 
-declare function test(id: string, key: string, user: IUser): any;
+declare function verifyKyc(
+  appId: string,
+  widgetId: string,
+  key: string,
+  user: IUser,
+): any;
 
 @Component({
   selector: 'app-seller-kyc',
@@ -48,14 +53,19 @@ export class SellerKycComponent implements OnInit {
   }
 
   onVerify() {
-    let id: string;
+    let widgetId: string;
 
     if (this.user.isBusinessRegistered) {
-      id = environment.kycVerificationWidgetId.business;
+      widgetId = environment.kycVerificationWidgetId.business;
     } else if (!this.user.isBusinessRegistered) {
-      id = environment.kycVerificationWidgetId.individual;
+      widgetId = environment.kycVerificationWidgetId.individual;
     }
 
-    test(id, environment.kycVerificationWidgetId.key, this.user);
+    verifyKyc(
+      environment.kycVerificationWidgetId.app_id,
+      widgetId,
+      environment.kycVerificationWidgetId.key,
+      this.user,
+    );
   }
 }

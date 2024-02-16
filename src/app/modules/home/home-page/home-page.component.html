@@ -3,13 +3,7 @@
     <div class="hero-container row">
       <div
         class="categories-container d-none d-md-block col-md-2"
-        style="
-          /*min-height: 70vh;*/
-          /*max-height: 35rem;*/
-          height: 75vh;
-          overflow-x: hidden;
-          overflow-y: scroll;
-        "
+        style="height: 75vh; overflow-x: hidden; overflow-y: scroll"
       >
         <h2 class="">Categories</h2>
         <div *ngIf="!loadingCategories">
@@ -48,6 +42,7 @@
         class="uk-position-relative d-none d-md-block uk-visible-toggle uk-light col col-md thumbnail slider-img-container"
         tabindex="-1"
         uk-slideshow="autoplay: true; autoplay-interval	: 5000"
+        style="height: 75vh"
       >
         <ul class="uk-slideshow-items w-100 h-100">
           <li
@@ -55,12 +50,7 @@
             class="w-100 slider-img"
             style="height: 75vh"
           >
-            <img
-              [src]="slide"
-              alt=""
-              uk-cover
-              style="width: 100% !important; height: 100% !important"
-            />
+            <img [src]="slide" alt="" uk-cover class="uk-slideshow-image" />
             <div
               class="uk-position-medium uk-position-bottom-right shop-now-btn-container"
             >
