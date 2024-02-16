@@ -33,7 +33,6 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         this.ngxService.stopAll();
         if (error instanceof HttpErrorResponse) {
           if (error.error instanceof ErrorEvent) {
-            console.error('Error Event');
           } else {
             switch (error.status) {
               case 401:
@@ -60,7 +59,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
           this.toast.error(this.message);
         }
         this.ngxService.stopAll();
-        return throwError(error);
+        return throwError(() => new Error(error));
       }),
     );
   }
