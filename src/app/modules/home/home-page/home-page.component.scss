@@ -67,6 +67,12 @@ section {
   }
 }
 
+.uk-slideshow-image {
+  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .promoted-product-container,
 .recommended-product-container {
   .header-text {
