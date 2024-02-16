@@ -12,6 +12,13 @@
       <span class="alert-text"
         >congratulations your registration is approved, grow your sales</span
       >
+      <div *ngIf="!user.isKycVerified">
+        <a
+          [routerLink]="['/seller/profile/kyc-verification']"
+          style="color: #000; font-weight: bold"
+          >Complete KYC</a
+        >
+      </div>
     </div>
     <div *ngIf="user?.sellerApprovalStatus.toLowerCase() === 'failed'">
       <svg
@@ -47,6 +54,12 @@
       &nbsp;
       <span class="alert-text" style="color: #d01717"
         >Your verification failed
+        <a
+          [routerLink]="['/seller-form']"
+          style="color: #000; margin-left: 10px"
+          >Retry</a
+        >
+        <div style="color: #000">Reason: {{ user.rejectionReason }}</div>
       </span>
     </div>
     <div *ngIf="user?.sellerApprovalStatus.toLowerCase() === 'none'">
@@ -86,7 +99,12 @@
         <span [routerLink]="['/seller-form']">click here to start</span>
       </span>
     </div>
-    <div *ngIf="user?.sellerApprovalStatus.toLowerCase() === 'pending'">
+    <div
+      *ngIf="
+        user?.sellerApprovalStatus.toLowerCase() === 'pending' ||
+        user?.sellerApprovalStatus.toLowerCase() === 'pendingKycReview'
+      "
+    >
       <svg
         class="mb-1"
         width="24"
@@ -119,7 +137,7 @@
       </svg>
       &nbsp;
       <span class="alert-text" style="color: #ffc400"
-        >Your registration is in progress</span
+        >We are currently reviewing your account</span
       >
     </div>
     <div>
