@@ -58,8 +58,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
           this.message = this.errorService.getClientErrorMessage(error);
           this.toast.error(this.message);
         }
-        this.ngxService.stopAll();
-        return throwError(() => new Error(error));
+        return throwError(() => error);
       }),
     );
   }
