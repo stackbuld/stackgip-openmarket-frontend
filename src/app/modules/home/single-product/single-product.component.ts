@@ -1167,11 +1167,11 @@ export class SingleProductComponent implements OnInit {
               },
               error: (error) => {
                 this.addingItemToCart = false;
-                this.toastService.error(error.message, 'ERROR');
+                this.toastService.error(error.error.message, 'ERROR');
               },
             });
           },
-          error: (err) => {},
+          error: () => {},
         });
     }
   };
