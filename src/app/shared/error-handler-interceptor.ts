@@ -11,9 +11,10 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, take } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Router } from '@angular/router';
+
 declare var UIkit: any;
 @Injectable()
 export class ErrorHandlerInterceptor implements HttpInterceptor {
@@ -29,6 +30,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
+      take(1),
       catchError((error) => {
         this.ngxService.stopAll();
         if (error instanceof HttpErrorResponse) {

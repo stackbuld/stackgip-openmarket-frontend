@@ -3,10 +3,15 @@
     <div class="hero-container row">
       <div
         class="categories-container d-none d-md-block col-md-2"
-        style="height: 75vh; overflow-x: hidden; overflow-y: scroll"
+        style="
+          height: 75vh;
+          overflow-x: hidden;
+          overflow-y: scroll;
+          width: 200px;
+        "
       >
         <h2 class="">Categories</h2>
-        <div *ngIf="!loadingCategories">
+        <ng-container *ngIf="!loadingCategories">
           <div
             *ngFor="let category of categories; let i = index"
             [queryParams]="{ category: category.name }"
@@ -19,7 +24,7 @@
           <div *ngIf="categories.length === 0" class="text-center p-5">
             No Results
           </div>
-        </div>
+        </ng-container>
 
         <div *ngIf="loadingCategories" class="">
           <ngx-shimmer-loading></ngx-shimmer-loading>
