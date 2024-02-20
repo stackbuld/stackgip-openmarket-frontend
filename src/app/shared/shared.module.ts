@@ -66,6 +66,7 @@ import { DemoNgZorroAntdModule } from '../modules/seller/seller-store/ng-zoro.mo
 import { LogoutModalComponent } from './components/logout-modal/logout-modal.component';
 import { WalletKycPromptComponent } from './wallet/wallet-kyc-prompt/wallet-kyc-prompt.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { PwaPromptComponent } from './components/pwa-prompt/pwa-prompt.component';
 
 export const DOCUMENT_TOKEN = new InjectionToken<Document>('Document');
 export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
@@ -102,6 +103,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     LogoutModalComponent,
     WalletKycPromptComponent,
     LoadingSpinnerComponent,
+    PwaPromptComponent,
   ],
   imports: [
     CommonModule,
