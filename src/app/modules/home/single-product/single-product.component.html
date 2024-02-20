@@ -129,7 +129,14 @@
                 </span>
               </span>
 
-              <button (click)="increaseQuantity()" class="unit-btn">
+              <button
+                [ngClass]="{
+                  disabled: count >= product.unit || product.unit < 0
+                }"
+                [disabled]="count >= product.unit || product.unit < 0"
+                (click)="increaseQuantity()"
+                class="unit-btn"
+              >
                 <i class="fa fa-plus"></i>
               </button>
             </div>
