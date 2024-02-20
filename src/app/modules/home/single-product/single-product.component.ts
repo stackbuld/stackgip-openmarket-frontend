@@ -1099,6 +1099,10 @@ export class SingleProductComponent implements OnInit {
     } else if (this.currentShippingMethod.value === null) {
       document.getElementById('openShippingModalBtn').click();
     } else {
+      if (this.count > this.product.unit) {
+        this.toastService.error('Can not order more than the available units!');
+        return;
+      }
       this.addingItemToCart = true;
       const payload = {
         userId: this.user ? this.user.id : '',

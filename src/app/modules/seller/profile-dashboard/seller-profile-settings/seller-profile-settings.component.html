@@ -15,6 +15,7 @@
             placeholder="New Password"
             formControlName="password"
             (keyup)="onKey($event)"
+            class="highlight-mask"
           />
         </div>
 
@@ -25,6 +26,7 @@
             placeholder="Confirm Password"
             (keyup)="onKey($event)"
             formControlName="confirmPassword"
+            class="highlight-mask"
           />
           <p class="p-match" *ngIf="!passwordMatch && confirmPassword.dirty">
             Passwords do not match
@@ -60,6 +62,7 @@
             placeholder="New Pin"
             formControlName="newPin"
             (keyup)="onPin($event)"
+            class="highlight-mask"
           />
         </div>
 
@@ -70,6 +73,7 @@
             placeholder="Confirm Pin"
             formControlName="confirmPin"
             (keyup)="onPin($event)"
+            class="highlight-mask"
           />
           <p class="hint" *ngIf="newPin.invalid">Pin must be four(4) digits</p>
           <p class="hint" *ngIf="!pinMatch && confirmPin.dirty">

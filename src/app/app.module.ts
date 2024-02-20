@@ -1,35 +1,36 @@
-import {SharedModule} from './shared/shared.module';
-import {AppRouteModule} from './app-route.module';
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule, isDevMode} from '@angular/core';
-import {AppComponent} from './app.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {CommonModule} from '@angular/common';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
-import {AuthInterceptor} from './shared/auth-interceptor';
-import {ErrorHandlerInterceptor} from './shared/error-handler-interceptor';
-import {ToastrModule} from 'ngx-toastr';
-import {toastOptions} from './services/toastr.service';
-import {StoreModule} from '@ngrx/store';
-import {counterReducer} from './reducers';
-import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import {environment} from '../environments/environment';
-import {NgxPaginationModule} from './shared/pagination/ngx-pagination.module';
-import {NgxSliderModule} from '@angular-slider/ngx-slider';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {NgAisModule} from 'angular-instantsearch';
-import {ServiceWorkerModule} from '@angular/service-worker';
-import {RouterModule} from '@angular/router';
+import { SharedModule } from './shared/shared.module';
+import { AppRouteModule } from './app-route.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule, isDevMode } from '@angular/core';
+import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './shared/auth-interceptor';
+import { ErrorHandlerInterceptor } from './shared/error-handler-interceptor';
+import { ToastrModule } from 'ngx-toastr';
+import { toastOptions } from './services/toastr.service';
+import { StoreModule } from '@ngrx/store';
+import { counterReducer } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { NgxPaginationModule } from './shared/pagination/ngx-pagination.module';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { NgAisModule } from 'angular-instantsearch';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { RouterModule } from '@angular/router';
 import {
   NgxMatNativeDateModule,
   NgxMatTimepickerModule,
 } from '@angular-material-components/datetime-picker';
-import {H} from 'highlight.run';
+import { H } from 'highlight.run';
 
 H.init(environment.highlightInfo.id, {
   environment: 'production',
   version: 'commit:' + environment.highlightInfo.commmitVersion,
   tracingOrigins: true,
+  privacySetting: 'none',
   networkRecording: {
     enabled: true,
     recordHeadersAndBody: true,
@@ -43,7 +44,7 @@ H.init(environment.highlightInfo.id, {
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule.withServerTransition({appId: 'serverApp'}),
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     HttpClientModule,
     AppRouteModule,
@@ -58,10 +59,10 @@ H.init(environment.highlightInfo.id, {
 
     NgAisModule.forRoot(),
     StoreModule.forRoot(
-      {counterReducer},
+      { counterReducer },
       {
         // metaReducers: [storageSyncMetaReducer],
-      }
+      },
     ),
 
     StoreDevtoolsModule.instrument({
@@ -78,7 +79,7 @@ H.init(environment.highlightInfo.id, {
   ],
 
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandlerInterceptor,
@@ -103,5 +104,4 @@ H.init(environment.highlightInfo.id, {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

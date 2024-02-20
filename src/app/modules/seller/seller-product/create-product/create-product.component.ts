@@ -1076,7 +1076,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     this.creatingProduct = true;
     if (this.form.value.pickupOption === 'None') {
       this.toast.warining(
-        'Please select a pickup option (what kind of vehicle can pick up this item',
+        'Please select a pickup option (what kind of vehicle can pick up this item)',
       );
       return;
     }
