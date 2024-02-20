@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+
 import { AuthService } from 'src/app/services/auth.service';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import { IUser } from '../../../../models/IUserModel';
 import { environment } from '../../../../../environments/environment';
+import { v4 as uuidv4 } from 'uuid';
 
 declare function verifyKyc(
   appId: string,
   widgetId: string,
   key: string,
   user: IUser,
-): any;
+): void;
 
 @Component({
   selector: 'app-seller-kyc',
@@ -59,6 +61,13 @@ export class SellerKycComponent implements OnInit {
       widgetId = environment.kycVerificationWidgetId.business;
     } else if (!this.user.isBusinessRegistered) {
       widgetId = environment.kycVerificationWidgetId.individual;
+    }
+
+    if (
+      !this.user.verificationReferenceNumber ||
+      this.user.verificationReferenceNumber === ''
+    ) {
+      this.user['verificationReferenceNumber'] = uuidv4;
     }
 
     verifyKyc(

@@ -35,6 +35,7 @@ export interface IUser {
   isActive: boolean;
   isKycVerified?: boolean;
   isBusinessRegistered?: boolean;
+  verificationReferenceNumber?: string;
 }
 
 export interface IUserResponse extends ResponseModel {

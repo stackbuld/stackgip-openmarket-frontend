@@ -65,6 +65,7 @@ import { OnVisibleDirective } from './directives/on-visible.directive';
 import { DemoNgZorroAntdModule } from '../modules/seller/seller-store/ng-zoro.module';
 import { LogoutModalComponent } from './components/logout-modal/logout-modal.component';
 import { WalletKycPromptComponent } from './wallet/wallet-kyc-prompt/wallet-kyc-prompt.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 export const DOCUMENT_TOKEN = new InjectionToken<Document>('Document');
 export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
@@ -100,6 +101,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     OnVisibleDirective,
     LogoutModalComponent,
     WalletKycPromptComponent,
+    LoadingSpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -158,6 +160,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     LoginPopUpModalComponent,
     MatExpansionModule,
     DemoNgZorroAntdModule,
+    LoadingSpinnerComponent,
   ],
   providers: [
     {

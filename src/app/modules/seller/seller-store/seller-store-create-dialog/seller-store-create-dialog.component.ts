@@ -47,7 +47,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     private modalInfo: { data: SellerStores; mode: string },
     private helperService: HelperService,
     private toastr: ToastrService,
-    private countryService: CountryService
+    private countryService: CountryService,
   ) {}
 
   @ViewChild('placesRef') placesRef: GooglePlaceDirective;
@@ -137,13 +137,13 @@ export class SellerStoreCreateDialogComponent implements OnInit {
 
       this.storeAvailabilties = this.sellerStoreService.mergeAvailabilities(
         this.storeAvailability.value,
-        this.modalInfo.data.storeAvailabilties
+        this.modalInfo.data.storeAvailabilties,
       );
     } else {
       this.storeAvailabilties = this.storeAvailability.value;
       this.storeAvailabilties = this.sellerStoreService.mergeAvailabilities(
         this.storeAvailability.value,
-        this.sellerStoreService.defaultAvailability
+        this.sellerStoreService.defaultAvailability,
       );
     }
 
@@ -157,12 +157,12 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.sellerStoreService.storeAvailabilitiesSubj.subscribe((value) => {
       this.storeAvailabilties = this.sellerStoreService.mergeAvailabilities(
         this.storeAvailabilties,
-        value.storeAvailabilties
+        value.storeAvailabilties,
       );
 
       this.formattedAvailabilities =
         this.sellerStoreService.formatStoreAvailability(
-          this.storeAvailabilties
+          this.storeAvailabilties,
         );
 
       if (this.formattedAvailabilities.length > 0) {
@@ -316,7 +316,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
         dayOfWeek: [day],
         openingTime: [null],
         closingTime: [null],
-      })
+      }),
     );
   }
 
@@ -345,7 +345,6 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.country.patchValue(country[0].long_name);
     this.city.patchValue(city[0].long_name);
     this.state.patchValue(state[0].long_name);
-    this.landmark.patchValue(landmark[0].long_name);
     this.sellerStoreAddressForm.updateValueAndValidity();
   }
 
@@ -361,7 +360,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
 
     if (!this.isGoogleAddressSelected) {
       this.toastr.warining(
-        'Select an address from the options that shows as you type'
+        'Select an address from the options that shows as you type',
       );
       return;
     }
@@ -379,7 +378,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       this.countryCode.value.toString() + phoneNumber;
 
     const storeAvailabilties = this.sellerStoreService.formatStoreAvailability(
-      this.storeAvailabilties
+      this.storeAvailabilties,
     );
 
     if (this.modalInfo.mode == 'create') {

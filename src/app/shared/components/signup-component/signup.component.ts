@@ -68,7 +68,6 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     this.hasError = false;
     this.errors = [];
-    // console.log(countryCodes);
     this.errorMessage = '';
     this.message = '';
 
@@ -134,7 +133,6 @@ export class SignupComponent implements OnInit {
   }
 
   changeOption(e: any) {
-    console.log(e.target.value);
     this.registerForm?.patchValue({ countryCodes: e.target.value });
   }
   async handleGoogleSignup(response: CredentialResponse) {
@@ -204,7 +202,6 @@ export class SignupComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-    console.log(1);
     const payload = {
       firstName: this.registerForm.get('firstname').value,
       lastName: this.registerForm.get('lastname').value,
@@ -216,13 +213,13 @@ export class SignupComponent implements OnInit {
     };
     this.ngxService.startLoader('loader-01');
 
-    this.authService.register(payload).subscribe(
-      (d) => {
-        this.authService.handleAuthResponse(d, 'signup', 'register');
+    this.authService.register(payload).subscribe({
+      next: (res) => {
+        this.authService.handleAuthResponse(res, 'signup', 'register');
 
         this.hasError = false;
       },
-      (err) => {
+      error: (err) => {
         this.errors = [];
         this.ngxService.stopLoader('loader-01');
         this.hasError = true;
@@ -237,13 +234,12 @@ export class SignupComponent implements OnInit {
         }
         this.toast.error(err.error.message, 'notification');
       },
-    );
+    });
   }
 
   async facebookSignup() {
     FB.login(
       async (result: any) => {
-        console.log('Result', result);
         let token = result.authResponse.accessToken;
         let userId = result.authResponse.userID;
         this.ngxService.startLoader('loader-01');
