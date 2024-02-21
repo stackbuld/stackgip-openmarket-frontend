@@ -184,11 +184,9 @@
 }
 
 .fetch-loader {
-  height: 320px;
-  width: 320px;
-  margin-inline: auto;
-
-  & img {
-    width: 100%;
-  }
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: 40px;
 }

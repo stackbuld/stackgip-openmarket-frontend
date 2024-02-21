@@ -1010,7 +1010,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       .subscribe({
         next: (res) => {
           if (res.status === 'success') {
-            this.toast.success(res.message);
+            this.toast.success('Product updated successfully!');
             this.router.navigate(['/seller/products']);
             this.creatingProduct = false;
             localStorage.removeItem('compImagesStore');
