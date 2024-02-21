@@ -34,6 +34,7 @@ import { VariationsAlertDialogComponent } from './variations-alert-dialog/variat
 import { initial } from 'lodash';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { WindowRefService } from 'src/app/shared/services/window.service';
+import { log } from 'console';
 
 declare var cloudinary: any;
 @Component({
@@ -1009,7 +1010,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       .subscribe({
         next: (res) => {
           if (res.status === 'success') {
-            this.toast.success(res.message);
+            this.toast.success('Product updated successfully!');
             this.router.navigate(['/seller/products']);
             this.creatingProduct = false;
             localStorage.removeItem('compImagesStore');

@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ISeller } from 'src/app/models/sellerModel';
 import { SellerStorefrontService } from 'src/app/services/seller-storefront/seller-storefront.service';
 import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
+import { fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-seller-storefront',
@@ -30,7 +32,7 @@ export class SellerStorefrontComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private sellerStorefrontService: SellerStorefrontService,
-    private toaster: ToastrService
+    private toaster: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -38,30 +40,31 @@ export class SellerStorefrontComponent implements OnInit {
       this.sellerId = params.get('sellerId');
     });
 
+    let unchangedBannerUrl: string;
+
     this.sellerStorefrontService
       .getSellerStorefrontDetails(this.sellerId)
       .subscribe((data) => {
         this.sellerStorefrontDetails = data.data;
 
-        /* The code snippet is assigning a value to the `bannerImgUrl` property based on the value of
-        `sellerStorefrontDetails.coverPhotoUrl`. */
         this.bannerImgUrl =
           !this.sellerStorefrontDetails.coverPhotoUrl ||
           this.sellerStorefrontDetails.coverPhotoUrl === 'string'
             ? this.defaultBannerUrl
             : this.sellerStorefrontDetails.coverPhotoUrl;
-        /* The code snippet is assigning a value to the `logoImgUrl` property based on the value of
-        `sellerStorefrontDetails.profileImageUrl`. */
+
+        unchangedBannerUrl = this.bannerImgUrl;
+
         this.logoImgUrl = !this.sellerStorefrontDetails.profileImageUrl
           ? this.defaultLogoImgUrl
           : this.sellerStorefrontDetails.profileImageUrl;
-        /* The code snippet is calling the `getImageResolution` method to modify the `bannerImgUrl` and
-        `logoImgUrl` properties. */
+
         this.bannerImgUrl = this.getImageResolution(
           this.bannerImgUrl,
           1200,
-          300
+          300,
         );
+
         this.logoImgUrl = this.getImageResolution(this.logoImgUrl, 300, 300);
         this.loadingData = false;
       });

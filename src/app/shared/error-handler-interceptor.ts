@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 declare var UIkit: any;
 @Injectable()
 export class ErrorHandlerInterceptor implements HttpInterceptor {
+  sessionAlertShown: boolean = false;
   constructor(
     private toast: ToastrService,
     private errorService: ErrorService,
@@ -37,7 +38,10 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
           } else {
             switch (error.status) {
               case 401:
-                this.toast.info('Session expired, please login to continue');
+                if (this.sessionAlertShown) {
+                  this.toast.info('Session expired, please login to continue');
+                }
+                this.sessionAlertShown = true;
                 localStorage.clear();
                 sessionStorage.clear();
                 this.router.navigate(['/auth']);

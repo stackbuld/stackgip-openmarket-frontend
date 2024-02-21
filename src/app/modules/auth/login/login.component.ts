@@ -84,7 +84,6 @@ export class LoginComponent implements OnInit {
     if (this.authService.getLoggedInUser()) {
       this.router.navigate(['/homepage']);
     }
-
     // @ts-ignore
     this.window.onGoogleLibraryLoad = () => {
       // @ts-ignore

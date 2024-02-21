@@ -49,12 +49,8 @@
         uk-slideshow="autoplay: true; autoplay-interval	: 5000"
         style="height: 75vh"
       >
-        <ul class="uk-slideshow-items w-100 h-100">
-          <li
-            *ngFor="let slide of heroSlides"
-            class="w-100 slider-img"
-            style="height: 75vh"
-          >
+        <ul class="uk-slideshow-items w-100 banner-carousels">
+          <li *ngFor="let slide of heroSlides" class="w-100 slider-img">
             <img [src]="slide" alt="" uk-cover class="uk-slideshow-image" />
             <div
               class="uk-position-medium uk-position-bottom-right shop-now-btn-container"
@@ -119,9 +115,9 @@
   <section id="promoted-product">
     <div class="promoted-product-container">
       <div class="header-text">
-        <p class="fs-5 fs-md-2">Promoted Product</p>
-        <span class="pointer">
-          <span routerLink="/homepage/search"> See All </span>
+        <p class="fs-5 fs-md-2 see-all-heading">Promoted Product</p>
+        <span class="pointer" routerLink="/homepage/search">
+          <span> See All </span>
           <svg
             fill="none"
             height="24"
@@ -185,9 +181,9 @@
   <section id="recommended-product">
     <div class="recommended-product-container">
       <div class="header-text">
-        <p class="fs-3 fs-md-2">Recommended Product</p>
-        <span class="pointer">
-          <span routerLink="/homepage/search"> See All </span>
+        <p class="fs-3 fs-md-2 see-all-heading">Recommended Product</p>
+        <span class="pointer" routerLink="/homepage/search">
+          <span> See All </span>
           <svg
             fill="none"
             height="24"

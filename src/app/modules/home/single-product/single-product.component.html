@@ -430,9 +430,10 @@
 
   <div class="mobile-pad-1 mt-3">
     <h2>Product Description</h2>
-    <p *ngIf="!loadingProductDescription">
-      {{ product?.description || "N/A" }}
-    </p>
+    <div
+      *ngIf="!loadingProductDescription"
+      [innerHTML]="product.description ?? 'N/A'"
+    ></div>
     <div *ngIf="loadingProductDescription" class="w-100">
       <br />
       <ngx-shimmer-loading height="50px"></ngx-shimmer-loading>
@@ -443,7 +444,7 @@
     <div class="complimentary-products-heading">
       <div class="complimentary-products-heading-main">You may also like</div>
 
-      <div class="see-all" routerLink="/homepage">
+      <div class="see-all" routerLink="/homepage/search">
         See all <i class="fa fa-arrow-right"></i>
       </div>
     </div>
