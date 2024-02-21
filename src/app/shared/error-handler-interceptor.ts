@@ -30,7 +30,6 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      take(1),
       catchError((error) => {
         this.ngxService.stopAll();
         if (error instanceof HttpErrorResponse) {
