@@ -80,6 +80,11 @@ section {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 15px;
+
+    & .see-all-heading {
+      margin-bottom: 0;
+    }
 
     h2 {
       color: #000;
@@ -152,6 +157,10 @@ section {
   .ghost-button {
     padding: 5px 10px;
     font-size: 1em;
+  }
+
+  .see-all-heading {
+    font-size: 16px !important;
   }
 }
 
