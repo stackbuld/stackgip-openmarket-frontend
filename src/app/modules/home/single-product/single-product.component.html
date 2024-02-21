@@ -430,9 +430,10 @@
 
   <div class="mobile-pad-1 mt-3">
     <h2>Product Description</h2>
-    <p *ngIf="!loadingProductDescription">
-      {{ product?.description || "N/A" }}
-    </p>
+    <div
+      *ngIf="!loadingProductDescription"
+      [innerHTML]="product.description ?? 'N/A'"
+    ></div>
     <div *ngIf="loadingProductDescription" class="w-100">
       <br />
       <ngx-shimmer-loading height="50px"></ngx-shimmer-loading>

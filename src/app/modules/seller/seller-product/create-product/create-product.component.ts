@@ -34,6 +34,7 @@ import { VariationsAlertDialogComponent } from './variations-alert-dialog/variat
 import { initial } from 'lodash';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { WindowRefService } from 'src/app/shared/services/window.service';
+import { log } from 'console';
 
 declare var cloudinary: any;
 @Component({
@@ -367,6 +368,10 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
         }
       },
     );
+
+    this.form
+      .get('description')
+      .valueChanges.subscribe((value) => console.log(value));
   }
 
   ngAfterViewChecked(): void {}
