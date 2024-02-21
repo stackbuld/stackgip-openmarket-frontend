@@ -438,7 +438,6 @@ export class SingleProductComponent implements OnInit {
         this.isLoadingDetails = false;
         this.product = res.data;
 
-        console.log(res);
         this.loadingProductDescription = false;
         this.sellerStores = res.data?.sellerStores;
 

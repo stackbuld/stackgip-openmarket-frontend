@@ -154,3 +154,11 @@ section {
     font-size: 1em;
   }
 }
+
+.banner-carousels {
+  min-height: 0 !important;
+  height: 100% !important;
+  & li {
+    height: 75vh;
+  }
+}

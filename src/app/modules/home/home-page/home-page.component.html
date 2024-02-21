@@ -49,12 +49,8 @@
         uk-slideshow="autoplay: true; autoplay-interval	: 5000"
         style="height: 75vh"
       >
-        <ul class="uk-slideshow-items w-100 h-100">
-          <li
-            *ngFor="let slide of heroSlides"
-            class="w-100 slider-img"
-            style="height: 75vh"
-          >
+        <ul class="uk-slideshow-items w-100 banner-carousels">
+          <li *ngFor="let slide of heroSlides" class="w-100 slider-img">
             <img [src]="slide" alt="" uk-cover class="uk-slideshow-image" />
             <div
               class="uk-position-medium uk-position-bottom-right shop-now-btn-container"

@@ -368,10 +368,6 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
         }
       },
     );
-
-    this.form
-      .get('description')
-      .valueChanges.subscribe((value) => console.log(value));
   }
 
   ngAfterViewChecked(): void {}
