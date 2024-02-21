@@ -15,7 +15,6 @@
 .country-code {
   width: 4rem;
   padding-left: 0.5rem;
-  // background-color:;
 }
 
 .profile-banner {
@@ -28,7 +27,6 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  // z-index: 8;
 
   &-hints {
     position: absolute;
@@ -38,6 +36,9 @@
     bottom: 10px;
     cursor: pointer;
     z-index: 12;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 5px;
+    border-radius: 4px;
 
     &-text {
       color: $white;
@@ -487,12 +488,11 @@
 }
 
 .fetch-loader {
-  height: 320px;
-  width: 320px;
-
-  & img {
-    width: 100%;
-  }
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: 40px;
 }
 
 .login-btn-loader {

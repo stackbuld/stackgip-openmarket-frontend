@@ -1,5 +1,8 @@
 <div class="fetch-loader" *ngIf="isFetching">
-  <img src="/assets/svg/loader-icon.svg" alt="" />
+  <app-loading-spinner
+    [borderStyle]="'5px solid #000'"
+    [size]="'40px'"
+  ></app-loading-spinner>
 </div>
 <div class="seller-kyc-container" *ngIf="!isFetching">
   <div class="seller-kyc-main">

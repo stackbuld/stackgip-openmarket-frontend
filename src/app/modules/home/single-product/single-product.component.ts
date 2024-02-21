@@ -437,7 +437,7 @@ export class SingleProductComponent implements OnInit {
       next: (res) => {
         this.isLoadingDetails = false;
         this.product = res.data;
-        console.log(res);
+
         this.loadingProductDescription = false;
         this.sellerStores = res.data?.sellerStores;
 
@@ -1099,6 +1099,10 @@ export class SingleProductComponent implements OnInit {
     } else if (this.currentShippingMethod.value === null) {
       document.getElementById('openShippingModalBtn').click();
     } else {
+      if (this.count > this.product.unit) {
+        this.toastService.error('Can not order more than the available units!');
+        return;
+      }
       this.addingItemToCart = true;
       const payload = {
         userId: this.user ? this.user.id : '',
@@ -1167,11 +1171,11 @@ export class SingleProductComponent implements OnInit {
               },
               error: (error) => {
                 this.addingItemToCart = false;
-                this.toastService.error(error.message, 'ERROR');
+                this.toastService.error(error.error.message, 'ERROR');
               },
             });
           },
-          error: (err) => {},
+          error: () => {},
         });
     }
   };

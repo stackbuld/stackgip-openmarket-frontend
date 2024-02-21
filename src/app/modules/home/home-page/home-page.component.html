@@ -4,15 +4,14 @@
       <div
         class="categories-container d-none d-md-block col-md-2"
         style="
-          /*min-height: 70vh;*/
-          /*max-height: 35rem;*/
           height: 75vh;
           overflow-x: hidden;
           overflow-y: scroll;
+          width: 200px;
         "
       >
         <h2 class="">Categories</h2>
-        <div *ngIf="!loadingCategories">
+        <ng-container *ngIf="!loadingCategories">
           <div
             *ngFor="let category of categories; let i = index"
             [queryParams]="{ category: category.name }"
@@ -25,7 +24,7 @@
           <div *ngIf="categories.length === 0" class="text-center p-5">
             No Results
           </div>
-        </div>
+        </ng-container>
 
         <div *ngIf="loadingCategories" class="">
           <ngx-shimmer-loading></ngx-shimmer-loading>
@@ -48,19 +47,11 @@
         class="uk-position-relative d-none d-md-block uk-visible-toggle uk-light col col-md thumbnail slider-img-container"
         tabindex="-1"
         uk-slideshow="autoplay: true; autoplay-interval	: 5000"
+        style="height: 75vh"
       >
-        <ul class="uk-slideshow-items w-100 h-100">
-          <li
-            *ngFor="let slide of heroSlides"
-            class="w-100 slider-img"
-            style="height: 75vh"
-          >
-            <img
-              [src]="slide"
-              alt=""
-              uk-cover
-              style="width: 100% !important; height: 100% !important"
-            />
+        <ul class="uk-slideshow-items w-100 banner-carousels">
+          <li *ngFor="let slide of heroSlides" class="w-100 slider-img">
+            <img [src]="slide" alt="" uk-cover class="uk-slideshow-image" />
             <div
               class="uk-position-medium uk-position-bottom-right shop-now-btn-container"
             >
@@ -124,9 +115,9 @@
   <section id="promoted-product">
     <div class="promoted-product-container">
       <div class="header-text">
-        <p class="fs-5 fs-md-2">Promoted Product</p>
-        <span class="pointer">
-          <span routerLink="/homepage/search"> See All </span>
+        <p class="fs-5 fs-md-2 see-all-heading">Promoted Product</p>
+        <span class="pointer" routerLink="/homepage/search">
+          <span> See All </span>
           <svg
             fill="none"
             height="24"
@@ -190,9 +181,9 @@
   <section id="recommended-product">
     <div class="recommended-product-container">
       <div class="header-text">
-        <p class="fs-3 fs-md-2">Recommended Product</p>
-        <span class="pointer">
-          <span routerLink="/homepage/search"> See All </span>
+        <p class="fs-3 fs-md-2 see-all-heading">Recommended Product</p>
+        <span class="pointer" routerLink="/homepage/search">
+          <span> See All </span>
           <svg
             fill="none"
             height="24"

@@ -179,13 +179,13 @@ export class WalletWithdrawComponent {
   }
 
   sendWithdrawalOtp() {
-    if (!this.user.isKycVerified) {
-      const dialogRef = this.dialog.open(WalletKycPromptComponent, {
-        width: '600px',
-        height: '200px',
-      });
-      return;
-    }
+    // if (!this.user.isKycVerified) {
+    //   const dialogRef = this.dialog.open(WalletKycPromptComponent, {
+    //     width: '600px',
+    //     height: '200px',
+    //   });
+    //   return;
+    // }
 
     if (
       !this.bankDetailsForm.value.accountName ||

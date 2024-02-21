@@ -1,5 +1,8 @@
 <div *ngIf="isLoadingDetails" class="loader-container">
-  <span class="loader"></span>
+  <app-loading-spinner
+    [borderStyle]="'5px solid #000'"
+    [size]="'40px'"
+  ></app-loading-spinner>
 </div>
 <div *ngIf="!isLoadingDetails" class="main">
   <div class="top-section">
@@ -126,7 +129,14 @@
                 </span>
               </span>
 
-              <button (click)="increaseQuantity()" class="unit-btn">
+              <button
+                [ngClass]="{
+                  disabled: count >= product.unit || product.unit < 0
+                }"
+                [disabled]="count >= product.unit || product.unit < 0"
+                (click)="increaseQuantity()"
+                class="unit-btn"
+              >
                 <i class="fa fa-plus"></i>
               </button>
             </div>
@@ -285,14 +295,12 @@
           class="add-btn"
         >
           <span *ngIf="!addingItemToCart">Add to Cart</span>
-          <span *ngIf="addingItemToCart">
-            <img
-              alt=""
-              height="40"
-              src="/assets/svg/loader-icon.svg"
-              width="40"
-            />
-          </span>
+          <div *ngIf="addingItemToCart">
+            <app-loading-spinner
+              [borderStyle]="'3px solid #fff'"
+              [size]="'30px'"
+            ></app-loading-spinner>
+          </div>
         </button>
         <button class="view-btn" routerLink="/homepage/search">
           Continue Shopping
@@ -422,9 +430,10 @@
 
   <div class="mobile-pad-1 mt-3">
     <h2>Product Description</h2>
-    <p *ngIf="!loadingProductDescription">
-      {{ product?.description || "N/A" }}
-    </p>
+    <div
+      *ngIf="!loadingProductDescription"
+      [innerHTML]="product.description ?? 'N/A'"
+    ></div>
     <div *ngIf="loadingProductDescription" class="w-100">
       <br />
       <ngx-shimmer-loading height="50px"></ngx-shimmer-loading>
@@ -435,7 +444,7 @@
     <div class="complimentary-products-heading">
       <div class="complimentary-products-heading-main">You may also like</div>
 
-      <div class="see-all" routerLink="/homepage">
+      <div class="see-all" routerLink="/homepage/search">
         See all <i class="fa fa-arrow-right"></i>
       </div>
     </div>

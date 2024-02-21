@@ -313,7 +313,7 @@ export class SellerRegisterationFormComponent
         next: (res: { user: IUser; response: ResponseModel }) => {
           if (res.response.status === 'success') {
             this.isLoading = false;
-            this.toast.success('Registeration successfully submited');
+            this.toast.success('Registration successfully submitted');
             this.updateSellerLocalDetails();
             // this.closeModal(true);
             uikit.modal('#confirm-seller-register').show();

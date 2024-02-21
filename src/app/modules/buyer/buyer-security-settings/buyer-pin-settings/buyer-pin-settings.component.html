@@ -8,6 +8,7 @@
           id="new-pin"
           formControlName="newPin"
           (keyup)="onPinEnter($event)"
+          class="highlight-mask"
         />
       </div>
     </div>
@@ -20,6 +21,7 @@
           id="confirm-pin"
           formControlName="confirmPin"
           (keyup)="onPinEnter($event)"
+          class="highlight-mask"
         />
         <p class="hint" *ngIf="newPin.invalid">Pin must be four(4) digits</p>
         <p class="hint" *ngIf="!pinMatch && confirmPin.dirty">

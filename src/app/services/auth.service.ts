@@ -466,9 +466,6 @@ export class AuthService {
           res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
           res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
         ) {
-          this.toast.success(
-            `${accessType === 'signin' ? 'Login' : 'Signup'} Successful`,
-          );
           if (this.currentUrl.includes('auth')) {
             this.router.navigate(['/seller/dashboard']);
             try {
@@ -478,9 +475,6 @@ export class AuthService {
             this.hideSharedLoginModal();
           }
         } else {
-          this.toast.success(
-            `${accessType === 'signin' ? 'Login' : 'Signup'} Successful`,
-          );
           if (this.currentUrl.includes('auth')) {
             this.router.navigate(['/']);
           } else {
@@ -492,9 +486,7 @@ export class AuthService {
         this.ngxService.stopLoader('loader-01');
         this.isLogin.next(true);
         this.SetAuthLocalStorage(res);
-        this.toast.success(
-          `${accessType === 'signin' ? 'Login' : 'Signup'} Successful`,
-        );
+
         if (this.currentUrl.includes('auth')) {
           authType === 'login'
             ? this.router.navigate(['/'])
@@ -504,6 +496,10 @@ export class AuthService {
           this.hideSharedSignupModal();
         }
       }
+
+      this.toast.success(
+        `${accessType === 'signin' ? 'Login' : 'Signup'} Successful`,
+      );
     }
     this.isLogin.next(true);
     this.SetAuthLocalStorage(res);

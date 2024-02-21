@@ -84,7 +84,6 @@ export class LoginComponent implements OnInit {
     if (this.authService.getLoggedInUser()) {
       this.router.navigate(['/homepage']);
     }
-
     // @ts-ignore
     this.window.onGoogleLibraryLoad = () => {
       // @ts-ignore
@@ -153,15 +152,15 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.ngxService.startLoader('loader-01');
-    this.authService.signIn(this.loginForm.value).subscribe(
-      (res) => {
+    this.authService.signIn(this.loginForm.value).subscribe({
+      next: (res) => {
         this.authService.handleAuthResponse(res, 'signin', 'login');
       },
-      (err) => {
+      error: (err) => {
         this.toast.error(err.error.message);
         this.ngxService.stopLoader('loader-01');
         this.ngxService.stopAll();
       },
-    );
+    });
   }
 }
