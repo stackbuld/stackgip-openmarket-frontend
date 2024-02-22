@@ -43,6 +43,12 @@ export interface IAuth {
   profileUrl: string;
 }
 
+export interface OTPVerificationResponse {
+  data: string[];
+  message: any;
+  status: any;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -253,7 +259,7 @@ export class AuthService {
   }
 
   updatePin(credentials: { newPin: string; phoneOtp: string }) {
-    return this.http.patch(
+    return this.http.patch<OTPVerificationResponse>(
       this.api.baseApiUrl + 'auth/pin/change',
       credentials,
     );
@@ -264,7 +270,7 @@ export class AuthService {
   }
 
   verifyPersonalPhoneNumber(credentials: { phoneNumber: string; otp: string }) {
-    return this.http.put(
+    return this.http.put<OTPVerificationResponse>(
       this.api.baseApiUrl + 'users/phonenumber/verify',
       credentials,
     );
@@ -280,7 +286,7 @@ export class AuthService {
     businessPhone: string;
     otp: string;
   }) {
-    return this.http.put(
+    return this.http.put<OTPVerificationResponse>(
       this.api.baseApiUrl + 'sellers/businessphone/verify',
       credentials,
     );
@@ -348,7 +354,10 @@ export class AuthService {
   }
 
   deactivateSeller(data: { otp: string }) {
-    return this.http.put(this.api.baseApiUrl + 'auth/deactivate', data);
+    return this.http.put<OTPVerificationResponse>(
+      this.api.baseApiUrl + 'auth/deactivate',
+      data,
+    );
   }
 
   sendActivateSellerOTP(data: { phoneNumber: string }) {
@@ -356,7 +365,10 @@ export class AuthService {
   }
 
   activateSeller(data: { email: string; otp: string }) {
-    return this.http.put(this.api.baseApiUrl + 'auth/activate', data);
+    return this.http.put<OTPVerificationResponse>(
+      this.api.baseApiUrl + 'auth/activate',
+      data,
+    );
   }
 
   //

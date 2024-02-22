@@ -96,6 +96,7 @@
     "rxjs-compat": "^6.6.7",
     "rxjs-websockets": "^9.0.0",
     "sweetalert": "^2.1.2",
+    "swiper": "^11.0.6",
     "symbol-observable": "^4.0.0",
     "tslib": "^2.5.0",
     "uikit": "^3.15.23",

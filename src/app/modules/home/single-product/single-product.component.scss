@@ -595,6 +595,10 @@ input[type="radio"] {
 
 .product-images {
   margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
 
   & .product-image-main {
     & .main-swiper-image {
@@ -641,7 +645,12 @@ input[type="radio"] {
   }
 
   & .product-image-slider {
-    margin-top: 30px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 450px;
 
     & .thumb-image {
       width: 80px;
@@ -655,6 +664,10 @@ input[type="radio"] {
       object-fit: cover;
     }
   }
+}
+
+.swiper-wrapper {
+  width: 450px;
 }
 
 .swiper-slide-thumb-active {
