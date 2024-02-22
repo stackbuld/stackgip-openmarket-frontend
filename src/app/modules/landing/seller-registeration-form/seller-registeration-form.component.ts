@@ -212,23 +212,23 @@ export class SellerRegisterationFormComponent
 
   sellerRegForm(): void {
     this.sellerRegFormGroup = this.fb.group({
-      businessName: ['', Validators.required],
+      businessName: [null, Validators.required],
       businessDescription: ['', Validators.required],
-      businessAddress: ['', Validators.required],
-      businessState: ['', Validators.required],
-      businessRegistrationNumber: ['', Validators.required],
-      personalIDType: ['', Validators.required],
+      businessAddress: [null, Validators.required],
+      businessState: [null, Validators.required],
+      businessRegistrationNumber: [null, Validators.required],
+      personalIDType: [null, Validators.required],
       personalIDNumber: [
-        '',
+        null,
         [
           Validators.required,
           Validators.minLength(11),
           Validators.maxLength(11),
         ],
       ],
-      landmark: [''],
-      lga: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
+      landmark: [null, Validators.required],
+      lga: [null, Validators.required],
+      dateOfBirth: [null, Validators.required],
       isBusinessRegistered: [true, Validators.required],
     });
   }

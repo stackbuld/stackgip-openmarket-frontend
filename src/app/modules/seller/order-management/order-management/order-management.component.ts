@@ -52,7 +52,6 @@ export class OrderManagementComponent
   delivering: boolean = false;
   awaitingPickup: boolean = false;
   inTransitAll: boolean = false;
-
   user: any;
   totalItemCount: number;
   maximumItem: number = 10;
@@ -84,10 +83,11 @@ export class OrderManagementComponent
     private authService: AuthService,
     private router: Router,
     private appLocal: AppLocalStorage,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
+    this.user = this.authService.getLoggedInUser();
     this.allFilterInput = new FormControl(null);
     this.allFilterInput.valueChanges.subscribe((value) => {
       if (value) {
@@ -96,7 +96,6 @@ export class OrderManagementComponent
       }
     });
     this.switchTabs('newTab');
-    this.user = this.authService.getLoggedInUser();
     this.sellerId = this.user.id;
     this.getDashboardOverview();
 
@@ -105,7 +104,7 @@ export class OrderManagementComponent
         if (status) {
           this.fetchAllOrders(this.defaultPage);
         }
-      }
+      },
     );
   }
 
@@ -118,13 +117,12 @@ export class OrderManagementComponent
     this.orderService.getOrderDashboardOverview(this.sellerId).subscribe(
       (res) => {
         this.overviewData = res.data;
-        console.log(res);
 
         this.loadingOverviewData = false;
       },
       (error) => {
         this.loadingOverviewData = false;
-      }
+      },
     );
   };
 
@@ -142,7 +140,7 @@ export class OrderManagementComponent
         filter(Boolean),
         debounceTime(300),
         distinctUntilChanged(),
-        map((data) => this.searchQuery.nativeElement.value.toLowerCase())
+        map((data) => this.searchQuery.nativeElement.value.toLowerCase()),
       )
       .subscribe((searchTerm) => {
         this.fetchAllOrders(this.defaultPage);
@@ -164,8 +162,6 @@ export class OrderManagementComponent
 
   searchOrders = () => {
     if (this.search !== '') {
-      console.log(this.search);
-
       this.fetchAllOrders(this.defaultPage);
     }
   };
@@ -181,10 +177,10 @@ export class OrderManagementComponent
   clear = () => {
     this.isCustomDate = false;
     let searchInput = document.getElementById(
-      'searchInput'
+      'searchInput',
     ) as HTMLInputElement;
     let selectElement = document.getElementById(
-      'filterSelect'
+      'filterSelect',
     ) as HTMLSelectElement;
     searchInput.value = '';
     selectElement.value = 'all';
@@ -199,6 +195,7 @@ export class OrderManagementComponent
   fetchAllOrders = (pageNumber: number) => {
     this.loadingOrders = true;
     this.orders = [];
+    this.sellerId = this.user.id ?? '';
     this.orderService
       .fetchAllOrders(
         pageNumber,
@@ -213,7 +210,7 @@ export class OrderManagementComponent
         this.orderStatus,
         this.deliveryStatus,
         this.paymentStatus,
-        this.search
+        this.search,
       )
       .subscribe({
         next: (res) => {
