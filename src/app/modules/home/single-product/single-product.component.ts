@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   NgZone,
@@ -122,6 +123,7 @@ export class SingleProductComponent implements OnInit {
     navigation: true,
     pagination: true,
     loop: true,
+    watchSlidesProgress: true,
   };
 
   swiperThumbsConfig = {

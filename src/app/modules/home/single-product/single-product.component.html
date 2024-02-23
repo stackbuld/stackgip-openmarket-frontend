@@ -10,9 +10,11 @@
       <div class="product-images">
         <div class="product-image-main">
           <swiper-container
-            [config]="swiperConfig"
-            class="main-swiper-container"
+            class="main-swiper-container swiper1"
             pagination="true"
+            navigation="true"
+            watchSlidesProgress="true"
+            spaceBewteen="10"
             thumbs-swiper=".swiper2"
           >
             <swiper-slide
@@ -42,7 +44,7 @@
         </div>
 
         <div class="product-image-slider">
-          <swiper-container class="swiper2">
+          <swiper-container class="swiper2" controller-control=".swiper-1">
             <swiper-slide
               *ngFor="let media of sliderMedia; let i = index"
               class="swiper-slide"
