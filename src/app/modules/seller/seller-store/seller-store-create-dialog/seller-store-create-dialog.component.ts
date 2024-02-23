@@ -322,30 +322,33 @@ export class SellerStoreCreateDialogComponent implements OnInit {
 
   public handleAddressChange(address: Address) {
     this.isGoogleAddressSelected = true;
-    let postalCode = address.address_components.filter((element) => {
-      return element.types.includes('postal_code');
-    });
+    console.log(address);
+    try {
+      try {
+        let postalCode = address.address_components.filter((element) => {
+          return element.types.includes('postal_code');
+        });
+        this.postalCode.patchValue(postalCode[0].long_name);
+      } catch {}
 
-    let country = address.address_components.filter((element) => {
-      return element.types.includes('country');
-    });
-    let city = address.address_components.filter((element) => {
-      return element.types.includes('administrative_area_level_2');
-    });
-    let state = address.address_components.filter((element) => {
-      return element.types.includes('administrative_area_level_1');
-    });
-    let landmark = address.address_components.filter((element) => {
-      return element.types.includes('locality');
-    });
-    this.fullAddress.patchValue(address.formatted_address);
-    this.lng.patchValue(address.geometry.location.lng());
-    this.lat.patchValue(address.geometry.location.lat());
-    this.postalCode.patchValue(postalCode[0].long_name);
-    this.country.patchValue(country[0].long_name);
-    this.city.patchValue(city[0].long_name);
-    this.state.patchValue(state[0].long_name);
-    this.sellerStoreAddressForm.updateValueAndValidity();
+      let country = address.address_components.filter((element) => {
+        return element.types.includes('country');
+      });
+      let city = address.address_components.filter((element) => {
+        return element.types.includes('administrative_area_level_2');
+      });
+      let state = address.address_components.filter((element) => {
+        return element.types.includes('administrative_area_level_1');
+      });
+      console.log(country, city, state);
+      this.fullAddress.patchValue(address.formatted_address);
+      this.lng.patchValue(address.geometry.location.lng());
+      this.lat.patchValue(address.geometry.location.lat());
+      this.country.patchValue(country[0].long_name);
+      this.city.patchValue(city[0].long_name);
+      this.state.patchValue(state[0].long_name);
+      this.sellerStoreAddressForm.updateValueAndValidity();
+    } catch {}
   }
 
   onSave() {

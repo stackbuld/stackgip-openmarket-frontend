@@ -26,8 +26,8 @@ import { MAT_SELECT_CONFIG } from '@angular/material/select';
 import { ProductDeleteModalComponent } from './product-checkout/product-delete-modal/product-delete-modal.component';
 import { SingleProductAddressDialogComponent } from './single-product/single-product-address-dialog/single-product-address-dialog.component';
 
-// import { register } from 'swiper/element/bundle';
-// register();
+import { register } from 'swiper/element/bundle';
+register();
 @NgModule({
   declarations: [
     HomeComponent,

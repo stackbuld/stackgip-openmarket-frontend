@@ -165,7 +165,6 @@ export class BusinessProfileComponent implements OnInit {
     const formattedPhoneNumber =
       this.businessProfileForm.get('countryCode').value.toString() +
       this.phoneNumberField.value.toString();
-    console.log(formattedPhoneNumber);
 
     this.authService.sendBusinessPhoneOTP().subscribe({
       next: (data) => {

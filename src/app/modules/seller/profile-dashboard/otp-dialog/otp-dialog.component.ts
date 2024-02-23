@@ -17,6 +17,7 @@ import {
 import { AuthService } from 'src/app/services/auth.service';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import { ToastrService } from 'src/app/services/toastr.service';
+import { NgOtpInputComponent } from 'ng-otp-input';
 
 @Component({
   selector: 'app-otp-dialog',
@@ -83,6 +84,8 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
   resendTimer: number = 29;
 
   @ViewChild('otp_dialog') otpDialog: ElementRef<HTMLDivElement>;
+  @ViewChild(NgOtpInputComponent, { static: false })
+  ngOtpInput: NgOtpInputComponent;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -91,17 +94,13 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
     private toaster: ToastrService,
     private dialog: MatDialog,
     private sellerService: SellerService,
-    private toast: ToastrService
+    private toast: ToastrService,
   ) {}
 
   ngOnInit(): void {
-    this.otpForm = new FormGroup({
-      otp: new FormControl(null, Validators.required),
-    });
-
     this.resendTimerF();
 
-    this.otpInput = new FormControl<string>(null, Validators.required);
+    this.otpInput = new FormControl(null, Validators.required);
     this.otpData = this.data.payload;
     this.otpType = this.data.type;
     this.phoneNumber = this.data.phoneNumber;
@@ -137,7 +136,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
     });
 
     this.otpInput.valueChanges.subscribe((data) => {
-      if (data.length === 6) {
+      if (data && data.length === 6) {
         this.onVerify();
       }
     });
@@ -174,11 +173,12 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             next: (data) => {
               this.isSubmitting = false;
               this.toaster.success('Password changed successfully');
+
               this.dialog.closeAll();
             },
             error: (err) => {
               this.isSubmitting = false;
-              this.toaster.error(err.error.errors[0]);
+              this.toaster.error(err.error.data[0]);
             },
           });
         break;
@@ -197,7 +197,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             },
             error: (err) => {
               this.isSubmitting = false;
-              this.toaster.error(err.error.errors[0]);
+              this.toaster.error(err.error.data[0]);
             },
           });
         break;
@@ -217,7 +217,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             },
             error: (err) => {
               this.isSubmitting = false;
-              this.toaster.error(err.error.errors[0]);
+              this.toaster.error(err.error.data[0]);
             },
           });
         break;
@@ -231,16 +231,18 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
           .subscribe({
             next: (data) => {
               this.isSubmitting = false;
+
               this.sellerService.businessPhoneConfirmed.next(true);
 
               this.toaster.success(
-                "Company's Phone number verified successfully"
+                "Company's Phone number verified successfully",
               );
+
               this.dialog.closeAll();
             },
             error: (err) => {
               this.isSubmitting = false;
-              this.toaster.error(err.error.errors[0]);
+              this.toaster.error(err.error.data[0]);
             },
           });
         break;
@@ -253,14 +255,14 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
               this.isSubmitting = false;
               this.sellerService.isSellerActivated.next(false);
               this.toaster.success(
-                'Your seller account has been deactivated successfully'
+                'Your seller account has been deactivated successfully',
               );
             },
             error: (err) => {
               console.log(err);
               this.isSubmitting = false;
 
-              this.toaster.error(err.error.errors[0]);
+              this.toaster.error(err.error.data[0]);
             },
           });
         break;
@@ -273,14 +275,14 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
               this.isSubmitting = false;
               this.sellerService.isSellerActivated.next(true);
               this.toaster.success(
-                'Your seller account has been activated successfully'
+                'Your seller account has been activated successfully',
               );
             },
             error: (err) => {
               console.log(err);
               this.isSubmitting = false;
 
-              this.toaster.error(err.error.errors[0]);
+              this.toaster.error(err.error.data[0]);
             },
           });
         break;
@@ -288,6 +290,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
   }
 
   onResendOtp(type: string) {
+    this.ngOtpInput.setValue(null);
     switch (this.otpType) {
       case 'changePasswordOTP':
         this.authService.sendPasswordChangeOTP().subscribe({
@@ -295,7 +298,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             this.resendTimer = 29;
             this.resendTimerF();
             this.toast.success(
-              'OTP sent successfully. Please check your SMS inbox!'
+              'OTP sent successfully. Please check your SMS inbox!',
             );
           },
           error: (err) => {
@@ -309,7 +312,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             this.resendTimer = 29;
             this.resendTimerF();
             this.toast.success(
-              'OTP sent successfully. Please check your SMS inbox!'
+              'OTP sent successfully. Please check your SMS inbox!',
             );
           },
           error: (err) => {
@@ -323,7 +326,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             this.resendTimer = 29;
             this.resendTimerF();
             this.toast.success(
-              'OTP sent successfully. Please check your SMS inbox!'
+              'OTP sent successfully. Please check your SMS inbox!',
             );
           },
           error: (err) => {
@@ -337,7 +340,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             this.resendTimer = 29;
             this.resendTimerF();
             this.toast.success(
-              'OTP sent successfully. Please check your SMS inbox!'
+              'OTP sent successfully. Please check your SMS inbox!',
             );
           },
           error: (err) => {
@@ -352,7 +355,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             this.resendTimer = 29;
             this.resendTimerF();
             this.toast.success(
-              'OTP sent successfully. Please check your SMS inbox!'
+              'OTP sent successfully. Please check your SMS inbox!',
             );
           },
           error: (err) => {
@@ -371,7 +374,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
               this.resendTimer = 29;
               this.resendTimerF();
               this.toast.success(
-                'OTP sent successfully. Please check your SMS inbox!'
+                'OTP sent successfully. Please check your SMS inbox!',
               );
             },
             error: (err) => {
