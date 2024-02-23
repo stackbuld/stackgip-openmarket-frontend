@@ -7,7 +7,7 @@ import { SellerService } from 'src/app/services/seller/seller.service';
 import { IUser } from '../../../../models/IUserModel';
 import { environment } from '../../../../../environments/environment';
 import { v4 as uuidv4 } from 'uuid';
-import {ScriptLoaderService} from '../../../../services/script-loader.service';
+import { ScriptLoaderService } from '../../../../services/script-loader.service';
 //
 // declare function verifyKyc(
 //   appId: string,
@@ -16,7 +16,7 @@ import {ScriptLoaderService} from '../../../../services/script-loader.service';
 //   user: IUser,
 // ): void;
 
-declare var Connect ;
+declare var Connect;
 @Component({
   selector: 'app-seller-kyc',
   templateUrl: './seller-kyc.component.html',
@@ -73,19 +73,21 @@ export class SellerKycComponent implements OnInit {
     }
 
     this.verifyKyc(
-      environment.kycVerificationWidgetId.app_id,
+      environment.kycVerificationWidgetId.appId,
       widgetId,
       environment.kycVerificationWidgetId.key,
-      this.user,
+      this.user
     );
   }
 
-   verifyKyc(appId, widgetId, key, user) {
+  verifyKyc(appId, widgetId, key, user) {
     const dateString = user.dateOfBirth;
     const dateObject = new Date(dateString);
 
     const newDate = dateObject.toLocaleDateString('en-CA', {
-      year: 'numeric', month: '2-digit', day: '2-digit'
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
     });
 
     const options = {
@@ -96,7 +98,7 @@ export class SellerKycComponent implements OnInit {
         first_name: user.firstName, // optional
         last_name: user.lastName, // optional
         dob: newDate ?? '', // YYYY-MM-DD Optional
-        residence_country: 'NG',// user.alpha2CountryCode, // optional
+        residence_country: 'NG', // user.alpha2CountryCode, // optional
         email: user.email, // optional
       },
       reference_id: user.verificationReferenceNumber,
@@ -110,16 +112,15 @@ export class SellerKycComponent implements OnInit {
       config: {
         widget_id: widgetId, // this is generated from easyonboard
       },
-      onSuccess:  (response)=> {
+      onSuccess: (response) => {
         alert(response.message);
         this.router.navigate(['/seller/profile/kyc-verification']);
         console.log('Success', response);
       },
-      onError:  (err) =>{
-        console.log(
-          'Error', err);
+      onError: (err) => {
+        console.log('Error', err);
       },
-      onClose:  ()=> {
+      onClose: () => {
         console.log('Widget closed');
       },
     };
@@ -128,5 +129,4 @@ export class SellerKycComponent implements OnInit {
     connect.setup();
     connect.open();
   }
-
 }

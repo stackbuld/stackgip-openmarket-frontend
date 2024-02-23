@@ -34,7 +34,7 @@ export const environment = {
   buyerTermsAndConditionsUrl:
     'https://doc.clickup.com/4543060/d/h/4amjm-2432/8fd9617c986a78c',
   kycVerificationWidgetId: {
-    app_id: '65baf87eb7c19d0040b25f68',
+    appId: '65baf87eb7c19d0040b25f68',
     key: 'prod_pk_SCP9XK8h3yHoSVYSIp40KGkhY',
     business: '65bb6ea17063700040c23802',
     individual: '65baf9e6cd21f60040595585',
