@@ -15,7 +15,9 @@ import { WindowRefService } from '../../../shared/services/window.service';
 import { FooterService } from 'src/app/services/footer.service';
 import { AuthService } from '../../../services/auth.service';
 import { take } from 'rxjs/operators';
-import uikit from 'uikit';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DeleteDialogComponent } from '../../../shared/components/delete-dialog/delete-dialog.component';
+import { ProductDeleteModalComponent } from './product-delete-modal/product-delete-modal.component';
 
 @Component({
   selector: 'app-product-checkout',
@@ -48,14 +50,18 @@ export class ProductCheckoutComponent implements OnInit {
     private applocal: AppLocalStorage,
     private windowService: WindowRefService,
     private authService: AuthService,
-    private productService: ProductsService
+    private productService: ProductsService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(true);
-    this.init();
+    this.authService.isLogin.subscribe((status) => {
+      console.log(1);
+      this.init();
+    });
 
     this.paymentMethods = JSON.parse(localStorage.getItem('paymentMethods')!);
 
@@ -70,11 +76,11 @@ export class ProductCheckoutComponent implements OnInit {
   init() {
     this.user = JSON.parse(localStorage.getItem('user') as string);
     this.referenceId = this.authService.getUserReferenceNumber();
-
     if (this.referenceId !== null || this.user !== null) {
       this.getCustomerCart();
     }
   }
+
   getCustomerCart() {
     this.loadingCart = true;
     let cart$: Observable<GetCartResponseModel>;
@@ -83,49 +89,50 @@ export class ProductCheckoutComponent implements OnInit {
 
     cart$ = this.cartService.getCart(userId, reference);
 
-    cart$.pipe(take(1)).subscribe({
-      next: (res) => {
-        if (res.status === 'success') {
-          this.cart = res.data;
+    try {
+      cart$.pipe(take(1)).subscribe({
+        next: (res) => {
+          if (res.status === 'success') {
+            this.cart = res.data;
 
-          this.cartItems = res.data.cartItems;
+            this.cartItems = res.data.cartItems;
+            const variations: any[] = [];
+            let productItem: { [key: string]: number } = {};
+            this.cartItems.forEach((item) => {
+              if (item.varations.length > 0) {
+                variations.push(item.varations);
+              }
+              try {
+                this.productService
+                  .getCachedProductById(item.productId)
+                  .subscribe((product) => {
+                    productItem[product?.data?.id] = product.data.unit;
+                  });
+              } catch {}
+            });
 
-          const variations: any[] = [];
-          let productItem: { [key: string]: number } = {};
-          this.cartItems.forEach((item) => {
-            if (item.varations.length > 0) {
-              variations.push(item.varations);
-            }
-            try {
-              this.productService
-                .getCachedProductById(item.productId)
-                .subscribe((product) => {
-                  productItem[product?.data?.id] = product.data.unit;
-                });
-            } catch {}
-          });
+            this.cartItemStockUnit = productItem;
 
-          this.cartItemStockUnit = productItem;
+            this.setVariation(variations);
 
-          this.setVariation(variations);
-
-          this.applocal.cartCount.next(res.data.cartItems.length + 1);
-          this.applocal.storeToStorage(
-            'cartCount',
-            res.data.cartItems.length + 1
-          );
-          this.toastService.success(res.message, 'SUCCESS');
+            this.applocal.cartCount.next(res.data.cartItems.length + 1);
+            this.applocal.storeToStorage(
+              'cartCount',
+              res.data.cartItems.length + 1,
+            );
+            this.toastService.success(res.message, 'SUCCESS');
+            this.loadingCart = false;
+          } else {
+            this.loadingCart = false;
+            this.toastService.warning(res.message, 'MESSAGE');
+          }
+        },
+        error: (error) => {
           this.loadingCart = false;
-        } else {
-          this.loadingCart = false;
-          this.toastService.warning(res.message, 'MESSAGE');
-        }
-      },
-      error: (error) => {
-        this.loadingCart = false;
-        this.toastService.error(error.message, 'ERROR');
-      },
-    });
+          this.toastService.error(error.message, 'ERROR');
+        },
+      });
+    } catch {}
   }
 
   setVariation(list: any) {
@@ -149,15 +156,14 @@ export class ProductCheckoutComponent implements OnInit {
 
   setSelectedCartItem = (item: any) => {
     this.selectedCartItem = item;
-  };
 
-  closeDeleteDialog = () => {
-    uikit.modal('#delete-cart-modal').hide();
-  };
+    let payload: {
+      key: string;
+      userId: string | null;
+      referenceId: string;
+      productId: string;
+    };
 
-  deleteCartItem = () => {
-    this.deletingCartItem = true;
-    let payload;
     if (this.user !== null) {
       payload = {
         key: 'user',
@@ -173,17 +179,16 @@ export class ProductCheckoutComponent implements OnInit {
         productId: this.selectedCartItem.product.id,
       };
     }
-    this.cartService.deleteCartItem(payload).subscribe({
-      next: (res) => {
-        this.deletingCartItem = false;
-        this.toastService.success(res.message, 'SUCCESS');
-        this.closeDeleteDialog();
+
+    let dialogRef = this.dialog.open(ProductDeleteModalComponent, {
+      data: payload,
+      position: { top: '40px' },
+    });
+
+    dialogRef.afterClosed().subscribe((value) => {
+      if (value == 'deleted') {
         this.getCustomerCart();
-      },
-      error: (error) => {
-        this.deletingCartItem = false;
-        this.toastService.error(error.message, 'ERROR');
-      },
+      }
     });
   };
 
@@ -207,7 +212,7 @@ export class ProductCheckoutComponent implements OnInit {
           this.applocal.cartCount.next(res.data.cartItems.length + 1);
           this.applocal.storeToStorage(
             'cartCount',
-            res.data.cartItems.length + 1
+            res.data.cartItems.length + 1,
           );
           this.toastService.success(res.message, 'SUCCESS');
         } else {
@@ -226,7 +231,7 @@ export class ProductCheckoutComponent implements OnInit {
     key: string,
     unit: number,
     productId: string,
-    index: number
+    index: number,
   ) => {
     this.productId = productId;
 
@@ -293,7 +298,7 @@ export class ProductCheckoutComponent implements OnInit {
                 // this.router.navigateByUrl(res.data.redirectUrl);
                 this.windowService.nativeWindow.window.open(
                   res.data.redirectUrl,
-                  '_blank'
+                  '_blank',
                 );
                 this.loadingPayment = false;
               } else {

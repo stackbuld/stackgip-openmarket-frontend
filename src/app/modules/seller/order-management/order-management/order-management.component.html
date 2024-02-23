@@ -4,15 +4,15 @@
       class="firstCard-container uk-flex uk-card uk-card-default uk-card-body"
     >
       <div class="firstCard-img">
-        <img src="/assets/image/Frame 51514 (1).svg" alt="" />
+        <img alt="" src="/assets/image/Frame 51514 (1).svg" />
       </div>
       <div>
         <div *ngIf="loadingOverviewData">
           <img
-            src="/assets/svg/loader-icon.svg"
             alt=""
-            width="40"
             height="40"
+            src="/assets/svg/loader-icon.svg"
+            width="40"
           />
         </div>
         <p *ngIf="!loadingOverviewData" class="firstCard-num">
@@ -25,15 +25,15 @@
       class="firstCard-container uk-flex uk-card uk-card-default uk-card-body"
     >
       <div class="firstCard-img">
-        <img src="/assets/image/Frame 51514 (4).svg" alt="" />
+        <img alt="" src="/assets/image/Frame 51514 (4).svg" />
       </div>
       <div>
         <div *ngIf="loadingOverviewData">
           <img
-            src="/assets/svg/loader-icon.svg"
             alt=""
-            width="40"
             height="40"
+            src="/assets/svg/loader-icon.svg"
+            width="40"
           />
         </div>
         <p *ngIf="!loadingOverviewData" class="firstCard-num">
@@ -46,15 +46,15 @@
       class="firstCard-container uk-flex uk-card uk-card-default uk-card-body"
     >
       <div class="firstCard-img">
-        <img src="/assets/image/newer-img.svg" alt="" />
+        <img alt="" src="/assets/image/newer-img.svg" />
       </div>
       <div>
         <div *ngIf="loadingOverviewData">
           <img
-            src="/assets/svg/loader-icon.svg"
             alt=""
-            width="40"
             height="40"
+            src="/assets/svg/loader-icon.svg"
+            width="40"
           />
         </div>
         <p *ngIf="!loadingOverviewData" class="firstCard-num">
@@ -67,15 +67,15 @@
       class="firstCard-container uk-flex uk-card uk-card-default uk-card-body"
     >
       <div class="firstCard-img">
-        <img src="/assets/image/Frame 51514 (2).svg" alt="" />
+        <img alt="" src="/assets/image/Frame 51514 (2).svg" />
       </div>
       <div>
         <div *ngIf="loadingOverviewData">
           <img
-            src="/assets/svg/loader-icon.svg"
             alt=""
-            width="40"
             height="40"
+            src="/assets/svg/loader-icon.svg"
+            width="40"
           />
         </div>
         <p *ngIf="!loadingOverviewData" class="firstCard-num">
@@ -91,57 +91,57 @@
       <div class="input-search uk-flex">
         <svg
           class="icn-search"
-          width="19"
+          fill="none"
           height="18"
           viewBox="0 0 19 18"
-          fill="none"
+          width="19"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
             d="M8.8877 14.25C12.2014 14.25 14.8877 11.5637 14.8877 8.25C14.8877 4.93629 12.2014 2.25 8.8877 2.25C5.57399 2.25 2.8877 4.93629 2.8877 8.25C2.8877 11.5637 5.57399 14.25 8.8877 14.25Z"
             stroke="#828282"
-            stroke-width="1.01393"
             stroke-linecap="round"
             stroke-linejoin="round"
+            stroke-width="1.01393"
           />
           <path
             d="M16.3855 15.7508L13.123 12.4883"
             stroke="#828282"
-            stroke-width="1.01393"
             stroke-linecap="round"
             stroke-linejoin="round"
+            stroke-width="1.01393"
           />
         </svg>
         <input
+          #orderSearch
           [(ngModel)]="search"
-          type="text"
           id="searchInput"
           placeholder="Search by order No, product name..."
-          #orderSearch
+          type="text"
         />
       </div>
       <button (click)="searchOrders()" class="search-btn">
         <svg
           class="icn-search"
-          width="19"
+          fill="none"
           height="18"
           viewBox="0 0 19 18"
-          fill="none"
+          width="19"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
             d="M8.8877 14.25C12.2014 14.25 14.8877 11.5637 14.8877 8.25C14.8877 4.93629 12.2014 2.25 8.8877 2.25C5.57399 2.25 2.8877 4.93629 2.8877 8.25C2.8877 11.5637 5.57399 14.25 8.8877 14.25Z"
             stroke="#828282"
-            stroke-width="1.01393"
             stroke-linecap="round"
             stroke-linejoin="round"
+            stroke-width="1.01393"
           />
           <path
             d="M16.3855 15.7508L13.123 12.4883"
             stroke="#828282"
-            stroke-width="1.01393"
             stroke-linecap="round"
             stroke-linejoin="round"
+            stroke-width="1.01393"
           />
         </svg>
       </button>
@@ -149,9 +149,9 @@
     <div class="w-30">
       <div class="ml">
         <select
-          id="filterSelect"
           (change)="filterOrders($event)"
           class="w-100 select"
+          id="filterSelect"
         >
           <option value="all">All</option>
           <option value="today">Today</option>
@@ -167,23 +167,23 @@
     <!-- <span *ngIf="isCustomDate"> -->
     <input
       *ngIf="isCustomDate"
-      type="text"
-      placeholder="Select Start Date"
-      onfocus="(this.type='date')"
       [(ngModel)]="startDate"
       class="date-input"
+      onfocus="(this.type='date')"
+      placeholder="Select Start Date"
+      type="text"
     />
     &nbsp; &nbsp;
     <input
       *ngIf="isCustomDate"
-      type="text"
-      placeholder="Select End Date"
-      onfocus="(this.type='date')"
       [(ngModel)]="endDate"
       class="date-input"
+      onfocus="(this.type='date')"
+      placeholder="Select End Date"
+      type="text"
     />
     &nbsp; &nbsp;
-    <button *ngIf="isCustomDate" (click)="customFilter()" class="filter-btn">
+    <button (click)="customFilter()" *ngIf="isCustomDate" class="filter-btn">
       Filter
     </button>
     <!-- </span> -->
@@ -229,21 +229,21 @@
   </div>
 
   <div class="web-only p-0 w-100 uk-card uk-card-default">
-    <div class="all-filter" *ngIf="allTab == true">
+    <div *ngIf="allTab == true" class="all-filter">
       <h3>Filter orders by Delivery status</h3>
       <mat-form-field>
         <mat-label>Delivery status</mat-label>
         <mat-select [formControl]="allFilterInput">
           <mat-option
-            [value]="status.toLowerCase()"
             *ngFor="let status of orderDeliveryStatus"
+            [value]="status.toLowerCase()"
             >{{ status }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
 
-    <div class="intransit-tab" *ngIf="inTransitTab == true">
+    <div *ngIf="inTransitTab == true" class="intransit-tab">
       <div class="mt-4 tabs" style="margin-top: 10px">
         <p
           (click)="switchTabs('awaitingPickup')"
@@ -300,33 +300,31 @@
         <span class="w-20">{{
           item?.cartProduct?.product?.name || "N/A"
         }}</span>
-        <span class="w-20">{{ item?.createdOn | date : "mediumDate" }}</span>
-        <span class="w-15">{{
-          item?.productAmount || 0 | currency : "₦"
-        }}</span>
+        <span class="w-20">{{ item?.createdOn | date: "mediumDate" }}</span>
+        <span class="w-15">{{ item?.productAmount || 0 | currency: "₦" }}</span>
         <span class="w-15">
           <span
-            class="delivery-status"
-            appDeliveryStatus
             [appDeliveryStatus]="item?.deliveryStatus"
+            appDeliveryStatus
+            class="delivery-status"
             >{{ item?.deliveryStatus }}</span
           ></span
         >
         <span class="w-15">
           <span style="white-space: nowrap">
             <svg
-              widspan="8"
+              fill="none"
               height="9"
               viewBox="0 0 8 9"
-              fill="none"
+              widspan="8"
               xmlns="http://www.w3.org/2000/svg"
             >
               <circle
+                [appOrderStatusDirective]="item?.orderStatus"
+                appOrderStatusDirective
                 cx="4"
                 cy="4.5"
                 r="4"
-                appOrderStatusDirective
-                [appOrderStatusDirective]="item?.orderStatus"
               />
             </svg>
             &nbsp;
@@ -354,18 +352,49 @@
   </div>
 
   <div class="mt-3 mobile-only">
-    <div class="all-filter" *ngIf="allTab == true">
+    <div *ngIf="allTab == true" class="all-filter">
       <h3>Filter orders by Delivery status</h3>
       <mat-form-field>
         <mat-label>Delivery status</mat-label>
         <mat-select [formControl]="allFilterInput">
           <mat-option
-            [value]="status.toLowerCase()"
             *ngFor="let status of orderDeliveryStatus"
+            [value]="status.toLowerCase()"
             >{{ status }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+    </div>
+    <div *ngIf="inTransitTab == true" class="intransit-tab">
+      <div class="mt-4 tabs" style="margin-top: 10px">
+        <p
+          (click)="switchTabs('awaitingPickup')"
+          [ngClass]="{ activeTab: awaitingPickup === true }"
+        >
+          Awaiting Pickup
+        </p>
+        &nbsp; &nbsp; &nbsp; &nbsp;
+        <p
+          (click)="switchTabs('delivering')"
+          [ngClass]="{ activeTab: delivering === true }"
+        >
+          Delivering
+        </p>
+        &nbsp; &nbsp; &nbsp; &nbsp;
+        <p
+          (click)="switchTabs('delivered')"
+          [ngClass]="{ activeTab: delivered === true }"
+        >
+          Delivered
+        </p>
+        &nbsp; &nbsp; &nbsp; &nbsp;
+        <p
+          (click)="switchTabs('inTransitAll')"
+          [ngClass]="{ activeTab: inTransitAll === true }"
+        >
+          All
+        </p>
+      </div>
     </div>
     <div *ngIf="!loadingOrders && orders.length > 0">
       <div
@@ -386,27 +415,27 @@
               <p>
                 Delivery status:
                 <span
-                  class="delivery-status mobile"
-                  appDeliveryStatus
                   [appDeliveryStatus]="item?.deliveryStatus"
+                  appDeliveryStatus
+                  class="delivery-status mobile"
                   >{{ item?.deliveryStatus }}</span
                 >
               </p>
             </div>
             <div class="d-flex align-items-center">
               <svg
-                widspan="8"
+                fill="none"
                 height="9"
                 viewBox="0 0 8 9"
-                fill="none"
+                widspan="8"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <circle
+                  [appOrderStatusDirective]="item?.orderStatus"
+                  appOrderStatusDirective
                   cx="4"
                   cy="4.5"
                   r="4"
-                  appOrderStatusDirective
-                  [appOrderStatusDirective]="item?.orderStatus"
                 />
               </svg>
               &nbsp;
@@ -415,8 +444,8 @@
           </div>
           <p class="name">{{ item?.cartProduct?.product?.name || "N/A" }}</p>
           <div class="d-flex justify-content-between align-items-center">
-            <p>{{ item?.createdOn | date : "mediumDate" }}</p>
-            <p class="name">{{ item?.productAmount || 0 | currency : "₦" }}</p>
+            <p>{{ item?.createdOn | date: "mediumDate" }}</p>
+            <p class="name">{{ item?.productAmount || 0 | currency: "₦" }}</p>
           </div>
           <button (click)="viewOrder(item)" class="view-btn">View</button>
         </div>

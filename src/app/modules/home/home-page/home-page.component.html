@@ -1,9 +1,17 @@
 <div class="uk-container uk-container-expand main">
   <section id="hero">
     <div class="hero-container row">
-      <div class="categories-container d-none d-md-block col-md-2">
+      <div
+        class="categories-container d-none d-md-block col-md-2"
+        style="
+          height: 75vh;
+          overflow-x: hidden;
+          overflow-y: scroll;
+          width: 200px;
+        "
+      >
         <h2 class="">Categories</h2>
-        <div *ngIf="!loadingCategories">
+        <ng-container *ngIf="!loadingCategories">
           <div
             *ngFor="let category of categories; let i = index"
             [queryParams]="{ category: category.name }"
@@ -16,38 +24,38 @@
           <div *ngIf="categories.length === 0" class="text-center p-5">
             No Results
           </div>
-        </div>
+        </ng-container>
 
         <div *ngIf="loadingCategories" class="">
           <ngx-shimmer-loading></ngx-shimmer-loading>
-          <br/>
-          <br/>
+          <br />
+          <br />
           <ngx-shimmer-loading></ngx-shimmer-loading>
-          <br/>
-          <br/>
+          <br />
+          <br />
           <ngx-shimmer-loading></ngx-shimmer-loading>
-          <br/>
-          <br/>
+          <br />
+          <br />
           <ngx-shimmer-loading></ngx-shimmer-loading>
         </div>
       </div>
       <!-- Thumbnail -->
       <!-- <div class="thumbnail col-12 col-md-9">
-          <img src="assets/img/hero-home.png" alt="" />
-        </div> -->
+                                        <img src="assets/img/hero-home.png" alt="" />
+                                      </div> -->
       <div
         class="uk-position-relative d-none d-md-block uk-visible-toggle uk-light col col-md thumbnail slider-img-container"
         tabindex="-1"
         uk-slideshow="autoplay: true; autoplay-interval	: 5000"
+        style="height: 75vh"
       >
-        <ul class="uk-slideshow-items w-100 h-100">
-          <li *ngFor="let slide of heroSlides" class="w-100 h-100 slider-img">
-            <img [src]="slide " alt="" uk-cover/>
-            <div class="uk-position-medium uk-position-bottom-right shop-now-btn-container">
-              <button
-                class="ghost-button"
-                routerLink="/homepage/search"
-              >
+        <ul class="uk-slideshow-items w-100 banner-carousels">
+          <li *ngFor="let slide of heroSlides" class="w-100 slider-img">
+            <img [src]="slide" alt="" uk-cover class="uk-slideshow-image" />
+            <div
+              class="uk-position-medium uk-position-bottom-right shop-now-btn-container"
+            >
+              <button class="ghost-button" routerLink="/homepage/search">
                 Shop Now
               </button>
             </div>
@@ -69,23 +77,17 @@
       </div>
       <!-- MOBILE BANNER -->
       <div
-        autoplay-interval="5000"
         class="uk-position-relative uk-visible-toggle uk-light col d-block d-md-none"
         tabindex="-1"
-        uk-slider="autoplay: false"
+        uk-slider="autoplay: true; autoplay-interval	: 5000"
       >
         <ul class="uk-slider-items uk-grid">
-          <li
-            *ngFor="let slide of heroSlides; let i = index"
-          >
+          <li *ngFor="let slide of heroSlides; let i = index">
             <div class="uk-panel">
-              <img alt="" height="1200" src="{{ slide }}" width="1800"/>
+              <img alt="" height="1200" src="{{ slide }}" width="1800" />
 
               <div class="uk-position-medium uk-position-bottom-right mb-1">
-                <button
-                  class="ghost-button"
-                  routerLink="/homepage/search"
-                >
+                <button class="ghost-button" routerLink="/homepage/search">
                   Shop Now
                 </button>
               </div>
@@ -113,9 +115,9 @@
   <section id="promoted-product">
     <div class="promoted-product-container">
       <div class="header-text">
-        <p class="fs-5 fs-md-2">Promoted Product</p>
-        <span class="pointer">
-          <span routerLink="/homepage/search"> See All </span>
+        <p class="fs-5 fs-md-2 see-all-heading">Promoted Product</p>
+        <span class="pointer" routerLink="/homepage/search">
+          <span> See All </span>
           <svg
             fill="none"
             height="24"
@@ -133,7 +135,7 @@
 
       <div *ngIf="!loadingPromotedProducts" class="product-container row">
         <div
-          *ngFor="let product of promotedProducts | slice : 0 : 6"
+          *ngFor="let product of promotedProducts | slice: 0 : 6"
           class="mb-3 col-6 col-md-3"
         >
           <app-product-card [product]="product"></app-product-card>
@@ -162,32 +164,26 @@
     </div>
   </section>
 
-  <section class="section-deals">
-    <div *ngFor="let banner of banners" class="section-image">
-      <img [src]="banner" alt=""/>
-    </div>
-  </section>
-  <!--
   <section id="deals-first">
     <div class="row">
-      <img [src]="banners[1]" class="col-sm-4" alt="Black Friday" />
-      <img [src]="banners[0]" class="col-sm-8 large-img" alt="Mega Sale" />
+      <img [src]="banners[1]" alt="Black Friday" class="col-sm-4" />
+      <img [src]="banners[0]" alt="Mega Sale" class="col-sm-8 large-img" />
     </div>
   </section>
 
   <section id="deals-second">
     <div class="row">
-      <img [src]="banners[2]" class="col-sm-8" alt="" />
-      <img [src]="banners[3]" class="col-sm-4 small-img" alt="" />
+      <img [src]="banners[2]" alt="" class="col-sm-8" />
+      <img [src]="banners[3]" alt="" class="col-sm-4 small-img" />
     </div>
-  </section> -->
+  </section>
 
   <section id="recommended-product">
     <div class="recommended-product-container">
       <div class="header-text">
-        <p class="fs-3 fs-md-2">Recommended Product</p>
-        <span class="pointer">
-          <span routerLink="/homepage/search"> See All </span>
+        <p class="fs-3 fs-md-2 see-all-heading">Recommended Product</p>
+        <span class="pointer" routerLink="/homepage/search">
+          <span> See All </span>
           <svg
             fill="none"
             height="24"
@@ -205,7 +201,7 @@
 
       <div *ngIf="!loadingRecommendedProducts" class="product-container row">
         <div
-          *ngFor="let product of recommendedProducts | slice : 0 : 6"
+          *ngFor="let product of recommendedProducts | slice: 0 : 6"
           class="mb-3 col-6 col-md-3"
         >
           <app-product-card [product]="product"></app-product-card>

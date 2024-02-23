@@ -147,3 +147,9 @@ section {
     }
   }
 }
+
+@media (max-width: 500px) {
+  .banner-img {
+    object-fit: cover;
+  }
+}

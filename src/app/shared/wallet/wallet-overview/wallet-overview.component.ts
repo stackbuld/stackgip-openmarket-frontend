@@ -5,6 +5,7 @@ import {
   TransactionsResponse,
 } from 'src/app/models/wallet.model';
 import { WalletService } from 'src/app/services/wallet/wallet.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-wallet-overview',
@@ -17,10 +18,15 @@ export class WalletOverviewComponent {
   loadingTransactions: boolean;
   loadingRequests: boolean;
   tab = 1;
+  userId!: string;
 
-  constructor(private walletService: WalletService) {}
+  constructor(
+    private walletService: WalletService,
+    private authService: AuthService,
+  ) {}
 
   ngOnInit(): void {
+    this.userId = this.authService.getLoggedInUser().id;
     this.getTransactions();
     this.getWithdrawalRequests();
   }
@@ -41,23 +47,20 @@ export class WalletOverviewComponent {
       },
       (err) => {
         this.loadingTransactions = false;
-        console.log(err);
-      }
+      },
     );
   }
 
   getWithdrawalRequests() {
     this.loadingRequests = false;
-    this.walletService.getRequests().subscribe(
-      (res: IRequestResponse) => {
-        console.log(res.data);
+    this.walletService.getRequests(this.userId).subscribe({
+      next: (res: IRequestResponse) => {
         this.loadingRequests = false;
         this.withdrawalRequests = res.data;
       },
-      (err) => {
+      error: (err) => {
         this.loadingRequests = false;
-        console.log(err);
-      }
-    );
+      },
+    });
   }
 }

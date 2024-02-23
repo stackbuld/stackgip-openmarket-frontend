@@ -22,12 +22,14 @@ export class SellerStoreComponent implements OnInit {
   isLoading: boolean = true;
   panelOpenState: boolean[] = [];
   storeId: string;
+  isMadeFirstDefault: boolean = false;
+  editFromClick: boolean = false;
 
   constructor(
     private helperService: HelperService,
     private sellerStoreService: SellerStoreService,
     private dialogService: DialogService,
-    private toast: ToastrService
+    private toast: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -45,13 +47,23 @@ export class SellerStoreComponent implements OnInit {
       });
   }
 
-  onEdit(sellerStore: SellerStores, isDefault: boolean) {
-    sellerStore.isDefault = isDefault;
+  onEdit(sellerStore: SellerStores, fromClick: boolean) {
+    if (this.isMadeFirstDefault && !fromClick) {
+      return;
+    }
+    sellerStore.isDefault = !sellerStore.isDefault;
+    this.isLoading = true;
     this.sellerStoreService
       .updateSellerStore(sellerStore, sellerStore.id)
-      .subscribe((response: any) => {
-        this.getSellerStoreList();
-        // response.status == "success" ? this.dialogRef.close(response) : null
+      .subscribe({
+        next: (response: any) => {
+          this.toast.success('Default store updated');
+          this.getSellerStoreList();
+        },
+        error: () => {
+          this.isLoading = false;
+          this.toast.error('Something went wrong!');
+        },
       });
   }
 
@@ -91,12 +103,13 @@ export class SellerStoreComponent implements OnInit {
       .subscribe({
         next: (sellerStores) => {
           this.sellerStores = sellerStores;
-          if (sellerStores.length > 0) {
-            if (!this.sellerStores.find((store) => store.isDefault == true)) {
-              this.sellerStores[0].isDefault = true;
-              this.onEdit(this.sellerStores[0], true);
-            }
-          }
+          // if (sellerStores.length > 0) {
+          //   if (!this.sellerStores.find((store) => store.isDefault == true)) {
+          //     this.sellerStores[0].isDefault = true;
+          //     this.onEdit(this.sellerStores[0], false);
+          //     this.isMadeFirstDefault = true;
+          //   }
+          // }
 
           this.isLoading = false;
         },

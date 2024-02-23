@@ -34,6 +34,7 @@ import { VariationsAlertDialogComponent } from './variations-alert-dialog/variat
 import { initial } from 'lodash';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { WindowRefService } from 'src/app/shared/services/window.service';
+import { log } from 'console';
 
 declare var cloudinary: any;
 @Component({
@@ -117,7 +118,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     },
     {
       name: 'Truck';
-    }
+    },
   ];
   private unsubscribe$ = new Subject<void>();
   @Output() closed = new EventEmitter();
@@ -208,7 +209,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     private dialogService: DialogService,
     @Inject(DOCUMENT) private document: Document,
     private dialog: MatDialog,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
     this.initVariationForm();
@@ -251,7 +252,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
             this.form.patchValue({ imageUrls: this.images });
           }
         }
-      }
+      },
     );
 
     this.videoWidget = cloudinary.createUploadWidget(
@@ -266,7 +267,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
             this.videoUrls.push(result.info.secure_url);
           }
         }
-      }
+      },
     );
 
     this.uploadComplimentaryWidget = cloudinary.createUploadWidget(
@@ -286,7 +287,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
             list.push(data);
             localStorage.setItem('compImagesStore', JSON.stringify(list));
             this.complementaryImagesStore = JSON.parse(
-              localStorage.getItem('compImagesStore')
+              localStorage.getItem('compImagesStore'),
             );
           } else {
             list = JSON.parse(localStorage.getItem('compImagesStore'));
@@ -297,11 +298,11 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
             list.push(data);
             localStorage.setItem('compImagesStore', JSON.stringify(list));
             this.complementaryImagesStore = JSON.parse(
-              localStorage.getItem('compImagesStore')
+              localStorage.getItem('compImagesStore'),
             );
           }
         }
-      }
+      },
     );
 
     this.uploadComplimentaryWidget2 = cloudinary.createUploadWidget(
@@ -316,7 +317,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
             this.editProps.patchValue({ imageUrl: result.info.secure_url });
           }
         }
-      }
+      },
     );
 
     this.uploadComplimentaryWidget3 = cloudinary.createUploadWidget(
@@ -333,7 +334,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
             });
           }
         }
-      }
+      },
     );
 
     this.form.get('unit').valueChanges.subscribe((value: number) => {
@@ -360,12 +361,12 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
           setTimeout(() => {
             window.scrollTo(
               0,
-              this.availableUnitsContainer.nativeElement.offsetTop
+              this.availableUnitsContainer.nativeElement.offsetTop,
             );
           }, 100);
           this.availableUnitsInput.nativeElement.focus();
         }
-      }
+      },
     );
   }
 
@@ -398,7 +399,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     }
     localStorage.setItem(
       'compImagesStore',
-      JSON.stringify(this.complementaryImagesStore)
+      JSON.stringify(this.complementaryImagesStore),
     );
   }
 
@@ -424,7 +425,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       (err) => {
         this.toast.error(err.error.message);
         this.loading = false;
-      }
+      },
     );
   }
 
@@ -437,7 +438,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       weight: [null, [Validators.required]],
       previousPrice: [0],
       imageUrls: [null],
-      pickupOption: ['none'],
+      pickupOption: [null, Validators.required],
       imageUrl: [''],
       categoryId: [''],
       category: ['', [Validators.required]],
@@ -522,7 +523,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
           imageUrl: [element.imageUrl],
           isMultiple: false,
           ...(element.id && { id: element.id }),
-        })
+        }),
       );
     });
 
@@ -537,7 +538,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
           cost: [element.cost, [Validators.required]],
           isMultiple: true,
           ...(element.id && { id: element.id }),
-        })
+        }),
       );
     });
   }
@@ -616,7 +617,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       (err) => {
         this.creatingVariation = false;
         this.toast.error(err.message);
-      }
+      },
     );
   }
 
@@ -699,7 +700,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
 
     if (this.isProductUnitExceeded) {
       this.toast.warining(
-        'Product variations unit can not be more than product unit'
+        'Product variations unit can not be more than product unit',
       );
       return;
     }
@@ -754,7 +755,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       (accumulator, currentValue) => {
         return accumulator + currentValue.unit;
       },
-      0
+      0,
     );
 
     this.availableProductUnit =
@@ -871,7 +872,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
 
   onDeleteVideo(index: number) {
     this.videoUrls = this.videoUrls.filter(
-      (url, urlIndex) => urlIndex != index
+      (url, urlIndex) => urlIndex != index,
     );
   }
 
@@ -938,7 +939,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       (err) => {
         this.toast.error(err.message);
         this.loadingSubCategories = false;
-      }
+      },
     );
   }
 
@@ -949,7 +950,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       },
       (err) => {
         this.toast.error(err.message);
-      }
+      },
     );
   }
 
@@ -960,7 +961,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       },
       (err) => {
         this.toast.error(err.message);
-      }
+      },
     );
   }
 
@@ -971,7 +972,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       },
       (err) => {
         this.toast.error(err.message);
-      }
+      },
     );
   }
 
@@ -1009,7 +1010,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       .subscribe({
         next: (res) => {
           if (res.status === 'success') {
-            this.toast.success(res.message);
+            this.toast.success('Product updated successfully!');
             this.router.navigate(['/seller/products']);
             this.creatingProduct = false;
             localStorage.removeItem('compImagesStore');
@@ -1074,6 +1075,12 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
 
   saveAsDraft = () => {
     this.creatingProduct = true;
+    if (this.form.value.pickupOption === 'None') {
+      this.toast.warining(
+        'Please select a pickup option (what kind of vehicle can pick up this item)',
+      );
+      return;
+    }
     if (this.images?.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
@@ -1120,13 +1127,20 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
             (err) => {
               this.creatingProduct = false;
               this.toast.error('Something went wrong');
-            }
+            },
           );
       }
     }
   };
   isSubCatIdEmpty = false;
   onSubmit = () => {
+    if (this.form.value.pickupOption === 'None') {
+      this.form.markAllAsTouched();
+      this.toast.warining(
+        'Please select a pickup option (what kind of vehicle can pick up this item',
+      );
+      return;
+    }
     if (this.images?.length < 1) {
       this.toast.error('Product Image(s) required');
       // return;
@@ -1155,7 +1169,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
           ...new Set(this.allVariantList.map((item) => item.title)),
         ].map((variant) => {
           let newVariant = this.allVariantList.filter(
-            (item) => item.title === variant
+            (item) => item.title === variant,
           );
           return {
             variant: variant,
@@ -1171,7 +1185,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
   setComplementaryProducts() {
     if (JSON.parse(localStorage.getItem('compImagesStore'))) {
       this.complementaryImagesStore = JSON.parse(
-        localStorage.getItem('compImagesStore')
+        localStorage.getItem('compImagesStore'),
       );
     } else {
       this.complementaryImagesStore = [];
@@ -1206,7 +1220,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       (err) => {
         this.loading = false;
         this.toast.error(err.message);
-      }
+      },
     );
   }
 

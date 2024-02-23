@@ -33,6 +33,9 @@ export interface IUser {
   coverPhotoUrl?: string;
   rejectionReason?: string | null;
   isActive: boolean;
+  isKycVerified?: boolean;
+  isBusinessRegistered?: boolean;
+  verificationReferenceNumber?: string;
 }
 
 export interface IUserResponse extends ResponseModel {

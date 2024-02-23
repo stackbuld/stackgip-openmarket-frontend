@@ -14,6 +14,9 @@ import { PopupComponent } from '../../components/popup/popup.component';
 import uikit from 'uikit';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { NgOtpInputComponent } from 'ng-otp-input';
+import { ToastrService } from 'ngx-toastr';
+import { WalletKycPromptComponent } from '../wallet-kyc-prompt/wallet-kyc-prompt.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wallet-withdraw',
@@ -57,22 +60,28 @@ export class WalletWithdrawComponent {
     private dialog: MatDialog,
     private walletService: WalletService,
     private ngxService: NgxUiLoaderService,
-    private otpService: OtpService
+    private otpService: OtpService,
+    private toast: ToastrService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
+    this.user = JSON.parse(localStorage.getItem('user') as string);
     this.getBanks();
     this.getBankAccount();
     this.walletService.getWalletInfo.subscribe((data) => {
       this.walletDetails = data;
     });
-    this.user = JSON.parse(localStorage.getItem('user') as string);
     this.bankDetailsForm = this.fb.group({
       bankName: ['', [Validators.required]],
       bankCode: ['', [Validators.required]],
       accountName: [''],
       accountNumber: ['', [Validators.required]],
       amount: ['', [Validators.required]],
+    });
+
+    this.bankDetailsForm.get('amount').valueChanges.subscribe((value) => {
+      this.validateAmount(value);
     });
   }
 
@@ -84,44 +93,49 @@ export class WalletWithdrawComponent {
     this.bankDetailsForm.patchValue({
       bankCode: newBankCode,
       bankName: this.bankLists.find(
-        (data) => data?.code?.toString() === newBankCode.toString()
+        (data) => data?.code?.toString() === newBankCode.toString(),
       )?.name,
       accountName: '',
     });
+    if (this.bankDetailsForm.value.accountNumber !== '') {
+      this.getAccountName();
+    }
   }
 
   changeDetails(details: any) {
     this.bankDetailsForm.patchValue({
       bankCode: details.bankCode.toString(),
       bankName: this.bankLists.find(
-        (data) => data.code.toString() === details.bankCode.toString()
+        (data) => data.code.toString() === details.bankCode.toString(),
       ).name,
       accountName: details.accountName,
       accountNumber: details.accountNumber,
     });
-
     this.selectedBankDetails = details;
   }
 
   getBankAccount() {
     this.loading = true;
-    this.walletService.getBankAccounts().subscribe(
+    this.walletService.getBankAccounts(this.user.id).subscribe(
       (res) => {
-        const data = res.data[0];
-        this.bankDetailsForm.patchValue({
-          accountName: data.accountName,
-          accountNumber: data.accountNumber,
-          bankName: data.bankName,
-          bankCode: data.bankCode,
-        });
-        this.loading = false;
-        this.selectedBankDetails = data;
-        this.bankDetails = res.data;
+        if (res.data.length > 0) {
+          const data = res.data[0];
+
+          this.bankDetailsForm.patchValue({
+            accountName: data.accountName,
+            accountNumber: data.accountNumber,
+            bankName: data.bankName,
+            bankCode: data.bankCode,
+          });
+
+          this.loading = false;
+          this.selectedBankDetails = data;
+          this.bankDetails = res.data;
+        }
       },
       (err) => {
-        console.log(err);
         this.loading = false;
-      }
+      },
     );
   }
 
@@ -129,37 +143,50 @@ export class WalletWithdrawComponent {
     this.walletService.getBanks().subscribe(
       (res) => {
         this.bankLists = res.data;
+        localStorage.setItem('bankList', JSON.stringify(this.bankLists));
       },
       (err) => {
-        console.log(err);
         this.loading = false;
-      }
+      },
     );
   }
 
   getAccountName() {
+    if (this.bankDetailsForm.value.bankCode === '') {
+      return;
+    }
     this.ngxService.startLoader('loader-01');
-    this.walletService
-      .getAccountName({
-        bankCode: this.bankDetailsForm.value.bankCode,
-        accountNumber: this.bankDetailsForm.value.accountNumber,
-        countryCode: 'NGN',
-      })
-      .subscribe(
-        (res) => {
-          this.ngxService.stopAllLoader('loader-01');
-          this.bankDetailsForm.patchValue({
-            accountName: res.data.accountName,
-          });
-        },
-        (err) => {
-          console.log(err);
-          this.loading = false;
-        }
-      );
+    try {
+      this.walletService
+        .getAccountName({
+          bankCode: this.bankDetailsForm.value.bankCode,
+          accountNumber: this.bankDetailsForm.value.accountNumber,
+          countryCode: 'NGN',
+        })
+        .subscribe({
+          next: (res) => {
+            this.ngxService.stopAllLoader('loader-01');
+            this.bankDetailsForm.patchValue({
+              accountName: res.data.accountName,
+            });
+          },
+          error: (err) => {
+            this.ngxService.stopAllLoader('loader-01');
+            this.loading = false;
+          },
+        });
+    } catch {}
   }
 
   sendWithdrawalOtp() {
+    // if (!this.user.isKycVerified) {
+    //   const dialogRef = this.dialog.open(WalletKycPromptComponent, {
+    //     width: '600px',
+    //     height: '200px',
+    //   });
+    //   return;
+    // }
+
     if (
       !this.bankDetailsForm.value.accountName ||
       !this.bankDetailsForm.value.accountNumber
@@ -173,7 +200,7 @@ export class WalletWithdrawComponent {
       !this.bankDetails ||
       !this.bankDetails.find(
         (detail: any) =>
-          detail.accountNumber === this.bankDetailsForm.value.accountNumber
+          detail.accountNumber === this.bankDetailsForm.value.accountNumber,
       )
     ) {
       const { bankName, bankCode, accountNumber, accountName } =
@@ -186,42 +213,40 @@ export class WalletWithdrawComponent {
           accountName: accountName,
           userId: this.user.id,
         })
-        .subscribe(
-          (res) => {
-            console.log(res);
+        .subscribe({
+          next: (res) => {
             this.selectedBankDetails = res.data;
-            this.walletService.sendOtp().subscribe(
-              (res) => {
+            this.walletService.sendOtp().subscribe({
+              next: (res) => {
                 this.withdrawLoading = false;
+                this.toast.success('OTP sent successfully!');
                 this.ngxService.stopAllLoader('loader-01');
                 uikit.modal('#modal-withdrawal').show();
               },
-              (err) => {
-                console.log(err);
+              error: (err) => {
                 this.withdrawLoading = false;
                 this.ngxService.stopAllLoader('loader-01');
-              }
-            );
+              },
+            });
           },
-          (err) => {
-            console.log(err);
+          error: (err) => {
             this.ngxService.stopAllLoader('loader-01');
             this.withdrawLoading = false;
-          }
-        );
+          },
+        });
     } else {
-      this.walletService.sendOtp().subscribe(
-        (res) => {
+      this.walletService.sendOtp().subscribe({
+        next: (res) => {
+          this.toast.success('OTP sent successfully!');
           this.withdrawLoading = false;
           this.ngxService.stopAllLoader('loader-01');
           uikit.modal('#modal-withdrawal').show();
         },
-        (err) => {
-          console.log(err);
+        error: (err) => {
           this.ngxService.stopAllLoader('loader-01');
           this.withdrawLoading = false;
-        }
-      );
+        },
+      });
     }
   }
 
@@ -238,16 +263,12 @@ export class WalletWithdrawComponent {
     }
   }
 
-  handleFillEvent(value: string): void {
-    console.log(value);
-  }
+  handleFillEvent(value: string): void {}
 
-  validateAmount() {
-    if (
-      this.bankDetailsForm.value.amount > this.walletDetails.availableAmount
-    ) {
+  validateAmount(value: number) {
+    if (value > this.walletDetails.availableAmount) {
       this.errorMsg = 'Insufficient Funds';
-    } else if (!(this.bankDetailsForm.value.amount > 1)) {
+    } else if (!(value > 1)) {
       this.errorMsg = `Minimum withdrawal must be atleast ${this.walletDetails.currencyCode} 1`;
     } else {
       this.errorMsg = null;
@@ -267,8 +288,8 @@ export class WalletWithdrawComponent {
         currencyCode: this.walletDetails.currencyCode,
         otp: this.otpInput,
       })
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           this.ngOtp.setValue([]);
           this.withdrawLoading = false;
           uikit.modal('#modal-withdrawal').hide();
@@ -277,15 +298,16 @@ export class WalletWithdrawComponent {
             this.serverResponse = res.message;
             uikit.modal('#modal-message').show();
           } else {
-            uikit.modal.alert('Successful');
+            this.walletService.walletRefresh.next(true);
+            this.toast.success('Withdrawal made successfully!');
+            this.router.navigate(['/seller/wallet']);
           }
         },
-        (err) => {
+        error: (err) => {
           uikit.modal('#modal-withdrawal').hide();
           uikit.modal.alert('Something went wrong. Please try again Later');
-          console.log(err);
           this.withdrawLoading = false;
-        }
-      );
+        },
+      });
   }
 }

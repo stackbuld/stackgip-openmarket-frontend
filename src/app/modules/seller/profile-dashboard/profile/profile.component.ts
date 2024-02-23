@@ -60,7 +60,7 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private sellerService: SellerService,
     private dialog: MatDialog,
-    private countryService: CountryService
+    private countryService: CountryService,
   ) {}
 
   ngOnInit(): void {
@@ -130,7 +130,10 @@ export class ProfileComponent implements OnInit {
           email: this.user.email,
           bio: this.user.bio,
           phoneNumber: reformedPhoneNumber,
-          country: this.user.alpha2CountryCode,
+          country:
+            this.user.alpha2CountryCode === 'NGN'
+              ? 'NG'
+              : this.user.alpha2CountryCode,
           state: this.user.state,
         });
 
@@ -184,7 +187,7 @@ export class ProfileComponent implements OnInit {
               error: (err) => {},
             });
         }
-      }
+      },
     );
 
     this.uploadProfilePhotoWidget = cloudinary.createUploadWidget(
@@ -213,7 +216,7 @@ export class ProfileComponent implements OnInit {
               error: (err) => {},
             });
         }
-      }
+      },
     );
   }
 
@@ -305,11 +308,9 @@ export class ProfileComponent implements OnInit {
     };
 
     if (
-      JSON.stringify(formattedPhoneNumber) ===
+      JSON.stringify(formattedPhoneNumber) !==
       JSON.stringify(this.user.phoneNumber)
     ) {
-      data = data;
-    } else {
       data = {
         ...data,
         phoneNumber: formattedPhoneNumber,

@@ -57,7 +57,8 @@
               "node_modules/hammerjs/hammer.min.js",
               "node_modules/uikit/dist/js/uikit-icons.min.js",
               "node_modules/intl-tel-input/build/js/intlTelInput.min.js",
-              "node_modules/intl-tel-input/build/js/utils.js"
+              "node_modules/intl-tel-input/build/js/utils.js",
+              "src/assets/js/kyc.js"
             ],
             "aot": true,
             "serviceWorker": true,

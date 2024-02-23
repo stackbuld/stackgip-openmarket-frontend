@@ -22,9 +22,13 @@ export class WalletService {
   baseUrl: string;
   private userWalletData = new BehaviorSubject([]);
   setValue = new Subject<number>();
+  walletRefresh = new BehaviorSubject<boolean>(true);
 
   getWalletInfo = this.userWalletData.asObservable();
-  constructor(private api: ApiAppUrlService, private http: HttpClient) {
+  constructor(
+    private api: ApiAppUrlService,
+    private http: HttpClient,
+  ) {
     this.baseUrl = api.walletBaseUrl;
   }
 
@@ -35,52 +39,54 @@ export class WalletService {
 
   getBanks(): Observable<IWalletResponse> {
     return this.http.get<IWalletResponse>(
-      this.baseUrl + `bankaccount/banks/NGN`
+      this.baseUrl + `bankaccount/banks/NGN`,
     );
   }
 
   getTransactions(): Observable<ITransactionsResponse> {
     return this.http.get<ITransactionsResponse>(
-      this.baseUrl + `payments/transactions`
+      this.baseUrl + `payments/transactions`,
     );
   }
-  getRequests(): Observable<IRequestResponse> {
+  getRequests(id: string): Observable<IRequestResponse> {
     return this.http.get<IRequestResponse>(
-      this.baseUrl + `wallet/withdrawal-requests`
+      this.baseUrl + `wallet/withdrawal-requests?UserId=${id}`,
     );
   }
 
   getAccountName(body: BankAccountDetails): Observable<WalletActionsResponse> {
     return this.http.post<WalletActionsResponse>(
       this.baseUrl + `bankaccount/banks/validate-account`,
-      body
+      body,
     );
   }
 
-  getBankAccounts(): Observable<IBankAccount> {
-    return this.http.get<IBankAccount>(this.baseUrl + `bankaccount/user`);
+  getBankAccounts(userId: string): Observable<IBankAccount> {
+    return this.http.get<IBankAccount>(
+      this.baseUrl + `bankaccount/user?userId=${userId}`,
+    );
   }
 
   sendOtp(): Observable<bankData> {
     return this.http.post<bankData>(
       this.baseUrl + `wallet/withdrawal-request-otp`,
-      null
+      null,
     );
   }
 
   addToAccountsLists(body: bankData): Observable<WalletActionsResponse> {
     return this.http.post<WalletActionsResponse>(
       this.baseUrl + `bankaccount`,
-      body
+      body,
     );
   }
 
   requestWithdrawal(
-    body: WalletWithdrawalRequest
+    body: WalletWithdrawalRequest,
   ): Observable<WalletActionsResponse> {
     return this.http.post<WalletActionsResponse>(
       this.baseUrl + `wallet/withdrawal-request`,
-      body
+      body,
     );
   }
 

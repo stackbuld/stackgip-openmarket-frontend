@@ -14,6 +14,7 @@
       <p>Bank Name</p>
       <div>
         <app-custom-dropdown
+          [type]="'bankLists'"
           [bankLists]="bankLists"
           [chosenBank]="selectedBankDetails"
           placeholder="Please type your bank name"
@@ -49,7 +50,6 @@
       <input
         type="number"
         ng-required="true"
-        (blur)="validateAmount()"
         class="custom-input"
         formControlName="amount"
         placeholder="0.00"
@@ -67,9 +67,14 @@
     <div class="security-method item uk-flex">
       <div class="uk-flex entity" ng-init="radioption='show'">
         <input type="radio" aria-selected="true" checked="true" />
-        <p>OTP</p>
+        <p>One-Time Password</p>
       </div>
     </div>
+    <div class="alert" style="font-size: 16px">
+      To authorize this transaction, you will receive a One-Time Password (OTP)
+      on your device
+    </div>
+
     <button
       class="uk-button uk-button-secondary item button"
       [disabled]="
@@ -98,6 +103,7 @@
           [config]="{ length: 6 }"
           #ngotp
         ></ng-otp-input>
+        <p>Did not receive OTP? Check your spam folder</p>
         <a (click)="sendWithdrawalOtp()">Resend otp</a>
         <div class="action-button">
           <button

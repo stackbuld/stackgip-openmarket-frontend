@@ -1,27 +1,30 @@
-<div class="main">
+<div *ngIf="isLoading" class="loader-container">
+  <span class="loader"></span>
+</div>
+<div class="main" *ngIf="!isLoading">
   <div class="mb-3 d-flex align-items-center">
     <svg
-      routerLink="/homepage/history"
       class="pointer"
-      width="25"
-      height="25"
-      viewBox="0 0 38 36"
       fill="none"
+      height="25"
+      routerLink="/homepage/history"
+      viewBox="0 0 38 36"
+      width="25"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M29.4266 17.7002H7.74414"
         stroke="black"
-        stroke-width="1.22102"
         stroke-linecap="round"
         stroke-linejoin="round"
+        stroke-width="1.22102"
       />
       <path
         d="M18.5854 28.025L7.74414 17.7L18.5854 7.375"
         stroke="black"
-        stroke-width="1.22102"
         stroke-linecap="round"
         stroke-linejoin="round"
+        stroke-width="1.22102"
       />
     </svg>
     &nbsp;
@@ -31,7 +34,11 @@
   <div class="p-4 section">
     <div class="btn-top">
       <p class="title">Item in order</p>
-      <button id="request-btn" (click)="onRefundRequest()">
+      <button
+        (click)="onRefundRequest()"
+        *ngIf="order?.deliveryStatus === 'Delivered' && !refundRequested"
+        id="request-btn"
+      >
         Request for refund
       </button>
     </div>
@@ -47,26 +54,26 @@
             "
           >
             <svg
-              widspan="8"
+              fill="none"
               height="9"
               viewBox="0 0 8 9"
-              fill="none"
+              widspan="8"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <circle cx="4" cy="4.5" r="4" fill="#F9AA4B" />
+              <circle cx="4" cy="4.5" fill="#F9AA4B" r="4" />
             </svg>
             &nbsp;
             <span class="txt">Pending</span>
           </span>
           <span *ngIf="order?.orderStatus.toLowerCase() === 'confirmed'">
             <svg
-              widspan="8"
+              fill="none"
               height="9"
               viewBox="0 0 8 9"
-              fill="none"
+              widspan="8"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <circle cx="4" cy="4.5" r="4" fill="#4CAF50" />
+              <circle cx="4" cy="4.5" fill="#4CAF50" r="4" />
             </svg>
             &nbsp;
             <span class="txt">{{ order?.orderStatus }}</span>
@@ -78,13 +85,13 @@
             "
           >
             <svg
-              widspan="8"
+              fill="none"
               height="9"
               viewBox="0 0 8 9"
-              fill="none"
+              widspan="8"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <circle cx="4" cy="4.5" r="4" fill="#EF0606" />
+              <circle cx="4" cy="4.5" fill="#EF0606" r="4" />
             </svg>
             &nbsp;
             <span class="txt">{{ order?.orderStatus }}</span>
@@ -113,8 +120,8 @@
             order?.cartProduct?.product?.imageUrl !== '' &&
             order?.cartProduct?.product?.imageUrl !== null
           "
-          src="{{ order?.cartProduct?.product?.imageUrl }}"
           class="mobile-full comp-img2"
+          src="{{ order?.cartProduct?.product?.imageUrl }}"
         />
         &nbsp; &nbsp;
         <div>
@@ -132,7 +139,7 @@
               >
             </div>
             <p class="txt mb-0">
-              {{ order?.amountPaid || 0 | currency : "₦" }}
+              {{ order?.amountPaid || 0 | currency: "₦" }}
             </p>
             <br />
             <div
@@ -141,7 +148,7 @@
             >
               <p class="qty mb-0">{{ item[0]?.title || "N/A" }}:</p>
               &nbsp;
-              <p class="color-tag mb-0" *ngFor="let it of item">
+              <p *ngFor="let it of item" class="color-tag mb-0">
                 <span>{{ it?.value || "N/A" }}</span>
               </p>
             </div>
@@ -166,8 +173,8 @@
       </div>
 
       <div
-        class="mt-5"
         *ngIf="order.cartProduct.complementaryProducts.length > 0"
+        class="mt-5"
       >
         <p class="title">Selected Complementary Product</p>
 
@@ -178,9 +185,9 @@
           >
             <img
               *ngIf="item?.imageUrl !== '' && item?.imageUrl !== null"
-              src="{{ item?.imageUrl }}"
-              class="mb-2 comp-img"
               alt="img"
+              class="mb-2 comp-img"
+              src="{{ item?.imageUrl }}"
             />
             <div
               *ngIf="item?.imageUrl === '' || item?.imageUrl === null"
@@ -267,7 +274,7 @@
       </p>
       <p class="txt d-flex">
         <span class="w-200-px">Expected Delivery Date:</span> &nbsp;
-        <span>{{ order?.logistic?.expectedDeliveryDate || "N/A" }}</span>
+        <span>{{ order?.expectedDeliveryTimeline || "N/A" }}</span>
       </p>
       <p class="txt d-flex">
         <span class="w-200-px">Company Name:</span> &nbsp;
@@ -276,7 +283,7 @@
       <p class="txt d-flex">
         <span class="w-200-px">Shipping cost:</span> &nbsp;
         <span>{{
-          (order?.logistic?.estimateShippingCost | currency : "NGN") || "N/A"
+          (order?.logistic?.estimateShippingCost | currency: "NGN") || "N/A"
         }}</span>
       </p>
     </div>
@@ -285,114 +292,114 @@
   <div class="p-4 mt-3 section web-only">
     <p class="title mb-4">Tracking Details</p>
     <div
-      class="d-flex justify-content-center"
       *ngIf="getObjectByStatus('rejected') === null"
+      class="d-flex justify-content-center"
     >
       <div *ngIf="getObjectByStatus('paid') !== null">
         <div class="d-flex justify-content-center">
-          <img src="/assets/icons/delivery-tick.svg" alt="delivery-tick" />
-          <img src="/assets/icons/delivery-line.svg" alt="delivery-line" />
+          <img alt="delivery-tick" src="/assets/icons/delivery-tick.svg" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line.svg" />
         </div>
         <p class="txt mt-2">Payment Made</p>
       </div>
       <div *ngIf="getObjectByStatus('paid') === null">
         <div class="d-flex justify-content-center">
-          <img src="/assets/icons/delivery-cancel.svg" alt="delivery-cancel" />
-          <img src="/assets/icons/delivery-line.svg" alt="delivery-line" />
+          <img alt="delivery-cancel" src="/assets/icons/delivery-cancel.svg" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line.svg" />
         </div>
         <p class="txt mt-2">Payment failed</p>
       </div>
       <div *ngIf="getObjectByStatus('confirmed') !== null">
         <div>
-          <img src="/assets/icons/delivery-tick.svg" alt="delivery-tick" />
-          <img src="/assets/icons/delivery-line.svg" alt="delivery-line" />
+          <img alt="delivery-tick" src="/assets/icons/delivery-tick.svg" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line.svg" />
         </div>
         <p class="txt mt-2">Order Confirmed</p>
       </div>
       <div *ngIf="getObjectByStatus('confirmed') === null">
         <div>
-          <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
-          <img src="/assets/icons/delivery-line.svg" alt="delivery-line" />
+          <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line.svg" />
         </div>
         <p class="txt mt-2">Awaiting Confirmation</p>
       </div>
       <div *ngIf="getObjectByStatus('scheduled') !== null">
         <div>
-          <img src="/assets/icons/delivery-tick.svg" alt="delivery-tick" />
-          <img src="/assets/icons/delivery-line.svg" alt="delivery-line" />
+          <img alt="delivery-tick" src="/assets/icons/delivery-tick.svg" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line.svg" />
         </div>
         <p class="txt mt-2">Picked up for delivery</p>
       </div>
       <div *ngIf="getObjectByStatus('scheduled') === null">
         <div>
-          <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
-          <img src="/assets/icons/delivery-line.svg" alt="delivery-line" />
+          <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line.svg" />
         </div>
         <p class="txt mt-2">Awaiting pick up</p>
       </div>
       <div *ngIf="getObjectByStatus('intransit') !== null">
         <div>
-          <img src="/assets/icons/delivery-tick.svg" alt="delivery-tick" />
-          <img src="/assets/icons/delivery-line.svg" alt="delivery-line" />
+          <img alt="delivery-tick" src="/assets/icons/delivery-tick.svg" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line.svg" />
         </div>
         <p class="txt mt-2">In Transit</p>
       </div>
       <div *ngIf="getObjectByStatus('intransit') === null">
         <div>
-          <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
-          <img src="/assets/icons/delivery-line.svg" alt="delivery-line" />
+          <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line.svg" />
         </div>
         <p class="txt mt-2">Not yet shipped</p>
       </div>
       <div *ngIf="getObjectByStatus('delivered') !== null">
         <div>
-          <img src="/assets/icons/delivery-tick.svg" alt="delivery-tick" />
+          <img alt="delivery-tick" src="/assets/icons/delivery-tick.svg" />
         </div>
         <p class="txt mt-2">Delivered</p>
       </div>
       <div *ngIf="getObjectByStatus('delivered') === null">
         <div>
-          <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
+          <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
         </div>
         <p class="txt mt-2">Not Delivered</p>
       </div>
     </div>
 
     <div
-      class="d-flex justify-content-center"
       *ngIf="getObjectByStatus('rejected') !== null"
+      class="d-flex justify-content-center"
     >
       <div>
         <div class="d-flex justify-content-center">
-          <img src="/assets/icons/delivery-tick.svg" alt="delivery-tick" />
-          <img src="/assets/icons/delivery-line.svg" alt="delivery-line" />
+          <img alt="delivery-tick" src="/assets/icons/delivery-tick.svg" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line.svg" />
         </div>
         <p class="txt mt-2">Payment Made</p>
       </div>
       <div>
         <div class="">
-          <img src="/assets/icons/delivery-cancel.svg" alt="delivery-cancel" />
-          <img src="/assets/icons/delivery-line.svg" alt="delivery-line" />
+          <img alt="delivery-cancel" src="/assets/icons/delivery-cancel.svg" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line.svg" />
         </div>
         <p class="txt mt-2">Order Rejected</p>
       </div>
       <div>
         <div>
-          <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
-          <img src="/assets/icons/delivery-line.svg" alt="delivery-line" />
+          <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line.svg" />
         </div>
         <p class="txt mt-2">Awaiting Pick Up</p>
       </div>
       <div>
         <div>
-          <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
-          <img src="/assets/icons/delivery-line.svg" alt="delivery-line" />
+          <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line.svg" />
         </div>
         <p class="txt mt-2">Not Yet Shipped</p>
       </div>
       <div>
         <div>
-          <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
+          <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
         </div>
         <p class="txt mt-2">Not Delivered</p>
       </div>
@@ -409,7 +416,7 @@
         *ngFor="let item of order?.deliveryTrackingEvents"
         class="bottom-border body"
       >
-        <p class="mb-0">{{ item?.dateTime | date : "medium" }}</p>
+        <p class="mb-0">{{ item?.dateTime | date: "medium" }}</p>
         <p class="mb-0 middle">{{ item?.remark || "N/A" }}</p>
         <p class="mb-0 last">
           <span
@@ -450,41 +457,39 @@
 
     <div *ngIf="getObjectByStatus('rejected') === null">
       <span *ngIf="getObjectByStatus('paid') !== null">
-        <img src="/assets/icons/delivery-tick.svg" alt="delivery-tick" />
+        <img alt="delivery-tick" src="/assets/icons/delivery-tick.svg" />
         <span class="txt"> Payment Made </span>
         <br />
         <span class="one-rem-left d-flex">
-          <img src="/assets/icons/delivery-line2.svg" alt="delivery-line" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line2.svg" />
           <span class="one-rem-left">
             <span class="txt">
               {{ getObjectByStatus("paid").remark || "N/A" }}
             </span>
             <br />
             <span class="txt">
-              {{
-                getObjectByStatus("paid").dateTime || "N/A" | date : "medium"
-              }}
+              {{ getObjectByStatus("paid").dateTime || "N/A" | date: "medium" }}
             </span>
           </span>
         </span>
       </span>
       <span *ngIf="getObjectByStatus('paid') === null">
-        <img src="/assets/icons/delivery-cancel.svg" alt="delivery-cancel" />
+        <img alt="delivery-cancel" src="/assets/icons/delivery-cancel.svg" />
         <span class="txt"> Payment failed </span>
         <br />
         <span
-          style="width: 30px"
           class="d-flex align-items-center justify-content-center"
+          style="width: 30px"
         >
-          <img src="/assets/icons/delivery-line2.svg" alt="delivery-line" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line2.svg" />
         </span>
       </span>
       <span *ngIf="getObjectByStatus('confirmed') !== null">
-        <img src="/assets/icons/delivery-tick.svg" alt="delivery-tick" />
+        <img alt="delivery-tick" src="/assets/icons/delivery-tick.svg" />
         <span class="txt"> Order Confirmed </span>
         <br />
         <span class="one-rem-left d-flex">
-          <img src="/assets/icons/delivery-line2.svg" alt="delivery-line" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line2.svg" />
           <span class="one-rem-left">
             <span class="txt">
               {{ getObjectByStatus("confirmed").remark || "N/A" }}
@@ -493,29 +498,29 @@
             <span class="txt">
               {{
                 getObjectByStatus("confirmed").dateTime || "N/A"
-                  | date : "medium"
+                  | date: "medium"
               }}
             </span>
           </span>
         </span>
       </span>
       <span *ngIf="getObjectByStatus('confirmed') === null">
-        <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
+        <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
         <span class="txt"> Awaiting Confirmation </span>
         <br />
         <span
-          style="width: 30px"
           class="d-flex align-items-center justify-content-center"
+          style="width: 30px"
         >
-          <img src="/assets/icons/delivery-line2.svg" alt="delivery-line" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line2.svg" />
         </span>
       </span>
       <span *ngIf="getObjectByStatus('scheduled') !== null">
-        <img src="/assets/icons/delivery-tick.svg" alt="delivery-tick" />
+        <img alt="delivery-tick" src="/assets/icons/delivery-tick.svg" />
         <span class="txt"> Picked up for delivery </span>
         <br />
         <span class="one-rem-left d-flex">
-          <img src="/assets/icons/delivery-line2.svg" alt="delivery-line" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line2.svg" />
           <span class="one-rem-left">
             <span class="txt">
               {{ getObjectByStatus("scheduled").remark || "N/A" }}
@@ -524,29 +529,29 @@
             <span class="txt">
               {{
                 getObjectByStatus("scheduled").dateTime || "N/A"
-                  | date : "medium"
+                  | date: "medium"
               }}
             </span>
           </span>
         </span>
       </span>
       <span *ngIf="getObjectByStatus('scheduled') === null">
-        <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
+        <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
         <span class="txt"> Awaitiing Pick Up </span>
         <br />
         <span
-          style="width: 30px"
           class="d-flex align-items-center justify-content-center"
+          style="width: 30px"
         >
-          <img src="/assets/icons/delivery-line2.svg" alt="delivery-line" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line2.svg" />
         </span>
       </span>
       <span *ngIf="getObjectByStatus('intransit') !== null">
-        <img src="/assets/icons/delivery-tick.svg" alt="delivery-tick" />
+        <img alt="delivery-tick" src="/assets/icons/delivery-tick.svg" />
         <span class="txt"> In Transit </span>
         <br />
         <span class="one-rem-left d-flex">
-          <img src="/assets/icons/delivery-line2.svg" alt="delivery-line" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line2.svg" />
           <span class="one-rem-left">
             <span class="txt">
               {{ getObjectByStatus("intransit").remark || "N/A" }}
@@ -555,25 +560,25 @@
             <span class="txt">
               {{
                 getObjectByStatus("intransit").dateTime || "N/A"
-                  | date : "medium"
+                  | date: "medium"
               }}
             </span>
           </span>
         </span>
       </span>
       <span *ngIf="getObjectByStatus('intransit') === null">
-        <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
+        <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
         <span class="txt"> Not Yet Shipped </span>
         <br />
         <span
-          style="width: 30px"
           class="d-flex align-items-center justify-content-center"
+          style="width: 30px"
         >
-          <img src="/assets/icons/delivery-line2.svg" alt="delivery-line" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line2.svg" />
         </span>
       </span>
       <span *ngIf="getObjectByStatus('delivered') !== null">
-        <img src="/assets/icons/delivery-tick.svg" alt="delivery-tick" />
+        <img alt="delivery-tick" src="/assets/icons/delivery-tick.svg" />
         <span class="txt"> Delived </span>
         <br />
         <span class="one-rem-left d-flex">
@@ -586,44 +591,42 @@
             <span class="txt">
               {{
                 getObjectByStatus("delivered").dateTime || "N/A"
-                  | date : "medium"
+                  | date: "medium"
               }}
             </span>
           </span>
         </span>
       </span>
       <span *ngIf="getObjectByStatus('delivered') === null">
-        <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
+        <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
         <span class="txt"> Not Delivered </span>
       </span>
     </div>
 
     <div *ngIf="getObjectByStatus('rejected') !== null">
       <span>
-        <img src="/assets/icons/delivery-tick.svg" alt="delivery-tick" />
+        <img alt="delivery-tick" src="/assets/icons/delivery-tick.svg" />
         <span class="txt"> Payment Made </span>
         <br />
         <span class="one-rem-left d-flex">
-          <img src="/assets/icons/delivery-line2.svg" alt="delivery-line" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line2.svg" />
           <span class="one-rem-left">
             <span class="txt">
               {{ getObjectByStatus("paid").remark || "N/A" }}
             </span>
             <br />
             <span class="txt">
-              {{
-                getObjectByStatus("paid").dateTime || "N/A" | date : "medium"
-              }}
+              {{ getObjectByStatus("paid").dateTime || "N/A" | date: "medium" }}
             </span>
           </span>
         </span>
       </span>
       <span>
-        <img src="/assets/icons/delivery-cancel.svg" alt="delivery-cancel" />
+        <img alt="delivery-cancel" src="/assets/icons/delivery-cancel.svg" />
         <span class="txt"> Order Rejected </span>
         <br />
         <span class="one-rem-left d-flex">
-          <img src="/assets/icons/delivery-line2.svg" alt="delivery-line" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line2.svg" />
           <span class="one-rem-left">
             <span class="txt">
               {{ getObjectByStatus("rejected").remark || "N/A" }}
@@ -631,37 +634,36 @@
             <br />
             <span class="txt">
               {{
-                getObjectByStatus("rejected").dateTime || "N/A"
-                  | date : "medium"
+                getObjectByStatus("rejected").dateTime || "N/A" | date: "medium"
               }}
             </span>
           </span>
         </span>
       </span>
       <span>
-        <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
+        <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
         <span class="txt"> Awaitiing Pick Up </span>
         <br />
         <span
-          style="width: 30px"
           class="d-flex align-items-center justify-content-center"
+          style="width: 30px"
         >
-          <img src="/assets/icons/delivery-line2.svg" alt="delivery-line" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line2.svg" />
         </span>
       </span>
       <span>
-        <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
+        <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
         <span class="txt"> Not Yet Shipped </span>
         <br />
         <span
-          style="width: 30px"
           class="d-flex align-items-center justify-content-center"
+          style="width: 30px"
         >
-          <img src="/assets/icons/delivery-line2.svg" alt="delivery-line" />
+          <img alt="delivery-line" src="/assets/icons/delivery-line2.svg" />
         </span>
       </span>
       <span>
-        <img src="/assets/icons/delivery-dot.svg" alt="delivery-dot" />
+        <img alt="delivery-dot" src="/assets/icons/delivery-dot.svg" />
         <span class="txt"> Not Delivered </span>
       </span>
     </div>
@@ -674,7 +676,7 @@
         *ngFor="let item of order?.deliveryTrackingEvents"
         class="bottom-border body"
       >
-        <p class="txt">{{ item?.dateTime | date : "medium" }}</p>
+        <p class="txt">{{ item?.dateTime | date: "medium" }}</p>
         <p class="txt">{{ item?.remark || "N/A" }}</p>
         <p class="txt">
           <span

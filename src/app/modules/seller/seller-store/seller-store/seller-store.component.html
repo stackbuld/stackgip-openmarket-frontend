@@ -33,6 +33,8 @@
               class="uk-radio"
               type="radio"
               [checked]="sellerStore.isDefault == true"
+              style="cursor: pointer; width: 20px; height: 20px"
+              (click)="onEdit(sellerStore, true)"
             />
             {{ sellerStore.storeName || "store" | titlecase }}
           </label>
@@ -40,18 +42,14 @@
             *ngIf="sellerStore.isDefault == true; else setAsDefaultTemplate"
           >
             <p>
-              <em
-                class="text-success"
-                style="cursor: pointer"
-                (click)="onEdit(sellerStore, false)"
-              >
+              <em class="text-success" style="margin-top: 5px">
                 Default Store
               </em>
             </p>
           </ng-container>
           <ng-template #setAsDefaultTemplate>
-            <p (click)="onEdit(sellerStore, true)">
-              <em class="text-warning" style="cursor: pointer">
+            <p>
+              <em class="text-warning" style="margin-top: 5px">
                 Set As Default
               </em>
             </p>
@@ -163,8 +161,8 @@
     </div>
   </ng-container>
   <ng-template #noDataTemplate>
-    <div style="display: flex; justify-content: center; padding: 20px">
-      <img class="py-5" src="/assets/image/empty-table.svg" alt="empty-table" />
+    <div style="display: flex; justify-content: center">
+      No stores available
     </div>
   </ng-template>
 </ng-template>

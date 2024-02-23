@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ToastrService as Toastr } from 'ngx-toastr';
 
 export const toastOptions = {
-  positionClass: 'toast-bottom-full-width',
+  positionClass: 'toast-top-right',
   preventDuplicates: false,
   closeButton: true,
   progressBar: true,

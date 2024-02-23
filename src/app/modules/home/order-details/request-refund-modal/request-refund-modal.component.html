@@ -2,7 +2,12 @@
   <div class="refund">
     <div class="refund-heading">
       <h2>Give your reasons</h2>
-      <i class="fa fa-times" (click)="onCloseModal()"></i>
+      <i (click)="onCloseModal()" class="fa fa-times"></i>
+    </div>
+
+    <div class="product-desc">
+      <h3>Product description</h3>
+      <p>{{ productDesc }}</p>
     </div>
 
     <div class="refund-select">
@@ -10,59 +15,65 @@
 
       <mat-form-field>
         <mat-select [(ngModel)]="selectedReason">
-          <mat-option [value]="reason" *ngFor="let reason of refundReasons">{{
-            reason
-          }}</mat-option>
+          <mat-option *ngFor="let reason of refundReasons" [value]="reason"
+            >{{ reason }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
+    </div>
+
+    <div class="refund-select refund-unit">
+      <p>Units</p>
+
+      <input [(ngModel)]="refundUnit" type="number" />
     </div>
 
     <div class="evidence">
       <div class="upload-evidence">Upload evidence</div>
       <p>Please upload proof causing refund such as videos or images</p>
 
-      <div class="evidence-main" (click)="onUploadMedia()">
-        <div class="media-texts" *ngIf="mediaUrl == ''">
+      <div (click)="onUploadMedia()" class="evidence-main">
+        <div *ngIf="mediaUrl == ''" class="media-texts">
           <svg
-            width="61"
+            fill="none"
             height="60"
             viewBox="0 0 61 60"
-            fill="none"
+            width="61"
             xmlns="http://www.w3.org/2000/svg"
           >
             <g filter="url(#filter0_d_13057_89313)">
               <rect
-                x="2.5"
-                y="1"
-                width="56"
+                fill="#F2F4F7"
                 height="56"
                 rx="28"
-                fill="#F2F4F7"
+                width="56"
+                x="2.5"
+                y="1"
               />
               <path
                 d="M39.5 32V36C39.5 36.5304 39.2893 37.0391 38.9142 37.4142C38.5391 37.7893 38.0304 38 37.5 38H23.5C22.9696 38 22.4609 37.7893 22.0858 37.4142C21.7107 37.0391 21.5 36.5304 21.5 36V32M35.5 25L30.5 20M30.5 20L25.5 25M30.5 20V32"
                 stroke="#101828"
-                stroke-width="1.67"
                 stroke-linecap="round"
                 stroke-linejoin="round"
+                stroke-width="1.67"
               />
             </g>
             <defs>
               <filter
+                color-interpolation-filters="sRGB"
+                filterUnits="userSpaceOnUse"
+                height="60"
                 id="filter0_d_13057_89313"
+                width="60"
                 x="0.5"
                 y="0"
-                width="60"
-                height="60"
-                filterUnits="userSpaceOnUse"
-                color-interpolation-filters="sRGB"
               >
                 <feFlood flood-opacity="0" result="BackgroundImageFix" />
                 <feColorMatrix
                   in="SourceAlpha"
+                  result="hardAlpha"
                   type="matrix"
                   values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                  result="hardAlpha"
                 />
                 <feOffset dy="1" />
                 <feGaussianBlur stdDeviation="1" />
@@ -71,14 +82,14 @@
                   values="0 0 0 0 0.0627451 0 0 0 0 0.0941176 0 0 0 0 0.156863 0 0 0 0.05 0"
                 />
                 <feBlend
-                  mode="normal"
                   in2="BackgroundImageFix"
+                  mode="normal"
                   result="effect1_dropShadow_13057_89313"
                 />
                 <feBlend
-                  mode="normal"
                   in="SourceGraphic"
                   in2="effect1_dropShadow_13057_89313"
+                  mode="normal"
                   result="shape"
                 />
               </filter>
@@ -91,34 +102,39 @@
         </div>
 
         <div
-          class="photo-media"
           *ngIf="
             mediaUrl != '' &&
             (mediaType == 'jpg' || mediaType == 'peg' || mediaType == 'png')
           "
+          class="photo-media"
         >
-          <img [src]="mediaUrl" alt="" />
+          <img [src]="getImageResolution()" alt="" />
         </div>
         <div
-          class="video-media"
           *ngIf="mediaUrl != '' && (mediaType == 'mp4' || mediaType == 'gif')"
+          class="video-media"
         >
-          <video [src]="mediaUrl" height="140" controls></video>
+          <video [src]="mediaUrl" controls height="140"></video>
         </div>
       </div>
     </div>
-    <div class="remove-media" (click)="onRemoveMedia()" *ngIf="mediaUrl != ''">
+
+    <div (click)="onRemoveMedia()" *ngIf="mediaUrl != ''" class="remove-media">
       Remove media
     </div>
 
     <div class="refund-action">
       <button
-        [ngClass]="{ invalid: mediaUrl == '' || selectedReason == '' }"
         (click)="onRefund()"
+        [disabled]="isLoading"
+        [ngClass]="{
+          invalid:
+            mediaUrl == '' || selectedReason == '' || this.refundUnit == 0
+        }"
       >
-        Refund
+        <span *ngIf="!isLoading">Refund</span>
+        <span *ngIf="isLoading" class="loader"></span>
       </button>
-      <div>Notify seller on refund</div>
     </div>
   </div>
 </div>

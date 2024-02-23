@@ -43,6 +43,12 @@ export interface IAuth {
   profileUrl: string;
 }
 
+export interface OTPVerificationResponse {
+  data: string[];
+  message: any;
+  status: any;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -51,6 +57,7 @@ export class AuthService {
   public isLogin: BehaviorSubject<boolean>;
   tokenSubscription = new Subscription();
   decodedJwt;
+
   constructor(
     private api: ApiAppUrlService,
     private http: HttpClient,
@@ -60,7 +67,7 @@ export class AuthService {
     // private socialAuthService: SocialAuthService,
     private router: Router,
     private jwtHelperService: JwtHelperService,
-    private toast: ToastrService
+    private toast: ToastrService,
   ) {
     const userData = this.GetSignInData();
     if (userData != null) {
@@ -83,29 +90,30 @@ export class AuthService {
   public signIn(signInModel: any): Observable<SiginResponseModel> {
     return this.http.post<SiginResponseModel>(
       this.api.baseApiUrl + 'Auth/Login',
-      signInModel
+      signInModel,
     );
   }
 
   public register(
-    registerModel: RegisterModel
+    registerModel: RegisterModel,
   ): Observable<RegisterResponseModel> {
     return this.http.post<RegisterResponseModel>(
       this.api.baseApiUrl + 'auth/register',
-      registerModel
+      registerModel,
     );
   }
 
   public GoogleSignIn(token): Observable<SiginResponseModel> {
     return this.http.post<SiginResponseModel>(
       this.api.baseApiUrl + 'Auth/Google',
-      { idToken: token }
+      { idToken: token },
     );
   }
 
   public hideSharedLoginModal() {
     uikit.modal('#login-modal').hide();
   }
+
   public hideSharedSocialModal() {
     uikit.modal('#social-modal').hide();
   }
@@ -115,6 +123,7 @@ export class AuthService {
     this.hideSharedSocialModal();
     uikit.modal('#login-modal').show();
   }
+
   public showSharedSocialModal() {
     this.hideSharedSignupModal();
     this.hideSharedLoginModal();
@@ -177,7 +186,7 @@ export class AuthService {
   public FacebookSignIn(userId, token): Observable<SiginResponseModel> {
     return this.http.post<SiginResponseModel>(
       this.api.baseApiUrl + 'Auth/Facebook',
-      { token, userId }
+      { token, userId },
     );
   }
 
@@ -216,28 +225,28 @@ export class AuthService {
   public SendForgetPassword(forget: IForgetModel): Observable<IResponseModel> {
     return this.http.post<IResponseModel>(
       this.api.baseApiUrl + 'Auth/Password/forgot',
-      forget
+      forget,
     );
   }
 
   public ForgetPassword(
-    forgetPassword: IForgetPasswordModel
+    forgetPassword: IForgetPasswordModel,
   ): Observable<IResponseModel> {
     return this.http.patch<IResponseModel>(
       this.api.baseApiUrl + 'auth/Password/reset',
-      forgetPassword
+      forgetPassword,
     );
   }
 
   public SendConfirmationEmail(email: string): Observable<IResponseModel> {
     return this.http.get<IResponseModel>(
-      this.api.baseApiUrl + 'auth/verification/resend/?email=' + email
+      this.api.baseApiUrl + 'auth/verification/resend/?email=' + email,
     );
   }
 
   public resendConfirmationEmail(email: string) {
     return this.http.get(
-      this.api.baseApiUrl + 'auth/verification/resend?email=' + email
+      this.api.baseApiUrl + 'auth/verification/resend?email=' + email,
     );
   }
 
@@ -250,9 +259,9 @@ export class AuthService {
   }
 
   updatePin(credentials: { newPin: string; phoneOtp: string }) {
-    return this.http.patch(
+    return this.http.patch<OTPVerificationResponse>(
       this.api.baseApiUrl + 'auth/pin/change',
-      credentials
+      credentials,
     );
   }
 
@@ -261,15 +270,15 @@ export class AuthService {
   }
 
   verifyPersonalPhoneNumber(credentials: { phoneNumber: string; otp: string }) {
-    return this.http.put(
+    return this.http.put<OTPVerificationResponse>(
       this.api.baseApiUrl + 'users/phonenumber/verify',
-      credentials
+      credentials,
     );
   }
 
   sendBusinessPhoneOTP() {
     return this.http.get(
-      this.api.baseApiUrl + 'sellers/businessphone/send-otp'
+      this.api.baseApiUrl + 'sellers/businessphone/send-otp',
     );
   }
 
@@ -277,18 +286,18 @@ export class AuthService {
     businessPhone: string;
     otp: string;
   }) {
-    return this.http.put(
+    return this.http.put<OTPVerificationResponse>(
       this.api.baseApiUrl + 'sellers/businessphone/verify',
-      credentials
+      credentials,
     );
   }
 
   public ConfirmEmail(
     email: string,
-    token: string
+    token: string,
   ): Observable<IResponseModel> {
     return this.http.get<IResponseModel>(
-      this.api.baseApiUrl + `Auth/verification?userId=${email}&token=${token}`
+      this.api.baseApiUrl + `Auth/verification?userId=${email}&token=${token}`,
     );
   }
 
@@ -302,6 +311,7 @@ export class AuthService {
   }
 
   public Logout() {
+    this.isLogin.next(false);
     localStorage.clear();
     this.store.dispatch(LogOutAction());
   }
@@ -327,7 +337,7 @@ export class AuthService {
   }): Observable<IResponseModel> {
     return this.http.patch<IResponseModel>(
       this.api.baseApiUrl + 'auth/password/change',
-      credentials
+      credentials,
     );
   }
 
@@ -344,7 +354,10 @@ export class AuthService {
   }
 
   deactivateSeller(data: { otp: string }) {
-    return this.http.put(this.api.baseApiUrl + 'auth/deactivate', data);
+    return this.http.put<OTPVerificationResponse>(
+      this.api.baseApiUrl + 'auth/deactivate',
+      data,
+    );
   }
 
   sendActivateSellerOTP(data: { phoneNumber: string }) {
@@ -352,7 +365,10 @@ export class AuthService {
   }
 
   activateSeller(data: { email: string; otp: string }) {
-    return this.http.put(this.api.baseApiUrl + 'auth/activate', data);
+    return this.http.put<OTPVerificationResponse>(
+      this.api.baseApiUrl + 'auth/activate',
+      data,
+    );
   }
 
   //
@@ -392,15 +408,16 @@ export class AuthService {
           this.setLocalStorageItemWithExpiry(
             'notificationWssUrl',
             a?.wssUrl,
-            60 * 24
+            60 * 24,
           );
-        })
+        }),
       );
       return wssUrlResponse;
     } else {
       return of({ wssUrl: cachedUrl } as GetWssUrlResponse);
     }
   }
+
   setLocalStorageItemWithExpiry(key, value: string, expiryInMinutes) {
     const now = new Date();
     const item = {
@@ -461,18 +478,15 @@ export class AuthService {
           res.data.user.sellerApprovalStatus.toLowerCase() === 'failed' ||
           res.data.user.sellerApprovalStatus.toLowerCase() === 'pending'
         ) {
-          this.toast.success(
-            `${accessType === 'signin' ? 'Login' : 'Signup'} Successful`
-          );
           if (this.currentUrl.includes('auth')) {
             this.router.navigate(['/seller/dashboard']);
+            try {
+              uikit.modal('#information-modal').hide();
+            } catch {}
           } else {
             this.hideSharedLoginModal();
           }
         } else {
-          this.toast.success(
-            `${accessType === 'signin' ? 'Login' : 'Signup'} Successful`
-          );
           if (this.currentUrl.includes('auth')) {
             this.router.navigate(['/']);
           } else {
@@ -484,9 +498,7 @@ export class AuthService {
         this.ngxService.stopLoader('loader-01');
         this.isLogin.next(true);
         this.SetAuthLocalStorage(res);
-        this.toast.success(
-          `${accessType === 'signin' ? 'Login' : 'Signup'} Successful`
-        );
+
         if (this.currentUrl.includes('auth')) {
           authType === 'login'
             ? this.router.navigate(['/'])
@@ -496,6 +508,10 @@ export class AuthService {
           this.hideSharedSignupModal();
         }
       }
+
+      this.toast.success(
+        `${accessType === 'signin' ? 'Login' : 'Signup'} Successful`,
+      );
     }
     this.isLogin.next(true);
     this.SetAuthLocalStorage(res);

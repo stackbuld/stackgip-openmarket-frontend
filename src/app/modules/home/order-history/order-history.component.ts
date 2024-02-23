@@ -5,11 +5,12 @@ import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { AuthService } from 'src/app/services/auth.service';
 import { FooterService } from 'src/app/services/footer.service';
 import { OrderService } from 'src/app/services/order/order.service';
+import { OrderDetail, OrderDetail2 } from '../../../models/order.model';
 
 @Component({
   selector: 'app-order-history',
   templateUrl: './order-history.component.html',
-  styleUrls: ['./order-history.component.scss']
+  styleUrls: ['./order-history.component.scss'],
 })
 export class OrderHistoryComponent implements OnInit {
   all = true;
@@ -18,9 +19,9 @@ export class OrderHistoryComponent implements OnInit {
   user: any;
   totalItemCount: number;
   maximumItem: number = 10;
-  defaultPage:number = 1;
+  defaultPage: number = 1;
   pageNumber: number;
-  buyerId:string = "";
+  buyerId: string = '';
   paymentReferenceId: string = '';
   type: string = '';
   dateType: string = 'all';
@@ -48,27 +49,43 @@ export class OrderHistoryComponent implements OnInit {
     this.fetchAllOrders(this.defaultPage);
   }
 
-  viewOrder(item: any) {
-		this.appLocal.messageSource.next(item);
-    this.router.navigate([`homepage/details/${item.id}`]);
-	}
+  viewOrder(item: OrderDetail2) {
+    this.appLocal.messageSource.next(item);
 
-  fetchAllOrders = (pageNumber:any) => {
+    this.router.navigate([`homepage/details/${item.id}`]);
+  }
+
+  fetchAllOrders = (pageNumber: any) => {
     this.loadingOrders = true;
     this.orders = [];
-    this.orderService.fetchAllOrders(
-      pageNumber, this.maximumItem, '', this.buyerId,
-      this.paymentReferenceId, this.type, '', '',
-      this.dateType, this.orderStatus, this.deliveryStatus, this.paymentStatus, ''
-    ).subscribe((res) => {
-        this.orders = res.data.data;
-        this.pageNumber = res.data.pager.pageNumber;
-        this.totalItemCount = res.data.pager.totalItemCount;
-        this.loadingOrders = false;
-      }, error => {
-        this.loadingOrders = false;
+    this.orderService
+      .fetchAllOrders(
+        pageNumber,
+        this.maximumItem,
+        '',
+        this.buyerId,
+        this.paymentReferenceId,
+        this.type,
+        '',
+        '',
+        this.dateType,
+        this.orderStatus,
+        this.deliveryStatus,
+        this.paymentStatus,
+        '',
+      )
+      .subscribe({
+        next: (res) => {
+          this.orders = res.data.data;
+          this.pageNumber = res.data.pager.pageNumber;
+          this.totalItemCount = res.data.pager.totalItemCount;
+          this.loadingOrders = false;
+        },
+        error: (error) => {
+          this.loadingOrders = false;
+        },
       });
-  }
+  };
 
   switchTabs = (key: string) => {
     if (key === 'all') {
@@ -84,5 +101,5 @@ export class OrderHistoryComponent implements OnInit {
       this.success = true;
       this.fetchAllOrders(this.defaultPage);
     }
-  }
+  };
 }

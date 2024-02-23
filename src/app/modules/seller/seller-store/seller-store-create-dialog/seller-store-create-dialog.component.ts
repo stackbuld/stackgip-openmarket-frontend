@@ -47,7 +47,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     private modalInfo: { data: SellerStores; mode: string },
     private helperService: HelperService,
     private toastr: ToastrService,
-    private countryService: CountryService
+    private countryService: CountryService,
   ) {}
 
   @ViewChild('placesRef') placesRef: GooglePlaceDirective;
@@ -137,13 +137,13 @@ export class SellerStoreCreateDialogComponent implements OnInit {
 
       this.storeAvailabilties = this.sellerStoreService.mergeAvailabilities(
         this.storeAvailability.value,
-        this.modalInfo.data.storeAvailabilties
+        this.modalInfo.data.storeAvailabilties,
       );
     } else {
       this.storeAvailabilties = this.storeAvailability.value;
       this.storeAvailabilties = this.sellerStoreService.mergeAvailabilities(
         this.storeAvailability.value,
-        this.sellerStoreService.defaultAvailability
+        this.sellerStoreService.defaultAvailability,
       );
     }
 
@@ -157,12 +157,12 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     this.sellerStoreService.storeAvailabilitiesSubj.subscribe((value) => {
       this.storeAvailabilties = this.sellerStoreService.mergeAvailabilities(
         this.storeAvailabilties,
-        value.storeAvailabilties
+        value.storeAvailabilties,
       );
 
       this.formattedAvailabilities =
         this.sellerStoreService.formatStoreAvailability(
-          this.storeAvailabilties
+          this.storeAvailabilties,
         );
 
       if (this.formattedAvailabilities.length > 0) {
@@ -316,37 +316,39 @@ export class SellerStoreCreateDialogComponent implements OnInit {
         dayOfWeek: [day],
         openingTime: [null],
         closingTime: [null],
-      })
+      }),
     );
   }
 
   public handleAddressChange(address: Address) {
     this.isGoogleAddressSelected = true;
-    let postalCode = address.address_components.filter((element) => {
-      return element.types.includes('postal_code');
-    });
+    console.log(address);
+    try {
+      try {
+        let postalCode = address.address_components.filter((element) => {
+          return element.types.includes('postal_code');
+        });
+        this.postalCode.patchValue(postalCode[0].long_name);
+      } catch {}
 
-    let country = address.address_components.filter((element) => {
-      return element.types.includes('country');
-    });
-    let city = address.address_components.filter((element) => {
-      return element.types.includes('administrative_area_level_2');
-    });
-    let state = address.address_components.filter((element) => {
-      return element.types.includes('administrative_area_level_1');
-    });
-    let landmark = address.address_components.filter((element) => {
-      return element.types.includes('locality');
-    });
-    this.fullAddress.patchValue(address.formatted_address);
-    this.lng.patchValue(address.geometry.location.lng());
-    this.lat.patchValue(address.geometry.location.lat());
-    this.postalCode.patchValue(postalCode[0].long_name);
-    this.country.patchValue(country[0].long_name);
-    this.city.patchValue(city[0].long_name);
-    this.state.patchValue(state[0].long_name);
-    this.landmark.patchValue(landmark[0].long_name);
-    this.sellerStoreAddressForm.updateValueAndValidity();
+      let country = address.address_components.filter((element) => {
+        return element.types.includes('country');
+      });
+      let city = address.address_components.filter((element) => {
+        return element.types.includes('administrative_area_level_2');
+      });
+      let state = address.address_components.filter((element) => {
+        return element.types.includes('administrative_area_level_1');
+      });
+      console.log(country, city, state);
+      this.fullAddress.patchValue(address.formatted_address);
+      this.lng.patchValue(address.geometry.location.lng());
+      this.lat.patchValue(address.geometry.location.lat());
+      this.country.patchValue(country[0].long_name);
+      this.city.patchValue(city[0].long_name);
+      this.state.patchValue(state[0].long_name);
+      this.sellerStoreAddressForm.updateValueAndValidity();
+    } catch {}
   }
 
   onSave() {
@@ -361,7 +363,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
 
     if (!this.isGoogleAddressSelected) {
       this.toastr.warining(
-        'Select an address from the options that shows as you type'
+        'Select an address from the options that shows as you type',
       );
       return;
     }
@@ -379,7 +381,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
       this.countryCode.value.toString() + phoneNumber;
 
     const storeAvailabilties = this.sellerStoreService.formatStoreAvailability(
-      this.storeAvailabilties
+      this.storeAvailabilties,
     );
 
     if (this.modalInfo.mode == 'create') {

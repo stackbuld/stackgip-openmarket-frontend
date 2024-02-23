@@ -24,9 +24,19 @@ export const environment = {
     // urlSync: false
   },
   contactUsWebhook:
-    'https://n8n-workflow.renamarkets.com/webhook/prod/renamaket-contact-us',
+    'https://n8n-workflow.renamarkets.com/webhook/renamaket-contact-us',
   highlightInfo: {
     id: 'ng2orond',
-    commmitVersion: 'abcdefg12345'
-  }
+    commmitVersion: 'abcdefg12345',
+  },
+  termsAndConditionsUrl:
+    'https://doc.clickup.com/4543060/d/4amjm-2412/renamarkets-seller-contract',
+  buyerTermsAndConditionsUrl:
+    'https://doc.clickup.com/4543060/d/h/4amjm-2432/8fd9617c986a78c',
+  kycVerificationWidgetId: {
+    app_id: '65baf87eb7c19d0040b25f68',
+    key: 'prod_pk_SCP9XK8h3yHoSVYSIp40KGkhY',
+    business: '65d76683f2409c004004739a',
+    individual: '65d767faa264e90040fd63b4',
+  },
 };

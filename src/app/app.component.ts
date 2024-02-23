@@ -1,16 +1,9 @@
 import { AppState } from './reducers/index';
-import {
-  Component,
-  OnInit,
-  Inject,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Store, createSelector, createFeatureSelector } from '@ngrx/store';
-
+import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { increment, decrement, reset } from './reducers/action/actions';
 import { DOCUMENT } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import {
@@ -19,8 +12,10 @@ import {
   Router,
   RouterState,
 } from '@angular/router';
+
+import { increment, decrement, reset } from './reducers/action/actions';
 import { PwaService } from './services/pwa.service';
-import uikit from 'uikit';
+import { PwaPromptComponent } from './shared/components/pwa-prompt/pwa-prompt.component';
 
 const selectCounter = (state: AppState) => state.count;
 
@@ -43,7 +38,8 @@ export class AppComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     @Inject(DOCUMENT) private document: Document,
-    private pwaService: PwaService
+    private pwaService: PwaService,
+    private dialog: MatDialog,
   ) {
     this.handleRouteEvents();
   }
@@ -53,11 +49,13 @@ export class AppComponent implements OnInit {
 
     this.pwaService.initPwaPrompt();
 
-    this.pwaService.showModal.pipe(take(1)).subscribe((status) => {
-      if (status) {
-        uikit.modal('#prompt-modal').show();
-      }
-    });
+    if (!JSON.parse(localStorage.getItem('isPwaPromptCancelled'))) {
+      this.pwaService.showModal.pipe(take(1)).subscribe((status) => {
+        if (status) {
+          this.dialog.open(PwaPromptComponent, { position: { top: '40px' } });
+        }
+      });
+    }
   }
 
   handleRouteEvents() {
@@ -65,7 +63,7 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         const title = this.getTitle(
           this.router.routerState,
-          this.router.routerState.root
+          this.router.routerState.root,
         ).join('-');
         this.titleService.setTitle(title);
         // gtag('event', 'page_view', {
@@ -86,10 +84,6 @@ export class AppComponent implements OnInit {
       data.push(...this.getTitle(state, parent.firstChild));
     }
     return data;
-  }
-
-  onPromptInstall() {
-    this.pwaService.showInstallPrompt();
   }
 
   increment() {

@@ -25,6 +25,7 @@ import { JwtHelperService } from '../../../services/jwt-helper.service';
 import { environment } from 'src/environments/environment';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { WindowRefService } from '../../../shared/services/window.service';
+import { CountryService } from '../../../services/country/country.service';
 
 declare const FB: any;
 
@@ -50,9 +51,10 @@ export class LoginComponent implements OnInit {
   message = '';
   tokenSubscription = new Subscription();
   decodedJwt;
+  window: Window;
   private _ngZone: any;
   private clientId = environment.googleClientId;
-  window: Window;
+
   constructor(
     public authService: AuthService,
     // private socialAuthService: SocialAuthService,
@@ -62,6 +64,7 @@ export class LoginComponent implements OnInit {
     private ngxService: NgxUiLoaderService,
     private jwtHelperService: JwtHelperService,
     windowRefService: WindowRefService,
+    private countryService: CountryService,
   ) {
     this.window = windowRefService.nativeWindow;
   }
@@ -76,6 +79,11 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required]],
     });
 
+    this.countryService.getCountry().subscribe();
+
+    if (this.authService.getLoggedInUser()) {
+      this.router.navigate(['/homepage']);
+    }
     // @ts-ignore
     this.window.onGoogleLibraryLoad = () => {
       // @ts-ignore
@@ -89,7 +97,7 @@ export class LoginComponent implements OnInit {
       google.accounts.id.renderButton(
         // @ts-ignore
         document.getElementById('googleButton'),
-        { size: 'large', width: 100 }
+        { size: 'large', width: 100 },
       );
       // @ts-ignore
       google.accounts.id.prompt((notification: PromptMomentNotification) => {});
@@ -110,7 +118,7 @@ export class LoginComponent implements OnInit {
         this.toast.error(err.error.message);
         this.ngxService.stopLoader('loader-01');
         this.ngxService.stopAll();
-      }
+      },
     );
   }
 
@@ -121,7 +129,7 @@ export class LoginComponent implements OnInit {
   async facebookLogin() {
     FB.login(
       async (result: any) => {
-        if(!result.authResponse){
+        if (!result.authResponse) {
           return;
         }
         let token = result.authResponse.accessToken;
@@ -129,34 +137,30 @@ export class LoginComponent implements OnInit {
         this.ngxService.startLoader('loader-01');
         await this.authService.LoginWithFacebook(token, userId).subscribe(
           (res) => {
-            this.authService.handleAuthResponse(
-              res,
-              'signin',
-              'facebook'
-            );
+            this.authService.handleAuthResponse(res, 'signin', 'facebook');
           },
           (err) => {
             this.toast.error(err.error.message);
             this.ngxService.stopLoader('loader-01');
             this.ngxService.stopAll();
-          }
+          },
         );
-      }
+      },
       // { scope: 'email' }
     );
   }
 
   login(): void {
     this.ngxService.startLoader('loader-01');
-    this.authService.signIn(this.loginForm.value).subscribe(
-      (res) => {
+    this.authService.signIn(this.loginForm.value).subscribe({
+      next: (res) => {
         this.authService.handleAuthResponse(res, 'signin', 'login');
       },
-      (err) => {
+      error: (err) => {
         this.toast.error(err.error.message);
         this.ngxService.stopLoader('loader-01');
         this.ngxService.stopAll();
-      }
-    );
+      },
+    });
   }
 }
