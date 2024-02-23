@@ -70,7 +70,7 @@ export class SellerKycComponent implements OnInit {
     }
 
     verifyKyc(
-      environment.kycVerificationWidgetId.app_id,
+      environment.kycVerificationWidgetId.appId,
       widgetId,
       environment.kycVerificationWidgetId.key,
       this.user,
