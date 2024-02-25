@@ -24,11 +24,8 @@ declare var Connect;
 })
 export class SellerKycComponent implements OnInit {
   isFetching = false;
-  kycVerified = false;
   userId: string;
-  verificationFailureReason: string;
   user!: IUser;
-  approvalStatus: string;
 
   constructor(
     private router: Router,
@@ -46,10 +43,6 @@ export class SellerKycComponent implements OnInit {
       next: (user) => {
         this.isFetching = false;
         this.user = user.data;
-        console.log(this.user);
-        this.verificationFailureReason = user.data.rejectionReason;
-        this.approvalStatus = user.data.sellerApprovalStatus;
-        this.kycVerified = user.data.isKycVerified;
       },
       error: (err) => {
         this.isFetching = false;
@@ -59,6 +52,10 @@ export class SellerKycComponent implements OnInit {
   }
 
   onVerify() {
+    if (this.user.sellerApprovalStatus.toLowerCase() === 'failed') {
+      this.router.navigate(['/seller-form']);
+      return;
+    }
     let widgetId: string;
 
     if (this.user.isBusinessRegistered) {
