@@ -9,99 +9,67 @@
     <div class="seller-kyc-main-heading">Current Status</div>
 
     <div class="seller-kyc-main-status-container">
-      <div class="seller-kyc-main-status" *ngIf="kycVerified">
-        <div class="status-icon" [ngClass]="{ greenBg: kycVerified }">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="desktop-verification-icon"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M7.67 2H16.34C19.73 2 22 4.38 22 7.92V16.091C22 19.62 19.73 22 16.34 22H7.67C4.28 22 2 19.62 2 16.091V7.92C2 4.38 4.28 2 7.67 2ZM11.43 14.99L16.18 10.24C16.52 9.9 16.52 9.35 16.18 9C15.84 8.66 15.28 8.66 14.94 9L10.81 13.13L9.06 11.38C8.72 11.04 8.16 11.04 7.82 11.38C7.48 11.72 7.48 12.27 7.82 12.62L10.2 14.99C10.37 15.16 10.59 15.24 10.81 15.24C11.04 15.24 11.26 15.16 11.43 14.99Z"
-              fill="#11955A"
-            />
-          </svg>
-
-          <span class="mark-icon">
-            <svg
-              width="16"
-              height="12"
-              viewBox="0 0 16 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+      <div class="seller-kyc-main-status">
+        <!--        <div class="status-icon" [ngClass]="{ greenBg: kycVerified }">-->
+        <!--          <span class="mark-icon">-->
+        <!--            <svg-->
+        <!--              width="16"-->
+        <!--              height="12"-->
+        <!--              viewBox="0 0 16 12"-->
+        <!--              fill="none"-->
+        <!--              xmlns="http://www.w3.org/2000/svg"-->
+        <!--            >-->
+        <!--              <path-->
+        <!--                d="M14.6673 1L5.50065 10.1667L1.33398 6"-->
+        <!--                stroke="white"-->
+        <!--                stroke-width="1.67"-->
+        <!--                stroke-linecap="round"-->
+        <!--                stroke-linejoin="round"-->
+        <!--              />-->
+        <!--            </svg>-->
+        <!--          </span>-->
+        <!--        </div>-->
+        <div
+          class="status"
+          id="verified"
+          [ngClass]="{ not_verified: !user.isKycVerified }"
+        >
+          <span [ngSwitch]="user.sellerApprovalStatus.toLowerCase()">
+            <span *ngSwitchCase="'pending'" class="pending"
+              >Currently reviewing your account</span
             >
-              <path
-                d="M14.6673 1L5.50065 10.1667L1.33398 6"
-                stroke="white"
-                stroke-width="1.67"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <span *ngSwitchCase="'failed'" class="not_verified"
+              >Failed registration
+              <div>dhdhdhd</div></span
+            >
+            <span *ngSwitchCase="'approved'" class="verified">Verified</span>
           </span>
-          <span class="status" id="verified">Verified</span>
-        </div>
-        <div class="status-message">
-          We have successfully verified your information
         </div>
       </div>
 
-      <div class="seller-kyc-main-status" *ngIf="!kycVerified">
-        <div class="status-icon" [ngClass]="{ redBg: !kycVerified }">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="desktop-verification-icon"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M7.67 2H16.34C19.73 2 22 4.38 22 7.92V16.091C22 19.621 19.73 22 16.34 22H7.67C4.28 22 2 19.621 2 16.091V7.92C2 4.38 4.28 2 7.67 2ZM15.01 15C15.35 14.661 15.35 14.111 15.01 13.771L13.23 11.991L15.01 10.21C15.35 9.871 15.35 9.311 15.01 8.971C14.67 8.63 14.12 8.63 13.77 8.971L12 10.75L10.22 8.971C9.87 8.63 9.32 8.63 8.98 8.971C8.64 9.311 8.64 9.871 8.98 10.21L10.76 11.991L8.98 13.761C8.64 14.111 8.64 14.661 8.98 15C9.15 15.17 9.38 15.261 9.6 15.261C9.83 15.261 10.05 15.17 10.22 15L12 13.231L13.78 15C13.95 15.181 14.17 15.261 14.39 15.261C14.62 15.261 14.84 15.17 15.01 15Z"
-              fill="#FF0000"
-            />
-          </svg>
+      <!--      <div class="seller-kyc-main-status" *ngIf="!kycVerified">-->
+      <!--        <div class="status-icon" [ngClass]="{ redBg: !kycVerified }">-->
+      <!--          <span class="cross">-->
+      <!--            <svg-->
+      <!--              width="15"-->
+      <!--              height="15"-->
+      <!--              viewBox="0 0 12 12"-->
+      <!--              fill="none"-->
+      <!--              xmlns="http://www.w3.org/2000/svg"-->
+      <!--            >-->
+      <!--              <path-->
+      <!--                d="M11 1L1 11M1 1L11 11"-->
+      <!--                stroke="white"-->
+      <!--                stroke-width="1.67"-->
+      <!--                stroke-linecap="round"-->
+      <!--                stroke-linejoin="round"-->
+      <!--              />-->
+      <!--            </svg>-->
+      <!--          </span>-->
 
-          <span class="cross">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 12 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M11 1L1 11M1 1L11 11"
-                stroke="white"
-                stroke-width="1.67"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </span>
-
-          <span class="status" id="unverified">Not Verified</span>
-        </div>
-        <div class="status-message">We need to verify your information</div>
-      </div>
-
-      <!--      <div class="seller-kyc-main-status" *ngIf="approvalStatus == 'pending'">-->
-      <!--        <div-->
-      <!--          class="status-icon"-->
-      <!--          [ngClass]="{ blueBg: approvalStatus == 'pending' }"-->
-      <!--        >-->
-      <!--          <span class="status" id="pending-text">Pending</span>-->
+      <!--          <span class="status" id="unverified">Not Verified</span>-->
       <!--        </div>-->
-      <!--        <div class="status-message">-->
-      <!--          We are currently verifying your business-->
-      <!--        </div>-->
+      <!--        <div class="status-message">We need to verify your information</div>-->
       <!--      </div>-->
 
       <div
@@ -154,10 +122,9 @@
     </div>
   </div>
 
-  <div
-    class="verification-btn"
-    *ngIf="!kycVerified || approvalStatus == 'failed'"
-  >
+  <div class="verification-btn" *ngIf="user.sellerApprovalStatus">
     <button (click)="onVerify()">Start Verification</button>
   </div>
 </div>
+
+<div></div>

@@ -35,7 +35,7 @@ export class SellerKycComponent implements OnInit {
     private authService: AuthService,
     private sellerService: SellerService,
     private toast: ToastrService,
-    private scriptLoader: ScriptLoaderService
+    private scriptLoader: ScriptLoaderService,
   ) {}
 
   ngOnInit(): void {
@@ -44,13 +44,15 @@ export class SellerKycComponent implements OnInit {
 
     this.sellerService.getSeller(this.userId).subscribe({
       next: (user) => {
-        this.user = user.data;
         this.isFetching = false;
+        this.user = user.data;
+        console.log(this.user);
         this.verificationFailureReason = user.data.rejectionReason;
         this.approvalStatus = user.data.sellerApprovalStatus;
         this.kycVerified = user.data.isKycVerified;
       },
       error: (err) => {
+        this.isFetching = false;
         this.toast.error(err.error.message);
       },
     });
@@ -76,7 +78,7 @@ export class SellerKycComponent implements OnInit {
       environment.kycVerificationWidgetId.appId,
       widgetId,
       environment.kycVerificationWidgetId.key,
-      this.user
+      this.user,
     );
   }
 
