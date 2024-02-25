@@ -1,133 +1,132 @@
-import {Component, OnInit} from '@angular/core';
-import {ToastrService} from 'ngx-toastr';
-import {AppLocalStorage} from 'src/app/helpers/local-storage';
-import {CatgoryService} from 'src/app/services/category/catgory.service';
-import {ProductsService} from 'src/app/services/products/products.service';
+import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { AppLocalStorage } from 'src/app/helpers/local-storage';
+import { CatgoryService } from 'src/app/services/category/catgory.service';
+import { ProductsService } from 'src/app/services/products/products.service';
 import algoliasearch from 'algoliasearch';
-import {Router} from '@angular/router';
-import {environment} from 'src/environments/environment';
-import {CartService} from '../../../services/cart/cart.service';
-import {IUser} from 'src/app/models/IUserModel';
-import {AuthService} from '../../../services/auth.service';
-import {WindowRefService} from '../../services/window.service';
-import {SearchService} from 'src/app/services/search/search.service';
-import {MatDialog} from '@angular/material/dialog';
-import {LogoutModalComponent} from '../logout-modal/logout-modal.component';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { CartService } from '../../../services/cart/cart.service';
+import { IUser } from 'src/app/models/IUserModel';
+import { AuthService } from '../../../services/auth.service';
+import { WindowRefService } from '../../services/window.service';
+import { SearchService } from 'src/app/services/search/search.service';
+import { MatDialog } from '@angular/material/dialog';
+import { LogoutModalComponent } from '../logout-modal/logout-modal.component';
 
 @Component({
-    selector: 'app-home-nav',
-    templateUrl: './home-nav.component.html',
-    styleUrls: ['./home-nav.component.scss'],
+  selector: 'app-home-nav',
+  templateUrl: './home-nav.component.html',
+  styleUrls: ['./home-nav.component.scss'],
 })
 export class HomeNavComponent implements OnInit {
-    config = this.searchService.getAlgoliaConfig();
-    isSearch = false;
-    categories: any;
-    cartCount = 0;
-    user: IUser;
-    referenceId: any;
+  config = this.searchService.getAlgoliaConfig();
+  isSearch = false;
+  categories: any;
+  cartCount = 0;
+  user: IUser;
+  referenceId: any;
 
-    constructor(
-        private categoryService: CatgoryService,
-        private appLocalStorage: AppLocalStorage,
-        // private productService: ProductsService,
-        private cartService: CartService,
-        private toastService: ToastrService,
-        private router: Router,
-        private applocal: AppLocalStorage,
-        private authService: AuthService,
-        private windowService: WindowRefService,
-        private searchService: SearchService,
-        private dialog: MatDialog,
-    ) {
-        // this.user = JSON.parse(localStorage.getItem('user'));
+  constructor(
+    private categoryService: CatgoryService,
+    private appLocalStorage: AppLocalStorage,
+    // private productService: ProductsService,
+    private cartService: CartService,
+    private toastService: ToastrService,
+    private router: Router,
+    private applocal: AppLocalStorage,
+    private authService: AuthService,
+    private windowService: WindowRefService,
+    private searchService: SearchService,
+    private dialog: MatDialog,
+  ) {
+    // this.user = JSON.parse(localStorage.getItem('user'));
+  }
+
+  ngOnInit(): void {
+    this.cartService.cartCount.subscribe((count) => {
+      this.cartCount = count;
+    });
+    this.referenceId = this.authService.getUserReferenceNumber();
+    this.appLocalStorage.currentUser.subscribe((res) => {
+      if (res) {
+        this.user = res;
+      } else {
+        this.user = JSON.parse(localStorage.getItem('user'));
+      }
+    });
+    this.appLocalStorage.productViewed.subscribe((res) => {
+      this.isSearch = false;
+    });
+    this.fetchCategories();
+    if (this.referenceId !== null || this.user !== null) {
+      this.getCustomerCart();
     }
 
-    ngOnInit(): void {
-        this.cartService.cartCount.subscribe((count) => {
-            this.cartCount = count;
-        });
-        this.referenceId = this.authService.getUserReferenceNumber();
-        this.appLocalStorage.currentUser.subscribe((res) => {
-            if (res) {
-                this.user = res;
-            } else {
-                this.user = JSON.parse(localStorage.getItem('user'));
-            }
-        });
-        this.appLocalStorage.productViewed.subscribe((res) => {
-            this.isSearch = false;
-        });
-        this.fetchCategories();
-        if (this.referenceId !== null || this.user !== null) {
-            this.getCustomerCart();
-        }
+    this.appLocalStorage.cartCount.subscribe((res) => {
+      if (res) {
+        let it = res - 1;
+        this.cartCount = it === -1 ? 0 : it;
+      } else {
+        let it = this.appLocalStorage.getFromStorage('cartCount') - 1;
+        this.cartCount = it === -1 ? 0 : it;
+      }
+    });
 
-        this.appLocalStorage.cartCount.subscribe((res) => {
-            if (res) {
-                let it = res - 1;
-                this.cartCount = it === -1 ? 0 : it;
-            } else {
-                let it = this.appLocalStorage.getFromStorage('cartCount') - 1;
-                this.cartCount = it === -1 ? 0 : it;
-            }
-        });
+    this.authService.isLogin.subscribe((status) => {
+      if (!status) {
+        this.cartCount = 0;
+      }
+    });
+  }
 
-        this.authService.isLogin.subscribe(status => {
-            if (!status) {
-                this.cartCount = 0
-            }
-        })
-    }
+  closeSidebar = () => {
+    this.windowService.nativeWindow.document
+      .getElementById('closeSidebarBtn')!
+      .click();
+  };
 
-    closeSidebar = () => {
-        this.windowService.nativeWindow.document
-            .getElementById('closeSidebarBtn')!
-            .click();
-    };
+  credentials = () => {
+    return this.user || null;
+  };
 
-    credentials = () => {
-        return this.user || null;
-    };
+  onLogout() {
+    this.dialog.open(LogoutModalComponent, {
+      position: { top: '40px' },
+    });
+  }
 
-    onLogout() {
-        this.dialog.open(LogoutModalComponent, {
-            position: {top: '40px'},
-        });
-    }
+  viewProduct = (item: any) => {
+    this.router.navigate([`/homepage/product/${item.id}`]);
+    this.isSearch = false;
+  };
 
-    viewProduct = (item: any) => {
-        this.router.navigate([`/homepage/product/${item.id}`]);
-        this.isSearch = false;
-    };
+  toggleSearch = () => {
+    this.isSearch = !this.isSearch;
+  };
 
-    toggleSearch = () => {
-        this.isSearch = !this.isSearch;
-    };
+  fetchCategories = () => {
+    this.categoryService.getAllStorefrontCategories().subscribe({
+      next: (data) => {
+        this.categories = data;
+      },
+      error: (err) => {},
+    });
+  };
 
-    fetchCategories = () => {
-        this.categoryService.getAllStorefrontCategories().subscribe({
-            next: (data) => {
-                this.categories = data;
-            },
-            error: (err) => {
-            },
-        });
-    };
+  getCustomerCart = () => {
+    let cart$;
+    const userId = this.user?.id ?? '';
+    const reference = this.referenceId ?? '';
 
-    getCustomerCart = () => {
-        let cart$;
-        const userId = this.user?.id ?? '';
-        const reference = this.referenceId ?? '';
-
-        cart$ = this.cartService.getCart(userId, reference);
-        cart$.subscribe({
-            next: (res) => {
-                this.cartCount = res.data.cartItems.length;
-            },
-            error: (error) => {
-                this.toastService.error(error.message, 'ERROR');
-            },
-        });
-    };
+    cart$ = this.cartService.getCart(userId, reference);
+    cart$.subscribe({
+      next: (res) => {
+        this.cartCount = res.data.cartItems.length;
+      },
+      error: (error) => {
+        // this.toastService.error(error.message, 'ERROR');
+      },
+    });
+  };
 }

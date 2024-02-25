@@ -442,6 +442,9 @@ export class AuthService {
   }
 
   async handleAuthResponse(res: any, accessType: string, authType: string) {
+    try {
+      uikit.modal('#information-modal').hide();
+    } catch {}
     const user = res.data.user;
 
     H.identify(user.email, {

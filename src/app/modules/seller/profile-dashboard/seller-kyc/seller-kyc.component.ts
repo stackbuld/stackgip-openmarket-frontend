@@ -24,18 +24,15 @@ declare var Connect;
 })
 export class SellerKycComponent implements OnInit {
   isFetching = false;
-  kycVerified = false;
   userId: string;
-  verificationFailureReason: string;
   user!: IUser;
-  approvalStatus: string;
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private sellerService: SellerService,
     private toast: ToastrService,
-    private scriptLoader: ScriptLoaderService
+    private scriptLoader: ScriptLoaderService,
   ) {}
 
   ngOnInit(): void {
@@ -44,19 +41,21 @@ export class SellerKycComponent implements OnInit {
 
     this.sellerService.getSeller(this.userId).subscribe({
       next: (user) => {
-        this.user = user.data;
         this.isFetching = false;
-        this.verificationFailureReason = user.data.rejectionReason;
-        this.approvalStatus = user.data.sellerApprovalStatus;
-        this.kycVerified = user.data.isKycVerified;
+        this.user = user.data;
       },
       error: (err) => {
+        this.isFetching = false;
         this.toast.error(err.error.message);
       },
     });
   }
 
   onVerify() {
+    if (this.user.sellerApprovalStatus.toLowerCase() === 'failed') {
+      this.router.navigate(['/seller-form']);
+      return;
+    }
     let widgetId: string;
 
     if (this.user.isBusinessRegistered) {
@@ -76,7 +75,7 @@ export class SellerKycComponent implements OnInit {
       environment.kycVerificationWidgetId.appId,
       widgetId,
       environment.kycVerificationWidgetId.key,
-      this.user
+      this.user,
     );
   }
 
