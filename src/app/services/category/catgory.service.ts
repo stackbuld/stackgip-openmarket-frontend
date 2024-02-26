@@ -31,6 +31,7 @@ export class CatgoryService implements ICatgoryService {
   categoriesIndex = searchClient.initIndex(
     environment.algolia.indexName.categories,
   );
+
   index = searchClient.initIndex(environment.algolia.indexName.products);
 
   baseUrl: string;

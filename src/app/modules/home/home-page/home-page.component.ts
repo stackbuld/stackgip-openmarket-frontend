@@ -1,13 +1,13 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {
   PromotedProduct,
   RecommendedProduct,
 } from 'src/app/models/products.model';
-import {CatgoryService} from 'src/app/services/category/catgory.service';
-import {ICategory} from 'src/app/models/CategoryModels';
-import {PromotedProductsService} from 'src/app/services/promoted-products/promoted-products.service';
-import {RecommendedProductService} from 'src/app/services/recomended-product/recommended-product.service';
-import {ImageResolutionUtility} from 'src/app/helpers/image-resolution.utility';
+import { CatgoryService } from 'src/app/services/category/catgory.service';
+import { ICategory } from 'src/app/models/CategoryModels';
+import { PromotedProductsService } from 'src/app/services/promoted-products/promoted-products.service';
+import { RecommendedProductService } from 'src/app/services/recomended-product/recommended-product.service';
+import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
 
 @Component({
   selector: 'app-home-page',
@@ -48,9 +48,8 @@ export class HomePageComponent {
   constructor(
     private promotedProductsService: PromotedProductsService,
     private recommendedProductsService: RecommendedProductService,
-    private categoryService: CatgoryService
-  ) {
-  }
+    private categoryService: CatgoryService,
+  ) {}
 
   ngOnInit(): void {
     this.fetchRecommendedProducts();
@@ -62,11 +61,9 @@ export class HomePageComponent {
     this.recommendedProductsService.getAllRecommendedProducts().subscribe({
       next: (data) => {
         this.recommendedProducts = data;
-        console.log('RECOMMENDED PRODUCTS FETCHED');
       },
       error: (err) => {
         this.loadingRecommendedProducts = false;
-        console.log('RECOMMENDED PRODUCTS ERROR', err);
       },
       complete: () => {
         this.loadingRecommendedProducts = false;
@@ -78,11 +75,9 @@ export class HomePageComponent {
     this.promotedProductsService.getAllPromotedProducts().subscribe({
       next: (data) => {
         this.promotedProducts = data;
-        console.log('PROMOTED PRODUCTS FETCHED');
       },
       error: (err) => {
         this.loadingPromotedProducts = false;
-        console.log('PROMOTED PRODUCTS ERROR', err);
       },
       complete: () => {
         this.loadingPromotedProducts = false;
@@ -95,7 +90,6 @@ export class HomePageComponent {
     this.categoryService.getAllStorefrontCategories().subscribe({
       next: (data) => {
         this.categories = data;
-        console.log('CATEGORIES HOMEPAGE', this.categories);
         this.loadingCategories = false;
       },
       error: (err) => {
