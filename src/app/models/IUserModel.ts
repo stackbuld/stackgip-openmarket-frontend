@@ -36,6 +36,7 @@ export interface IUser {
   isKycVerified?: boolean;
   isBusinessRegistered?: boolean;
   verificationReferenceNumber?: string;
+  kycStatus: string | null;
 }
 
 export interface IUserResponse extends ResponseModel {

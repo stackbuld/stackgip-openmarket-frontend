@@ -78,6 +78,7 @@ export class CatgoryService implements ICatgoryService {
     let searchClientResults = this.categoriesIndex.search('');
     let formattedCategories = from(searchClientResults).pipe(
       switchMap((data) => {
+        console.log(data);
         const hits = data.hits.map((category) => {
           return this.convertToICategory(category);
         });

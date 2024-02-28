@@ -10,15 +10,15 @@
         alt=""
       />
       <span class="alert-text"
-        >congratulations your registration is approved, grow your sales</span
+        >congratulations your registration is approved, grow your sales
+        <div *ngIf="!user.isKycVerified">
+          <a
+            [routerLink]="['/seller/profile/kyc-verification']"
+            style="color: #000; font-weight: bold"
+            >Complete KYC</a
+          >
+        </div></span
       >
-      <div *ngIf="!user.isKycVerified">
-        <a
-          [routerLink]="['/seller/profile/kyc-verification']"
-          style="color: #000; font-weight: bold"
-          >Complete KYC</a
-        >
-      </div>
     </div>
     <div *ngIf="user?.sellerApprovalStatus.toLowerCase() === 'failed'">
       <svg

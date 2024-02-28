@@ -4,7 +4,7 @@
 
 .first-div-container {
   padding-bottom: 28px;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .pointer {
@@ -20,6 +20,7 @@
   margin-left: auto;
   font-family: 'Avenir LT Std';
   font-weight: 400;
+  white-space: nowrap;
 }
 
 .cards-div {
@@ -188,34 +189,33 @@ h5 {
 }
 
 .alert-div {
-  display: none;
+  display: block;
+}
+
+.alert-img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.alert-text {
+  color: #4CAF50;
+  font-weight: 750;
+  font-size: 16px;
+  font-family: 'Avenir LT Std';
 }
 
 
-
 @media only screen and (min-width: 768px) {
-  .alert-div {
-    display: block;
-  }
+
 
   .first-div-container {
     padding-bottom: 28px;
     justify-content: space-between;
-    align-items: flex-end;
+    /*align-items: flex-end;*/
   }
 
-  .alert-img {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
 
-  .alert-text {
-    color: #4CAF50;
-    font-weight: 750;
-    font-size: 16px;
-    font-family: 'Avenir LT Std';
-  }
 
   .addProduct-btn {
     font-size: 16px;
@@ -442,5 +442,29 @@ h5 {
 
   .edit-detail span {
     font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 720px){
+
+  .alert-text{
+    font-size: 14px;
+  }
+
+  .addProduct-btn {
+   font-size: 12px;
+    margin-left: 30px;
+  }
+
+}
+
+@media(max-width: 550px){
+  .first-div-container{
+    flex-direction: column;
+  }
+
+  .addProduct-btn {
+    margin-left: 0;
+    margin-top: 20px;
   }
 }
