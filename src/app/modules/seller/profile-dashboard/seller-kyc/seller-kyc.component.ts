@@ -93,24 +93,22 @@ export class SellerKycComponent implements OnInit {
       app_id: appId, // your app_id here
       p_key: key, // your production public key here
       type: 'custom',
-      user_data: {
-        first_name: user.firstName, // optional
-        last_name: user.lastName, // optional
-        dob: newDate ?? '', // YYYY-MM-DD Optional
-        residence_country: 'NG', // user.alpha2CountryCode, // optional
-        email: user.email, // optional
-      },
-      reference_id: user.verificationReferenceNumber,
+      // user_data: {
+      //   first_name: user.firstName, // optional
+      //   last_name: user.lastName, // optional
+      //   dob: newDate ?? '', // YYYY-MM-DD Optional
+      //   residence_country: 'NG', // user.alpha2CountryCode, // optional
+      //   email: user.email, // optional
+      // },
+      // reference_id: user.verificationReferenceNumber,
       metadata: {
         user_id: user.id,
-      },
-      gov_data: {
-        nin: user.idVerificationNumber,
       },
 
       config: {
         widget_id: widgetId, // this is generated from easyonboard
       },
+
       onSuccess: (response) => {
         alert(response.message);
         this.router.navigate(['/seller/profile/kyc-verification']);

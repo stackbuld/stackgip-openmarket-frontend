@@ -179,13 +179,13 @@ export class WalletWithdrawComponent {
   }
 
   sendWithdrawalOtp() {
-    // if (!this.user.isKycVerified) {
-    //   const dialogRef = this.dialog.open(WalletKycPromptComponent, {
-    //     width: '600px',
-    //     height: '200px',
-    //   });
-    //   return;
-    // }
+    if (!this.user.isKycVerified) {
+      const dialogRef = this.dialog.open(WalletKycPromptComponent, {
+        width: '600px',
+        height: '200px',
+      });
+      return;
+    }
 
     if (
       !this.bankDetailsForm.value.accountName ||
@@ -290,9 +290,9 @@ export class WalletWithdrawComponent {
       })
       .subscribe({
         next: (res) => {
+          uikit.modal('#modal-withdrawal').hide();
           this.ngOtp.setValue([]);
           this.withdrawLoading = false;
-          uikit.modal('#modal-withdrawal').hide();
 
           if (!res.succeeded) {
             this.serverResponse = res.message;

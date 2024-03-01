@@ -35,8 +35,11 @@
   <div
     class="verification-btn"
     *ngIf="
-      user.sellerApprovalStatus.toLowerCase() !== 'approved' ||
-      !user.isKycVerified
+      (user.sellerApprovalStatus.toLowerCase() === 'approved' &&
+        !user.isKycVerified) ||
+      user.sellerApprovalStatus.toLowerCase() === 'failed' ||
+      user.sellerApprovalStatus.toLowerCase() === 'failedkyc' ||
+      user.kycStatus?.toLowerCase() === 'rejected'
     "
   >
     <button (click)="onVerify()">
