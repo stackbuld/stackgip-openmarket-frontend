@@ -93,14 +93,14 @@ export class SellerKycComponent implements OnInit {
       app_id: appId, // your app_id here
       p_key: key, // your production public key here
       type: 'custom',
-      user_data: {
-        first_name: user.firstName, // optional
-        last_name: user.lastName, // optional
-        dob: newDate ?? '', // YYYY-MM-DD Optional
-        residence_country: 'NG', // user.alpha2CountryCode, // optional
-        email: user.email, // optional
-      },
-      reference_id: user.verificationReferenceNumber,
+      // user_data: {
+      //   first_name: user.firstName, // optional
+      //   last_name: user.lastName, // optional
+      //   dob: newDate ?? '', // YYYY-MM-DD Optional
+      //   residence_country: 'NG', // user.alpha2CountryCode, // optional
+      //   email: user.email, // optional
+      // },
+      // reference_id: user.verificationReferenceNumber,
       metadata: {
         user_id: user.id,
       },
@@ -121,26 +121,6 @@ export class SellerKycComponent implements OnInit {
         console.log('Widget closed');
       },
     };
-    console.log({
-      app_id: appId, // your app_id here
-      p_key: key, // your production public key here
-      type: 'custom',
-      user_data: {
-        first_name: user.firstName, // optional
-        last_name: user.lastName, // optional
-        dob: newDate ?? '', // YYYY-MM-DD Optional
-        residence_country: 'NG', // user.alpha2CountryCode, // optional
-        email: user.email, // optional
-      },
-      reference_id: user.verificationReferenceNumber,
-      metadata: {
-        user_id: user.id,
-      },
-
-      config: {
-        widget_id: widgetId, // this is generated from easyonboard
-      },
-    });
 
     const connect = new Connect(options);
     connect.setup();

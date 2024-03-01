@@ -26,20 +26,22 @@ import {
 } from '@angular-material-components/datetime-picker';
 import { H } from 'highlight.run';
 
-H.init(environment.highlightInfo.id, {
-  environment: 'production',
-  version: 'commit:' + environment.highlightInfo.commmitVersion,
-  tracingOrigins: true,
-  privacySetting: 'none',
-  networkRecording: {
-    enabled: true,
-    recordHeadersAndBody: true,
-    urlBlocklist: [
-      'https://www.googleapis.com/identitytoolkit',
-      'https://securetoken.googleapis.com',
-    ],
-  },
-});
+if (environment.production) {
+  H.init(environment.highlightInfo.id, {
+    environment: 'production',
+    version: 'commit:' + environment.highlightInfo.commmitVersion,
+    tracingOrigins: true,
+    privacySetting: 'none',
+    networkRecording: {
+      enabled: true,
+      recordHeadersAndBody: true,
+      urlBlocklist: [
+        'https://www.googleapis.com/identitytoolkit',
+        'https://securetoken.googleapis.com',
+      ],
+    },
+  });
+}
 
 @NgModule({
   declarations: [AppComponent],

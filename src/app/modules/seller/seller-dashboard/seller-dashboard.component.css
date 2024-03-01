@@ -451,20 +451,5 @@ h5 {
     font-size: 14px;
   }
 
-  .addProduct-btn {
-   font-size: 12px;
-    margin-left: 30px;
-  }
 
-}
-
-@media(max-width: 550px){
-  .first-div-container{
-    flex-direction: column;
-  }
-
-  .addProduct-btn {
-    margin-left: 0;
-    margin-top: 20px;
-  }
 }
