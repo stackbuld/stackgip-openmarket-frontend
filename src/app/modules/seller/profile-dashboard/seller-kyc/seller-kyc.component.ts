@@ -36,13 +36,17 @@ export class SellerKycComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isFetching = true;
     this.userId = this.authService.getLoggedInUser().id;
+    this.getUser();
+  }
 
+  getUser() {
+    this.isFetching = true;
     this.sellerService.getSeller(this.userId).subscribe({
       next: (user) => {
         this.isFetching = false;
         this.user = user.data;
+        localStorage.setItem('user', JSON.stringify(this.user));
       },
       error: (err) => {
         this.isFetching = false;
@@ -112,6 +116,7 @@ export class SellerKycComponent implements OnInit {
       onSuccess: (response) => {
         alert(response.message);
         this.router.navigate(['/seller/profile/kyc-verification']);
+        this.getUser();
         console.log('Success', response);
       },
       onError: (err) => {
