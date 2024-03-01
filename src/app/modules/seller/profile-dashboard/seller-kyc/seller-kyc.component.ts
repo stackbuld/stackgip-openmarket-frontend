@@ -43,6 +43,7 @@ export class SellerKycComponent implements OnInit {
       next: (user) => {
         this.isFetching = false;
         this.user = user.data;
+        localStorage.setItem('user', JSON.stringify(this.user));
       },
       error: (err) => {
         this.isFetching = false;
@@ -112,6 +113,7 @@ export class SellerKycComponent implements OnInit {
       onSuccess: (response) => {
         alert(response.message);
         this.router.navigate(['/seller/profile/kyc-verification']);
+        window.location.reload();
         console.log('Success', response);
       },
       onError: (err) => {
