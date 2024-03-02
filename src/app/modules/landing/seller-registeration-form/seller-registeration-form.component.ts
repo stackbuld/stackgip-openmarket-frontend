@@ -28,6 +28,8 @@ import { countryCodes } from '../../../data/countryCodes';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
+import { MatDialog } from '@angular/material/dialog';
+import { VideoGuideComponent } from '../video-guide/video-guide.component';
 
 declare var cloudinary: any;
 
@@ -76,6 +78,7 @@ export class SellerRegisterationFormComponent
     private locationStrategy: LocationStrategy,
     private router: Router,
     private authService: AuthService,
+    private dialog: MatDialog,
   ) {}
 
   get isBusinessRegistered() {
@@ -161,6 +164,12 @@ export class SellerRegisterationFormComponent
     // if (this.imageName) {
     //   this.sellerRegFormGroup.get("businessLogo").setValue(this.imageName);
     // }
+  }
+
+  onOpenVideoDialog() {
+    this.dialog.open(VideoGuideComponent, {
+      panelClass: 'otp_dialog',
+    });
   }
 
   back = () => {

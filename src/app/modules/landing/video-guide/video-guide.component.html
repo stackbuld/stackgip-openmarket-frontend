@@ -1,0 +1,22 @@
+<div class="video-guide" #container>
+  <div id="heading">
+    <span>Monetize your skills: Sign up as a seller!</span>
+    <i class="fa fa-times" (click)="onClose()"></i>
+  </div>
+  <div id="video-main">
+    <div style="width: 100%">
+      <youtube-player
+        videoId="1Z_9gGcHgp0"
+        [playerVars]="{ autoplay: 1 }"
+        [height]="300"
+        [width]="width > 680 ? 680 : width"
+      >
+      </youtube-player>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button id="cancel" (click)="onClose()">Cancel</button>
+    <button id="signup" (click)="onClose()">Sign-up</button>
+  </div>
+</div>

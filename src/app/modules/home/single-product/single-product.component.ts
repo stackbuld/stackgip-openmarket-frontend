@@ -313,7 +313,6 @@ export class SingleProductComponent implements OnInit {
           }
         }
         this.shippingMethods = [this.defaultShipping, ...shippingEsitmateData];
-
         this.orderAndSelectDefaultShippingMethod();
       } else if (
         notificationResponse.notificationType === 'GET_LOGISTIC_PRICES'
@@ -366,6 +365,7 @@ export class SingleProductComponent implements OnInit {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     this.isTimeLate = this.getIfTimeLate();
+    this.connectToWebsocket();
   };
 
   populateAddressForm = (data: any) => {
