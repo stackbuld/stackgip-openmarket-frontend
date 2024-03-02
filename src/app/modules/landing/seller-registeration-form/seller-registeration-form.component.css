@@ -1,3 +1,29 @@
+.video-action{
+    max-width: 450px;
+    background-color: rgba(24, 71, 237, 0.1);
+    border: 1px solid rgba(24, 71, 237, 1);
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: rgba(24, 71, 237, 1);
+    margin-inline: auto;
+
+    .video-action-main{
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(24, 71, 237, 1);
+        padding: 5px;
+        border-radius: 50px;
+        width: 100px;
+        cursor: pointer;
+    }
+
+    .video-action-main img{
+        margin-left: 5px;
+    }
+}
+
 .form-container {
     width: 100%;
     height: 100vh;
