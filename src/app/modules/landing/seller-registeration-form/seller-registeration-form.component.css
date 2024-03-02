@@ -5,6 +5,7 @@
     border-radius: 5px;
     padding: 10px 20px;
     color: rgba(24, 71, 237, 1);
+    margin-inline: auto;
 
     .video-action-main{
         margin-top: 10px;
