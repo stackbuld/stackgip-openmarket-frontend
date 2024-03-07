@@ -44,6 +44,7 @@ import { SellerProductSearchComponent } from './seller-product-search/seller-pro
 import { ProductSearchImageDirective } from './seller-product-search/product-search-image.directive';
 import { OrderStatusDirective } from './order-management/order-management/order-status.directive';
 import { DeliveryStatusDirective } from './order-management/order-management/delivery-status.directive';
+import {VideoGuidePromptComponent} from "../../shared/components/video-guide-prompt/video-guide-prompt.component";
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { DeliveryStatusDirective } from './order-management/order-management/del
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
+    VideoGuidePromptComponent,
   ],
 })
 export class SellerModule {}

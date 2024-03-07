@@ -100,11 +100,10 @@
             <mat-form-field class="uk-width-expand">
               <input
                 (keypress)="preventLetter($event)"
-                type="text"
+                type="number"
                 matInput
                 formControlName="price"
                 placeholder="eg 1000"
-                formControlName="price"
                 required
               />
             </mat-form-field>
@@ -876,7 +875,7 @@
                       class="no-mobile-margin uk-width-expand create-product-form-field"
                     >
                       <input
-                        type="text"
+                        type="number"
                         matInput
                         (keypress)="preventLetter($event)"
                         matTooltip="Enter cost for this product"

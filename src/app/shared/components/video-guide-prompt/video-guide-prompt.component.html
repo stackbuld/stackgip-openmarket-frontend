@@ -1,0 +1,14 @@
+<div class="video-action">
+  <div>{{ promptHeading }}</div>
+
+  <div class="video-action-main-container">
+    <div
+      class="video-action-main"
+      *ngFor="let content of contents"
+      (click)="onOpenVideoDialog(content.videoId, content.heading)"
+    >
+      <span>{{ content.text }}</span>
+      <img src="assets/icons/video-play.png" alt="" />
+    </div>
+  </div>
+</div>
