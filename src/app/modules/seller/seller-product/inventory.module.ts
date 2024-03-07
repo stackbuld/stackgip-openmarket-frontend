@@ -21,6 +21,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { VariationsAlertDialogComponent } from './create-product/variations-alert-dialog/variations-alert-dialog.component';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
+import {VideoGuidePromptComponent} from "../../../shared/components/video-guide-prompt/video-guide-prompt.component";
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
     MatInputModule,
     AngularEditorModule,
     NgxPageScrollCoreModule.forRoot({ duration: 2500, scrollInView: false }),
+    VideoGuidePromptComponent,
   ],
 })
 export class InventoryModule {}

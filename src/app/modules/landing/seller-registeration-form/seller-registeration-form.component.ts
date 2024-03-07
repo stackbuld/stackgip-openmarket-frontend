@@ -166,12 +166,6 @@ export class SellerRegisterationFormComponent
     // }
   }
 
-  onOpenVideoDialog() {
-    this.dialog.open(VideoGuideComponent, {
-      panelClass: 'otp_dialog',
-    });
-  }
-
   back = () => {
     this.locationStrategy.back();
   };
