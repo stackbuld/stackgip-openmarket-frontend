@@ -111,7 +111,19 @@
             </div>
 
             <div class="video-action">
-              <app-video-guide-prompt></app-video-guide-prompt>
+              <app-video-guide-prompt
+                [promptHeading]="
+                  'Play this video to learn how to easily set up your account'
+                "
+                [contents]="[
+                  {
+                    videoId: '1Z_9gGcHgp0',
+                    text: 'Play now',
+                    heading: 'Monetize your skills: Sign up as a seller!'
+                  }
+                ]"
+              >
+              </app-video-guide-prompt>
             </div>
 
             <!-- --------------------------------------- -->

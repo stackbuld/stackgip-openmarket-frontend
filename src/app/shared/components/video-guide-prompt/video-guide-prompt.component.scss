@@ -1,5 +1,5 @@
 .video-action {
-  max-width: 450px;
+  max-width: 700px;
   background-color: rgba(24, 71, 237, 0.1);
   border: 1px solid rgba(24, 71, 237, 1);
   border-radius: 5px;
@@ -7,19 +7,25 @@
   color: rgba(24, 71, 237, 1);
   margin-inline: auto;
 
-  .video-action-main {
-    margin-top: 10px;
+  & .video-action-main-container {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(24, 71, 237, 1);
-    padding: 5px;
-    border-radius: 50px;
-    width: 100px;
-    cursor: pointer;
+    justify-content: space-between;
   }
+}
 
-  .video-action-main img {
-    margin-left: 5px;
-  }
+.video-action-main {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(24, 71, 237, 1);
+  padding: 5px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.video-action-main img {
+  margin-left: 5px;
 }

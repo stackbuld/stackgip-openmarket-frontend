@@ -10,6 +10,7 @@ import { SellerStoreComponent } from './seller-store/seller-store.component';
 import { SellerStoreCreateDialogComponent } from './seller-store-create-dialog/seller-store-create-dialog.component';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import {VideoGuidePromptComponent} from "../../../shared/components/video-guide-prompt/video-guide-prompt.component";
 
 @NgModule({
   declarations: [SellerStoreComponent, SellerStoreCreateDialogComponent],
@@ -25,6 +26,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatPaginatorModule,
     GooglePlaceModule,
     NgxMaterialTimepickerModule,
+    VideoGuidePromptComponent,
   ],
 })
 export class SellerStoreModule {}

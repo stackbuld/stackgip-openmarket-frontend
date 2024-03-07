@@ -1,5 +1,15 @@
 <div class="video-guide" style="margin-bottom: 20px">
-  <app-video-guide-prompt></app-video-guide-prompt>
+  <app-video-guide-prompt
+    [promptHeading]="'Play this video to learn how to create a product'"
+    [contents]="[
+      {
+        videoId: 'ad4PkrfE39Y',
+        text: 'Play now',
+        heading: 'Learn how to create a product!'
+      }
+    ]"
+  >
+  </app-video-guide-prompt>
 </div>
 <button
   class="uk-button uk-button-secondary radius"

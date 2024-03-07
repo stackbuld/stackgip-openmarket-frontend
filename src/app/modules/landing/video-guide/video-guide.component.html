@@ -1,12 +1,12 @@
 <div class="video-guide" #container>
   <div id="heading">
-    <span>Monetize your skills: Sign up as a seller!</span>
+    <span>{{ heading }}</span>
     <i class="fa fa-times" (click)="onClose()"></i>
   </div>
   <div id="video-main">
     <div style="width: 100%">
       <youtube-player
-        videoId="1Z_9gGcHgp0"
+        [videoId]="videoId"
         [playerVars]="{ autoplay: 1 }"
         [height]="300"
         [width]="width > 680 ? 680 : width"
