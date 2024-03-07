@@ -2,7 +2,7 @@ import { IUser } from '../../../../models/IUserModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CreateProductResponse } from '../../../../models/products.model';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import {
@@ -14,8 +14,6 @@ import {
   ElementRef,
   ViewChild,
   ChangeDetectorRef,
-  Renderer2,
-  AfterViewInit,
   AfterViewChecked,
 } from '@angular/core';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
@@ -31,10 +29,6 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { VariationsAlertDialogComponent } from './variations-alert-dialog/variations-alert-dialog.component';
-import { initial } from 'lodash';
-import { PageScrollService } from 'ngx-page-scroll-core';
-import { WindowRefService } from 'src/app/shared/services/window.service';
-import { log } from 'console';
 
 declare var cloudinary: any;
 @Component({
@@ -643,7 +637,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     return this.fb.group({
       title: ['', [Validators.required]],
       value: ['', [Validators.required]],
-      cost: ['', [Validators.required]],
+      cost: [0, [Validators.required]],
       imageUrl: [''],
       unit: ['', Validators.required],
       isMultiple: false,
@@ -705,13 +699,30 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       return;
     }
 
-    this.addingVariation = false;
+    if (
+      this.variationProps.value.cost < this.form.get('price').value &&
+      this.variationProps.value.cost !== 0
+    ) {
+      this.toast.warining(
+        'Variant must be zero(0) or have a price above product price!',
+      );
+      return;
+    }
+
+    const variantCost =
+      this.variationProps.value.cost === 0
+        ? 0
+        : this.variationProps.value.cost - this.form.get('price').value;
+
     this.variations().push(this.variationProps);
 
     if (this.editingVariation) {
       this.allVariantList[this.editingIndex] = this.variationProps.value;
     } else {
-      this.allVariantList.push(this.variationProps.value);
+      this.allVariantList.push({
+        ...this.variationProps.value,
+        cost: variantCost,
+      });
     }
 
     this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
@@ -720,6 +731,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     this.editingVariationUnit = 0;
 
     this.toast.success('Product variant added');
+    this.addingVariation = false;
   }
 
   getTotalVariationUnit(list: any[]) {
