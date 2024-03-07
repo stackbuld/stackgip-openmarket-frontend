@@ -31,6 +31,7 @@ export class HomePageComponent {
   categoryName: string = '';
 
   heroSlides = [
+    'https://res.cloudinary.com/dbmgmudf0/image/upload/v1709820944/renamarket-website-files/Homepage/Carousel/bniyjbnvieu2k8evmxda.jpg',
     'https://res.cloudinary.com/dbmgmudf0/image/upload/v1705855793/renamarket-website-files/Homepage/Carousel/cnks64byzw4uzedp20j9.jpg',
     'https://res.cloudinary.com/dbmgmudf0/image/upload/v1705855793/renamarket-website-files/Homepage/Carousel/vjnllg4osi05ugoo7g83.jpg',
     'https://res.cloudinary.com/dbmgmudf0/image/upload/v1705855793/renamarket-website-files/Homepage/Carousel/ktgjemfgtjf3itbtbh41.jpg',

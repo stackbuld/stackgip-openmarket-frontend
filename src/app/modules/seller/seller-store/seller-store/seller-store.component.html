@@ -1,3 +1,16 @@
+<div class="video-guide" style="margin-bottom: 20px">
+  <app-video-guide-prompt
+    [promptHeading]="'Play this video to learn how to easily create a store'"
+    [contents]="[
+      {
+        videoId: 'kbc6HUkkiek',
+        text: 'Play now',
+        heading: 'Learn how to easily create a store!'
+      }
+    ]"
+  >
+  </app-video-guide-prompt>
+</div>
 <div class="seller-right">
   <button
     (click)="createSellerStoreCreate(null, 'create')"

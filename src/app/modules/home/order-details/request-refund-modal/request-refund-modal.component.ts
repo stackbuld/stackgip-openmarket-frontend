@@ -11,7 +11,6 @@ import { ImageResolutionUtility } from '../../../../helpers/image-resolution.uti
 declare var cloudinary: any;
 
 enum Reasons {
-  'I changed my mind' = 'I_changed_my_mind',
   'Item stopped working' = 'Item_stopped_working',
   'Packaging was damaged' = 'Packaging_was_damaged',
   'Item received broken or damaged' = 'Item_received_broken_or_damaged',

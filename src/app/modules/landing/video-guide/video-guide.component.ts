@@ -3,11 +3,12 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Inject,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-video-guide',
@@ -17,10 +18,17 @@ import { MatDialog } from '@angular/material/dialog';
 export class VideoGuideComponent implements OnInit {
   @ViewChild('container', { static: true })
   container: ElementRef<HTMLDivElement>;
+  heading!: string;
   width!: number;
+  videoId!: string;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: { videoId: string; heading: string },
+    private dialog: MatDialog,
+  ) {}
   ngOnInit() {
+    this.heading = this.data.heading;
+    this.videoId = this.data.videoId;
     this.handleResize();
     try {
     } catch {}

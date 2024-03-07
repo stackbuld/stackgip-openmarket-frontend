@@ -1,4 +1,19 @@
 <div class="dashboard-container">
+  <div class="video-guide" style="margin-bottom: 20px">
+    <app-video-guide-prompt
+      [promptHeading]="
+        'Play this video to learn how to easily confirm an order'
+      "
+      [contents]="[
+        {
+          videoId: 'CJP6A13zpAI',
+          text: 'Play now',
+          heading: 'Learn how to easily confirm an order!'
+        }
+      ]"
+    >
+    </app-video-guide-prompt>
+  </div>
   <div class="cards-div uk-flex uk-flex-between">
     <div
       class="firstCard-container uk-flex uk-card uk-card-default uk-card-body"
