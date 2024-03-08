@@ -35,6 +35,7 @@ import { ToastrService } from 'ngx-toastr';
 import uikit from 'uikit';
 import { AppLocalStorage } from '../helpers/local-storage';
 import { H } from 'highlight.run';
+import { datadogRum } from '@datadog/browser-rum';
 
 export interface IAuth {
   isLoggedId: boolean;
@@ -451,6 +452,12 @@ export class AuthService {
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
+    });
+
+    datadogRum.setUser({
+      id: user.id,
+      name: user.firstName + '' + user.lastName,
+      email: user.email,
     });
 
     this.ngxService.stopAll();

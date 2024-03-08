@@ -23,21 +23,33 @@ export class SellerDashboardComponent implements OnInit {
   }[] = [];
   user: any;
   userDetails: any;
-  contents: { videoId: string; text: string; heading: string }[] = [
+  contents: {
+    videoId: string;
+    text: string;
+    heading: string;
+    action: string;
+    routeUrl: string;
+  }[] = [
     {
       videoId: 'kbc6HUkkiek',
       text: 'How to create a store',
       heading: 'Learn how to easily create a store!',
+      action: 'Create a store',
+      routeUrl: '/seller/store',
     },
     {
       videoId: 'ad4PkrfE39Y',
       text: 'How to add product',
       heading: 'Learn how to create a product!',
+      action: 'Add product',
+      routeUrl: '/seller/products',
     },
     {
       videoId: 'CJP6A13zpAI',
       text: 'How to confirm orders',
       heading: 'Learn how to easily confirm an order!',
+      action: 'Confirm order',
+      routeUrl: '/seller/orders',
     },
   ];
 

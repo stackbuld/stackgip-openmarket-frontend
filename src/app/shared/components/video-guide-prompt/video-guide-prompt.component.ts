@@ -14,14 +14,25 @@ import { SharedModule } from '../../shared.module';
 })
 export class VideoGuidePromptComponent {
   @Input() promptHeading!: string;
-  @Input() contents: { videoId: string; text: string; heading: string }[] = [];
+  @Input() contents: {
+    videoId: string;
+    text: string;
+    heading: string;
+    action: string;
+    routeUrl: string;
+  }[] = [];
   @Input() dialogHeading!: string;
   constructor(private dialog: MatDialog) {}
-  onOpenVideoDialog(videoId: string, heading: string) {
+  onOpenVideoDialog(
+    videoId: string,
+    heading: string,
+    action: string,
+    routeUrl: string,
+  ) {
     console.log(videoId);
     this.dialog.open(VideoGuideComponent, {
       panelClass: 'otp_dialog',
-      data: { videoId, heading },
+      data: { videoId, heading, action, routeUrl },
     });
   }
 }

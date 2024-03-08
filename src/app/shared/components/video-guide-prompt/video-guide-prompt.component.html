@@ -5,7 +5,14 @@
     <div
       class="video-action-main"
       *ngFor="let content of contents"
-      (click)="onOpenVideoDialog(content.videoId, content.heading)"
+      (click)="
+        onOpenVideoDialog(
+          content.videoId,
+          content.heading,
+          content.action,
+          content.routeUrl
+        )
+      "
     >
       <span>{{ content.text }}</span>
       <img src="assets/icons/video-play.png" alt="" />
