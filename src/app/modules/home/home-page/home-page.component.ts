@@ -8,6 +8,8 @@ import { ICategory } from 'src/app/models/CategoryModels';
 import { PromotedProductsService } from 'src/app/services/promoted-products/promoted-products.service';
 import { RecommendedProductService } from 'src/app/services/recomended-product/recommended-product.service';
 import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
+import { ProductSearchService } from '../../../services/seller/product-search.service';
+import { ProductsService } from '../../../services/products/products.service';
 
 @Component({
   selector: 'app-home-page',
@@ -50,6 +52,7 @@ export class HomePageComponent {
     private promotedProductsService: PromotedProductsService,
     private recommendedProductsService: RecommendedProductService,
     private categoryService: CatgoryService,
+    private productService: ProductsService,
   ) {}
 
   ngOnInit(): void {
@@ -76,6 +79,10 @@ export class HomePageComponent {
     this.promotedProductsService.getAllPromotedProducts().subscribe({
       next: (data) => {
         this.promotedProducts = data;
+        localStorage.setItem(
+          'promotedProducts',
+          JSON.stringify(this.promotedProducts),
+        );
       },
       error: (err) => {
         this.loadingPromotedProducts = false;
@@ -98,4 +105,8 @@ export class HomePageComponent {
       },
     });
   };
+
+  onSeePromotedProducts() {
+    this.productService.promotedProductsInView.next(true);
+  }
 }

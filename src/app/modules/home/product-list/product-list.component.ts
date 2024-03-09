@@ -310,11 +310,25 @@ export class ProductListComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (data) => {
-          if (this.pageNumber === 0) {
-            this.products = data;
-          } else {
-            this.products = [...this.products, ...data];
-          }
+          this.productService.promotedProductsInView.subscribe((value) => {
+            if (value) {
+              const promotedProducts = JSON.parse(
+                localStorage.getItem('promotedProducts')!,
+              );
+              this.products = [...data];
+              promotedProducts.forEach((promoProduct) => {
+                this.products = this.products.filter(
+                  (product) => product.id === promoProduct.id,
+                );
+              });
+            } else {
+              if (this.pageNumber === 0) {
+                this.products = data;
+              } else {
+                this.products = [...this.products, ...data];
+              }
+            }
+          });
         },
         error: (err) => {
           this.loadingProducts = false;
@@ -422,6 +436,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.productService.promotedProductsInView.next(false);
     this.destroyed.next(true);
     this.destroyed.complete();
   }
