@@ -21,14 +21,23 @@ export class VideoGuideComponent implements OnInit {
   heading!: string;
   width!: number;
   videoId!: string;
+  action!: string;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { videoId: string; heading: string },
+    @Inject(MAT_DIALOG_DATA)
+    private data: {
+      videoId: string;
+      heading: string;
+      action: string;
+      routeUrl: string;
+    },
     private dialog: MatDialog,
+    private router: Router,
   ) {}
   ngOnInit() {
     this.heading = this.data.heading;
     this.videoId = this.data.videoId;
+    this.action = this.data.action;
     this.handleResize();
     try {
     } catch {}
@@ -41,6 +50,11 @@ export class VideoGuideComponent implements OnInit {
   handleResize(event?: Event): void {
     const containerWidth = this.container.nativeElement.offsetWidth;
     this.width = containerWidth - 40;
+  }
+
+  onAction() {
+    this.router.navigate([this.data.routeUrl]);
+    this.onClose();
   }
 
   onClose() {

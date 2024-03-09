@@ -24,7 +24,6 @@ enum Reasons {
 })
 export class RequestRefundModalComponent implements OnInit {
   refundReasons: string[] = [
-    'I changed my mind',
     'Item stopped working',
     'Packaging was damaged',
     'Item received broken or damaged',

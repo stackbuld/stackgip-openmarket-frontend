@@ -39,4 +39,8 @@ export const environment = {
     business: '65d76683f2409c004004739a',
     individual: '65d767faa264e90040fd63b4',
   },
+  dataDog: {
+    applicationId: '35fa418c-28ea-4625-8395-49e534fefebb',
+    clientToken: 'pub21303a9a96fe4b820954d29340bea694',
+  },
 };

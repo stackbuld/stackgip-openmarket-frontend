@@ -50,13 +50,16 @@
         style="height: 75vh"
       >
         <ul class="uk-slideshow-items w-100 banner-carousels">
-          <li *ngFor="let slide of heroSlides" class="w-100 slider-img">
+          <li
+            *ngFor="let slide of heroSlides; let i = index"
+            class="w-100 slider-img"
+          >
             <img [src]="slide" alt="" uk-cover class="uk-slideshow-image" />
             <div
               class="uk-position-medium uk-position-bottom-right shop-now-btn-container"
             >
               <button class="ghost-button" routerLink="/homepage/search">
-                Shop Now
+                {{ i === 0 ? "Sell now" : "Shop now" }}
               </button>
             </div>
           </li>
@@ -88,7 +91,7 @@
 
               <div class="uk-position-medium uk-position-bottom-right mb-1">
                 <button class="ghost-button" routerLink="/homepage/search">
-                  Shop Now
+                  {{ i === 0 ? "Sell now" : "Shop now" }}
                 </button>
               </div>
             </div>
@@ -116,7 +119,11 @@
     <div class="promoted-product-container">
       <div class="header-text">
         <p class="fs-5 fs-md-2 see-all-heading">Promoted Product</p>
-        <span class="pointer" routerLink="/homepage/search">
+        <span
+          class="pointer"
+          routerLink="/homepage/search"
+          (click)="onSeePromotedProducts()"
+        >
           <span> See All </span>
           <svg
             fill="none"
@@ -135,7 +142,7 @@
 
       <div *ngIf="!loadingPromotedProducts" class="product-container row">
         <div
-          *ngFor="let product of promotedProducts | slice: 0 : 6"
+          *ngFor="let product of promotedProducts"
           class="mb-3 col-6 col-md-3"
         >
           <app-product-card [product]="product"></app-product-card>
@@ -201,7 +208,7 @@
 
       <div *ngIf="!loadingRecommendedProducts" class="product-container row">
         <div
-          *ngFor="let product of recommendedProducts | slice: 0 : 6"
+          *ngFor="let product of recommendedProducts"
           class="mb-3 col-6 col-md-3"
         >
           <app-product-card [product]="product"></app-product-card>
