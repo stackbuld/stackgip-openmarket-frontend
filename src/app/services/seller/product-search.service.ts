@@ -6,6 +6,7 @@ import { ApiAppUrlService } from '../api-app-url.service';
 import {
   ProductSearchResult,
   ProductsApiModel,
+  PromotedProduct,
 } from 'src/app/models/products.model';
 
 @Injectable({ providedIn: 'root' })
@@ -16,7 +17,10 @@ export class ProductSearchService {
   isFetching = new Subject<boolean>();
   clearSearchInput = new Subject<boolean>();
 
-  constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
+  constructor(
+    private apiUrls: ApiAppUrlService,
+    private http: HttpClient,
+  ) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
 
@@ -30,7 +34,7 @@ export class ProductSearchService {
   }): Observable<ProductSearchResult[]> {
     return this.http
       .get<ProductsApiModel>(
-        this.baseUrl + `seller/${data.userId}/products?search=${data.search}`
+        this.baseUrl + `seller/${data.userId}/products?search=${data.search}`,
       )
       .pipe(
         map((res) => {
@@ -47,7 +51,7 @@ export class ProductSearchService {
           });
           console.log(refinedResponse);
           return refinedResponse;
-        })
+        }),
       );
   }
 }

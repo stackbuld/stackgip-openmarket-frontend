@@ -456,7 +456,7 @@ export class AuthService {
 
     datadogRum.setUser({
       id: user.id,
-      name: user.firstName + '' + user.lastName,
+      name: user.firstName + ' ' + user.lastName,
       email: user.email,
     });
 
