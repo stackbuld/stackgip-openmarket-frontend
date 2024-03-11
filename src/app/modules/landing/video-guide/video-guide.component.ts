@@ -15,7 +15,7 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
   templateUrl: './video-guide.component.html',
   styleUrls: ['./video-guide.component.scss'],
 })
-export class VideoGuideComponent implements OnInit {
+export class VideoGuideComponent implements OnInit, AfterViewInit {
   @ViewChild('container', { static: true })
   container: ElementRef<HTMLDivElement>;
   heading!: string;
@@ -38,7 +38,6 @@ export class VideoGuideComponent implements OnInit {
     this.heading = this.data.heading;
     this.videoId = this.data.videoId;
     this.action = this.data.action;
-    this.handleResize();
     try {
     } catch {}
     const tag = document.createElement('script');
@@ -46,9 +45,13 @@ export class VideoGuideComponent implements OnInit {
     tag.src = 'https://www.youtube.com/iframe_api?host=https://localhost:4200';
   }
 
+  ngAfterViewInit() {
+    this.handleResize();
+  }
+
   @HostListener('window:resize', ['$event'])
   handleResize(event?: Event): void {
-    const containerWidth = this.container.nativeElement.offsetWidth;
+    const containerWidth = this.container.nativeElement.clientWidth;
     this.width = containerWidth - 40;
   }
 
