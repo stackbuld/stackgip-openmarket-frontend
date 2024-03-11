@@ -92,7 +92,14 @@
             <div class="uk-panel">
               <img alt="" height="1200" src="{{ slide }}" width="1800" />
 
-              <div class="uk-position-medium uk-position-bottom-right mb-1">
+              <div
+                class="mb-1 c-button"
+                style="
+                  position: absolute !important;
+                  bottom: 0;
+                  right: 10px !important;
+                "
+              >
                 <button
                   [routerLink]="i === 0 ? '/seller-form' : '/homepage/search'"
                   class="ghost-button"
