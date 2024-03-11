@@ -58,7 +58,10 @@
             <div
               class="uk-position-medium uk-position-bottom-right shop-now-btn-container"
             >
-              <button class="ghost-button" routerLink="/homepage/search">
+              <button
+                class="ghost-button"
+                [routerLink]="i === 0 ? '/seller-form' : '/homepage/search'"
+              >
                 {{ i === 0 ? "Sell now" : "Shop now" }}
               </button>
             </div>
@@ -90,7 +93,10 @@
               <img alt="" height="1200" src="{{ slide }}" width="1800" />
 
               <div class="uk-position-medium uk-position-bottom-right mb-1">
-                <button class="ghost-button" routerLink="/homepage/search">
+                <button
+                  [routerLink]="i === 0 ? '/seller-form' : '/homepage/search'"
+                  class="ghost-button"
+                >
                   {{ i === 0 ? "Sell now" : "Shop now" }}
                 </button>
               </div>
