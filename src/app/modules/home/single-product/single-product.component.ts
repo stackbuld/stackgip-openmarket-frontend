@@ -644,7 +644,7 @@ export class SingleProductComponent implements OnInit {
       }
     }
     this.toastService.success('Shipping Method Updated', 'SUCCESS');
-    document.getElementById('closeShippingMethodDialog').click();
+    // document.getElementById('closeShippingMethodDialog').click();
   };
 
   setSelectedAddress = (address: CartAddress) => {
