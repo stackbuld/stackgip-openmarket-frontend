@@ -16,6 +16,8 @@ import {
 import { increment, decrement, reset } from './reducers/action/actions';
 import { PwaService } from './services/pwa.service';
 import { PwaPromptComponent } from './shared/components/pwa-prompt/pwa-prompt.component';
+import { IUser } from './models/IUserModel';
+import { datadogRum } from '@datadog/browser-rum';
 
 const selectCounter = (state: AppState) => state.count;
 
@@ -30,8 +32,8 @@ declare var gtag: any;
 })
 export class AppComponent implements OnInit {
   title = 'ecommerce-app';
-
   count$: Observable<number>;
+  user!: IUser;
 
   constructor(
     private store: Store<AppState>,
@@ -54,6 +56,15 @@ export class AppComponent implements OnInit {
         if (status) {
           this.dialog.open(PwaPromptComponent, { position: { top: '40px' } });
         }
+      });
+    }
+
+    this.user = JSON.parse(localStorage.getItem('user')!);
+    if (this.user) {
+      datadogRum.setUser({
+        id: this.user.id,
+        name: this.user.firstName + ' ' + this.user.lastName,
+        email: this.user.email,
       });
     }
   }
