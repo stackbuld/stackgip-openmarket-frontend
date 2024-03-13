@@ -286,6 +286,8 @@ export class ProfileComponent implements OnInit {
 
   onUpdateProfile() {
     if (this.profileForm.invalid) {
+      this.toast.error('All required fields must be filled!');
+      this.profileForm.markAllAsTouched();
       return;
     }
 

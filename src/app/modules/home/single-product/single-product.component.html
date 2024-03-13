@@ -1032,7 +1032,10 @@
       </div>
 
       <div *ngIf="shippingMethods.length > 0" class="w-100 mt-4 col-12">
-        <button (click)="setShippingMethod()" class="w-100 apply-btn">
+        <button
+          (click)="setShippingMethod()"
+          class="w-100 apply-btn uk-modal-close"
+        >
           Apply
         </button>
       </div>
