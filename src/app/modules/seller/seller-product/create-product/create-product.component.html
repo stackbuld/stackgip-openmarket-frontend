@@ -1278,7 +1278,7 @@
 </div>
 
 <div *ngIf="isPreview" class="content-container">
-  <div class="uk-flex mobile-block">
+  <div class="uk-flex mobile-block main-head">
     <div class="flex-1">
       <div class="main-img">
         <!-- <img src="{{ previewImg }}" alt="previewImg" /> -->
@@ -1383,14 +1383,22 @@
 
         <div
           class="mt-3 uk-flex icon-container image-wrapper overview-img-wrapper"
+          style="
+            overflow-x: hidden;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+          "
         >
           <div
             class="icon-container mr-2"
             *ngFor="let item of previewData?.imageUrls"
+            style="width: 100px; overflow-x: scroll"
           >
             <div
               class="uk-inline uk-dark image-container"
-              style="cursor: pointer"
+              style="cursor: pointer; width: 100px"
             >
               <img
                 src="{{ item?.substr(0, item.lastIndexOf('.')) + '.jpg' }}"
