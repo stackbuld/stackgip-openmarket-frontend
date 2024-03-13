@@ -42,23 +42,23 @@ if (environment.production) {
       ],
     },
   });
-}
 
-datadogRum.init({
-  applicationId: environment.dataDog.applicationId,
-  clientToken: environment.dataDog.clientToken,
-  site: 'datadoghq.eu',
-  service: 'renamarket',
-  env: '<ENV_NAME>',
-  // Specify a version number to identify the deployed version of your application in Datadog
-  version: '1.0.0',
-  sessionSampleRate: 100,
-  sessionReplaySampleRate: 20,
-  trackUserInteractions: true,
-  trackResources: true,
-  trackLongTasks: true,
-  defaultPrivacyLevel: 'mask-user-input',
-});
+  datadogRum.init({
+    applicationId: environment.dataDog.applicationId,
+    clientToken: environment.dataDog.clientToken,
+    site: 'datadoghq.eu',
+    service: 'renamarket',
+    env: '<ENV_NAME>',
+    // Specify a version number to identify the deployed version of your application in Datadog
+    version: '1.0.0',
+    sessionSampleRate: 100,
+    sessionReplaySampleRate: 20,
+    trackUserInteractions: true,
+    trackResources: true,
+    trackLongTasks: true,
+    defaultPrivacyLevel: 'mask-user-input',
+  });
+}
 
 @NgModule({
   declarations: [AppComponent],
