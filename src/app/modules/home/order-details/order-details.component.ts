@@ -68,7 +68,6 @@ export class OrderDetailsComponent implements OnInit {
         this.isLoading = false;
         this.refundRequested = res['data'].isRefundRequested;
       });
-      console.log(this.order);
       // for (let index = 0; index < this
       // .order.cartProduct.complementaryProducts.length; index++) {
       //   const element = this.order.cartProduct.complementaryProducts[index];
