@@ -79,11 +79,7 @@ export class HomePageComponent {
     this.promotedProductsService.getAllPromotedProducts().subscribe({
       next: (data) => {
         this.promotedProducts = data;
-        this.promotedProducts = [
-          ...this.promotedProducts,
-          ...this.promotedProducts,
-          ...this.promotedProducts,
-        ];
+
         localStorage.setItem(
           'promotedProducts',
           JSON.stringify(this.promotedProducts),

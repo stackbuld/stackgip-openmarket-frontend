@@ -26,6 +26,7 @@ import {
 } from '@angular-material-components/datetime-picker';
 import { datadogRum } from '@datadog/browser-rum';
 import { H } from 'highlight.run';
+import { WalletModule } from './shared/wallet/wallet.module';
 
 if (environment.production) {
   H.init(environment.highlightInfo.id, {
@@ -95,6 +96,7 @@ if (environment.production) {
       registrationStrategy: 'registerWhenStable:30000',
     }),
     RouterModule,
+    WalletModule,
   ],
 
   providers: [

@@ -1,0 +1,68 @@
+<div class="transactions-container">
+  <h3 id="go-back">Back</h3>
+
+  <div class="wallet-container">
+    <div class="wallet-details">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="51"
+        height="56"
+        viewBox="0 0 51 56"
+        fill="none"
+      >
+        <path
+          d="M31.2 1.85057C30.7733 1.50188 30.2818 1.24127 29.7537 1.08384C29.2257 0.926411 28.6717 0.875279 28.1237 0.933405C27.5758 0.991532 27.0448 1.15776 26.5616 1.42247C26.0783 1.68719 25.6523 2.04512 25.3083 2.47557L13.2417 17.5922H18.575L28.5625 5.07557L31.7708 7.6964L23.7292 17.5922H29.0958L35 10.3256L42.1583 16.1714L40.9167 17.5922H42.1667C43.4092 17.5909 44.645 17.7749 45.8333 18.1381C46.2873 17.2865 46.4315 16.3038 46.2416 15.3578C46.0516 14.4117 45.5391 13.5609 44.7917 12.9506L31.2 1.85057ZM4.66667 19.6756C4.66667 19.123 4.88616 18.5931 5.27686 18.2024C5.66756 17.8117 6.19747 17.5922 6.75 17.5922H9.075L12.3875 13.4256H6.75C5.0924 13.4256 3.50269 14.084 2.33058 15.2561C1.15848 16.4282 0.5 18.018 0.5 19.6756V44.6756C0.5 47.4382 1.59747 50.0878 3.55097 52.0413C5.50447 53.9948 8.15399 55.0922 10.9167 55.0922H42.1667C44.3768 55.0922 46.4964 54.2143 48.0592 52.6515C49.622 51.0886 50.5 48.969 50.5 46.7589V30.0922C50.5 27.8821 49.622 25.7625 48.0592 24.1997C46.4964 22.6369 44.3768 21.7589 42.1667 21.7589H6.75C6.19747 21.7589 5.66756 21.5394 5.27686 21.1487C4.88616 20.758 4.66667 20.2281 4.66667 19.6756ZM35.9167 38.4256H40.0833C40.6359 38.4256 41.1658 38.6451 41.5565 39.0358C41.9472 39.4265 42.1667 39.9564 42.1667 40.5089C42.1667 41.0614 41.9472 41.5913 41.5565 41.982C41.1658 42.3727 40.6359 42.5922 40.0833 42.5922H35.9167C35.3641 42.5922 34.8342 42.3727 34.4435 41.982C34.0528 41.5913 33.8333 41.0614 33.8333 40.5089C33.8333 39.9564 34.0528 39.4265 34.4435 39.0358C34.8342 38.6451 35.3641 38.4256 35.9167 38.4256Z"
+          fill="white"
+        />
+      </svg>
+
+      <div class="wallet-details-main">
+        <div>Active balance</div>
+        <div>Main wallet</div>
+        <div>₦15,000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="transactions-actions">
+    <div class="heading">Recent transactions</div>
+
+    <div class="actions-main">
+      <div class="sort">
+        <select name="month" #month required>
+          <option [ngValue]="null" [disabled]="true">Sort by Date</option>
+          <option value="1">January</option>
+        </select>
+      </div>
+      <div class="filter">
+        <select name="month" #month required>
+          <option [ngValue]="null" [disabled]="true">Filter</option>
+          <option value="1">January</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="transactions-main">
+    <div class="transaction" *ngFor="let transaction of transactions">
+      <div class="transaction-details">
+        <div class="img-container">
+          <img alt="" transaction [transaction]="transaction.type" />
+        </div>
+
+        <div class="details-copy">
+          <div class="heading">{{ transaction.heading }}</div>
+
+          <div class="main-copy">
+            <div class="remark">{{ transaction.remark }}</div>
+            <div class="date">{{ transaction.date }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="transaction-amount">
+        {{ transaction.amount | currency: "N" }}
+      </div>
+    </div>
+  </div>
+</div>

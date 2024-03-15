@@ -9,12 +9,15 @@ import { NgxOtpInputModule } from 'ngx-otp-input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared.module';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { TransactionDirective } from '../directives/transaction.directive';
 
 @NgModule({
   declarations: [
     WalletComponent,
     WalletOverviewComponent,
     WalletWithdrawComponent,
+    TransactionsComponent,
   ],
   imports: [
     CommonModule,
@@ -24,7 +27,13 @@ import { NgOtpInputModule } from 'ng-otp-input';
     NgOtpInputModule,
     SharedModule,
     ReactiveFormsModule,
+    TransactionDirective,
   ],
-  exports: [WalletComponent, WalletOverviewComponent, WalletWithdrawComponent],
+  exports: [
+    WalletComponent,
+    WalletOverviewComponent,
+    WalletWithdrawComponent,
+    TransactionsComponent,
+  ],
 })
 export class WalletModule {}

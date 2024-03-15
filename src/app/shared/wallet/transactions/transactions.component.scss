@@ -1,0 +1,102 @@
+.transactions-container {
+  font-family: "Avenir LT Std", sans-serif;
+  padding: 30px;
+}
+
+#go-back {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.wallet-container {
+  height: 210px;
+  width: 100%;
+  background-color: #000;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wallet-details {
+  display: flex;
+  align-items: center;
+
+  &-main {
+    margin-left: 20px;
+
+    & div {
+      color: rgb(173, 173, 173);
+      font-size: 14px;
+
+      &:nth-child(2) {
+        font-size: 20px;
+        margin: 5px 0;
+        color: #fff;
+      }
+    }
+  }
+}
+
+.transactions-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & .heading {
+    color: rgba(36, 56, 83, 1);
+    font-size: 20px;
+  }
+}
+
+.actions-main {
+  display: flex;
+  align-items: center;
+
+  & .sort {
+    &:nth-child(1) {
+      margin-right: 10px;
+    }
+  }
+
+  & select {
+    padding: 10px 10px;
+    color: rgba(7, 39, 85, 1);
+    font-size: 18px;
+    font-weight: 500;
+    border: 1px solid rgba(183, 190, 205, 1);
+    border-radius: 4px;
+  }
+}
+
+.transaction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
+}
+
+.transaction-details {
+  display: flex;
+  align-items: center;
+
+  & .details-copy {
+    margin-left: 10px;
+
+    & .heading {
+      font-weight: 700;
+    }
+
+    & .main-copy {
+    }
+  }
+}
+
+.transaction-amount {
+  color: rgba(19, 185, 5, 1);
+}
