@@ -1,43 +1,3 @@
-.transactions-container {
-  font-family: "Avenir LT Std", sans-serif;
-  padding: 30px;
-}
-
-#go-back {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.wallet-container {
-  height: 210px;
-  width: 100%;
-  background-color: #000;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.wallet-details {
-  display: flex;
-  align-items: center;
-
-  &-main {
-    margin-left: 20px;
-
-    & div {
-      color: rgb(173, 173, 173);
-      font-size: 14px;
-
-      &:nth-child(2) {
-        font-size: 20px;
-        margin: 5px 0;
-        color: #fff;
-      }
-    }
-  }
-}
-
 .transactions-actions {
   margin-top: 20px;
   display: flex;
@@ -105,21 +65,7 @@
   }
 }
 
-.locked {
-  margin-top: 30px;
-}
-
 @media (max-width: 450px) {
-  .transactions-actions {
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    & .heading {
-      margin-bottom: 10px;
-    }
-  }
-
   .transaction-details {
     margin-right: 30px;
   }

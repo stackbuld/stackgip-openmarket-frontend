@@ -47,7 +47,7 @@
     <div class="transaction" *ngFor="let transaction of transactions">
       <div class="transaction-details">
         <div class="img-container">
-          <img alt="" transaction [transaction]="transaction.type" />
+          <img [alt]="transaction.remark" [transaction]="transaction.type" />
         </div>
 
         <div class="details-copy">
@@ -60,9 +60,14 @@
         </div>
       </div>
 
-      <div class="transaction-amount">
-        {{ transaction.amount | currency: "N" }}
+      <div class="transaction-amount" [transactionAmount]="transaction.type">
+        {{ transaction.type === "withdrawal" ? "-" : "+"
+        }}{{ transaction.amount | currency: "N" }}
       </div>
     </div>
+  </div>
+
+  <div class="locked">
+    <app-locked-funds></app-locked-funds>
   </div>
 </div>
