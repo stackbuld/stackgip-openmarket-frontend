@@ -43,11 +43,28 @@ export class WalletService {
     );
   }
 
-  getTransactions(): Observable<ITransactionsResponse> {
+  getTransactions(data: {
+    userId: string;
+    pageSize: number;
+    page: number;
+  }): Observable<ITransactionsResponse> {
     return this.http.get<ITransactionsResponse>(
-      this.baseUrl + `payments/transactions`,
+      this.baseUrl +
+        `wallet/transactions?UserId=${data.userId}&PageSize=${data.pageSize}&Page=${data.page}`,
     );
   }
+
+  getLockedFunds(data: {
+    userId: string;
+    pageSize: number;
+    page: number;
+  }): Observable<ITransactionsResponse> {
+    return this.http.get<ITransactionsResponse>(
+      this.baseUrl +
+        `wallet/transactions/lockedfunds?UserId=${data.userId}&PageSize=${data.pageSize}&Page=${data.page}`,
+    );
+  }
+
   getRequests(id: string): Observable<IRequestResponse> {
     return this.http.get<IRequestResponse>(
       this.baseUrl + `wallet/withdrawal-requests?UserId=${id}`,
