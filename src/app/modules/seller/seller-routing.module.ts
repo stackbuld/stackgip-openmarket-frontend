@@ -24,10 +24,20 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: SellerDashboardComponent },
-      {path: 'wallet', loadChildren: () =>
+      {
+        path: 'wallet',
+        loadChildren: () =>
           import('../../shared/wallet/wallet.module').then(
-            (m) => m.WalletModule
-          )},
+            (m) => m.WalletModule,
+          ),
+      },
+      {
+        path: 'transaction-history',
+        loadComponent: () =>
+          import(
+            '../../shared/components/transactions/transactions.component'
+          ).then((m) => m.TransactionsComponent),
+      },
       {
         path: 'orders',
         component: SellerOrdersComponent,
@@ -87,14 +97,14 @@ const routes: Routes = [
         path: 'products',
         loadChildren: () =>
           import('./seller-product/inventory.module').then(
-            (m) => m.InventoryModule
+            (m) => m.InventoryModule,
           ),
       },
       {
         path: 'store',
         loadChildren: () =>
           import('./seller-store/seller-store.module').then(
-            (m) => m.SellerStoreModule
+            (m) => m.SellerStoreModule,
           ),
       },
     ],

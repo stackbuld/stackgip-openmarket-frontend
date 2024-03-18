@@ -1,0 +1,65 @@
+<div class="transactions-actions">
+  <div class="heading">Locked Funds</div>
+</div>
+
+<div class="transactions-main">
+  <div *ngIf="isLoadingLockedFunds; else lockedFundsTemplate">
+    <app-loading-spinner
+      [borderStyle]="'5px solid #3B3B3BFF'"
+      [size]="'40px'"
+    ></app-loading-spinner>
+  </div>
+
+  <ng-template #lockedFundsTemplate>
+    <div style="width: 100%" *ngIf="lockedFunds.length > 0; else noLockedFunds">
+      <div
+        class="transaction"
+        *ngFor="
+          let fund of lockedFunds
+            | paginate
+              : {
+                  id: 'lockedFundsPagination',
+                  itemsPerPage: lockedFundsPageSize,
+                  currentPage: lockedFundsPage,
+                  totalItems: totalLockedFunds
+                }
+        "
+      >
+        <div class="transaction-details">
+          <div class="img-container">
+            <img
+              [alt]="fund.lockType"
+              src="../../../../assets/icons/locked-funds.png"
+              width="40"
+              height="41"
+            />
+          </div>
+
+          <div class="details-copy">
+            <div class="heading">{{ fund.lockType }}</div>
+
+            <div class="main-copy">
+              <div class="remark">{{ fund.reason }}</div>
+              <div class="date">{{ fund.createdAt | date: "medium" }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="transaction-amount">
+          {{ fund.amount | currency: "N" }}
+        </div>
+      </div>
+
+      <div class="uk-flex uk-flex-right">
+        <pagination-controls
+          id="lockedFundsPagination"
+          (pageChange)="getLockedFunds($event)"
+        ></pagination-controls>
+      </div>
+    </div>
+
+    <ng-template #noLockedFunds>
+      <div>No transactions</div>
+    </ng-template>
+  </ng-template>
+</div>
