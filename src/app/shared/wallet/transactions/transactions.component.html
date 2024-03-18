@@ -1,5 +1,5 @@
 <div class="transactions-container">
-  <h3 id="go-back">Back</h3>
+  <a id="go-back" routerLink="../">Back</a>
 
   <div class="wallet-container">
     <div class="wallet-details">
@@ -47,21 +47,28 @@
     <div class="transaction" *ngFor="let transaction of transactions">
       <div class="transaction-details">
         <div class="img-container">
-          <img [alt]="transaction.remark" [transaction]="transaction.type" />
+          <img
+            [alt]="transaction.narration"
+            [transaction]="transaction.transactionTypeEnum"
+          />
         </div>
 
         <div class="details-copy">
-          <div class="heading">{{ transaction.heading }}</div>
+          <div class="heading">{{ transaction.transactionCategory }}</div>
 
           <div class="main-copy">
-            <div class="remark">{{ transaction.remark }}</div>
-            <div class="date">{{ transaction.date }}</div>
+            <div class="remark">{{ transaction.narration }}</div>
+            <div class="date">{{ transaction.createdAt | date: "medium" }}</div>
           </div>
         </div>
       </div>
 
-      <div class="transaction-amount" [transactionAmount]="transaction.type">
-        {{ transaction.type === "withdrawal" ? "-" : "+"
+      <div
+        class="transaction-amount"
+        [transactionAmount]="transaction.transactionTypeEnum"
+      >
+        {{
+          transaction.transactionTypeEnum.toLowerCase() === "debit" ? "-" : "+"
         }}{{ transaction.amount | currency: "N" }}
       </div>
     </div>

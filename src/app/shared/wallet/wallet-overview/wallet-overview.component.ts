@@ -6,6 +6,7 @@ import {
 } from 'src/app/models/wallet.model';
 import { WalletService } from 'src/app/services/wallet/wallet.service';
 import { AuthService } from '../../../services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-wallet-overview',
@@ -17,17 +18,19 @@ export class WalletOverviewComponent {
   withdrawalRequests: Requests;
   loadingTransactions: boolean;
   loadingRequests: boolean;
-  tab = 1;
+  tab = 2;
   userId!: string;
 
   constructor(
     private walletService: WalletService,
     private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
     this.userId = this.authService.getLoggedInUser().id;
-    this.getTransactions();
+    // this.getTransactions();
     this.getWithdrawalRequests();
   }
 
@@ -38,18 +41,18 @@ export class WalletOverviewComponent {
     return `${new Date(date).toLocaleTimeString()}`;
   }
 
-  getTransactions() {
-    this.loadingTransactions = true;
-    this.walletService.getTransactions().subscribe(
-      (res) => {
-        this.loadingTransactions = false;
-        this.transactionsList = res.data;
-      },
-      (err) => {
-        this.loadingTransactions = false;
-      },
-    );
-  }
+  // getTransactions() {
+  //   this.loadingTransactions = true;
+  //   this.walletService.getTransactions().subscribe(
+  //     (res) => {
+  //       this.loadingTransactions = false;
+  //       this.transactionsList = res.data;
+  //     },
+  //     (err) => {
+  //       this.loadingTransactions = false;
+  //     },
+  //   );
+  // }
 
   getWithdrawalRequests() {
     this.loadingRequests = false;
@@ -62,5 +65,9 @@ export class WalletOverviewComponent {
         this.loadingRequests = false;
       },
     });
+  }
+
+  onNavigateToTransactions() {
+    this.router.navigate(['transactions'], { relativeTo: this.route });
   }
 }

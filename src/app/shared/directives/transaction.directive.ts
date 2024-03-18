@@ -27,13 +27,13 @@ export class TransactionDirective implements AfterViewInit {
 
   setSrc(type: string) {
     switch (type.toLowerCase()) {
-      case 'normal-to':
+      case 'credit':
         return 'assets/icons/moved-to-escrow.png';
 
-      case 'normal-from':
+      case 'test':
         return 'assets/icons/moved-from-escrow.png';
 
-      case 'withdrawal':
+      case 'debit':
         return 'assets/icons/withdrawal.png';
     }
   }
@@ -60,13 +60,13 @@ export class TransactionAmount implements AfterViewInit {
 
   setColor(type: string) {
     switch (type.toLowerCase()) {
-      case 'normal-to':
+      case 'credit':
         return 'rgba(19, 185, 5, 1)';
 
       case 'normal-from':
         return 'rgba(19, 185, 5, 1)';
 
-      case 'withdrawal':
+      case 'debit':
         return 'rgba(208, 23, 23, 1)';
     }
   }

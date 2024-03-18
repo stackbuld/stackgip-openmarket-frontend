@@ -43,9 +43,14 @@ export class WalletService {
     );
   }
 
-  getTransactions(): Observable<ITransactionsResponse> {
+  getTransactions(data: {
+    userId: string;
+    pageSize: number;
+    page: number;
+  }): Observable<ITransactionsResponse> {
     return this.http.get<ITransactionsResponse>(
-      this.baseUrl + `payments/transactions`,
+      this.baseUrl +
+        `payments/transactions?UserId=${data.userId}&PageSize=${data.pageSize}&Page=${data.page}`,
     );
   }
   getRequests(id: string): Observable<IRequestResponse> {

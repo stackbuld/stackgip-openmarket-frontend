@@ -147,7 +147,7 @@
 }
 
 .transactions-section {
-  margin-top: 5rem;
+  margin-top: 20px;
 
   .title {
     font-weight: 400;
@@ -285,4 +285,17 @@
   &-amount {
     margin-top: 0.6rem !important;
   }
+}
+
+#recent-transactions {
+  margin-top: 20px;
+  border-radius: 4px;
+  outline: none;
+  padding: 0.8rem 1.5rem;
+  box-shadow: none;
+  color: white;
+  background-color: #000;
+  align-self: flex-end;
+  width: auto;
+  height: 45px;
 }

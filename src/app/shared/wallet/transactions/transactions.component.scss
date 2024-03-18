@@ -1,11 +1,14 @@
 .transactions-container {
   font-family: "Avenir LT Std", sans-serif;
-  padding: 30px;
+  //padding: 30px;
 }
 
 #go-back {
   text-decoration: underline;
   cursor: pointer;
+  color: #000;
+  margin-bottom: 10px;
+  display: inline-block;
 }
 
 .wallet-container {
@@ -103,6 +106,10 @@
     & .main-copy {
     }
   }
+}
+
+.transaction-amount {
+  white-space: nowrap;
 }
 
 .locked {

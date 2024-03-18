@@ -50,7 +50,7 @@ export interface TransactionsResponse {
   hasNextPage: boolean;
 }
 
-export interface TransactionItem {
+export interface TransactionItem extends Transaction {
   referenceNo: string;
   transactionTypeEnum: string;
   amount: number;
@@ -58,7 +58,40 @@ export interface TransactionItem {
   user: null;
   transactionCategory: string;
   narration: string;
-  withdrawalRequests?: Item;
+  withdrawalRequests: Item | null;
+  id: string;
+  createdAt: Date;
+}
+
+interface User {
+  id: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  phonenumber: string;
+  roles: any; // You can replace 'any' with the actual type of roles if known
+}
+
+interface Transaction {
+  referenceNo: string;
+  transactionTypeEnum: string;
+  amount: number;
+  userId: string;
+  user: User;
+  transactionCategory: string;
+  narration: string;
+  withdrawalRequests: {
+    userId: string;
+    status: string;
+    amount: number;
+    currencyCode: string;
+    walletId: string;
+    wallet: any; // You can replace 'any' with the actual type of wallet if known
+    failedReason: string;
+    referenceNo: string;
+    id: string;
+    createdAt: Date;
+  } | null;
   id: string;
   createdAt: Date;
 }

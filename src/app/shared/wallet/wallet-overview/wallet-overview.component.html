@@ -62,18 +62,13 @@
   </div>
 </div>
 
+<button id="recent-transactions" (click)="onNavigateToTransactions()">
+  Recent transactions
+</button>
+
 <div class="transactions-section transactions-section-md">
   <div class="uk-flex uk-flex-between">
     <ul uk-tab class="tabs">
-      <li
-        tabindex="0"
-        role="tab"
-        (click)="tab = 1"
-        (keyup.enter)="tab = 1"
-        class="uk-active"
-      >
-        <a><h2 class="title">Recent Transactions</h2></a>
-      </li>
       <li tabindex="0" role="tab" (click)="tab = 2" (keyup.enter)="tab = 2">
         <a><h2 class="title">Withdrawal Requests</h2></a>
       </li>
