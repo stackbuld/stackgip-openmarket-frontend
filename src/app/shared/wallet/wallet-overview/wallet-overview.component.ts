@@ -13,13 +13,15 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './wallet-overview.component.html',
   styleUrls: ['./wallet-overview.component.scss', '../wallet.component.scss'],
 })
-export class WalletOverviewComponent {
+export class WalletOverviewComponent implements OnInit {
   transactionsList: TransactionsResponse;
   withdrawalRequests: Requests;
   loadingTransactions: boolean;
   loadingRequests: boolean;
-  tab = 2;
+  tab = 1;
   userId!: string;
+  pageSize: number = 10;
+  page: number = 1;
 
   constructor(
     private walletService: WalletService,
@@ -30,7 +32,7 @@ export class WalletOverviewComponent {
 
   ngOnInit(): void {
     this.userId = this.authService.getLoggedInUser().id;
-    // this.getTransactions();
+    this.getTransactions();
     this.getWithdrawalRequests();
   }
 
@@ -41,18 +43,24 @@ export class WalletOverviewComponent {
     return `${new Date(date).toLocaleTimeString()}`;
   }
 
-  // getTransactions() {
-  //   this.loadingTransactions = true;
-  //   this.walletService.getTransactions().subscribe(
-  //     (res) => {
-  //       this.loadingTransactions = false;
-  //       this.transactionsList = res.data;
-  //     },
-  //     (err) => {
-  //       this.loadingTransactions = false;
-  //     },
-  //   );
-  // }
+  getTransactions() {
+    this.loadingTransactions = true;
+    this.walletService
+      .getTransactions({
+        userId: this.userId,
+        pageSize: this.pageSize,
+        page: this.page,
+      })
+      .subscribe({
+        next: (res) => {
+          this.loadingTransactions = false;
+          this.transactionsList = res.data;
+        },
+        error: (err) => {
+          this.loadingTransactions = false;
+        },
+      });
+  }
 
   getWithdrawalRequests() {
     this.loadingRequests = false;
@@ -65,9 +73,5 @@ export class WalletOverviewComponent {
         this.loadingRequests = false;
       },
     });
-  }
-
-  onNavigateToTransactions() {
-    this.router.navigate(['transactions'], { relativeTo: this.route });
   }
 }

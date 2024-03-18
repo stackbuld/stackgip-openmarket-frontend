@@ -1,5 +1,5 @@
 <div class="transactions-container">
-  <a id="go-back" routerLink="../">Back</a>
+  <a id="go-back" (click)="onNavigateBack()">Back</a>
 
   <div class="wallet-container">
     <div class="wallet-details">
@@ -19,7 +19,17 @@
       <div class="wallet-details-main">
         <div>Active balance</div>
         <div>Main wallet</div>
-        <div>₦15,000</div>
+        <div>
+          <span *ngIf="isLoadingBalance"
+            ><app-loading-spinner
+              [borderStyle]="'2px solid #fff'"
+              [size]="'10px'"
+            ></app-loading-spinner
+          ></span>
+          <span *ngIf="!isLoadingBalance">{{
+            mainFunds?.availableAmount | currency: "₦"
+          }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -44,34 +54,72 @@
   </div>
 
   <div class="transactions-main">
-    <div class="transaction" *ngFor="let transaction of transactions">
-      <div class="transaction-details">
-        <div class="img-container">
-          <img
-            [alt]="transaction.narration"
-            [transaction]="transaction.transactionTypeEnum"
-          />
-        </div>
+    <div *ngIf="isLoadingTransactions; else transactionsTemplate">
+      <app-loading-spinner
+        [borderStyle]="'5px solid #3B3B3BFF'"
+        [size]="'40px'"
+      ></app-loading-spinner>
+    </div>
 
-        <div class="details-copy">
-          <div class="heading">{{ transaction.transactionCategory }}</div>
+    <ng-template #transactionsTemplate>
+      <div
+        style="width: 100%"
+        *ngIf="transactions.length > 0; else noTransactions"
+      >
+        <div
+          class="transaction"
+          *ngFor="
+            let transaction of transactions
+              | paginate
+                : {
+                    itemsPerPage: pageSize,
+                    currentPage: page,
+                    totalItems: totalTransactions
+                  }
+          "
+        >
+          <div class="transaction-details">
+            <div class="img-container">
+              <img
+                [alt]="transaction.narration"
+                [transaction]="transaction.transactionTypeEnum"
+              />
+            </div>
 
-          <div class="main-copy">
-            <div class="remark">{{ transaction.narration }}</div>
-            <div class="date">{{ transaction.createdAt | date: "medium" }}</div>
+            <div class="details-copy">
+              <div class="heading">{{ transaction.transactionCategory }}</div>
+
+              <div class="main-copy">
+                <div class="remark">{{ transaction.narration }}</div>
+                <div class="date">
+                  {{ transaction.createdAt | date: "medium" }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="transaction-amount"
+            [transactionAmount]="transaction.transactionTypeEnum"
+          >
+            {{
+              transaction.transactionTypeEnum.toLowerCase() === "debit"
+                ? "-"
+                : "+"
+            }}{{ transaction.amount | currency: "N" }}
           </div>
         </div>
-      </div>
 
-      <div
-        class="transaction-amount"
-        [transactionAmount]="transaction.transactionTypeEnum"
-      >
-        {{
-          transaction.transactionTypeEnum.toLowerCase() === "debit" ? "-" : "+"
-        }}{{ transaction.amount | currency: "N" }}
+        <div class="uk-flex uk-flex-right">
+          <pagination-controls
+            (pageChange)="getTransactions($event)"
+          ></pagination-controls>
+        </div>
       </div>
-    </div>
+      <ng-template #noTransactions>
+        <div>No transactions</div>
+      </ng-template>
+    </ng-template>
   </div>
 
   <div class="locked">

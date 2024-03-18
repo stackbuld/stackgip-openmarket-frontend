@@ -50,6 +50,15 @@ export interface TransactionsResponse {
   hasNextPage: boolean;
 }
 
+export interface LockedFundsResponse {
+  items: LockedFunds[];
+  pageNumber: number;
+  totalPages: number;
+  totalCount: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+}
+
 export interface TransactionItem extends Transaction {
   referenceNo: string;
   transactionTypeEnum: string;
@@ -69,10 +78,24 @@ interface User {
   firstname: string;
   lastname: string;
   phonenumber: string;
-  roles: any; // You can replace 'any' with the actual type of roles if known
+  roles: any;
 }
 
-interface Transaction {
+export interface LockedFunds {
+  userId: string;
+  walletId: string;
+  reason: string;
+  amount: number;
+  currencyCode: string;
+  lockType: string;
+  referenceNo: string;
+  transactionType: string;
+  status: string;
+  id: string;
+  createdAt: Date;
+}
+
+interface Transaction extends LockedFunds {
   referenceNo: string;
   transactionTypeEnum: string;
   amount: number;

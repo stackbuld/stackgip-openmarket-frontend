@@ -1,6 +1,9 @@
 <div class="seller-wallet-page">
   <div class="uk-flex balance-row">
-    <div class="card-container uk-flex uk-card uk-card-default uk-card-body">
+    <div
+      (click)="onNavigateToTransactions()"
+      class="card-container uk-flex uk-card uk-card-default uk-card-body"
+    >
       <div class="withdrawcard-img">
         <img src="../../../../assets/image/withdraw-wallet.svg" alt="" />
       </div>
@@ -21,6 +24,7 @@
     </div>
 
     <div
+      (click)="onNavigateToTransactions()"
       *ngIf="currentRoute?.includes('seller')"
       class="card-container uk-flex uk-card uk-card-default uk-card-body"
     >
@@ -43,6 +47,7 @@
       </div>
     </div>
     <div
+      (click)="onNavigateToTransactions()"
       *ngIf="!currentRoute?.includes('seller')"
       class="card-container uk-flex uk-card uk-card-default uk-card-body"
     >

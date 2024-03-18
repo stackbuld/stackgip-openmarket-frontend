@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { WalletOverviewComponent } from './wallet-overview/wallet-overview.component';
 import { WalletWithdrawComponent } from './wallet-withdraw/wallet-withdraw.component';
 import { WalletComponent } from './wallet.component';
-import { TransactionsComponent } from './transactions/transactions.component';
 
 const routes: Routes = [
   {
@@ -12,7 +11,6 @@ const routes: Routes = [
     children: [
       { path: '', component: WalletOverviewComponent },
       { path: 'withdraw', component: WalletWithdrawComponent },
-      { path: 'transactions', component: TransactionsComponent },
     ],
   },
 ];

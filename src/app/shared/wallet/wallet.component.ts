@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { IUser } from '../../models/IUserModel';
 import { IWallet } from '../../models/wallet.model';
 import { WalletService } from '../../services/wallet/wallet.service';
@@ -23,6 +23,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private walletService: WalletService,
   ) {
     this.router.events.subscribe((event) => {
@@ -76,6 +77,19 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
     });
+  }
+
+  onNavigateToTransactions() {
+    const route = this.router.url;
+    if (route.includes('seller')) {
+      this.router.navigate(['/seller/transaction-history'], {
+        relativeTo: this.route,
+      });
+    } else {
+      this.router.navigate(['/buyer/transaction-history'], {
+        relativeTo: this.route,
+      });
+    }
   }
 
   ngOnDestroy() {

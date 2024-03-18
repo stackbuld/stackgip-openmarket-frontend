@@ -40,7 +40,7 @@ const routes: Routes = [
             path: 'wallet',
             loadChildren: () =>
               import('../../shared/wallet/wallet.module').then(
-                (m) => m.WalletModule
+                (m) => m.WalletModule,
               ),
           },
         ],
@@ -49,8 +49,15 @@ const routes: Routes = [
         path: 'wallet',
         loadChildren: () =>
           import('../../shared/wallet/wallet.module').then(
-            (m) => m.WalletModule
+            (m) => m.WalletModule,
           ),
+      },
+      {
+        path: 'transaction-history',
+        loadComponent: () =>
+          import(
+            '../../shared/components/transactions/transactions.component'
+          ).then((m) => m.TransactionsComponent),
       },
       { path: 'change-password', component: MBuyerChangePasswordComponent },
       { path: 'pin-settings', component: MBuyerPinSettingsComponent },
