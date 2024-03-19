@@ -296,55 +296,35 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.columnCount = 4;
     }
 
-    this.productService.promotedProductsInView.subscribe((value) => {
-      if (value) {
-        this.loadingProducts = false;
-        this.products = JSON.parse(localStorage.getItem('promotedProducts')!);
-
-        if (this.isCategoryFilter) {
-          this.products = this.products.filter(
-            (product) => product.category.name == this.categoryName,
-          );
-        }
-
-        // this.products = [...data];
-        // promotedProducts.forEach((promoProduct) => {
-        //   this.products = this.products.filter(
-        //     (product) => product.id === promoProduct.id,
-        //   );
-        // });
-      } else {
-        this.searchService
-          .getAllProducts(
-            this.pageNumber,
-            this.maximumItem,
-            this.search,
-            this.storefrontSellerId,
-            this.categoryName,
-            this.cityName,
-            this.stateName,
-            this.minValue,
-            this.maxValue,
-          )
-          .subscribe({
-            next: (data) => {
-              if (this.pageNumber === 0) {
-                this.products = data;
-              } else {
-                this.products = [...this.products, ...data];
-              }
-            },
-            error: (err) => {
-              this.loadingProducts = false;
-              this.loadingMoreProducts = false;
-            },
-            complete: () => {
-              this.loadingProducts = false;
-              this.loadingMoreProducts = false;
-            },
-          });
-      }
-    });
+    this.searchService
+      .getAllProducts(
+        this.pageNumber,
+        this.maximumItem,
+        this.search,
+        this.storefrontSellerId,
+        this.categoryName,
+        this.cityName,
+        this.stateName,
+        this.minValue,
+        this.maxValue,
+      )
+      .subscribe({
+        next: (data) => {
+          if (this.pageNumber === 0) {
+            this.products = data;
+          } else {
+            this.products = [...this.products, ...data];
+          }
+        },
+        error: (err) => {
+          this.loadingProducts = false;
+          this.loadingMoreProducts = false;
+        },
+        complete: () => {
+          this.loadingProducts = false;
+          this.loadingMoreProducts = false;
+        },
+      });
   };
 
   fetchCategories = () => {

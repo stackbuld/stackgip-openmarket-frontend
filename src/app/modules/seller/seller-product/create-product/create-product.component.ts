@@ -1162,6 +1162,9 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     } else if (this.form.value.category == '') {
       this.toast.error('Select a Category');
       // return;
+    } else if (this.form.get('storeIds').invalid) {
+      this.toast.error('Must select a store!');
+      return;
     } else if (this.form.invalid) {
       this.toast.error('All required fields must be available');
       // return;
