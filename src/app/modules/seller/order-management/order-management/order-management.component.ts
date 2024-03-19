@@ -33,6 +33,7 @@ enum Tabs {
   Delivering = 'delivering',
   AwaitingPickup = 'awaitingPickup',
   InTransitAll = 'inTransitAll',
+  Refund = 'refundTab',
 }
 
 @Component({
@@ -48,6 +49,7 @@ export class OrderManagementComponent
   newTab = false;
   allTab = false;
   inTransitTab: boolean = false;
+  refundTab: boolean = false;
   delivered: boolean = false;
   delivering: boolean = false;
   awaitingPickup: boolean = false;
@@ -240,7 +242,6 @@ export class OrderManagementComponent
     } else if (activeTab == Tabs.InTransit) {
       this.inTransitAll = true;
     }
-
     this[activeTab] = true;
   }
 
@@ -268,7 +269,8 @@ export class OrderManagementComponent
         break;
       case Tabs.InTransit:
         this.orderStatus = '';
-        this.deliveryStatus = '';
+        this.deliveryStatus =
+          'pickedUpFromStore, assignedForDelivery, assignedForPickup, delivered';
         this.setTabs(Tabs.InTransit);
         this.fetchAllOrders(this.defaultPage);
         break;
@@ -292,9 +294,16 @@ export class OrderManagementComponent
         break;
       case Tabs.InTransitAll:
         this.orderStatus = '';
-        this.deliveryStatus = '';
+        this.deliveryStatus =
+          'pickedUpFromStore, assignedForDelivery, assignedForPickup';
         this.setTabs(Tabs.InTransitAll);
         this.fetchAllOrders(this.defaultPage);
+        break;
+      // case Tabs.Refund:
+      //   this.orderStatus = '';
+      //   this.deliveryStatus = '';
+      //   this.setTabs(Tabs.InTransitAll);
+      //   this.fetchAllOrders(this.defaultPage);
     }
   };
 

@@ -79,11 +79,6 @@ export class HomePageComponent {
     this.promotedProductsService.getAllPromotedProducts().subscribe({
       next: (data) => {
         this.promotedProducts = data;
-
-        localStorage.setItem(
-          'promotedProducts',
-          JSON.stringify(this.promotedProducts),
-        );
       },
       error: (err) => {
         this.loadingPromotedProducts = false;

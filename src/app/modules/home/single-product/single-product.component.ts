@@ -340,7 +340,6 @@ export class SingleProductComponent implements OnInit {
       } else if (this.shippingMethods.length === 1) {
         this.currentShippingMethod.next(this.defaultShipping);
       }
-
       this.orderAndSelectDefaultShippingMethod();
     }
   }
