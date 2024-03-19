@@ -242,7 +242,6 @@ export class OrderManagementComponent
     } else if (activeTab == Tabs.InTransit) {
       this.inTransitAll = true;
     }
-
     this[activeTab] = true;
   }
 
@@ -270,7 +269,8 @@ export class OrderManagementComponent
         break;
       case Tabs.InTransit:
         this.orderStatus = '';
-        this.deliveryStatus = '';
+        this.deliveryStatus =
+          'pickedUpFromStore, assignedForDelivery, assignedForPickup, delivered';
         this.setTabs(Tabs.InTransit);
         this.fetchAllOrders(this.defaultPage);
         break;
@@ -294,7 +294,8 @@ export class OrderManagementComponent
         break;
       case Tabs.InTransitAll:
         this.orderStatus = '';
-        this.deliveryStatus = '';
+        this.deliveryStatus =
+          'pickedUpFromStore, assignedForDelivery, assignedForPickup';
         this.setTabs(Tabs.InTransitAll);
         this.fetchAllOrders(this.defaultPage);
         break;
