@@ -33,6 +33,7 @@ enum Tabs {
   Delivering = 'delivering',
   AwaitingPickup = 'awaitingPickup',
   InTransitAll = 'inTransitAll',
+  Refund = 'refundTab',
 }
 
 @Component({
@@ -48,6 +49,7 @@ export class OrderManagementComponent
   newTab = false;
   allTab = false;
   inTransitTab: boolean = false;
+  refundTab: boolean = false;
   delivered: boolean = false;
   delivering: boolean = false;
   awaitingPickup: boolean = false;
@@ -295,6 +297,12 @@ export class OrderManagementComponent
         this.deliveryStatus = '';
         this.setTabs(Tabs.InTransitAll);
         this.fetchAllOrders(this.defaultPage);
+        break;
+      // case Tabs.Refund:
+      //   this.orderStatus = '';
+      //   this.deliveryStatus = '';
+      //   this.setTabs(Tabs.InTransitAll);
+      //   this.fetchAllOrders(this.defaultPage);
     }
   };
 

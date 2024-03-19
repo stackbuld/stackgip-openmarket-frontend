@@ -197,7 +197,9 @@ input {
 .tabs {
   display: flex;
   border-bottom: 1px solid #e7e5e5;
-  // margin-bottom: 10px;
+  overflow-x: scroll;
+  height: 44px;
+  padding-right: 10px;
   p {
     margin-bottom: 0rem;
     font-weight: 400;
@@ -205,6 +207,12 @@ input {
     line-height: 19px;
     color: #000000;
     cursor: pointer;
+    white-space: nowrap;
+    margin-right: 10px;
+
+    &:last-child {
+      margin-left: 10px;
+    }
   }
 }
 
@@ -375,7 +383,7 @@ input {
   }
 }
 
-@media(max-width: 420px) {
+@media (max-width: 420px) {
   .tabs {
     & p {
       font-size: 14px;

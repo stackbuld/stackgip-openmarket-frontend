@@ -229,6 +229,7 @@
     >
       Cancelled
     </p>
+
     &nbsp; &nbsp; &nbsp; &nbsp;
     <p
       (click)="switchTabs('allTab')"
@@ -242,6 +243,13 @@
       [ngClass]="{ activeTab: inTransitTab === true }"
     >
       In transit
+    </p>
+
+    <p
+      (click)="switchTabs('refundTab')"
+      [ngClass]="{ activeTab: refundTab === true }"
+    >
+      Refund
     </p>
   </div>
 
