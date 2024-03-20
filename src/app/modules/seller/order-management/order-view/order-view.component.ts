@@ -40,6 +40,7 @@ export class OrderViewComponent implements OnInit {
   maxDate: Date;
   isRefundRequested: boolean = false;
   refundData!: Refund;
+  isRefundLoading: boolean = true;
 
   constructor(
     private appLocal: AppLocalStorage,
@@ -141,6 +142,7 @@ export class OrderViewComponent implements OnInit {
       }
 
       this.orderService.getOrder(this.order.id).subscribe((res) => {
+        this.isRefundLoading = false;
         this.isRefundRequested = res['data'].isRefundRequested;
         this.refundData = res['data'].refund;
         if (res['data'].orderStatus.toLowerCase() === 'returned') {

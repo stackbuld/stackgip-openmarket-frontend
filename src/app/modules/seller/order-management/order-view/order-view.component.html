@@ -47,9 +47,16 @@
         </button>
       </div>
       <div *ngIf="isRefundRequested" id="refund-noti-container">
-        <button class="accept-btn">Refunded</button>
-        <div id="view-refund-details" (click)="onSeeRefundDetails()">
-          View details
+        <app-loading-spinner
+          *ngIf="isRefundLoading"
+          [borderStyle]="'2px solid #000'"
+          [size]="'10px'"
+        ></app-loading-spinner>
+        <div *ngIf="!isRefundLoading" id="refund-noti-main">
+          <button class="accept-btn">Refunded</button>
+          <div id="view-refund-details" (click)="onSeeRefundDetails()">
+            View details
+          </div>
         </div>
       </div>
     </div>
