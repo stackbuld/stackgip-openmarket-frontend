@@ -164,25 +164,27 @@ export interface OrderDetail2 {
   userId: string;
   sellerId: string;
   id: string;
-  refund?: {
-    orderNumber: string;
-    id: string;
-    refundStatus: string;
-    reasonForRefund: string | null;
-    reasonForRejection: string | null;
-    imageUrls: string[];
-    videoUrl: string;
-    buyerId: string;
-    buyerFirstname: string | null;
-    buyerLastname: string | null;
-    buyerPhoneNumber: string | null;
-    buyerEmail: string | null;
-    productAmountRefunded: number;
-    shippingCostRefunded: number;
-    unit: number;
-    created: any;
-  };
+  refund?: Refund;
   createdOn: string;
+}
+
+export interface Refund {
+  orderNumber: string;
+  id: string;
+  refundStatus: string;
+  reasonForRefund: string | null;
+  reasonForRejection: string | null;
+  imageUrls: string[];
+  videoUrl: string;
+  buyerId: string;
+  buyerFirstname: string | null;
+  buyerLastname: string | null;
+  buyerPhoneNumber: string | null;
+  buyerEmail: string | null;
+  productAmountRefunded: number;
+  shippingCostRefunded: number;
+  unit: number;
+  created: any;
 }
 
 export interface Order {

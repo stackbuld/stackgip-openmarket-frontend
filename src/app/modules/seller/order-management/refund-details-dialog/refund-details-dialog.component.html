@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="heading">
+    <div class="heading-main">Reason for refund</div>
+    <i class="fa fa-times" (click)="onCloseDialog()"></i>
+  </div>
+
+  <div class="detail">Reason: {{ refundData.reasonForRefund }}</div>
+
+  <div class="detail">Quantity: {{ refundData.unit }}</div>
+
+  <div class="detail"><button (click)="onCloseDialog()">Back</button></div>
+</div>
