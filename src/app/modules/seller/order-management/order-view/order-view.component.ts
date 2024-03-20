@@ -8,7 +8,9 @@ import uikit from 'uikit';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
-import { OrderAcceptRejectPayload } from 'src/app/models/order.model';
+import { OrderAcceptRejectPayload, Refund } from 'src/app/models/order.model';
+import { MatDialog } from '@angular/material/dialog';
+import { RefundDetailsDialogComponent } from '../refund-details-dialog/refund-details-dialog.component';
 
 declare var cloudinary: any;
 
@@ -34,16 +36,19 @@ export class OrderViewComponent implements OnInit {
   uploadWidget2: any;
   videoName = '';
   scheduleTimes: string[] = [];
-
   currentDate: Date;
   maxDate: Date;
+  isRefundRequested: boolean = false;
+  refundData!: Refund;
+  isRefundLoading: boolean = true;
 
   constructor(
     private appLocal: AppLocalStorage,
     private orderService: OrderService,
     private toastr: ToastrService,
     private router: Router,
-    private sellerStore: SellerStoreService
+    private sellerStore: SellerStoreService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -98,9 +103,8 @@ export class OrderViewComponent implements OnInit {
       (error, result) => {
         if (!error && result && result.event === 'success') {
           this.photoUrl = result.info.secure_url;
-          console.log(this.photoUrl);
         }
-      }
+      },
     );
   };
 
@@ -116,7 +120,7 @@ export class OrderViewComponent implements OnInit {
           this.videoName = result.info.original_filename;
           this.videoUrl = result.info.secure_url;
         }
-      }
+      },
     );
   }
 
@@ -136,23 +140,39 @@ export class OrderViewComponent implements OnInit {
       } else {
         this.order = this.appLocal.getFromStorage('page_data');
       }
-      // for (let index = 0; index < this.order.cartProduct.complementaryProducts.length; index++) {
-      //   const element = this.order.cartProduct.complementaryProducts[index];
-      //   if (element.isMultiple === true) {
-      //     this.complementaryProducts.push(element);
-      //   }
-      //   if (element.isMultiple === false) {
-      //     this.tempVariations.push(element);
-      //   }
-      // }
+
+      this.orderService.getOrder(this.order.id).subscribe((res) => {
+        this.isRefundLoading = false;
+        this.isRefundRequested = res['data'].isRefundRequested;
+        this.refundData = res['data'].refund;
+        if (res['data'].orderStatus.toLowerCase() === 'returned') {
+          this.order['deliveryTrackingEvents'] = [
+            ...this.order.deliveryTrackingEvents,
+            {
+              dateTime: res['data'].refund.created,
+              eventType: 'Customer',
+              status: 'Returned',
+              remark: 'Refund request accepted',
+            },
+          ];
+        }
+      });
       this.setVariation(this.order.cartProduct.varations);
     });
   };
 
+  onSeeRefundDetails() {
+    this.dialog.open(RefundDetailsDialogComponent, {
+      panelClass: 'otp_dialog',
+      width: '600px',
+      data: { refund: this.refundData },
+    });
+  }
+
   getObjectByStatus(status: string): any {
     return (
       this.order?.deliveryTrackingEvents.find(
-        (it) => it.status.toLowerCase() === status.toLowerCase()
+        (it) => it.status.toLowerCase() === status.toLowerCase(),
       ) || null
     );
   }
@@ -216,7 +236,7 @@ export class OrderViewComponent implements OnInit {
 
     const isoString = this.orderService.formatDateToISO(
       formattedDate,
-      this.pickupTime.value
+      this.pickupTime.value,
     );
 
     const payload = {
