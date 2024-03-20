@@ -249,21 +249,25 @@ export class OrderManagementComponent
     switch (key) {
       case Tabs.All:
         this.orderStatus = '';
+        this.deliveryStatus = '';
         this.setTabs(Tabs.All);
         this.fetchAllOrders(this.defaultPage);
         break;
       case Tabs.New:
         this.orderStatus = 'pending,notset';
+        this.deliveryStatus = '';
         this.setTabs(Tabs.New);
         this.fetchAllOrders(this.defaultPage);
         break;
       case Tabs.Cancelled:
         this.orderStatus = 'rejected,returned';
+        this.deliveryStatus = '';
         this.setTabs(Tabs.Cancelled);
         this.fetchAllOrders(this.defaultPage);
         break;
       case Tabs.Confirmed:
         this.orderStatus = 'confirmed';
+        this.deliveryStatus = '';
         this.setTabs(Tabs.Confirmed);
         this.fetchAllOrders(this.defaultPage);
         break;

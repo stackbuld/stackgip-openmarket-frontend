@@ -36,7 +36,10 @@
       <p class="title">Item in order</p>
       <button
         (click)="onRefundRequest()"
-        *ngIf="order?.deliveryStatus === 'Delivered' && !refundRequested"
+        *ngIf="
+          order?.deliveryStatus.toLowerCase() === 'delivered' &&
+          !refundRequested
+        "
         id="request-btn"
       >
         Request for refund
@@ -447,6 +450,11 @@
             class="scheduled mb-0"
             >{{ item?.status || "N/A" }}
           </span>
+          <span
+            *ngIf="item?.status.toLowerCase() === 'returned'"
+            class="returned mb-0"
+            >{{ item?.status || "N/A" }}
+          </span>
         </p>
       </div>
     </div>
@@ -705,6 +713,10 @@
           <span
             *ngIf="item?.status.toLowerCase() === 'scheduled'"
             class="scheduled mb-0"
+            >{{ item?.status || "N/A" }} </span
+          ><span
+            *ngIf="item?.status.toLowerCase() === 'returned'"
+            class="returned mb-0"
             >{{ item?.status || "N/A" }}
           </span>
         </p>
