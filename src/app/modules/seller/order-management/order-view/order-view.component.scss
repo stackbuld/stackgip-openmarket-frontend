@@ -534,6 +534,10 @@ label {
     margin-bottom: 1rem;
   }
 
+  .refund-btn {
+    margin-bottom: 0;
+  }
+
   .sm-blk {
     display: block !important;
   }
@@ -541,6 +545,7 @@ label {
   .mobile-full {
     width: 100% !important;
     height: 200px !important;
+    object-fit: cover;
   }
 
   .name-70 {
