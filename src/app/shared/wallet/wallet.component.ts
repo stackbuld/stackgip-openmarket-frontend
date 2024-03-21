@@ -78,9 +78,6 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   onNavigateToTransactions(id: string) {
     const route = this.router.url;
-    // if (id === '') {
-    //   return;
-    // }
     if (route.includes('seller')) {
       this.router.navigate(['/seller/transaction-history'], {
         relativeTo: this.route,

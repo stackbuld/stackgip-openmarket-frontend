@@ -147,7 +147,7 @@ export class OrderViewComponent implements OnInit {
         this.refundData = res['data'].refund;
         if (res['data'].orderStatus.toLowerCase() === 'returned') {
           this.order['deliveryTrackingEvents'] = [
-            ...this.order.deliveryTrackingEvents,
+            ...res['data'].deliveryTrackingEvents,
             {
               dateTime: res['data'].refund.created,
               eventType: 'Customer',
