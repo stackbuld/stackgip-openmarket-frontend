@@ -47,21 +47,24 @@ export class WalletService {
     userId: string;
     pageSize: number;
     page: number;
+    walletId?: string;
   }): Observable<ITransactionsResponse> {
-    return this.http.get<ITransactionsResponse>(
-      this.baseUrl +
-        `wallet/transactions?UserId=${data.userId}&PageSize=${data.pageSize}&Page=${data.page}`,
-    );
+    const url = data.walletId
+      ? `wallet/transactions?UserId=${data.userId}&WalletId=${data.walletId}&PageSize=${data.pageSize}&Page=${data.page}`
+      : `wallet/transactions?UserId=${data.userId}&PageSize=${data.pageSize}&Page=${data.page}`;
+
+    return this.http.get<ITransactionsResponse>(this.baseUrl + url);
   }
 
   getLockedFunds(data: {
     userId: string;
     pageSize: number;
     page: number;
+    walletId?: string;
   }): Observable<ITransactionsResponse> {
     return this.http.get<ITransactionsResponse>(
       this.baseUrl +
-        `wallet/transactions/lockedfunds?UserId=${data.userId}&PageSize=${data.pageSize}&Page=${data.page}`,
+        `wallet/transactions/lockedfunds?UserId=${data.userId}&WalletId=${data.walletId}&PageSize=${data.pageSize}&Page=${data.page}`,
     );
   }
 

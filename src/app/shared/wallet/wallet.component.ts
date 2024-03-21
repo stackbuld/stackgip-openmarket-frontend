@@ -25,17 +25,15 @@ export class WalletComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private walletService: WalletService,
-  ) {
-    this.router.events.subscribe((event) => {
-      event instanceof NavigationEnd
-        ? (this.currentRoute = event.url.split('/'))
-        : null;
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.currentRoute = this.router.url.split('/');
+
     this.user = JSON.parse(localStorage.getItem('user'));
+
     this.getWalletDetails();
+
     this.walletService.walletRefresh
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
@@ -61,7 +59,6 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.walletService.setWalletInfo(res.data[0]);
       },
       error: (err) => {
-        console.log(err);
         this.loading = false;
       },
     });
@@ -79,11 +76,15 @@ export class WalletComponent implements OnInit, OnDestroy {
     });
   }
 
-  onNavigateToTransactions() {
+  onNavigateToTransactions(id: string) {
     const route = this.router.url;
+    // if (id === '') {
+    //   return;
+    // }
     if (route.includes('seller')) {
       this.router.navigate(['/seller/transaction-history'], {
         relativeTo: this.route,
+        queryParams: { id },
       });
     } else {
       this.router.navigate(['/buyer/transaction-history'], {

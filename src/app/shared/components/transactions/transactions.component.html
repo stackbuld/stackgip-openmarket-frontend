@@ -16,19 +16,23 @@
         />
       </svg>
 
-      <div class="wallet-details-main">
+      <div style="margin-left: 10px" *ngIf="isLoadingBalance">
+        <app-loading-spinner
+          [borderStyle]="'2px solid #fff'"
+          [size]="'20px'"
+        ></app-loading-spinner>
+      </div>
+      <div class="wallet-details-main" *ngIf="!isLoadingBalance">
         <div>Active balance</div>
-        <div>Main wallet</div>
+
+        <div [ngSwitch]="wallet.walletType.toLowerCase()">
+          <span *ngSwitchCase="'main'">Withdrawable balance</span>
+          <span *ngSwitchCase="'escrow'">Incoming funds</span>
+          <span *ngSwitchCase="'cashback'">Cashback funds</span>
+        </div>
         <div>
-          <span *ngIf="isLoadingBalance"
-            ><app-loading-spinner
-              [borderStyle]="'2px solid #fff'"
-              [size]="'10px'"
-            ></app-loading-spinner
-          ></span>
-          <span *ngIf="!isLoadingBalance">{{
-            mainFunds?.availableAmount | currency: "₦"
-          }}</span>
+          <span></span>
+          <span>{{ wallet?.availableAmount | currency: "₦" }}</span>
         </div>
       </div>
     </div>
@@ -123,6 +127,6 @@
   </div>
 
   <div class="locked">
-    <app-locked-funds></app-locked-funds>
+    <app-locked-funds [walletId]="walletId"></app-locked-funds>
   </div>
 </div>
