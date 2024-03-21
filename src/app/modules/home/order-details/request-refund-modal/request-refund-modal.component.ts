@@ -71,17 +71,22 @@ export class RequestRefundModalComponent implements OnInit {
       this.toast.error('Units can not be more than product unit!');
       return;
     }
-    if (
-      this.mediaUrl == '' ||
-      this.selectedReason == '' ||
-      this.refundUnit == 0
-    ) {
+
+    if (this.refundUnit == 0) {
+      this.toast.error('Unit cannot be zero!');
+      return;
+    } else if (this.selectedReason === '') {
+      this.toast.error('Please select a reason');
+      return;
+    } else if (this.mediaUrl === '') {
+      this.toast.error('Must upload a photo!');
       return;
     }
+
     this.isLoading = true;
     const payload: RefundPayload = {
       orderNumber: this.data.orderNumber,
-      unit: this.data.unit,
+      unit: this.refundUnit,
       refundReason: Reasons[this.selectedReason],
       imageUrls: ['peg', 'jpg', 'png'].includes(this.mediaType)
         ? [this.mediaUrl]
