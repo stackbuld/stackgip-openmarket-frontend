@@ -9,7 +9,7 @@ import {
   TransactionDirective,
 } from '../../directives/transaction.directive';
 import { LockedFundsComponent } from '../locked-funds/locked-funds.component';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgxPaginationModule } from '../../pagination/ngx-pagination.module';
 import { SharedModule } from '../../shared.module';
 
@@ -31,24 +31,29 @@ import { SharedModule } from '../../shared.module';
 })
 export class TransactionsComponent implements OnInit {
   userId: string;
-  pageSize: number = 4;
+  pageSize: number = 10;
   page: number = 1;
   transactions: TransactionItem[] = [];
   totalTransactions!: number;
   isLoadingTransactions: boolean = false;
   isLoadingBalance: boolean = false;
-  mainFunds!: IWallet;
+  walletId!: string;
+  wallet: IWallet;
 
   constructor(
     private walletService: WalletService,
     private authService: AuthService,
     private location: Location,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
     this.userId = this.authService.getLoggedInUser().id;
-    this.getWalletDetails();
-    this.getTransactions(1);
+    this.route.queryParams.subscribe((param) => {
+      this.walletId = param['id'];
+      this.getWalletDetails();
+      this.getTransactions(1);
+    });
   }
 
   getTransactions(pageNumber: number) {
@@ -58,6 +63,7 @@ export class TransactionsComponent implements OnInit {
         userId: this.userId,
         pageSize: this.pageSize,
         page: pageNumber,
+        walletId: this.walletId,
       })
       .subscribe({
         next: (res) => {
@@ -77,9 +83,7 @@ export class TransactionsComponent implements OnInit {
     this.walletService.getWallet().subscribe({
       next: (res) => {
         this.isLoadingBalance = false;
-        this.mainFunds = [...res.data].find(
-          (value: IWallet) => value.walletType === 'MAIN',
-        );
+        this.wallet = res.data.find((wallet) => wallet.id == this.walletId);
       },
       error: (err) => {
         this.isLoadingBalance = false;

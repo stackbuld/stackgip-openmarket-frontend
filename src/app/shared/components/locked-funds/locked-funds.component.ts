@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LockedFunds } from '../../../models/wallet.model';
 import { WalletService } from '../../../services/wallet/wallet.service';
@@ -14,8 +14,9 @@ import { SharedModule } from '../../shared.module';
   styleUrls: ['./locked-funds.component.scss'],
 })
 export class LockedFundsComponent implements OnInit {
+  @Input() walletId!: string;
   userId: string;
-  lockedFundsPageSize: number = 4;
+  lockedFundsPageSize: number = 10;
   lockedFundsPage: number = 1;
   lockedFunds: LockedFunds[] = [];
   totalLockedFunds!: number;
@@ -32,13 +33,13 @@ export class LockedFundsComponent implements OnInit {
   }
 
   getLockedFunds(pageNumber: number) {
-    console.log(1);
     this.isLoadingLockedFunds = true;
     this.walletService
       .getLockedFunds({
         userId: this.userId,
         pageSize: this.lockedFundsPageSize,
         page: pageNumber,
+        walletId: this.walletId,
       })
       .subscribe({
         next: (res) => {

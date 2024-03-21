@@ -120,15 +120,15 @@ export class SearchService implements ISearchService {
     let filters = `price:${minPrice} TO ${maxPrice}`;
 
     if (category) {
-      filters += ` AND category.name:${category}`;
+      filters += ` AND category.name:"${category}"`;
     }
 
     if (city) {
-      filters += ` AND sellerStores.city:${city}`;
+      filters += ` AND sellerStores.city:"${city}"`;
     }
 
     if (state) {
-      filters += ` AND sellerStores.state:${state}`;
+      filters += ` AND sellerStores.state:"${state}"`;
     }
 
     if (storefrontSellerId) {

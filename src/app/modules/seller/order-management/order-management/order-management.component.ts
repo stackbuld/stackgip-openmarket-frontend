@@ -77,7 +77,12 @@ export class OrderManagementComponent
   loadingOverviewData: boolean;
   orderActionTaken$: Subscription;
   @ViewChild('orderSearch', { static: true }) searchQuery: ElementRef;
-  orderDeliveryStatus: string[] = ['Delivered', 'Pending', 'Cancelled'];
+  orderDeliveryStatus: string[] = [
+    'Delivered',
+    'Pending',
+    'Cancelled',
+    'Refund',
+  ];
   allFilterInput: FormControl;
 
   constructor(
@@ -93,7 +98,8 @@ export class OrderManagementComponent
     this.allFilterInput = new FormControl(null);
     this.allFilterInput.valueChanges.subscribe((value) => {
       if (value) {
-        this.deliveryStatus = value;
+        this.deliveryStatus =
+          value.toLowerCase() === 'refund' ? 'returned' : value;
         this.fetchAllOrders(this.defaultPage);
       }
     });
@@ -249,21 +255,25 @@ export class OrderManagementComponent
     switch (key) {
       case Tabs.All:
         this.orderStatus = '';
+        this.deliveryStatus = '';
         this.setTabs(Tabs.All);
         this.fetchAllOrders(this.defaultPage);
         break;
       case Tabs.New:
         this.orderStatus = 'pending,notset';
+        this.deliveryStatus = '';
         this.setTabs(Tabs.New);
         this.fetchAllOrders(this.defaultPage);
         break;
       case Tabs.Cancelled:
         this.orderStatus = 'rejected,returned';
+        this.deliveryStatus = '';
         this.setTabs(Tabs.Cancelled);
         this.fetchAllOrders(this.defaultPage);
         break;
       case Tabs.Confirmed:
         this.orderStatus = 'confirmed';
+        this.deliveryStatus = '';
         this.setTabs(Tabs.Confirmed);
         this.fetchAllOrders(this.defaultPage);
         break;
@@ -299,11 +309,11 @@ export class OrderManagementComponent
         this.setTabs(Tabs.InTransitAll);
         this.fetchAllOrders(this.defaultPage);
         break;
-      // case Tabs.Refund:
-      //   this.orderStatus = '';
-      //   this.deliveryStatus = '';
-      //   this.setTabs(Tabs.InTransitAll);
-      //   this.fetchAllOrders(this.defaultPage);
+      case Tabs.Refund:
+        this.orderStatus = 'returned';
+        this.deliveryStatus = '';
+        this.setTabs(Tabs.Refund);
+        this.fetchAllOrders(this.defaultPage);
     }
   };
 

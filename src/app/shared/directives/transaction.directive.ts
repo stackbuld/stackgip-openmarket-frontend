@@ -28,13 +28,13 @@ export class TransactionDirective implements AfterViewInit {
   setSrc(type: string) {
     switch (type.toLowerCase()) {
       case 'credit':
-        return 'assets/icons/moved-to-escrow.png';
+        return 'assets/icons/moved-to-escrow.svg';
 
       case 'test':
-        return 'assets/icons/moved-from-escrow.png';
+        return 'assets/icons/moved-from-escrow.svg';
 
       case 'debit':
-        return 'assets/icons/withdrawal.png';
+        return 'assets/icons/withdrawal.svg';
     }
   }
 }

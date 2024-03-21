@@ -17,20 +17,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./order-details.component.scss'],
 })
 export class OrderDetailsComponent implements OnInit {
-  order: OrderDetail2;
-  // complementaryProducts: any[] = [];
-  // tempVariations: any[] = [];
+  order!: OrderDetail2;
   variations: ProductOptions[] | any[] = [];
-  serialNumber: string = '';
-  additionalInformation: string = '';
-  rejectionReason: string = '';
-  rejectingOrder: boolean;
-  acceptingOrder: boolean;
-  photoUrl: string = '';
   videoUrl: string = '';
-  uploadWidget: any;
-  uploadWidget2: any;
-  videoName = '';
   productDesc: string = '';
   refundRequested: boolean = false;
   isLoading: boolean = false;
@@ -59,25 +48,29 @@ export class OrderDetailsComponent implements OnInit {
       } else {
         this.order = this.appLocal.getFromStorage('page_data');
       }
+
       this.productService.getProduct(this.order.productId).subscribe({
         next: (res) => {
           this.productDesc = res.data.description;
         },
       });
+
       this.orderService.getOrder(this.order.id).subscribe((res) => {
         this.isLoading = false;
         this.refundRequested = res['data'].isRefundRequested;
+        if (res['data'].orderStatus.toLowerCase() === 'returned') {
+          this.order['deliveryTrackingEvents'] = [
+            ...res['data'].deliveryTrackingEvents,
+            {
+              dateTime: res['data'].refund.created,
+              eventType: 'Customer',
+              status: 'Returned',
+              remark: 'Refund request accepted',
+            },
+          ];
+        }
       });
-      // for (let index = 0; index < this
-      // .order.cartProduct.complementaryProducts.length; index++) {
-      //   const element = this.order.cartProduct.complementaryProducts[index];
-      //   if (element.isMultiple === true) {
-      //     this.complementaryProducts.push(element);
-      //   }
-      //   if (element.isMultiple === false) {
-      //     this.tempVariations.push(element);
-      //   }
-      // }
+
       try {
         this.setVariation(this.order.cartProduct.varations);
       } catch {}

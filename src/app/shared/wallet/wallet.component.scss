@@ -1,70 +1,59 @@
 @import "../../../mixins";
 
 .seller-wallet-page {
-    max-width: 69rem;
-    margin-inline: auto;
-    margin-bottom: 0.5rem;
-    overflow: hidden;
-@include breakpoint-down(small) {
-        padding-inline: 1rem;
-    }
+  max-width: 69rem;
+  margin-inline: auto;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  @include breakpoint-down(small) {
+    padding-inline: 1rem;
+  }
 }
 
 .balance-row {
-    width: 100%;
-    gap: 2.5rem;
-
-    @include breakpoint-down(small) {
-        gap: .5rem;
-    }
+  width: 100%;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .card-container {
-    align-items: center;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    width: auto;
-    gap: 2rem;
-    flex-grow: 1;
+  align-items: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  width: auto;
+  gap: 2rem;
 
+  p {
+    margin: 0;
+  }
+
+  .withdrawcard-info {
     @include breakpoint-down(small) {
-        padding: 1rem;
-        flex: 1;
-        gap: .3rem;
+      h3 {
+        font-size: 0.8rem;
+        margin-top: 0.3rem;
+        font-weight: 500;
+      }
+
+      .card-title {
+        font-size: 9px;
+      }
     }
-
-    p {
-        margin: 0;
-    }
-
-
-    .withdrawcard-info {
-        @include breakpoint-down(small) {
-            h3 {
-                font-size: 0.8rem;
-                margin-top: .3rem;
-                font-weight: 500;
-            }
-
-            .card-title {
-                font-size: 9px;
-
-            }
-        }
-    }
+  }
 }
 
 .w-auto .withdrawcard-img {
-    margin-right: 2rem;
+  margin-right: 2rem;
 
-    @include breakpoint-down(small) {
-        margin-right: 1rem;
-    }
+  @include breakpoint-down(small) {
+    margin-right: 1rem;
+  }
 }
 
 .card-balance {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #000;
-    margin: 12px 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+  margin: 12px 0 0;
 }

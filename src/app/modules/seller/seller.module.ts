@@ -45,6 +45,7 @@ import { ProductSearchImageDirective } from './seller-product-search/product-sea
 import { OrderStatusDirective } from './order-management/order-management/order-status.directive';
 import { DeliveryStatusDirective } from './order-management/order-management/delivery-status.directive';
 import {VideoGuidePromptComponent} from "../../shared/components/video-guide-prompt/video-guide-prompt.component";
+import { RefundDetailsDialogComponent } from './order-management/refund-details-dialog/refund-details-dialog.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import {VideoGuidePromptComponent} from "../../shared/components/video-guide-pro
     ProductSearchImageDirective,
     OrderStatusDirective,
     DeliveryStatusDirective,
+    RefundDetailsDialogComponent,
   ],
   imports: [
     CommonModule,
