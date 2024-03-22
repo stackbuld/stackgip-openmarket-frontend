@@ -1,0 +1,42 @@
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+
+  & button {
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    padding: 0.8rem 2rem;
+    box-shadow: none;
+    color: white;
+    background-color: #000;
+    align-self: flex-end;
+    width: auto;
+    height: 45px;
+
+    &.cancel {
+      color: #000;
+      background-color: transparent;
+      border: 1px solid #000;
+      margin-right: 15px;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .actions {
+    width: 100%;
+    flex-direction: column;
+
+    & button {
+      width: 100%;
+
+      &.cancel {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

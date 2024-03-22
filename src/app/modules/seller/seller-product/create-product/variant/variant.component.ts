@@ -9,6 +9,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { MAT_SELECT_CONFIG, MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-variant',
@@ -19,6 +21,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     FormsModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatMenuModule,
+    MatCheckboxModule,
   ],
   providers: [
     {
@@ -31,8 +35,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 })
 export class VariantComponent implements OnInit {
   variantForm!: FormGroup;
-  variant: string = null;
-  variantOptions: string[] = ['Size', 'Color'];
+  variant: string = 'Select';
+  variantOptions: string[] = ['Select', 'Size', 'Color'];
   selectedVariants: string[] = [];
   colors = [
     'Red',
@@ -71,5 +75,15 @@ export class VariantComponent implements OnInit {
     this.variantForm = new FormGroup<any>({
       variant: new FormControl(null, Validators.required),
     });
+  }
+
+  onShowOptions(event: Event) {
+    event.stopPropagation();
+  }
+
+  onRemoveOption(id: number) {
+    this.selectedVariants = this.selectedVariants.filter(
+      (variant, index) => index != id,
+    );
   }
 }

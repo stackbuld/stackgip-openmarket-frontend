@@ -23,6 +23,7 @@ import { VariationsAlertDialogComponent } from './create-product/variations-aler
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { VideoGuidePromptComponent } from '../../../shared/components/video-guide-prompt/video-guide-prompt.component';
 import { VariantComponent } from './create-product/variant/variant.component';
+import { VariantfComponent } from './create-product/variantf/variantf.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { VariantComponent } from './create-product/variant/variant.component';
     ViewMoreComponent,
     CreateProductComponent,
     VariationsAlertDialogComponent,
+    VariantfComponent,
   ],
   imports: [
     CommonModule,

@@ -126,24 +126,30 @@ body {
 }
 
 .variant-select mat-select {
-    width: 100% !important;
-    border: 1px solid rgba(208, 213, 221, 1);
-    padding: 12px 10px;
-    border-radius: 4px;
-    font-size: 15px;
-    line-height: 1.5;
-    cursor: pointer;
-    font-weight: 600;
+    width: 100%;
+    border: 1px solid rgba(189, 189, 189, 1);
+    background-color: rgba(244, 244, 244, 1);
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 16px;
+    color: rgba(151, 151, 151, 1);
 
     & mat-option {
         width: 100% !important;
-        /*color: var(--taskText);*/
         text-transform: capitalize;
     }
 }
 
 .variant-select .mdc-notched-outline{
     display: none;
+}
+
+.variant-option mat-pseudo-checkbox.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full{
+    background: #000 !important;
+}
+
+.variant-option mat-pseudo-checkbox.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full ~ .mdc-list-item__primary-text{
+    color: #000;
 }
 
 .variant-select .cdk-overlay-pane{
@@ -155,6 +161,7 @@ body {
 .mat-mdc-form-field-infix {
     padding: 0;
 }
+
 
 .variant-select .mdc-line-ripple {
     display: none;
@@ -168,5 +175,9 @@ body {
 
 .variant-select .mat-mdc-form-field-subscript-wrapper {
     display: none;
+}
+
+.add-another-variant-checkbox .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:checked{
+    background-color: #000 !important;
 }
 

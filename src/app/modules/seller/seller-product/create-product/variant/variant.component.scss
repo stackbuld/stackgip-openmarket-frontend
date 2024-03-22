@@ -19,15 +19,20 @@
   }
 }
 
-#add-variant {
+.add-variant {
   font-size: 14px;
   color: rgba(255, 139, 0, 1);
   cursor: pointer;
+
+  &.for-stage-3 {
+    align-self: center;
+  }
 }
 
 .sub {
   font-size: 10px;
   color: rgba(153, 153, 153, 1);
+  margin-bottom: 0;
 }
 
 .select {
@@ -44,14 +49,100 @@
   }
 }
 
+.variant-select {
+  position: relative;
+
+  & .select-placeholder {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(151, 151, 151, 1);
+  }
+}
+
+.selected-options {
+  display: flex;
+  align-items: center;
+
+  &-main {
+    border: 0.5px solid rgba(189, 189, 189, 1);
+    border-radius: 5px;
+    padding: 3px 7px;
+    display: flex;
+    align-items: center;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    & svg {
+      margin-left: 5px;
+      cursor: pointer;
+    }
+  }
+}
+
+.stage-3 {
+  display: flex;
+  flex-direction: column;
+}
+
+.variants-details-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: 1px solid rgba(189, 189, 189, 1);
+  background-color: rgba(244, 244, 244, 1);
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 16px;
+  color: rgba(151, 151, 151, 1);
+}
+
+.variants-details {
+  margin: 20px 0;
+
+  & .variant-detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-action {
+      cursor: pointer;
+    }
+
+    & input {
+      padding: 10px;
+      border: 1px solid rgba(189, 189, 189, 1);
+      border-radius: 7px;
+      color: #000;
+
+      &::placeholder {
+        color: #000;
+      }
+
+      &:active {
+        outline: none;
+      }
+    }
+  }
+}
+
 .action-btn {
   border: 0.8px solid rgba(189, 189, 189, 1);
   border-radius: 8px;
   padding: 6px 20px;
   font-size: 14px;
   font-weight: 600;
-  margin-top: 15px;
   text-align: right;
   align-self: flex-end;
   background-color: transparent;
+
+  &.done-btn {
+    color: #fff;
+    background-color: #000;
+    align-self: flex-start;
+  }
 }
