@@ -1,0 +1,57 @@
+.variant-container {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid rgba(177, 177, 177, 1);
+  border-radius: 10px;
+  font-family: "Avenir LT Std", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 10px;
+
+  &.section-heading {
+    font-size: 16px;
+    margin-bottom: 0;
+  }
+}
+
+#add-variant {
+  font-size: 14px;
+  color: rgba(255, 139, 0, 1);
+  cursor: pointer;
+}
+
+.sub {
+  font-size: 10px;
+  color: rgba(153, 153, 153, 1);
+}
+
+.select {
+  width: 100%;
+  border: 1px solid rgba(189, 189, 189, 1);
+  background-color: rgba(244, 244, 244, 1);
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 16px;
+  color: rgba(151, 151, 151, 1);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.action-btn {
+  border: 0.8px solid rgba(189, 189, 189, 1);
+  border-radius: 8px;
+  padding: 6px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 15px;
+  text-align: right;
+  align-self: flex-end;
+  background-color: transparent;
+}

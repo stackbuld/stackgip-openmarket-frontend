@@ -1,0 +1,60 @@
+<div class="variant-container">
+  <div class="heading">Variation(s) information</div>
+
+  <div id="add-variant">+Add options like size or colour</div>
+</div>
+
+<div class="variant-main">
+  <h3 class="heading">Variation(s) information</h3>
+
+  <div class="variant-container">
+    <div class="heading section-heading">Select variant</div>
+    <p class="sub">Add variant e.g Color, size</p>
+
+    <select class="select" [(ngModel)]="variant">
+      <!--      <option value="">-->
+      <!--        <input type="text" placeholder="Enter a new one" />-->
+      <!--      </option>-->
+      <option [ngValue]="null" [disabled]="true">Select</option>
+      <option [value]="option" *ngFor="let option of variantOptions">
+        {{ option }}
+      </option>
+    </select>
+
+    <mat-form-field class="variant-select">
+      <mat-select [value]="'choose'">
+        <mat-option [value]="null"></mat-option>
+        <mat-option [value]="'choose'" *ngFor="let option of variantOptions">{{
+          option
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button class="action-btn" type="button">
+      {{ !variant ? "Cancel" : "Proceed" }}
+    </button>
+  </div>
+
+  <div class="variant-container">
+    <div class="heading section-heading">
+      Add one or more value for the selected variant
+    </div>
+    <p class="sub">
+      i.e if you selected color, you can add blue or green as value
+    </p>
+
+    <select class="select" [(ngModel)]="variant">
+      <!--      <option value="">-->
+      <!--        <input type="text" placeholder="Enter a new one" />-->
+      <!--      </option>-->
+      <option [ngValue]="null" [disabled]="true">Select</option>
+      <option [value]="option" *ngFor="let option of colors">
+        {{ option }}
+      </option>
+    </select>
+
+    <button class="action-btn" type="button">
+      {{ !variant ? "Cancel" : "Proceed" }}
+    </button>
+  </div>
+</div>

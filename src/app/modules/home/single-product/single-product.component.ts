@@ -795,7 +795,6 @@ export class SingleProductComponent implements OnInit {
         // if (this.currentShippingMethod === null) {
         //   this.orderAndSelectDefaultShippingMethod();
         // }
-
         this.connectToWebsocket();
       },
       error: (error) => {

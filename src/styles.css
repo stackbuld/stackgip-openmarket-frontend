@@ -108,3 +108,65 @@ body {
     --mdc-checkbox-selected-hover-icon-color: rgba(0, 0, 0, 0.9);
 }
 
+.variant-select {
+    width: 100%;
+}
+
+.variant-select .mat-select-panel {
+    /*background-color: var(--menu);*/
+}
+
+.mat-mdc-form-field-focus-overlay {
+    background-color: transparent;
+}
+
+.variant-select .mdc-text-field {
+    background-color: transparent;
+    padding: 0;
+}
+
+.variant-select mat-select {
+    width: 100% !important;
+    border: 1px solid rgba(208, 213, 221, 1);
+    padding: 12px 10px;
+    border-radius: 4px;
+    font-size: 15px;
+    line-height: 1.5;
+    cursor: pointer;
+    font-weight: 600;
+
+    & mat-option {
+        width: 100% !important;
+        /*color: var(--taskText);*/
+        text-transform: capitalize;
+    }
+}
+
+.variant-select .mdc-notched-outline{
+    display: none;
+}
+
+.variant-select .cdk-overlay-pane{
+    width: 100% !important;
+}
+
+.variant-select
+.mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined)
+.mat-mdc-form-field-infix {
+    padding: 0;
+}
+
+.variant-select .mdc-line-ripple {
+    display: none;
+}
+
+.variant-select .mat-mdc-select-value-text {
+    font-family: "DM Sans", sans-serif;
+    color: rgba(102, 112, 133, 1);
+    font-weight: normal;
+}
+
+.variant-select .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}
+
