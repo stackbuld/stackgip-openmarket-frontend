@@ -11,6 +11,8 @@ import { MAT_SELECT_CONFIG, MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteVariantComponent } from './delete-variant/delete-variant.component';
 
 @Component({
   selector: 'app-variant',
@@ -71,6 +73,8 @@ export class VariantComponent implements OnInit {
     'Emerald',
   ];
 
+  constructor(private dialog: MatDialog) {}
+
   ngOnInit() {
     this.variantForm = new FormGroup<any>({
       variant: new FormControl(null, Validators.required),
@@ -79,6 +83,18 @@ export class VariantComponent implements OnInit {
 
   onShowOptions(event: Event) {
     event.stopPropagation();
+  }
+
+  onDeleteVariant() {
+    const dialoRef = this.dialog.open(DeleteVariantComponent, {
+      panelClass: 'otp_dialog',
+    });
+
+    dialoRef.afterClosed().subscribe((event) => {
+      if (event) {
+        console.log(1);
+      }
+    });
   }
 
   onRemoveOption(id: number) {

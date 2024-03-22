@@ -1,5 +1,7 @@
 .variant-container {
   width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
   padding: 20px;
   border: 1px solid rgba(177, 177, 177, 1);
   border-radius: 10px;
@@ -99,10 +101,17 @@
   padding: 15px;
   font-size: 16px;
   color: rgba(151, 151, 151, 1);
+  margin-bottom: 20px;
+}
+
+.variant-details-container {
+  margin: 20px 0;
 }
 
 .variants-details {
-  margin: 20px 0;
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
 
   & .variant-detail {
     display: flex;

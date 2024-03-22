@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-delete-variant',
@@ -10,13 +10,13 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./delete-variant.component.scss'],
 })
 export class DeleteVariantComponent {
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialogRef: MatDialogRef<DeleteVariantComponent>) {}
 
   onDelete() {
-    // this.dialog
+    this.dialogRef.close('deleted');
   }
 
   onCancel() {
-    this.dialog.closeAll();
+    this.dialogRef.close(null);
   }
 }
