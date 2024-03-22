@@ -19,11 +19,10 @@ import { CreateProductComponent } from './create-product/create-product.componen
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { VariationsAlertDialogComponent } from './create-product/variations-alert-dialog/variations-alert-dialog.component';
+
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { VideoGuidePromptComponent } from '../../../shared/components/video-guide-prompt/video-guide-prompt.component';
 import { VariantComponent } from './create-product/variant/variant.component';
-import { VariantfComponent } from './create-product/variantf/variantf.component';
 
 @NgModule({
   declarations: [
@@ -37,8 +36,6 @@ import { VariantfComponent } from './create-product/variantf/variantf.component'
     ProductItemComponent,
     ViewMoreComponent,
     CreateProductComponent,
-    VariationsAlertDialogComponent,
-    VariantfComponent,
   ],
   imports: [
     CommonModule,
