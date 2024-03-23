@@ -17,6 +17,16 @@ import { DeleteVariantComponent } from './delete-variant/delete-variant.componen
 import { VariantService } from './variant.service';
 import { environment } from '../../../../../../environments/environment';
 declare var cloudinary: any;
+
+interface Variants {
+  title: string;
+  value: string;
+  shortDescription: string | null;
+  imageUrl: string;
+  cost: number;
+  unit: number;
+  isMultiple: boolean;
+}
 @Component({
   selector: 'app-variant',
   standalone: true,
@@ -48,6 +58,7 @@ export class VariantComponent implements OnInit, AfterViewInit {
   stage: number = 0;
   uploadPhotoWidget: any;
   optionsImageIndex: number = 0;
+  finishedVariants: Variants[] = [];
   constructor(
     private dialog: MatDialog,
     private variantService: VariantService,
@@ -113,6 +124,11 @@ export class VariantComponent implements OnInit, AfterViewInit {
 
   onAddVariant() {
     this.stage = 0;
+    this.finishedVariants.push({
+      ...this.variantOptionsValuesArray.value,
+      isMultiple: false,
+    });
+    console.log(this.finishedVariants);
   }
 
   onContinue(stage: number) {

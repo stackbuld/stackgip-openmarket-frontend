@@ -716,7 +716,6 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
         : this.variationProps.value.cost - this.form.get('price').value;
 
     this.variations().push(this.variationProps);
-
     if (this.editingVariation) {
       this.allVariantList[this.editingIndex] = this.variationProps.value;
     } else {
