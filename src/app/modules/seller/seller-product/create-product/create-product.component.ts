@@ -970,6 +970,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     this.productService.getVariations(this.user.id).subscribe(
       (res) => {
         this.productVariations = res.data.data;
+        console.log(res);
       },
       (err) => {
         this.toast.error(err.message);

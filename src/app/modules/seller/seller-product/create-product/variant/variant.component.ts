@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -13,9 +13,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
+
 import { DeleteVariantComponent } from './delete-variant/delete-variant.component';
 import { VariantService } from './variant.service';
 import { environment } from '../../../../../../environments/environment';
+import { ToastrService } from '../../../../../services/toastr.service';
 declare var cloudinary: any;
 
 interface Variants {
@@ -26,6 +28,22 @@ interface Variants {
   cost: number;
   unit: number;
   isMultiple: boolean;
+}
+
+interface VariantOptions {
+  name: string;
+  categoryId: any;
+  category: any;
+  userId: any;
+  id: string;
+  createdOn: string;
+  createdBy: any;
+  updatedBy: any;
+  deletedBy: any;
+  updatedOn: any;
+  deletedOn: any;
+  isActive: boolean;
+  isDeleted: boolean;
 }
 @Component({
   selector: 'app-variant',
@@ -50,7 +68,7 @@ interface Variants {
 })
 export class VariantComponent implements OnInit, AfterViewInit {
   variant!: FormControl;
-  variantOptions: string[] = ['Select', 'Size', 'Color'];
+  @Input() variantOptions: VariantOptions[] = [];
   selectedVariantsForm!: FormControl;
   selectedVariants: string[] = [];
   variantOptionsValues: string[] = [];
@@ -62,10 +80,11 @@ export class VariantComponent implements OnInit, AfterViewInit {
   constructor(
     private dialog: MatDialog,
     private variantService: VariantService,
+    private toast: ToastrService,
   ) {}
 
   ngOnInit() {
-    this.variant = new FormControl<any>('Select', Validators.required);
+    this.variant = new FormControl<any>(null, Validators.required);
 
     this.selectedVariantsForm = new FormControl();
 
@@ -74,9 +93,12 @@ export class VariantComponent implements OnInit, AfterViewInit {
     });
 
     this.variant.valueChanges.subscribe((value) => {
-      if (value == 'Size') {
+      if (!value) {
+        return;
+      }
+      if (value.toLowerCase() == 'size') {
         this.variantOptionsValues = this.variantService.sizes;
-      } else if (value == 'Color') {
+      } else if (value == 'color') {
         this.variantOptionsValues = this.variantService.colors;
       }
       this.selectedVariantsForm.setValue(null);
@@ -105,6 +127,10 @@ export class VariantComponent implements OnInit, AfterViewInit {
     );
   }
 
+  stopClose(event: Event) {
+    event.stopPropagation();
+  }
+
   onUploadVariantOptionPhoto(id: number): void {
     this.optionsImageIndex = id;
     this.uploadPhotoWidget.open();
@@ -119,6 +145,11 @@ export class VariantComponent implements OnInit, AfterViewInit {
   }
 
   onAddVariant() {
+    if (this.variantOptionsValuesFormGroup.invalid) {
+      this.variantOptionsValuesFormGroup.markAllAsTouched();
+      this.toast.error('All required fields must be filled!');
+      return;
+    }
     this.stage = 0;
     this.finishedVariants = this.variantOptionsValuesArray.value;
     console.log(this.finishedVariants);
@@ -126,6 +157,10 @@ export class VariantComponent implements OnInit, AfterViewInit {
 
   onContinue(stage: number) {
     this.stage = stage;
+    if (stage == 0) {
+      this.variant.setValue(null);
+      return;
+    }
     const test = [];
     if (stage == 3) {
       this.selectedVariants.map((variant) => {
@@ -183,6 +218,7 @@ export class VariantComponent implements OnInit, AfterViewInit {
         this.stage = 0;
         this.selectedVariants = [];
         this.variantOptionsValues = [];
+        this.variant.setValue(null);
       }
     });
   }
