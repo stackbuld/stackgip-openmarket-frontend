@@ -82,6 +82,16 @@
   }
 }
 
+#add-option-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(189, 189, 189, 1);
+
+  &:focus {
+    outline: none;
+  }
+}
+
 .selected-options {
   display: flex;
   align-items: center;

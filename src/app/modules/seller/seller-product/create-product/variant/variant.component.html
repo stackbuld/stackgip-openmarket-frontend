@@ -17,9 +17,13 @@
       <mat-form-field class="variant-select">
         <div class="select-placeholder" *ngIf="!variant.value">Select</div>
         <mat-select [value]="'Select'" [formControl]="variant">
-          <mat-option (click)="stopClose($event)"
-            ><input type="text" placeholder="tet"
-          /></mat-option>
+          <input
+            type="text"
+            placeholder="tet"
+            [formControl]="newVariantOptionForm"
+            (keydown.enter)="onAddNewVariant()"
+            id="add-option-input"
+          />
           <mat-option
             [value]="option.name"
             *ngFor="let option of variantOptions"

@@ -67,12 +67,13 @@ interface VariantOptions {
   styleUrls: ['./variant.component.scss'],
 })
 export class VariantComponent implements OnInit, AfterViewInit {
-  variant!: FormControl;
   @Input() variantOptions: VariantOptions[] = [];
+  variant!: FormControl;
+  variantOptionsValuesFormGroup!: FormGroup;
   selectedVariantsForm!: FormControl;
+  newVariantOptionForm!: FormControl;
   selectedVariants: string[] = [];
   variantOptionsValues: string[] = [];
-  variantOptionsValuesFormGroup!: FormGroup;
   stage: number = 0;
   uploadPhotoWidget: any;
   optionsImageIndex: number = 0;
@@ -85,12 +86,11 @@ export class VariantComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.variant = new FormControl<any>(null, Validators.required);
-
     this.selectedVariantsForm = new FormControl();
-
     this.selectedVariantsForm.valueChanges.subscribe((value) => {
       this.selectedVariants = value;
     });
+    this.newVariantOptionForm = new FormControl<any>(null);
 
     this.variant.valueChanges.subscribe((value) => {
       if (!value) {
@@ -127,10 +127,6 @@ export class VariantComponent implements OnInit, AfterViewInit {
     );
   }
 
-  stopClose(event: Event) {
-    event.stopPropagation();
-  }
-
   onUploadVariantOptionPhoto(id: number): void {
     this.optionsImageIndex = id;
     this.uploadPhotoWidget.open();
@@ -142,6 +138,11 @@ export class VariantComponent implements OnInit, AfterViewInit {
     return <FormArray>(
       this.variantOptionsValuesFormGroup.get('variantOptionsValuesArray')
     );
+  }
+
+  onAddNewVariant() {
+    this.variantOptions.unshift(this.newVariantOptionForm.value);
+    this.newVariantOptionForm.reset();
   }
 
   onAddVariant() {
