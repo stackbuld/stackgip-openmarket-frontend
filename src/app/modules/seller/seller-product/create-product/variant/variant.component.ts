@@ -72,6 +72,7 @@ export class VariantComponent implements OnInit {
     'Mint',
     'Emerald',
   ];
+  stage: number = 0;
 
   constructor(private dialog: MatDialog) {}
 
@@ -79,6 +80,15 @@ export class VariantComponent implements OnInit {
     this.variantForm = new FormGroup<any>({
       variant: new FormControl(null, Validators.required),
     });
+  }
+
+  onAddVariant() {
+    this.stage = 0;
+  }
+
+  onContinue(stage: number) {
+    this.stage = stage;
+    console.log(stage);
   }
 
   onShowOptions(event: Event) {

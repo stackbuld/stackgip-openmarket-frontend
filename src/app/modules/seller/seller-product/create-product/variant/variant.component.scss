@@ -1,11 +1,25 @@
-.variant-container {
+.variant-absolute-container {
   width: 100%;
   max-width: 1120px;
+}
+
+.stage0-container,
+.variant-main {
+  width: 100%;
   margin-inline: auto;
   padding: 20px;
   border: 1px solid rgba(177, 177, 177, 1);
   border-radius: 10px;
   font-family: "Avenir LT Std", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.variant-main {
+  margin-top: 20px;
+}
+
+.variant-container {
   display: flex;
   flex-direction: column;
 }
@@ -51,6 +65,11 @@
   }
 }
 
+.stage-2 {
+  display: flex;
+  flex-direction: column;
+}
+
 .variant-select {
   position: relative;
 
@@ -66,6 +85,7 @@
 .selected-options {
   display: flex;
   align-items: center;
+  margin-bottom: 15px;
 
   &-main {
     border: 0.5px solid rgba(189, 189, 189, 1);
@@ -117,9 +137,27 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
 
     &-action {
       cursor: pointer;
+      &.image {
+        margin-right: 40px;
+      }
+    }
+
+    & .variant-detail-photo-name {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .variant-inputs {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 90%;
+      gap: 10px;
     }
 
     & input {
@@ -127,6 +165,7 @@
       border: 1px solid rgba(189, 189, 189, 1);
       border-radius: 7px;
       color: #000;
+      width: 100%;
 
       &::placeholder {
         color: #000;
@@ -137,6 +176,10 @@
       }
     }
   }
+}
+
+.mobile-delete {
+  display: none;
 }
 
 .action-btn {
@@ -153,5 +196,58 @@
     color: #fff;
     background-color: #000;
     align-self: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .variant-details-container {
+    margin: 20px 0;
+    margin-bottom: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .variants-details {
+    &:not(:last-child) {
+      margin-bottom: 0;
+    }
+
+    & .variant-detail {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+
+      & .variant-detail-photo-name {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      & .variant-name {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      &-action {
+        &.image {
+          margin-right: 10px;
+        }
+      }
+
+      .variant-inputs {
+        flex-direction: column;
+        width: 100%;
+      }
+    }
+  }
+
+  .mobile-delete {
+    display: block;
+  }
+
+  .desktop-delete {
+    display: none;
   }
 }
