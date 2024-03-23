@@ -182,6 +182,10 @@ export class VariantComponent implements OnInit, AfterViewInit {
 
     dialoRef.afterClosed().subscribe((event) => {
       if (event) {
+        const deletedOption = this.selectedVariants.find(
+          (variant, index) => index == id,
+        );
+        this.variantOptionsValues.push(deletedOption);
         this.selectedVariants = this.delete(this.selectedVariants, id);
         this.variantOptionsValuesArray.removeAt(id);
       }
