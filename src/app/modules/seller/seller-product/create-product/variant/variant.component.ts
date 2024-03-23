@@ -71,8 +71,6 @@ export class VariantComponent implements OnInit, AfterViewInit {
 
     this.selectedVariantsForm.valueChanges.subscribe((value) => {
       this.selectedVariants = value;
-
-      console.log(this.selectedVariants);
     });
 
     this.variant.valueChanges.subscribe((value) => {
@@ -81,14 +79,12 @@ export class VariantComponent implements OnInit, AfterViewInit {
       } else if (value == 'Color') {
         this.variantOptionsValues = this.variantService.colors;
       }
+      this.selectedVariantsForm.setValue(null);
+      this.selectedVariants = [];
     });
 
     this.variantOptionsValuesFormGroup = new FormGroup({
-      variantOptionsValuesArray: new FormArray<any>([]),
-    });
-
-    this.variantOptionsValuesFormGroup.valueChanges.subscribe((value) => {
-      console.log(value);
+      variantOptionsValuesArray: new FormArray([]),
     });
 
     this.uploadPhotoWidget = cloudinary.createUploadWidget(
@@ -124,10 +120,7 @@ export class VariantComponent implements OnInit, AfterViewInit {
 
   onAddVariant() {
     this.stage = 0;
-    this.finishedVariants.push({
-      ...this.variantOptionsValuesArray.value,
-      isMultiple: false,
-    });
+    this.finishedVariants = this.variantOptionsValuesArray.value;
     console.log(this.finishedVariants);
   }
 
@@ -142,9 +135,10 @@ export class VariantComponent implements OnInit, AfterViewInit {
             title: new FormControl(this.variant.value, Validators.required),
             value: new FormControl(variant, Validators.required),
             shortDescription: new FormControl(null),
-            imageUrl: new FormControl(null, Validators.required),
+            imageUrl: new FormControl(null),
             cost: new FormControl(null, Validators.required),
             unit: new FormControl(null, Validators.required),
+            isMultiple: new FormControl(false),
           }),
         );
       });
@@ -158,7 +152,6 @@ export class VariantComponent implements OnInit, AfterViewInit {
   }
 
   onAddNewOption(option: string) {
-    console.log(this.variantOptionsValuesArray);
     this.selectedVariants.push(option);
 
     this.variantOptionsValuesArray.push(
@@ -169,6 +162,7 @@ export class VariantComponent implements OnInit, AfterViewInit {
         imageUrl: new FormControl(null, Validators.required),
         cost: new FormControl(null, Validators.required),
         unit: new FormControl(null, Validators.required),
+        isMultiple: new FormControl(false),
       }),
     );
 
@@ -180,13 +174,15 @@ export class VariantComponent implements OnInit, AfterViewInit {
   }
 
   onDeleteVariant() {
-    const dialoRef = this.dialog.open(DeleteVariantComponent, {
+    const dialogRef = this.dialog.open(DeleteVariantComponent, {
       panelClass: 'otp_dialog',
     });
 
-    dialoRef.afterClosed().subscribe((event) => {
+    dialogRef.afterClosed().subscribe((event) => {
       if (event) {
         this.stage = 0;
+        this.selectedVariants = [];
+        this.variantOptionsValues = [];
       }
     });
   }
@@ -210,6 +206,7 @@ export class VariantComponent implements OnInit, AfterViewInit {
 
   onRemoveOption(id: number) {
     this.selectedVariants = this.delete(this.selectedVariants, id);
+    this.selectedVariantsForm.setValue(this.selectedVariants);
     this.variantOptionsValuesArray.removeAt(id);
   }
 
