@@ -85,7 +85,10 @@
 .selected-options {
   display: flex;
   align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
   margin-bottom: 15px;
+  gap: 10px;
 
   &-main {
     border: 0.5px solid rgba(189, 189, 189, 1);
@@ -94,12 +97,8 @@
     display: flex;
     align-items: center;
 
-    &:not(:last-child) {
-      margin-right: 10px;
-    }
-
-    & svg {
-      margin-left: 5px;
+    & img {
+      margin-left: 8px;
       cursor: pointer;
     }
   }
@@ -150,6 +149,18 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      &-main {
+        width: 150px;
+        max-width: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        & .variant-name {
+          word-break: break-all;
+        }
+      }
     }
 
     .variant-inputs {
@@ -191,6 +202,7 @@
   text-align: right;
   align-self: flex-end;
   background-color: transparent;
+  margin-top: 10px;
 
   &.done-btn {
     color: #fff;
@@ -214,6 +226,7 @@
     }
 
     & .variant-detail {
+      width: 100%;
       flex-direction: column;
       align-items: flex-start;
       gap: 10px;
@@ -223,6 +236,11 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
+
+        &-main {
+          width: 100px;
+          max-width: 100px;
+        }
       }
 
       & .variant-name {

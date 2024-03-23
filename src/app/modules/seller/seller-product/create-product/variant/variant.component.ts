@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormControl,
   FormGroup,
   FormsModule,
@@ -13,7 +14,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteVariantComponent } from './delete-variant/delete-variant.component';
-
+import { VariantService } from './variant.service';
+import { environment } from '../../../../../../environments/environment';
+declare var cloudinary: any;
 @Component({
   selector: 'app-variant',
   standalone: true,
@@ -35,51 +38,77 @@ import { DeleteVariantComponent } from './delete-variant/delete-variant.componen
   templateUrl: './variant.component.html',
   styleUrls: ['./variant.component.scss'],
 })
-export class VariantComponent implements OnInit {
-  variantForm!: FormGroup;
-  variant: string = 'Select';
+export class VariantComponent implements OnInit, AfterViewInit {
+  variant!: FormControl;
   variantOptions: string[] = ['Select', 'Size', 'Color'];
+  selectedVariantsForm!: FormControl;
   selectedVariants: string[] = [];
-  colors = [
-    'Red',
-    'Blue',
-    'Green',
-    'Yellow',
-    'Purple',
-    'Orange',
-    'Black',
-    'White',
-    'Pink',
-    'Gray',
-    'Teal',
-    'Cyan',
-    'Magenta',
-    'Lime',
-    'Maroon',
-    'Olive',
-    'Navy',
-    'Aquamarine',
-    'Turquoise',
-    'Silver',
-    'Gold',
-    'Bronze',
-    'Coral',
-    'Indigo',
-    'Violet',
-    'Lavender',
-    'Salmon',
-    'Beige',
-    'Mint',
-    'Emerald',
-  ];
+  variantOptionsValues: string[] = [];
+  variantOptionsValuesFormGroup!: FormGroup;
   stage: number = 0;
-
-  constructor(private dialog: MatDialog) {}
+  uploadPhotoWidget: any;
+  optionsImageIndex: number = 0;
+  constructor(
+    private dialog: MatDialog,
+    private variantService: VariantService,
+  ) {}
 
   ngOnInit() {
-    this.variantForm = new FormGroup<any>({
-      variant: new FormControl(null, Validators.required),
+    this.variant = new FormControl<any>('Select', Validators.required);
+
+    this.selectedVariantsForm = new FormControl();
+
+    this.selectedVariantsForm.valueChanges.subscribe((value) => {
+      this.selectedVariants = value;
+
+      console.log(this.selectedVariants);
     });
+
+    this.variant.valueChanges.subscribe((value) => {
+      if (value == 'Size') {
+        this.variantOptionsValues = this.variantService.sizes;
+      } else if (value == 'Color') {
+        this.variantOptionsValues = this.variantService.colors;
+      }
+    });
+
+    this.variantOptionsValuesFormGroup = new FormGroup({
+      variantOptionsValuesArray: new FormArray<any>([]),
+    });
+
+    this.variantOptionsValuesFormGroup.valueChanges.subscribe((value) => {
+      console.log(value);
+    });
+
+    this.uploadPhotoWidget = cloudinary.createUploadWidget(
+      {
+        cloudName: environment.cloudinaryName,
+        uploadPreset: environment.cloudinaryUploadPerset,
+        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
+      },
+      (error, result) => {
+        if (!error && result && result.event === 'success') {
+          this.variantOptionsValuesArray.controls.map((control, index) => {
+            if (index == this.optionsImageIndex) {
+              control.patchValue({ imageUrl: result.info.secure_url });
+            }
+          });
+        }
+      },
+    );
+  }
+
+  onUploadVariantOptionPhoto(id: number): void {
+    this.optionsImageIndex = id;
+    this.uploadPhotoWidget.open();
+  }
+
+  ngAfterViewInit() {}
+
+  get variantOptionsValuesArray() {
+    return <FormArray>(
+      this.variantOptionsValuesFormGroup.get('variantOptionsValuesArray')
+    );
   }
 
   onAddVariant() {
@@ -88,11 +117,50 @@ export class VariantComponent implements OnInit {
 
   onContinue(stage: number) {
     this.stage = stage;
-    console.log(stage);
+    const test = [];
+    if (stage == 3) {
+      this.selectedVariants.map((variant) => {
+        test.push(variant);
+        this.variantOptionsValuesArray.push(
+          new FormGroup({
+            title: new FormControl(this.variant.value, Validators.required),
+            value: new FormControl(variant, Validators.required),
+            shortDescription: new FormControl(null),
+            imageUrl: new FormControl(null, Validators.required),
+            cost: new FormControl(null, Validators.required),
+            unit: new FormControl(null, Validators.required),
+          }),
+        );
+      });
+    }
+
+    this.selectedVariants.forEach((variant) => {
+      this.variantOptionsValues = this.variantOptionsValues.filter(
+        (option) => option != variant,
+      );
+    });
   }
 
-  onShowOptions(event: Event) {
-    event.stopPropagation();
+  onAddNewOption(option: string) {
+    console.log(this.variantOptionsValuesArray);
+    this.selectedVariants.push(option);
+
+    this.variantOptionsValuesArray.push(
+      new FormGroup({
+        title: new FormControl(this.variant.value, Validators.required),
+        value: new FormControl(option, Validators.required),
+        shortDescription: new FormControl(null),
+        imageUrl: new FormControl(null, Validators.required),
+        cost: new FormControl(null, Validators.required),
+        unit: new FormControl(null, Validators.required),
+      }),
+    );
+
+    this.selectedVariants.forEach((variant) => {
+      this.variantOptionsValues = this.variantOptionsValues.filter(
+        (option) => option != variant,
+      );
+    });
   }
 
   onDeleteVariant() {
@@ -102,14 +170,30 @@ export class VariantComponent implements OnInit {
 
     dialoRef.afterClosed().subscribe((event) => {
       if (event) {
-        console.log(1);
+        this.stage = 0;
+      }
+    });
+  }
+
+  onDeleteVariantOption(id: number) {
+    const dialoRef = this.dialog.open(DeleteVariantComponent, {
+      panelClass: 'otp_dialog',
+    });
+
+    dialoRef.afterClosed().subscribe((event) => {
+      if (event) {
+        this.selectedVariants = this.delete(this.selectedVariants, id);
+        this.variantOptionsValuesArray.removeAt(id);
       }
     });
   }
 
   onRemoveOption(id: number) {
-    this.selectedVariants = this.selectedVariants.filter(
-      (variant, index) => index != id,
-    );
+    this.selectedVariants = this.delete(this.selectedVariants, id);
+    this.variantOptionsValuesArray.removeAt(id);
+  }
+
+  delete(value: any[], id: number) {
+    return value.filter((variant, index) => index != id);
   }
 }

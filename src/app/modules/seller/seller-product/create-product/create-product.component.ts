@@ -29,6 +29,7 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { VariationsAlertDialogComponent } from './variations-alert-dialog/variations-alert-dialog.component';
+import { VariantComponent } from './variant/variant.component';
 
 declare var cloudinary: any;
 @Component({
