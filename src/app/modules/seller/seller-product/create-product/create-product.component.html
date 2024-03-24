@@ -371,33 +371,30 @@
           />
         </div>
 
-        <div *ngIf="!addingVariation" class="action-btn flex-1">
-          <button
-            aria-label="Add Product Variation"
-            (click)="addVariation()"
-            class="the-btn"
-            type="button"
-          >
-            Add different variations of your product, such as color or size,
-            along with their prices and available quantities
-          </button>
-          &nbsp;
-          <img
-            src="assets/image/btn-tool-tip.svg"
-            alt="tootip"
-            matTooltip="Showcase different options such as colors, sizes, materials, and more to cater to diverse customer preferences."
-          />
-        </div>
+        <!--        <div *ngIf="!addingVariation" class="action-btn flex-1">-->
+        <!--          <button-->
+        <!--            aria-label="Add Product Variation"-->
+        <!--            (click)="addVariation()"-->
+        <!--            class="the-btn"-->
+        <!--            type="button"-->
+        <!--          >-->
+        <!--            Add different variations of your product, such as color or size,-->
+        <!--            along with their prices and available quantities-->
+        <!--          </button>-->
+        <!--          &nbsp;-->
+        <!--          <img-->
+        <!--            src="assets/image/btn-tool-tip.svg"-->
+        <!--            alt="tootip"-->
+        <!--            matTooltip="Showcase different options such as colors, sizes, materials, and more to cater to diverse customer preferences."-->
+        <!--          />-->
+        <!--        </div>-->
       </div>
       <!-- </div> -->
     </div>
     <!-- related items card -->
     <div
       *ngIf="
-        addingComplimentaryOptions ||
-        addingVariation ||
-        relatedItems.length > 0 ||
-        allVariantList.length > 0
+        addingComplimentaryOptions || addingVariation || relatedItems.length > 0
       "
       class="content-container"
     >
@@ -1223,6 +1220,13 @@
           + Add Another Variant
         </button>
       </div>
+    </div>
+
+    <div style="margin: 20px 0">
+      <app-variant
+        [variantOptions]="productVariations"
+        [productPrice]="this.form.get('price').value"
+      ></app-variant>
     </div>
 
     <div class="uk-flex uk-flex-center mt-4">

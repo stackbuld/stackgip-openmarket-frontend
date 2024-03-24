@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WalletService } from '../../../services/wallet/wallet.service';
 import { IWallet, TransactionItem } from '../../../models/wallet.model';
 import { AuthService } from '../../../services/auth.service';
@@ -9,7 +9,7 @@ import {
   TransactionDirective,
 } from '../../directives/transaction.directive';
 import { LockedFundsComponent } from '../locked-funds/locked-funds.component';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgxPaginationModule } from '../../pagination/ngx-pagination.module';
 import { SharedModule } from '../../shared.module';
 
@@ -29,7 +29,7 @@ import { SharedModule } from '../../shared.module';
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.scss'],
 })
-export class TransactionsComponent implements OnInit {
+export class TransactionsComponent implements OnInit, OnDestroy {
   userId: string;
   pageSize: number = 10;
   page: number = 1;
@@ -39,6 +39,7 @@ export class TransactionsComponent implements OnInit {
   isLoadingBalance: boolean = false;
   walletId!: string;
   wallet: IWallet;
+  isShowingLockedFunds: boolean = false;
 
   constructor(
     private walletService: WalletService,
@@ -54,6 +55,10 @@ export class TransactionsComponent implements OnInit {
       this.getWalletDetails();
       this.getTransactions(1);
     });
+
+    localStorage.getItem('isShowingLocked')
+      ? (this.isShowingLockedFunds = true)
+      : (this.isShowingLockedFunds = false);
   }
 
   getTransactions(pageNumber: number) {
@@ -93,5 +98,9 @@ export class TransactionsComponent implements OnInit {
 
   onNavigateBack() {
     this.location.back();
+  }
+
+  ngOnDestroy() {
+    localStorage.removeItem('isShowingLocked');
   }
 }

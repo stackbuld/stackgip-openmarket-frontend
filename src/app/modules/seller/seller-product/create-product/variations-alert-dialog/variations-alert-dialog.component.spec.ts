@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VariationsAlertDialogComponent } from './variations-alert-dialog.component';
+import { VariationsAlertDialogComponentComponent } from './variations-alert-dialog.component';
 
-describe('VariationsAlertDialogComponent', () => {
-  let component: VariationsAlertDialogComponent;
-  let fixture: ComponentFixture<VariationsAlertDialogComponent>;
+describe('VariationsAlertDialogComponentComponent', () => {
+  let component: VariationsAlertDialogComponentComponent;
+  let fixture: ComponentFixture<VariationsAlertDialogComponentComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ VariationsAlertDialogComponent ]
-    })
-    .compileComponents();
+      imports: [VariationsAlertDialogComponentComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(VariationsAlertDialogComponent);
+    fixture = TestBed.createComponent(VariationsAlertDialogComponentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
