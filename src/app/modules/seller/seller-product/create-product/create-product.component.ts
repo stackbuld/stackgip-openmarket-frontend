@@ -30,6 +30,7 @@ import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { VariationsAlertDialogComponent } from './variations-alert-dialog/variations-alert-dialog.component';
 import { VariantComponent } from './variant/variant.component';
+import { VariantService } from './variant/variant.service';
 
 declare var cloudinary: any;
 @Component({
@@ -205,6 +206,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     @Inject(DOCUMENT) private document: Document,
     private dialog: MatDialog,
     private changeDetector: ChangeDetectorRef,
+    private variantService: VariantService,
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
     this.initVariationForm();
@@ -223,6 +225,15 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.formInit();
     this.variationProps = this.createVariation();
+
+    this.variantService.productVariants.subscribe((values) => {
+      if (values.length != 0) {
+        values.map((value) => {
+          this.variations().push(value);
+        });
+        console.log(this.variations());
+      }
+    });
 
     if (this.productId !== null) {
       this.getProduct(this.productId);

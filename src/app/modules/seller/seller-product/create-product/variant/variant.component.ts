@@ -18,6 +18,8 @@ import { DeleteVariantComponent } from './delete-variant/delete-variant.componen
 import { VariantService } from './variant.service';
 import { environment } from '../../../../../../environments/environment';
 import { ToastrService } from '../../../../../services/toastr.service';
+import { AuthService } from '../../../../../services/auth.service';
+import { v4 as uuidv4 } from 'uuid';
 declare var cloudinary: any;
 
 interface Variants {
@@ -36,7 +38,7 @@ interface VariantOptions {
   category: any;
   userId: any;
   id: string;
-  createdOn: string;
+  createdOn: any;
   createdBy: any;
   updatedBy: any;
   deletedBy: any;
@@ -71,6 +73,7 @@ export class VariantComponent implements OnInit, AfterViewInit {
   variant!: FormControl;
   variantOptionsValuesFormGroup!: FormGroup;
   selectedVariantsForm!: FormControl;
+  newVariantForm!: FormControl;
   newVariantOptionForm!: FormControl;
   selectedVariants: string[] = [];
   variantOptionsValues: string[] = [];
@@ -82,6 +85,7 @@ export class VariantComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private variantService: VariantService,
     private toast: ToastrService,
+    private authService: AuthService,
   ) {}
 
   ngOnInit() {
@@ -90,6 +94,7 @@ export class VariantComponent implements OnInit, AfterViewInit {
     this.selectedVariantsForm.valueChanges.subscribe((value) => {
       this.selectedVariants = value;
     });
+    this.newVariantForm = new FormControl<any>(null);
     this.newVariantOptionForm = new FormControl<any>(null);
 
     this.variant.valueChanges.subscribe((value) => {
@@ -141,18 +146,45 @@ export class VariantComponent implements OnInit, AfterViewInit {
   }
 
   onAddNewVariant() {
-    this.variantOptions.unshift(this.newVariantOptionForm.value);
+    const newOption = {
+      name: this.newVariantForm.value,
+      categoryId: null,
+      category: null,
+      userId: null,
+      id: uuidv4(),
+      createdOn: new Date(),
+      createdBy: null,
+      updatedBy: null,
+      deletedBy: null,
+      updatedOn: null,
+      deletedOn: null,
+      isActive: true,
+      isDeleted: false,
+    };
+    this.variantOptions.unshift(newOption);
+    this.variant.setValue(newOption.name);
+    this.newVariantForm.reset();
+  }
+
+  onAddNewVariantOption(event: Event) {
+    event.stopPropagation();
+    const newValue = this.newVariantOptionForm.value;
+    this.variantOptionsValues.unshift(newValue);
+    this.selectedVariants.push(newValue);
     this.newVariantOptionForm.reset();
   }
 
   onAddVariant() {
+    console.log(this.variantOptionsValuesFormGroup);
     if (this.variantOptionsValuesFormGroup.invalid) {
       this.variantOptionsValuesFormGroup.markAllAsTouched();
       this.toast.error('All required fields must be filled!');
       return;
     }
     this.stage = 0;
+    this.variant.setValue(null);
     this.finishedVariants = this.variantOptionsValuesArray.value;
+    this.variantService.productVariants.next(this.finishedVariants);
     console.log(this.finishedVariants);
   }
 
@@ -162,10 +194,8 @@ export class VariantComponent implements OnInit, AfterViewInit {
       this.variant.setValue(null);
       return;
     }
-    const test = [];
     if (stage == 3) {
       this.selectedVariants.map((variant) => {
-        test.push(variant);
         this.variantOptionsValuesArray.push(
           new FormGroup({
             title: new FormControl(this.variant.value, Validators.required),

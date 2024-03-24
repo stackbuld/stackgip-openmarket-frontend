@@ -10,7 +10,7 @@
   <div class="variant-main" *ngIf="stage > 0">
     <div class="heading">Variation(s) information</div>
 
-    <div class="variant-container" *ngIf="stage > 0 && stage < 4">
+    <div class="variant-container" *ngIf="stage > 0 && stage < 3">
       <div class="heading section-heading">Select variant</div>
       <p class="sub">Add variant e.g Color, size</p>
 
@@ -19,10 +19,11 @@
         <mat-select [value]="'Select'" [formControl]="variant">
           <input
             type="text"
-            placeholder="tet"
-            [formControl]="newVariantOptionForm"
+            placeholder="Enter a new one"
+            [formControl]="newVariantForm"
             (keydown.enter)="onAddNewVariant()"
-            id="add-option-input"
+            (keydown.space)="$event.stopPropagation()"
+            class="add-option-input"
           />
           <mat-option
             [value]="option.name"
@@ -59,6 +60,19 @@
             [formControl]="selectedVariantsForm"
             multiple
           >
+            <input
+              type="text"
+              placeholder="Enter a new one"
+              [formControl]="newVariantOptionForm"
+              (keydown.enter)="onAddNewVariantOption($event)"
+              (keydown.space)="$event.stopPropagation()"
+              class="add-option-input"
+            />
+            <ng-container *ngIf="variantOptionsValues.length === 0">
+              <mat-option disabled
+                >No options available. Please add new ones.</mat-option
+              >
+            </ng-container>
             <mat-option
               class="variant-option"
               [value]="option === 'Select' ? null : option"

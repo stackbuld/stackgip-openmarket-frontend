@@ -1,5 +1,15 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
+interface Variants {
+  title: string;
+  value: string;
+  shortDescription: string | null;
+  imageUrl: string;
+  cost: number;
+  unit: number;
+  isMultiple: boolean;
+}
 @Injectable({ providedIn: 'root' })
 export class VariantService {
   colors = [
@@ -35,4 +45,5 @@ export class VariantService {
     'Emerald',
   ];
   sizes: string[] = ['S', 'M', 'L'];
+  productVariants = new BehaviorSubject<Variants[]>([]);
 }
