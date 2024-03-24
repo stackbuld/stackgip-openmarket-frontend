@@ -229,8 +229,16 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     this.variantService.productVariants.subscribe((values) => {
       if (values.length != 0) {
         if (this.editingVariation) {
-          this.allVariantList[this.editingIndex] = values[0];
-          this.variations().at(this.editingIndex).setValue(values[0]);
+          this.allVariantList[this.editingIndex] = {
+            ...values[0],
+            id: this.allVariantList[this.editingIndex].id,
+          };
+          this.variations()
+            .at(this.editingIndex)
+            .setValue({
+              ...values[0],
+              id: this.allVariantList[this.editingIndex].id,
+            });
           this.editingIndex = null;
         } else {
           this.allVariantList = [...this.allVariantList, ...values];
@@ -467,7 +475,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     let variationList = [];
     let complimentartProducts = [];
     let sellerStoreIds = [];
-
+    this.allVariantList = [];
     this.form = this.fb.group({
       userId: [this.user.id],
       name: [data.name, [Validators.required]],
@@ -507,10 +515,10 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       }
     }
 
-    this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
-
-    this.availableProductUnit =
-      this.initialProductUnit - this.totalVariationsUnit;
+    // this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
+    //
+    // this.availableProductUnit =
+    //   this.initialProductUnit - this.totalVariationsUnit;
 
     // this.relatedItems.forEach((element: any, index: number) => {
     //   (<FormArray>this.form.get('options')).push(
@@ -536,6 +544,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
           unit: [element.unit, [Validators.required]],
           imageUrl: [element.imageUrl],
           isMultiple: false,
+          shortDescription: element.shortDescription,
           ...(element.id && { id: element.id }),
         }),
       );
@@ -659,6 +668,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       value: ['', [Validators.required]],
       cost: [0, [Validators.required]],
       imageUrl: [''],
+      shortDescription: [null],
       unit: ['', Validators.required],
       isMultiple: false,
     });
@@ -796,22 +806,23 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
 
   // this method is to edit already created related/complimentary product
   editVariation(index: number): void {
-    this.editingTotalVariationsUnit = this.totalVariationsUnit;
-
-    this.totalVariationsUnit =
-      this.totalVariationsUnit - this.allVariantList[index].unit;
-
-    // this.addingVariation = true;
     this.editingVariation = true;
-    this.variationProps.patchValue({ imageUrl: '' });
     this.editingIndex = index;
-    this.editingVariationUnit = this.allVariantList[index].unit;
-
-    if (!this.variationProps) {
-      this.variationProps = this.createVariation();
-    }
     this.variantService.variantToEdit.next(this.allVariantList[index]);
-    this.variationProps.patchValue({ ...this.allVariantList[index] });
+
+    // this.editingTotalVariationsUnit = this.totalVariationsUnit;
+    //
+    // this.totalVariationsUnit =
+    //   this.totalVariationsUnit - this.allVariantList[index].unit;
+    //
+    // this.addingVariation = true;
+    // this.variationProps.patchValue({ imageUrl: '' });
+    // this.editingVariationUnit = this.allVariantList[index].unit;
+    //
+    // if (!this.variationProps) {
+    //   this.variationProps = this.createVariation();
+    // }
+    // this.variationProps.patchValue({ ...this.allVariantList[index] });
   }
 
   options(): FormArray {

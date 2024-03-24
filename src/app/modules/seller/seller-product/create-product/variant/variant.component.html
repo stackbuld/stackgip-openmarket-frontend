@@ -230,12 +230,22 @@
           class="add-variant"
           style="margin-top: 10px"
           [matMenuTriggerFor]="menu"
+          (click)="onShowAddMoreOption($event)"
           #menuTrigger="matMenuTrigger"
         >
           + Add another variant value
         </div>
 
         <mat-menu #menu="matMenu">
+          <input
+            type="text"
+            placeholder="Enter a new one"
+            [formControl]="newVariantOptionForm"
+            (click)="$event.stopPropagation()"
+            (keydown.enter)="onAddNewVariantOption($event, 'another')"
+            (keydown.space)="$event.stopPropagation()"
+            class="add-option-input"
+          />
           <div *ngFor="let option of variantOptionsValues">
             <mat-checkbox
               class="terms-checkbox"

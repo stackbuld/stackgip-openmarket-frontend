@@ -146,8 +146,6 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         }),
       );
       this.scrollToFirstInvalidControl();
-      console.log(this.variantOptionsValuesArray);
-      console.log(variant);
     });
 
     this.uploadPhotoWidget = cloudinary.createUploadWidget(
@@ -210,12 +208,20 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     this.newVariantForm.reset();
   }
 
-  onAddNewVariantOption(event: Event) {
+  onAddNewVariantOption(event: Event, type?: string) {
     event.stopPropagation();
     const newValue = this.newVariantOptionForm.value;
     this.variantOptionsValues.unshift(newValue);
-    this.selectedVariants.push(newValue);
     this.newVariantOptionForm.reset();
+    if (type) {
+      this.onAddNewOption(newValue);
+      return;
+    }
+    this.selectedVariants.push(newValue);
+  }
+
+  onShowAddMoreOption(event: Event) {
+    event.stopPropagation();
   }
 
   onAddVariant() {
@@ -253,13 +259,13 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         cost: cost == 0 ? 0 : cost - this.productPrice,
       });
     });
-    this.variantService.productVariants.next(this.finishedVariants);
+    try {
+      this.variantService.productVariants.next(this.finishedVariants);
+    } catch {}
     this.variantOptionsValuesArray.clear();
-    console.log(this.finishedVariants);
   }
 
   onContinue(stage: number) {
-    console.log(this.productPrice);
     if (!this.productPrice) {
       this.toast.error('Add product price!');
       return;
@@ -371,9 +377,11 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     if (this.stage > 1) {
-      let firstInvalidControl2 = this.variantForm2.nativeElement;
-      firstInvalidControl2.scrollIntoView();
-      (firstInvalidControl2 as HTMLElement).focus();
+      try {
+        let firstInvalidControl2 = this.variantForm2.nativeElement;
+        firstInvalidControl2.scrollIntoView();
+        (firstInvalidControl2 as HTMLElement).focus();
+      } catch {}
     }
   }
 
