@@ -341,11 +341,11 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onDeleteVariantOption(id: number) {
-    const dialoRef = this.dialog.open(DeleteVariantComponent, {
+    const dialogRef = this.dialog.open(DeleteVariantComponent, {
       panelClass: 'otp_dialog',
     });
 
-    dialoRef.afterClosed().subscribe((event) => {
+    dialogRef.afterClosed().subscribe((event) => {
       if (event) {
         const deletedOption = this.selectedVariants.find(
           (variant, index) => index == id,
