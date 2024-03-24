@@ -31,6 +31,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { VariationsAlertDialogComponent } from './variations-alert-dialog/variations-alert-dialog.component';
 import { VariantComponent } from './variant/variant.component';
 import { VariantService } from './variant/variant.service';
+import { DeleteVariantComponent } from './variant/delete-variant/delete-variant.component';
 
 declare var cloudinary: any;
 @Component({
@@ -237,7 +238,6 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
             .at(this.editingIndex)
             .setValue({
               ...values[0],
-              id: this.allVariantList[this.editingIndex].id,
             });
           this.editingIndex = null;
         } else {
@@ -791,17 +791,26 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
 
   // this method is to remove already created product varaints
   removeVariation(index: number): void {
-    this.variations().removeAt(index);
-    this.allVariantList.splice(index, 1);
-    this.totalVariationsUnit = this.allVariantList.reduce(
-      (accumulator, currentValue) => {
-        return accumulator + currentValue.unit;
-      },
-      0,
-    );
+    const dialogRef = this.dialog.open(DeleteVariantComponent, {
+      panelClass: 'otp_dialog',
+    });
 
-    this.availableProductUnit =
-      this.initialProductUnit - this.totalVariationsUnit;
+    dialogRef.afterClosed().subscribe((event) => {
+      if (event) {
+        this.variations().removeAt(index);
+        this.allVariantList.splice(index, 1);
+      }
+    });
+
+    // this.totalVariationsUnit = this.allVariantList.reduce(
+    //   (accumulator, currentValue) => {
+    //     return accumulator + currentValue.unit;
+    //   },
+    //   0,
+    // );
+    //
+    // this.availableProductUnit =
+    //   this.initialProductUnit - this.totalVariationsUnit;
   }
 
   // this method is to edit already created related/complimentary product
