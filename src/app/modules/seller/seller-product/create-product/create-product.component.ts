@@ -174,6 +174,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
   isProductUnitExceeded: boolean = false;
   videoUrls: string[] = [];
   videoWidget: any;
+  isAddingVariant: boolean = false;
 
   @ViewChild('variationForm', { static: false })
   variationForm: ElementRef<HTMLElement>;
@@ -677,29 +678,31 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
 
   addVariation(): void {
     if (
-      this.form.get('unit').value === 0 ||
-      this.form.get('unit').value === null
+      this.form.get('price').value === 0 ||
+      this.form.get('price').value === null
     ) {
-      this.toast.error('Add available product units');
+      this.toast.error('Add product price!');
       return;
     }
-    this.addingVariation = true;
-    this.variationProps = this.createVariation();
-    this.scrollToFirstInvalidControl();
-
-    this.getUnitValues();
-    this.variationProps.patchValue({ imageUrl: '' });
-
-    if (!this.editingVariation) {
-      if (this.availableProductUnit > 0) {
-        const unit = Math.floor(this.availableProductUnit / 2);
-        if (unit == 0) {
-          this.variationProps.patchValue({ unit: null });
-        } else {
-          this.variationProps.patchValue({ unit: unit });
-        }
-      }
-    }
+    this.isAddingVariant = true;
+    this.variantService.addNewVariant.next(true);
+    // this.addingVariation = true;
+    // this.variationProps = this.createVariation();
+    // this.scrollToFirstInvalidControl();
+    //
+    // this.getUnitValues();
+    // this.variationProps.patchValue({ imageUrl: '' });
+    //
+    // if (!this.editingVariation) {
+    //   if (this.availableProductUnit > 0) {
+    //     const unit = Math.floor(this.availableProductUnit / 2);
+    //     if (unit == 0) {
+    //       this.variationProps.patchValue({ unit: null });
+    //     } else {
+    //       this.variationProps.patchValue({ unit: unit });
+    //     }
+    //   }
+    // }
   }
 
   // this method is to add the variation to the variation variable of the main form

@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   Input,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -26,8 +27,9 @@ import { DeleteVariantComponent } from './delete-variant/delete-variant.componen
 import { VariantService } from './variant.service';
 import { environment } from '../../../../../../environments/environment';
 import { ToastrService } from '../../../../../services/toastr.service';
-import { AuthService } from '../../../../../services/auth.service';
 import { v4 as uuidv4 } from 'uuid';
+import { take, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 declare var cloudinary: any;
 
 interface Variants {
@@ -76,8 +78,9 @@ interface VariantOptions {
   templateUrl: './variant.component.html',
   styleUrls: ['./variant.component.scss'],
 })
-export class VariantComponent implements OnInit, AfterViewInit {
+export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() variantOptions: VariantOptions[] = [];
+  @Input() isAddingVariant!: boolean;
   variant!: FormControl;
   variantOptionsValuesFormGroup!: FormGroup;
   selectedVariantsForm!: FormControl;
@@ -93,6 +96,7 @@ export class VariantComponent implements OnInit, AfterViewInit {
   variantForm1: ElementRef<HTMLElement>;
   @ViewChild('variantForm2', { static: false })
   variantForm2: ElementRef<HTMLElement>;
+  destroy$ = new Subject<void>();
   constructor(
     private dialog: MatDialog,
     private variantService: VariantService,
@@ -161,6 +165,14 @@ export class VariantComponent implements OnInit, AfterViewInit {
         }
       },
     );
+
+    this.variantService.addNewVariant
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => {
+        if (value) {
+          this.onContinue(1);
+        }
+      });
   }
 
   onUploadVariantOptionPhoto(id: number): void {
@@ -214,6 +226,7 @@ export class VariantComponent implements OnInit, AfterViewInit {
     }
     this.stage = 0;
     this.variant.setValue(null);
+    this.variantOptionsValues = [];
     this.finishedVariants = this.variantOptionsValuesArray.value;
     this.variantService.productVariants.next(this.finishedVariants);
     this.variantOptionsValuesArray.clear();
@@ -332,5 +345,10 @@ export class VariantComponent implements OnInit, AfterViewInit {
       firstInvalidControl2.scrollIntoView();
       (firstInvalidControl2 as HTMLElement).focus();
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 }

@@ -1223,7 +1223,10 @@
     </div>
 
     <div style="margin: 20px 0">
-      <app-variant [variantOptions]="productVariations"></app-variant>
+      <app-variant
+        [variantOptions]="productVariations"
+        [isAddingVariant]="isAddingVariant"
+      ></app-variant>
     </div>
 
     <div class="uk-flex uk-flex-center mt-4">
