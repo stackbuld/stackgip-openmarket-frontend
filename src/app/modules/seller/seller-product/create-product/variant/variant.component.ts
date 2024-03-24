@@ -114,6 +114,25 @@ export class VariantComponent implements OnInit, AfterViewInit {
       variantOptionsValuesArray: new FormArray([]),
     });
 
+    this.variantService.variantToEdit.subscribe((variant) => {
+      this.stage = 3;
+      this.variant.setValue(variant.title);
+      this.selectedVariants = [variant.value];
+      this.variantOptionsValuesArray.push(
+        new FormGroup({
+          title: new FormControl(variant.title, Validators.required),
+          value: new FormControl(variant.value, Validators.required),
+          shortDescription: new FormControl(variant.shortDescription),
+          imageUrl: new FormControl(variant.imageUrl),
+          cost: new FormControl(variant.cost, Validators.required),
+          unit: new FormControl(variant.unit, Validators.required),
+          isMultiple: new FormControl(false),
+        }),
+      );
+      console.log(this.variantOptionsValuesArray);
+      console.log(variant);
+    });
+
     this.uploadPhotoWidget = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
@@ -185,11 +204,13 @@ export class VariantComponent implements OnInit, AfterViewInit {
     this.variant.setValue(null);
     this.finishedVariants = this.variantOptionsValuesArray.value;
     this.variantService.productVariants.next(this.finishedVariants);
+    this.variantOptionsValuesArray.clear();
     console.log(this.finishedVariants);
   }
 
   onContinue(stage: number) {
     this.stage = stage;
+    console.log(this.stage);
     if (stage == 0) {
       this.variant.setValue(null);
       return;

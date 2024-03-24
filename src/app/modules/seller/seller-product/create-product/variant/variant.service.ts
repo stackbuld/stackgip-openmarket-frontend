@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
-interface Variants {
+interface Variant {
   title: string;
   value: string;
   shortDescription: string | null;
@@ -45,5 +45,6 @@ export class VariantService {
     'Emerald',
   ];
   sizes: string[] = ['S', 'M', 'L'];
-  productVariants = new BehaviorSubject<Variants[]>([]);
+  productVariants = new BehaviorSubject<Variant[]>([]);
+  variantToEdit = new Subject<Variant>();
 }

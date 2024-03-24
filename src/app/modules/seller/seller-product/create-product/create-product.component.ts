@@ -169,7 +169,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
   totalVariationsUnit: number = 0;
   editingTotalVariationsUnit: number = 0;
   editingVariation: boolean = false;
-  editingIndex: number;
+  editingIndex: number = null;
   editingVariationUnit: number = 0;
   isProductUnitExceeded: boolean = false;
   videoUrls: string[] = [];
@@ -228,11 +228,16 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
 
     this.variantService.productVariants.subscribe((values) => {
       if (values.length != 0) {
-        values.map((value) => {
-          this.variations().push(this.fb.group(value));
-        });
-        this.allVariantList = [...values];
-        console.log(this.variations());
+        if (this.editingVariation) {
+          this.allVariantList[this.editingIndex] = values[0];
+          this.variations().at(this.editingIndex).setValue(values[0]);
+          this.editingIndex = null;
+        } else {
+          this.allVariantList = [...this.allVariantList, ...values];
+          values.map((value) => {
+            this.variations().push(this.fb.group(value));
+          });
+        }
       }
     });
 
@@ -797,12 +802,13 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     this.editingVariation = true;
     this.variationProps.patchValue({ imageUrl: '' });
     this.editingIndex = index;
+    console.log(this.editingIndex);
     this.editingVariationUnit = this.allVariantList[index].unit;
 
     if (!this.variationProps) {
       this.variationProps = this.createVariation();
     }
-
+    this.variantService.variantToEdit.next(this.allVariantList[index]);
     this.variationProps.patchValue({ ...this.allVariantList[index] });
   }
 
