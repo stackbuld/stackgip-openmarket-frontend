@@ -1,0 +1,424 @@
+<div class="variant-absolute-container">
+  <div class="variant-container stage0-container" *ngIf="stage == 0">
+    <div class="heading">Variation(s) information</div>
+
+    <div class="add-variant" (click)="onContinue(1)">
+      +Add options like size or colour
+    </div>
+  </div>
+
+  <div class="variant-main" *ngIf="stage > 0" #variantForm1>
+    <div class="heading">Variation(s) information</div>
+
+    <div class="variant-container" *ngIf="stage > 0 && stage < 3">
+      <div class="heading section-heading">Select variant</div>
+      <p class="sub">Add variant e.g Color, size</p>
+
+      <mat-form-field class="variant-select">
+        <div class="select-placeholder" *ngIf="!variant.value">Select</div>
+        <mat-select [value]="'Select'" [formControl]="variant">
+          <input
+            type="text"
+            placeholder="Enter a new one"
+            [formControl]="newVariantForm"
+            (keydown.enter)="onAddNewVariant()"
+            (keydown.space)="$event.stopPropagation()"
+            class="add-option-input"
+          />
+          <mat-option
+            [value]="option.name"
+            *ngFor="let option of variantOptions"
+            >{{ option.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <button
+        class="action-btn"
+        type="button"
+        (click)="onContinue(!variant.value ? 0 : 2)"
+        *ngIf="stage > 0 && stage < 2"
+      >
+        {{ !variant.value ? "Cancel" : "Continue" }}
+      </button>
+    </div>
+
+    <div class="variant-container" *ngIf="stage > 1" #variantForm2>
+      <div *ngIf="stage === 2" class="stage stage-2">
+        <div class="heading section-heading">
+          Add one or more value for the selected variant
+        </div>
+        <p class="sub">
+          i.e if you selected color, you can add blue or green as value
+        </p>
+        <mat-form-field class="variant-select">
+          <div class="select-placeholder" *ngIf="selectedVariants.length == 0">
+            Select
+          </div>
+          <mat-select
+            [value]="'Select'"
+            [formControl]="selectedVariantsForm"
+            multiple
+          >
+            <input
+              type="text"
+              placeholder="Enter a new one"
+              [formControl]="newVariantOptionForm"
+              (keydown.enter)="onAddNewVariantOption($event)"
+              (keydown.space)="$event.stopPropagation()"
+              class="add-option-input"
+            />
+            <ng-container *ngIf="variantOptionsValues.length === 0">
+              <mat-option disabled
+                >No options available. Please add new ones.</mat-option
+              >
+            </ng-container>
+            <mat-option
+              class="variant-option"
+              [value]="option === 'Select' ? null : option"
+              *ngFor="let option of variantOptionsValues"
+              >{{ option }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+
+        <div class="selected-options" *ngIf="selectedVariants.length > 0">
+          <div
+            class="selected-options-main"
+            *ngFor="let option of selectedVariants; let i = index"
+          >
+            <span>{{ option }}</span>
+            <div (click)="onRemoveOption(i)">
+              <img
+                src="assets/icons/variant-delete.svg"
+                alt=""
+                style="min-height: 15px; min-width: 15px"
+              />
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="action-btn"
+          type="button"
+          (click)="onContinue(selectedVariants.length == 0 ? 0 : 3)"
+        >
+          {{ selectedVariants.length == 0 ? "Cancel" : "Continue" }}
+        </button>
+      </div>
+
+      <div class="stage-3" *ngIf="stage > 2">
+        <div class="variants-details-indicator">
+          <span>Variant: {{ variant.value }}</span>
+          <div class="variant-detail-action" (click)="onDeleteVariant()">
+            <img
+              src="assets/icons/variant-delete.svg"
+              alt=""
+              style="min-height: 15px; min-width: 15px"
+            />
+          </div>
+        </div>
+
+        <div class="add-variant for-stage-3">
+          Setup picture, unit and cost for your variant values
+        </div>
+        <div class="variant-details-container">
+          <div
+            class="variants-details"
+            *ngFor="let variant of selectedVariants; let i = index"
+          >
+            <div [formGroup]="variantOptionsValuesFormGroup">
+              <div formArrayName="variantOptionsValuesArray">
+                <div [formGroupName]="i" class="variant-detail">
+                  <div class="variant-detail-photo-name">
+                    <div
+                      class="variant-detail-photo-name-main"
+                      style="display: flex; align-items: center"
+                    >
+                      <div
+                        class="variant-detail-action image"
+                        (click)="onUploadVariantOptionPhoto(i)"
+                      >
+                        <img
+                          [src]="
+                            variantOptionsValuesArray.controls[i].value.imageUrl
+                              ? variantOptionsValuesArray.controls[i].value
+                                  .imageUrl
+                              : 'assets/icons/add-variant-photo-icon.svg'
+                          "
+                          alt=""
+                        />
+                      </div>
+
+                      <div class="variant-name">
+                        <span>{{ variant }}</span>
+                      </div>
+                    </div>
+
+                    <div
+                      class="mobile-delete"
+                      (click)="onDeleteVariantOption(i)"
+                    >
+                      <img
+                        src="assets/icons/variant-delete.svg"
+                        alt=""
+                        style="min-height: 15px; min-width: 15px"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="variant-inputs">
+                    <input
+                      type="number"
+                      placeholder="Unit"
+                      formControlName="unit"
+                      [ngClass]="{
+                        error:
+                          variantOptionsValuesArray.controls[i].get('unit')
+                            .touched &&
+                          variantOptionsValuesArray.controls[i].get('unit')
+                            .invalid
+                      }"
+                    />
+                    <input
+                      type="number"
+                      placeholder="Cost"
+                      formControlName="cost"
+                      [ngClass]="{
+                        error:
+                          (variantOptionsValuesArray.controls[i].get('cost')
+                            .touched &&
+                            variantOptionsValuesArray.controls[i].get('cost')
+                              .invalid) ||
+                          variantOptionsValuesArray.controls[i]
+                            .get('cost')
+                            .hasError('invalidPrice')
+                      }"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Short description(Optional)"
+                      formControlName="shortDescription"
+                    />
+                  </div>
+
+                  <div
+                    class="variant-detail-action desktop-delete"
+                    (click)="onDeleteVariantOption(i)"
+                  >
+                    <img
+                      src="assets/icons/variant-delete.svg"
+                      alt=""
+                      style="min-height: 15px; min-width: 15px"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="action-btn done-btn"
+          type="button"
+          (click)="onAddVariant()"
+        >
+          Done
+        </button>
+
+        <div
+          class="add-variant"
+          style="margin-top: 10px"
+          [matMenuTriggerFor]="menu"
+          (click)="onShowAddMoreOption($event)"
+          #menuTrigger="matMenuTrigger"
+        >
+          + Add another variant value
+        </div>
+
+        <mat-menu #menu="matMenu">
+          <input
+            type="text"
+            placeholder="Enter a new one"
+            [formControl]="newVariantOptionForm"
+            (click)="$event.stopPropagation()"
+            (keydown.enter)="onAddNewVariantOption($event, 'another')"
+            (keydown.space)="$event.stopPropagation()"
+            class="add-option-input"
+          />
+          <div *ngFor="let option of variantOptionsValues">
+            <mat-checkbox
+              class="terms-checkbox"
+              (click)="onAddNewOption(option)"
+              >{{ option }}</mat-checkbox
+            >
+          </div>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+
+  <!--  <div class="finished-variants variant-main" style="margin-top: 20px">-->
+  <!--    <div class="variants-details-indicator">-->
+  <!--      <span>Variant: {{ variant.value }}</span>-->
+  <!--      <div class="variant-detail-action" (click)="onDeleteVariant()">-->
+  <!--        <img-->
+  <!--          src="assets/icons/variant-delete.svg"-->
+  <!--          alt=""-->
+  <!--          style="min-height: 15px; min-width: 15px"-->
+  <!--        />-->
+  <!--      </div>-->
+  <!--    </div>-->
+
+  <!--    <div class="variant-details-container">-->
+  <!--      <div class="variants-details">-->
+  <!--        <div class="variant-detail">-->
+  <!--          <div class="variant-detail-photo-name">-->
+  <!--            <div-->
+  <!--              class="flex align-items-center"-->
+  <!--              style="display: flex; align-items: center"-->
+  <!--            >-->
+  <!--              <div class="variant-detail-action image">-->
+  <!--                <img-->
+  <!--                  [src]="'assets/icons/add-variant-photo-icon.svg'"-->
+  <!--                  alt=""-->
+  <!--                  style="min-height: 40px; min-width: 40px"-->
+  <!--                />-->
+  <!--              </div>-->
+
+  <!--              <div class="variant-name">-->
+  <!--                <span>Red</span>-->
+  <!--              </div>-->
+  <!--            </div>-->
+
+  <!--            <div class="mobile-delete">-->
+  <!--              <img-->
+  <!--                src="assets/icons/variant-delete.svg"-->
+  <!--                alt=""-->
+  <!--                style="min-height: 15px; min-width: 15px"-->
+  <!--              />-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+  <!--          <div class="variant-inputs">-->
+  <!--            <input type="text" placeholder="Unit" />-->
+  <!--            <input type="text" placeholder="Cost" />-->
+  <!--            <input type="text" placeholder="Short description(Optional)" />-->
+  <!--          </div>-->
+
+  <!--          <div class="variant-detail-action desktop-delete">-->
+  <!--            <img-->
+  <!--              src="assets/icons/variant-delete.svg"-->
+  <!--              alt=""-->
+  <!--              style="min-height: 15px; min-width: 15px"-->
+  <!--            />-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </div>-->
+
+  <!--      <div class="variants-details">-->
+  <!--        <div class="variant-detail">-->
+  <!--          <div class="variant-detail-photo-name">-->
+  <!--            <div-->
+  <!--              class="flex align-items-center"-->
+  <!--              style="display: flex; align-items: center"-->
+  <!--            >-->
+  <!--              <div class="variant-detail-action image">-->
+  <!--                <img-->
+  <!--                  src="assets/icons/add-variant-photo-icon.svg"-->
+  <!--                  alt=""-->
+  <!--                  style="min-height: 25px; min-width: 25px"-->
+  <!--                />-->
+  <!--              </div>-->
+
+  <!--              <div class="variant-name">-->
+  <!--                <span>Red</span>-->
+  <!--              </div>-->
+  <!--            </div>-->
+
+  <!--            <div class="mobile-delete">-->
+  <!--              <img-->
+  <!--                src="assets/icons/variant-delete.svg"-->
+  <!--                alt=""-->
+  <!--                style="min-height: 15px; min-width: 15px"-->
+  <!--              />-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+  <!--          <div class="variant-inputs">-->
+  <!--            <input type="text" placeholder="Unit" />-->
+  <!--            <input type="text" placeholder="Cost" />-->
+  <!--            <input type="text" placeholder="Short description(Optional)" />-->
+  <!--          </div>-->
+
+  <!--          <div class="variant-detail-action desktop-delete">-->
+  <!--            <img-->
+  <!--              src="assets/icons/variant-delete.svg"-->
+  <!--              alt=""-->
+  <!--              style="min-height: 15px; min-width: 15px"-->
+  <!--            />-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--      <div class="variants-details">-->
+  <!--        <div class="variant-detail">-->
+  <!--          <div class="variant-detail-photo-name">-->
+  <!--            <div-->
+  <!--              class="flex align-items-center"-->
+  <!--              style="display: flex; align-items: center"-->
+  <!--            >-->
+  <!--              <div class="variant-detail-action image">-->
+  <!--                <img-->
+  <!--                  src="assets/icons/add-variant-photo-icon.svg"-->
+  <!--                  alt=""-->
+  <!--                  style="min-height: 25px; min-width: 25px"-->
+  <!--                />-->
+  <!--              </div>-->
+
+  <!--              <div class="variant-name">-->
+  <!--                <span>Red</span>-->
+  <!--              </div>-->
+  <!--            </div>-->
+
+  <!--            <div class="mobile-delete">-->
+  <!--              <img-->
+  <!--                src="assets/icons/variant-delete.svg"-->
+  <!--                alt=""-->
+  <!--                style="min-height: 15px; min-width: 15px"-->
+  <!--              />-->
+  <!--            </div>-->
+  <!--          </div>-->
+
+  <!--          <div class="variant-inputs">-->
+  <!--            <input type="text" placeholder="Unit" />-->
+  <!--            <input type="text" placeholder="Cost" />-->
+  <!--            <input type="text" placeholder="Short description(Optional)" />-->
+  <!--          </div>-->
+
+  <!--          <div class="variant-detail-action desktop-delete">-->
+  <!--            <img-->
+  <!--              src="assets/icons/variant-delete.svg"-->
+  <!--              alt=""-->
+  <!--              style="min-height: 15px; min-width: 15px"-->
+  <!--            />-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--    <div-->
+  <!--      class="add-variant"-->
+  <!--      style="margin-top: 10px"-->
+  <!--      [matMenuTriggerFor]="menu"-->
+  <!--    >-->
+  <!--      + Add another variant value-->
+  <!--    </div>-->
+
+  <!--    <mat-menu #menu="matMenu">-->
+  <!--      <div mat-menu-item *ngFor="let option of variantOptionsValues">-->
+  <!--        <mat-checkbox (click)="onAddNewOption(option)" class="terms-checkbox">{{-->
+  <!--          option-->
+  <!--        }}</mat-checkbox>-->
+  <!--      </div>-->
+  <!--    </mat-menu>-->
+  <!--  </div>-->
+</div>

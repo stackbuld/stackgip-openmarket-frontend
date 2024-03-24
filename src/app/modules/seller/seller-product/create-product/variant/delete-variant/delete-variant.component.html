@@ -1,0 +1,33 @@
+<div class="delete-variant-container">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="50"
+    height="50"
+    viewBox="0 0 50 50"
+    fill="none"
+  >
+    <circle cx="25" cy="25" r="25" fill="#D01717" />
+    <path
+      d="M22.86 13.5745L12.2725 31.2495C12.0542 31.6276 11.9387 32.0561 11.9375 32.4927C11.9363 32.9292 12.0494 33.3584 12.2656 33.7377C12.4817 34.1169 12.7934 34.433 13.1697 34.6543C13.5459 34.8757 13.9735 34.9947 14.41 34.9995H35.585C36.0215 34.9947 36.4492 34.8757 36.8254 34.6543C37.2016 34.433 37.5133 34.1169 37.7295 33.7377C37.9457 33.3584 38.0588 32.9292 38.0575 32.4927C38.0563 32.0561 37.9408 31.6276 37.7225 31.2495L27.135 13.5745C26.9122 13.2072 26.5984 12.9034 26.224 12.6926C25.8496 12.4818 25.4272 12.3711 24.9975 12.3711C24.5679 12.3711 24.1454 12.4818 23.771 12.6926C23.3966 12.9034 23.0829 13.2072 22.86 13.5745Z"
+      fill="white"
+    />
+    <path
+      d="M25 20.8086V25.8086M25 30.8086H25.0125"
+      stroke="#E13D45"
+      stroke-width="1.92495"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+
+  <div class="heading">Warning</div>
+
+  <p id="heads-up">
+    If you delete this, you will lose all variants information
+  </p>
+
+  <div class="actions">
+    <button class="cancel" (click)="onCancel()">Cancel</button>
+    <button (click)="onDelete()" class="logout">Delete</button>
+  </div>
+</div>

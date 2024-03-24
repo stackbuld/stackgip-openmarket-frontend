@@ -108,3 +108,76 @@ body {
     --mdc-checkbox-selected-hover-icon-color: rgba(0, 0, 0, 0.9);
 }
 
+.variant-select {
+    width: 100%;
+}
+
+.variant-select .mat-select-panel {
+    /*background-color: var(--menu);*/
+}
+
+.mat-mdc-form-field-focus-overlay {
+    background-color: transparent;
+}
+
+.variant-select .mdc-text-field {
+    background-color: transparent;
+    padding: 0;
+}
+
+.variant-select mat-select {
+    width: 100%;
+    border: 1px solid rgba(189, 189, 189, 1);
+    background-color: rgba(244, 244, 244, 1);
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 16px;
+    color: rgba(151, 151, 151, 1);
+
+    & mat-option {
+        width: 100% !important;
+        text-transform: capitalize;
+    }
+}
+
+.variant-select .mdc-notched-outline{
+    display: none;
+}
+
+.variant-option mat-pseudo-checkbox.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full{
+    background: #000 !important;
+}
+
+.variant-option mat-pseudo-checkbox.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full ~ .mdc-list-item__primary-text{
+    color: #000;
+}
+
+.variant-select .cdk-overlay-pane{
+    width: 100% !important;
+}
+
+.variant-select
+.mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined)
+.mat-mdc-form-field-infix {
+    padding: 0;
+}
+
+
+.variant-select .mdc-line-ripple {
+    display: none;
+}
+
+.variant-select .mat-mdc-select-value-text {
+    font-family: "DM Sans", sans-serif;
+    color: rgba(102, 112, 133, 1);
+    font-weight: normal;
+}
+
+.variant-select .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}
+
+.add-another-variant-checkbox .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:checked{
+    background-color: #000 !important;
+}
+

@@ -1,11 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ProductsService } from 'src/app/services/products/products.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-variations-alert-dialog',
   templateUrl: './variations-alert-dialog.component.html',
   styleUrls: ['./variations-alert-dialog.component.scss'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class VariationsAlertDialogComponent implements OnInit {
   actualProductUnit: number = 0;
@@ -14,7 +17,7 @@ export class VariationsAlertDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     private data: { initialUnit: number; exceededUnit: number },
     private dialog: MatDialog,
-    private productService: ProductsService
+    private productService: ProductsService,
   ) {}
 
   ngOnInit(): void {

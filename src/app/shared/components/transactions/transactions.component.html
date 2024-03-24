@@ -15,7 +15,6 @@
           fill="white"
         />
       </svg>
-
       <div style="margin-left: 10px" *ngIf="isLoadingBalance">
         <app-loading-spinner
           [borderStyle]="'2px solid #fff'"
@@ -25,7 +24,12 @@
       <div class="wallet-details-main" *ngIf="!isLoadingBalance">
         <div>Active balance</div>
 
-        <div [ngSwitch]="wallet.walletType.toLowerCase()">
+        <div *ngIf="isShowingLockedFunds" class="wallet-name">Locked funds</div>
+        <div
+          [ngSwitch]="wallet.walletType.toLowerCase()"
+          *ngIf="!isShowingLockedFunds"
+          class="wallet-name"
+        >
           <span *ngSwitchCase="'main'">Withdrawable balance</span>
           <span *ngSwitchCase="'escrow'">Incoming funds</span>
           <span *ngSwitchCase="'cashback'">Cashback funds</span>

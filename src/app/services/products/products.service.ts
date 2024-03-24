@@ -29,9 +29,7 @@ export class ProductsService {
   baseUrl = '';
   newProductUnit = new Subject<number>();
   exceededUnitAction = new BehaviorSubject<boolean>(false);
-  scrollTo = new Subject<boolean>();
   promotedProductsInView = new BehaviorSubject<boolean>(false);
-  promotedProducts = new Subject<any[]>();
 
   constructor(
     private apiUrls: ApiAppUrlService,
