@@ -222,13 +222,14 @@ export class VariantComponent implements OnInit, AfterViewInit {
 
   onContinue(stage: number) {
     this.stage = stage;
-
+    console.log(stage);
     if (stage == 0) {
       this.variant.setValue(null);
       return;
     }
-
-    this.scrollToFirstInvalidControl();
+    if (stage < 3) {
+      this.scrollToFirstInvalidControl();
+    }
 
     if (stage == 3) {
       this.selectedVariants.map((variant) => {
@@ -320,12 +321,16 @@ export class VariantComponent implements OnInit, AfterViewInit {
   scrollToFirstInvalidControl() {
     this.changeDetector.detectChanges();
 
-    let firstInvalidControl = this.variantForm1.nativeElement;
-    let firstInvalidControl2 = this.variantForm2.nativeElement;
+    if (this.stage == 1) {
+      let firstInvalidControl = this.variantForm1.nativeElement;
+      firstInvalidControl.scrollIntoView();
+      (firstInvalidControl as HTMLElement).focus();
+    }
 
-    firstInvalidControl.scrollIntoView();
-    (firstInvalidControl as HTMLElement).focus();
-    firstInvalidControl2.scrollIntoView();
-    (firstInvalidControl2 as HTMLElement).focus();
+    if (this.stage > 1) {
+      let firstInvalidControl2 = this.variantForm2.nativeElement;
+      firstInvalidControl2.scrollIntoView();
+      (firstInvalidControl2 as HTMLElement).focus();
+    }
   }
 }
