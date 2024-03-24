@@ -229,8 +229,9 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     this.variantService.productVariants.subscribe((values) => {
       if (values.length != 0) {
         values.map((value) => {
-          this.variations().push(value);
+          this.variations().push(this.fb.group(value));
         });
+        this.allVariantList = [...values];
         console.log(this.variations());
       }
     });
