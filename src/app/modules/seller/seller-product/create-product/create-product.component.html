@@ -371,29 +371,31 @@
           />
         </div>
 
-        <div *ngIf="!addingVariation" class="action-btn flex-1">
-          <button
-            aria-label="Add Product Variation"
-            (click)="addVariation()"
-            class="the-btn"
-            type="button"
-          >
-            Add different variations of your product, such as color or size,
-            along with their prices and available quantities
-          </button>
-          &nbsp;
-          <img
-            src="assets/image/btn-tool-tip.svg"
-            alt="tootip"
-            matTooltip="Showcase different options such as colors, sizes, materials, and more to cater to diverse customer preferences."
-          />
-        </div>
+        <!--        <div *ngIf="!addingVariation" class="action-btn flex-1">-->
+        <!--          <button-->
+        <!--            aria-label="Add Product Variation"-->
+        <!--            (click)="addVariation()"-->
+        <!--            class="the-btn"-->
+        <!--            type="button"-->
+        <!--          >-->
+        <!--            Add different variations of your product, such as color or size,-->
+        <!--            along with their prices and available quantities-->
+        <!--          </button>-->
+        <!--          &nbsp;-->
+        <!--          <img-->
+        <!--            src="assets/image/btn-tool-tip.svg"-->
+        <!--            alt="tootip"-->
+        <!--            matTooltip="Showcase different options such as colors, sizes, materials, and more to cater to diverse customer preferences."-->
+        <!--          />-->
+        <!--        </div>-->
       </div>
       <!-- </div> -->
     </div>
     <!-- related items card -->
     <div
-      *ngIf="addingComplimentaryOptions || relatedItems.length > 0"
+      *ngIf="
+        addingComplimentaryOptions || addingVariation || relatedItems.length > 0
+      "
       class="content-container"
     >
       <div

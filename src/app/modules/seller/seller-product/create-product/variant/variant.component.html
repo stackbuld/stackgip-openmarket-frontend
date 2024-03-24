@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <div class="variant-main" *ngIf="stage > 0">
+  <div class="variant-main" *ngIf="stage > 0" #variantForm1>
     <div class="heading">Variation(s) information</div>
 
     <div class="variant-container" *ngIf="stage > 0 && stage < 3">
@@ -43,7 +43,7 @@
       </button>
     </div>
 
-    <div class="variant-container" *ngIf="stage > 1">
+    <div class="variant-container" *ngIf="stage > 1" #variantForm2>
       <div *ngIf="stage === 2" class="stage stage-2">
         <div class="heading section-heading">
           Add one or more value for the selected variant

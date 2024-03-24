@@ -238,6 +238,8 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
             this.variations().push(this.fb.group(value));
           });
         }
+
+        this.addingVariation = false;
       }
     });
 
@@ -802,7 +804,6 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     this.editingVariation = true;
     this.variationProps.patchValue({ imageUrl: '' });
     this.editingIndex = index;
-    console.log(this.editingIndex);
     this.editingVariationUnit = this.allVariantList[index].unit;
 
     if (!this.variationProps) {

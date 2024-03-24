@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -81,11 +89,15 @@ export class VariantComponent implements OnInit, AfterViewInit {
   uploadPhotoWidget: any;
   optionsImageIndex: number = 0;
   finishedVariants: Variants[] = [];
+  @ViewChild('variantForm1', { static: false })
+  variantForm1: ElementRef<HTMLElement>;
+  @ViewChild('variantForm2', { static: false })
+  variantForm2: ElementRef<HTMLElement>;
   constructor(
     private dialog: MatDialog,
     private variantService: VariantService,
     private toast: ToastrService,
-    private authService: AuthService,
+    private changeDetector: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -210,11 +222,14 @@ export class VariantComponent implements OnInit, AfterViewInit {
 
   onContinue(stage: number) {
     this.stage = stage;
-    console.log(this.stage);
+
     if (stage == 0) {
       this.variant.setValue(null);
       return;
     }
+
+    this.scrollToFirstInvalidControl();
+
     if (stage == 3) {
       this.selectedVariants.map((variant) => {
         this.variantOptionsValuesArray.push(
@@ -243,10 +258,10 @@ export class VariantComponent implements OnInit, AfterViewInit {
 
     this.variantOptionsValuesArray.push(
       new FormGroup({
-        title: new FormControl(this.variant.value, Validators.required),
+        title: new FormControl(this.variant.value),
         value: new FormControl(option, Validators.required),
         shortDescription: new FormControl(null),
-        imageUrl: new FormControl(null, Validators.required),
+        imageUrl: new FormControl(null),
         cost: new FormControl(null, Validators.required),
         unit: new FormControl(null, Validators.required),
         isMultiple: new FormControl(false),
@@ -300,5 +315,17 @@ export class VariantComponent implements OnInit, AfterViewInit {
 
   delete(value: any[], id: number) {
     return value.filter((variant, index) => index != id);
+  }
+
+  scrollToFirstInvalidControl() {
+    this.changeDetector.detectChanges();
+
+    let firstInvalidControl = this.variantForm1.nativeElement;
+    let firstInvalidControl2 = this.variantForm2.nativeElement;
+
+    firstInvalidControl.scrollIntoView();
+    (firstInvalidControl as HTMLElement).focus();
+    firstInvalidControl2.scrollIntoView();
+    (firstInvalidControl2 as HTMLElement).focus();
   }
 }
