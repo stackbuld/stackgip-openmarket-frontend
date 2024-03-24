@@ -174,7 +174,6 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
   isProductUnitExceeded: boolean = false;
   videoUrls: string[] = [];
   videoWidget: any;
-  isAddingVariant: boolean = false;
 
   @ViewChild('variationForm', { static: false })
   variationForm: ElementRef<HTMLElement>;
@@ -239,7 +238,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
             this.variations().push(this.fb.group(value));
           });
         }
-
+        this.editingVariation = false;
         this.addingVariation = false;
       }
     });
@@ -684,7 +683,6 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
       this.toast.error('Add product price!');
       return;
     }
-    this.isAddingVariant = true;
     this.variantService.addNewVariant.next(true);
     // this.addingVariation = true;
     // this.variationProps = this.createVariation();
@@ -803,7 +801,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     this.totalVariationsUnit =
       this.totalVariationsUnit - this.allVariantList[index].unit;
 
-    this.addingVariation = true;
+    // this.addingVariation = true;
     this.editingVariation = true;
     this.variationProps.patchValue({ imageUrl: '' });
     this.editingIndex = index;

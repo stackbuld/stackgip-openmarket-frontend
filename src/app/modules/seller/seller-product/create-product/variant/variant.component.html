@@ -1,5 +1,5 @@
 <div class="variant-absolute-container">
-  <div class="variant-container stage0-container">
+  <div class="variant-container stage0-container" *ngIf="stage == 0">
     <div class="heading">Variation(s) information</div>
 
     <div class="add-variant" (click)="onContinue(1)">
@@ -186,10 +186,13 @@
                       formControlName="cost"
                       [ngClass]="{
                         error:
-                          variantOptionsValuesArray.controls[i].get('cost')
+                          (variantOptionsValuesArray.controls[i].get('cost')
                             .touched &&
-                          variantOptionsValuesArray.controls[i].get('cost')
-                            .invalid
+                            variantOptionsValuesArray.controls[i].get('cost')
+                              .invalid) ||
+                          variantOptionsValuesArray.controls[i]
+                            .get('cost')
+                            .hasError('invalidPrice')
                       }"
                     />
                     <input

@@ -80,7 +80,7 @@ interface VariantOptions {
 })
 export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() variantOptions: VariantOptions[] = [];
-  @Input() isAddingVariant!: boolean;
+  @Input() productPrice!: number;
   variant!: FormControl;
   variantOptionsValuesFormGroup!: FormGroup;
   selectedVariantsForm!: FormControl;
@@ -145,6 +145,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
           isMultiple: new FormControl(false),
         }),
       );
+      this.scrollToFirstInvalidControl();
       console.log(this.variantOptionsValuesArray);
       console.log(variant);
     });
@@ -218,24 +219,53 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onAddVariant() {
-    console.log(this.variantOptionsValuesFormGroup);
+    let hasInvalidPrice = false;
+
+    this.variantOptionsValuesArray.controls.forEach((control) => {
+      const cost = control.get('cost').value;
+      if (this.productPrice > cost && cost != 0) {
+        hasInvalidPrice = true;
+        control.get('cost').setErrors({ invalidPrice: true });
+      }
+    });
+
+    if (hasInvalidPrice) {
+      this.toast.warining(
+        'Variant price must be zero(0) or have a price above product price!',
+      );
+      return;
+    }
+
     if (this.variantOptionsValuesFormGroup.invalid) {
       this.variantOptionsValuesFormGroup.markAllAsTouched();
       this.toast.error('All required fields must be filled!');
       return;
     }
+
     this.stage = 0;
     this.variant.setValue(null);
     this.variantOptionsValues = [];
-    this.finishedVariants = this.variantOptionsValuesArray.value;
+    this.finishedVariants = [];
+    this.variantOptionsValuesArray.controls.forEach((control) => {
+      const cost = control.get('cost').value;
+      this.finishedVariants.push({
+        ...control.value,
+        cost: cost == 0 ? 0 : cost - this.productPrice,
+      });
+    });
     this.variantService.productVariants.next(this.finishedVariants);
     this.variantOptionsValuesArray.clear();
     console.log(this.finishedVariants);
   }
 
   onContinue(stage: number) {
+    console.log(this.productPrice);
+    if (!this.productPrice) {
+      this.toast.error('Add product price!');
+      return;
+    }
+
     this.stage = stage;
-    console.log(stage);
     if (stage == 0) {
       this.variant.setValue(null);
       return;
