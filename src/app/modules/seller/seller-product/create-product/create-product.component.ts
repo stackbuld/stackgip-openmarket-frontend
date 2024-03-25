@@ -15,6 +15,7 @@ import {
   ViewChild,
   ChangeDetectorRef,
   AfterViewChecked,
+  OnDestroy,
 } from '@angular/core';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { ProductsService } from '../../../../services/products/products.service';
@@ -40,7 +41,9 @@ declare var cloudinary: any;
   styleUrls: ['./create-product.component.scss'],
   providers: [SafeHtmlPipe],
 })
-export class CreateProductComponent implements OnInit, AfterViewChecked {
+export class CreateProductComponent
+  implements OnInit, AfterViewChecked, OnDestroy
+{
   previewEditorConfig: AngularEditorConfig = {
     editable: false,
     showToolbar: false,
@@ -228,6 +231,9 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
     this.variationProps = this.createVariation();
 
     this.variantService.productVariants.subscribe((values) => {
+      if (!values) {
+        return;
+      }
       if (values.length != 0) {
         if (this.editingVariation) {
           this.allVariantList[this.editingIndex] = {
@@ -1280,6 +1286,7 @@ export class CreateProductComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnDestroy(): void {
+    this.variantService.productVariants.next(null);
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
