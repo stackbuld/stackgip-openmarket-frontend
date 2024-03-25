@@ -90,7 +90,13 @@
               <div class="new-price">
                 {{ productPrice | currency: "NGN" }}
               </div>
-              <div *ngIf="product.previousPrice > 0" class="old-price">
+              <div
+                *ngIf="
+                  product.previousPrice > 0 &&
+                  product.previousPrice > productPrice
+                "
+                class="old-price"
+              >
                 {{ product.previousPrice | currency: "NGN" }}
               </div>
             </div>
