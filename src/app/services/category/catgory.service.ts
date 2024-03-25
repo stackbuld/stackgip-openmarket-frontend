@@ -52,7 +52,7 @@ export class CatgoryService implements ICatgoryService {
     );
   }
 
-  getAllCategories(storefrontSellerId?: string): Observable<string[]> {
+  getAllCategories(storefrontSellerId?: string) {
     const categoryResults = this.index.searchForFacetValues(
       facetToRetrieve,
       '',
@@ -60,17 +60,15 @@ export class CatgoryService implements ICatgoryService {
         facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
       },
     );
-
     let tempCategories: string[] = [];
 
     let formattedCategories = from(categoryResults).pipe(
       switchMap((data) => {
-        const facetHits = data.facetHits;
+        const facetHits = this.sortByCount(data.facetHits);
         tempCategories = facetHits.map((hits) => hits.value);
         return of(tempCategories);
       }),
     );
-
     return formattedCategories;
   }
 
@@ -78,7 +76,6 @@ export class CatgoryService implements ICatgoryService {
     let searchClientResults = this.categoriesIndex.search('');
     let formattedCategories = from(searchClientResults).pipe(
       switchMap((data) => {
-        console.log(data);
         const hits = data.hits.map((category) => {
           return this.convertToICategory(category);
         });
@@ -99,6 +96,16 @@ export class CatgoryService implements ICatgoryService {
       let orderNumberB = b.orderingNumber
         ? b.orderingNumber
         : Number.MAX_SAFE_INTEGER;
+
+      return orderNumberA - orderNumberB;
+    });
+  }
+
+  sortByCount(array: any[]) {
+    return array.sort((a, b) => {
+      let orderNumberA = a.count ? a.count : Number.MAX_SAFE_INTEGER;
+
+      let orderNumberB = b.count ? b.count : Number.MAX_SAFE_INTEGER;
 
       return orderNumberA - orderNumberB;
     });
