@@ -90,7 +90,13 @@
               <div class="new-price">
                 {{ productPrice | currency: "NGN" }}
               </div>
-              <div *ngIf="product.previousPrice > 0" class="old-price">
+              <div
+                *ngIf="
+                  product.previousPrice > 0 &&
+                  product.previousPrice > productPrice
+                "
+                class="old-price"
+              >
                 {{ product.previousPrice | currency: "NGN" }}
               </div>
             </div>
@@ -965,22 +971,22 @@
                 </span>
                 <br />
                 <span>
-                  Delivery timeline:
-                  <span *ngIf="!isTimeLate">
-                    {{
-                      closestStore?.state.toLowerCase() ===
-                      currentAddress?.state.toLowerCase()
-                        ? "Same day"
-                        : "2 - 3 days"
-                    }}</span
-                  >
-                  <span *ngIf="isTimeLate">{{
-                    closestStore?.state.toLowerCase() ===
-                    currentAddress?.state.toLowerCase()
-                      ? "Next day"
-                      : "2 - 3 days"
-                  }}</span></span
-                >
+                  Delivery timeline: {{ "Nil" }}
+                  <!--                  <span *ngIf="!isTimeLate">-->
+                  <!--                    {{-->
+                  <!--                      closestStore?.state.toLowerCase() ===-->
+                  <!--                      currentAddress?.state.toLowerCase()-->
+                  <!--                        ? "Same day"-->
+                  <!--                        : "2 - 3 days"-->
+                  <!--                    }}</span-->
+                  <!--                  >-->
+                  <!--                  <span *ngIf="isTimeLate">{{-->
+                  <!--                    closestStore?.state.toLowerCase() ===-->
+                  <!--                    currentAddress?.state.toLowerCase()-->
+                  <!--                      ? "Next day"-->
+                  <!--                      : "2 - 3 days"-->
+                  <!--                  }}</span>-->
+                </span>
               </span>
               <br />
               <span
@@ -998,22 +1004,22 @@
                 </span>
               </span>
               <span *ngIf="item?.logisticName !== 'Renaship'"
-                >Delivery timeline:
-                <span *ngIf="!isTimeLate">
-                  {{
-                    closestStore?.state.toLowerCase() ===
-                    currentAddress?.state.toLowerCase()
-                      ? "Same day"
-                      : "2 - 3 days"
-                  }}</span
-                >
-                <span *ngIf="isTimeLate">{{
-                  closestStore?.state.toLowerCase() ===
-                  currentAddress?.state.toLowerCase()
-                    ? "Next day"
-                    : "2 - 3 days"
-                }}</span></span
-              >
+                >Delivery timeline: {{ item.deliveryDuration }}
+                <!--                <span *ngIf="!isTimeLate">-->
+                <!--                  {{-->
+                <!--                    closestStore?.state.toLowerCase() ===-->
+                <!--                    currentAddress?.state.toLowerCase()-->
+                <!--                      ? "Same day"-->
+                <!--                      : "2 - 3 days"-->
+                <!--                  }}</span-->
+                <!--                >-->
+                <!--                <span *ngIf="isTimeLate">{{-->
+                <!--                  closestStore?.state.toLowerCase() ===-->
+                <!--                  currentAddress?.state.toLowerCase()-->
+                <!--                    ? "Next day"-->
+                <!--                    : "2 - 3 days"-->
+                <!--                }}</span>-->
+              </span>
             </p>
           </label>
         </div>
