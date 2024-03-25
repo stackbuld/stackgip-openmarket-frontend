@@ -45,7 +45,7 @@ export class VariantService {
     'Emerald',
   ];
   sizes: string[] = ['S', 'M', 'L'];
-  productVariants = new BehaviorSubject<Variant[]>([]);
+  productVariants = new BehaviorSubject<Variant[] | null>([]);
   variantToEdit = new Subject<Variant>();
   addNewVariant = new Subject<boolean>();
 }

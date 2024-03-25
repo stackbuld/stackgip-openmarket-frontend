@@ -1,6 +1,48 @@
 @import "../../../../../mixins";
 @import "config";
 
+.stage0-container,
+.variant-main {
+  width: 100%;
+  margin-inline: auto;
+  padding: 20px;
+  border: 1px solid rgba(177, 177, 177, 1);
+  border-radius: 10px;
+  font-family: "Avenir LT Std", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.variant-main {
+  margin-top: 20px;
+}
+
+.variant-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 10px;
+
+  &.section-heading {
+    font-size: 16px;
+    margin-bottom: 0;
+  }
+}
+
+.add-variant {
+  font-size: 14px;
+  color: rgba(255, 139, 0, 1);
+  cursor: pointer;
+
+  &.for-stage-3 {
+    align-self: center;
+  }
+}
+
 .content-container {
   max-width: 70rem;
   margin-top: 2rem;
