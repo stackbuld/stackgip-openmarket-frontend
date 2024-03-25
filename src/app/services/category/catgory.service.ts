@@ -82,11 +82,26 @@ export class CatgoryService implements ICatgoryService {
         const hits = data.hits.map((category) => {
           return this.convertToICategory(category);
         });
-        return of(hits);
+
+        return of(this.sort(hits));
       }),
     );
 
     return formattedCategories;
+  }
+
+  sort(array: ICategory[]) {
+    return array.sort((a, b) => {
+      let orderNumberA = a.orderingNumber
+        ? a.orderingNumber
+        : Number.MAX_SAFE_INTEGER;
+
+      let orderNumberB = b.orderingNumber
+        ? b.orderingNumber
+        : Number.MAX_SAFE_INTEGER;
+
+      return orderNumberA - orderNumberB;
+    });
   }
 
   convertToICategory(category: any): ICategory {
@@ -95,6 +110,7 @@ export class CatgoryService implements ICatgoryService {
       name: category.name,
       imageUrl: category.imageUrl,
       createdOn: category.createdOn,
+      orderingNumber: category.orderingNumber,
     };
   }
 
