@@ -48,34 +48,6 @@
     </div>
 
     <div
-      (click)="onNavigateToTransactions(escrowFunds.id, true)"
-      *ngIf="currentRoute.includes('seller')"
-      class="card-container uk-flex uk-card uk-card-default uk-card-body"
-    >
-      <div class="withdrawcard-img">
-        <img
-          src="../../../../assets/image/withdraw-wallet.svg"
-          alt=""
-          style="min-width: 53px"
-        />
-      </div>
-      <div class="withdrawcard-info">
-        <p class="card-title">Locked funds</p>
-        <div *ngIf="loading">
-          <img
-            src="/assets/svg/loader-icon.svg"
-            alt=""
-            width="40"
-            height="40"
-          />
-        </div>
-        <h3 *ngIf="!loading" class="card-balance">
-          &#8358;{{ escrowFunds?.lockedAmount.toLocaleString() }}
-        </h3>
-      </div>
-    </div>
-
-    <div
       (click)="onNavigateToTransactions(cashbackFunds.id)"
       *ngIf="currentRoute.includes('buyer')"
       class="card-container uk-flex uk-card uk-card-default uk-card-body"

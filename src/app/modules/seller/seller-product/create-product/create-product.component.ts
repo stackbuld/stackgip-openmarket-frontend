@@ -526,10 +526,10 @@ export class CreateProductComponent
       }
     }
 
-    // this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
-    //
-    // this.availableProductUnit =
-    //   this.initialProductUnit - this.totalVariationsUnit;
+    this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
+
+    this.availableProductUnit =
+      this.initialProductUnit - this.totalVariationsUnit;
 
     // this.relatedItems.forEach((element: any, index: number) => {
     //   (<FormArray>this.form.get('options')).push(

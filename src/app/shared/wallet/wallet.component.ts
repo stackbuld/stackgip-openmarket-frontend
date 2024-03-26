@@ -76,12 +76,8 @@ export class WalletComponent implements OnInit, OnDestroy {
     });
   }
 
-  onNavigateToTransactions(id: string, forLockedFunds?: boolean) {
+  onNavigateToTransactions(id: string) {
     const route = this.router.url;
-
-    forLockedFunds
-      ? localStorage.setItem('isShowingLocked', 'yes')
-      : localStorage.removeItem('isShowingLocked');
 
     if (route.includes('seller')) {
       this.router.navigate(['/seller/transaction-history'], {
