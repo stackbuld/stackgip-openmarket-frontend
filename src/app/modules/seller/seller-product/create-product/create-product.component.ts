@@ -253,6 +253,10 @@ export class CreateProductComponent
             this.variations().push(this.fb.group(value));
           });
         }
+
+        this.totalVariationsUnit = this.getTotalVariationUnit(
+          this.allVariantList,
+        );
         this.editingVariation = false;
         this.addingVariation = false;
       }
@@ -814,12 +818,12 @@ export class CreateProductComponent
       }
     });
 
-    // this.totalVariationsUnit = this.allVariantList.reduce(
-    //   (accumulator, currentValue) => {
-    //     return accumulator + currentValue.unit;
-    //   },
-    //   0,
-    // );
+    this.totalVariationsUnit = this.allVariantList.reduce(
+      (accumulator, currentValue) => {
+        return accumulator + currentValue.unit;
+      },
+      0,
+    );
     //
     // this.availableProductUnit =
     //   this.initialProductUnit - this.totalVariationsUnit;

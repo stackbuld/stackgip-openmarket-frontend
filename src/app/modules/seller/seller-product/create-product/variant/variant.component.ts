@@ -30,6 +30,7 @@ import { ToastrService } from '../../../../../services/toastr.service';
 import { v4 as uuidv4 } from 'uuid';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { VariationsAlertDialogComponent } from '../variations-alert-dialog/variations-alert-dialog.component';
 declare var cloudinary: any;
 
 interface Variants {
@@ -81,6 +82,8 @@ interface VariantOptions {
 export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() variantOptions: VariantOptions[] = [];
   @Input() productPrice!: number;
+  @Input() productUnit!: number;
+  @Input() totalVariationsUnit!: number;
   variant!: FormControl;
   variantOptionsValuesFormGroup!: FormGroup;
   selectedVariantsForm!: FormControl;
@@ -97,6 +100,12 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('variantForm2', { static: false })
   variantForm2: ElementRef<HTMLElement>;
   destroy$ = new Subject<void>();
+  initialProductUnit: number = 0;
+  availableProductUnit: number = 0;
+  editingTotalVariationsUnit: number = 0;
+  editingVariant: boolean = false;
+  variantToEditUnit!: number;
+  isProductUnitExceeded: boolean = false;
   constructor(
     private dialog: MatDialog,
     private variantService: VariantService,
@@ -133,7 +142,9 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     this.variantService.variantToEdit.subscribe((variant) => {
       this.stage = 3;
       this.variant.setValue(variant.title);
+      this.editingVariant = true;
       this.selectedVariants = [variant.value];
+      this.variantToEditUnit = variant.unit;
       this.variantService.isAddingVariant.next(true);
       this.variantOptionsValuesArray.push(
         new FormGroup({
@@ -146,6 +157,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
           isMultiple: new FormControl(false),
         }),
       );
+
       this.scrollToFirstInvalidControl();
     });
 
@@ -173,6 +185,82 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
           this.onContinue(1);
         }
       });
+
+    this.variantOptionsValuesArray.valueChanges.subscribe((value) => {
+      if (this.editingVariant) {
+        const unit = this.variantOptionsValuesArray.value[0].unit;
+
+        console.log('unit', unit, 'variantToEdit', this.variantToEditUnit);
+        if (this.variantToEditUnit < unit) {
+          this.totalVariationsUnit -= unit;
+        } else if (unit == null) {
+          this.totalVariationsUnit -= this.variantToEditUnit;
+          this.editingVariant = false;
+        } else {
+          this.totalVariationsUnit =
+            this.totalVariationsUnit + (unit - this.variantToEditUnit);
+        }
+      } else {
+        this.totalVariationsUnit =
+          this.getTotalVariationUnit(value) + this.variantToEditUnit;
+      }
+      console.log(this.totalVariationsUnit);
+      this.getUnitValues();
+    });
+  }
+
+  getTotalVariationUnit(list: any[]) {
+    return list.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.unit;
+    }, 0);
+  }
+
+  getUnitValues() {
+    // if (this.variationProps.get('unit').value === null) {
+    //   return;
+    // }
+
+    let totalVariationValue = 0;
+
+    this.availableProductUnit = this.productUnit - this.totalVariationsUnit;
+
+    if (this.editingVariant) {
+      this.availableProductUnit = this.initialProductUnit - totalVariationValue;
+    } else {
+      this.availableProductUnit = this.productUnit - this.totalVariationsUnit;
+    }
+
+    if (this.availableProductUnit < 0) {
+      this.isProductUnitExceeded = true;
+    } else {
+      this.isProductUnitExceeded = false;
+    }
+    console.log(this.availableProductUnit);
+    if (this.totalVariationsUnit > this.productUnit) {
+      this.isProductUnitExceeded = true;
+      console.log('Unit exceeded');
+      const diaglogRef = this.dialog.open(VariationsAlertDialogComponent, {
+        data: {
+          initialUnit: this.productUnit,
+          exceededUnit: this.totalVariationsUnit,
+          type: 'unitAlert',
+        },
+        autoFocus: false,
+      });
+
+      diaglogRef.afterClosed().subscribe((value) => {
+        if (value) {
+          this.productUnit = this.totalVariationsUnit;
+          this.isProductUnitExceeded = false;
+        }
+      });
+    } else {
+      this.isProductUnitExceeded = false;
+    }
+  }
+
+  getTotalUnits() {
+    this.variantOptionsValuesArray;
   }
 
   onUploadVariantOptionPhoto(id: number): void {
@@ -260,11 +348,13 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         cost: cost == 0 ? 0 : cost - this.productPrice,
       });
     });
+    console.log(this.variantOptionsValuesArray);
     this.variantService.isAddingVariant.next(false);
 
     try {
       this.variantService.productVariants.next(this.finishedVariants);
     } catch {}
+    this.editingVariant = false;
     this.variantOptionsValuesArray.clear();
   }
 
@@ -277,6 +367,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     if (stage == 0) {
       this.variant.setValue(null);
       this.variantService.isAddingVariant.next(false);
+      this.editingVariant = false;
       return;
     }
     this.variantService.isAddingVariant.next(true);
