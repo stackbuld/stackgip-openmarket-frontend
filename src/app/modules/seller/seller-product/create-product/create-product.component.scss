@@ -1,8 +1,8 @@
 @import "../../../../../mixins";
 @import "config";
 
-.stage0-container,
-.variant-main {
+.stage0-container {
+  max-width: 70rem;
   width: 100%;
   margin-inline: auto;
   padding: 20px;
