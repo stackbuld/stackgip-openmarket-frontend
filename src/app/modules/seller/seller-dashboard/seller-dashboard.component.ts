@@ -42,7 +42,7 @@ export class SellerDashboardComponent implements OnInit {
       text: 'How to add product',
       heading: 'Learn how to create a product!',
       action: 'Add product',
-      routeUrl: '/seller/products',
+      routeUrl: '/seller/products/create',
     },
     {
       videoId: 'CJP6A13zpAI',
