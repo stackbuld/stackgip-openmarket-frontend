@@ -283,15 +283,9 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     if (stage == 3) {
       this.selectedVariants.map((variant) => {
         this.variantOptionsValuesArray.push(
-          new FormGroup({
-            title: new FormControl(this.variant.value, Validators.required),
-            value: new FormControl(variant, Validators.required),
-            shortDescription: new FormControl(null),
-            imageUrl: new FormControl(null),
-            cost: new FormControl(null, Validators.required),
-            unit: new FormControl(null, Validators.required),
-            isMultiple: new FormControl(false),
-          }),
+          new FormGroup(
+            this.createFormGroup({ title: this.variant.value, value: variant }),
+          ),
         );
       });
     }
@@ -307,15 +301,9 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedVariants.push(option);
 
     this.variantOptionsValuesArray.push(
-      new FormGroup({
-        title: new FormControl(this.variant.value),
-        value: new FormControl(option, Validators.required),
-        shortDescription: new FormControl(null),
-        imageUrl: new FormControl(null),
-        cost: new FormControl(null, Validators.required),
-        unit: new FormControl(null, Validators.required),
-        isMultiple: new FormControl(false),
-      }),
+      new FormGroup(
+        this.createFormGroup({ title: this.variant.value, value: option }),
+      ),
     );
 
     this.selectedVariants.forEach((variant) => {
@@ -367,14 +355,20 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     return value.filter((variant, index) => index != id);
   }
 
+  createFormGroup(data: { title?: string; value?: string }) {
+    return {
+      title: new FormControl(data.title),
+      value: new FormControl(data.value, Validators.required),
+      shortDescription: new FormControl(null),
+      imageUrl: new FormControl(null),
+      cost: new FormControl(0, Validators.required),
+      unit: new FormControl(null, Validators.required),
+      isMultiple: new FormControl(false),
+    };
+  }
+
   scrollToFirstInvalidControl() {
     this.changeDetector.detectChanges();
-
-    if (this.stage == 1) {
-      let firstInvalidControl = this.variantForm1.nativeElement;
-      firstInvalidControl.scrollIntoView();
-      (firstInvalidControl as HTMLElement).focus();
-    }
 
     if (this.stage > 1) {
       try {
@@ -382,7 +376,12 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         firstInvalidControl2.scrollIntoView();
         (firstInvalidControl2 as HTMLElement).focus();
       } catch {}
+      return;
     }
+
+    let firstInvalidControl = this.variantForm1.nativeElement;
+    firstInvalidControl.scrollIntoView();
+    (firstInvalidControl as HTMLElement).focus();
   }
 
   ngOnDestroy() {
