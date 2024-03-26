@@ -48,4 +48,5 @@ export class VariantService {
   productVariants = new BehaviorSubject<Variant[] | null>([]);
   variantToEdit = new Subject<Variant>();
   addNewVariant = new Subject<boolean>();
+  isAddingVariant = new BehaviorSubject<boolean>(false);
 }

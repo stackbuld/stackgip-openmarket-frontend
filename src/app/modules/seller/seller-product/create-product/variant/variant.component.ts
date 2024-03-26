@@ -28,8 +28,8 @@ import { VariantService } from './variant.service';
 import { environment } from '../../../../../../environments/environment';
 import { ToastrService } from '../../../../../services/toastr.service';
 import { v4 as uuidv4 } from 'uuid';
-import { take, takeUntil } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 declare var cloudinary: any;
 
 interface Variants {
@@ -134,6 +134,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       this.stage = 3;
       this.variant.setValue(variant.title);
       this.selectedVariants = [variant.value];
+      this.variantService.isAddingVariant.next(true);
       this.variantOptionsValuesArray.push(
         new FormGroup({
           title: new FormControl(variant.title, Validators.required),
@@ -259,6 +260,8 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         cost: cost == 0 ? 0 : cost - this.productPrice,
       });
     });
+    this.variantService.isAddingVariant.next(false);
+
     try {
       this.variantService.productVariants.next(this.finishedVariants);
     } catch {}
@@ -270,12 +273,13 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       this.toast.error('Add product price!');
       return;
     }
-
     this.stage = stage;
     if (stage == 0) {
       this.variant.setValue(null);
+      this.variantService.isAddingVariant.next(false);
       return;
     }
+    this.variantService.isAddingVariant.next(true);
     if (stage < 3) {
       this.scrollToFirstInvalidControl();
     }

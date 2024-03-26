@@ -178,6 +178,7 @@ export class CreateProductComponent
   isProductUnitExceeded: boolean = false;
   videoUrls: string[] = [];
   videoWidget: any;
+  isAddingVariants: boolean = false;
 
   @ViewChild('variationForm', { static: false })
   variationForm: ElementRef<HTMLElement>;
@@ -396,6 +397,10 @@ export class CreateProductComponent
         }
       },
     );
+
+    this.variantService.isAddingVariant.subscribe((value) => {
+      this.isAddingVariants = value;
+    });
   }
 
   ngAfterViewChecked(): void {}
@@ -610,6 +615,7 @@ export class CreateProductComponent
           data: {
             initialUnit: this.initialProductUnit,
             exceededUnit: totalVariationValue,
+            type: 'unitAlert',
           },
           autoFocus: false,
         });
@@ -1132,7 +1138,6 @@ export class CreateProductComponent
   };
 
   saveAsDraft = () => {
-    this.creatingProduct = true;
     if (this.form.value.pickupOption === 'None') {
       this.toast.warining(
         'Please select a pickup option (what kind of vehicle can pick up this item)',
@@ -1158,40 +1163,65 @@ export class CreateProductComponent
       }
 
       if (this.form.valid) {
-        // this.setComplementaryProducts();
-        this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
+        if (!this.isAddingVariants) {
+          this.creatingProduct = true;
+          this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
+          this.mainSaveAsDrafts();
+          return;
+        }
 
-        this.productService
-          .createNewProduct({
-            ...this.form.value,
-            videoUrls: [...this.videoUrls],
-            options: [...this.relatedItems, ...this.allVariantList],
-            publishOption: 'Draft',
-            ...(this.productId && { draftProductId: this.productId }),
-          })
-          .subscribe(
-            (res) => {
-              if (res.status === 'success') {
-                this.toast.success('Product saved as draft Successful!');
-                this.router.navigate(['/seller/products']);
-                this.creatingProduct = false;
-                localStorage.removeItem('compImagesStore');
-                this.complementaryImagesStore = [];
-              } else {
-                this.creatingProduct = false;
-                this.toast.error('Something went wrong');
-              }
-            },
-            (err) => {
-              this.creatingProduct = false;
-              this.toast.error('Something went wrong');
-            },
-          );
+        const dialogRef = this.dialog.open(VariationsAlertDialogComponent, {
+          data: {
+            initialUnit: 0,
+            exceededUnit: 0,
+            type: 'addingVariantAlert',
+          },
+          autoFocus: false,
+        });
+
+        dialogRef.afterClosed().subscribe((value) => {
+          if (!value) {
+            return;
+          }
+          this.creatingProduct = true;
+          this.variantService.isAddingVariant.next(false);
+          this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
+          this.mainSaveAsDrafts();
+        });
       }
     }
   };
+
+  mainSaveAsDrafts() {
+    this.productService
+      .createNewProduct({
+        ...this.form.value,
+        videoUrls: [...this.videoUrls],
+        options: [...this.relatedItems, ...this.allVariantList],
+        publishOption: 'Draft',
+        ...(this.productId && { draftProductId: this.productId }),
+      })
+      .subscribe(
+        (res) => {
+          if (res.status === 'success') {
+            this.toast.success('Product saved as draft Successful!');
+            this.router.navigate(['/seller/products']);
+            this.creatingProduct = false;
+            localStorage.removeItem('compImagesStore');
+            this.complementaryImagesStore = [];
+          } else {
+            this.creatingProduct = false;
+            this.toast.error('Something went wrong');
+          }
+        },
+        (err) => {
+          this.creatingProduct = false;
+          this.toast.error('Something went wrong');
+        },
+      );
+  }
   isSubCatIdEmpty = false;
-  onSubmit = () => {
+  onSubmit() {
     if (this.form.value.pickupOption === 'None') {
       this.form.markAllAsTouched();
       this.toast.warining(
@@ -1221,27 +1251,48 @@ export class CreateProductComponent
       }
 
       if (this.form.valid) {
-        // this.setComplementaryProducts();
-        this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
-        // this.setVariation(this.form.value.variations);
-        this.previewImg = this.form.value.imageUrls[0];
-        this.previewData = this.form.value;
-        this.uniqueVariant = [
-          ...new Set(this.allVariantList.map((item) => item.title)),
-        ].map((variant) => {
-          let newVariant = this.allVariantList.filter(
-            (item) => item.title === variant,
-          );
-          return {
-            variant: variant,
-            properties: [...newVariant],
-          };
+        if (!this.isAddingVariants) {
+          this.proceedToSave();
+          return;
+        }
+        const dialogRef = this.dialog.open(VariationsAlertDialogComponent, {
+          data: {
+            initialUnit: 0,
+            exceededUnit: 0,
+            type: 'addingVariantAlert',
+          },
+          autoFocus: false,
         });
-        this.isPreview = true;
-        this.previewDesc = this.safeHtml.transform(this.form.value.description);
+
+        dialogRef.afterClosed().subscribe((value) => {
+          if (!value) {
+            return;
+          }
+          this.variantService.isAddingVariant.next(false);
+          this.proceedToSave();
+        });
       }
     }
-  };
+  }
+
+  proceedToSave() {
+    this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
+    this.previewImg = this.form.value.imageUrls[0];
+    this.previewData = this.form.value;
+    this.uniqueVariant = [
+      ...new Set(this.allVariantList.map((item) => item.title)),
+    ].map((variant) => {
+      let newVariant = this.allVariantList.filter(
+        (item) => item.title === variant,
+      );
+      return {
+        variant: variant,
+        properties: [...newVariant],
+      };
+    });
+    this.isPreview = true;
+    this.previewDesc = this.safeHtml.transform(this.form.value.description);
+  }
 
   setComplementaryProducts() {
     if (JSON.parse(localStorage.getItem('compImagesStore'))) {
@@ -1287,6 +1338,7 @@ export class CreateProductComponent
 
   ngOnDestroy(): void {
     this.variantService.productVariants.next(null);
+    this.variantService.isAddingVariant.next(false);
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
