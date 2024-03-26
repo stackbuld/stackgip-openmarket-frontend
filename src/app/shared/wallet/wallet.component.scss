@@ -18,11 +18,22 @@
 }
 
 .card-container {
+  position: relative;
   align-items: center;
   padding-top: 2rem;
   padding-bottom: 2rem;
   width: auto;
   gap: 2rem;
+  cursor: pointer;
+
+  & i {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    font-size: 22px;
+    color: #000;
+  }
 
   p {
     margin: 0;
