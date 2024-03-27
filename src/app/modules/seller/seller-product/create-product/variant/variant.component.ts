@@ -28,8 +28,9 @@ import { VariantService } from './variant.service';
 import { environment } from '../../../../../../environments/environment';
 import { ToastrService } from '../../../../../services/toastr.service';
 import { v4 as uuidv4 } from 'uuid';
-import { take, takeUntil } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { VariationsAlertDialogComponent } from '../variations-alert-dialog/variations-alert-dialog.component';
 declare var cloudinary: any;
 
 interface Variants {
@@ -81,6 +82,10 @@ interface VariantOptions {
 export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() variantOptions: VariantOptions[] = [];
   @Input() productPrice!: number;
+  @Input() productUnit!: number;
+  @Input() totalVariationsUnit: number = 0;
+  @Input() savedTotalVariantsUnit: number = 0;
+  @Input() savedTotalWhenDeleteVariantsUnit: number = 0;
   variant!: FormControl;
   variantOptionsValuesFormGroup!: FormGroup;
   selectedVariantsForm!: FormControl;
@@ -97,6 +102,12 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('variantForm2', { static: false })
   variantForm2: ElementRef<HTMLElement>;
   destroy$ = new Subject<void>();
+  initialProductUnit: number = 0;
+  availableProductUnit: number = 0;
+  editingTotalVariationsUnit: number = 0;
+  editingVariant: boolean = false;
+  variantToEditUnit!: number;
+  isProductUnitExceeded: boolean = false;
   constructor(
     private dialog: MatDialog,
     private variantService: VariantService,
@@ -133,7 +144,12 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     this.variantService.variantToEdit.subscribe((variant) => {
       this.stage = 3;
       this.variant.setValue(variant.title);
+      this.editingVariant = true;
       this.selectedVariants = [variant.value];
+      this.variantToEditUnit = variant.unit;
+      this.variantService.isAddingVariant.next(true);
+      this.totalVariationsUnit = this.savedTotalWhenDeleteVariantsUnit;
+      this.savedTotalVariantsUnit = this.totalVariationsUnit;
       this.variantOptionsValuesArray.push(
         new FormGroup({
           title: new FormControl(variant.title, Validators.required),
@@ -145,6 +161,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
           isMultiple: new FormControl(false),
         }),
       );
+
       this.scrollToFirstInvalidControl();
     });
 
@@ -170,8 +187,85 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((value) => {
         if (value) {
           this.onContinue(1);
+          this.totalVariationsUnit = this.savedTotalWhenDeleteVariantsUnit;
+          this.savedTotalVariantsUnit = this.totalVariationsUnit;
         }
       });
+
+    this.variantOptionsValuesArray.valueChanges.subscribe((value) => {
+      const unit = this.variantOptionsValuesArray.value[0].unit;
+      if (this.editingVariant) {
+        if (this.variantToEditUnit < unit) {
+          this.totalVariationsUnit =
+            this.savedTotalVariantsUnit + (unit - this.variantToEditUnit);
+        } else if (unit == null) {
+          this.totalVariationsUnit -= this.variantToEditUnit;
+          this.savedTotalVariantsUnit = this.totalVariationsUnit;
+          this.editingVariant = false;
+        } else {
+          this.totalVariationsUnit =
+            this.savedTotalVariantsUnit + (unit - this.variantToEditUnit);
+        }
+      } else {
+        this.totalVariationsUnit =
+          this.getTotalVariationUnit(value) + this.savedTotalVariantsUnit;
+      }
+      this.getUnitValues();
+    });
+
+    this.variantService.deletingVariantUnit.subscribe((unit) => {
+      this.totalVariationsUnit -= unit;
+      this.savedTotalWhenDeleteVariantsUnit = this.totalVariationsUnit;
+      this.savedTotalVariantsUnit = this.totalVariationsUnit;
+    });
+  }
+
+  getTotalVariationUnit(list: any[]) {
+    return list.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.unit;
+    }, 0);
+  }
+
+  getUnitValues() {
+    let totalVariationValue = 0;
+
+    this.availableProductUnit = this.productUnit - this.totalVariationsUnit;
+
+    if (this.editingVariant) {
+      this.availableProductUnit = this.initialProductUnit - totalVariationValue;
+    } else {
+      this.availableProductUnit = this.productUnit - this.totalVariationsUnit;
+    }
+
+    if (this.availableProductUnit < 0) {
+      this.isProductUnitExceeded = true;
+    } else {
+      this.isProductUnitExceeded = false;
+    }
+    if (this.totalVariationsUnit > this.productUnit) {
+      this.isProductUnitExceeded = true;
+      this.showVariantsUnitAlertDialog();
+    } else {
+      this.isProductUnitExceeded = false;
+    }
+  }
+
+  showVariantsUnitAlertDialog() {
+    const diaglogRef = this.dialog.open(VariationsAlertDialogComponent, {
+      data: {
+        initialUnit: this.productUnit,
+        exceededUnit: this.totalVariationsUnit,
+        type: 'unitAlert',
+      },
+      autoFocus: false,
+    });
+
+    diaglogRef.afterClosed().subscribe((value) => {
+      if (value) {
+        this.productUnit = this.totalVariationsUnit;
+        this.isProductUnitExceeded = false;
+      }
+    });
   }
 
   onUploadVariantOptionPhoto(id: number): void {
@@ -227,6 +321,11 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   onAddVariant() {
     let hasInvalidPrice = false;
 
+    if (this.isProductUnitExceeded) {
+      this.showVariantsUnitAlertDialog();
+      return;
+    }
+
     this.variantOptionsValuesArray.controls.forEach((control) => {
       const cost = control.get('cost').value;
       if (this.productPrice > cost && cost != 0) {
@@ -259,9 +358,16 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         cost: cost == 0 ? 0 : cost - this.productPrice,
       });
     });
+    this.savedTotalWhenDeleteVariantsUnit = this.getTotalVariationUnit(
+      this.variantOptionsValuesArray.value,
+    );
+    this.savedTotalWhenDeleteVariantsUnit += this.savedTotalVariantsUnit;
+    this.variantService.isAddingVariant.next(false);
+
     try {
       this.variantService.productVariants.next(this.finishedVariants);
     } catch {}
+    this.editingVariant = false;
     this.variantOptionsValuesArray.clear();
   }
 
@@ -270,12 +376,14 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       this.toast.error('Add product price!');
       return;
     }
-
     this.stage = stage;
     if (stage == 0) {
       this.variant.setValue(null);
+      this.variantService.isAddingVariant.next(false);
+      this.editingVariant = false;
       return;
     }
+    this.variantService.isAddingVariant.next(true);
     if (stage < 3) {
       this.scrollToFirstInvalidControl();
     }
@@ -283,15 +391,9 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     if (stage == 3) {
       this.selectedVariants.map((variant) => {
         this.variantOptionsValuesArray.push(
-          new FormGroup({
-            title: new FormControl(this.variant.value, Validators.required),
-            value: new FormControl(variant, Validators.required),
-            shortDescription: new FormControl(null),
-            imageUrl: new FormControl(null),
-            cost: new FormControl(null, Validators.required),
-            unit: new FormControl(null, Validators.required),
-            isMultiple: new FormControl(false),
-          }),
+          new FormGroup(
+            this.createFormGroup({ title: this.variant.value, value: variant }),
+          ),
         );
       });
     }
@@ -307,15 +409,9 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedVariants.push(option);
 
     this.variantOptionsValuesArray.push(
-      new FormGroup({
-        title: new FormControl(this.variant.value),
-        value: new FormControl(option, Validators.required),
-        shortDescription: new FormControl(null),
-        imageUrl: new FormControl(null),
-        cost: new FormControl(null, Validators.required),
-        unit: new FormControl(null, Validators.required),
-        isMultiple: new FormControl(false),
-      }),
+      new FormGroup(
+        this.createFormGroup({ title: this.variant.value, value: option }),
+      ),
     );
 
     this.selectedVariants.forEach((variant) => {
@@ -350,6 +446,10 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         const deletedOption = this.selectedVariants.find(
           (variant, index) => index == id,
         );
+        this.totalVariationsUnit -=
+          this.variantOptionsValuesArray.value[id].unit;
+        this.savedTotalVariantsUnit = this.totalVariationsUnit;
+        this.savedTotalWhenDeleteVariantsUnit = this.totalVariationsUnit;
         this.variantOptionsValues.push(deletedOption);
         this.selectedVariants = this.delete(this.selectedVariants, id);
         this.variantOptionsValuesArray.removeAt(id);
@@ -367,14 +467,20 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     return value.filter((variant, index) => index != id);
   }
 
+  createFormGroup(data: { title?: string; value?: string }) {
+    return {
+      title: new FormControl(data.title),
+      value: new FormControl(data.value, Validators.required),
+      shortDescription: new FormControl(null),
+      imageUrl: new FormControl(null),
+      cost: new FormControl(0, Validators.required),
+      unit: new FormControl(null, Validators.required),
+      isMultiple: new FormControl(false),
+    };
+  }
+
   scrollToFirstInvalidControl() {
     this.changeDetector.detectChanges();
-
-    if (this.stage == 1) {
-      let firstInvalidControl = this.variantForm1.nativeElement;
-      firstInvalidControl.scrollIntoView();
-      (firstInvalidControl as HTMLElement).focus();
-    }
 
     if (this.stage > 1) {
       try {
@@ -382,7 +488,12 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         firstInvalidControl2.scrollIntoView();
         (firstInvalidControl2 as HTMLElement).focus();
       } catch {}
+      return;
     }
+
+    let firstInvalidControl = this.variantForm1.nativeElement;
+    firstInvalidControl.scrollIntoView();
+    (firstInvalidControl as HTMLElement).focus();
   }
 
   ngOnDestroy() {

@@ -11,7 +11,10 @@
   </div>
 
   <ng-template #lockedFundsTemplate>
-    <div style="width: 100%" *ngIf="lockedFunds.length > 0; else noLockedFunds">
+    <div
+      style="width: 100%"
+      *ngIf="lockedFunds.length > 0 && walletId; else noLockedFunds"
+    >
       <div
         class="transaction"
         *ngFor="

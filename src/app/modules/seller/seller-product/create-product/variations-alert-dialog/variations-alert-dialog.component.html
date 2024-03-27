@@ -1,16 +1,29 @@
 <div class="v-alert-container">
-  <div class="v-alert-container-heading">
-    You have allocated more units than the current maximum of
-    {{ actualProductUnit }}. You can either adjust the units in previous
-    variations or proceed to increase the total available units to
-    {{ exceededProductUnit }}
+  <div
+    class="v-alert-container-heading"
+    *ngIf="type == 'addingVariantAlert'; else unitAlert"
+  >
+    You have unsaved variants information. If you continue, you will lose all
+    your data!
   </div>
 
+  <ng-template #unitAlert>
+    <div class="v-alert-container-heading">
+      You have allocated more units than the current maximum of
+      {{ actualProductUnit }}. You can either adjust the units in previous
+      variations or proceed to increase the total available units to
+      {{ exceededProductUnit }}
+    </div>
+  </ng-template>
+
   <div class="v-alert-btns">
-    <button id="increase" (click)="onClose('increase')">Increase units</button>
+    <button id="increase" (click)="onClose('increase')">
+      {{ type === "addingVariantAlert" ? "Close" : "Increase units" }}
+    </button>
     <button id="adjust" (click)="onClose('adjust')">
-      Adjust variation units
+      {{
+        type === "addingVariantAlert" ? "Continue" : "Adjust variation units"
+      }}
     </button>
   </div>
 </div>
-<p>variations-alert-dialog.component works!</p>

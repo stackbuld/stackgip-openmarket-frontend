@@ -27,6 +27,23 @@
 
   &-main {
     margin-left: 20px;
+    display: flex;
+    align-items: center;
+
+    & .active {
+      position: relative;
+      margin-right: 20px;
+
+      &:after {
+        position: absolute;
+        content: "";
+        right: -11px;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background-color: #fff;
+      }
+    }
 
     & div {
       color: rgb(173, 173, 173);
@@ -128,6 +145,37 @@
 }
 
 @media (max-width: 450px) {
+  .wallet-details {
+    &-main {
+      margin-left: 20px;
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+
+      & .active {
+        position: relative;
+        margin-right: 0;
+        margin-bottom: 20px;
+
+        &:after {
+          position: absolute;
+          content: "";
+          right: 0;
+          top: 110%;
+          height: 2px;
+          width: 100%;
+          background-color: #fff;
+        }
+      }
+
+      & div {
+        &.wallet-name {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
   .transactions-actions {
     flex-direction: column;
     align-items: flex-start;
