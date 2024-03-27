@@ -84,6 +84,8 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() productPrice!: number;
   @Input() productUnit!: number;
   @Input() totalVariationsUnit!: number;
+  @Input() savedTotalVariantsUnit!: number;
+  @Input() savedTotalWhenDeleteVariantsUnit!: number;
   variant!: FormControl;
   variantOptionsValuesFormGroup!: FormGroup;
   selectedVariantsForm!: FormControl;
@@ -187,24 +189,30 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.variantOptionsValuesArray.valueChanges.subscribe((value) => {
+      console.log('saved total unit', this.savedTotalVariantsUnit);
+      console.log('total variants unit', this.totalVariationsUnit);
+      const unit = this.variantOptionsValuesArray.value[0].unit;
       if (this.editingVariant) {
-        const unit = this.variantOptionsValuesArray.value[0].unit;
-
         console.log('unit', unit, 'variantToEdit', this.variantToEditUnit);
         if (this.variantToEditUnit < unit) {
-          this.totalVariationsUnit -= unit;
+          this.totalVariationsUnit =
+            this.savedTotalVariantsUnit + (unit - this.variantToEditUnit);
+          console.log('first if');
         } else if (unit == null) {
+          console.log('middle else');
           this.totalVariationsUnit -= this.variantToEditUnit;
+          this.savedTotalVariantsUnit = this.totalVariationsUnit;
           this.editingVariant = false;
         } else {
+          console.log('last else');
           this.totalVariationsUnit =
-            this.totalVariationsUnit + (unit - this.variantToEditUnit);
+            this.savedTotalVariantsUnit + (unit - this.variantToEditUnit);
         }
       } else {
         this.totalVariationsUnit =
-          this.getTotalVariationUnit(value) + this.variantToEditUnit;
+          this.getTotalVariationUnit(value) + this.savedTotalVariantsUnit;
       }
-      console.log(this.totalVariationsUnit);
+      console.log('total variants unit', this.totalVariationsUnit);
       this.getUnitValues();
     });
   }
@@ -216,10 +224,6 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getUnitValues() {
-    // if (this.variationProps.get('unit').value === null) {
-    //   return;
-    // }
-
     let totalVariationValue = 0;
 
     this.availableProductUnit = this.productUnit - this.totalVariationsUnit;
@@ -235,32 +239,30 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isProductUnitExceeded = false;
     }
-    console.log(this.availableProductUnit);
     if (this.totalVariationsUnit > this.productUnit) {
       this.isProductUnitExceeded = true;
-      console.log('Unit exceeded');
-      const diaglogRef = this.dialog.open(VariationsAlertDialogComponent, {
-        data: {
-          initialUnit: this.productUnit,
-          exceededUnit: this.totalVariationsUnit,
-          type: 'unitAlert',
-        },
-        autoFocus: false,
-      });
-
-      diaglogRef.afterClosed().subscribe((value) => {
-        if (value) {
-          this.productUnit = this.totalVariationsUnit;
-          this.isProductUnitExceeded = false;
-        }
-      });
+      this.showVariantsUnitAlertDialog();
     } else {
       this.isProductUnitExceeded = false;
     }
   }
 
-  getTotalUnits() {
-    this.variantOptionsValuesArray;
+  showVariantsUnitAlertDialog() {
+    const diaglogRef = this.dialog.open(VariationsAlertDialogComponent, {
+      data: {
+        initialUnit: this.productUnit,
+        exceededUnit: this.totalVariationsUnit,
+        type: 'unitAlert',
+      },
+      autoFocus: false,
+    });
+
+    diaglogRef.afterClosed().subscribe((value) => {
+      if (value) {
+        this.productUnit = this.totalVariationsUnit;
+        this.isProductUnitExceeded = false;
+      }
+    });
   }
 
   onUploadVariantOptionPhoto(id: number): void {
@@ -316,6 +318,11 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   onAddVariant() {
     let hasInvalidPrice = false;
 
+    if (this.isProductUnitExceeded) {
+      this.showVariantsUnitAlertDialog();
+      return;
+    }
+
     this.variantOptionsValuesArray.controls.forEach((control) => {
       const cost = control.get('cost').value;
       if (this.productPrice > cost && cost != 0) {
@@ -338,6 +345,8 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.stage = 0;
+    this.totalVariationsUnit = 0;
+    this.savedTotalVariantsUnit = 0;
     this.variant.setValue(null);
     this.variantOptionsValues = [];
     this.finishedVariants = [];
@@ -416,6 +425,8 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef.afterClosed().subscribe((event) => {
       if (event) {
         this.stage = 0;
+        this.totalVariationsUnit = this.savedTotalWhenDeleteVariantsUnit;
+        this.savedTotalVariantsUnit = this.savedTotalWhenDeleteVariantsUnit;
         this.selectedVariants = [];
         this.variantOptionsValues = [];
         this.variant.setValue(null);
@@ -433,6 +444,10 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         const deletedOption = this.selectedVariants.find(
           (variant, index) => index == id,
         );
+        this.totalVariationsUnit -=
+          this.variantOptionsValuesArray.value[id].unit;
+        this.savedTotalVariantsUnit = this.totalVariationsUnit;
+        this.savedTotalWhenDeleteVariantsUnit = this.totalVariationsUnit;
         this.variantOptionsValues.push(deletedOption);
         this.selectedVariants = this.delete(this.selectedVariants, id);
         this.variantOptionsValuesArray.removeAt(id);

@@ -257,6 +257,7 @@ export class CreateProductComponent
         this.totalVariationsUnit = this.getTotalVariationUnit(
           this.allVariantList,
         );
+        console.log(this.totalVariationsUnit);
         this.editingVariation = false;
         this.addingVariation = false;
       }
@@ -582,51 +583,51 @@ export class CreateProductComponent
   }
 
   getUnitValues() {
-    if (this.variationProps.get('unit').value === null) {
-      return;
-    }
-
-    this.variationProps.get('unit').valueChanges.subscribe((value) => {
-      let totalVariationValue = 0;
-
-      if (value === null) {
-        this.availableProductUnit =
-          this.initialProductUnit - this.totalVariationsUnit;
-
-        return;
-      }
-
-      totalVariationValue = value + this.totalVariationsUnit;
-
-      if (this.editingVariation) {
-        this.availableProductUnit =
-          this.initialProductUnit - totalVariationValue;
-      } else {
-        this.availableProductUnit =
-          this.initialProductUnit - (value + this.totalVariationsUnit);
-      }
-
-      if (this.availableProductUnit < 0) {
-        this.isProductUnitExceeded = true;
-      } else {
-        this.isProductUnitExceeded = false;
-      }
-
-      if (totalVariationValue > this.initialProductUnit) {
-        this.isProductUnitExceeded = true;
-
-        this.dialog.open(VariationsAlertDialogComponent, {
-          data: {
-            initialUnit: this.initialProductUnit,
-            exceededUnit: totalVariationValue,
-            type: 'unitAlert',
-          },
-          autoFocus: false,
-        });
-      } else {
-        this.isProductUnitExceeded = false;
-      }
-    });
+    // if (this.variationProps.get('unit').value === null) {
+    //   return;
+    // }
+    //
+    // this.variationProps.get('unit').valueChanges.subscribe((value) => {
+    //   let totalVariationValue = 0;
+    //
+    //   if (value === null) {
+    //     this.availableProductUnit =
+    //       this.initialProductUnit - this.totalVariationsUnit;
+    //
+    //     return;
+    //   }
+    //
+    //   totalVariationValue = value + this.totalVariationsUnit;
+    //
+    //   if (this.editingVariation) {
+    //     this.availableProductUnit =
+    //       this.initialProductUnit - totalVariationValue;
+    //   } else {
+    //     this.availableProductUnit =
+    //       this.initialProductUnit - (value + this.totalVariationsUnit);
+    //   }
+    //
+    //   if (this.availableProductUnit < 0) {
+    //     this.isProductUnitExceeded = true;
+    //   } else {
+    //     this.isProductUnitExceeded = false;
+    //   }
+    //
+    //   if (totalVariationValue > this.initialProductUnit) {
+    //     this.isProductUnitExceeded = true;
+    //
+    //     this.dialog.open(VariationsAlertDialogComponent, {
+    //       data: {
+    //         initialUnit: this.initialProductUnit,
+    //         exceededUnit: totalVariationValue,
+    //         type: 'unitAlert',
+    //       },
+    //       autoFocus: false,
+    //     });
+    //   } else {
+    //     this.isProductUnitExceeded = false;
+    //   }
+    // });
   }
 
   // creating a new varaint type (for add variation)
@@ -771,7 +772,7 @@ export class CreateProductComponent
       });
     }
 
-    this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
+    // this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
 
     this.editingVariation = false;
     this.editingVariationUnit = 0;
@@ -818,12 +819,12 @@ export class CreateProductComponent
       }
     });
 
-    this.totalVariationsUnit = this.allVariantList.reduce(
-      (accumulator, currentValue) => {
-        return accumulator + currentValue.unit;
-      },
-      0,
-    );
+    // this.totalVariationsUnit = this.allVariantList.reduce(
+    //   (accumulator, currentValue) => {
+    //     return accumulator + currentValue.unit;
+    //   },
+    //   0,
+    // );
     //
     // this.availableProductUnit =
     //   this.initialProductUnit - this.totalVariationsUnit;

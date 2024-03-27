@@ -126,8 +126,8 @@
         <div class="variation-count-alert">
           You have
           <span *ngIf="!isProductUnitExceeded">
-            {{ totalVariationsUnit }} of {{ productUnit }} units allocated to
-            variants
+            {{ totalVariationsUnit ?? 0 }} of {{ productUnit }} units allocated
+            to variants
           </span>
           <span *ngIf="isProductUnitExceeded"
             >exceeded product unit allocated</span
@@ -183,6 +183,7 @@
                     <input
                       type="number"
                       placeholder="Unit"
+                      min="0"
                       formControlName="unit"
                       [ngClass]="{
                         error:
@@ -196,6 +197,7 @@
                       type="number"
                       placeholder="Cost"
                       formControlName="cost"
+                      min="0"
                       [ngClass]="{
                         error:
                           (variantOptionsValuesArray.controls[i].get('cost')
