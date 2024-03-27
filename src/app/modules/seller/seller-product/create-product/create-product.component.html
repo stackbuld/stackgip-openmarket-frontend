@@ -1236,6 +1236,7 @@
       <app-variant
         [variantOptions]="productVariations"
         [productPrice]="this.form.get('price').value"
+        [productUnit]="this.form.get('unit').value"
       ></app-variant>
     </div>
 
@@ -1251,7 +1252,7 @@
 
       <button
         (click)="saveAsDraft()"
-        type="submit"
+        type="button"
         class="btn-add btn-light"
         [class.spinner]="loading"
         [disabled]="loading"

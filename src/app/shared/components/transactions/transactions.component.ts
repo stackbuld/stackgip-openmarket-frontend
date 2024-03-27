@@ -39,7 +39,6 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   isLoadingBalance: boolean = false;
   walletId!: string;
   wallet: IWallet;
-  isShowingLockedFunds: boolean = false;
 
   constructor(
     private walletService: WalletService,
@@ -55,10 +54,6 @@ export class TransactionsComponent implements OnInit, OnDestroy {
       this.getWalletDetails();
       this.getTransactions(1);
     });
-
-    localStorage.getItem('isShowingLocked')
-      ? (this.isShowingLockedFunds = true)
-      : (this.isShowingLockedFunds = false);
   }
 
   getTransactions(pageNumber: number) {

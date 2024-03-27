@@ -971,21 +971,21 @@
                 </span>
                 <br />
                 <span>
-                  Delivery timeline: {{ "Nil" }}
-                  <!--                  <span *ngIf="!isTimeLate">-->
-                  <!--                    {{-->
-                  <!--                      closestStore?.state.toLowerCase() ===-->
-                  <!--                      currentAddress?.state.toLowerCase()-->
-                  <!--                        ? "Same day"-->
-                  <!--                        : "2 - 3 days"-->
-                  <!--                    }}</span-->
-                  <!--                  >-->
-                  <!--                  <span *ngIf="isTimeLate">{{-->
-                  <!--                    closestStore?.state.toLowerCase() ===-->
-                  <!--                    currentAddress?.state.toLowerCase()-->
-                  <!--                      ? "Next day"-->
-                  <!--                      : "2 - 3 days"-->
-                  <!--                  }}</span>-->
+                  Delivery timeline:
+                  <span *ngIf="!isTimeLate">
+                    {{
+                      closestStore?.state.toLowerCase() ===
+                      currentAddress?.state.toLowerCase()
+                        ? "Same day"
+                        : "2 - 3 days"
+                    }}</span
+                  >
+                  <span *ngIf="isTimeLate">{{
+                    closestStore?.state.toLowerCase() ===
+                    currentAddress?.state.toLowerCase()
+                      ? "Next day"
+                      : "2 - 3 days"
+                  }}</span>
                 </span>
               </span>
               <br />

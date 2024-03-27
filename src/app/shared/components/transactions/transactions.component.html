@@ -15,31 +15,66 @@
           fill="white"
         />
       </svg>
-      <div style="margin-left: 10px" *ngIf="isLoadingBalance">
-        <app-loading-spinner
-          [borderStyle]="'2px solid #fff'"
-          [size]="'20px'"
-        ></app-loading-spinner>
-      </div>
-      <div class="wallet-details-main" *ngIf="!isLoadingBalance">
-        <div>Active balance</div>
+      <div class="wallet-details-main">
+        <div class="active">
+          <div>Active balance</div>
 
-        <div *ngIf="isShowingLockedFunds" class="wallet-name">Locked funds</div>
-        <div
-          [ngSwitch]="wallet.walletType.toLowerCase()"
-          *ngIf="!isShowingLockedFunds"
-          class="wallet-name"
-        >
-          <span *ngSwitchCase="'main'">Withdrawable balance</span>
-          <span *ngSwitchCase="'escrow'">Incoming funds</span>
-          <span *ngSwitchCase="'cashback'">Cashback funds</span>
+          <div
+            [ngSwitch]="wallet?.walletType.toLowerCase()"
+            class="wallet-name"
+          >
+            <span *ngSwitchCase="'main'">Withdrawable balance</span>
+            <span *ngSwitchCase="'escrow'">Incoming funds</span>
+            <span *ngSwitchCase="'cashback'">Cashback funds</span>
+          </div>
+          <div>
+            <span *ngIf="isLoadingBalance">
+              <app-loading-spinner
+                [borderStyle]="'2px solid #fff'"
+                [size]="'20px'"
+              ></app-loading-spinner
+            ></span>
+            <span *ngIf="!isLoadingBalance">{{
+              wallet?.availableAmount | currency: "₦"
+            }}</span>
+          </div>
         </div>
+
         <div>
-          <span></span>
-          <span>{{ wallet?.availableAmount | currency: "₦" }}</span>
+          <div>Locked funds</div>
+
+          <div>
+            <span *ngIf="isLoadingBalance">
+              <app-loading-spinner
+                [borderStyle]="'2px solid #fff'"
+                [size]="'20px'"
+              ></app-loading-spinner
+            ></span>
+            <span *ngIf="!isLoadingBalance">{{
+              wallet?.lockedAmount | currency: "₦"
+            }}</span>
+          </div>
         </div>
       </div>
     </div>
+
+    <!--    <div class="wallet-details">-->
+    <!--      <div class="wallet-details-main">-->
+    <!--        <div>Locked funds</div>-->
+
+    <!--        <div>-->
+    <!--          <span *ngIf="isLoadingBalance">-->
+    <!--            <app-loading-spinner-->
+    <!--              [borderStyle]="'2px solid #fff'"-->
+    <!--              [size]="'20px'"-->
+    <!--            ></app-loading-spinner-->
+    <!--          ></span>-->
+    <!--          <span *ngIf="!isLoadingBalance">{{-->
+    <!--            wallet?.lockedAmount | currency: "₦"-->
+    <!--          }}</span>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 
   <div class="transactions-actions">
@@ -72,7 +107,7 @@
     <ng-template #transactionsTemplate>
       <div
         style="width: 100%"
-        *ngIf="transactions.length > 0; else noTransactions"
+        *ngIf="transactions.length > 0 && walletId != ''; else noTransactions"
       >
         <div
           class="transaction"
