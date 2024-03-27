@@ -49,4 +49,5 @@ export class VariantService {
   variantToEdit = new Subject<Variant>();
   addNewVariant = new Subject<boolean>();
   isAddingVariant = new BehaviorSubject<boolean>(false);
+  deletingVariantUnit = new Subject<number>();
 }

@@ -83,9 +83,9 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() variantOptions: VariantOptions[] = [];
   @Input() productPrice!: number;
   @Input() productUnit!: number;
-  @Input() totalVariationsUnit!: number;
-  @Input() savedTotalVariantsUnit!: number;
-  @Input() savedTotalWhenDeleteVariantsUnit!: number;
+  @Input() totalVariationsUnit: number = 0;
+  @Input() savedTotalVariantsUnit: number = 0;
+  @Input() savedTotalWhenDeleteVariantsUnit: number = 0;
   variant!: FormControl;
   variantOptionsValuesFormGroup!: FormGroup;
   selectedVariantsForm!: FormControl;
@@ -148,6 +148,8 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedVariants = [variant.value];
       this.variantToEditUnit = variant.unit;
       this.variantService.isAddingVariant.next(true);
+      this.totalVariationsUnit = this.savedTotalWhenDeleteVariantsUnit;
+      this.savedTotalVariantsUnit = this.totalVariationsUnit;
       this.variantOptionsValuesArray.push(
         new FormGroup({
           title: new FormControl(variant.title, Validators.required),
@@ -185,26 +187,22 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((value) => {
         if (value) {
           this.onContinue(1);
+          this.totalVariationsUnit = this.savedTotalWhenDeleteVariantsUnit;
+          this.savedTotalVariantsUnit = this.totalVariationsUnit;
         }
       });
 
     this.variantOptionsValuesArray.valueChanges.subscribe((value) => {
-      console.log('saved total unit', this.savedTotalVariantsUnit);
-      console.log('total variants unit', this.totalVariationsUnit);
       const unit = this.variantOptionsValuesArray.value[0].unit;
       if (this.editingVariant) {
-        console.log('unit', unit, 'variantToEdit', this.variantToEditUnit);
         if (this.variantToEditUnit < unit) {
           this.totalVariationsUnit =
             this.savedTotalVariantsUnit + (unit - this.variantToEditUnit);
-          console.log('first if');
         } else if (unit == null) {
-          console.log('middle else');
           this.totalVariationsUnit -= this.variantToEditUnit;
           this.savedTotalVariantsUnit = this.totalVariationsUnit;
           this.editingVariant = false;
         } else {
-          console.log('last else');
           this.totalVariationsUnit =
             this.savedTotalVariantsUnit + (unit - this.variantToEditUnit);
         }
@@ -212,8 +210,13 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         this.totalVariationsUnit =
           this.getTotalVariationUnit(value) + this.savedTotalVariantsUnit;
       }
-      console.log('total variants unit', this.totalVariationsUnit);
       this.getUnitValues();
+    });
+
+    this.variantService.deletingVariantUnit.subscribe((unit) => {
+      this.totalVariationsUnit -= unit;
+      this.savedTotalWhenDeleteVariantsUnit = this.totalVariationsUnit;
+      this.savedTotalVariantsUnit = this.totalVariationsUnit;
     });
   }
 
@@ -345,8 +348,6 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.stage = 0;
-    this.totalVariationsUnit = 0;
-    this.savedTotalVariantsUnit = 0;
     this.variant.setValue(null);
     this.variantOptionsValues = [];
     this.finishedVariants = [];
@@ -357,7 +358,10 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         cost: cost == 0 ? 0 : cost - this.productPrice,
       });
     });
-    console.log(this.variantOptionsValuesArray);
+    this.savedTotalWhenDeleteVariantsUnit = this.getTotalVariationUnit(
+      this.variantOptionsValuesArray.value,
+    );
+    this.savedTotalWhenDeleteVariantsUnit += this.savedTotalVariantsUnit;
     this.variantService.isAddingVariant.next(false);
 
     try {
@@ -425,8 +429,6 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef.afterClosed().subscribe((event) => {
       if (event) {
         this.stage = 0;
-        this.totalVariationsUnit = this.savedTotalWhenDeleteVariantsUnit;
-        this.savedTotalVariantsUnit = this.savedTotalWhenDeleteVariantsUnit;
         this.selectedVariants = [];
         this.variantOptionsValues = [];
         this.variant.setValue(null);

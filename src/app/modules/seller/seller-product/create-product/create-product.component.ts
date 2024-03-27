@@ -815,6 +815,9 @@ export class CreateProductComponent
     dialogRef.afterClosed().subscribe((event) => {
       if (event) {
         this.variations().removeAt(index);
+        this.variantService.deletingVariantUnit.next(
+          this.allVariantList[index].unit,
+        );
         this.allVariantList.splice(index, 1);
       }
     });
