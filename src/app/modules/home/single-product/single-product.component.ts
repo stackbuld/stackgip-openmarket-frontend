@@ -342,6 +342,7 @@ export class SingleProductComponent implements OnInit {
       }
       this.orderAndSelectDefaultShippingMethod();
     }
+    console.log(this.shippingMethods);
   }
 
   getImageResolution = (url: string, width: number, height: number) => {
