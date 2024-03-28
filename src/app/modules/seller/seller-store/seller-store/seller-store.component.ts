@@ -33,6 +33,7 @@ export class SellerStoreComponent implements OnInit, OnDestroy {
   isMadeFirstDefault: boolean = false;
   editFromClick: boolean = false;
   destroy$ = new Subject<void>();
+  editingId!: string;
 
   constructor(
     private helperService: HelperService,
@@ -67,6 +68,7 @@ export class SellerStoreComponent implements OnInit, OnDestroy {
     if (this.isMadeFirstDefault && !fromClick) {
       return;
     }
+    this.editingId = sellerStore.id;
     sellerStore.isDefault = !sellerStore.isDefault;
     this.isLoading = true;
     this.sellerStoreService
@@ -84,6 +86,10 @@ export class SellerStoreComponent implements OnInit, OnDestroy {
   }
 
   onDeleteStore(sellerStore) {
+    if (!this.sellerStores.find((store) => store.isDefault == true)) {
+      this.toast.warining('Cannot delete a store without selecting a default!');
+      return;
+    }
     const title = 'Delete Store?';
     const subtitle = `Are you sure you want to delete ${sellerStore.storeName}? <br> You can’t undo this action.`;
     const message = `By deleting this store, <strong> ${sellerStore.productCount} products </strong> in this store will automatically move to the Default Store.`;
@@ -103,7 +109,7 @@ export class SellerStoreComponent implements OnInit, OnDestroy {
         this.getSellerStoreList();
       },
       error: (err) => {
-        this.toast.error('Can not delete a default store!');
+        this.toast.error(err.error.message);
       },
     });
   }
@@ -119,13 +125,6 @@ export class SellerStoreComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (sellerStores) => {
           this.sellerStores = sellerStores;
-          // if (sellerStores.length > 0) {
-          //   if (!this.sellerStores.find((store) => store.isDefault == true)) {
-          //     this.sellerStores[0].isDefault = true;
-          //     this.onEdit(this.sellerStores[0], false);
-          //     this.isMadeFirstDefault = true;
-          //   }
-          // }
 
           this.isLoading = false;
         },
