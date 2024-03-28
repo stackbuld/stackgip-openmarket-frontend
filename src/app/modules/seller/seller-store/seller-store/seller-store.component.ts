@@ -1,4 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  OnDestroy,
+} from '@angular/core';
 import { SellerStores } from 'src/app/models/StoreModels';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { HelperService } from 'src/app/shared/services/helper.service';
@@ -9,13 +15,15 @@ import {
 } from '../../../../models/products.model';
 import { SellerStoreCreateDialogComponent } from '../seller-store-create-dialog/seller-store-create-dialog.component';
 import { ToastrService } from 'src/app/services/toastr.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-seller-store',
   templateUrl: './seller-store.component.html',
   styleUrls: ['./seller-store.component.css'],
 })
-export class SellerStoreComponent implements OnInit {
+export class SellerStoreComponent implements OnInit, OnDestroy {
   @ViewChild('closeEdit') closeEdit: ElementRef<HTMLElement>;
   cproduct: CreateProductResponse[];
   sellerStores: SellerStores[];
@@ -24,6 +32,7 @@ export class SellerStoreComponent implements OnInit {
   storeId: string;
   isMadeFirstDefault: boolean = false;
   editFromClick: boolean = false;
+  destroy$ = new Subject<void>();
 
   constructor(
     private helperService: HelperService,
@@ -34,6 +43,13 @@ export class SellerStoreComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSellerStoreList();
+    this.sellerStoreService.isAddingStoreFromDemo
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => {
+        if (value) {
+          this.getSellerStoreList();
+        }
+      });
   }
 
   createSellerStoreCreate(data: SellerStores | null, mode: string) {
@@ -122,5 +138,10 @@ export class SellerStoreComponent implements OnInit {
 
   onExpand(index: number) {
     this.panelOpenState[index] = !this.panelOpenState[index];
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 }

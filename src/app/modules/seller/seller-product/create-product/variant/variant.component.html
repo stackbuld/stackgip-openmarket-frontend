@@ -27,7 +27,7 @@
           />
           <mat-option
             [value]="option.name"
-            *ngFor="let option of [{ name: 'Size' }, { name: 'Color' }]"
+            *ngFor="let option of variantOptions"
             >{{ option.name }}</mat-option
           >
         </mat-select>

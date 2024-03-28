@@ -15,6 +15,8 @@ export class SellerStoreService {
   private baseUrl = environment.storeApi;
   private sellerStores: SellerStores[] = [];
   private sellerStoresListener = new Subject<SellerStores[]>();
+  isAddingStoreFromDemo = new Subject<boolean>();
+
   days: string[] = [
     'Sunday',
     'Monday',
@@ -62,9 +64,9 @@ export class SellerStoreService {
 
   getSellerstores(userId) {
     this.http
-      .get<SellerBaseResponse<SellerStores[]>>(
-        `${this.baseUrl}sellerstores/stores/user/${userId}`
-      )
+      .get<
+        SellerBaseResponse<SellerStores[]>
+      >(`${this.baseUrl}sellerstores/stores/user/${userId}`)
       .subscribe((res) => {
         this.sellerStores = res.data;
         this.sellerStoresListener.next(this.sellerStores);
@@ -80,7 +82,7 @@ export class SellerStoreService {
   updateSellerStore(sellerStore, id: string) {
     return this.http.put(
       `${this.baseUrl}sellerStores?storeId=${id}`,
-      sellerStore
+      sellerStore,
     );
   }
 
@@ -112,7 +114,7 @@ export class SellerStoreService {
   mergeAvailabilities(existingAvailability, newAvailability) {
     newAvailability.forEach((newObj) => {
       const index = existingAvailability.findIndex(
-        (existingObj) => existingObj.dayOfWeek === newObj.dayOfWeek
+        (existingObj) => existingObj.dayOfWeek === newObj.dayOfWeek,
       );
 
       if (index !== -1) {
@@ -133,11 +135,11 @@ export class SellerStoreService {
         availability.closingTime != null
       ) {
         availability.openingTime = this.convertTo24Hours(
-          availability.openingTime
+          availability.openingTime,
         );
 
         availability.closingTime = this.convertTo24Hours(
-          availability.closingTime
+          availability.closingTime,
         );
         return availability;
       }

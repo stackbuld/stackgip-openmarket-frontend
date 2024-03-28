@@ -18,7 +18,7 @@ export class VideoGuidePromptComponent {
     videoId: string;
     text: string;
     heading: string;
-    action: string;
+    action: string | null;
     routeUrl: string;
   }[] = [];
   @Input() dialogHeading!: string;
