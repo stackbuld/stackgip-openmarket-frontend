@@ -473,7 +473,7 @@ export class CreateProductComponent
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
       price: [null, [Validators.required]],
-      weight: [null, [Validators.required]],
+      weight: [1, [Validators.required]],
       previousPrice: [0],
       imageUrls: [null],
       pickupOption: [null, Validators.required],

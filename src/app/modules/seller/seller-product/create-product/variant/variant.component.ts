@@ -108,6 +108,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   editingVariant: boolean = false;
   variantToEditUnit!: number;
   isProductUnitExceeded: boolean = false;
+  isSavedPrevUnit: boolean = false;
   constructor(
     private dialog: MatDialog,
     private variantService: VariantService,
@@ -230,7 +231,10 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     let totalVariationValue = 0;
 
     this.availableProductUnit = this.productUnit - this.totalVariationsUnit;
-
+    if (!this.isSavedPrevUnit) {
+      this.savedTotalWhenDeleteVariantsUnit = this.totalVariationsUnit;
+    }
+    this.isSavedPrevUnit = true;
     if (this.editingVariant) {
       this.availableProductUnit = this.initialProductUnit - totalVariationValue;
     } else {
@@ -450,6 +454,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
           this.variantOptionsValuesArray.value[id].unit;
         this.savedTotalVariantsUnit = this.totalVariationsUnit;
         this.savedTotalWhenDeleteVariantsUnit = this.totalVariationsUnit;
+
         this.variantOptionsValues.push(deletedOption);
         this.selectedVariants = this.delete(this.selectedVariants, id);
         this.variantOptionsValuesArray.removeAt(id);
