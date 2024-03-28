@@ -361,6 +361,7 @@ export class SingleProductComponent implements OnInit {
     this.shippingMethods = [this.defaultShipping];
     this.currentShippingMethod.next(this.defaultShipping);
     this.currentShippingMethod.subscribe();
+    this.sortedVariationsList = [];
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
     this.isTimeLate = this.getIfTimeLate();
@@ -434,6 +435,7 @@ export class SingleProductComponent implements OnInit {
     const productService$ = this.productService.getCachedProductById(
       this.productId,
     );
+    this.sortedVariationsList = [];
     productService$.subscribe({
       next: (res) => {
         this.isLoadingDetails = false;
