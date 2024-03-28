@@ -1,4 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  OnDestroy,
+} from '@angular/core';
 import { SellerStores } from 'src/app/models/StoreModels';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { HelperService } from 'src/app/shared/services/helper.service';
@@ -9,13 +15,15 @@ import {
 } from '../../../../models/products.model';
 import { SellerStoreCreateDialogComponent } from '../seller-store-create-dialog/seller-store-create-dialog.component';
 import { ToastrService } from 'src/app/services/toastr.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-seller-store',
   templateUrl: './seller-store.component.html',
   styleUrls: ['./seller-store.component.css'],
 })
-export class SellerStoreComponent implements OnInit {
+export class SellerStoreComponent implements OnInit, OnDestroy {
   @ViewChild('closeEdit') closeEdit: ElementRef<HTMLElement>;
   cproduct: CreateProductResponse[];
   sellerStores: SellerStores[];
@@ -24,6 +32,8 @@ export class SellerStoreComponent implements OnInit {
   storeId: string;
   isMadeFirstDefault: boolean = false;
   editFromClick: boolean = false;
+  destroy$ = new Subject<void>();
+  editingId!: string;
 
   constructor(
     private helperService: HelperService,
@@ -34,6 +44,13 @@ export class SellerStoreComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSellerStoreList();
+    this.sellerStoreService.isAddingStoreFromDemo
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => {
+        if (value) {
+          this.getSellerStoreList();
+        }
+      });
   }
 
   createSellerStoreCreate(data: SellerStores | null, mode: string) {
@@ -51,6 +68,7 @@ export class SellerStoreComponent implements OnInit {
     if (this.isMadeFirstDefault && !fromClick) {
       return;
     }
+    this.editingId = sellerStore.id;
     sellerStore.isDefault = !sellerStore.isDefault;
     this.isLoading = true;
     this.sellerStoreService
@@ -68,6 +86,10 @@ export class SellerStoreComponent implements OnInit {
   }
 
   onDeleteStore(sellerStore) {
+    if (!this.sellerStores.find((store) => store.isDefault == true)) {
+      this.toast.warining('Cannot delete a store without selecting a default!');
+      return;
+    }
     const title = 'Delete Store?';
     const subtitle = `Are you sure you want to delete ${sellerStore.storeName}? <br> You can’t undo this action.`;
     const message = `By deleting this store, <strong> ${sellerStore.productCount} products </strong> in this store will automatically move to the Default Store.`;
@@ -87,7 +109,7 @@ export class SellerStoreComponent implements OnInit {
         this.getSellerStoreList();
       },
       error: (err) => {
-        this.toast.error('Can not delete a default store!');
+        this.toast.error(err.error.message);
       },
     });
   }
@@ -103,13 +125,6 @@ export class SellerStoreComponent implements OnInit {
       .subscribe({
         next: (sellerStores) => {
           this.sellerStores = sellerStores;
-          // if (sellerStores.length > 0) {
-          //   if (!this.sellerStores.find((store) => store.isDefault == true)) {
-          //     this.sellerStores[0].isDefault = true;
-          //     this.onEdit(this.sellerStores[0], false);
-          //     this.isMadeFirstDefault = true;
-          //   }
-          // }
 
           this.isLoading = false;
         },
@@ -122,5 +137,10 @@ export class SellerStoreComponent implements OnInit {
 
   onExpand(index: number) {
     this.panelOpenState[index] = !this.panelOpenState[index];
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 }

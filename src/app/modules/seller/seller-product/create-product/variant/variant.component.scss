@@ -196,6 +196,13 @@
       gap: 10px;
     }
 
+    & .form-group {
+      & label {
+        color: rgba(151, 151, 151, 1);
+        margin-bottom: 3px;
+      }
+    }
+
     & input {
       padding: 10px;
       border: 1px solid rgba(189, 189, 189, 1);
