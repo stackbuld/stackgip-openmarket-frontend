@@ -59,7 +59,6 @@ export class ProductCheckoutComponent implements OnInit {
     document.documentElement.scrollTop = 0;
     this.footerService.setShowFooter(true);
     this.authService.isLogin.subscribe((status) => {
-      console.log(1);
       this.init();
     });
 
@@ -94,14 +93,14 @@ export class ProductCheckoutComponent implements OnInit {
         next: (res) => {
           if (res.status === 'success') {
             this.cart = res.data;
-
             this.cartItems = res.data.cartItems;
-            const variations: any[] = [];
             let productItem: { [key: string]: number } = {};
-            this.cartItems.forEach((item) => {
-              if (item.varations.length > 0) {
-                variations.push(item.varations);
-              }
+            this.cartItems.forEach((item, index) => {
+              const variations: any[] = [];
+
+              variations.push(item.varations);
+              this.setVariation(variations);
+
               try {
                 this.productService
                   .getCachedProductById(item.productId)
@@ -112,8 +111,6 @@ export class ProductCheckoutComponent implements OnInit {
             });
 
             this.cartItemStockUnit = productItem;
-
-            this.setVariation(variations);
 
             this.applocal.cartCount.next(res.data.cartItems.length + 1);
             this.applocal.storeToStorage(
@@ -150,7 +147,6 @@ export class ProductCheckoutComponent implements OnInit {
       const groupedOptionsArray = Object.values(groupedOptions);
       this.variations.push(groupedOptionsArray);
     });
-
     // this.sortedVariationsList = groupedOptionsArray;
   }
 

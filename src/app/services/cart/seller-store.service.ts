@@ -12,7 +12,7 @@ export class SellerStoreLocationService {
     lat1: number,
     lon1: number,
     lat2: number,
-    lon2: number
+    lon2: number,
   ) {
     var R = 6371; // Radius of the earth in km
     var dLat = this.deg2rad(lat2 - lat1);
@@ -35,7 +35,7 @@ export class SellerStoreLocationService {
 
   findClosestStore(
     userLocation: { lat: number; lng: number },
-    storeLocations: SellerStores[]
+    storeLocations: SellerStores[],
   ) {
     return storeLocations.reduce(
       (closest, store) => {
@@ -43,12 +43,12 @@ export class SellerStoreLocationService {
           userLocation.lat,
           userLocation.lng,
           store.lat,
-          store.lng
+          store.lng,
         );
 
         return closest.distance < distance ? closest : { ...store, distance };
       },
-      { distance: Number.MAX_VALUE }
+      { distance: Number.MAX_VALUE },
     );
   }
 }

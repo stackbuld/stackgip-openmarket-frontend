@@ -9,6 +9,9 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { DialogService } from '../../../shared/services/dialog.service';
+import { SellerStoreCreateDialogComponent } from '../../seller/seller-store/seller-store-create-dialog/seller-store-create-dialog.component';
+import { SellerStoreService } from '../../../shared/services/seller-store.service';
 
 @Component({
   selector: 'app-video-guide',
@@ -33,6 +36,8 @@ export class VideoGuideComponent implements OnInit, AfterViewInit {
     },
     private dialog: MatDialog,
     private router: Router,
+    private dialogService: DialogService,
+    private sellerStoreService: SellerStoreService,
   ) {}
   ngOnInit() {
     this.heading = this.data.heading;
@@ -56,6 +61,18 @@ export class VideoGuideComponent implements OnInit, AfterViewInit {
   }
 
   onAction() {
+    this.dialog.closeAll();
+    if (this.action == 'Create a store') {
+      this.dialogService
+        .openDialog(SellerStoreCreateDialogComponent, {
+          data: { data: null, mode: 'create' },
+        })
+        .afterClosed()
+        .subscribe((res) => {
+          res ? this.sellerStoreService.isAddingStoreFromDemo.next(true) : null;
+        });
+      return;
+    }
     this.router.navigate([this.data.routeUrl]);
     this.onClose();
   }
