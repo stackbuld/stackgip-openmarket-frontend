@@ -81,6 +81,39 @@
             </div>
           </div>
 
+          <div class="cat-algolia-search">
+            <div class="form-group">
+              <div class="search-icon">
+                <i class="fa fa-search"></i>
+              </div>
+              <input
+                type="text"
+                placeholder="search product"
+                [formControl]="productSerchControl"
+              />
+            </div>
+            <ul
+              class="algo-search-results"
+              *ngIf="productSearchResults.length > 0"
+            >
+              <li
+                *ngFor="let product of productSearchResults"
+                (click)="onViewProduct(product)"
+              >
+                <div class="product-img">
+                  <img [src]="product.imageUrl" alt="" />
+                </div>
+
+                <div>
+                  <div class="product-name">{{ product.name }}</div>
+                  <div class="product-price">
+                    {{ product.price | currency: "₦" }}
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
           <!-- CLEAR ALL MOBILE -->
           <div class="p-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -457,6 +490,36 @@
         position: storefrontSellerId ? 'static' : 'fixed'
       }"
     >
+      <div class="cat-algolia-search">
+        <div class="form-group">
+          <div class="search-icon">
+            <i class="fa fa-search"></i>
+          </div>
+          <input
+            type="text"
+            placeholder="search product"
+            [formControl]="productSerchControl"
+          />
+        </div>
+        <ul class="algo-search-results" *ngIf="productSearchResults.length > 0">
+          <li
+            *ngFor="let product of productSearchResults"
+            (click)="onViewProduct(product)"
+          >
+            <div class="product-img">
+              <img [src]="product.imageUrl" alt="" />
+            </div>
+
+            <div>
+              <div class="product-name">{{ product.name }}</div>
+              <div class="product-price">
+                {{ product.price | currency: "₦" }}
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
       <div class="p-2">
         <div class="d-flex align-items-center justify-content-between">
           <p class="tag">Browse and filter</p>
