@@ -1,4 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Options } from '@angular-slider/ngx-slider';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductModel } from 'src/app/models/products.model';
@@ -9,7 +17,10 @@ import { CityService } from 'src/app/services/city/city.service';
 import { StateService } from 'src/app/services/state/state.service';
 import { ICategory } from 'src/app/models/CategoryModels';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { filter, fromEvent, Subject, takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -81,6 +92,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
     ceil: 200,
   };
   destroyed = new Subject<boolean>();
+  index = this.searchService.index;
+  productSearchResults: any[] = [];
+  productSerchControl: FormControl = new FormControl<any>(null);
 
   constructor(
     private productService: ProductsService,
@@ -100,10 +114,33 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.fetchCategories();
     this.fetchCities();
     this.fetchStates();
+
     this.searchService.numberOfItems
       .pipe(takeUntil(this.destroyed))
       .subscribe((value) => (this.count = value));
+
+    this.productSerchControl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        map((value) => value.toLowerCase()),
+      )
+      .subscribe((value) => {
+        this.index
+          .search(value)
+          .then(({ hits }) => {
+            this.productSearchResults = hits;
+            if (value == '') {
+              this.productSearchResults = [];
+            }
+          })
+          .catch((err) => {});
+      });
   }
+
+  onViewProduct = (product: any) => {
+    this.router.navigate([`/homepage/product/${product.id}`]);
+  };
 
   onTableDataChange(event: any) {
     this.page = event;

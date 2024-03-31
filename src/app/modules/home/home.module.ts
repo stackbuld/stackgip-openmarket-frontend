@@ -27,6 +27,11 @@ import { ProductDeleteModalComponent } from './product-checkout/product-delete-m
 import { SingleProductAddressDialogComponent } from './single-product/single-product-address-dialog/single-product-address-dialog.component';
 
 import { register } from 'swiper/element/bundle';
+import {
+  NgAisHitsModule,
+  NgAisInstantSearchModule,
+  NgAisSearchBoxModule,
+} from 'angular-instantsearch';
 register();
 @NgModule({
   declarations: [
@@ -57,6 +62,9 @@ register();
     GooglePlaceModule,
     IvyCarouselModule,
     NgImageFullscreenViewModule,
+    NgAisSearchBoxModule,
+    NgAisInstantSearchModule,
+    NgAisHitsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
