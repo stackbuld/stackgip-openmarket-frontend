@@ -32,6 +32,7 @@ export class SearchService implements ISearchService {
     indexName: environment.algolia.indexName.products,
     searchClient,
   };
+  filterChanged = new Subject<boolean>();
 
   constructor(private route: ActivatedRoute) {}
 
@@ -134,7 +135,7 @@ export class SearchService implements ISearchService {
     if (storefrontSellerId) {
       filters += ` AND userId:${storefrontSellerId}`;
     }
-
+    this.filterChanged.next(true);
     let tempHits: ProductModel[] = [];
     let formattedResults: Observable<ProductModel[]>;
     const searchResults = this.fetchSearchResults(

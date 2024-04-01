@@ -181,3 +181,13 @@ body {
     background-color: #000 !important;
 }
 
+.cat-algolia-search .ais-SearchBox-form {
+
+
+    & .ais-SearchBox-submit{
+      display: none;
+
+    }
+}
+
+
