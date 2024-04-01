@@ -460,6 +460,14 @@ export class AuthService {
       email: user.email,
     });
 
+    const clarity = (window as any)['clarity'] as any;
+    clarity('identify', {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+    });
+
     this.ngxService.stopAll();
     if (
       accessType === 'signin' &&

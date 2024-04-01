@@ -89,16 +89,21 @@
               <input
                 type="text"
                 placeholder="search product"
-                [formControl]="productSerchControl"
+                [formControl]="productSearchControl"
               />
             </div>
-            <ul
-              class="algo-search-results"
-              *ngIf="productSearchResults.length > 0"
-            >
+            <ul class="algo-search-results" *ngIf="productSearchControl.value">
               <li
-                *ngFor="let product of productSearchResults"
+                *ngIf="
+                  productSearchControl.value && productSearchResults.length == 0
+                "
+                style="color: #000"
+              >
+                No items
+              </li>
+              <li
                 (click)="onViewProduct(product)"
+                *ngFor="let product of productSearchResults"
               >
                 <div class="product-img">
                   <img [src]="product.imageUrl" alt="" />
@@ -498,13 +503,21 @@
           <input
             type="text"
             placeholder="search product"
-            [formControl]="productSerchControl"
+            [formControl]="productSearchControl"
           />
         </div>
-        <ul class="algo-search-results" *ngIf="productSearchResults.length > 0">
+        <ul class="algo-search-results" *ngIf="productSearchControl.value">
           <li
-            *ngFor="let product of productSearchResults"
+            *ngIf="
+              productSearchControl.value && productSearchResults.length == 0
+            "
+            style="color: #000"
+          >
+            No items
+          </li>
+          <li
             (click)="onViewProduct(product)"
+            *ngFor="let product of productSearchResults"
           >
             <div class="product-img">
               <img [src]="product.imageUrl" alt="" />
