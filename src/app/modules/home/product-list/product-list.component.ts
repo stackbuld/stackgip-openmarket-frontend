@@ -94,7 +94,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   destroyed = new Subject<boolean>();
   index = this.searchService.index;
   productSearchResults: any[] = [];
-  productSerchControl: FormControl = new FormControl<any>(null);
+  productSearchControl: FormControl = new FormControl<any>(null);
+  productSearchQuery!: string;
 
   constructor(
     private productService: ProductsService,
@@ -119,22 +120,41 @@ export class ProductListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed))
       .subscribe((value) => (this.count = value));
 
-    this.productSerchControl.valueChanges
+    this.productSearchControl.valueChanges
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),
         map((value) => value.toLowerCase()),
       )
       .subscribe((value) => {
-        this.index
-          .search(value)
-          .then(({ hits }) => {
-            this.productSearchResults = hits;
-            if (value == '') {
-              this.productSearchResults = [];
-            }
-          })
-          .catch((err) => {});
+        this.productSearchQuery = value;
+        this.getProductSearch(value);
+      });
+
+    this.searchService.filterChanged
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((value) => {
+        if (value) {
+          this.getProductSearch(this.productSearchQuery);
+        }
+      });
+  }
+
+  getProductSearch(search: string) {
+    this.searchService
+      .getAllProducts(
+        this.pageNumber,
+        1000,
+        search,
+        this.storefrontSellerId,
+        this.categoryName,
+        this.cityName,
+        this.stateName,
+        this.minValue,
+        this.maxValue,
+      )
+      .subscribe((data) => {
+        this.productSearchResults = data;
       });
   }
 
