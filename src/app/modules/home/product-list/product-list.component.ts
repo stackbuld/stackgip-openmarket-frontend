@@ -162,6 +162,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.router.navigate([`/homepage/product/${product.id}`]);
   };
 
+  onSeeAllAlgoSearch() {
+    this.products = this.productSearchResults;
+  }
+
   onTableDataChange(event: any) {
     this.page = event;
     this.pageNumber = event - 1;
