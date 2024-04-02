@@ -92,31 +92,43 @@
                 [formControl]="productSearchControl"
               />
             </div>
-            <ul class="algo-search-results" *ngIf="productSearchControl.value">
-              <li
-                *ngIf="
-                  productSearchControl.value && productSearchResults.length == 0
-                "
-                style="color: #000"
-              >
-                No items
-              </li>
-              <li
-                (click)="onViewProduct(product)"
-                *ngFor="let product of productSearchResults"
-              >
-                <div class="product-img">
-                  <img [src]="product.imageUrl" alt="" />
-                </div>
-
-                <div>
-                  <div class="product-name">{{ product.name }}</div>
-                  <div class="product-price">
-                    {{ product.price | currency: "₦" }}
+            <div
+              class="algo-search-results-container"
+              *ngIf="productSearchControl.value"
+            >
+              <ul class="algo-search-results">
+                <li
+                  *ngIf="
+                    productSearchControl.value &&
+                    productSearchResults.length == 0
+                  "
+                  style="color: #000"
+                >
+                  No items
+                </li>
+                <li
+                  (click)="onViewProduct(product)"
+                  *ngFor="let product of productSearchResults"
+                >
+                  <div class="product-img">
+                    <img [src]="product.imageUrl" alt="" />
                   </div>
-                </div>
-              </li>
-            </ul>
+
+                  <div>
+                    <div class="product-name">{{ product.name }}</div>
+                    <div class="product-price">
+                      {{ product.price | currency: "₦" }}
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <button
+                *ngIf="productSearchControl.value"
+                (click)="onSeeAllAlgoSearch()"
+              >
+                See all
+              </button>
+            </div>
           </div>
 
           <!-- CLEAR ALL MOBILE -->
@@ -506,31 +518,42 @@
             [formControl]="productSearchControl"
           />
         </div>
-        <ul class="algo-search-results" *ngIf="productSearchControl.value">
-          <li
-            *ngIf="
-              productSearchControl.value && productSearchResults.length == 0
-            "
-            style="color: #000"
-          >
-            No items
-          </li>
-          <li
-            (click)="onViewProduct(product)"
-            *ngFor="let product of productSearchResults"
-          >
-            <div class="product-img">
-              <img [src]="product.imageUrl" alt="" />
-            </div>
-
-            <div>
-              <div class="product-name">{{ product.name }}</div>
-              <div class="product-price">
-                {{ product.price | currency: "₦" }}
+        <div
+          class="algo-search-results-container"
+          *ngIf="productSearchControl.value"
+        >
+          <ul class="algo-search-results">
+            <li
+              *ngIf="
+                productSearchControl.value && productSearchResults.length == 0
+              "
+              style="color: #000"
+            >
+              No items
+            </li>
+            <li
+              (click)="onViewProduct(product)"
+              *ngFor="let product of productSearchResults"
+            >
+              <div class="product-img">
+                <img [src]="product.imageUrl" alt="" />
               </div>
-            </div>
-          </li>
-        </ul>
+
+              <div>
+                <div class="product-name">{{ product.name }}</div>
+                <div class="product-price">
+                  {{ product.price | currency: "₦" }}
+                </div>
+              </div>
+            </li>
+          </ul>
+          <button
+            *ngIf="productSearchControl.value"
+            (click)="onSeeAllAlgoSearch()"
+          >
+            See all
+          </button>
+        </div>
       </div>
 
       <div class="p-2">

@@ -135,7 +135,11 @@ export class SearchService implements ISearchService {
     if (storefrontSellerId) {
       filters += ` AND userId:${storefrontSellerId}`;
     }
-    this.filterChanged.next(true);
+
+    if (filters !== `price:${minPrice} TO ${maxPrice}`) {
+      this.filterChanged.next(true);
+    }
+
     let tempHits: ProductModel[] = [];
     let formattedResults: Observable<ProductModel[]>;
     const searchResults = this.fetchSearchResults(
