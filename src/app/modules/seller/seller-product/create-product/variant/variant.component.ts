@@ -369,9 +369,6 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     });
 
-    this.variants = this.resolveVariants(this.newFinishedVariants);
-    console.log(this.variants);
-
     this.savedTotalWhenDeleteVariantsUnit = this.getTotalVariationUnit(
       this.variantOptionsValuesArray.value,
     );

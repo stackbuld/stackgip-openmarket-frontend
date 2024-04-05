@@ -1231,6 +1231,8 @@
 
     <div style="margin: 20px 0">
       <app-variant
+        [totalVariationsUnit]="totalVariationsUnit"
+        [savedTotalVariantsUnit]="totalVariationsUnit"
         [variantOptions]="productVariations"
         [productPrice]="this.form.get('price').value"
         [productUnit]="this.form.get('unit').value"
