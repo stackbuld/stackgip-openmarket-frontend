@@ -766,6 +766,7 @@ export class SingleProductComponent implements OnInit {
     this.loadingShippingEstimate = true;
     const payload = {
       productId: this.productId,
+      storeId: this.closestStoreId,
       userId: this.authService.getLoggedInUser()?.id ?? '',
       referenceId: this.authService.getUserReferenceNumber(),
       requestId: this.requestId,

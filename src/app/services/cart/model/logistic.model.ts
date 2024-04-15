@@ -1,5 +1,6 @@
 export interface GetShippingPriceEstimateRequest {
   productId:   string;
+  storeId: string,
   userId:      string;
   referenceId: string;
   requestId:   string;
