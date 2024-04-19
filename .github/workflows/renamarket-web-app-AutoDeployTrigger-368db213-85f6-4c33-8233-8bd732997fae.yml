@@ -11,7 +11,7 @@ on:
     - '.github/workflows/renamarket-web-app-AutoDeployTrigger-368db213-85f6-4c33-8233-8bd732997fae.yml'
 
   # Allow manual trigger 
-  # workflow_dispatch:
+  workflow_dispatch:
       
 jobs:
   build-and-deploy:
