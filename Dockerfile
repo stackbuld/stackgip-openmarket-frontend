@@ -21,5 +21,5 @@ COPY --from=build /app/dist ./dist
 
 EXPOSE 4000
 
-#CMD [ "node", "dist/stackbuld-ecommerce/server/main.js" ]
+CMD [ "node", "dist/stackbuld-ecommerce/server/main.js" ]
 
