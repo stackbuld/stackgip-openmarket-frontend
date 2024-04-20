@@ -5,14 +5,15 @@ import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AppShellComponent } from './app-shell/app-shell.component';
-
-const routes: Routes = [ { path: 'shell', component: AppShellComponent }];
 import 'localstorage-polyfill'
 import nodeWindowPolyfill from 'node-window-polyfill';
+nodeWindowPolyfill.register();
+const routes: Routes = [ { path: 'shell', component: AppShellComponent }];
 
-nodeWindowPolyfill.register();
+
+
 global['localStorage'] = localStorage;
-nodeWindowPolyfill.register();
+
 @NgModule({
   imports: [
     AppModule,

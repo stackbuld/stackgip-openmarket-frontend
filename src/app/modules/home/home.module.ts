@@ -1,7 +1,7 @@
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule, PLATFORM_ID} from '@angular/core';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -32,7 +32,10 @@ import {
   NgAisInstantSearchModule,
   NgAisSearchBoxModule,
 } from 'angular-instantsearch';
-register();
+if(isPlatformBrowser(PLATFORM_ID)) {
+  register();
+}
+
 @NgModule({
   declarations: [
     HomeComponent,

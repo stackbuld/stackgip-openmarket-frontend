@@ -13,7 +13,14 @@ import {
 } from '@angular/material/form-field';
 import { MatLabel } from '@angular/material/form-field';
 import { NgModule, PLATFORM_ID } from '@angular/core';
-import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import {
+  CommonModule,
+  DOCUMENT,
+  IMAGE_LOADER,
+  ImageLoaderConfig,
+  isPlatformBrowser,
+  NgOptimizedImage
+} from '@angular/common';
 
 import { HttpClientJsonpModule } from '@angular/common/http';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
@@ -67,6 +74,8 @@ import { LogoutModalComponent } from './components/logout-modal/logout-modal.com
 import { WalletKycPromptComponent } from './wallet/wallet-kyc-prompt/wallet-kyc-prompt.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { PwaPromptComponent } from './components/pwa-prompt/pwa-prompt.component';
+import {ImageResolutionUtility} from "../helpers/image-resolution.utility";
+import { AppShellRenderDirective } from '../directives/app-shell-render.directive';
 
 export const DOCUMENT_TOKEN = new InjectionToken<Document>('Document');
 export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
@@ -104,12 +113,14 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     WalletKycPromptComponent,
     LoadingSpinnerComponent,
     PwaPromptComponent,
+    AppShellRenderDirective,
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+    NgOptimizedImage,
     MatPaginatorModule,
     MatDialogModule,
     MatMenuModule,
@@ -122,6 +133,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     SignupModule,
   ],
   exports: [
+    NgOptimizedImage,
     HttpClientJsonpModule,
     MatSliderModule,
     MatButtonModule,
@@ -163,12 +175,19 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     MatExpansionModule,
     DemoNgZorroAntdModule,
     LoadingSpinnerComponent,
+    AppShellRenderDirective
   ],
   providers: [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
     },
+    // {
+    //   provide: IMAGE_LOADER,
+    //   useValue: (config: ImageLoaderConfig) => {
+    //     return `https://res.cloudinary.com/votel/image/fetch/c_fill,g_auto,w_${config.width}/b_auto:border,c_pad,w_${config.width}/q_auto:best/${config.src}`;
+    //   },
+    // },
     WindowRefService,
     {
       provide: DOCUMENT_TOKEN,
