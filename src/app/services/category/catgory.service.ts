@@ -9,7 +9,7 @@ import algoliasearch from 'algoliasearch';
 
 const searchClient = algoliasearch(
   environment.algolia.appId,
-  environment.algolia.apiKey,
+  environment.algolia.apiKey
 );
 
 // const searchClient = algoliasearch(
@@ -29,16 +29,13 @@ export class CatgoryService implements ICatgoryService {
   //   searchClient,
   // };
   categoriesIndex = searchClient.initIndex(
-    environment.algolia.indexName.categories,
+    environment.algolia.indexName.categories
   );
 
   index = searchClient.initIndex(environment.algolia.indexName.products);
 
   baseUrl: string;
-  constructor(
-    private apiUrls: ApiAppUrlService,
-    private http: HttpClient,
-  ) {
+  constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
 
@@ -48,7 +45,7 @@ export class CatgoryService implements ICatgoryService {
 
   getCategoryByUserId(id: string): Observable<CategoryResponse> {
     return this.http.get<CategoryResponse>(
-      this.baseUrl + `categories?userId=${id}`,
+      this.baseUrl + `categories?userId=${id}`
     );
   }
 
@@ -58,7 +55,7 @@ export class CatgoryService implements ICatgoryService {
       '',
       {
         facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
-      },
+      }
     );
     let tempCategories: string[] = [];
 
@@ -67,38 +64,13 @@ export class CatgoryService implements ICatgoryService {
         const facetHits = this.sortByCount(data.facetHits);
         tempCategories = facetHits.map((hits) => hits.value);
         return of(tempCategories);
-      }),
+      })
     );
     return formattedCategories;
   }
 
-  getAllStorefrontCategories(): Observable<ICategory[]> {
-    let searchClientResults = this.categoriesIndex.search('');
-    let formattedCategories = from(searchClientResults).pipe(
-      switchMap((data) => {
-        const hits = data.hits.map((category) => {
-          return this.convertToICategory(category);
-        });
-
-        return of(this.sort(hits));
-      }),
-    );
-
-    return formattedCategories;
-  }
-
-  sort(array: ICategory[]) {
-    return array.sort((a, b) => {
-      let orderNumberA = a.orderingNumber
-        ? a.orderingNumber
-        : Number.MAX_SAFE_INTEGER;
-
-      let orderNumberB = b.orderingNumber
-        ? b.orderingNumber
-        : Number.MAX_SAFE_INTEGER;
-
-      return orderNumberA - orderNumberB;
-    });
+  getAllStorefrontCategories(): Promise<any> {
+    return this.categoriesIndex.search('');
   }
 
   sortByCount(array: any[]) {
@@ -123,14 +95,14 @@ export class CatgoryService implements ICatgoryService {
 
   searchCategories(
     searchItem: string,
-    storefrontSellerId: string,
+    storefrontSellerId: string
   ): Observable<string[]> {
     const categoryResults = this.index.searchForFacetValues(
       facetToRetrieve,
       searchItem,
       {
         facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
-      },
+      }
     );
 
     let tempCategories: string[] = [];
@@ -140,7 +112,7 @@ export class CatgoryService implements ICatgoryService {
         const facetHits = data.facetHits;
         tempCategories = facetHits.map((hits) => hits.value);
         return of(tempCategories);
-      }),
+      })
     );
 
     return formattedCategories;

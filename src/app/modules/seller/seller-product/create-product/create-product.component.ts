@@ -118,7 +118,7 @@ export class CreateProductComponent
     },
     {
       name: 'Truck';
-    },
+    }
   ];
   private unsubscribe$ = new Subject<void>();
   @Output() closed = new EventEmitter();
@@ -211,7 +211,7 @@ export class CreateProductComponent
     @Inject(DOCUMENT) private document: Document,
     private dialog: MatDialog,
     private changeDetector: ChangeDetectorRef,
-    private variantService: VariantService,
+    private variantService: VariantService
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
     this.initVariationForm();
@@ -255,7 +255,7 @@ export class CreateProductComponent
         }
 
         this.totalVariationsUnit = this.getTotalVariationUnit(
-          this.allVariantList,
+          this.allVariantList
         );
         console.log(this.totalVariationsUnit);
         this.editingVariation = false;
@@ -286,7 +286,7 @@ export class CreateProductComponent
             this.form.patchValue({ imageUrls: this.images });
           }
         }
-      },
+      }
     );
 
     this.videoWidget = cloudinary.createUploadWidget(
@@ -301,7 +301,7 @@ export class CreateProductComponent
             this.videoUrls.push(result.info.secure_url);
           }
         }
-      },
+      }
     );
 
     this.uploadComplimentaryWidget = cloudinary.createUploadWidget(
@@ -321,7 +321,7 @@ export class CreateProductComponent
             list.push(data);
             localStorage.setItem('compImagesStore', JSON.stringify(list));
             this.complementaryImagesStore = JSON.parse(
-              localStorage.getItem('compImagesStore'),
+              localStorage.getItem('compImagesStore')
             );
           } else {
             list = JSON.parse(localStorage.getItem('compImagesStore'));
@@ -332,11 +332,11 @@ export class CreateProductComponent
             list.push(data);
             localStorage.setItem('compImagesStore', JSON.stringify(list));
             this.complementaryImagesStore = JSON.parse(
-              localStorage.getItem('compImagesStore'),
+              localStorage.getItem('compImagesStore')
             );
           }
         }
-      },
+      }
     );
 
     this.uploadComplimentaryWidget2 = cloudinary.createUploadWidget(
@@ -351,7 +351,7 @@ export class CreateProductComponent
             this.editProps.patchValue({ imageUrl: result.info.secure_url });
           }
         }
-      },
+      }
     );
 
     this.uploadComplimentaryWidget3 = cloudinary.createUploadWidget(
@@ -368,7 +368,7 @@ export class CreateProductComponent
             });
           }
         }
-      },
+      }
     );
 
     this.form.get('unit').valueChanges.subscribe((value: number) => {
@@ -395,12 +395,12 @@ export class CreateProductComponent
           setTimeout(() => {
             window.scrollTo(
               0,
-              this.availableUnitsContainer.nativeElement.offsetTop,
+              this.availableUnitsContainer.nativeElement.offsetTop
             );
           }, 100);
           this.availableUnitsInput.nativeElement.focus();
         }
-      },
+      }
     );
 
     this.variantService.isAddingVariant.subscribe((value) => {
@@ -437,7 +437,7 @@ export class CreateProductComponent
     }
     localStorage.setItem(
       'compImagesStore',
-      JSON.stringify(this.complementaryImagesStore),
+      JSON.stringify(this.complementaryImagesStore)
     );
   }
 
@@ -463,7 +463,7 @@ export class CreateProductComponent
       (err) => {
         this.toast.error(err.error.message);
         this.loading = false;
-      },
+      }
     );
   }
 
@@ -562,7 +562,7 @@ export class CreateProductComponent
           isMultiple: false,
           shortDescription: element.shortDescription,
           ...(element.id && { id: element.id }),
-        }),
+        })
       );
     });
 
@@ -577,7 +577,7 @@ export class CreateProductComponent
           cost: [element.cost, [Validators.required]],
           isMultiple: true,
           ...(element.id && { id: element.id }),
-        }),
+        })
       );
     });
   }
@@ -657,7 +657,7 @@ export class CreateProductComponent
       (err) => {
         this.creatingVariation = false;
         this.toast.error(err.message);
-      },
+      }
     );
   }
 
@@ -742,7 +742,7 @@ export class CreateProductComponent
 
     if (this.isProductUnitExceeded) {
       this.toast.warining(
-        'Product variations unit can not be more than product unit',
+        'Product variations unit can not be more than product unit'
       );
       return;
     }
@@ -752,7 +752,7 @@ export class CreateProductComponent
       this.variationProps.value.cost !== 0
     ) {
       this.toast.warining(
-        'Variant must be zero(0) or have a price above product price!',
+        'Variant must be zero(0) or have a price above product price!'
       );
       return;
     }
@@ -816,7 +816,7 @@ export class CreateProductComponent
       if (event) {
         this.variations().removeAt(index);
         this.variantService.deletingVariantUnit.next(
-          this.allVariantList[index].unit,
+          this.allVariantList[index].unit
         );
         this.allVariantList.splice(index, 1);
       }
@@ -829,8 +829,8 @@ export class CreateProductComponent
     //   0,
     // );
     //
-    // this.availableProductUnit =
-    //   this.initialProductUnit - this.totalVariationsUnit;
+    this.availableProductUnit =
+      this.initialProductUnit - this.totalVariationsUnit;
   }
 
   // this method is to edit already created related/complimentary product
@@ -944,7 +944,7 @@ export class CreateProductComponent
 
   onDeleteVideo(index: number) {
     this.videoUrls = this.videoUrls.filter(
-      (url, urlIndex) => urlIndex != index,
+      (url, urlIndex) => urlIndex != index
     );
   }
 
@@ -1011,7 +1011,7 @@ export class CreateProductComponent
       (err) => {
         this.toast.error(err.message);
         this.loadingSubCategories = false;
-      },
+      }
     );
   }
 
@@ -1022,7 +1022,7 @@ export class CreateProductComponent
       },
       (err) => {
         this.toast.error(err.message);
-      },
+      }
     );
   }
 
@@ -1033,7 +1033,7 @@ export class CreateProductComponent
       },
       (err) => {
         this.toast.error(err.message);
-      },
+      }
     );
   }
 
@@ -1044,7 +1044,7 @@ export class CreateProductComponent
       },
       (err) => {
         this.toast.error(err.message);
-      },
+      }
     );
   }
 
@@ -1148,7 +1148,7 @@ export class CreateProductComponent
   saveAsDraft = () => {
     if (this.form.value.pickupOption === 'None') {
       this.toast.warining(
-        'Please select a pickup option (what kind of vehicle can pick up this item)',
+        'Please select a pickup option (what kind of vehicle can pick up this item)'
       );
       return;
     }
@@ -1156,7 +1156,7 @@ export class CreateProductComponent
       this.toast.error('Product Image(s) required');
       // return;
     } else if (this.form.value.description === '') {
-      this.toast.error('Enter Product Description to Procees');
+      this.toast.error('Enter Product Description to Process');
       // return;
     } else if (this.form.value.category == '') {
       this.toast.error('Select a Category');
@@ -1225,7 +1225,7 @@ export class CreateProductComponent
         (err) => {
           this.creatingProduct = false;
           this.toast.error('Something went wrong');
-        },
+        }
       );
   }
   isSubCatIdEmpty = false;
@@ -1233,7 +1233,7 @@ export class CreateProductComponent
     if (this.form.value.pickupOption === 'None') {
       this.form.markAllAsTouched();
       this.toast.warining(
-        'Please select a pickup option (what kind of vehicle can pick up this item',
+        'Please select a pickup option (what kind of vehicle can pick up this item'
       );
       return;
     }
@@ -1291,7 +1291,7 @@ export class CreateProductComponent
       ...new Set(this.allVariantList.map((item) => item.title)),
     ].map((variant) => {
       let newVariant = this.allVariantList.filter(
-        (item) => item.title === variant,
+        (item) => item.title === variant
       );
       return {
         variant: variant,
@@ -1305,7 +1305,7 @@ export class CreateProductComponent
   setComplementaryProducts() {
     if (JSON.parse(localStorage.getItem('compImagesStore'))) {
       this.complementaryImagesStore = JSON.parse(
-        localStorage.getItem('compImagesStore'),
+        localStorage.getItem('compImagesStore')
       );
     } else {
       this.complementaryImagesStore = [];
@@ -1340,7 +1340,7 @@ export class CreateProductComponent
       (err) => {
         this.loading = false;
         this.toast.error(err.message);
-      },
+      }
     );
   }
 

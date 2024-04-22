@@ -52,7 +52,7 @@ export class HomePageComponent {
     private promotedProductsService: PromotedProductsService,
     private recommendedProductsService: RecommendedProductService,
     private categoryService: CatgoryService,
-    private productService: ProductsService,
+    private productService: ProductsService
   ) {}
 
   ngOnInit(): void {
@@ -91,15 +91,23 @@ export class HomePageComponent {
 
   fetchCategories = () => {
     this.loadingCategories = true;
-    this.categoryService.getAllStorefrontCategories().subscribe({
-      next: (data) => {
-        this.categories = data;
+    this.categoryService
+      .getAllStorefrontCategories()
+      .then((res) => {
+        const categories = (res.hits as any[])
+          .sort((a, b) => a.orderingNumber - b.orderingNumber)
+          .filter((cat, index) => {
+            // this just a temporary fix. this category doesn't have ordering number and it's removed awaiting when it will totally be removed from the database, I have also requested for it to be removed by mujib on April 22 2024
+            TODO: return (
+              index !== 9 && cat.id !== 'e3393601-6453-4194-b5da-27ac8db5e92d'
+            );
+          });
+        this.categories = categories;
         this.loadingCategories = false;
-      },
-      error: (err) => {
+      })
+      .catch((err) => {
         this.loadingCategories = false;
-      },
-    });
+      });
   };
 
   onSeePromotedProducts() {
