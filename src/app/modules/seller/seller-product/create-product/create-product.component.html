@@ -1236,6 +1236,7 @@
         [variantOptions]="productVariations"
         [productPrice]="this.form.get('price').value"
         [productUnit]="this.form.get('unit').value"
+        [(savedTotalVariantsUnit)]="savedTotalVariantsUnit"
       ></app-variant>
     </div>
 
@@ -1318,7 +1319,7 @@
       <div class="mt-4">
         <p class="item-label">Price</p>
         <p class="item-price mt-2">
-          {{ form.value.price | currency: "NGN " }}
+          {{ form.value.price | currency : "NGN " }}
         </p>
       </div>
 
@@ -1536,7 +1537,7 @@
                 {{ item.title }}
               </p>
               <p class="card-price" style="word-wrap: break-word">
-                {{ item.cost | currency: "₦" }}
+                {{ item.cost | currency : "₦" }}
               </p>
             </div>
           </div>
@@ -1712,7 +1713,7 @@
   </div>
 </div>
 
-<div id="delete-modal" uk-modal>
+<!-- <div id="delete-modal" uk-modal>
   <div class="delete-modal-main uk-modal-dialog uk-modal-body">
     <div class="modal-heading">
       Are you sure you want to cancel add variant? This action will delete all
@@ -1726,4 +1727,4 @@
       </button>
     </div>
   </div>
-</div>
+</div> -->
