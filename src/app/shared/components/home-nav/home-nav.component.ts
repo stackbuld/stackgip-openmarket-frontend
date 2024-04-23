@@ -110,13 +110,11 @@ export class HomeNavComponent implements OnInit {
       .getAllStorefrontCategories()
       .then((res) => {
         const categories = (res.hits as any[])
-          .sort((a, b) => a.orderingNumber - b.orderingNumber)
           .filter((cat, index) => {
             // this just a temporary fix. this category doesn't have ordering number and it's removed awaiting when it will totally be removed from the database, I have also requested for it to be removed by mujib on April 22 2024
-            TODO: return (
-              index !== 9 && cat.id !== 'e3393601-6453-4194-b5da-27ac8db5e92d'
-            );
-          });
+            TODO: return cat.id !== 'e3393601-6453-4194-b5da-27ac8db5e92d';
+          })
+          .sort((a, b) => a.orderingNumber - b.orderingNumber);
         this.categories = categories;
       })
       .catch((err) => {});

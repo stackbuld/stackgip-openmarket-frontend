@@ -170,7 +170,6 @@ export class CreateProductComponent
   uniqueVariant: any;
   initialProductUnit: number = 0;
   availableProductUnit: number = 0;
-  totalVariationsUnit: number = 0;
   editingTotalVariationsUnit: number = 0;
   editingVariation: boolean = false;
   editingIndex: number = null;
@@ -261,9 +260,9 @@ export class CreateProductComponent
           );
         }
 
-        this.totalVariationsUnit = this.getTotalVariationUnit(
-          this.allVariantList
-        );
+        // this.totalVariationsUnit = this.getTotalVariationUnit(
+        //   this.allVariantList
+        // );
         this.editingVariation = false;
         this.addingVariation = false;
       }
@@ -537,10 +536,10 @@ export class CreateProductComponent
       }
     }
 
-    this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
+    // this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
 
-    this.availableProductUnit =
-      this.initialProductUnit - this.totalVariationsUnit;
+    // this.availableProductUnit =
+    //   this.initialProductUnit - this.totalVariationsUnit;
 
     // this.relatedItems.forEach((element: any, index: number) => {
     //   (<FormArray>this.form.get('options')).push(
@@ -803,15 +802,15 @@ export class CreateProductComponent
     uikit.modal('#delete-modal').hide();
   }
 
-  onConfirmRemoveEditVariation() {
-    this.variationProps.reset();
-    this.editingTotalVariationsUnit = 0;
-    this.totalVariationsUnit += this.editingVariationUnit;
-    this.editingVariationUnit = 0;
-    this.addingVariation = false;
-    this.editingVariation = false;
-    uikit.modal('#delete-modal').hide();
-  }
+  // onConfirmRemoveEditVariation() {
+  //   this.variationProps.reset();
+  //   this.editingTotalVariationsUnit = 0;
+  //   this.totalVariationsUnit += this.editingVariationUnit;
+  //   this.editingVariationUnit = 0;
+  //   this.addingVariation = false;
+  //   this.editingVariation = false;
+  //   uikit.modal('#delete-modal').hide();
+  // }
 
   // this method is to remove already created product varaints
   removeVariation(index: number): void {
@@ -827,23 +826,13 @@ export class CreateProductComponent
           this.allVariantList[index].unit
         );
         this.allVariantList.splice(index, 1);
-        this.variantComponent.totalVariationsUnit -=
-          this.variantComponent.variantOptionsValuesArray.value[index].unit;
-        this.variantComponent.savedTotalVariantsUnit = this.totalVariationsUnit;
-        this.variantComponent.savedTotalWhenDeleteVariantsUnit =
-          this.totalVariationsUnit;
+        if (this.allVariantList.length <= 0) {
+          this.savedTotalVariantsUnit = 0;
+        } else {
+          this.savedTotalVariantsUnit -= this.allVariantList[index].unit;
+        }
       }
     });
-
-    // this.totalVariationsUnit = this.allVariantList.reduce(
-    //   (accumulator, currentValue) => {
-    //     return accumulator + currentValue.unit;
-    //   },
-    //   0,
-    // );
-    //
-    this.availableProductUnit =
-      this.initialProductUnit - this.totalVariationsUnit;
   }
 
   // this method is to edit already created related/complimentary product
@@ -851,20 +840,6 @@ export class CreateProductComponent
     this.editingVariation = true;
     this.editingIndex = index;
     this.variantService.variantToEdit.next(this.allVariantList[index]);
-
-    // this.editingTotalVariationsUnit = this.totalVariationsUnit;
-    //
-    // this.totalVariationsUnit =
-    //   this.totalVariationsUnit - this.allVariantList[index].unit;
-    //
-    // this.addingVariation = true;
-    // this.variationProps.patchValue({ imageUrl: '' });
-    // this.editingVariationUnit = this.allVariantList[index].unit;
-    //
-    // if (!this.variationProps) {
-    //   this.variationProps = this.createVariation();
-    // }
-    // this.variationProps.patchValue({ ...this.allVariantList[index] });
   }
 
   options(): FormArray {
