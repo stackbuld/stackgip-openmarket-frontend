@@ -31,7 +31,7 @@ declare var gtag: any;
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'ecommerce-app';
+  title = 'Renamarket -Most Reliable and Secured Ecommerce Website';
   count$: Observable<number>;
   user!: IUser;
 

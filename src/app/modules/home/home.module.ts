@@ -1,7 +1,7 @@
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule, PLATFORM_ID} from '@angular/core';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -27,7 +27,15 @@ import { ProductDeleteModalComponent } from './product-checkout/product-delete-m
 import { SingleProductAddressDialogComponent } from './single-product/single-product-address-dialog/single-product-address-dialog.component';
 
 import { register } from 'swiper/element/bundle';
-register();
+import {
+  NgAisHitsModule,
+  NgAisInstantSearchModule,
+  NgAisSearchBoxModule,
+} from 'angular-instantsearch';
+if(isPlatformBrowser(PLATFORM_ID)) {
+  register();
+}
+
 @NgModule({
   declarations: [
     HomeComponent,
@@ -57,6 +65,9 @@ register();
     GooglePlaceModule,
     IvyCarouselModule,
     NgImageFullscreenViewModule,
+    NgAisSearchBoxModule,
+    NgAisInstantSearchModule,
+    NgAisHitsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

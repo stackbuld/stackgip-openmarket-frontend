@@ -37,6 +37,7 @@ import { AppLocalStorage } from '../helpers/local-storage';
 import { H } from 'highlight.run';
 import { datadogRum } from '@datadog/browser-rum';
 
+declare var clarity: any;
 export interface IAuth {
   isLoggedId: boolean;
   token: string;
@@ -459,6 +460,15 @@ export class AuthService {
       name: user.firstName + ' ' + user.lastName,
       email: user.email,
     });
+
+    // @ts-ignore
+    window.clarity(
+      'identify',
+      user.email,
+      'custom-session-123',
+      'custom-session-123',
+      user.firstName + ' ' + user.lastName,
+    );
 
     this.ngxService.stopAll();
     if (

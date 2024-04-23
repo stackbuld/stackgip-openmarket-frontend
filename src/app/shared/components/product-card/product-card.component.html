@@ -1,5 +1,5 @@
 <div (click)="view(product)" class="prod p-2">
-  <!-- <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''" 
+  <!-- <img *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''"
         [src]="product?.imageUrl" class="img" /> -->
 
   <!-- <ng-template #image> -->
@@ -11,15 +11,19 @@
       height="200px"
       controls
       uk-video="autoplay: false, automute: true"
+
     ></video>
   </ng-container>
 
   <ng-template #image>
     <img
       *ngIf="product?.imageUrl !== null && product?.imageUrl !== ''"
-      src="{{ getImageResolution(product?.imageUrl, 300, 300) }}"
-      loading="lazy"
+      ngSrc="{{ getImageResolution(product?.imageUrl, 300, 300) }}"
+
       class="w-100"
+      width="300"
+      height="300"
+      loading="lazy"
     />
   </ng-template>
   <!-- </ng-template> -->
@@ -37,7 +41,7 @@
         <span>{{ product?.name || "N/A" | slice : 0 : 30 }}</span>
         <span *ngIf="product?.name?.length > 30">...</span>
       </p>
-      <img src="/assets/images/cart-icn-prod.svg" alt="cart-icn-prod" />
+      <img src="/assets/images/cart-icn-prod.svg" alt="cart-icn-prod" loading="lazy" />
     </div>
     <p class="price mb-0">{{ product?.sellingPrice || 0 | currency : "₦" }}</p>
   </div>

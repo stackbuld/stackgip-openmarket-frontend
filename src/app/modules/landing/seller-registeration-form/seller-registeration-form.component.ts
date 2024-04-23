@@ -36,7 +36,7 @@ declare var cloudinary: any;
 @Component({
   selector: 'app-seller-registeration-form',
   templateUrl: './seller-registeration-form.component.html',
-  styleUrls: ['./seller-registeration-form.component.css'],
+  styleUrls: ['./seller-registeration-form.component.scss'],
 })
 export class SellerRegisterationFormComponent
   implements OnInit, AfterViewChecked, OnDestroy
