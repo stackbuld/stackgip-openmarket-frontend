@@ -3,9 +3,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import {
@@ -85,7 +87,9 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() productUnit!: number;
   @Input() totalVariationsUnit: number = 0;
   @Input() savedTotalVariantsUnit: number = 0;
+  @Output() savedTotalVariantsUnitChange = new EventEmitter<number>();
   @Input() savedTotalWhenDeleteVariantsUnit: number = 0;
+
   variant!: FormControl;
   variantOptionsValuesFormGroup!: FormGroup;
   selectedVariantsForm!: FormControl;
@@ -113,7 +117,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private variantService: VariantService,
     private toast: ToastrService,
-    private changeDetector: ChangeDetectorRef,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -160,7 +164,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
           cost: new FormControl(variant.cost, Validators.required),
           unit: new FormControl(variant.unit, Validators.required),
           isMultiple: new FormControl(false),
-        }),
+        })
       );
 
       this.scrollToFirstInvalidControl();
@@ -180,7 +184,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           });
         }
-      },
+      }
     );
 
     this.variantService.addNewVariant
@@ -340,7 +344,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (hasInvalidPrice) {
       this.toast.warining(
-        'Variant price must be zero(0) or have a price above product price!',
+        'Variant price must be zero(0) or have a price above product price!'
       );
       return;
     }
@@ -363,7 +367,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     });
     this.savedTotalWhenDeleteVariantsUnit = this.getTotalVariationUnit(
-      this.variantOptionsValuesArray.value,
+      this.variantOptionsValuesArray.value
     );
     this.savedTotalWhenDeleteVariantsUnit += this.savedTotalVariantsUnit;
     this.variantService.isAddingVariant.next(false);
@@ -396,15 +400,15 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedVariants.map((variant) => {
         this.variantOptionsValuesArray.push(
           new FormGroup(
-            this.createFormGroup({ title: this.variant.value, value: variant }),
-          ),
+            this.createFormGroup({ title: this.variant.value, value: variant })
+          )
         );
       });
     }
 
     this.selectedVariants.forEach((variant) => {
       this.variantOptionsValues = this.variantOptionsValues.filter(
-        (option) => option != variant,
+        (option) => option != variant
       );
     });
   }
@@ -414,13 +418,13 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.variantOptionsValuesArray.push(
       new FormGroup(
-        this.createFormGroup({ title: this.variant.value, value: option }),
-      ),
+        this.createFormGroup({ title: this.variant.value, value: option })
+      )
     );
 
     this.selectedVariants.forEach((variant) => {
       this.variantOptionsValues = this.variantOptionsValues.filter(
-        (option) => option != variant,
+        (option) => option != variant
       );
     });
   }
@@ -448,7 +452,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef.afterClosed().subscribe((event) => {
       if (event) {
         const deletedOption = this.selectedVariants.find(
-          (variant, index) => index == id,
+          (variant, index) => index == id
         );
         this.totalVariationsUnit -=
           this.variantOptionsValuesArray.value[id].unit;
@@ -466,6 +470,8 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedVariants = this.delete(this.selectedVariants, id);
     this.selectedVariantsForm.setValue(this.selectedVariants);
     this.variantOptionsValuesArray.removeAt(id);
+    this.savedTotalVariantsUnit -=
+      this.variantOptionsValuesArray.value[id].unit;
   }
 
   delete(value: any[], id: number) {

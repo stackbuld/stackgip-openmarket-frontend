@@ -180,8 +180,12 @@ export class CreateProductComponent
   videoWidget: any;
   isAddingVariants: boolean = false;
 
+  savedTotalVariantsUnit: number = 0;
+
   @ViewChild('variationForm', { static: false })
   variationForm: ElementRef<HTMLElement>;
+
+  @ViewChild('variantComponent') variantComponent: VariantComponent;
 
   @ViewChild('complementaryForm', { static: false })
   complementaryForm: ElementRef<HTMLElement>;
@@ -252,12 +256,14 @@ export class CreateProductComponent
           values.map((value) => {
             this.variations().push(this.fb.group(value));
           });
+          this.allVariantList.forEach(
+            (v) => (this.savedTotalVariantsUnit += v.unit)
+          );
         }
 
         this.totalVariationsUnit = this.getTotalVariationUnit(
           this.allVariantList
         );
-        console.log(this.totalVariationsUnit);
         this.editingVariation = false;
         this.addingVariation = false;
       }
@@ -710,6 +716,7 @@ export class CreateProductComponent
       this.toast.error('Add product price!');
       return;
     }
+    this.allVariantList.forEach((v) => (this.savedTotalVariantsUnit += v.unit));
     this.variantService.addNewVariant.next(true);
     // this.addingVariation = true;
     // this.variationProps = this.createVariation();
@@ -815,10 +822,16 @@ export class CreateProductComponent
     dialogRef.afterClosed().subscribe((event) => {
       if (event) {
         this.variations().removeAt(index);
+
         this.variantService.deletingVariantUnit.next(
           this.allVariantList[index].unit
         );
         this.allVariantList.splice(index, 1);
+        this.variantComponent.totalVariationsUnit -=
+          this.variantComponent.variantOptionsValuesArray.value[index].unit;
+        this.variantComponent.savedTotalVariantsUnit = this.totalVariationsUnit;
+        this.variantComponent.savedTotalWhenDeleteVariantsUnit =
+          this.totalVariationsUnit;
       }
     });
 
