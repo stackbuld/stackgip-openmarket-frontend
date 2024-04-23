@@ -7,8 +7,7 @@ import { CatgoryService } from 'src/app/services/category/catgory.service';
 import { ICategory } from 'src/app/models/CategoryModels';
 import { PromotedProductsService } from 'src/app/services/promoted-products/promoted-products.service';
 import { RecommendedProductService } from 'src/app/services/recomended-product/recommended-product.service';
-import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
-import { ProductSearchService } from '../../../services/seller/product-search.service';
+
 import { ProductsService } from '../../../services/products/products.service';
 
 @Component({

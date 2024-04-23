@@ -32,6 +32,7 @@ export class SearchService implements ISearchService {
     indexName: environment.algolia.indexName.products,
     searchClient,
   };
+  filterChanged = new Subject<boolean>();
 
   constructor(private route: ActivatedRoute) {}
 
@@ -133,6 +134,10 @@ export class SearchService implements ISearchService {
 
     if (storefrontSellerId) {
       filters += ` AND userId:${storefrontSellerId}`;
+    }
+
+    if (filters !== `price:${minPrice} TO ${maxPrice}`) {
+      this.filterChanged.next(true);
     }
 
     let tempHits: ProductModel[] = [];
