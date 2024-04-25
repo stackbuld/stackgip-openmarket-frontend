@@ -1,5 +1,5 @@
 import { CategoryResponse, ICategory } from './../../models/CategoryModels';
-import { Observable, from, of, retry, switchMap } from 'rxjs';
+import { Observable, from, of, map, switchMap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiAppUrlService } from '../api-app-url.service';
@@ -69,8 +69,14 @@ export class CatgoryService implements ICatgoryService {
     return formattedCategories;
   }
 
-  getAllStorefrontCategories(): Promise<any> {
-    return this.categoriesIndex.search('');
+  getAllStorefrontCategories(): Observable<ICategory[]> {
+    const data = this.categoriesIndex.search('');
+    return from(data).pipe(
+      map((data) => {
+        const categories = this.convertToICategory(data.hits);
+        return categories;
+      })
+    );
   }
 
   sortByCount(array: any[]) {
@@ -83,14 +89,19 @@ export class CatgoryService implements ICatgoryService {
     });
   }
 
-  convertToICategory(category: any): ICategory {
-    return {
-      id: category.id,
-      name: category.name,
-      imageUrl: category.imageUrl,
-      createdOn: category.createdOn,
-      orderingNumber: category.orderingNumber,
-    };
+  convertToICategory(categories: any[]): ICategory[] {
+    const data: ICategory[] = [];
+    categories.forEach((category) => {
+      const orderedCategory = {
+        id: category.id,
+        name: category.name,
+        imageUrl: category.imageUrl,
+        createdOn: category.createdOn,
+        orderingNumber: category.orderingNumber,
+      };
+      data.push(orderedCategory);
+    });
+    return data;
   }
 
   searchCategories(

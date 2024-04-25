@@ -3,5 +3,5 @@ import { ICategory } from '../../models/CategoryModels';
 
 export interface ICatgoryService {
   getAllCategories(storefrontSellerId?: string): Observable<string[]>;
-  getAllStorefrontCategories(): Promise<any[]>;
+  getAllStorefrontCategories(): Observable<ICategory[]>;
 }
