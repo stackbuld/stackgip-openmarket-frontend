@@ -101,7 +101,6 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   uploadPhotoWidget: any;
   optionsImageIndex: number = 0;
   finishedVariants: Variants[] = [];
-  newFinishedVariants: Variants[] = [];
   @ViewChild('variantForm1', { static: false })
   variantForm1: ElementRef<HTMLElement>;
   @ViewChild('variantForm2', { static: false })
@@ -114,7 +113,6 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   variantToEditUnit!: number;
   isProductUnitExceeded: boolean = false;
   isSavedPrevUnit: boolean = false;
-  variants: { [key: string]: Variants[] }[] = [];
   constructor(
     private dialog: MatDialog,
     private variantService: VariantService,
@@ -155,6 +153,8 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedVariants = [variant.value];
       this.variantToEditUnit = variant.unit;
       this.variantService.isAddingVariant.next(true);
+      this.totalVariationsUnit = this.savedTotalWhenDeleteVariantsUnit;
+      this.savedTotalVariantsUnit = this.totalVariationsUnit;
       this.variantOptionsValuesArray.push(
         new FormGroup({
           title: new FormControl(variant.title, Validators.required),
@@ -365,12 +365,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         ...control.value,
         cost: cost == 0 ? 0 : cost - this.productPrice,
       });
-      this.newFinishedVariants.push({
-        ...control.value,
-        cost: cost == 0 ? 0 : cost - this.productPrice,
-      });
     });
-
     this.savedTotalWhenDeleteVariantsUnit = this.getTotalVariationUnit(
       this.variantOptionsValuesArray.value
     );
@@ -460,27 +455,23 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
           (variant, index) => index == id
         );
         this.totalVariationsUnit -=
-          this.variantOptionsValuesArray.value[id].unit ?? 0;
+          this.variantOptionsValuesArray.value[id].unit;
         this.savedTotalVariantsUnit = this.totalVariationsUnit;
         this.savedTotalWhenDeleteVariantsUnit = this.totalVariationsUnit;
 
         this.variantOptionsValues.push(deletedOption);
         this.selectedVariants = this.delete(this.selectedVariants, id);
         this.variantOptionsValuesArray.removeAt(id);
-        if (this.selectedVariants.length <= 0) {
-          this.stage = 0;
-        }
       }
     });
   }
 
   onRemoveOption(id: number) {
-    this.savedTotalVariantsUnit -=
-      this.variantOptionsValuesArray.value[id].unit ?? 0;
-    this.totalVariationsUnit = this.savedTotalVariantsUnit;
     this.selectedVariants = this.delete(this.selectedVariants, id);
     this.selectedVariantsForm.setValue(this.selectedVariants);
     this.variantOptionsValuesArray.removeAt(id);
+    this.savedTotalVariantsUnit -=
+      this.variantOptionsValuesArray.value[id].unit;
   }
 
   delete(value: any[], id: number) {
@@ -516,28 +507,8 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     (firstInvalidControl as HTMLElement).focus();
   }
 
-  resolveVariants(variants: Variants[]) {
-    const newVariant: { [key: string]: Variants[] } = variants.reduce(
-      (result, obj) => {
-        const title = obj.title;
-        if (!result[title]) {
-          result[title] = [];
-        }
-        result[title].push(obj);
-        return result;
-      },
-      {} as any,
-    );
-
-    return Object.keys(newVariant).map((title) => ({
-      [title]: newVariant[title],
-    }));
-  }
-
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
   }
-
-  protected readonly Object = Object;
 }
