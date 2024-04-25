@@ -113,7 +113,7 @@
             <mat-form-field class="uk-width-expand">
               <input
                 (keypress)="preventLetter($event)"
-                type="number"
+                type="text"
                 matInput
                 placeholder="eg 1000"
                 formControlName="previousPrice"
@@ -1231,8 +1231,6 @@
 
     <div style="margin: 20px 0">
       <app-variant
-        [totalVariationsUnit]="totalVariationsUnit"
-        [savedTotalVariantsUnit]="totalVariationsUnit"
         [variantOptions]="productVariations"
         [productPrice]="this.form.get('price').value"
         [productUnit]="this.form.get('unit').value"
