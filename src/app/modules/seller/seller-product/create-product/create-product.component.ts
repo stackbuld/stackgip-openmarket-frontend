@@ -425,7 +425,7 @@ export class CreateProductComponent
 
   populateProductForm(data: any): void {
     let variationList = [];
-    let complimentartProducts = [];
+    let complimentaryProducts = [];
     let sellerStoreIds = [];
     this.allVariantList = [];
     this.form = this.fb.group({
@@ -457,7 +457,7 @@ export class CreateProductComponent
       const element = data.productOptions[index];
 
       if (!!element.isMultiple) {
-        complimentartProducts.push(element);
+        complimentaryProducts.push(element);
         this.relatedItems.push(element);
       }
 
@@ -622,22 +622,25 @@ export class CreateProductComponent
           this.allVariantList[index].unit
         );
         this.allVariantList.splice(index, 1);
+        this.sendTotalVariantValue();
       }
     });
-    this.availableProductUnit =
-      this.initialProductUnit - this.totalVariationsUnit;
+  }
+
+  sendTotalVariantValue(): void {
+    let totalUnit = 0;
+    this.allVariantList.forEach((value) => (totalUnit += value.unit));
+    this.variantService.getVariantCount.next(totalUnit);
   }
 
   // this method is to edit already created related/complimentary product
   editVariation(index: number): void {
     this.editingVariation = true;
     this.editingIndex = index;
+    this.sendTotalVariantValue();
     this.variantService.variantToEdit.next(this.allVariantList[index]);
 
     this.editingTotalVariationsUnit = this.totalVariationsUnit;
-
-    this.totalVariationsUnit =
-      this.totalVariationsUnit - this.allVariantList[index].unit;
 
     this.addingVariation = true;
     this.variationProps.patchValue({ imageUrl: '' });

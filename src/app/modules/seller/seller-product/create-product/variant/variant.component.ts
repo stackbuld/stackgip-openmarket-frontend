@@ -61,10 +61,8 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() variantOptions: VariantOptions[] = [];
   @Input() productPrice!: number;
   @Input() productUnit!: number;
-  @Input() savedTotalVariantsUnit: number = 0;
-  @Output() savedTotalVariantsUnitChange = new EventEmitter<number>();
-  @Input() savedTotalWhenDeleteVariantsUnit: number = 0;
 
+  savedTotalVariantsUnit!: number;
   totalVariationsUnit: number = 0;
 
   variant!: FormControl;
@@ -90,6 +88,8 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   variantToEditUnit!: number;
   isProductUnitExceeded: boolean = false;
   isSavedPrevUnit: boolean = false;
+  savedTotalWhenDeleteVariantsUnit: number = 0;
+
   constructor(
     private dialog: MatDialog,
     private variantService: VariantService,
@@ -130,8 +130,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedVariants = [variant.value];
       this.variantToEditUnit = variant.unit;
       this.variantService.isAddingVariant.next(true);
-      // this.totalVariationsUnit = this.savedTotalWhenDeleteVariantsUnit;
-      // this.savedTotalVariantsUnit = this.totalVariationsUnit;
+      this.totalVariationsUnit = this.savedTotalVariantsUnit;
       this.variantOptionsValuesArray.push(
         new FormGroup({
           title: new FormControl(variant.title, Validators.required),
@@ -169,39 +168,49 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((value) => {
         if (value) {
           this.onContinue(1);
-          // this.totalVariationsUnit = this.savedTotalWhenDeleteVariantsUnit;
-          // this.savedTotalVariantsUnit = this.totalVariationsUnit;
+          console.log('Add variant called');
+          this.totalVariationsUnit = this.savedTotalVariantsUnit;
         }
       });
 
     this.variantOptionsValuesArray.valueChanges.subscribe((value) => {
-      try {
-        const unit = this.variantOptionsValuesArray.value[0].unit;
-        if (this.editingVariant) {
-          if (this.variantToEditUnit < unit) {
-            this.totalVariationsUnit =
-              this.savedTotalVariantsUnit + (unit - this.variantToEditUnit);
-          } else if (unit == null) {
-            this.totalVariationsUnit -= this.variantToEditUnit;
-            this.savedTotalVariantsUnit = this.totalVariationsUnit;
-            this.editingVariant = false;
-          } else {
-            this.totalVariationsUnit =
-              this.savedTotalVariantsUnit + (unit - this.variantToEditUnit);
-          }
+      this.listenForVariantUnitChangeFromParent();
+      const unit = this.variantOptionsValuesArray.value[0].unit;
+
+      if (this.editingVariant) {
+        if (unit == null) {
+          this.totalVariationsUnit -= this.variantToEditUnit;
+          // this.savedTotalVariantsUnit = this.totalVariationsUnit;
+          this.editingVariant = false;
+        } else if (this.variantToEditUnit < unit) {
+          this.totalVariationsUnit =
+            this.savedTotalVariantsUnit + (unit - this.variantToEditUnit);
         } else {
           this.totalVariationsUnit =
-            this.getTotalVariationUnit(value) + this.savedTotalVariantsUnit;
+            this.savedTotalVariantsUnit + (unit - this.variantToEditUnit);
         }
-        this.getUnitValues();
-      } catch {}
+      } else {
+        this.totalVariationsUnit =
+          this.getTotalVariationUnit(value) + this.savedTotalVariantsUnit;
+      }
+      this.getUnitValues();
     });
 
+    this.listenForVariantUnitChangeFromParent();
+
     this.variantService.deletingVariantUnit.subscribe((unit) => {
+      console.log('called from parent and unit value to delete is.', unit);
+      console.log('variation unit was ', this.totalVariationsUnit);
       this.totalVariationsUnit -= unit;
-      this.savedTotalWhenDeleteVariantsUnit = this.totalVariationsUnit;
-      this.savedTotalVariantsUnit = this.totalVariationsUnit;
+      console.log('but now variation unit is ', this.totalVariationsUnit);
     });
+  }
+
+  listenForVariantUnitChangeFromParent(): void {
+    this.variantService.getVariantCount.subscribe((unit) => {
+      this.savedTotalVariantsUnit = unit;
+    });
+    console.log(this.savedTotalVariantsUnit);
   }
 
   getTotalVariationUnit(list: any[]) {
@@ -212,11 +221,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getUnitValues() {
     let totalVariationValue = 0;
-
     this.availableProductUnit = this.productUnit - this.totalVariationsUnit;
-    if (!this.isSavedPrevUnit) {
-      this.savedTotalWhenDeleteVariantsUnit = this.totalVariationsUnit;
-    }
     this.isSavedPrevUnit = true;
     if (this.editingVariant) {
       this.availableProductUnit = this.initialProductUnit - totalVariationValue;
@@ -329,6 +334,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     if (this.variantOptionsValuesFormGroup.invalid) {
+      console.log(this.variantOptionsValuesFormGroup.errors);
       this.variantOptionsValuesFormGroup.markAllAsTouched();
       this.toast.error('All required fields must be filled!');
       return;
@@ -345,10 +351,6 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         cost: cost == 0 ? 0 : cost - this.productPrice,
       });
     });
-    this.savedTotalWhenDeleteVariantsUnit = this.getTotalVariationUnit(
-      this.variantOptionsValuesArray.value
-    );
-    this.savedTotalWhenDeleteVariantsUnit += this.savedTotalVariantsUnit;
     this.variantService.isAddingVariant.next(false);
 
     try {
@@ -359,6 +361,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onContinue(stage: number) {
+    this.totalVariationsUnit = this.savedTotalVariantsUnit;
     if (!this.productPrice) {
       this.toast.error('Add product price!');
       return;
@@ -416,6 +419,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef.afterClosed().subscribe((event) => {
       if (event) {
         this.stage = 0;
+        this.totalVariationsUnit = this.savedTotalVariantsUnit;
         this.selectedVariants = [];
         this.variantOptionsValues = [];
         this.variant.setValue(null);
@@ -433,18 +437,15 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         const deletedOption = this.selectedVariants.find(
           (variant, index) => index == id
         );
-
+        console.log(this.variantOptionsValuesArray.value[id].unit);
+        this.totalVariationsUnit -=
+          this.variantOptionsValuesArray.value[id].unit;
         this.variantOptionsValues.push(deletedOption);
         this.selectedVariants = this.delete(this.selectedVariants, id);
         this.variantOptionsValuesArray.removeAt(id);
-   
-        this.totalVariationsUnit -=
-          this.variantOptionsValuesArray.value[id].unit;
-        this.savedTotalVariantsUnit = this.totalVariationsUnit;
-        // this.savedTotalWhenDeleteVariantsUnit = this.totalVariationsUnit;
-             if (this.selectedVariants.length <= 0) {
-               this.stage = 0;
-             }
+        if (this.selectedVariants.length <= 0) {
+          this.stage = 0;
+        }
       }
     });
   }

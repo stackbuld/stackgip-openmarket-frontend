@@ -105,7 +105,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private cityService: CityService,
     private stateService: StateService,
     private router: Router,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -124,7 +124,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        map((value) => value.toLowerCase()),
+        map((value) => value.toLowerCase())
       )
       .subscribe((value) => {
         this.productSearchQuery = value;
@@ -138,6 +138,16 @@ export class ProductListComponent implements OnInit, OnDestroy {
           this.getProductSearch(this.productSearchQuery);
         }
       });
+
+    this.route.queryParams.subscribe({
+      next: (res) => {
+        this.fetchQueryParamsFromUrl();
+        console.log('URL queryParams', res);
+        console.log(this.categoryName);
+        this.fetchAllProducts(this.pageNumber);
+      },
+      error: (err) => {},
+    });
   }
 
   getProductSearch(search: string) {
@@ -151,7 +161,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
         this.cityName,
         this.stateName,
         this.minValue,
-        this.maxValue,
+        this.maxValue
       )
       .subscribe((data) => {
         this.productSearchResults = data;
@@ -367,7 +377,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
         this.cityName,
         this.stateName,
         this.minValue,
-        this.maxValue,
+        this.maxValue
       )
       .subscribe({
         next: (data) => {
