@@ -13,6 +13,7 @@ import uikit from 'uikit';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './preview-product.html',
+  styleUrls: ['./preview-product.scss'],
   providers: [SafeHtmlPipe],
 })
 export class ProductPreview {

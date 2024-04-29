@@ -433,14 +433,18 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         const deletedOption = this.selectedVariants.find(
           (variant, index) => index == id
         );
-        this.totalVariationsUnit -=
-          this.variantOptionsValuesArray.value[id].unit;
-        this.savedTotalVariantsUnit = this.totalVariationsUnit;
-        // this.savedTotalWhenDeleteVariantsUnit = this.totalVariationsUnit;
 
         this.variantOptionsValues.push(deletedOption);
         this.selectedVariants = this.delete(this.selectedVariants, id);
         this.variantOptionsValuesArray.removeAt(id);
+   
+        this.totalVariationsUnit -=
+          this.variantOptionsValuesArray.value[id].unit;
+        this.savedTotalVariantsUnit = this.totalVariationsUnit;
+        // this.savedTotalWhenDeleteVariantsUnit = this.totalVariationsUnit;
+             if (this.selectedVariants.length <= 0) {
+               this.stage = 0;
+             }
       }
     });
   }

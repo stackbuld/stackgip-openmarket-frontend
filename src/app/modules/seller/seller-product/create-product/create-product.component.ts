@@ -147,7 +147,6 @@ export class CreateProductComponent
     private variantService: VariantService
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.initVariationForm();
     localStorage.removeItem('compImagesStore');
     this.user = this.authService.getLoggedInUser();
   }
@@ -215,8 +214,6 @@ export class CreateProductComponent
       }
       this.initialProductUnit = value;
     });
-
-    this.getUnitValues();
 
     this.productService.newProductUnit.subscribe((value) => {
       this.initialProductUnit = value;
@@ -470,26 +467,6 @@ export class CreateProductComponent
       }
     }
 
-    this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
-
-    this.availableProductUnit =
-      this.initialProductUnit - this.totalVariationsUnit;
-
-    // this.relatedItems.forEach((element: any, index: number) => {
-    //   (<FormArray>this.form.get('options')).push(
-    //     this.fb.group({
-    //       title: [element.title, [Validators.required]],
-    //       value: [element.value],
-    //       cost: [element.cost],
-    //       shortDescription: [element.shortDescription],
-    //       unit: [element.unit],
-    //       imageUrl: [''],
-    //       isMultiple: [element.isMultiple],
-    //       ...(element.id && {id: element.id} )
-    //     })
-    //   );
-    // });
-
     this.allVariantList.forEach((element: any, index: number) => {
       (<FormArray>this.form.get('variations')).push(
         this.fb.group({
@@ -519,85 +496,6 @@ export class CreateProductComponent
         })
       );
     });
-  }
-
-  getUnitValues() {
-    if (this.variationProps.get('unit').value === null) {
-      return;
-    }
-
-    this.variationProps.get('unit').valueChanges.subscribe((value) => {
-      let totalVariationValue = 0;
-
-      if (value === null) {
-        this.availableProductUnit =
-          this.initialProductUnit - this.totalVariationsUnit;
-
-        return;
-      }
-
-      totalVariationValue = value + this.totalVariationsUnit;
-
-      if (this.editingVariation) {
-        this.availableProductUnit =
-          this.initialProductUnit - totalVariationValue;
-      } else {
-        this.availableProductUnit =
-          this.initialProductUnit - (value + this.totalVariationsUnit);
-      }
-
-      if (this.availableProductUnit < 0) {
-        this.isProductUnitExceeded = true;
-      } else {
-        this.isProductUnitExceeded = false;
-      }
-
-      if (totalVariationValue > this.initialProductUnit) {
-        this.isProductUnitExceeded = true;
-
-        this.dialog.open(VariationsAlertDialogComponent, {
-          data: {
-            initialUnit: this.initialProductUnit,
-            exceededUnit: totalVariationValue,
-            type: 'unitAlert',
-          },
-          autoFocus: false,
-        });
-      } else {
-        this.isProductUnitExceeded = false;
-      }
-    });
-  }
-
-  // creating a new varaint type (for add variation)
-  initVariationForm(): void {
-    this.newVariationForm = this.fb.group({
-      name: ['', [Validators.required]],
-      // categoryId: ['', [Validators.required]],
-    });
-  }
-
-  createNewVariation() {
-    this.creatingVariation = true;
-    // this.selectedCategoryId = this.newVariationForm.value.categoryId;
-    this.productService.createVariation(this.newVariationForm.value).subscribe(
-      (res) => {
-        if (res.status === 'success') {
-          this.document.getElementById('closeVariationModalBtn').click();
-          this.creatingVariation = false;
-          this.toast.success(res.message);
-          this.getVariations();
-          this.initVariationForm();
-        } else {
-          this.creatingVariation = false;
-          this.toast.success(res.message);
-        }
-      },
-      (err) => {
-        this.creatingVariation = false;
-        this.toast.error(err.message);
-      }
-    );
   }
 
   changeUnit = (unit: any, type: string) => {
@@ -708,25 +606,6 @@ export class CreateProductComponent
     return list.reduce((accumulator, currentValue) => {
       return accumulator + currentValue.unit;
     }, 0);
-  }
-
-  // this method is to close the variation of products card
-  removeEditVariation(): void {
-    uikit.modal('#delete-modal').show();
-  }
-
-  onCancelRemoveEditVariation() {
-    uikit.modal('#delete-modal').hide();
-  }
-
-  onConfirmRemoveEditVariation() {
-    this.variationProps.reset();
-    this.editingTotalVariationsUnit = 0;
-    this.totalVariationsUnit += this.editingVariationUnit;
-    this.editingVariationUnit = 0;
-    this.addingVariation = false;
-    this.editingVariation = false;
-    uikit.modal('#delete-modal').hide();
   }
 
   // this method is to remove already created product varaints
@@ -874,12 +753,6 @@ export class CreateProductComponent
     }
   }
 
-  removeVariationImage(image_url): void {
-    this.imageErr = null;
-    this.variationImages = this.variationImages.filter((a) => a !== image_url);
-    this.variationProps.patchValue({ imageUrl: '' });
-  }
-
   removeRelatedImage(): void {
     this.imageErr = null;
     this.editProps.patchValue({ imageUrl: '' });
@@ -965,39 +838,13 @@ export class CreateProductComponent
   }
 
   edit = () => {
-    // if (this.isSubCatIdEmpty === true) {
-    //   this.form.patchValue({ categoryId: '' });
-    // }
     if (this.isPreview === true) {
       this.isPreview = false;
     }
   };
 
-  setVariation(list: any) {
-    const result = list.reduce((acc, { title, value }) => {
-      acc[title] ??= { title: title, value: [] };
-      if (Array.isArray(value))
-        // if it's array type then concat
-        acc[title].value = acc[title].value.concat(value);
-      else acc[title].value.push(value);
-      return acc;
-    }, {});
-    this.variationList = Object.values(result);
-  }
-
   toggleDescription() {
     this.isFullDescription = !this.isFullDescription;
-  }
-
-  convertInnerHtmlToString(myHTML: any) {
-    // var strippedHtml = myHTML.replace(/<[^>]+>/g, "");
-    // if (strippedHtml.length > 700) {
-    //   this.hasFullDesc = true;
-    // } else {
-    //   this.hasFullDesc = false;
-    // }
-    // return strippedHtml;
-    return myHTML;
   }
 
   saveAsDraft = () => {
@@ -1064,8 +911,8 @@ export class CreateProductComponent
         publishOption: 'Draft',
         ...(this.productId && { draftProductId: this.productId }),
       })
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           if (res.status === 'success') {
             this.toast.success('Product saved as draft Successful!');
             this.router.navigate(['/seller/products']);
@@ -1077,11 +924,11 @@ export class CreateProductComponent
             this.toast.error('Something went wrong');
           }
         },
-        (err) => {
+        error: (err) => {
           this.creatingProduct = false;
           this.toast.error('Something went wrong');
-        }
-      );
+        },
+      });
   }
 
   isSubCatIdEmpty = false;

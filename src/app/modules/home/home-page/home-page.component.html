@@ -54,7 +54,15 @@
             *ngFor="let slide of heroSlides; let i = index"
             class="w-100 slider-img"
           >
-            <img [ngSrc]="slide" alt="" width="680" height="380" uk-cover class="uk-slideshow-image"  loading="lazy"/>
+            <img
+              [ngSrc]="slide"
+              alt=""
+              width="680"
+              height="380"
+              uk-cover
+              class="uk-slideshow-image"
+              loading="lazy"
+            />
             <div
               class="uk-position-medium uk-position-bottom-right shop-now-btn-container"
             >
@@ -186,15 +194,43 @@
 
   <section id="deals-first">
     <div class="row">
-      <img [ngSrc]="banners[1]" width="945" height="881" loading="lazy" alt="Black Friday" class="col-sm-4"  />
-      <img [ngSrc]="banners[0]" width="1519" height="881" loading="lazy"  alt="Mega Sale" class="col-sm-8 large-img" />
+      <img
+        [ngSrc]="banners[1]"
+        width="945"
+        height="881"
+        loading="lazy"
+        alt="Black Friday"
+        class="col-sm-4"
+      />
+      <img
+        [ngSrc]="banners[0]"
+        width="1519"
+        height="881"
+        loading="lazy"
+        alt="Mega Sale"
+        class="col-sm-8 large-img"
+      />
     </div>
   </section>
 
   <section id="deals-second">
     <div class="row">
-      <img [ngSrc]="banners[2]" width="1519" height="881" loading="lazy"  alt="" class="col-sm-8"  />
-      <img [ngSrc]="banners[3]" width="945" height="881" loading="lazy"  alt="" class="col-sm-4 small-img"  />
+      <img
+        [ngSrc]="banners[2]"
+        width="1519"
+        height="881"
+        loading="lazy"
+        alt=""
+        class="col-sm-8"
+      />
+      <img
+        [ngSrc]="banners[3]"
+        width="945"
+        height="881"
+        loading="lazy"
+        alt=""
+        class="col-sm-4 small-img"
+      />
     </div>
   </section>
 
