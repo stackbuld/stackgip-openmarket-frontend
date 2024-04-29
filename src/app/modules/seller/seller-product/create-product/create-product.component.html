@@ -2,25 +2,12 @@
   <h1 class="uk-margin-bottom">Product(s) Information</h1>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- create product top components -->
     <div class="content-container body-add">
-      <!-- <div class="main uk-flex uk-flex-wrap uk-flex-wrap-around"> -->
       <div class="full-width form-content">
         <div class="mb-3 uk-width-expand input-sec">
           <div for="name" class="label">Product Name</div>
           <mat-form-field class="uk-width-expand">
-            <!-- <mat-label>
-            Product name
-            <span *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)">
-              <span
-                class="uk-text-warning"
-                style="font-size: smaller"
-                *ngIf="f.name.errors.required"
-              >
-                Product Name required <br
-              /></span>
-            </span>
-          </mat-label> -->
-
             <input
               type="text"
               formControlName="name"
@@ -31,16 +18,13 @@
             />
           </mat-form-field>
         </div>
-        <!-- <div class="uk-flex justify-content-end">
-          <p (click)="addStore()" class="add-store-btn">+ Add new store</p>
-        </div> -->
+
         <div class="mb-3 input-sec">
           <div for="name" class="label">Store Address</div>
           <div class="uk-flex justify-content-end pointer">
             <p (click)="addStore()" class="add-store-btn">+ Add new store</p>
           </div>
           <mat-form-field class="uk-width-expand">
-            <!-- <mat-label>Store Address</mat-label> -->
             <mat-select formControlName="storeIds" multiple required>
               <mat-option disabled="true">Select</mat-option>
               <mat-option *ngFor="let store of stores" [value]="store.id">
@@ -75,10 +59,6 @@
           >
             <div for="name" class="label">Sub Category</div>
             <mat-form-field class="uk-width-expand">
-              <!-- <mat-form-field
-            class="uk-width-expand"
-            *ngIf="subCategories?.length > 0 && !loadingSubCategories"
-          > -->
               <mat-label>Sub Category</mat-label>
               <mat-select formControlName="categoryId">
                 <mat-option disabled="true">Select</mat-option>
@@ -179,12 +159,6 @@
                 <mat-option [value]="'Car'">Car</mat-option>
                 <mat-option [value]="'Van'">Van</mat-option>
                 <mat-option [value]="'Truck'">Truck</mat-option>
-                <!-- <mat-option
-                  *ngFor="let pickup of pickupOptions" 
-                  [(value)]="pickup.name"
-                >
-                  {{ pickup?.name }}
-                </mat-option> -->
               </mat-select>
             </mat-form-field>
           </div>
@@ -245,73 +219,24 @@
                     !(1 + image?.substring(image.lastIndexOf('.')) == 'mp4')
                   "
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
+                  <img
+                    alt="icon"
                     height="18"
-                    viewBox="0 0 10 10"
-                    fill="none"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M2.59691 1.41585C2.79789 1.05059 3.01652 0.806414 3.34094 0.677287C3.93545 0.440897 6.06464 0.440897 6.65868 0.677334C6.98293 0.806392 7.20164 1.05052 7.40277 1.41571L7.62888 1.84929C7.63406 1.85788 7.63881 1.86543 7.64308 1.87193L7.66228 1.89819C7.7653 2.01044 7.9377 2.07825 8.0515 2.07825C9.12751 2.07825 10 2.95055 10 4.02625V6.92375C10 8.29586 8.88711 9.40875 7.515 9.40875H2.485C1.11255 9.40875 0 8.29602 0 6.92375V4.02625C0 2.95055 0.872489 2.07825 1.9485 2.07825C2.06189 2.07825 2.23454 2.01034 2.33772 1.89819C2.33978 1.89594 2.34247 1.8926 2.34572 1.88817L2.37144 1.84873L2.59691 1.41585ZM6.74583 1.77754C6.62085 1.55062 6.5079 1.42454 6.38132 1.37417L6.32166 1.35433C5.80709 1.20889 4.01721 1.2155 3.61818 1.37417C3.49167 1.42452 3.37884 1.55053 3.25401 1.7774L3.06158 2.14945L3.01422 2.23517C2.97468 2.30093 2.93513 2.35644 2.88997 2.40565C2.63674 2.6809 2.26212 2.82825 1.9485 2.82825L1.86645 2.83101C1.24288 2.87318 0.75 3.39236 0.75 4.02625V6.92375C0.75 7.88183 1.52679 8.65875 2.485 8.65875H7.515C8.47289 8.65875 9.25 7.88164 9.25 6.92375V4.02625C9.25 3.3648 8.71333 2.82825 8.0515 2.82825L7.96444 2.82461C7.67017 2.8004 7.33964 2.65583 7.10972 2.40531C7.06516 2.35676 7.02583 2.30164 6.98653 2.23644C6.98089 2.22708 6.97388 2.21477 6.96583 2.20019L6.90778 2.09132L6.74583 1.77754Z"
-                      fill="#969090"
-                    />
-                    <path
-                      d="M7.75255 3.25C8.02869 3.25 8.25255 3.47386 8.25255 3.75C8.25255 4.00642 8.05953 4.21775 7.81086 4.24664L7.75255 4.25C7.4719 4.25 7.24805 4.02614 7.24805 3.75C7.24805 3.49358 7.44107 3.28225 7.68974 3.25336L7.75255 3.25Z"
-                      fill="#969090"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M3.03516 5.56216C3.03516 4.47705 3.91455 3.59766 4.99966 3.59766C6.08476 3.59766 6.96416 4.47705 6.96416 5.56216C6.96416 6.64726 6.08476 7.52666 4.99966 7.52666C3.91455 7.52666 3.03516 6.64726 3.03516 5.56216ZM6.21416 5.56216C6.21416 4.89126 5.67055 4.34766 4.99966 4.34766C4.32876 4.34766 3.78516 4.89126 3.78516 5.56216C3.78516 6.23305 4.32876 6.77666 4.99966 6.77666C5.67055 6.77666 6.21416 6.23305 6.21416 5.56216Z"
-                      fill="#969090"
-                    />
-                  </svg>
+                    width="18"
+                    src="../../../../../assets/svg/maybe-image-icon.svg"
+                    srcset=""
+                  />
                 </div>
                 <div
                   class="overlay"
                   *ngIf="image?.substring(1 + image.lastIndexOf('.')) == 'mp4'"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
+                  <img
                     width="11"
                     height="9"
-                    viewBox="0 0 11 9"
-                    fill="none"
-                  >
-                    <mask
-                      id="mask0_11527_21475"
-                      style="mask-type: luminance"
-                      maskUnits="userSpaceOnUse"
-                      x="0"
-                      y="0"
-                      width="8"
-                      height="9"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M0 0.5H7.75014V8.25067H0V0.5Z"
-                        fill="white"
-                      />
-                    </mask>
-                    <g mask="url(#mask0_11527_21475)">
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M2.42355 1.25067C2.20405 1.25067 2.06255 1.25067 2.03805 1.25167C1.66905 1.26717 1.32855 1.42367 1.08305 1.69167C0.854054 1.94217 0.736054 2.26217 0.751554 2.59417C0.751554 4.04067 0.752054 6.21167 0.755554 6.33067C0.812554 7.02317 1.46155 7.55267 2.20455 7.49567C3.57955 7.49767 5.61655 7.50217 5.71205 7.49867C6.07955 7.48367 6.42055 7.32767 6.66605 7.06017C6.89555 6.81067 7.01355 6.49067 6.99905 6.16017C6.99855 6.15467 6.99855 6.14917 6.99855 6.14367C6.99905 4.71367 6.99905 2.54417 6.99555 2.42767C6.93905 1.73167 6.28705 1.19567 5.54005 1.25417C4.50705 1.25267 3.09755 1.25067 2.42355 1.25067ZM2.07305 8.25067C1.01605 8.25117 0.0940535 7.44117 0.0070535 6.37867C0.0055535 6.35817 0.000553505 6.29567 0.0020535 2.61117C-0.0219465 2.09567 0.165053 1.58367 0.530053 1.18517C0.911054 0.769173 1.43655 0.526673 2.01005 0.502173C2.07955 0.497173 4.48355 0.503173 5.51305 0.505173C6.63805 0.426173 7.65355 1.26117 7.74405 2.38167C7.74805 2.43617 7.74955 3.69867 7.74855 6.13617C7.76955 6.66417 7.58155 7.17267 7.21855 7.56767C6.83705 7.98317 6.31105 8.22467 5.73805 8.24817C5.66805 8.25317 3.26305 8.24667 2.23205 8.24467C2.17905 8.24867 2.12605 8.25067 2.07305 8.25067Z"
-                        fill="#9D9B9B"
-                      />
-                    </g>
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M9.40894 7.17466C9.18344 7.17466 8.96094 7.09716 8.77744 6.94666L7.13694 5.59866C6.97694 5.46716 6.95394 5.23066 7.08544 5.07066C7.21644 4.91116 7.45294 4.88716 7.61294 5.01916L9.25294 6.36716C9.36344 6.45716 9.47444 6.42016 9.51744 6.39916C9.56044 6.37916 9.65994 6.31666 9.65994 6.17466L9.66594 2.50016C9.66644 2.35816 9.56644 2.29566 9.52344 2.27516C9.48094 2.25516 9.36844 2.21766 9.25894 2.30766L7.61244 3.65516C7.45144 3.78666 7.21594 3.76316 7.08494 3.60216C6.95344 3.44216 6.97744 3.20616 7.13744 3.07516L8.78394 1.72716C9.08594 1.47966 9.49244 1.43116 9.84494 1.59766C10.1974 1.76516 10.4164 2.11116 10.4159 2.50116L10.4099 6.17566C10.4094 6.56566 10.1899 6.91166 9.83794 7.07766C9.69994 7.14316 9.55394 7.17466 9.40894 7.17466Z"
-                      fill="#9D9B9B"
-                    />
-                  </svg>
+                    src="../../../../../assets/svg/image-icon.svg"
+                    alt="image-icon"
+                  />
                 </div>
                 <div (click)="removeImage(image)" class="overlay2">
                   <span
@@ -348,48 +273,6 @@
           Add Video
         </button>
       </div>
-
-      <!--      <div-->
-      <!--        *ngIf="!(addingVariation || addingComplimentaryOptions)"-->
-      <!--        class="action-btn-container"-->
-      <!--      >-->
-      <!--        <div *ngIf="!addingComplimentaryOptions" class="action-btn flex-1">-->
-      <!--          <button-->
-      <!--            aria-label="Add Complementary Variation"-->
-      <!--            (click)="addEditOption()"-->
-      <!--            class="the-btn"-->
-      <!--            type="button"-->
-      <!--          >-->
-      <!--            + Add Related Items-->
-      <!--            <small>(i.e items together with main Product)</small>-->
-      <!--          </button>-->
-      <!--          &nbsp;-->
-      <!--          <img-->
-      <!--            src="assets/image/btn-tool-tip.svg"-->
-      <!--            alt="tootip"-->
-      <!--            matTooltip="Pair your product with related items by suggesting products that go well together"-->
-      <!--          />-->
-      <!--        </div>-->
-
-      <!--                <div *ngIf="!addingVariation" class="action-btn flex-1">-->
-      <!--                  <button-->
-      <!--                    aria-label="Add Product Variation"-->
-      <!--                    (click)="addVariation()"-->
-      <!--                    class="the-btn"-->
-      <!--                    type="button"-->
-      <!--                  >-->
-      <!--                    Add different variations of your product, such as color or size,-->
-      <!--                    along with their prices and available quantities-->
-      <!--                  </button>-->
-      <!--                  &nbsp;-->
-      <!--                  <img-->
-      <!--                    src="assets/image/btn-tool-tip.svg"-->
-      <!--                    alt="tootip"-->
-      <!--                    matTooltip="Showcase different options such as colors, sizes, materials, and more to cater to diverse customer preferences."-->
-      <!--                  />-->
-      <!--                </div>-->
-      <!--      </div>-->
-      <!-- </div> -->
     </div>
     <!-- related items card -->
     <div
@@ -531,9 +414,6 @@
                     >
                       Accepts Images or Videos*
                     </div>
-                    <!-- <div *ngIf="imageName" class="d-flex justify-content-center align-items-center px-8">
-                    <span  class="upload-text">uploaded -{{imageName}}</span>
-                  </div> -->
                   </div>
                   <div class="error-txt" *ngIf="imageErr">{{ imageErr }}</div>
                   <div
@@ -769,376 +649,9 @@
           </button>
         </div>
       </div>
-
-      <div
-        *ngIf="addingVariation"
-        class="mt-5 uk-flex uk-flex-column flex-1"
-        #variationForm
-      >
-        <h2>Product Variants and Options</h2>
-        <p class="sub-text">
-          Add and manage different variations of your product, such as color or
-          size, along with their prices and available quantities
-        </p>
-        <div class="body-add flex-1">
-          <div class="variation-count-alert">
-            You have
-            <span *ngIf="!isProductUnitExceeded">
-              {{ initialProductUnit - availableProductUnit }} of
-              {{ initialProductUnit }} units allocated to variants
-            </span>
-            <span *ngIf="isProductUnitExceeded"
-              >exceeded product unit allocated</span
-            >
-          </div>
-          <div>
-            <div class="" [formGroup]="variationProps">
-              <div class="main wrapper-style">
-                <!-- <div class="mt-2">
-              <p class="number-count">{{ i + 1 }}</p>
-            </div> -->
-                <div class="uk-grid uk-grid-row-small uk-child-width-1-2@s">
-                  <div class="">
-                    <div class="uk-flex uk-flex-between">
-                      <div for="name" class="label">
-                        Variant Name (e.g. Color, Size)
-                      </div>
-                      <p
-                        class="add-store-btn uk-flex align-items-center"
-                        uk-toggle="target: #modal-add-variation"
-                        id="js-modal-prompt"
-                      >
-                        + Add new variation
-                      </p>
-                    </div>
-                    <mat-form-field
-                      class="full-width uk-width-1-4 mt-2 create-product-form-field"
-                      id="variation-select"
-                    >
-                      <mat-select formControlName="title" required>
-                        <mat-option disabled="true" selected [value]="null"
-                          >--- Select Variation ---</mat-option
-                        >
-                        <mat-option
-                          *ngFor="let item of productVariations"
-                          value="{{ item?.name?.toLowerCase() }}"
-                        >
-                          {{ item?.name }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-
-                    <div
-                      class="uk-text-danger"
-                      *ngIf="
-                        variationProps.get('title').touched &&
-                        variationProps.get('title').invalid
-                      "
-                    >
-                      Select a variation
-                    </div>
-                  </div>
-                  <div>
-                    <div for="name" class="label">
-                      Variant Type (e.g Blue, Green, Large, Small, etc)
-                    </div>
-                    <mat-form-field
-                      class="no-mobile-margin full-width uk-width-1-4 mt-2 create-product-form-field"
-                    >
-                      <input
-                        type="text"
-                        matInput
-                        placeholder="Add Variant Type"
-                        formControlName="value"
-                        required
-                      />
-                    </mat-form-field>
-
-                    <div
-                      class="uk-text-danger"
-                      *ngIf="
-                        variationProps.get('value').touched &&
-                        variationProps.get('value').invalid
-                      "
-                    >
-                      Value is required
-                    </div>
-                  </div>
-                </div>
-                <div class="uk-grid uk-grid-row-small uk-child-width-1-2@s">
-                  <div>
-                    <div for="name" class="label">Variant Price</div>
-                    <mat-form-field
-                      class="no-mobile-margin uk-width-expand create-product-form-field"
-                    >
-                      <input
-                        type="number"
-                        matInput
-                        (keypress)="preventLetter($event)"
-                        matTooltip="Enter cost for this product"
-                        placeholder="&#8358; 0.00"
-                        formControlName="cost"
-                        required
-                      />
-                    </mat-form-field>
-
-                    <div
-                      class="uk-text-danger"
-                      *ngIf="
-                        variationProps.get('cost').touched &&
-                        variationProps.get('cost').invalid
-                      "
-                    >
-                      Cost is required
-                    </div>
-                  </div>
-                  <div>
-                    <div for="name" class="label">Units per Variant</div>
-                    <mat-form-field
-                      class="no-mobile-margin uk-width-expand create-product-form-field"
-                    >
-                      <input
-                        type="number"
-                        matInput
-                        required
-                        (keypress)="preventLetter($event)"
-                        matTooltip="Enter unit for this product"
-                        placeholder="0"
-                        formControlName="unit"
-                      />
-                    </mat-form-field>
-
-                    <div
-                      class="uk-text-danger"
-                      *ngIf="
-                        variationProps.get('unit').touched &&
-                        variationProps.get('unit').invalid
-                      "
-                    >
-                      Unit is required
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="uk-width-expand uk-width-1-2@s input-sec"
-                  style="margin-top: 15px"
-                >
-                  <div for="name" class="label">
-                    Upload Variant Images/Videos (optional)
-                  </div>
-                  <div class="border-form mb-30 d-flex align-items-center">
-                    <button (click)="uploadComplimentaryImage()" type="button">
-                      Upload File
-                    </button>
-                    <div
-                      class="d-flex justify-content-center align-items-center px-8"
-                    >
-                      Accepts Images or Videos*
-                    </div>
-                    <!-- <div *ngIf="imageName" class="d-flex justify-content-center align-items-center px-8">
-                    <span  class="upload-text">uploaded -{{imageName}}</span>
-                  </div> -->
-                  </div>
-                  <div class="error-txt" *ngIf="imageErr">{{ imageErr }}</div>
-                  <div
-                    class="uk-margin uk-child-width-1-2 uk-child-width-1-3@s uk-child-width-1-4@m uk-grid-small uk-grid"
-                    *ngIf="!(variationProps?.value.imageUrl === '')"
-                  >
-                    <div class="uk-margin-small-bottom image-wrapper">
-                      <div
-                        class="uk-inline uk-dark image-container"
-                        style="cursor: pointer"
-                      >
-                        <img
-                          [ngClass]="{
-                            'active-product-image':
-                              productImage === variationProps?.value.imageUrl
-                          }"
-                          style="
-                            width: 200px;
-                            aspect-ratio: 1;
-                            object-fit: contain;
-                          "
-                          src="{{
-                            variationProps?.value.imageUrl?.substr(
-                              0,
-                              variationProps?.value.imageUrl?.lastIndexOf('.')
-                            ) + '.jpg'
-                          }}"
-                          alt="{{ variationProps?.value.imageUrl }}"
-                        />
-                      </div>
-                      <div
-                        class="overlay"
-                        *ngIf="
-                          !(
-                            1 +
-                              variationProps?.value.imageUrl.substring(
-                                variationProps?.value.imageUrl.lastIndexOf('.')
-                              ) ==
-                            'mp4'
-                          )
-                        "
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 10 10"
-                          fill="none"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M2.59691 1.41585C2.79789 1.05059 3.01652 0.806414 3.34094 0.677287C3.93545 0.440897 6.06464 0.440897 6.65868 0.677334C6.98293 0.806392 7.20164 1.05052 7.40277 1.41571L7.62888 1.84929C7.63406 1.85788 7.63881 1.86543 7.64308 1.87193L7.66228 1.89819C7.7653 2.01044 7.9377 2.07825 8.0515 2.07825C9.12751 2.07825 10 2.95055 10 4.02625V6.92375C10 8.29586 8.88711 9.40875 7.515 9.40875H2.485C1.11255 9.40875 0 8.29602 0 6.92375V4.02625C0 2.95055 0.872489 2.07825 1.9485 2.07825C2.06189 2.07825 2.23454 2.01034 2.33772 1.89819C2.33978 1.89594 2.34247 1.8926 2.34572 1.88817L2.37144 1.84873L2.59691 1.41585ZM6.74583 1.77754C6.62085 1.55062 6.5079 1.42454 6.38132 1.37417L6.32166 1.35433C5.80709 1.20889 4.01721 1.2155 3.61818 1.37417C3.49167 1.42452 3.37884 1.55053 3.25401 1.7774L3.06158 2.14945L3.01422 2.23517C2.97468 2.30093 2.93513 2.35644 2.88997 2.40565C2.63674 2.6809 2.26212 2.82825 1.9485 2.82825L1.86645 2.83101C1.24288 2.87318 0.75 3.39236 0.75 4.02625V6.92375C0.75 7.88183 1.52679 8.65875 2.485 8.65875H7.515C8.47289 8.65875 9.25 7.88164 9.25 6.92375V4.02625C9.25 3.3648 8.71333 2.82825 8.0515 2.82825L7.96444 2.82461C7.67017 2.8004 7.33964 2.65583 7.10972 2.40531C7.06516 2.35676 7.02583 2.30164 6.98653 2.23644C6.98089 2.22708 6.97388 2.21477 6.96583 2.20019L6.90778 2.09132L6.74583 1.77754Z"
-                            fill="#969090"
-                          />
-                          <path
-                            d="M7.75255 3.25C8.02869 3.25 8.25255 3.47386 8.25255 3.75C8.25255 4.00642 8.05953 4.21775 7.81086 4.24664L7.75255 4.25C7.4719 4.25 7.24805 4.02614 7.24805 3.75C7.24805 3.49358 7.44107 3.28225 7.68974 3.25336L7.75255 3.25Z"
-                            fill="#969090"
-                          />
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M3.03516 5.56216C3.03516 4.47705 3.91455 3.59766 4.99966 3.59766C6.08476 3.59766 6.96416 4.47705 6.96416 5.56216C6.96416 6.64726 6.08476 7.52666 4.99966 7.52666C3.91455 7.52666 3.03516 6.64726 3.03516 5.56216ZM6.21416 5.56216C6.21416 4.89126 5.67055 4.34766 4.99966 4.34766C4.32876 4.34766 3.78516 4.89126 3.78516 5.56216C3.78516 6.23305 4.32876 6.77666 4.99966 6.77666C5.67055 6.77666 6.21416 6.23305 6.21416 5.56216Z"
-                            fill="#969090"
-                          />
-                        </svg>
-                      </div>
-
-                      <div
-                        class="overlay"
-                        *ngIf="
-                          variationProps?.value.imageUrl?.substring(
-                            1 + variationProps?.value.imageUrl?.lastIndexOf('.')
-                          ) == 'mp4'
-                        "
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="11"
-                          height="9"
-                          viewBox="0 0 11 9"
-                          fill="none"
-                        >
-                          <mask
-                            id="mask0_11527_21475"
-                            style="mask-type: luminance"
-                            maskUnits="userSpaceOnUse"
-                            x="0"
-                            y="0"
-                            width="8"
-                            height="9"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M0 0.5H7.75014V8.25067H0V0.5Z"
-                              fill="white"
-                            />
-                          </mask>
-                          <g mask="url(#mask0_11527_21475)">
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M2.42355 1.25067C2.20405 1.25067 2.06255 1.25067 2.03805 1.25167C1.66905 1.26717 1.32855 1.42367 1.08305 1.69167C0.854054 1.94217 0.736054 2.26217 0.751554 2.59417C0.751554 4.04067 0.752054 6.21167 0.755554 6.33067C0.812554 7.02317 1.46155 7.55267 2.20455 7.49567C3.57955 7.49767 5.61655 7.50217 5.71205 7.49867C6.07955 7.48367 6.42055 7.32767 6.66605 7.06017C6.89555 6.81067 7.01355 6.49067 6.99905 6.16017C6.99855 6.15467 6.99855 6.14917 6.99855 6.14367C6.99905 4.71367 6.99905 2.54417 6.99555 2.42767C6.93905 1.73167 6.28705 1.19567 5.54005 1.25417C4.50705 1.25267 3.09755 1.25067 2.42355 1.25067ZM2.07305 8.25067C1.01605 8.25117 0.0940535 7.44117 0.0070535 6.37867C0.0055535 6.35817 0.000553505 6.29567 0.0020535 2.61117C-0.0219465 2.09567 0.165053 1.58367 0.530053 1.18517C0.911054 0.769173 1.43655 0.526673 2.01005 0.502173C2.07955 0.497173 4.48355 0.503173 5.51305 0.505173C6.63805 0.426173 7.65355 1.26117 7.74405 2.38167C7.74805 2.43617 7.74955 3.69867 7.74855 6.13617C7.76955 6.66417 7.58155 7.17267 7.21855 7.56767C6.83705 7.98317 6.31105 8.22467 5.73805 8.24817C5.66805 8.25317 3.26305 8.24667 2.23205 8.24467C2.17905 8.24867 2.12605 8.25067 2.07305 8.25067Z"
-                              fill="#9D9B9B"
-                            />
-                          </g>
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M9.40894 7.17466C9.18344 7.17466 8.96094 7.09716 8.77744 6.94666L7.13694 5.59866C6.97694 5.46716 6.95394 5.23066 7.08544 5.07066C7.21644 4.91116 7.45294 4.88716 7.61294 5.01916L9.25294 6.36716C9.36344 6.45716 9.47444 6.42016 9.51744 6.39916C9.56044 6.37916 9.65994 6.31666 9.65994 6.17466L9.66594 2.50016C9.66644 2.35816 9.56644 2.29566 9.52344 2.27516C9.48094 2.25516 9.36844 2.21766 9.25894 2.30766L7.61244 3.65516C7.45144 3.78666 7.21594 3.76316 7.08494 3.60216C6.95344 3.44216 6.97744 3.20616 7.13744 3.07516L8.78394 1.72716C9.08594 1.47966 9.49244 1.43116 9.84494 1.59766C10.1974 1.76516 10.4164 2.11116 10.4159 2.50116L10.4099 6.17566C10.4094 6.56566 10.1899 6.91166 9.83794 7.07766C9.69994 7.14316 9.55394 7.17466 9.40894 7.17466Z"
-                            fill="#9D9B9B"
-                          />
-                        </svg>
-                      </div>
-                      <div
-                        (click)="
-                          removeVariationImage(variationProps?.value.imageUrl)
-                        "
-                        class="overlay2"
-                      >
-                        <span
-                          class="iconify"
-                          data-icon="ri:delete-bin-6-line"
-                          data-inline="false"
-                          style="
-                            color: rgb(177, 55, 55);
-                            width: 15px;
-                            height: 15px;
-                            cursor: pointer;
-                          "
-                        >
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="del-save-btn mt-4">
-                  <button
-                    (click)="removeEditVariation()"
-                    class="small-btn del-btn"
-                    type="button"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    type="button"
-                    (click)="addProductVariation()"
-                    class="small-btn save-btn"
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!--      <div-->
-      <!--        *ngIf="addingVariation || addingComplimentaryOptions"-->
-      <!--        class="action-btn-container uk-flex"-->
-      <!--      >-->
-      <!--        <div *ngIf="!addingComplimentaryOptions" class="action-btn flex-1">-->
-      <!--          <button-->
-      <!--            aria-label="Add Complementary Variation"-->
-      <!--            (click)="addEditOption()"-->
-      <!--            class="the-btn"-->
-      <!--            type="button"-->
-      <!--          >-->
-      <!--            + Add Related Items-->
-      <!--            <small>(i.e items together with main Product)</small>-->
-      <!--          </button>-->
-      <!--          &nbsp;-->
-      <!--          <img-->
-      <!--            src="assets/image/btn-tool-tip.svg"-->
-      <!--            alt="tootip"-->
-      <!--            matTooltip="Pair your product with related items by suggesting products that go well together"-->
-      <!--          />-->
-      <!--        </div>-->
-
-      <!--        <div *ngIf="!addingVariation" class="action-btn flex-1">-->
-      <!--          <button-->
-      <!--            aria-label="Add Product Variation"-->
-      <!--            (click)="addVariation()"-->
-      <!--            class="the-btn"-->
-      <!--            type="button"-->
-      <!--          >-->
-      <!--            + Add Variation-->
-      <!--            <small>(i.e Products' different color, size and price)</small>-->
-      <!--          </button>-->
-      <!--          &nbsp;-->
-      <!--          <img-->
-      <!--            src="assets/image/btn-tool-tip.svg"-->
-      <!--            alt="tootip"-->
-      <!--            matTooltip="Showcase different options such as colors, sizes, materials, and more to cater to diverse customer preferences."-->
-      <!--          />-->
-      <!--        </div>-->
-      <!--      </div>-->
     </div>
 
+    <!-- list of all selected variants -->
     <div
       class="uk-flex content-container uk-flex-column flex-1"
       *ngIf="allVariantList.length > 0"
@@ -1219,6 +732,7 @@
       </div>
     </div>
 
+    <!-- add complementary product -->
     <div style="margin: 20px 0" *ngIf="!addingComplimentaryOptions">
       <div class="variant-container stage0-container">
         <div class="heading">Complementary product(s) information</div>
@@ -1229,15 +743,16 @@
       </div>
     </div>
 
+    <!-- add variant -->
     <div style="margin: 20px 0">
       <app-variant
         [variantOptions]="productVariations"
         [productPrice]="this.form.get('price').value"
         [productUnit]="this.form.get('unit').value"
-        [(savedTotalVariantsUnit)]="savedTotalVariantsUnit"
       ></app-variant>
     </div>
 
+    <!-- submit form button -->
     <div class="uk-flex uk-flex-center mt-4">
       <button
         type="submit"
@@ -1290,439 +805,15 @@
   </form>
 </div>
 
+<!-- product preview -->
 <div *ngIf="isPreview" class="content-container">
-  <div class="uk-flex mobile-block main-head">
-    <div class="flex-1">
-      <div class="main-img">
-        <!-- <img src="{{ previewImg }}" alt="previewImg" /> -->
-        <img
-          src="{{
-            previewData?.imageUrls[0]?.substr(
-              0,
-              previewData?.imageUrls[0]?.lastIndexOf('.')
-            ) + '.jpg'
-          }}"
-          alt="previewImg"
-        />
-      </div>
-    </div>
-    <div class="mobile-space flex-1 overview">
-      <div>
-        <p class="item-label">Product Name</p>
-        <p class="item-name mt-2">{{ form.value.name }}</p>
-      </div>
-      <!-- <p class="item-name">{{ previewData?.name || "N/A" }}</p> -->
-
-      <!-- <p class="item-price">{{ previewData?.price | currency : "₦" }}</p> -->
-      <div class="mt-4">
-        <p class="item-label">Price</p>
-        <p class="item-price mt-2">
-          {{ form.value.price | currency : "NGN " }}
-        </p>
-      </div>
-
-      <div class="mt-4" *ngFor="let item of uniqueVariant">
-        <p class="item-label capitalize">{{ item.variant }}</p>
-        <div class="uk-flex mt-2 uk-flex-middle">
-          <div
-            class="icon-container mr-2 uk-flex"
-            *ngFor="let itemProp of item.properties"
-          >
-            <div class="color-name">{{ itemProp.value }}</div>
-            <div class="extra-cost">
-              <small>Extra cost</small>
-              <p>+ {{ itemProp.cost }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-4">
-        <p class="gen-st item-label">Available Units</p>
-        <div class="uk-flex mt-2 uk-flex-middle">
-          <svg
-            (click)="changeUnit(previewData?.unit, 'minus')"
-            class="pointer"
-            width="32"
-            height="33"
-            viewBox="0 0 32 33"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16.0003 29.8333C23.3641 29.8333 29.3337 23.8638 29.3337 16.5C29.3337 9.13616 23.3641 3.16663 16.0003 3.16663C8.63653 3.16663 2.66699 9.13616 2.66699 16.5C2.66699 23.8638 8.63653 29.8333 16.0003 29.8333Z"
-              fill="#F2F2F2"
-            />
-            <path
-              d="M10.667 16.5H21.3337"
-              stroke="#D8D8D8"
-              stroke-width="1.39167"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          &nbsp; &nbsp;
-          <p class="num mb-0 my-0">{{ previewData?.unit || "N/A" }}</p>
-          &nbsp; &nbsp;
-          <svg
-            (click)="changeUnit(previewData?.unit, 'add')"
-            class="pointer"
-            width="32"
-            height="33"
-            viewBox="0 0 32 33"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16.0003 29.8333C23.3641 29.8333 29.3337 23.8638 29.3337 16.5C29.3337 9.13616 23.3641 3.16663 16.0003 3.16663C8.63653 3.16663 2.66699 9.13616 2.66699 16.5C2.66699 23.8638 8.63653 29.8333 16.0003 29.8333Z"
-              fill="#F2F2F2"
-            />
-            <path
-              d="M16 11.1666V21.8333"
-              stroke="#666666"
-              stroke-width="1.39167"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M10.667 16.5H21.3337"
-              stroke="#666666"
-              stroke-width="1.39167"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-
-        <div
-          class="mt-3 uk-flex icon-container image-wrapper overview-img-wrapper"
-          style="
-            overflow-x: hidden;
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-          "
-        >
-          <div
-            class="icon-container mr-2"
-            *ngFor="let item of previewData?.imageUrls"
-            style="width: 100px; overflow-x: scroll"
-          >
-            <div
-              class="uk-inline uk-dark image-container"
-              style="cursor: pointer; width: 100px"
-            >
-              <img
-                src="{{ item?.substr(0, item.lastIndexOf('.')) + '.jpg' }}"
-                alt="product video"
-              />
-              <div
-                class="overlay"
-                *ngIf="!(1 + item?.substring(item.lastIndexOf('.')) == 'mp4')"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 10 10"
-                  fill="none"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M2.59691 1.41585C2.79789 1.05059 3.01652 0.806414 3.34094 0.677287C3.93545 0.440897 6.06464 0.440897 6.65868 0.677334C6.98293 0.806392 7.20164 1.05052 7.40277 1.41571L7.62888 1.84929C7.63406 1.85788 7.63881 1.86543 7.64308 1.87193L7.66228 1.89819C7.7653 2.01044 7.9377 2.07825 8.0515 2.07825C9.12751 2.07825 10 2.95055 10 4.02625V6.92375C10 8.29586 8.88711 9.40875 7.515 9.40875H2.485C1.11255 9.40875 0 8.29602 0 6.92375V4.02625C0 2.95055 0.872489 2.07825 1.9485 2.07825C2.06189 2.07825 2.23454 2.01034 2.33772 1.89819C2.33978 1.89594 2.34247 1.8926 2.34572 1.88817L2.37144 1.84873L2.59691 1.41585ZM6.74583 1.77754C6.62085 1.55062 6.5079 1.42454 6.38132 1.37417L6.32166 1.35433C5.80709 1.20889 4.01721 1.2155 3.61818 1.37417C3.49167 1.42452 3.37884 1.55053 3.25401 1.7774L3.06158 2.14945L3.01422 2.23517C2.97468 2.30093 2.93513 2.35644 2.88997 2.40565C2.63674 2.6809 2.26212 2.82825 1.9485 2.82825L1.86645 2.83101C1.24288 2.87318 0.75 3.39236 0.75 4.02625V6.92375C0.75 7.88183 1.52679 8.65875 2.485 8.65875H7.515C8.47289 8.65875 9.25 7.88164 9.25 6.92375V4.02625C9.25 3.3648 8.71333 2.82825 8.0515 2.82825L7.96444 2.82461C7.67017 2.8004 7.33964 2.65583 7.10972 2.40531C7.06516 2.35676 7.02583 2.30164 6.98653 2.23644C6.98089 2.22708 6.97388 2.21477 6.96583 2.20019L6.90778 2.09132L6.74583 1.77754Z"
-                    fill="#969090"
-                  />
-                  <path
-                    d="M7.75255 3.25C8.02869 3.25 8.25255 3.47386 8.25255 3.75C8.25255 4.00642 8.05953 4.21775 7.81086 4.24664L7.75255 4.25C7.4719 4.25 7.24805 4.02614 7.24805 3.75C7.24805 3.49358 7.44107 3.28225 7.68974 3.25336L7.75255 3.25Z"
-                    fill="#969090"
-                  />
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M3.03516 5.56216C3.03516 4.47705 3.91455 3.59766 4.99966 3.59766C6.08476 3.59766 6.96416 4.47705 6.96416 5.56216C6.96416 6.64726 6.08476 7.52666 4.99966 7.52666C3.91455 7.52666 3.03516 6.64726 3.03516 5.56216ZM6.21416 5.56216C6.21416 4.89126 5.67055 4.34766 4.99966 4.34766C4.32876 4.34766 3.78516 4.89126 3.78516 5.56216C3.78516 6.23305 4.32876 6.77666 4.99966 6.77666C5.67055 6.77666 6.21416 6.23305 6.21416 5.56216Z"
-                    fill="#969090"
-                  />
-                </svg>
-              </div>
-              <div
-                class="overlay"
-                *ngIf="item?.substring(1 + item.lastIndexOf('.')) == 'mp4'"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="11"
-                  height="9"
-                  viewBox="0 0 11 9"
-                  fill="none"
-                >
-                  <mask
-                    id="mask0_11527_21475"
-                    style="mask-type: luminance"
-                    maskUnits="userSpaceOnUse"
-                    x="0"
-                    y="0"
-                    width="8"
-                    height="9"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M0 0.5H7.75014V8.25067H0V0.5Z"
-                      fill="white"
-                    />
-                  </mask>
-                  <g mask="url(#mask0_11527_21475)">
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M2.42355 1.25067C2.20405 1.25067 2.06255 1.25067 2.03805 1.25167C1.66905 1.26717 1.32855 1.42367 1.08305 1.69167C0.854054 1.94217 0.736054 2.26217 0.751554 2.59417C0.751554 4.04067 0.752054 6.21167 0.755554 6.33067C0.812554 7.02317 1.46155 7.55267 2.20455 7.49567C3.57955 7.49767 5.61655 7.50217 5.71205 7.49867C6.07955 7.48367 6.42055 7.32767 6.66605 7.06017C6.89555 6.81067 7.01355 6.49067 6.99905 6.16017C6.99855 6.15467 6.99855 6.14917 6.99855 6.14367C6.99905 4.71367 6.99905 2.54417 6.99555 2.42767C6.93905 1.73167 6.28705 1.19567 5.54005 1.25417C4.50705 1.25267 3.09755 1.25067 2.42355 1.25067ZM2.07305 8.25067C1.01605 8.25117 0.0940535 7.44117 0.0070535 6.37867C0.0055535 6.35817 0.000553505 6.29567 0.0020535 2.61117C-0.0219465 2.09567 0.165053 1.58367 0.530053 1.18517C0.911054 0.769173 1.43655 0.526673 2.01005 0.502173C2.07955 0.497173 4.48355 0.503173 5.51305 0.505173C6.63805 0.426173 7.65355 1.26117 7.74405 2.38167C7.74805 2.43617 7.74955 3.69867 7.74855 6.13617C7.76955 6.66417 7.58155 7.17267 7.21855 7.56767C6.83705 7.98317 6.31105 8.22467 5.73805 8.24817C5.66805 8.25317 3.26305 8.24667 2.23205 8.24467C2.17905 8.24867 2.12605 8.25067 2.07305 8.25067Z"
-                      fill="#9D9B9B"
-                    />
-                  </g>
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M9.40894 7.17466C9.18344 7.17466 8.96094 7.09716 8.77744 6.94666L7.13694 5.59866C6.97694 5.46716 6.95394 5.23066 7.08544 5.07066C7.21644 4.91116 7.45294 4.88716 7.61294 5.01916L9.25294 6.36716C9.36344 6.45716 9.47444 6.42016 9.51744 6.39916C9.56044 6.37916 9.65994 6.31666 9.65994 6.17466L9.66594 2.50016C9.66644 2.35816 9.56644 2.29566 9.52344 2.27516C9.48094 2.25516 9.36844 2.21766 9.25894 2.30766L7.61244 3.65516C7.45144 3.78666 7.21594 3.76316 7.08494 3.60216C6.95344 3.44216 6.97744 3.20616 7.13744 3.07516L8.78394 1.72716C9.08594 1.47966 9.49244 1.43116 9.84494 1.59766C10.1974 1.76516 10.4164 2.11116 10.4159 2.50116L10.4099 6.17566C10.4094 6.56566 10.1899 6.91166 9.83794 7.07766C9.69994 7.14316 9.55394 7.17466 9.40894 7.17466Z"
-                    fill="#9D9B9B"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="video-container">
-    <div class="video-main" *ngIf="videoUrls.length > 0">
-      <div class="video" *ngFor="let video of videoUrls; let i = index">
-        <video [src]="video" height="75" controls></video>
-      </div>
-    </div>
-  </div>
-
-  <div class="mt-5">
-    <div>
-      <h1 class="mb-3 heading">Product Description</h1>
-
-      <div class="desc icon-container">
-        <div [innerHtml]="previewDesc" class="description py-3"></div>
-      </div>
-    </div>
-
-    <div class="mt-5">
-      <h1 class="mb-3 heading">Related Item(s)</h1>
-
-      <div
-        style="display: flex; flex-wrap: wrap; column-gap: 2rem"
-        class="parent-wrapping"
-      >
-        <div *ngFor="let item of relatedItems">
-          <div>
-            <img
-              src="{{
-                item?.imageUrl.substr(0, item.imageUrl.lastIndexOf('.')) +
-                  '.jpg'
-              }}"
-              alt="laptop"
-              style="width: 180px; height: 240px; object-fit: cover"
-            />
-            <div class="p-2">
-              <p class="card-name" style="word-wrap: break-word">
-                {{ item.title }}
-              </p>
-              <p class="card-price" style="word-wrap: break-word">
-                {{ item.cost | currency : "₦" }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="uk-flex uk-flex-center mt-5">
-      <button (click)="edit()" type="submit" class="btn-edit">Edit</button>
-      &nbsp; &nbsp;
-      <button
-        *ngIf="productId === null"
-        (click)="createProduct()"
-        type="submit"
-        class="btn-submit"
-      >
-        <div
-          *ngIf="creatingProduct"
-          style="display: flex; align-items: center; justify-content: center"
-        >
-          <div
-            class="spinner-grow text-dark"
-            role="status"
-            style="width: 15px; height: 15px"
-          >
-            <span class="sr-only">Loading...</span>
-          </div>
-          &nbsp; &nbsp;
-          <div
-            class="spinner-grow text-dark"
-            role="status"
-            style="width: 15px; height: 15px"
-          >
-            <span class="sr-only">Loading...</span>
-          </div>
-          &nbsp; &nbsp;
-          <div
-            class="spinner-grow text-dark"
-            role="status"
-            style="width: 15px; height: 15px"
-          >
-            <span class="sr-only">Loading...</span>
-          </div>
-          <br />
-        </div>
-        <span *ngIf="!creatingProduct"> Save & Continue</span>
-      </button>
-
-      <button
-        *ngIf="productId !== null"
-        (click)="updateProduct()"
-        type="submit"
-        class="btn-submit"
-      >
-        <div
-          *ngIf="creatingProduct"
-          style="display: flex; align-items: center; justify-content: center"
-        >
-          <div
-            class="spinner-grow text-dark"
-            role="status"
-            style="width: 15px; height: 15px"
-          >
-            <span class="sr-only">Loading...</span>
-          </div>
-          &nbsp; &nbsp;
-          <div
-            class="spinner-grow text-dark"
-            role="status"
-            style="width: 15px; height: 15px"
-          >
-            <span class="sr-only">Loading...</span>
-          </div>
-          &nbsp; &nbsp;
-          <div
-            class="spinner-grow text-dark"
-            role="status"
-            style="width: 15px; height: 15px"
-          >
-            <span class="sr-only">Loading...</span>
-          </div>
-          <br />
-        </div>
-        <span *ngIf="!creatingProduct"> Update</span>
-      </button>
-      &nbsp; &nbsp;
-      <span
-        *ngIf="productId !== null"
-        (click)="deleteProduct()"
-        class="pointer"
-      >
-        <svg
-          width="50"
-          height="50"
-          viewBox="0 0 25 25"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M13.9701 7.02247H11.9648C11.9648 6.75656 12.0705 6.50154 12.2585 6.31352C12.4465 6.12549 12.7015 6.01986 12.9674 6.01986C13.2334 6.01986 13.4884 6.12549 13.6764 6.31352C13.8644 6.50154 13.9701 6.75656 13.9701 7.02247ZM14.9727 7.02247C14.9727 6.49065 14.7614 5.98062 14.3853 5.60457C14.0093 5.22852 13.4993 5.01726 12.9674 5.01726C12.4356 5.01726 11.9256 5.22852 11.5496 5.60457C11.1735 5.98062 10.9622 6.49065 10.9622 7.02247H6.95182C6.81887 7.02247 6.69136 7.07528 6.59735 7.16929C6.50334 7.26331 6.45052 7.39081 6.45052 7.52377C6.45052 7.65672 6.50334 7.78423 6.59735 7.87824C6.69136 7.97225 6.81887 8.02507 6.95182 8.02507H7.51729L8.72543 16.8861C8.80737 17.4866 9.1041 18.037 9.5607 18.4356C10.0173 18.8341 10.6028 19.0537 11.2089 19.0537H14.726C15.3321 19.0537 15.9176 18.8341 16.3742 18.4356C16.8308 18.037 17.1275 17.4866 17.2095 16.8861L18.4176 8.02507H18.9831C19.116 8.02507 19.2435 7.97225 19.3375 7.87824C19.4316 7.78423 19.4844 7.65672 19.4844 7.52377C19.4844 7.39081 19.4316 7.26331 19.3375 7.16929C19.2435 7.07528 19.116 7.02247 18.9831 7.02247H14.9727ZM13.9701 10.5316C13.9701 10.3986 14.0229 10.2711 14.1169 10.1771C14.2109 10.0831 14.3384 10.0303 14.4714 10.0303C14.6043 10.0303 14.7318 10.0831 14.8258 10.1771C14.9198 10.2711 14.9727 10.3986 14.9727 10.5316V15.5446C14.9727 15.6776 14.9198 15.8051 14.8258 15.8991C14.7318 15.9931 14.6043 16.0459 14.4714 16.0459C14.3384 16.0459 14.2109 15.9931 14.1169 15.8991C14.0229 15.8051 13.9701 15.6776 13.9701 15.5446V10.5316ZM11.4635 10.0303C11.3306 10.0303 11.2031 10.0831 11.1091 10.1771C11.0151 10.2711 10.9622 10.3986 10.9622 10.5316V15.5446C10.9622 15.6776 11.0151 15.8051 11.1091 15.8991C11.2031 15.9931 11.3306 16.0459 11.4635 16.0459C11.5965 16.0459 11.724 15.9931 11.818 15.8991C11.912 15.8051 11.9648 15.6776 11.9648 15.5446V10.5316C11.9648 10.3986 11.912 10.2711 11.818 10.1771C11.724 10.0831 11.5965 10.0303 11.4635 10.0303ZM16.2159 16.7507C16.1667 17.111 15.9887 17.4412 15.7147 17.6802C15.4408 17.9193 15.0896 18.0511 14.726 18.0511H11.2089C10.8451 18.0513 10.4937 17.9197 10.2195 17.6806C9.94541 17.4415 9.76723 17.1111 9.71801 16.7507L8.52892 8.02507H17.406L16.2159 16.7507Z"
-            fill="#000000"
-          />
-          <rect
-            x="-0.200521"
-            y="0.200521"
-            width="23.6615"
-            height="23.6615"
-            rx="3.8099"
-            transform="matrix(-1 0 0 1 24.599 0.00423431)"
-            stroke="#000000"
-            stroke-width="0.401042"
-          />
-        </svg>
-      </span>
-    </div>
-  </div>
+  <app-preview-product
+    (onEdit)="edit()"
+    (onChangeUnit)="changeUnit($event.unit, $event.type)"
+    [productId]="productId"
+    [form]="form"
+    [previewData]="previewData"
+    [videoUrls]="videoUrls"
+    [uniqueVariant]="uniqueVariant"
+  />
 </div>
-
-<div id="modal-add-variation" uk-modal="bg-close: false">
-  <div class="uk-modal-dialog uk-modal-body">
-    <button
-      class="uk-modal-close-outside"
-      id="closeVariationModalBtn"
-      type="button"
-      uk-close
-      #closeEdit
-    ></button>
-    <div>
-      <h2 class="mb-3 uk-align-center">Add New Variation</h2>
-      <form [formGroup]="newVariationForm">
-        <div class="mb-3 uk-grid-small uk-grid uk-child-width-1-2@s">
-          <mat-form-field class="mb-3 uk-width-expand">
-            <mat-label>
-              Variation Name
-              <span *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)">
-                <span
-                  class="uk-text-warning"
-                  style="font-size: smaller"
-                  *ngIf="f.name.errors.required"
-                >
-                  Variation Name required <br />
-                </span>
-              </span>
-            </mat-label>
-            <input
-              type="text"
-              formControlName="name"
-              matInput
-              placeholder="eg Samsung s11"
-              formControlName="name"
-              required
-            />
-          </mat-form-field>
-        </div>
-        <div class="uk-flex uk-flex-center mt-4">
-          <button
-            (click)="createNewVariation()"
-            type="submit"
-            class="btn-add"
-            [disabled]="newVariationForm.invalid"
-          >
-            <span *ngIf="!creatingVariation">Submit</span>
-            <div
-              *ngIf="creatingVariation"
-              class="spinner-grow text-dark"
-              role="status"
-              style="width: 25px; height: 25px"
-            ></div>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- <div id="delete-modal" uk-modal>
-  <div class="delete-modal-main uk-modal-dialog uk-modal-body">
-    <div class="modal-heading">
-      Are you sure you want to cancel add variant? This action will delete all
-      information you have added
-    </div>
-
-    <div class="modal-actions">
-      <button type="button" (click)="onCancelRemoveEditVariation()">No</button>
-      <button type="button" (click)="onConfirmRemoveEditVariation()">
-        Yes
-      </button>
-    </div>
-  </div>
-</div> -->
