@@ -20,9 +20,7 @@
             "outputPath": "dist/stackbuld-ecommerce/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "sass",
             "assets": [
@@ -35,7 +33,6 @@
               "node_modules/angular-instantsearch/bundles/instantsearch.min.css",
               "node_modules/angular-instantsearch/bundles/instantsearch-theme-algolia.min.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "./node_modules/animate.css/animate.css",
 
               "node_modules/ngx-toastr/toastr.css",
@@ -48,9 +45,7 @@
               "src/app/modules/seller/profile-dashboard/otp-dialog/otp-dialog.component.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/assets/base-styles"
-              ]
+              "includePaths": ["src/assets/base-styles"]
             },
             "scripts": [
               "node_modules/uikit/dist/js/uikit.min.js",
@@ -124,10 +119,7 @@
         "test": {
           "builder": "@ngx-env/builder:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "sass",
             "assets": [
@@ -150,9 +142,7 @@
             "tsConfig": "tsconfig.server.json",
             "inlineStyleLanguage": "sass",
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/assets/base-styles"
-              ]
+              "includePaths": ["src/assets/base-styles"]
             }
           },
           "configurations": {
@@ -199,9 +189,7 @@
           "options": {
             "browserTarget": "stackbuld-ecommerce:build:production",
             "serverTarget": "stackbuld-ecommerce:server:production",
-            "routes": [
-              "/landing"
-            ]
+            "routes": ["/landing"]
           },
           "configurations": {
             "production": {

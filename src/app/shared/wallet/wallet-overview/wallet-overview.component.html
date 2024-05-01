@@ -1,25 +1,11 @@
 <div class="sub-section uk-flex">
-  <button
-    class="uk-button uk-button-secondary button"
-    type="button"
-    routerLink="./withdraw"
-  >
-    <img
-      src="../../../../assets/icons/cash-outline-light.svg"
-      alt=""
-      width="20"
-      height="20"
-    />
+  <button class="uk-button uk-button-secondary button" type="button" routerLink="./withdraw">
+    <img src="../../../../assets/icons/cash-outline-light.svg" alt="" width="20" height="20" />
     Withdraw
   </button>
   <button class="uk-button uk-button-default button" disabled type="button">
     <div>
-      <img
-        src="../../../../assets/icons/cash-outline-dark.svg"
-        alt=""
-        width="20"
-        height="20"
-      />
+      <img src="../../../../assets/icons/cash-outline-dark.svg" alt="" width="20" height="20" />
       Fund Wallet
     </div>
     <small>Coming soon!!</small>
@@ -27,9 +13,7 @@
 </div>
 
 <div class="action-section uk-flex">
-  <div
-    class="card-container uk-flex uk-flex-column uk-card uk-card-default uk-card-body"
-  >
+  <div class="card-container uk-flex uk-flex-column uk-card uk-card-default uk-card-body">
     <div class="send card-img">
       <img src="../../../../assets/image/send.svg" alt="" />
     </div>
@@ -38,9 +22,7 @@
       <small>Coming soon</small>
     </div>
   </div>
-  <div
-    class="card-container uk-flex uk-flex-column uk-card uk-card-default uk-card-body"
-  >
+  <div class="card-container uk-flex uk-flex-column uk-card uk-card-default uk-card-body">
     <div class="money card-img">
       <img src="../../../../assets/image/money.svg" alt="" />
     </div>
@@ -49,9 +31,7 @@
       <small>Coming soon</small>
     </div>
   </div>
-  <div
-    class="card-container uk-flex uk-flex-column uk-card uk-card-default uk-card-body"
-  >
+  <div class="card-container uk-flex uk-flex-column uk-card uk-card-default uk-card-body">
     <div class="wifi card-img">
       <img src="../../../../assets/image/wifi.svg" alt="" />
     </div>
@@ -62,42 +42,38 @@
   </div>
 </div>
 
-<div class="transactions-section transactions-section-md">
+<div class="transactions-section transactions-section-md relative">
   <div class="uk-flex uk-flex-between">
     <ul uk-tab class="tabs">
-      <li
-        tabindex="0"
-        role="tab"
-        (click)="tab = 1"
-        (keyup.enter)="tab = 1"
-        class="uk-active"
-      >
-        <a><h2 class="title">Recent Transactions</h2></a>
+      <li tabindex="0" role="tab" (click)="tab = 1" (keyup.enter)="tab = 1" class="uk-active">
+        <a>
+          <h2 class="title">Recent Transactions</h2>
+        </a>
       </li>
       <li tabindex="0" role="tab" (click)="tab = 2" (keyup.enter)="tab = 2">
-        <a><h2 class="title">Withdrawal Requests</h2></a>
+        <a>
+          <h2 class="title">Withdrawal Requests</h2>
+        </a>
       </li>
     </ul>
 
+    <div style="z-index: 999" class="bg-white absolute right-0 top-5 rounded"
+      *ngIf="dateType == 'custom' && isDateRangeOpened">
+      <date-range-picker (onApplyDateRange)="applyDateRange($event)" />
+    </div>
     <div class="uk-flex filters">
-      <div class="sort">
-        <select name="month" #month required>
-          <option [ngValue]="null" [disabled]="true">Sort by Date</option>
-          <option value="1">January</option>
-        </select>
-      </div>
+
       <div class="filter">
-        <select name="month" #month required>
-          <option [ngValue]="null" [disabled]="true">Filter</option>
-          <option value="1">January</option>
+        <select class="capitalize" [(ngModel)]="dateType" aria-placeholder="Sort by" (change)="applyFilter()">
+          <option class="capitalize" *ngFor="let value of transactionFilterValues; let i = index" [value]="value">
+            {{value}}</option>
         </select>
+
       </div>
     </div>
   </div>
 
-  <div
-    class="card-container card-container-md hide-for-mobile uk-card uk-card-default uk-card-body"
-  >
+  <div class="card-container card-container-md hide-for-mobile uk-card uk-card-default uk-card-body">
     <table *ngIf="tab === 1" style="width: 100% !important">
       <thead>
         <tr>
@@ -129,12 +105,10 @@
     </table>
 
     <div *ngIf="tab === 2">
-      <table
-        *ngIf="
+      <table *ngIf="
           tab === 2 && withdrawalRequests?.items.length > 0;
           else noRequest
-        "
-      >
+        ">
         <thead>
           <tr>
             <th>Transaction ID</th>
@@ -171,10 +145,8 @@
     </div>
 
     <div *ngIf="!loadingTransactions">
-      <div
-        class="card-container uk-flex uk-flex-between relative uk-card uk-card-default uk-card-body"
-        *ngFor="let item of transactionsList?.items"
-      >
+      <div class="card-container uk-flex uk-flex-between relative uk-card uk-card-default uk-card-body"
+        *ngFor="let item of transactionsList?.items">
         <div>
           <p class="transaction-hash">
             Transaction ID: <span>{{ item.id }}</span>
@@ -202,10 +174,8 @@
     </div>
 
     <div *ngIf="!loadingRequests">
-      <div
-        class="card-container uk-flex uk-flex-between relative uk-card uk-card-default uk-card-body"
-        *ngFor="let item of withdrawalRequests?.items"
-      >
+      <div class="card-container uk-flex uk-flex-between relative uk-card uk-card-default uk-card-body"
+        *ngFor="let item of withdrawalRequests?.items">
         <div>
           <p class="transaction-hash">
             Transaction ID: <span>{{ item.id }}</span>

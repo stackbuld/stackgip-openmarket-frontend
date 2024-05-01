@@ -19,6 +19,10 @@
   }
 }
 
+.filter-container{
+  position: relative;
+}
+
 .tabs {
   @include breakpoint-down(small) {
     width: 70%;
