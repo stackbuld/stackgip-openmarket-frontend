@@ -49,9 +49,8 @@ export class WalletService {
     endDate?: string;
   }): Observable<ITransactionsResponse> {
     const url = data.walletId
-      ? `wallet/transactions?DateFilter.DateType=${data.dateType}&DateFilter.StartDate=${data.startDate}&DateFilter.EndDate=${data.endDate}&UserId=${data.userId}&WalletId=${data.walletId}&PageSize=${data.pageSize}&Page=${data.page}`
-      : `wallet/transactions?UserId=${data.userId}&PageSize=${data.pageSize}&Page=${data.page}`;
-
+      ? `wallet/transactions?DateType=${data.dateType}&StartDate=${data.startDate}&EndDate=${data.endDate}&UserId=${data.userId}&WalletId=${data.walletId}&PageSize=${data.pageSize}&Page=${data.page}`
+      : `wallet/transactions?DateType=${data.dateType}&StartDate=${data.startDate}&EndDate=${data.endDate}&UserId=${data.userId}&PageSize=${data.pageSize}&Page=${data.page}`;
     return this.http.get<ITransactionsResponse>(this.baseUrl + url);
   }
 
