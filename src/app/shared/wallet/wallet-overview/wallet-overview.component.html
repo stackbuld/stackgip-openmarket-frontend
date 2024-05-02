@@ -42,7 +42,8 @@
   </div>
 </div>
 
-<div class="relative transactions-section transactions-section-md">
+<div class="relative transactions-section transactions-section-md"
+  style="margin: 2rem 0; padding: 1rem 0; min-height: 50vh">
   <div class="uk-flex uk-flex-between">
     <ul uk-tab class="tabs">
       <li tabindex="0" role="tab" (click)="tab = 1" (keyup.enter)="tab = 1" class="uk-active">
@@ -57,25 +58,46 @@
       </li>
     </ul>
 
-    <div style="z-index: 999" class="absolute right-0 bg-white rounded top-5"
-      *ngIf="dateType == 'custom' && isDateRangeOpened">
-      <date-range-picker (onApplyDateRange)="applyDateRange($event)" />
-    </div>
+    <mat-menu #dateRange="matMenu">
+      <div mat-menu-item style="background: white; padding: 1.4rem; border-radius: 5px; margin-right: 1rem;">
+
+        <date-range-picker (onApplyDateRange)="applyDateRange($event)" />
+      </div>
+    </mat-menu>
     <div class="uk-flex filters">
 
       <div class="filter">
         <select class="capitalize" [(ngModel)]="dateType" (change)="applyFilter()">
-          <option [ariaSelected]="true" selected="true">Sort by</option>
-          <option class="capitalize" *ngFor="let value of transactionFilterValues; let i = index" [value]="value">
-            {{value}}</option>
-        </select>
+          <option [selected]="true" value="" class="capitalize">
+            Sort by
+          </option>
 
+          <option value="all" class="capitalize">
+            all
+          </option>
+          <option value="month" class="capitalize">
+            month
+
+          </option>
+          <option value="week" class="capitalize">
+            week
+          </option>
+          <option class="capitalize" value="today">
+            today
+          </option>
+
+
+        </select>
+        <button mat-button style="background-color: #000000; color: white;" [matMenuTriggerFor]="dateRange"
+          value="custom" class="capitalize">
+          custom
+        </button>
       </div>
     </div>
   </div>
 
   <div class="card-container card-container-md hide-for-mobile uk-card uk-card-default uk-card-body">
-    <table *ngIf="tab === 1" style="width: 100% !important">
+    <table *ngIf="tab === 1 && transactionsList?.items.length > 0" style="width: 100% !important">
       <thead>
         <tr>
           <th>Transaction ID</th>
@@ -103,8 +125,12 @@
           <td>{{ item.withdrawalRequests?.status }}</td>
         </tr>
       </tbody>
-    </table>
 
+
+    </table>
+    <div class="items-not-found" *ngIf="!loadingTransactions && tab ==1 && transactionsList?.items.length <= 0">
+      No transaction found.
+    </div>
     <div *ngIf="tab === 2">
       <table *ngIf="
           tab === 2 && withdrawalRequests?.items.length > 0;
@@ -167,6 +193,9 @@
         </div>
       </div>
     </div>
+    <div class="items-not-found" *ngIf="!loadingTransactions && tab==1 && transactionsList?.items.length <= 0">
+      No transaction found.
+    </div>
   </div>
 
   <div class="card-container-sm" *ngIf="tab === 2">
@@ -192,6 +221,9 @@
           <p class="transaction-amount">₦{{ item.amount }}</p>
         </div>
       </div>
+    </div>
+    <div class="items-not-found" *ngIf="!loadingRequests && tab==2 && withdrawalRequests?.items.length <= 0">
+      No withdrawal request found.
     </div>
   </div>
 </div>

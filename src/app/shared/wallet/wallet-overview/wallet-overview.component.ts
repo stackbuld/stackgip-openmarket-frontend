@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   IRequestResponse,
   Requests,
@@ -6,8 +6,8 @@ import {
 } from 'src/app/models/wallet.model';
 import { WalletService } from 'src/app/services/wallet/wallet.service';
 import { AuthService } from '../../../services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { DateRange } from '../../components/date-range/date-range.dto';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-wallet-overview',
@@ -23,48 +23,32 @@ export class WalletOverviewComponent implements OnInit {
   userId!: string;
   pageSize: number = 10;
   page: number = 1;
-  dateType: string = 'Sort by';
+  dateType: string = '';
   startDate: string = '';
   endDate: string = '';
 
-  isDateRangeOpened: boolean = true;
-
-  transactionFilterValues: string[] = [
-    'all',
-    'month',
-    'week',
-    'today',
-    'custom',
-  ];
+  isCustomDateTypeSelected: boolean = false;
 
   constructor(
     private walletService: WalletService,
-    private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
-    this.dateType = 'Sort by';
-  }
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.userId = this.authService.getLoggedInUser().id;
-    this.getTransactions();
+    this.getTransactions({ isInitial: true });
     this.getWithdrawalRequests();
   }
 
   applyDateRange(dateRange: DateRange): void {
+    this.dateType = 'custom';
     this.startDate = dateRange.start;
     this.endDate = dateRange.end;
     this.getTransactions();
-    this.isDateRangeOpened = false;
   }
 
   applyFilter(): void {
-    if (this.dateType == 'custom') {
-      this.isDateRangeOpened = true;
-      return;
-    }
-    this.isDateRangeOpened = false;
+    if (this.dateType == '') return;
     this.getTransactions();
   }
 
@@ -75,14 +59,14 @@ export class WalletOverviewComponent implements OnInit {
     return `${new Date(date).toLocaleTimeString()}`;
   }
 
-  getTransactions() {
+  getTransactions(model: { isInitial: boolean } = { isInitial: false }) {
     this.loadingTransactions = true;
     this.walletService
       .getTransactions({
         userId: this.userId,
         pageSize: this.pageSize,
         page: this.page,
-        dateType: this.dateType,
+        dateType: model.isInitial ? '' : this.dateType,
         startDate: this.startDate,
         endDate: this.endDate,
       })
