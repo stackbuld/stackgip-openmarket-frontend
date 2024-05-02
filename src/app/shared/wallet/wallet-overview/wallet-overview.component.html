@@ -42,7 +42,7 @@
   </div>
 </div>
 
-<div class="transactions-section transactions-section-md relative">
+<div class="relative transactions-section transactions-section-md">
   <div class="uk-flex uk-flex-between">
     <ul uk-tab class="tabs">
       <li tabindex="0" role="tab" (click)="tab = 1" (keyup.enter)="tab = 1" class="uk-active">
@@ -57,14 +57,15 @@
       </li>
     </ul>
 
-    <div style="z-index: 999" class="bg-white absolute right-0 top-5 rounded"
+    <div style="z-index: 999" class="absolute right-0 bg-white rounded top-5"
       *ngIf="dateType == 'custom' && isDateRangeOpened">
       <date-range-picker (onApplyDateRange)="applyDateRange($event)" />
     </div>
     <div class="uk-flex filters">
 
       <div class="filter">
-        <select class="capitalize" [(ngModel)]="dateType" aria-placeholder="Sort by" (change)="applyFilter()">
+        <select class="capitalize" [(ngModel)]="dateType" (change)="applyFilter()">
+          <option [ariaSelected]="true" selected="true">Sort by</option>
           <option class="capitalize" *ngFor="let value of transactionFilterValues; let i = index" [value]="value">
             {{value}}</option>
         </select>
@@ -145,7 +146,7 @@
     </div>
 
     <div *ngIf="!loadingTransactions">
-      <div class="card-container uk-flex uk-flex-between relative uk-card uk-card-default uk-card-body"
+      <div class="relative card-container uk-flex uk-flex-between uk-card uk-card-default uk-card-body"
         *ngFor="let item of transactionsList?.items">
         <div>
           <p class="transaction-hash">
@@ -158,7 +159,7 @@
             <small>{{ formatTime(item?.createdAt) }}</small>
           </p>
         </div>
-        <div class="uk-flex h-full uk-flex-column uk-flex-between">
+        <div class="h-full uk-flex uk-flex-column uk-flex-between">
           <p class="transaction-status">
             {{ item.withdrawalRequests?.status }}
           </p>
@@ -174,7 +175,7 @@
     </div>
 
     <div *ngIf="!loadingRequests">
-      <div class="card-container uk-flex uk-flex-between relative uk-card uk-card-default uk-card-body"
+      <div class="relative card-container uk-flex uk-flex-between uk-card uk-card-default uk-card-body"
         *ngFor="let item of withdrawalRequests?.items">
         <div>
           <p class="transaction-hash">
@@ -186,7 +187,7 @@
             <small>{{ formatTime(item?.createdAt) }}</small>
           </p>
         </div>
-        <div class="uk-flex h-full uk-flex-column uk-flex-between">
+        <div class="h-full uk-flex uk-flex-column uk-flex-between">
           <p class="transaction-status">{{ item.status }}</p>
           <p class="transaction-amount">₦{{ item.amount }}</p>
         </div>
