@@ -27,8 +27,6 @@ export class WalletOverviewComponent implements OnInit {
   startDate: string = '';
   endDate: string = '';
 
-  isCustomDateTypeSelected: boolean = false;
-
   constructor(
     private walletService: WalletService,
     private authService: AuthService
