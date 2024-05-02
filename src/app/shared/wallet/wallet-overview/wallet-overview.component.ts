@@ -42,7 +42,9 @@ export class WalletOverviewComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.dateType = 'Sort by';
+  }
 
   ngOnInit(): void {
     this.userId = this.authService.getLoggedInUser().id;
