@@ -27,7 +27,7 @@ export class WalletOverviewComponent implements OnInit {
   startDate: string = '';
   endDate: string = '';
 
-  isDateRangeOpened: boolean = true;
+  isCustomDateTypeSelected: boolean = false;
 
   constructor(
     private walletService: WalletService,
@@ -41,17 +41,14 @@ export class WalletOverviewComponent implements OnInit {
   }
 
   applyDateRange(dateRange: DateRange): void {
+    this.dateType = 'custom';
     this.startDate = dateRange.start;
     this.endDate = dateRange.end;
     this.getTransactions();
   }
 
   applyFilter(): void {
-    if (this.dateType == 'custom') {
-      return;
-    }
-    if (this.dateType == 'Sort by') return;
-    this.isDateRangeOpened = false;
+    if (this.dateType == '') return;
     this.getTransactions();
   }
 

@@ -68,9 +68,10 @@
 
       <div class="filter">
         <select class="capitalize" [(ngModel)]="dateType" (change)="applyFilter()">
-          <option selected="true" value="" class="capitalize">
+          <option [selected]="true" value="" class="capitalize">
             Sort by
           </option>
+
           <option value="all" class="capitalize">
             all
           </option>
@@ -84,6 +85,7 @@
           <option class="capitalize" value="today">
             today
           </option>
+
 
         </select>
         <button mat-button style="background-color: #000000; color: white;" [matMenuTriggerFor]="dateRange"
