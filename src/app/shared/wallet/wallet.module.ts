@@ -13,14 +13,27 @@ import {
   TransactionAmount,
   TransactionDirective,
 } from '../directives/transaction.directive';
+import { DateRangePicker } from '../components/date-range/date-range';
+import { NgIf, JsonPipe } from '@angular/common';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
     WalletComponent,
     WalletOverviewComponent,
     WalletWithdrawComponent,
+    DateRangePicker,
   ],
   imports: [
+    MatFormFieldModule,
+    MatDatepickerModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    JsonPipe,
+    MatNativeDateModule,
     CommonModule,
     WalletRoutingModule,
     NgxOtpInputModule,

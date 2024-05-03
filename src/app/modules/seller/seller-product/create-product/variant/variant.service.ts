@@ -50,4 +50,5 @@ export class VariantService {
   addNewVariant = new Subject<boolean>();
   isAddingVariant = new BehaviorSubject<boolean>(false);
   deletingVariantUnit = new Subject<number>();
+  getVariantCount = new BehaviorSubject<number>(0);
 }

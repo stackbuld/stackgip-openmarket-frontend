@@ -38,7 +38,7 @@ export class HomeNavComponent implements OnInit {
     private authService: AuthService,
     private windowService: WindowRefService,
     private searchService: SearchService,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) {
     // this.user = JSON.parse(localStorage.getItem('user'));
   }
@@ -107,13 +107,18 @@ export class HomeNavComponent implements OnInit {
 
   fetchCategories = () => {
     this.categoryService.getAllStorefrontCategories().subscribe({
-      next: (data) => {
-        this.categories = data;
+      next: (res) => {
+        const categories = res
+          .filter((cat, index) => {
+            // this just a temporary fix. this category doesn't have ordering number and it's removed awaiting when it will totally be removed from the database, I have also requested for it to be removed by mujib on April 22 2024
+            TODO: return cat.id !== 'e3393601-6453-4194-b5da-27ac8db5e92d';
+          })
+          .sort((a, b) => a.orderingNumber - b.orderingNumber);
+        this.categories = categories;
       },
-      error: (err) => {},
+      error: (error) => {},
     });
   };
-
   getCustomerCart = () => {
     let cart$;
     const userId = this.user?.id ?? '';

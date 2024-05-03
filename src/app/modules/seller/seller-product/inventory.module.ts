@@ -23,6 +23,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { VideoGuidePromptComponent } from '../../../shared/components/video-guide-prompt/video-guide-prompt.component';
 import { VariantComponent } from './create-product/variant/variant.component';
+import { ProductPreview } from './create-product/preview-product/preview-product';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { VariantComponent } from './create-product/variant/variant.component';
     NgxPageScrollCoreModule.forRoot({ duration: 2500, scrollInView: false }),
     VideoGuidePromptComponent,
     VariantComponent,
+    ProductPreview,
   ],
 })
 export class InventoryModule {}

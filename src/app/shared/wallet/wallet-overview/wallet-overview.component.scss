@@ -19,6 +19,25 @@
   }
 }
 
+.filter-container{
+  position: relative;
+}
+
+.items-not-found{
+  width: 100%;
+  min-width: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align:  center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 2rem auto;
+  padding: 1rem 0;
+}
+
+
+
 .tabs {
   @include breakpoint-down(small) {
     width: 70%;

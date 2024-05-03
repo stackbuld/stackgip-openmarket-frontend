@@ -33,93 +33,24 @@ import { VariationsAlertDialogComponent } from './variations-alert-dialog/variat
 import { VariantComponent } from './variant/variant.component';
 import { VariantService } from './variant/variant.service';
 import { DeleteVariantComponent } from './variant/delete-variant/delete-variant.component';
+import {
+  editorConfig,
+  pickupOptions,
+  previewEditorConfig,
+} from './editor.config';
 
 declare var cloudinary: any;
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
-  styleUrls: ['./create-product.component.scss'],
   providers: [SafeHtmlPipe],
 })
 export class CreateProductComponent
   implements OnInit, AfterViewChecked, OnDestroy
 {
-  previewEditorConfig: AngularEditorConfig = {
-    editable: false,
-    showToolbar: false,
-    enableToolbar: false,
-    height: 'auto',
-    minHeight: '15rem',
-    maxHeight: 'auto',
-    width: 'auto',
-    minWidth: '10rem',
-  };
-  editorConfig: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    height: 'auto',
-    minHeight: '15rem',
-    maxHeight: 'auto',
-    width: 'auto',
-    minWidth: '10rem',
-    translate: 'yes',
-    enableToolbar: true,
-    showToolbar: true,
-    placeholder: 'Product short description...',
-    defaultParagraphSeparator: '',
-    defaultFontName: '',
-    defaultFontSize: '',
-    fonts: [
-      { class: 'arial', name: 'Arial' },
-      { class: 'times-new-roman', name: 'Times New Roman' },
-      { class: 'calibri', name: 'Calibri' },
-      { class: 'comic-sans-ms', name: 'Comic Sans MS' },
-    ],
-    toolbarHiddenButtons: [
-      [
-        'strikeThrough',
-        'subscript',
-        'superscript',
-        'colorPicker',
-        'justifyFull',
-        'outdent',
-        'eyedrop',
-      ],
-      [
-        'textColor',
-        'backgroundColor',
-        'customClasses',
-        'link',
-        'unlink',
-        'insertImage',
-        'insertVideo',
-        'insertHorizontalRule',
-        'removeFormat',
-        'toggleEditorMode',
-      ],
-    ],
-
-    uploadWithCredentials: false,
-    sanitize: true,
-    toolbarPosition: 'top',
-  };
-  pickupOptions: [
-    {
-      name: 'None';
-    },
-    {
-      name: 'Bike';
-    },
-    {
-      Car;
-    },
-    {
-      name: 'Van';
-    },
-    {
-      name: 'Truck';
-    },
-  ];
+  previewEditorConfig = previewEditorConfig;
+  editorConfig = editorConfig;
+  pickupOptions = pickupOptions;
   private unsubscribe$ = new Subject<void>();
   @Output() closed = new EventEmitter();
   @Output() added = new EventEmitter();
@@ -180,6 +111,8 @@ export class CreateProductComponent
   videoWidget: any;
   isAddingVariants: boolean = false;
 
+  savedTotalVariantsUnit: number = 0;
+
   @ViewChild('variationForm', { static: false })
   variationForm: ElementRef<HTMLElement>;
 
@@ -211,10 +144,9 @@ export class CreateProductComponent
     @Inject(DOCUMENT) private document: Document,
     private dialog: MatDialog,
     private changeDetector: ChangeDetectorRef,
-    private variantService: VariantService,
+    private variantService: VariantService
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.initVariationForm();
     localStorage.removeItem('compImagesStore');
     this.user = this.authService.getLoggedInUser();
   }
@@ -252,12 +184,14 @@ export class CreateProductComponent
           values.map((value) => {
             this.variations().push(this.fb.group(value));
           });
+          this.allVariantList.forEach(
+            (v) => (this.savedTotalVariantsUnit += v.unit)
+          );
         }
 
         this.totalVariationsUnit = this.getTotalVariationUnit(
-          this.allVariantList,
+          this.allVariantList
         );
-        console.log(this.totalVariationsUnit);
         this.editingVariation = false;
         this.addingVariation = false;
       }
@@ -272,6 +206,46 @@ export class CreateProductComponent
     this.getStores(this.user.id);
     this.getVariations();
 
+    this.createCloudinaryWidgets();
+
+    this.form.get('unit').valueChanges.subscribe((value: number) => {
+      if (!this.editingVariation) {
+        this.availableProductUnit = value;
+      }
+      this.initialProductUnit = value;
+    });
+
+    this.productService.newProductUnit.subscribe((value) => {
+      this.initialProductUnit = value;
+      this.availableProductUnit = 0;
+      this.form.patchValue({ unit: value });
+
+      this.isProductUnitExceeded = false;
+    });
+
+    this.exceededUnitAction$ = this.productService.exceededUnitAction.subscribe(
+      (action) => {
+        if (action) {
+          this.isScroll = true;
+          setTimeout(() => {
+            window.scrollTo(
+              0,
+              this.availableUnitsContainer.nativeElement.offsetTop
+            );
+          }, 100);
+          this.availableUnitsInput.nativeElement.focus();
+        }
+      }
+    );
+
+    this.variantService.isAddingVariant.subscribe((value) => {
+      this.isAddingVariants = value;
+    });
+  }
+
+  ngAfterViewChecked(): void {}
+
+  createCloudinaryWidgets(): void {
     this.uploadWidget = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
@@ -286,7 +260,7 @@ export class CreateProductComponent
             this.form.patchValue({ imageUrls: this.images });
           }
         }
-      },
+      }
     );
 
     this.videoWidget = cloudinary.createUploadWidget(
@@ -301,7 +275,7 @@ export class CreateProductComponent
             this.videoUrls.push(result.info.secure_url);
           }
         }
-      },
+      }
     );
 
     this.uploadComplimentaryWidget = cloudinary.createUploadWidget(
@@ -321,7 +295,7 @@ export class CreateProductComponent
             list.push(data);
             localStorage.setItem('compImagesStore', JSON.stringify(list));
             this.complementaryImagesStore = JSON.parse(
-              localStorage.getItem('compImagesStore'),
+              localStorage.getItem('compImagesStore')
             );
           } else {
             list = JSON.parse(localStorage.getItem('compImagesStore'));
@@ -332,11 +306,11 @@ export class CreateProductComponent
             list.push(data);
             localStorage.setItem('compImagesStore', JSON.stringify(list));
             this.complementaryImagesStore = JSON.parse(
-              localStorage.getItem('compImagesStore'),
+              localStorage.getItem('compImagesStore')
             );
           }
         }
-      },
+      }
     );
 
     this.uploadComplimentaryWidget2 = cloudinary.createUploadWidget(
@@ -351,7 +325,7 @@ export class CreateProductComponent
             this.editProps.patchValue({ imageUrl: result.info.secure_url });
           }
         }
-      },
+      }
     );
 
     this.uploadComplimentaryWidget3 = cloudinary.createUploadWidget(
@@ -368,47 +342,9 @@ export class CreateProductComponent
             });
           }
         }
-      },
-    );
-
-    this.form.get('unit').valueChanges.subscribe((value: number) => {
-      if (!this.editingVariation) {
-        this.availableProductUnit = value;
       }
-      this.initialProductUnit = value;
-    });
-
-    this.getUnitValues();
-
-    this.productService.newProductUnit.subscribe((value) => {
-      this.initialProductUnit = value;
-      this.availableProductUnit = 0;
-      this.form.patchValue({ unit: value });
-
-      this.isProductUnitExceeded = false;
-    });
-
-    this.exceededUnitAction$ = this.productService.exceededUnitAction.subscribe(
-      (action) => {
-        if (action) {
-          this.isScroll = true;
-          setTimeout(() => {
-            window.scrollTo(
-              0,
-              this.availableUnitsContainer.nativeElement.offsetTop,
-            );
-          }, 100);
-          this.availableUnitsInput.nativeElement.focus();
-        }
-      },
     );
-
-    this.variantService.isAddingVariant.subscribe((value) => {
-      this.isAddingVariants = value;
-    });
   }
-
-  ngAfterViewChecked(): void {}
 
   addStore() {
     this.dialogService
@@ -437,7 +373,7 @@ export class CreateProductComponent
     }
     localStorage.setItem(
       'compImagesStore',
-      JSON.stringify(this.complementaryImagesStore),
+      JSON.stringify(this.complementaryImagesStore)
     );
   }
 
@@ -463,7 +399,7 @@ export class CreateProductComponent
       (err) => {
         this.toast.error(err.error.message);
         this.loading = false;
-      },
+      }
     );
   }
 
@@ -489,7 +425,7 @@ export class CreateProductComponent
 
   populateProductForm(data: any): void {
     let variationList = [];
-    let complimentartProducts = [];
+    let complimentaryProducts = [];
     let sellerStoreIds = [];
     this.allVariantList = [];
     this.form = this.fb.group({
@@ -521,7 +457,7 @@ export class CreateProductComponent
       const element = data.productOptions[index];
 
       if (!!element.isMultiple) {
-        complimentartProducts.push(element);
+        complimentaryProducts.push(element);
         this.relatedItems.push(element);
       }
 
@@ -530,26 +466,6 @@ export class CreateProductComponent
         this.allVariantList.push(element);
       }
     }
-
-    this.totalVariationsUnit = this.getTotalVariationUnit(this.allVariantList);
-
-    this.availableProductUnit =
-      this.initialProductUnit - this.totalVariationsUnit;
-
-    // this.relatedItems.forEach((element: any, index: number) => {
-    //   (<FormArray>this.form.get('options')).push(
-    //     this.fb.group({
-    //       title: [element.title, [Validators.required]],
-    //       value: [element.value],
-    //       cost: [element.cost],
-    //       shortDescription: [element.shortDescription],
-    //       unit: [element.unit],
-    //       imageUrl: [''],
-    //       isMultiple: [element.isMultiple],
-    //       ...(element.id && {id: element.id} )
-    //     })
-    //   );
-    // });
 
     this.allVariantList.forEach((element: any, index: number) => {
       (<FormArray>this.form.get('variations')).push(
@@ -562,7 +478,7 @@ export class CreateProductComponent
           isMultiple: false,
           shortDescription: element.shortDescription,
           ...(element.id && { id: element.id }),
-        }),
+        })
       );
     });
 
@@ -577,88 +493,9 @@ export class CreateProductComponent
           cost: [element.cost, [Validators.required]],
           isMultiple: true,
           ...(element.id && { id: element.id }),
-        }),
+        })
       );
     });
-  }
-
-  getUnitValues() {
-    // if (this.variationProps.get('unit').value === null) {
-    //   return;
-    // }
-    //
-    // this.variationProps.get('unit').valueChanges.subscribe((value) => {
-    //   let totalVariationValue = 0;
-    //
-    //   if (value === null) {
-    //     this.availableProductUnit =
-    //       this.initialProductUnit - this.totalVariationsUnit;
-    //
-    //     return;
-    //   }
-    //
-    //   totalVariationValue = value + this.totalVariationsUnit;
-    //
-    //   if (this.editingVariation) {
-    //     this.availableProductUnit =
-    //       this.initialProductUnit - totalVariationValue;
-    //   } else {
-    //     this.availableProductUnit =
-    //       this.initialProductUnit - (value + this.totalVariationsUnit);
-    //   }
-    //
-    //   if (this.availableProductUnit < 0) {
-    //     this.isProductUnitExceeded = true;
-    //   } else {
-    //     this.isProductUnitExceeded = false;
-    //   }
-    //
-    //   if (totalVariationValue > this.initialProductUnit) {
-    //     this.isProductUnitExceeded = true;
-    //
-    //     this.dialog.open(VariationsAlertDialogComponent, {
-    //       data: {
-    //         initialUnit: this.initialProductUnit,
-    //         exceededUnit: totalVariationValue,
-    //         type: 'unitAlert',
-    //       },
-    //       autoFocus: false,
-    //     });
-    //   } else {
-    //     this.isProductUnitExceeded = false;
-    //   }
-    // });
-  }
-
-  // creating a new varaint type (for add variation)
-  initVariationForm(): void {
-    this.newVariationForm = this.fb.group({
-      name: ['', [Validators.required]],
-      // categoryId: ['', [Validators.required]],
-    });
-  }
-
-  createNewVariation() {
-    this.creatingVariation = true;
-    // this.selectedCategoryId = this.newVariationForm.value.categoryId;
-    this.productService.createVariation(this.newVariationForm.value).subscribe(
-      (res) => {
-        if (res.status === 'success') {
-          this.document.getElementById('closeVariationModalBtn').click();
-          this.creatingVariation = false;
-          this.toast.success(res.message);
-          this.getVariations();
-          this.initVariationForm();
-        } else {
-          this.creatingVariation = false;
-          this.toast.success(res.message);
-        }
-      },
-      (err) => {
-        this.creatingVariation = false;
-        this.toast.error(err.message);
-      },
-    );
   }
 
   changeUnit = (unit: any, type: string) => {
@@ -710,24 +547,8 @@ export class CreateProductComponent
       this.toast.error('Add product price!');
       return;
     }
+    this.allVariantList.forEach((v) => (this.savedTotalVariantsUnit += v.unit));
     this.variantService.addNewVariant.next(true);
-    // this.addingVariation = true;
-    // this.variationProps = this.createVariation();
-    // this.scrollToFirstInvalidControl();
-    //
-    // this.getUnitValues();
-    // this.variationProps.patchValue({ imageUrl: '' });
-    //
-    // if (!this.editingVariation) {
-    //   if (this.availableProductUnit > 0) {
-    //     const unit = Math.floor(this.availableProductUnit / 2);
-    //     if (unit == 0) {
-    //       this.variationProps.patchValue({ unit: null });
-    //     } else {
-    //       this.variationProps.patchValue({ unit: unit });
-    //     }
-    //   }
-    // }
   }
 
   // this method is to add the variation to the variation variable of the main form
@@ -742,7 +563,7 @@ export class CreateProductComponent
 
     if (this.isProductUnitExceeded) {
       this.toast.warining(
-        'Product variations unit can not be more than product unit',
+        'Product variations unit can not be more than product unit'
       );
       return;
     }
@@ -752,7 +573,7 @@ export class CreateProductComponent
       this.variationProps.value.cost !== 0
     ) {
       this.toast.warining(
-        'Variant must be zero(0) or have a price above product price!',
+        'Variant must be zero(0) or have a price above product price!'
       );
       return;
     }
@@ -787,25 +608,6 @@ export class CreateProductComponent
     }, 0);
   }
 
-  // this method is to close the variation of products card
-  removeEditVariation(): void {
-    uikit.modal('#delete-modal').show();
-  }
-
-  onCancelRemoveEditVariation() {
-    uikit.modal('#delete-modal').hide();
-  }
-
-  onConfirmRemoveEditVariation() {
-    this.variationProps.reset();
-    this.editingTotalVariationsUnit = 0;
-    this.totalVariationsUnit += this.editingVariationUnit;
-    this.editingVariationUnit = 0;
-    this.addingVariation = false;
-    this.editingVariation = false;
-    uikit.modal('#delete-modal').hide();
-  }
-
   // this method is to remove already created product varaints
   removeVariation(index: number): void {
     const dialogRef = this.dialog.open(DeleteVariantComponent, {
@@ -815,43 +617,39 @@ export class CreateProductComponent
     dialogRef.afterClosed().subscribe((event) => {
       if (event) {
         this.variations().removeAt(index);
+
         this.variantService.deletingVariantUnit.next(
-          this.allVariantList[index].unit,
+          this.allVariantList[index].unit
         );
         this.allVariantList.splice(index, 1);
+        this.sendTotalVariantValue();
       }
     });
+  }
 
-    // this.totalVariationsUnit = this.allVariantList.reduce(
-    //   (accumulator, currentValue) => {
-    //     return accumulator + currentValue.unit;
-    //   },
-    //   0,
-    // );
-    //
-    // this.availableProductUnit =
-    //   this.initialProductUnit - this.totalVariationsUnit;
+  sendTotalVariantValue(): void {
+    let totalUnit = 0;
+    this.allVariantList.forEach((value) => (totalUnit += value.unit));
+    this.variantService.getVariantCount.next(totalUnit);
   }
 
   // this method is to edit already created related/complimentary product
   editVariation(index: number): void {
     this.editingVariation = true;
     this.editingIndex = index;
+    this.sendTotalVariantValue();
     this.variantService.variantToEdit.next(this.allVariantList[index]);
 
-    // this.editingTotalVariationsUnit = this.totalVariationsUnit;
-    //
-    // this.totalVariationsUnit =
-    //   this.totalVariationsUnit - this.allVariantList[index].unit;
-    //
-    // this.addingVariation = true;
-    // this.variationProps.patchValue({ imageUrl: '' });
-    // this.editingVariationUnit = this.allVariantList[index].unit;
-    //
-    // if (!this.variationProps) {
-    //   this.variationProps = this.createVariation();
-    // }
-    // this.variationProps.patchValue({ ...this.allVariantList[index] });
+    this.editingTotalVariationsUnit = this.totalVariationsUnit;
+
+    this.addingVariation = true;
+    this.variationProps.patchValue({ imageUrl: '' });
+    this.editingVariationUnit = this.allVariantList[index].unit;
+
+    if (!this.variationProps) {
+      this.variationProps = this.createVariation();
+    }
+    this.variationProps.patchValue({ ...this.allVariantList[index] });
   }
 
   options(): FormArray {
@@ -944,7 +742,7 @@ export class CreateProductComponent
 
   onDeleteVideo(index: number) {
     this.videoUrls = this.videoUrls.filter(
-      (url, urlIndex) => urlIndex != index,
+      (url, urlIndex) => urlIndex != index
     );
   }
 
@@ -956,12 +754,6 @@ export class CreateProductComponent
     if (this.images.length === 0) {
       this.productImage = null;
     }
-  }
-
-  removeVariationImage(image_url): void {
-    this.imageErr = null;
-    this.variationImages = this.variationImages.filter((a) => a !== image_url);
-    this.variationProps.patchValue({ imageUrl: '' });
   }
 
   removeRelatedImage(): void {
@@ -1011,7 +803,7 @@ export class CreateProductComponent
       (err) => {
         this.toast.error(err.message);
         this.loadingSubCategories = false;
-      },
+      }
     );
   }
 
@@ -1022,7 +814,7 @@ export class CreateProductComponent
       },
       (err) => {
         this.toast.error(err.message);
-      },
+      }
     );
   }
 
@@ -1033,7 +825,7 @@ export class CreateProductComponent
       },
       (err) => {
         this.toast.error(err.message);
-      },
+      }
     );
   }
 
@@ -1044,111 +836,24 @@ export class CreateProductComponent
       },
       (err) => {
         this.toast.error(err.message);
-      },
+      }
     );
   }
 
   edit = () => {
-    // if (this.isSubCatIdEmpty === true) {
-    //   this.form.patchValue({ categoryId: '' });
-    // }
     if (this.isPreview === true) {
       this.isPreview = false;
     }
-  };
-
-  setVariation(list: any) {
-    const result = list.reduce((acc, { title, value }) => {
-      acc[title] ??= { title: title, value: [] };
-      if (Array.isArray(value))
-        // if it's array type then concat
-        acc[title].value = acc[title].value.concat(value);
-      else acc[title].value.push(value);
-      return acc;
-    }, {});
-    this.variationList = Object.values(result);
-  }
-
-  updateProduct = () => {
-    this.creatingProduct = true;
-    this.productService
-      .createNewProduct({
-        ...this.form.value,
-        videoUrls: this.videoUrls,
-        options: [...this.relatedItems, ...this.allVariantList],
-        publishOption: 'Review',
-        draftProductId: this.productId,
-      })
-      .subscribe({
-        next: (res) => {
-          if (res.status === 'success') {
-            this.toast.success('Product updated successfully!');
-            this.router.navigate(['/seller/products']);
-            this.creatingProduct = false;
-            localStorage.removeItem('compImagesStore');
-            this.complementaryImagesStore = [];
-          } else {
-            this.creatingProduct = false;
-            this.toast.error(res.message);
-          }
-        },
-        error: (err) => {
-          this.creatingProduct = false;
-          this.toast.error(err.message);
-        },
-      });
   };
 
   toggleDescription() {
     this.isFullDescription = !this.isFullDescription;
   }
 
-  convertInnerHtmlToString(myHTML: any) {
-    // var strippedHtml = myHTML.replace(/<[^>]+>/g, "");
-    // if (strippedHtml.length > 700) {
-    //   this.hasFullDesc = true;
-    // } else {
-    //   this.hasFullDesc = false;
-    // }
-    // return strippedHtml;
-    return myHTML;
-  }
-
-  createProduct = () => {
-    this.creatingProduct = true;
-
-    this.productService
-      .createNewProduct({
-        ...this.form.value,
-        videoUrls: [...this.videoUrls],
-        options: [...this.relatedItems, ...this.allVariantList],
-        publishOption: 'Review',
-      })
-      .subscribe({
-        next: (res) => {
-          if (res.status === 'success') {
-            this.toast.success('Product added successfully');
-            this.router.navigate(['/seller/products']);
-
-            this.creatingProduct = false;
-            localStorage.removeItem('compImagesStore');
-            this.complementaryImagesStore = [];
-          } else {
-            this.creatingProduct = false;
-            this.toast.error('Something went wrong');
-          }
-        },
-        error: (err) => {
-          this.creatingProduct = false;
-          this.toast.error('Something went wrong');
-        },
-      });
-  };
-
   saveAsDraft = () => {
     if (this.form.value.pickupOption === 'None') {
       this.toast.warining(
-        'Please select a pickup option (what kind of vehicle can pick up this item)',
+        'Please select a pickup option (what kind of vehicle can pick up this item)'
       );
       return;
     }
@@ -1156,7 +861,7 @@ export class CreateProductComponent
       this.toast.error('Product Image(s) required');
       // return;
     } else if (this.form.value.description === '') {
-      this.toast.error('Enter Product Description to Procees');
+      this.toast.error('Enter Product Description to Process');
       // return;
     } else if (this.form.value.category == '') {
       this.toast.error('Select a Category');
@@ -1209,8 +914,8 @@ export class CreateProductComponent
         publishOption: 'Draft',
         ...(this.productId && { draftProductId: this.productId }),
       })
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           if (res.status === 'success') {
             this.toast.success('Product saved as draft Successful!');
             this.router.navigate(['/seller/products']);
@@ -1222,18 +927,20 @@ export class CreateProductComponent
             this.toast.error('Something went wrong');
           }
         },
-        (err) => {
+        error: (err) => {
           this.creatingProduct = false;
           this.toast.error('Something went wrong');
         },
-      );
+      });
   }
+
   isSubCatIdEmpty = false;
+
   onSubmit() {
     if (this.form.value.pickupOption === 'None') {
       this.form.markAllAsTouched();
       this.toast.warining(
-        'Please select a pickup option (what kind of vehicle can pick up this item',
+        'Please select a pickup option (what kind of vehicle can pick up this item'
       );
       return;
     }
@@ -1291,7 +998,7 @@ export class CreateProductComponent
       ...new Set(this.allVariantList.map((item) => item.title)),
     ].map((variant) => {
       let newVariant = this.allVariantList.filter(
-        (item) => item.title === variant,
+        (item) => item.title === variant
       );
       return {
         variant: variant,
@@ -1299,13 +1006,12 @@ export class CreateProductComponent
       };
     });
     this.isPreview = true;
-    this.previewDesc = this.safeHtml.transform(this.form.value.description);
   }
 
   setComplementaryProducts() {
     if (JSON.parse(localStorage.getItem('compImagesStore'))) {
       this.complementaryImagesStore = JSON.parse(
-        localStorage.getItem('compImagesStore'),
+        localStorage.getItem('compImagesStore')
       );
     } else {
       this.complementaryImagesStore = [];
@@ -1320,28 +1026,6 @@ export class CreateProductComponent
         }
       }
     }
-  }
-
-  deleteProduct(): void {
-    uikit.modal.confirm('Are you sure that you want to delete product ?').then(
-      () => {
-        this.loading = true;
-        this.productService.deleteProduct(this.productId).subscribe((res) => {
-          if (res.status === 'success') {
-            this.loading = false;
-            this.toast.success(res.message);
-            this.router.navigate(['/seller/products']);
-          } else {
-            this.loading = false;
-            this.toast.error(res.message);
-          }
-        });
-      },
-      (err) => {
-        this.loading = false;
-        this.toast.error(err.message);
-      },
-    );
   }
 
   ngOnDestroy(): void {

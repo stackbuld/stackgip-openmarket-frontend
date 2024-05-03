@@ -24,10 +24,7 @@ export class WalletService {
   setValue = new Subject<number>();
   walletRefresh = new BehaviorSubject<boolean>(true);
   getWalletInfo = this.userWalletData.asObservable();
-  constructor(
-    private api: ApiAppUrlService,
-    private http: HttpClient,
-  ) {
+  constructor(private api: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = api.walletBaseUrl;
   }
 
@@ -38,7 +35,7 @@ export class WalletService {
 
   getBanks(): Observable<IWalletResponse> {
     return this.http.get<IWalletResponse>(
-      this.baseUrl + `bankaccount/banks/NGN`,
+      this.baseUrl + `bankaccount/banks/NGN`
     );
   }
 
@@ -47,11 +44,13 @@ export class WalletService {
     pageSize: number;
     page: number;
     walletId?: string;
+    dateType?: string;
+    startDate?: string;
+    endDate?: string;
   }): Observable<ITransactionsResponse> {
     const url = data.walletId
-      ? `wallet/transactions?UserId=${data.userId}&WalletId=${data.walletId}&PageSize=${data.pageSize}&Page=${data.page}`
-      : `wallet/transactions?UserId=${data.userId}&PageSize=${data.pageSize}&Page=${data.page}`;
-
+      ? `wallet/transactions?DateType=${data.dateType}&StartDate=${data.startDate}&EndDate=${data.endDate}&UserId=${data.userId}&WalletId=${data.walletId}&PageSize=${data.pageSize}&Page=${data.page}`
+      : `wallet/transactions?DateType=${data.dateType}&StartDate=${data.startDate}&EndDate=${data.endDate}&UserId=${data.userId}&PageSize=${data.pageSize}&Page=${data.page}`;
     return this.http.get<ITransactionsResponse>(this.baseUrl + url);
   }
 
@@ -63,49 +62,49 @@ export class WalletService {
   }): Observable<ITransactionsResponse> {
     return this.http.get<ITransactionsResponse>(
       this.baseUrl +
-        `wallet/transactions/lockedfunds?UserId=${data.userId}&WalletId=${data.walletId}&PageSize=${data.pageSize}&Page=${data.page}`,
+        `wallet/transactions/lockedfunds?UserId=${data.userId}&WalletId=${data.walletId}&PageSize=${data.pageSize}&Page=${data.page}`
     );
   }
 
   getRequests(id: string): Observable<IRequestResponse> {
     return this.http.get<IRequestResponse>(
-      this.baseUrl + `wallet/withdrawal-requests?UserId=${id}`,
+      this.baseUrl + `wallet/withdrawal-requests?UserId=${id}`
     );
   }
 
   getAccountName(body: BankAccountDetails): Observable<WalletActionsResponse> {
     return this.http.post<WalletActionsResponse>(
       this.baseUrl + `bankaccount/banks/validate-account`,
-      body,
+      body
     );
   }
 
   getBankAccounts(userId: string): Observable<IBankAccount> {
     return this.http.get<IBankAccount>(
-      this.baseUrl + `bankaccount/user?userId=${userId}`,
+      this.baseUrl + `bankaccount/user?userId=${userId}`
     );
   }
 
   sendOtp(): Observable<bankData> {
     return this.http.post<bankData>(
       this.baseUrl + `wallet/withdrawal-request-otp`,
-      null,
+      null
     );
   }
 
   addToAccountsLists(body: bankData): Observable<WalletActionsResponse> {
     return this.http.post<WalletActionsResponse>(
       this.baseUrl + `bankaccount`,
-      body,
+      body
     );
   }
 
   requestWithdrawal(
-    body: WalletWithdrawalRequest,
+    body: WalletWithdrawalRequest
   ): Observable<WalletActionsResponse> {
     return this.http.post<WalletActionsResponse>(
       this.baseUrl + `wallet/withdrawal-request`,
-      body,
+      body
     );
   }
 

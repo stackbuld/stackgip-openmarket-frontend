@@ -1,5 +1,5 @@
 import { CategoryResponse, ICategory } from './../../models/CategoryModels';
-import { Observable, from, of, retry, switchMap } from 'rxjs';
+import { Observable, from, of, map, switchMap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiAppUrlService } from '../api-app-url.service';
@@ -9,7 +9,7 @@ import algoliasearch from 'algoliasearch';
 
 const searchClient = algoliasearch(
   environment.algolia.appId,
-  environment.algolia.apiKey,
+  environment.algolia.apiKey
 );
 
 // const searchClient = algoliasearch(
@@ -29,16 +29,13 @@ export class CatgoryService implements ICatgoryService {
   //   searchClient,
   // };
   categoriesIndex = searchClient.initIndex(
-    environment.algolia.indexName.categories,
+    environment.algolia.indexName.categories
   );
 
   index = searchClient.initIndex(environment.algolia.indexName.products);
 
   baseUrl: string;
-  constructor(
-    private apiUrls: ApiAppUrlService,
-    private http: HttpClient,
-  ) {
+  constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
 
@@ -48,7 +45,7 @@ export class CatgoryService implements ICatgoryService {
 
   getCategoryByUserId(id: string): Observable<CategoryResponse> {
     return this.http.get<CategoryResponse>(
-      this.baseUrl + `categories?userId=${id}`,
+      this.baseUrl + `categories?userId=${id}`
     );
   }
 
@@ -58,7 +55,7 @@ export class CatgoryService implements ICatgoryService {
       '',
       {
         facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
-      },
+      }
     );
     let tempCategories: string[] = [];
 
@@ -67,38 +64,19 @@ export class CatgoryService implements ICatgoryService {
         const facetHits = this.sortByCount(data.facetHits);
         tempCategories = facetHits.map((hits) => hits.value);
         return of(tempCategories);
-      }),
+      })
     );
     return formattedCategories;
   }
 
   getAllStorefrontCategories(): Observable<ICategory[]> {
-    let searchClientResults = this.categoriesIndex.search('');
-    let formattedCategories = from(searchClientResults).pipe(
-      switchMap((data) => {
-        const hits = data.hits.map((category) => {
-          return this.convertToICategory(category);
-        });
-
-        return of(this.sort(hits));
-      }),
+    const data = this.categoriesIndex.search('');
+    return from(data).pipe(
+      map((data) => {
+        const categories = this.convertToICategory(data.hits);
+        return categories;
+      })
     );
-
-    return formattedCategories;
-  }
-
-  sort(array: ICategory[]) {
-    return array.sort((a, b) => {
-      let orderNumberA = a.orderingNumber
-        ? a.orderingNumber
-        : Number.MAX_SAFE_INTEGER;
-
-      let orderNumberB = b.orderingNumber
-        ? b.orderingNumber
-        : Number.MAX_SAFE_INTEGER;
-
-      return orderNumberA - orderNumberB;
-    });
   }
 
   sortByCount(array: any[]) {
@@ -111,26 +89,31 @@ export class CatgoryService implements ICatgoryService {
     });
   }
 
-  convertToICategory(category: any): ICategory {
-    return {
-      id: category.id,
-      name: category.name,
-      imageUrl: category.imageUrl,
-      createdOn: category.createdOn,
-      orderingNumber: category.orderingNumber,
-    };
+  convertToICategory(categories: any[]): ICategory[] {
+    const data: ICategory[] = [];
+    categories.forEach((category) => {
+      const orderedCategory = {
+        id: category.id,
+        name: category.name,
+        imageUrl: category.imageUrl,
+        createdOn: category.createdOn,
+        orderingNumber: category.orderingNumber,
+      };
+      data.push(orderedCategory);
+    });
+    return data;
   }
 
   searchCategories(
     searchItem: string,
-    storefrontSellerId: string,
+    storefrontSellerId: string
   ): Observable<string[]> {
     const categoryResults = this.index.searchForFacetValues(
       facetToRetrieve,
       searchItem,
       {
         facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
-      },
+      }
     );
 
     let tempCategories: string[] = [];
@@ -140,7 +123,7 @@ export class CatgoryService implements ICatgoryService {
         const facetHits = data.facetHits;
         tempCategories = facetHits.map((hits) => hits.value);
         return of(tempCategories);
-      }),
+      })
     );
 
     return formattedCategories;
