@@ -7,8 +7,9 @@ COPY package.json yarn.lock ./
 RUN yarn install
 
 COPY . .
-
+COPY set-env.js .
 RUN yarn build:ssr
+
 
 # Stage 2: Set up the server
 
