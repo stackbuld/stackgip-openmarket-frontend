@@ -31,10 +31,7 @@ export class ProductsService {
   exceededUnitAction = new BehaviorSubject<boolean>(false);
   promotedProductsInView = new BehaviorSubject<boolean>(false);
 
-  constructor(
-    private apiUrls: ApiAppUrlService,
-    private http: HttpClient,
-  ) {
+  constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
 
@@ -48,11 +45,11 @@ export class ProductsService {
     search = '',
     categoryId = '',
     minPrice = 10,
-    maxPrice = 500000,
+    maxPrice = 500000
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
       this.baseUrl +
-        `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}&minSalePrice=${minPrice}&maxSalePrice=${maxPrice}`,
+        `products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&categoryId=${categoryId}&minSalePrice=${minPrice}&maxSalePrice=${maxPrice}`
     );
   }
 
@@ -69,42 +66,41 @@ export class ProductsService {
     endDate = '',
     productSort = 'Date',
     byAscending = false,
-    productStatus?: string | null,
+    productStatus?: string | null
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
       this.baseUrl +
         `seller/${userId}/products?pageNumber=${pageNumber}&maxItem=${maxItem}&search=${search}&min=${min}&max=${max}&categoryId=${categoryId}&type=${type}&startDate=${startDate}&endDate=${endDate}&productSort=${productSort}&byAscending=${byAscending}${
           productStatus && '&status=' + productStatus
-        }`,
+        }`
     );
   }
 
   getNewProducts(
     pageNumber: number = 1,
-    maxItem = 50,
+    maxItem = 50
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
-      this.baseUrl +
-        `products/new/?pageNumber=${pageNumber}&maxItem=${maxItem}`,
+      this.baseUrl + `products/new/?pageNumber=${pageNumber}&maxItem=${maxItem}`
     );
   }
 
   createProduct(
-    product: CreateProductModel,
+    product: CreateProductModel
   ): Observable<CreateProductResponse> {
     return this.http.post<CreateProductResponse>(
       this.baseUrl + 'products',
-      product,
+      product
     );
   }
 
   UpdateProduct(
     productId: number,
-    product: CreateProductModel,
+    product: CreateProductModel
   ): Observable<CreateProductResponse> {
     return this.http.put<CreateProductResponse>(
       `${this.baseUrl}products/${productId}`,
-      product,
+      product
     );
   }
 
@@ -120,7 +116,7 @@ export class ProductsService {
     return this.http.get(this.baseUrl + `products/categories/${id}`).pipe(
       map((res: any) => {
         return res?.data?.data;
-      }),
+      })
     );
   }
 
@@ -131,13 +127,13 @@ export class ProductsService {
   }): Observable<any> {
     return this.http.get(
       this.baseUrl +
-        `seller/${data.userId}/low-stocks?PageNumber=${data.pageNumber}&MaxItem=${data.maxItem}`,
+        `seller/${data.userId}/low-stocks?PageNumber=${data.pageNumber}&MaxItem=${data.maxItem}`
     );
   }
 
   productOrderSummary(userId: string, productId: any): Observable<any> {
     return this.http.get(
-      this.baseUrl + `seller/${userId}/products/${productId}/overview`,
+      this.baseUrl + `seller/${userId}/products/${productId}/overview`
     );
   }
 
@@ -147,7 +143,7 @@ export class ProductsService {
 
   getSubCategories(categoryId: string): Observable<any> {
     return this.http.get(
-      this.baseUrl + `categories?BaseCategoryId=${categoryId}`,
+      this.baseUrl + `categories?BaseCategoryId=${categoryId}`
     );
   }
 
@@ -162,7 +158,7 @@ export class ProductsService {
   getVariations(userId?: any): Observable<any> {
     if (userId) {
       return this.http.get(
-        this.baseUrl + `productoption/variations?userId=${userId}`,
+        this.baseUrl + `productoption/variations?userId=${userId}`
       );
     } else {
       return this.http.get(this.baseUrl + `productoption/variations`);
@@ -188,36 +184,36 @@ export class ProductsService {
   }
 
   getProductOverview(
-    userId: string,
+    userId: string
     // Type: string,
     // startDate: string = "",
     // endDate: string = "",
   ): Observable<OverviewApiModel> {
     return this.http.get<OverviewApiModel>(
-      this.baseUrl + `seller/${userId}/overview/`, //?Type${Type}&StartDate${startDate}&EndDate${endDate}
+      this.baseUrl + `seller/${userId}/overview/` //?Type${Type}&StartDate${startDate}&EndDate${endDate}
     );
   }
 
   getMostSelling(userId: string = ''): Observable<MostSellingResponse> {
     return this.http.get<MostSellingResponse>(
-      this.baseUrl + `seller/${userId}/most-selling`,
+      this.baseUrl + `seller/${userId}/most-selling`
     );
   }
 
   getNewOrders(
     userId: IUser,
     PageNumber: number = 1,
-    MaxIttem = 4,
+    MaxIttem = 4
   ): Observable<ProductsApiModel> {
     return this.http.get<ProductsApiModel>(
       this.baseUrl +
-        `seller/${userId.id}/orders/new/?pageNumber${PageNumber}&MaxItem${MaxIttem}`,
+        `seller/${userId.id}/orders/new/?pageNumber${PageNumber}&MaxItem${MaxIttem}`
     );
   }
 
   getProductById(productId: string): Observable<EditProductItem> {
     return this.http.get<EditProductItem>(
-      this.baseUrl + `products/${productId}`,
+      this.baseUrl + `products/${productId}`
     );
   }
 
@@ -235,21 +231,21 @@ export class ProductsService {
 
   createProductOption(
     productId: number,
-    option: CreateProductOption,
+    option: CreateProductOption
   ): Observable<CreateProductOptionResponse> {
     return this.http.post<CreateProductOptionResponse>(
       this.baseUrl + `productoption?productId=${productId}`,
-      option,
+      option
     );
   }
 
   UpdateProductOption(
     productOptionId: number,
-    productOption: CreateProductOption,
+    productOption: CreateProductOption
   ): Observable<CreateProductOptionResponse> {
     return this.http.put<CreateProductOptionResponse>(
       `${this.baseUrl}productoption/${productOptionId}`,
-      productOption,
+      productOption
     );
   }
 
@@ -259,27 +255,27 @@ export class ProductsService {
 
   createProductShipment(
     productId: number,
-    shipment: CreateShipmentModel,
+    shipment: CreateShipmentModel
   ): Observable<ProductShipmentResponse> {
     return this.http.post<ProductShipmentResponse>(
       this.baseUrl + `productshipment?productId=${productId}`,
-      shipment,
+      shipment
     );
   }
 
   UpdateProductShipment(
     productShipmentId: number,
-    productOption: ProductShipment,
+    productOption: ProductShipment
   ): Observable<ProductShipmentResponse> {
     return this.http.put<ProductShipmentResponse>(
       `${this.baseUrl}productshipment/${productShipmentId}`,
-      productOption,
+      productOption
     );
   }
 
   deleteProductShipment(productShipmentId: number) {
     return this.http.delete(
-      `${this.baseUrl}productshipment/${productShipmentId}`,
+      `${this.baseUrl}productshipment/${productShipmentId}`
     );
   }
 }
