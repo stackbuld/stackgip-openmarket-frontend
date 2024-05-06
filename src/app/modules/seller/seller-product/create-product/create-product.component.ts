@@ -43,6 +43,7 @@ declare var cloudinary: any;
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
+  styleUrls: ['./create-product.component.scss'],
   providers: [SafeHtmlPipe],
 })
 export class CreateProductComponent

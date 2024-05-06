@@ -51,4 +51,12 @@ export class VariantService {
   isAddingVariant = new BehaviorSubject<boolean>(false);
   deletingVariantUnit = new Subject<number>();
   getVariantCount = new BehaviorSubject<number>(0);
+
+  constructor() {
+    this.getVariantCount.subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+    });
+  }
 }

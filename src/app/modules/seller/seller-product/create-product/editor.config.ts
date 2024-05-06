@@ -22,7 +22,7 @@ export const editorConfig: AngularEditorConfig = {
   translate: 'yes',
   enableToolbar: true,
   showToolbar: true,
-  placeholder: 'Product short description...',
+  placeholder: 'Product description...',
   defaultParagraphSeparator: '',
   defaultFontName: '',
   defaultFontSize: '',
