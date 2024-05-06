@@ -91,7 +91,7 @@
               <div class="uk-flex">
                 <input type="text" required formControlName="weight" matInput placeholder="eg 2000"
                   formControlName="weight" />
-                <span class="pl-2 py-0 kg-border">KG</span>
+                <span class="py-0 pl-2 kg-border">KG</span>
               </div>
             </mat-form-field>
           </div>
@@ -122,7 +122,7 @@
             <div for="name" class="label">File Upload</div>
             <div class="border-form mb-30 d-flex align-items-center">
               <button type="button" (click)="upload()">Add file</button>
-              <div class="d-flex justify-content-center align-items-center px-8">
+              <div class="px-8 d-flex justify-content-center align-items-center">
                 Accepts Images or Videos*
               </div>
             </div>
@@ -181,13 +181,13 @@
     <div *ngIf="
         addingComplimentaryOptions || addingVariation || relatedItems.length > 0
       " class="content-container">
-      <div *ngIf="addingComplimentaryOptions" class="mt-5 uk-flex uk-flex-column flex-1" #complementaryForm>
+      <div *ngIf="addingComplimentaryOptions" class="flex-1 mt-5 uk-flex uk-flex-column" #complementaryForm>
         <h2>Complementary Products Details</h2>
         <p class="sub-text">
           Fill out the details below to add a complementary product to your main
           item
         </p>
-        <div class="body-add flex-1">
+        <div class="flex-1 body-add">
           <hr />
 
           <div>
@@ -239,7 +239,7 @@
                   </div>
                   <div class="uk-width-1-2"></div>
                 </div>
-                <div class="main uk-flex mt-4 mb-2">
+                <div class="mt-4 mb-2 main uk-flex">
                   <div class="editor">
                     <div for="name" class="label">
                       Product Short Description
@@ -263,7 +263,7 @@
                     <button (click)="uploadRelatedImage()" type="button">
                       Upload Image
                     </button>
-                    <div class="d-flex justify-content-center align-items-center px-8">
+                    <div class="px-8 d-flex justify-content-center align-items-center">
                       Accepts Images or Videos*
                     </div>
                   </div>
@@ -340,7 +340,7 @@
                     Image is required
                   </div>
                 </div>
-                <div class="del-save-btn mt-4">
+                <div class="mt-4 del-save-btn">
                   <button (click)="removeEditOption()" class="small-btn del-btn" type="button">
                     Delete
                   </button>
@@ -354,8 +354,8 @@
         </div>
       </div>
 
-      <div class="uk-flex uk-flex-column flex-1" *ngIf="relatedItems.length > 0">
-        <div class="body-add uk-flex uk-flex-column flex-1">
+      <div class="flex-1 uk-flex uk-flex-column" *ngIf="relatedItems.length > 0">
+        <div class="flex-1 body-add uk-flex uk-flex-column">
           <table class="full-width">
             <thead>
               <tr>
@@ -408,8 +408,8 @@
     </div>
 
     <!-- list of all selected variants -->
-    <div class="uk-flex content-container uk-flex-column flex-1" *ngIf="allVariantList.length > 0">
-      <div class="body-add uk-flex uk-flex-column flex-1">
+    <div class="flex-1 uk-flex content-container uk-flex-column" *ngIf="allVariantList.length > 0">
+      <div class="flex-1 body-add uk-flex uk-flex-column">
         <table class="full-width">
           <thead>
             <tr>
@@ -476,8 +476,8 @@
     </div>
 
     <!-- submit form button -->
-    <div class="uk-flex uk-flex-center mt-4">
-      <button type="submit" class="btn-add mr-2" [class.spinner]="loading" [disabled]="loading">
+    <div class="mt-4 uk-flex uk-flex-center">
+      <button type="submit" class="mr-2 btn-add" [class.spinner]="loading" [disabled]="loading">
         Preview and Publish
       </button>
 
@@ -506,5 +506,7 @@
 <!-- product preview -->
 <div *ngIf="isPreview" class="content-container">
   <app-preview-product (onEdit)="edit()" (onChangeUnit)="changeUnit($event.unit, $event.type)" [productId]="productId"
-    [form]="form" [previewData]="previewData" [videoUrls]="videoUrls" [uniqueVariant]="uniqueVariant" />
+    [relatedItems]="relatedItems" [(complementaryImagesStore)]="complementaryImagesStore" [form]="form"
+    [previewData]="previewData" [videoUrls]="videoUrls" [uniqueVariant]="uniqueVariant"
+    [allVariantList]="allVariantList" />
 </div>
