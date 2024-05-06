@@ -17,28 +17,14 @@
       <mat-form-field class="variant-select">
         <div class="select-placeholder" *ngIf="!variant.value">Select</div>
         <mat-select [value]="'Select'" [formControl]="variant">
-          <input
-            type="text"
-            placeholder="Enter a new one"
-            [formControl]="newVariantForm"
-            (keydown.enter)="onAddNewVariant()"
-            (keydown.space)="$event.stopPropagation()"
-            class="add-option-input"
-          />
-          <mat-option
-            [value]="option.name"
-            *ngFor="let option of variantOptions"
-            >{{ option.name }}</mat-option
-          >
+          <input type="text" placeholder="Enter a new one" [formControl]="newVariantForm"
+            (keydown.enter)="onAddNewVariant()" (keydown.space)="$event.stopPropagation()" class="add-option-input" />
+          <mat-option [value]="option.name" *ngFor="let option of variantOptions">{{ option.name }}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <button
-        class="action-btn"
-        type="button"
-        (click)="onContinue(!variant.value ? 0 : 2)"
-        *ngIf="stage > 0 && stage < 2"
-      >
+      <button class="action-btn" type="button" (click)="onContinue(!variant.value ? 0 : 2)"
+        *ngIf="stage > 0 && stage < 2">
         {{ !variant.value ? "Cancel" : "Continue" }}
       </button>
     </div>
@@ -55,54 +41,28 @@
           <div class="select-placeholder" *ngIf="selectedVariants.length == 0">
             Select
           </div>
-          <mat-select
-            [value]="'Select'"
-            [formControl]="selectedVariantsForm"
-            multiple
-          >
-            <input
-              type="text"
-              placeholder="Enter a new one"
-              [formControl]="newVariantOptionForm"
-              (keydown.enter)="onAddNewVariantOption($event)"
-              (keydown.space)="$event.stopPropagation()"
-              class="add-option-input"
-            />
+          <mat-select [value]="'Select'" [formControl]="selectedVariantsForm" multiple>
+            <input type="text" placeholder="Enter a new one" [formControl]="newVariantOptionForm"
+              (keydown.enter)="onAddNewVariantOption($event)" (keydown.space)="$event.stopPropagation()"
+              class="add-option-input" />
             <ng-container *ngIf="variantOptionsValues.length === 0">
-              <mat-option disabled
-                >No options available. Please add new ones.</mat-option
-              >
+              <mat-option disabled>No options available. Please add new ones.</mat-option>
             </ng-container>
-            <mat-option
-              class="variant-option"
-              [value]="option === 'Select' ? null : option"
-              *ngFor="let option of variantOptionsValues"
-              >{{ option }}</mat-option
-            >
+            <mat-option class="variant-option" [value]="option === 'Select' ? null : option"
+              *ngFor="let option of variantOptionsValues">{{ option }}</mat-option>
           </mat-select>
         </mat-form-field>
 
         <div class="selected-options" *ngIf="selectedVariants.length > 0">
-          <div
-            class="selected-options-main"
-            *ngFor="let option of selectedVariants; let i = index"
-          >
+          <div class="selected-options-main" *ngFor="let option of selectedVariants; let i = index">
             <span>{{ option }}</span>
             <div (click)="onRemoveOption(i)">
-              <img
-                src="assets/icons/variant-delete.svg"
-                alt=""
-                style="min-height: 15px; min-width: 15px"
-              />
+              <img src="assets/icons/variant-delete.svg" alt="" style="min-height: 15px; min-width: 15px" />
             </div>
           </div>
         </div>
 
-        <button
-          class="action-btn"
-          type="button"
-          (click)="onContinue(selectedVariants.length == 0 ? 0 : 3)"
-        >
+        <button class="action-btn" type="button" (click)="onContinue(selectedVariants.length == 0 ? 0 : 3)">
           {{ selectedVariants.length == 0 ? "Cancel" : "Continue" }}
         </button>
       </div>
@@ -111,11 +71,7 @@
         <div class="variants-details-indicator">
           <span>Variant: {{ variant.value }}</span>
           <div class="variant-detail-action" (click)="onDeleteVariant()">
-            <img
-              src="assets/icons/variant-delete.svg"
-              alt=""
-              style="min-height: 15px; min-width: 15px"
-            />
+            <img src="assets/icons/variant-delete.svg" alt="" style="min-height: 15px; min-width: 15px" />
           </div>
         </div>
 
@@ -129,37 +85,23 @@
             {{ totalVariationsUnit ?? 0 }} of {{ productUnit }} units allocated
             to variants
           </span>
-          <span *ngIf="isProductUnitExceeded"
-            >exceeded product unit allocated</span
-          >
+          <span *ngIf="isProductUnitExceeded">exceeded product unit allocated</span>
         </div>
 
         <div class="variant-details-container">
-          <div
-            class="variants-details"
-            *ngFor="let variant of selectedVariants; let i = index"
-          >
+          <div class="variants-details" *ngFor="let variant of selectedVariants; let i = index">
             <div [formGroup]="variantOptionsValuesFormGroup">
               <div formArrayName="variantOptionsValuesArray">
                 <div [formGroupName]="i" class="variant-detail">
                   <div class="variant-detail-photo-name">
-                    <div
-                      class="variant-detail-photo-name-main"
-                      style="display: flex; align-items: center"
-                    >
-                      <div
-                        class="variant-detail-action image"
-                        (click)="onUploadVariantOptionPhoto(i)"
-                      >
-                        <img
-                          [src]="
+                    <div class="variant-detail-photo-name-main" style="display: flex; align-items: center">
+                      <div class="variant-detail-action image" (click)="onUploadVariantOptionPhoto(i)">
+                        <img [src]="
                             variantOptionsValuesArray.controls[i].value.imageUrl
                               ? variantOptionsValuesArray.controls[i].value
                                   .imageUrl
                               : 'assets/icons/add-variant-photo-icon.svg'
-                          "
-                          alt=""
-                        />
+                          " alt="" />
                       </div>
 
                       <div class="variant-name">
@@ -167,44 +109,27 @@
                       </div>
                     </div>
 
-                    <div
-                      class="mobile-delete"
-                      (click)="onDeleteVariantOption(i)"
-                    >
-                      <img
-                        src="assets/icons/variant-delete.svg"
-                        alt=""
-                        style="min-height: 15px; min-width: 15px"
-                      />
+                    <div class="mobile-delete" (click)="onDeleteVariantOption(i)">
+                      <img src="assets/icons/variant-delete.svg" alt="" style="min-height: 15px; min-width: 15px" />
                     </div>
                   </div>
 
                   <div class="variant-inputs">
                     <div class="form-group">
                       <label for="unit">Unit</label>
-                      <input
-                        type="number"
-                        min="0"
-                        formControlName="unit"
-                        [ngClass]="{
+                      <input type="number" min="0" formControlName="unit" [ngClass]="{
                           error:
                             variantOptionsValuesArray.controls[i].get('unit')
                               .touched &&
                             variantOptionsValuesArray.controls[i].get('unit')
                               .invalid
-                        }"
-                        id="unit"
-                      />
+                        }" id="unit" />
                     </div>
 
                     <div class="form-group">
                       <label for="cost">Cost</label>
 
-                      <input
-                        type="number"
-                        formControlName="cost"
-                        min="0"
-                        [ngClass]="{
+                      <input type="number" formControlName="cost" min="0" [ngClass]="{
                           error:
                             (variantOptionsValuesArray.controls[i].get('cost')
                               .touched &&
@@ -213,30 +138,17 @@
                             variantOptionsValuesArray.controls[i]
                               .get('cost')
                               .hasError('invalidPrice')
-                        }"
-                        id="cost"
-                      />
+                        }" id="cost" />
                     </div>
 
                     <div class="form-group">
                       <label for="desc">Short description(optional)</label>
-                      <input
-                        type="text"
-                        formControlName="shortDescription"
-                        id="desc"
-                      />
+                      <input type="text" formControlName="shortDescription" id="desc" />
                     </div>
                   </div>
 
-                  <div
-                    class="variant-detail-action desktop-delete"
-                    (click)="onDeleteVariantOption(i)"
-                  >
-                    <img
-                      src="assets/icons/variant-delete.svg"
-                      alt=""
-                      style="min-height: 15px; min-width: 15px"
-                    />
+                  <div class="variant-detail-action desktop-delete" (click)="onDeleteVariantOption(i)">
+                    <img src="assets/icons/variant-delete.svg" alt="" style="min-height: 15px; min-width: 15px" />
                   </div>
                 </div>
               </div>
@@ -244,40 +156,21 @@
           </div>
         </div>
 
-        <button
-          class="action-btn done-btn"
-          type="button"
-          (click)="onAddVariant()"
-        >
+        <button class="action-btn done-btn" type="button" (click)="onAddVariant()">
           Done
         </button>
 
-        <div
-          class="add-variant"
-          style="margin-top: 10px"
-          [matMenuTriggerFor]="menu"
-          (click)="onShowAddMoreOption($event)"
-          #menuTrigger="matMenuTrigger"
-        >
+        <div *ngIf="!editingVariant" class="add-variant" style="margin-top: 10px" [matMenuTriggerFor]="menu"
+          (click)="onShowAddMoreOption($event)" #menuTrigger="matMenuTrigger">
           + Add another variant value
         </div>
 
         <mat-menu #menu="matMenu">
-          <input
-            type="text"
-            placeholder="Enter a new one"
-            [formControl]="newVariantOptionForm"
-            (click)="$event.stopPropagation()"
-            (keydown.enter)="onAddNewVariantOption($event, 'another')"
-            (keydown.space)="$event.stopPropagation()"
-            class="add-option-input"
-          />
+          <input type="text" placeholder="Enter a new one" [formControl]="newVariantOptionForm"
+            (click)="$event.stopPropagation()" (keydown.enter)="onAddNewVariantOption($event, 'another')"
+            (keydown.space)="$event.stopPropagation()" class="add-option-input" />
           <div *ngFor="let option of variantOptionsValues">
-            <mat-checkbox
-              class="terms-checkbox"
-              (click)="onAddNewOption(option)"
-              >{{ option }}</mat-checkbox
-            >
+            <mat-checkbox class="terms-checkbox" (click)="onAddNewOption(option)">{{ option }}</mat-checkbox>
           </div>
         </mat-menu>
       </div>
