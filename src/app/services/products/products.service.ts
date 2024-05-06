@@ -171,6 +171,7 @@ export class ProductsService {
     //   payload.options.push(element);
     // }
     // delete payload.variations;
+    console.log(payload);
     return this.http.post(this.baseUrl + `products`, payload);
   }
 
