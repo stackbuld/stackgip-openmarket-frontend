@@ -339,19 +339,19 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     this.variant.setValue(null);
     this.variantOptionsValues = [];
     this.finishedVariants = [];
-    let variantValue = 0;
+    let variantUnitValue = 0;
     this.variantService.getVariantCount.subscribe((unit) => {
-      variantValue += unit;
+      variantUnitValue += unit;
     });
     this.variantOptionsValuesArray.controls.forEach((control) => {
-      variantValue += control.get('unit').value;
+      variantUnitValue += control.get('unit').value;
       const cost = control.get('cost').value;
       this.finishedVariants.push({
         ...control.value,
         cost: cost == 0 ? 0 : cost - this.productPrice,
       });
     });
-    this.variantService.getVariantCount.next(variantValue);
+    this.variantService.getVariantCount.next(variantUnitValue);
     this.variantService.isAddingVariant.next(false);
     try {
       this.variantService.productVariants.next(this.finishedVariants);
@@ -444,8 +444,12 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         this.variantOptionsValues.push(deletedOption);
         this.selectedVariants = this.delete(this.selectedVariants, id);
         this.variantOptionsValuesArray.removeAt(id);
+
         if (this.variantOptionsValuesArray.length <= 0) {
           this.stage = 0;
+          this.selectedVariants = [];
+          this.variant.setValue(null);
+          this.variantOptionsValues = [];
         }
       }
     });
