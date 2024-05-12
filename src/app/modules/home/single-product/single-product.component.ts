@@ -161,7 +161,7 @@ export class SingleProductComponent implements OnInit {
     private searchService: SearchService,
     private deliveryAddressService: DeliveryAddressService,
     private ngZone: NgZone,
-    private metaService: MetaService,
+    private metaService: MetaService
   ) {}
 
   get formControls() {
@@ -172,7 +172,7 @@ export class SingleProductComponent implements OnInit {
     this.deliveryAddressService.getCurrentLocation();
 
     this.currentShippingMethod = new BehaviorSubject<GetShippingEstimatePrice>(
-      null,
+      null
     );
 
     this.currentShippingMethod.next(this.defaultShipping);
@@ -253,7 +253,7 @@ export class SingleProductComponent implements OnInit {
   setUserAddress() {
     if (localStorage.getItem('shippingAddress')) {
       const address = JSON.parse(
-        localStorage.getItem('shippingAddress') as string,
+        localStorage.getItem('shippingAddress') as string
       );
 
       this.currentAddress = address;
@@ -284,7 +284,7 @@ export class SingleProductComponent implements OnInit {
   }
 
   processRealTimeShippingPrice(
-    notificationResponse: NotificationResponseModel,
+    notificationResponse: NotificationResponseModel
   ) {
     if (notificationResponse.requestId === this.requestId) {
       if (
@@ -294,11 +294,11 @@ export class SingleProductComponent implements OnInit {
         // this.isShippingMethodFetched = true;
         this.loadingShippingEstimate = false;
         this.loadingShippingStatus = 'completed';
-
+        console.log(notificationResponse);
         const shippingData =
           notificationResponse.data as GetShippingPriceEstimateData[];
         const shippingEsitmateData = shippingData.flatMap(
-          (a) => a.estimatePrices,
+          (a) => a.estimatePrices
         );
         const hasSelected = this.shippingMethods.some((a) => a.isSelected);
         if (hasSelected) {
@@ -321,13 +321,13 @@ export class SingleProductComponent implements OnInit {
         this.loadingShippingStatus = 'in_progress';
         const data = notificationResponse.data as GetShippingEstimatePrice;
         const findExisting = this.shippingMethods.find(
-          (a) => a.logisticCode === data.logisticCode,
+          (a) => a.logisticCode === data.logisticCode
         );
         if (findExisting) {
           data.isSelected = findExisting.isSelected;
           lodash.remove(
             this.shippingMethods,
-            (a) => a.logisticCode === findExisting.logisticCode,
+            (a) => a.logisticCode === findExisting.logisticCode
           );
           this.shippingMethods.push(data);
         } else {
@@ -433,7 +433,7 @@ export class SingleProductComponent implements OnInit {
     this.loading = true;
     this.loadingProductDescription = true;
     const productService$ = this.productService.getCachedProductById(
-      this.productId,
+      this.productId
     );
     this.sortedVariationsList = [];
     productService$.subscribe({
@@ -505,16 +505,16 @@ export class SingleProductComponent implements OnInit {
 
   setSelectedVariation = (item: any) => {
     const matchingItem = this.allVariationsList.find(
-      (element) => element.id === item.id,
+      (element) => element.id === item.id
     );
 
     if (matchingItem) {
       const matchingIndex = this.selectedVariations.findIndex(
-        (selected) => selected.id === item.id,
+        (selected) => selected.id === item.id
       );
 
       const matchingTitleIndex = this.selectedVariations.findIndex(
-        (selected) => selected.title === item.title,
+        (selected) => selected.title === item.title
       );
 
       if (matchingIndex >= 0) {
@@ -554,7 +554,7 @@ export class SingleProductComponent implements OnInit {
           element.isSelected = false;
           this.selectedComplementaryProducts = this.deleteSelectedItem(
             this.selectedComplementaryProducts,
-            element.id,
+            element.id
           );
         }
       }
@@ -563,7 +563,7 @@ export class SingleProductComponent implements OnInit {
 
   deleteSelectedItem = (
     arr: { id: string }[],
-    idToDelete: string,
+    idToDelete: string
   ): { id: string }[] => {
     const index = arr.findIndex((obj) => obj.id === idToDelete);
     if (index === -1) return arr; // If object with the specified id not found, return the original array
@@ -607,15 +607,15 @@ export class SingleProductComponent implements OnInit {
       '',
       this.product.categoryId,
       1,
-      5000000,
+      5000000
     );
     productService$.subscribe(
       (products) => {
         this.products = products.data.data.filter(
-          (product) => product.id !== this.productId,
+          (product) => product.id !== this.productId
         );
       },
-      (error) => {},
+      (error) => {}
     );
   };
 
@@ -677,7 +677,7 @@ export class SingleProductComponent implements OnInit {
     document.getElementById('closeAddressFormDialog').click();
     localStorage.setItem(
       'shippingAddress',
-      JSON.stringify(this.currentAddress),
+      JSON.stringify(this.currentAddress)
     );
     // localStorage.removeItem('shippingAddress');
     this.populateAddressForm(this.currentAddress);
@@ -711,7 +711,7 @@ export class SingleProductComponent implements OnInit {
     localStorage.setItem('shippingAddress', JSON.stringify(address));
     const cartService$ = this.cartService.setDefaultAddress(
       address,
-      address.id,
+      address.id
     );
     delete address.id;
     cartService$.subscribe({
@@ -743,7 +743,7 @@ export class SingleProductComponent implements OnInit {
       (error) => {
         this.toastService.error(error.message, 'ERROR');
         this.deletingAddress = false;
-      },
+      }
     );
   };
 
@@ -882,7 +882,7 @@ export class SingleProductComponent implements OnInit {
 
     if (!this.isGoogleAddressSelected) {
       this.toastService.warning(
-        'Select your address from the list that shows while typing',
+        'Select your address from the list that shows while typing'
       );
       return;
     }
@@ -928,14 +928,14 @@ export class SingleProductComponent implements OnInit {
       } else {
         this.addressForm.patchValue({ userId: this.user.id });
         const cartService$ = this.cartService.createAddress(
-          this.addressForm.value,
+          this.addressForm.value
         );
         cartService$.subscribe({
           next: (res) => {
             if (res.status === 'success') {
               this.toastService.success(
                 'Address created successfully',
-                'SUCCESS',
+                'SUCCESS'
               );
 
               localStorage.setItem(
@@ -943,7 +943,7 @@ export class SingleProductComponent implements OnInit {
                 JSON.stringify({
                   ...this.addressForm.value,
                   contactPhoneNumber: formattedPhoneNumber,
-                }),
+                })
               );
               this.currentAddress = {
                 ...this.addressForm.value,
@@ -974,7 +974,7 @@ export class SingleProductComponent implements OnInit {
         JSON.stringify({
           ...this.addressForm.value,
           contactPhoneNumber: formattedPhoneNumber,
-        }),
+        })
       );
       this.currentAddress = {
         ...this.addressForm.value,
@@ -994,7 +994,7 @@ export class SingleProductComponent implements OnInit {
 
     const closestStore: any = this.sellerStoreLocationService.findClosestStore(
       { lat: +lat, lng: +lng },
-      this.sellerStores,
+      this.sellerStores
     );
 
     this.closestStore = closestStore;
@@ -1149,7 +1149,7 @@ export class SingleProductComponent implements OnInit {
           next: (res) => {
             if (
               res.data.cartItems.some(
-                (item) => item.productId == this.productId,
+                (item) => item.productId == this.productId
               )
             ) {
               this.addingItemToCart = false;
@@ -1164,7 +1164,7 @@ export class SingleProductComponent implements OnInit {
                   this.addingItemToCart = false;
                   this.toastService.success(
                     'Item successfully added to cart',
-                    'SUCCESS',
+                    'SUCCESS'
                   );
                   this.getCustomerCart();
                 } else {
@@ -1196,7 +1196,7 @@ export class SingleProductComponent implements OnInit {
           this.applocal.cartCount.next(res.data.cartItems.length + 1);
           this.applocal.storeToStorage(
             'cartCount',
-            res.data.cartItems.length + 1,
+            res.data.cartItems.length + 1
           );
         } else {
           this.toastService.warning(res.message, 'MESSAGE');
@@ -1204,14 +1204,14 @@ export class SingleProductComponent implements OnInit {
       },
       (error) => {
         this.toastService.error(error.message, 'ERROR');
-      },
+      }
     );
   };
 
   fetchUserAddresses() {
     if (this.user !== null) {
       this.currentAddress = JSON.parse(
-        localStorage.getItem('shippingAddress')!,
+        localStorage.getItem('shippingAddress')!
       );
       this.addresses = JSON.parse(localStorage.getItem('userAddress')!);
       this.setRequestId();

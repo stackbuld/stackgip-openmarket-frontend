@@ -10,7 +10,16 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { MatOptionSelectionChange } from '@angular/material/core';
+import { MatSelectChange } from '@angular/material/select';
+import {
+  BehaviorSubject,
+  Subscription,
+  map,
+  startWith,
+  Observable,
+} from 'rxjs';
+import { bankData } from 'src/app/models/wallet.model';
 import { WalletService } from 'src/app/services/wallet/wallet.service';
 
 interface Bank {
@@ -27,7 +36,7 @@ interface Bank {
 })
 export class CustomDropdownComponent implements OnInit, OnDestroy {
   private _data = new BehaviorSubject<any[]>([]);
-  private _otherdata = new BehaviorSubject<any[]>([]);
+  private _otherdata = new BehaviorSubject<bankData[]>([]);
   private _bankData = new BehaviorSubject<any>({});
   bankListData: Bank[] = [];
   @ViewChild('target') target: ElementRef;
@@ -44,8 +53,7 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
     return this._bankData.getValue();
   }
 
-  @Input()
-  set accountsLists(value) {
+  @Input() set accountsLists(value) {
     this._otherdata.next(value);
   }
   get accountsLists() {
@@ -63,6 +71,7 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
 
   get bankLists() {
     // get the latest value from _data BehaviorSubject
+
     return this._data.getValue();
   }
 
@@ -73,10 +82,11 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
   selectedBankCode: string;
   bankIndex: number;
   bankValueSub: Subscription;
-
+  filteredBanks: Observable<Bank[]>;
+  bankNameSelected: string = '';
   constructor(
     public cd: ChangeDetectorRef,
-    private walletService: WalletService,
+    private walletService: WalletService
   ) {}
 
   ngOnInit() {
@@ -87,49 +97,76 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
     });
 
     this._data.subscribe((x) => {
-      this.selectedBank = x?.find(
-        (data) => data?.code?.toString() === this.controls?.value?.toString(),
+      const selectedBank = x?.find(
+        (data) => data?.code?.toString() === this.controls?.value?.toString()
       )?.name;
+      if (selectedBank) {
+        this.selectedBank = selectedBank;
+      } else {
+        this.selectedBank = null;
+      }
     });
 
     this._bankData.subscribe((value) => {
-      this.selectedBank = this.bankLists?.find(
-        (data) => data?.code?.toString() === value?.bankCode?.toString(),
+      const selectedBank = this.bankLists?.find(
+        (data) => data?.code?.toString() === value?.bankCode?.toString()
       )?.name;
+      if (selectedBank) {
+        this.selectedBank = selectedBank;
+      } else {
+        this.selectedBank = null;
+      }
     });
 
-    this.bankListForm.valueChanges.subscribe((value) => {
-      this.newBankEvent.emit(value.bank.code);
-    });
+    this.filteredBanks = this.bankListForm.controls['bank'].valueChanges.pipe(
+      startWith(''),
+      map((bankName) => this._filter(bankName || ''))
+    );
 
     this.accountsListForm.valueChanges.subscribe((value) => {
       const account = this.findBankOrAccount(
         this.accountsLists,
         value,
-        'accountNumber',
+        'accountNumber'
       );
       this.detailsEvent.emit(account);
       this.bankListData = JSON.parse(localStorage.getItem('bankList'))!;
       this.bankIndex = this.bankListData.findIndex(
-        (bank) => bank.code == account?.bankCode,
+        (bank) => bank.code == account?.bankCode
       );
     });
 
     this.bankValueSub = this.walletService.setValue.subscribe((value) => {
-      this.bankListForm.setValue({ bank: this.bankListData[value] });
+      this.bankListForm.setValue({ bank: this.bankListData[value].name });
     });
   }
 
-  onSelect(event) {
+  private _filter(value: string): Bank[] {
+    const filterValue = value.toLowerCase();
+    return this.bankListData.filter((bank) =>
+      bank.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  setOptionValue(event: MatOptionSelectionChange<string>): void {
+    const bankCode = this.bankListData.find(
+      (x) => x.name == event.source.value
+    );
+    if (bankCode) {
+      this.newBankEvent.emit(bankCode.code);
+    }
+  }
+
+  onSelect(event: MatSelectChange) {
     const account = this.findBankOrAccount(
       this.accountsLists,
       event.value,
-      'accountNumber',
+      'accountNumber'
     );
 
     this.bankListData = JSON.parse(localStorage.getItem('bankList'))!;
     this.bankIndex = this.bankListData.findIndex(
-      (bank) => bank.code == account?.bankCode,
+      (bank) => bank.code == account?.bankCode
     );
 
     this.walletService.setValue.next(this.bankIndex);
@@ -137,12 +174,16 @@ export class CustomDropdownComponent implements OnInit, OnDestroy {
 
   onAdd() {
     this.bankListForm.setValue({
-      bank: this.bankListData[10],
+      bank: this.bankListData[10].name,
     });
   }
 
-  findBankOrAccount(listType: any[], accountDetail: string, prop: string) {
-    return listType.find((account) => account[prop] == accountDetail);
+  findBankOrAccount(
+    accountDetails: bankData[],
+    accountNumber: string,
+    prop: string
+  ) {
+    return accountDetails.find((account) => account[prop] == accountNumber);
   }
 
   ngOnDestroy(): void {

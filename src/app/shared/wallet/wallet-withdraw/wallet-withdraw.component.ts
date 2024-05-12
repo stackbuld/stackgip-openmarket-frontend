@@ -17,6 +17,8 @@ import { NgOtpInputComponent } from 'ng-otp-input';
 import { ToastrService } from 'ngx-toastr';
 import { WalletKycPromptComponent } from '../wallet-kyc-prompt/wallet-kyc-prompt.component';
 import { Router } from '@angular/router';
+import e from 'express';
+import { bankData } from 'src/app/models/wallet.model';
 
 @Component({
   selector: 'app-wallet-withdraw',
@@ -32,7 +34,7 @@ export class WalletWithdrawComponent {
   withdrawLoading: boolean;
   user: IUser;
   otpInput: string;
-  bankDetails: any;
+  bankDetails: bankData[];
   selectedBankDetails: any;
   bankId: string;
   bankLists: any[] = [];
@@ -62,7 +64,7 @@ export class WalletWithdrawComponent {
     private ngxService: NgxUiLoaderService,
     private otpService: OtpService,
     private toast: ToastrService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -93,7 +95,7 @@ export class WalletWithdrawComponent {
     this.bankDetailsForm.patchValue({
       bankCode: newBankCode,
       bankName: this.bankLists.find(
-        (data) => data?.code?.toString() === newBankCode.toString(),
+        (data) => data?.code?.toString() === newBankCode.toString()
       )?.name,
       accountName: '',
     });
@@ -106,7 +108,7 @@ export class WalletWithdrawComponent {
     this.bankDetailsForm.patchValue({
       bankCode: details.bankCode.toString(),
       bankName: this.bankLists.find(
-        (data) => data.code.toString() === details.bankCode.toString(),
+        (data) => data.code.toString() === details.bankCode.toString()
       ).name,
       accountName: details.accountName,
       accountNumber: details.accountNumber,
@@ -135,7 +137,7 @@ export class WalletWithdrawComponent {
       },
       (err) => {
         this.loading = false;
-      },
+      }
     );
   }
 
@@ -147,7 +149,7 @@ export class WalletWithdrawComponent {
       },
       (err) => {
         this.loading = false;
-      },
+      }
     );
   }
 
@@ -166,9 +168,13 @@ export class WalletWithdrawComponent {
         .subscribe({
           next: (res) => {
             this.ngxService.stopAllLoader('loader-01');
-            this.bankDetailsForm.patchValue({
-              accountName: res.data.accountName,
-            });
+            if (res.succeeded) {
+              this.bankDetailsForm.patchValue({
+                accountName: res.data?.accountName,
+              });
+            } else {
+              this.toast.error(res.message);
+            }
           },
           error: (err) => {
             this.ngxService.stopAllLoader('loader-01');
@@ -200,7 +206,7 @@ export class WalletWithdrawComponent {
       !this.bankDetails ||
       !this.bankDetails.find(
         (detail: any) =>
-          detail.accountNumber === this.bankDetailsForm.value.accountNumber,
+          detail.accountNumber == this.bankDetailsForm.value.accountNumber
       )
     ) {
       const { bankName, bankCode, accountNumber, accountName } =
