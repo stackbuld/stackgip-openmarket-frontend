@@ -21,10 +21,7 @@ export class OrderService {
   isRefundMade = new Subject<boolean>();
 
   baseUrl: string = '';
-  constructor(
-    private apiUrls: ApiAppUrlService,
-    private http: HttpClient,
-  ) {
+  constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
   }
 
@@ -38,18 +35,18 @@ export class OrderService {
   getNewOrders(
     userId: string,
     pageNumber: number = 1,
-    maxItem = 50,
+    maxItem = 50
   ): Observable<OrderResponce> {
     return this.http.get<OrderResponce>(
       this.baseUrl +
         `seller/${userId}/orders/new/?
-      pageNumber=${pageNumber}&maxItem=${maxItem}`,
+      pageNumber=${pageNumber}&maxItem=${maxItem}`
     );
   }
 
   getOrderDashboardOverview(userId: string): Observable<IApiResponseModel> {
     return this.http.get<IApiResponseModel>(
-      this.baseUrl + `seller/${userId}/orders/overview`,
+      this.baseUrl + `seller/${userId}/orders/overview`
     );
   }
 
@@ -66,11 +63,11 @@ export class OrderService {
     orderStatus = '',
     deliveryStatus = '',
     paymentStatus = '',
-    search = '',
+    search = ''
   ): Observable<OrderApiModel> {
     return this.http.get<OrderApiModel>(
       this.baseUrl +
-        `order?pageNumber=${pageNumber}&maxItem=${maxItem}&sellerId=${sellerId}&paymentReferenceId=${paymentReferenceId}&buyerId=${buyerId}&type=${type}&startDate=${startDate}&endDate=${endDate}&dateType=${dateType}&orderStatus=${orderStatus}&deliveryStatus=${deliveryStatus}&paymentStatus=${paymentStatus}&search=${search}`,
+        `order?pageNumber=${pageNumber}&maxItem=${maxItem}&sellerId=${sellerId}&paymentReferenceId=${paymentReferenceId}&buyerId=${buyerId}&type=${type}&startDate=${startDate}&endDate=${endDate}&dateType=${dateType}&orderStatus=${orderStatus}&deliveryStatus=${deliveryStatus}&paymentStatus=${paymentStatus}&search=${search}`
     );
   }
 
@@ -82,30 +79,30 @@ export class OrderService {
     userId: string,
     status: string,
     pageNumber: number = 1,
-    maxItem = 50,
+    maxItem = 50
   ): Observable<OrderApiModel> {
     return this.http.get<OrderApiModel>(
       `${this.baseUrl}seller/${userId}/orders/${status}/?
-      pageNumber=${pageNumber}&maxItem=${maxItem}`,
+      pageNumber=${pageNumber}&maxItem=${maxItem}`
     );
   }
 
   acceptRejectOrder(
-    payload: OrderAcceptRejectPayload,
+    payload: OrderAcceptRejectPayload
   ): Observable<OrderResponce> {
     return this.http.post<OrderResponce>(
       `${this.baseUrl}order/accept-decline`,
-      payload,
+      payload
     );
   }
 
   UpdateStatus(
     orderId: string,
-    orderStatus: OrderStatus,
+    orderStatus: OrderStatus
   ): Observable<OrderResponce> {
     return this.http.put<OrderResponce>(
       `${this.baseUrl}seller/orders/${orderId}/status`,
-      orderStatus,
+      orderStatus
       // `${this.baseUrl}seller/orders/${orderId}/status/${status}`,[]
     );
   }
@@ -114,7 +111,7 @@ export class OrderService {
     const inputDate = new Date(date);
 
     const localDate = new Date(
-      inputDate.getTime() - inputDate.getTimezoneOffset() * 60000,
+      inputDate.getTime() - inputDate.getTimezoneOffset() * 60000
     );
 
     const options: any = { month: 'short', day: 'numeric', year: 'numeric' };
@@ -127,7 +124,7 @@ export class OrderService {
     const combinedString = `${date} ${time}`;
     const isoString = moment(
       combinedString,
-      'MMM DD, YYYY HH:mm',
+      'MMM DD, YYYY HH:mm'
     ).toISOString();
 
     const momentObj = moment.utc(isoString).local();
@@ -142,7 +139,7 @@ export class OrderService {
     const dateString = rawDateString;
     const momentObj = moment(
       dateString,
-      'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (Z)',
+      'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (Z)'
     );
 
     const actualDate = momentObj.format('DD-MM-YYYY');
