@@ -35,7 +35,7 @@ export class WalletWithdrawComponent {
   user: IUser;
   otpInput: string;
   bankDetails: bankData[];
-  selectedBankDetails: any;
+  selectedBankDetails: bankData;
   bankId: string;
   bankLists: any[] = [];
   serverResponse: string;
@@ -241,6 +241,9 @@ export class WalletWithdrawComponent {
           },
         });
     } else {
+      this.selectedBankDetails = this.bankDetails.find(
+        (ac) => ac.accountNumber == this.bankDetailsForm.value.accountNumber
+      );
       this.walletService.sendOtp().subscribe({
         next: (res) => {
           this.toast.success('OTP sent successfully!');
