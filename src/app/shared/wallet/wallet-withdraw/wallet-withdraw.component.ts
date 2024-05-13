@@ -169,7 +169,6 @@ export class WalletWithdrawComponent {
           next: (res) => {
             this.ngxService.stopAllLoader('loader-01');
             if (res.succeeded) {
-              console.log(res);
               this.bankDetailsForm.patchValue({
                 accountName: res.data?.accountName,
               });
@@ -289,7 +288,6 @@ export class WalletWithdrawComponent {
     if (this.otpInput.length < 6) {
       return;
     }
-    console.log(this.selectedBankDetails);
     this.withdrawLoading = true;
     this.walletService
       .requestWithdrawal({
