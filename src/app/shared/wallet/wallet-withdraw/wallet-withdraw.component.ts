@@ -35,7 +35,7 @@ export class WalletWithdrawComponent {
   user: IUser;
   otpInput: string;
   bankDetails: bankData[];
-  selectedBankDetails: any;
+  selectedBankDetails: bankData;
   bankId: string;
   bankLists: any[] = [];
   serverResponse: string;
@@ -169,6 +169,7 @@ export class WalletWithdrawComponent {
           next: (res) => {
             this.ngxService.stopAllLoader('loader-01');
             if (res.succeeded) {
+              console.log(res);
               this.bankDetailsForm.patchValue({
                 accountName: res.data?.accountName,
               });
@@ -241,6 +242,9 @@ export class WalletWithdrawComponent {
           },
         });
     } else {
+      this.selectedBankDetails = this.bankDetails.find(
+        (ac) => ac.accountNumber == this.bankDetailsForm.value.accountNumber
+      );
       this.walletService.sendOtp().subscribe({
         next: (res) => {
           this.toast.success('OTP sent successfully!');
@@ -285,6 +289,7 @@ export class WalletWithdrawComponent {
     if (this.otpInput.length < 6) {
       return;
     }
+    console.log(this.selectedBankDetails);
     this.withdrawLoading = true;
     this.walletService
       .requestWithdrawal({
