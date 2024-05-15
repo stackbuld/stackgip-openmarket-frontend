@@ -94,7 +94,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
     private toaster: ToastrService,
     private dialog: MatDialog,
     private sellerService: SellerService,
-    private toast: ToastrService,
+    private toast: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -114,6 +114,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
           firstName: this.user.firstName,
           lastName: this.user.lastName,
           bio: this.user.bio,
+          personalIdUrl: this.user.personalIdUrl,
           profileImageUrl: this.user.profileImageUrl,
           alpha2CountryCode: this.user.alpha2CountryCode,
           state: this.user.state,
@@ -235,7 +236,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
               this.sellerService.businessPhoneConfirmed.next(true);
 
               this.toaster.success(
-                "Company's Phone number verified successfully",
+                "Company's Phone number verified successfully"
               );
 
               this.dialog.closeAll();
@@ -255,7 +256,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
               this.isSubmitting = false;
               this.sellerService.isSellerActivated.next(false);
               this.toaster.success(
-                'Your seller account has been deactivated successfully',
+                'Your seller account has been deactivated successfully'
               );
             },
             error: (err) => {
@@ -275,7 +276,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
               this.isSubmitting = false;
               this.sellerService.isSellerActivated.next(true);
               this.toaster.success(
-                'Your seller account has been activated successfully',
+                'Your seller account has been activated successfully'
               );
             },
             error: (err) => {
@@ -298,7 +299,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             this.resendTimer = 29;
             this.resendTimerF();
             this.toast.success(
-              'OTP sent successfully. Please check your SMS inbox!',
+              'OTP sent successfully. Please check your SMS inbox!'
             );
           },
           error: (err) => {
@@ -312,7 +313,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             this.resendTimer = 29;
             this.resendTimerF();
             this.toast.success(
-              'OTP sent successfully. Please check your SMS inbox!',
+              'OTP sent successfully. Please check your SMS inbox!'
             );
           },
           error: (err) => {
@@ -326,7 +327,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             this.resendTimer = 29;
             this.resendTimerF();
             this.toast.success(
-              'OTP sent successfully. Please check your SMS inbox!',
+              'OTP sent successfully. Please check your SMS inbox!'
             );
           },
           error: (err) => {
@@ -340,7 +341,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             this.resendTimer = 29;
             this.resendTimerF();
             this.toast.success(
-              'OTP sent successfully. Please check your SMS inbox!',
+              'OTP sent successfully. Please check your SMS inbox!'
             );
           },
           error: (err) => {
@@ -355,7 +356,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
             this.resendTimer = 29;
             this.resendTimerF();
             this.toast.success(
-              'OTP sent successfully. Please check your SMS inbox!',
+              'OTP sent successfully. Please check your SMS inbox!'
             );
           },
           error: (err) => {
@@ -374,7 +375,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
               this.resendTimer = 29;
               this.resendTimerF();
               this.toast.success(
-                'OTP sent successfully. Please check your SMS inbox!',
+                'OTP sent successfully. Please check your SMS inbox!'
               );
             },
             error: (err) => {

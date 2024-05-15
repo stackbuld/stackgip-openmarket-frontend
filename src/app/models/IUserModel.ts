@@ -37,6 +37,7 @@ export interface IUser {
   isActive: boolean;
   isKycVerified?: boolean;
   isNINAdded?: boolean;
+  personalIdUrl: string;
   isBusinessRegistered?: boolean;
   verificationReferenceNumber?: string;
   kycStatus: string | null;
