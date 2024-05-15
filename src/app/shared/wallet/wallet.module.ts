@@ -1,3 +1,4 @@
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -14,10 +15,15 @@ import {
   TransactionDirective,
 } from '../directives/transaction.directive';
 import { DateRangePicker } from '../components/date-range/date-range';
-import { NgIf, JsonPipe } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NinAndKYCVerificationALert } from '../components/mat-snackbar/nin-kyc-verification-status-alert';
+import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -25,24 +31,29 @@ import { MatNativeDateModule } from '@angular/material/core';
     WalletOverviewComponent,
     WalletWithdrawComponent,
     DateRangePicker,
+    NinAndKYCVerificationALert,
   ],
   imports: [
     MatFormFieldModule,
     MatDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
+    MatSnackBarModule,
     JsonPipe,
     MatNativeDateModule,
+    MatProgressSpinnerModule,
     CommonModule,
     WalletRoutingModule,
     NgxOtpInputModule,
+    MatTooltipModule,
     FormsModule,
     NgOtpInputModule,
     SharedModule,
     ReactiveFormsModule,
     TransactionDirective,
     TransactionAmount,
+    RouterLink,
+    MatButtonModule,
   ],
   exports: [WalletComponent, WalletOverviewComponent, WalletWithdrawComponent],
 })

@@ -1,57 +1,25 @@
 <div class="personal-information-container">
   <div class="fetch-loader" *ngIf="isFetching">
-    <app-loading-spinner
-      [borderStyle]="'5px solid #000'"
-      [size]="'40px'"
-    ></app-loading-spinner>
+    <app-loading-spinner [borderStyle]="'5px solid #000'" [size]="'40px'"></app-loading-spinner>
   </div>
   <div class="personal-information-main" *ngIf="!isFetching">
     <div class="profile-photos">
-      <div
-        class="profile-banner"
-        [ngStyle]="{
+      <div class="profile-banner" [ngStyle]="{
           backgroundImage: 'url(' + coverPhotoUrl + ')'
-        }"
-      >
+        }">
         <div class="profile-banner-hints">
           <div class="profile-banner-hints-text">Business Photo</div>
-          <span
-            class="profile-banner-hints-icon"
-            (click)="onUploadCoverPhoto()"
-            matTooltip="Upload or change cover photo"
-          >
-            <svg
-              width="20"
-              height="18"
-              viewBox="0 0 20 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+          <span class="profile-banner-hints-icon" (click)="onUploadCoverPhoto()"
+            matTooltip="Upload or change cover photo">
+            <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd"
                 d="M13.04 1.0515C14.05 1.4535 14.359 2.8535 14.772 3.3035C15.185 3.7535 15.776 3.9065 16.103 3.9065C17.841 3.9065 19.25 5.3155 19.25 7.0525V12.8475C19.25 15.1775 17.36 17.0675 15.03 17.0675H4.97C2.639 17.0675 0.75 15.1775 0.75 12.8475V7.0525C0.75 5.3155 2.159 3.9065 3.897 3.9065C4.223 3.9065 4.814 3.7535 5.228 3.3035C5.641 2.8535 5.949 1.4535 6.959 1.0515C7.97 0.6495 12.03 0.6495 13.04 1.0515Z"
-                stroke="#fff"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M15.4955 6.5H15.5045"
-                stroke="#fff"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M15.4955 6.5H15.5045" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path fill-rule="evenodd" clip-rule="evenodd"
                 d="M13.1783 10.1282C13.1783 8.37222 11.7553 6.94922 9.99931 6.94922C8.24331 6.94922 6.82031 8.37222 6.82031 10.1282C6.82031 11.8842 8.24331 13.3072 9.99931 13.3072C11.7553 13.3072 13.1783 11.8842 13.1783 10.1282Z"
-                stroke="#fff"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
+                stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </span>
         </div>
@@ -63,43 +31,17 @@
             <div class="profile-photo-main">
               <img [src]="profilePhotoUrl" alt="" />
             </div>
-            <div
-              class="profile-photo-icon"
-              matTooltip="Upload or change profile photo"
-              (click)="onUploadProfilePhoto()"
-            >
-              <svg
-                width="20"
-                height="18"
-                viewBox="0 0 20 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+            <div class="profile-photo-icon" matTooltip="Upload or change profile photo"
+              (click)="onUploadProfilePhoto()">
+              <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
                   d="M13.04 1.0515C14.05 1.4535 14.359 2.8535 14.772 3.3035C15.185 3.7535 15.776 3.9065 16.103 3.9065C17.841 3.9065 19.25 5.3155 19.25 7.0525V12.8475C19.25 15.1775 17.36 17.0675 15.03 17.0675H4.97C2.639 17.0675 0.75 15.1775 0.75 12.8475V7.0525C0.75 5.3155 2.159 3.9065 3.897 3.9065C4.223 3.9065 4.814 3.7535 5.228 3.3035C5.641 2.8535 5.949 1.4535 6.959 1.0515C7.97 0.6495 12.03 0.6495 13.04 1.0515Z"
-                  stroke="#7A7A7D"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M15.4955 6.5H15.5045"
-                  stroke="#7A7A7D"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+                  stroke="#7A7A7D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M15.4955 6.5H15.5045" stroke="#7A7A7D" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
                   d="M13.1783 10.1282C13.1783 8.37222 11.7553 6.94922 9.99931 6.94922C8.24331 6.94922 6.82031 8.37222 6.82031 10.1282C6.82031 11.8842 8.24331 13.3072 9.99931 13.3072C11.7553 13.3072 13.1783 11.8842 13.1783 10.1282Z"
-                  stroke="#7A7A7D"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+                  stroke="#7A7A7D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </div>
           </div>
@@ -109,42 +51,26 @@
     </div>
 
     <div class="profile-information-content">
-      <form
-        [formGroup]="profileForm"
-        class="profile-form-main"
-        (ngSubmit)="onUpdateProfile()"
-      >
+      <form [formGroup]="profileForm" class="profile-form-main" (ngSubmit)="onUpdateProfile()">
         <div class="information-group name-group">
           <div class="information-group-label">Full Name</div>
 
           <div class="information-group-inputs">
             <div class="input-group">
-              <input
-                type="text"
-                class="input-o"
-                id="first-name"
-                placeholder="First Name"
-                formControlName="firstName"
+              <input type="text" class="input-o" id="first-name" placeholder="First Name" formControlName="firstName"
                 [ngClass]="{
                   error:
                     profileForm.get('firstName').touched &&
                     profileForm.get('firstName').invalid
-                }"
-              />
+                }" />
             </div>
             <div class="input-group">
-              <input
-                type="text"
-                class="input-o"
-                id="last-name"
-                placeholder="Last Name"
-                formControlName="lastName"
+              <input type="text" class="input-o" id="last-name" placeholder="Last Name" formControlName="lastName"
                 [ngClass]="{
                   error:
                     profileForm.get('lastName').touched &&
                     profileForm.get('lastName').invalid
-                }"
-              />
+                }" />
             </div>
           </div>
         </div>
@@ -154,32 +80,19 @@
 
           <div class="information-group-inputs">
             <div class="input-group">
-              <input
-                type="text"
-                placeholder="myemail@gmail.com"
-                class="input-o"
-                formControlName="email"
-                [ngClass]="{
+              <input type="text" placeholder="myemail@gmail.com" class="input-o" formControlName="email" [ngClass]="{
                   error:
                     profileForm.get('email').touched &&
                     profileForm.get('email').invalid
-                }"
-              />
+                }" />
             </div>
             <div class="input-alert" *ngIf="!isEmailVerified">
               You haven’t verified your email address.
             </div>
-            <button
-              *ngIf="!isEmailVerified"
-              (click)="onEmailVerify()"
-              type="button"
-            >
+            <button *ngIf="!isEmailVerified" (click)="onEmailVerify()" type="button">
               <span class="login-btn-text" *ngIf="!isSendingEmailVerification">
-                Verify <span id="verify-email-text">Email</span> </span
-              ><span
-                class="login-btn-loader"
-                *ngIf="isSendingEmailVerification"
-              ></span>
+                Verify <span id="verify-email-text">Email</span> </span><span class="login-btn-loader"
+                *ngIf="isSendingEmailVerification"></span>
             </button>
           </div>
         </div>
@@ -194,41 +107,66 @@
 
           <div class="information-group-inputs">
             <div class="input-group textarea">
-              <textarea
-                cols="20"
-                rows="10"
-                placeholder="Please provide a detailed description"
-                formControlName="bio"
+              <textarea cols="20" rows="10" placeholder="Please provide a detailed description" formControlName="bio"
                 [ngClass]="{
                   error:
                     profileForm.get('bio').touched &&
                     profileForm.get('bio').invalid
-                }"
-              ></textarea>
+                }"></textarea>
             </div>
           </div>
         </div>
+        <div class="information-group">
+          <div class="information-group-label">
+            Upload National ID
+          </div>
+
+          <div class="upload-nin-container">
+            <mat-form-field class="input-nin">
+              <mat-label>Enter you NIN number</mat-label>
+              <input type="text" matInput class="input-nin-o" id="nin" placeholder="65238492385" formControlName="nin"
+                [ngClass]="{
+                            error:
+                            f['nin'].touched &&
+                          f['nin'].invalid
+                          }" />
+              <mat-hint *ngIf="f['nin'].touched && f['nin'].invalid" class="m-b-16 error-msg">
+                <div class="text-error" *ngIf="f['nin'].errors">
+
+                  <span *ngIf="f['nin'].errors['required']">
+                    NIN number is required
+
+                  </span>
+                  <span *ngIf="f['nin'].errors['minlength'] || f['nin'].errors['maxlength']">
+                    NIN should be equal to 11 digits.
+                  </span>
+                </div>
+              </mat-hint>
+            </mat-form-field>
+            <div class="upload-nin">
+              <app-upload-image (imageUploaded)="setUploadedImage($event)" [useLabel]="false" />
+            </div>
+            <button (click)="uploadNINDocument()" *ngIf="ninImageUrl && f['nin'].valid" class="upload-document-button"
+              type="button">
+              {{isUploadingNin ? 'Uploading...' : 'Upload'}}
+            </button>
+          </div>
+
+        </div>
+
 
         <div class="information-group">
           <div class="information-group-label">State</div>
 
           <div class="information-group-inputs">
             <div class="input-group contact">
-              <select
-                class="location-select"
-                name="select"
-                formControlName="state"
-                [value]="profileForm.value.state"
+              <select class="location-select" name="select" formControlName="state" [value]="profileForm.value.state"
                 [ngClass]="{
                   error:
                     profileForm.get('state').touched &&
                     profileForm.get('state').invalid
-                }"
-              >
-                <option
-                  *ngFor="let state of states"
-                  [value]="state.toLowerCase()"
-                >
+                }">
+                <option *ngFor="let state of states" [value]="state.toLowerCase()">
                   {{ state }}
                 </option>
               </select>
@@ -241,21 +179,13 @@
 
           <div class="information-group-inputs">
             <div class="input-group contact">
-              <select
-                class="location-select"
-                name="select"
-                formControlName="country"
-                [value]="profileForm.value.country"
-                [ngClass]="{
+              <select class="location-select" name="select" formControlName="country"
+                [value]="profileForm.value.country" [ngClass]="{
                   error:
                     profileForm.get('country').touched &&
                     profileForm.get('country').invalid
-                }"
-              >
-                <option
-                  [value]="country.alpha2Code"
-                  *ngFor="let country of countryInfo"
-                >
+                }">
+                <option [value]="country.alpha2Code" *ngFor="let country of countryInfo">
                   {{ country.countryName }}
                 </option>
               </select>
@@ -269,46 +199,24 @@
           <div class="information-group-inputs">
             <div class="input-group" #test>
               <mat-form-field class="custom-text-field">
-                <input
-                  matInput
-                  #myInput
-                  placeholder="8023434567"
-                  pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$"
-                  type="tel"
-                  class="tel-input"
-                  formControlName="phoneNumber"
-                  required
-                  [ngClass]="{
+                <input matInput #myInput placeholder="8023434567" pattern="^(7|8|9){1}(0|1){1}[0-9]{8}$" type="tel"
+                  class="tel-input" formControlName="phoneNumber" required [ngClass]="{
                     error:
                       profileForm.get('phoneNumber').touched &&
                       profileForm.get('phoneNumber').invalid
-                  }"
-                />
+                  }" />
                 <div class="country-code" matPrefix>
-                  <mat-select
-                    (change)="changeOption($event)"
-                    formControlName="countryCode"
-                  >
+                  <mat-select (change)="changeOption($event)" formControlName="countryCode">
                     <mat-select-trigger>
                       {{ f.countryCode.value }}
                     </mat-select-trigger>
-                    <mat-option
-                      *ngFor="let country of countryInfo"
-                      [value]="country.phoneCode"
-                    >
-                      <img
-                        [src]="country.flag"
-                        alt=""
-                        width="25px"
-                        height="25px"
-                      />
-                      <span
-                        style="
+                    <mat-option *ngFor="let country of countryInfo" [value]="country.phoneCode">
+                      <img [src]="country.flag" alt="" width="25px" height="25px" />
+                      <span style="
                           font-size: 14px;
                           margin-left: 7px;
                           font-weight: bold;
-                        "
-                        >{{ country.countryName }}
+                        ">{{ country.countryName }}
                       </span>
                       <span style="font-size: 14px">
                         {{ country.phoneCode }}
@@ -318,38 +226,24 @@
                 </div>
               </mat-form-field>
             </div>
-            <div
-              class="input-alert phone-number-alert"
-              *ngIf="!isPhoneVerified"
-            >
+            <div class="input-alert phone-number-alert" *ngIf="!isPhoneVerified">
               You need to verify this new number via an OTP
             </div>
-            <button
-              (click)="onVerifyPhoneNumber()"
-              *ngIf="!isPhoneVerified"
-              [disabled]="isFetchingOtp"
-              type="button"
-            >
+            <button (click)="onVerifyPhoneNumber()" *ngIf="!isPhoneVerified" [disabled]="isFetchingOtp" type="button">
               <span class="login-btn-text" *ngIf="!isFetchingOtp">
-                Verify <span id="verify-number-text">Number</span> </span
-              ><span class="login-btn-loader" *ngIf="isFetchingOtp"></span>
+                Verify <span id="verify-number-text">Number</span> </span><span class="login-btn-loader"
+                *ngIf="isFetchingOtp"></span>
             </button>
           </div>
         </div>
 
         <div class="profile-photo-btns mobile" *ngIf="showUserUpdateButtons">
-          <button
-            id="cancel"
-            [disabled]="isSubmitting"
-            (click)="onCancelUpdate()"
-            type="button"
-          >
+          <button id="cancel" [disabled]="isSubmitting" (click)="onCancelUpdate()" type="button">
             Cancel
           </button>
           <button id="save" [disabled]="isSubmitting" type="submit">
             <span class="login-btn-text" *ngIf="!isSubmitting">
-              Save Changes </span
-            ><span class="login-btn-loader" *ngIf="isSubmitting"></span>
+              Save Changes </span><span class="login-btn-loader" *ngIf="isSubmitting"></span>
           </button>
         </div>
       </form>
