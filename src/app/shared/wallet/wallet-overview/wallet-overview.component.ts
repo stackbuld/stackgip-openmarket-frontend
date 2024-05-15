@@ -1,3 +1,4 @@
+import { IUser } from './../../../models/IUserModel';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   IRequestResponse,
@@ -8,6 +9,8 @@ import { WalletService } from 'src/app/services/wallet/wallet.service';
 import { AuthService } from '../../../services/auth.service';
 import { DateRange } from '../../components/date-range/date-range.dto';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wallet-overview',
@@ -20,22 +23,27 @@ export class WalletOverviewComponent implements OnInit {
   loadingTransactions: boolean;
   loadingRequests: boolean;
   tab = 1;
-  userId!: string;
+  user: IUser;
   pageSize: number = 10;
   page: number = 1;
   dateType: string = '';
   startDate: string = '';
   endDate: string = '';
+  hasDoneKyc: boolean = false;
+  hasDoneNinVerification: boolean = false;
+  openAlert = false;
 
   constructor(
     private walletService: WalletService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.userId = this.authService.getLoggedInUser().id;
+    this.user = this.authService.getLoggedInUser();
     this.getTransactions({ isInitial: true });
     this.getWithdrawalRequests();
+    this.checkForKYCAndNINVerificationStatus();
   }
 
   applyDateRange(dateRange: DateRange): void {
@@ -61,7 +69,7 @@ export class WalletOverviewComponent implements OnInit {
     this.loadingTransactions = true;
     this.walletService
       .getTransactions({
-        userId: this.userId,
+        userId: this.user.id,
         pageSize: this.pageSize,
         page: this.page,
         dateType: model.isInitial ? '' : this.dateType,
@@ -79,9 +87,32 @@ export class WalletOverviewComponent implements OnInit {
       });
   }
 
+  withdraw(): void {
+    if (this.hasDoneKyc && this.hasDoneNinVerification) {
+      this.router.navigateByUrl('./withdraw');
+      return;
+    }
+    this.closeAlert(true);
+  }
+
+  closeAlert(close: boolean = true): void {
+    this.openAlert = close;
+  }
+
+  checkForKYCAndNINVerificationStatus(): void {
+    if (this.user.isKycVerified) {
+      this.openAlert = true;
+      this.hasDoneKyc = true;
+    }
+    if (this.user.isNINAdded) {
+      this.hasDoneNinVerification = true;
+      this.openAlert = true;
+    }
+  }
+
   getWithdrawalRequests() {
     this.loadingRequests = false;
-    this.walletService.getRequests(this.userId).subscribe({
+    this.walletService.getRequests(this.user.id).subscribe({
       next: (res: IRequestResponse) => {
         this.loadingRequests = false;
         this.withdrawalRequests = res.data;

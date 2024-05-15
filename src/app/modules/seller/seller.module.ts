@@ -44,8 +44,11 @@ import { SellerProductSearchComponent } from './seller-product-search/seller-pro
 import { ProductSearchImageDirective } from './seller-product-search/product-search-image.directive';
 import { OrderStatusDirective } from './order-management/order-management/order-status.directive';
 import { DeliveryStatusDirective } from './order-management/order-management/delivery-status.directive';
-import {VideoGuidePromptComponent} from "../../shared/components/video-guide-prompt/video-guide-prompt.component";
+import { VideoGuidePromptComponent } from '../../shared/components/video-guide-prompt/video-guide-prompt.component';
 import { RefundDetailsDialogComponent } from './order-management/refund-details-dialog/refund-details-dialog.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { UploadImageComponent } from '../../shared/components/image-upload/upload-image.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -79,6 +82,7 @@ import { RefundDetailsDialogComponent } from './order-management/refund-details-
     OrderStatusDirective,
     DeliveryStatusDirective,
     RefundDetailsDialogComponent,
+    UploadImageComponent,
   ],
   imports: [
     CommonModule,
@@ -87,12 +91,14 @@ import { RefundDetailsDialogComponent } from './order-management/refund-details-
     SellerRoutingModule,
     SharedModule,
     NgxSliderModule,
+    MatProgressSpinnerModule,
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
     Ng2TelInputModule,
     NgOtpInputModule,
     MatTabsModule,
+    MatButtonModule,
     IvyCarouselModule,
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,

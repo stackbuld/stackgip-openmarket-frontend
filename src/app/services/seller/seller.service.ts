@@ -52,6 +52,14 @@ export class SellerService {
     );
   }
 
+  uploadNINDocument(payload: {
+    userId: string;
+    nin: string;
+    idNumber: string;
+  }): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}sellers/nin`, payload);
+  }
+
   updateUserSellerDetails(val: ResponseModel, data: ISeller): Observable<any> {
     const loggedInUser = this.authService.getLoggedInUser();
     const newData = {

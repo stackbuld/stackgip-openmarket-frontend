@@ -1,0 +1,111 @@
+:host{display: block; width: 100%; height: 100%;}
+
+.upload-image-container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 0.7rem;
+    width: 100%;
+    min-width: 150px;
+    height: 100%;
+    min-height: 10rem;
+    padding: 0.3rem 1rem;
+    border: 3px dashed #D8D9DD;
+    border-radius: 0.8rem;
+
+  }
+
+  .label {
+    font-weight: normal;
+    text-align: left;
+    font-size: 14px;
+    color: #101828;
+  }
+
+  .upload-thumbnail {
+    background-color: #D8D9DD;
+    width: 5rem;
+    height: 5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .click-to-upload{
+    color: #101828;
+    font-weight: 500;
+    font-size: 1.14rem;
+    text-align:  center;
+  }
+
+  .file-type-text{
+    color: #667085;
+    font-weight: 500;
+    text-align: center;
+    font-size: 0.9rem;
+
+  }
+
+  .upload-spinner{
+    width: 100%;
+    height: 100%;
+    min-height: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .image-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 0.5rem;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    height: 100%;
+    padding: 0.5rem 1rem;
+  }
+
+  .image-child{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+  }
+
+  .image-cont{
+    height: 29%;
+    position: absolute;
+    right: 1rem;
+    top:  -0.5rem;
+    margin: 0 auto;
+  }
+
+  .image-upload{
+    background: #fff;
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+     border-radius: 50%;
+  }
+  .image{
+    width: 350px;
+    height: 100%;
+    max-height: 11rem;
+    min-height: 10rem;
+    border-radius: 5px;
+    object-fit: cover;
+  }

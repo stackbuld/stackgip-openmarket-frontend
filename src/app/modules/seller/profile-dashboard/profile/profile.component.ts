@@ -16,6 +16,7 @@ import { countryCodes } from 'src/app/data/countryCodes';
 import { environment } from 'src/environments/environment';
 import { SellerProfileData } from 'src/app/models/sellerModel';
 import { profile } from 'console';
+import { Subject, takeUntil } from 'rxjs';
 declare var cloudinary: any;
 
 @Component({
@@ -52,6 +53,10 @@ export class ProfileComponent implements OnInit {
   uploadProfilePhotoWidget: any;
   profilePhotoUrl: string = 'assets/image/default-profile-picture-3.png';
   isSendingEmailVerification: boolean = false;
+  private ngSubscription = new Subject();
+
+  ninImageUrl: string = null;
+  isUploadingNin = false;
 
   constructor(
     private fb: FormBuilder,
@@ -60,7 +65,7 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private sellerService: SellerService,
     private dialog: MatDialog,
-    private countryService: CountryService,
+    private countryService: CountryService
   ) {}
 
   ngOnInit(): void {
@@ -75,6 +80,14 @@ export class ProfileComponent implements OnInit {
       lastName: [null, [Validators.required]],
       countryCode: ['+234'],
       email: [null, [Validators.required, Validators.email]],
+      nin: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(11),
+          Validators.maxLength(11),
+        ],
+      ],
       bio: [null, [Validators.required]],
       phoneNumber: [null, [Validators.required]],
       country: [null, [Validators.required]],
@@ -97,6 +110,7 @@ export class ProfileComponent implements OnInit {
           firstName: this.user.firstName,
           lastName: this.user.lastName,
           bio: this.user.bio,
+          nin: this.user.idVerificationNumber ?? '',
           profileImageUrl: this.user.profileImageUrl,
           alpha2CountryCode: this.user.alpha2CountryCode,
           state: this.user.state,
@@ -129,6 +143,7 @@ export class ProfileComponent implements OnInit {
           countryCode: '+234',
           email: this.user.email,
           bio: this.user.bio,
+          nin: this.user.idVerificationNumber,
           phoneNumber: reformedPhoneNumber,
           country:
             this.user.alpha2CountryCode === 'NGN'
@@ -187,7 +202,7 @@ export class ProfileComponent implements OnInit {
               error: (err) => {},
             });
         }
-      },
+      }
     );
 
     this.uploadProfilePhotoWidget = cloudinary.createUploadWidget(
@@ -216,12 +231,16 @@ export class ProfileComponent implements OnInit {
               error: (err) => {},
             });
         }
-      },
+      }
     );
   }
 
   get f() {
     return this.profileForm.controls;
+  }
+
+  setUploadedImage(imageUrl: string): void {
+    this.ninImageUrl = imageUrl;
   }
 
   onUploadCoverPhoto(): void {
@@ -234,6 +253,33 @@ export class ProfileComponent implements OnInit {
 
   changeOption(e: any) {
     this.profileForm.patchValue({ countryCodes: e.target.value });
+  }
+
+  uploadNINDocument(): void {
+    if (!this.ninImageUrl || !this.profileForm.value.nin) return;
+
+    this.isUploadingNin = true;
+    this.sellerService
+      .uploadNINDocument({
+        userId: this.user.id,
+        nin: this.ninImageUrl,
+        idNumber: this.profileForm.value.nin,
+      })
+      .pipe(takeUntil(this.ngSubscription))
+      .subscribe({
+        next: (res) => {
+          if (res.status == 'success') {
+            this.toast.success(`we have received your details. ${res.message}`);
+          }
+          this.isUploadingNin = false;
+        },
+        error: (error) => {
+          this.isUploadingNin = false;
+          if (error?.error?.message) {
+            this.toast.error(error?.error?.message);
+          }
+        },
+      });
   }
 
   onEmailVerify() {
@@ -303,6 +349,7 @@ export class ProfileComponent implements OnInit {
       firstName: profileFormValue.firstName,
       lastName: profileFormValue.lastName,
       bio: profileFormValue.bio,
+      nin: profileFormValue.nin,
       state: profileFormValue.state,
       alpha2CountryCode: profileFormValue.country,
       profileImageUrl: this.profilePhotoUrl,
@@ -336,5 +383,10 @@ export class ProfileComponent implements OnInit {
 
   onCancelUpdate() {
     this.showUserUpdateButtons = false;
+  }
+
+  ngOnDestroy(): void {
+    this.ngSubscription.complete();
+    this.ngSubscription.unsubscribe();
   }
 }

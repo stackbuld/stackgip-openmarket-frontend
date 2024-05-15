@@ -14,6 +14,8 @@ export interface IUser {
   city: string;
   scope: string;
   preferredProfileType: string;
+  idVerificationNumber: string;
+  idVerificationType: string;
   businessName: string;
   businessAddress: string;
   businessEmail: string;
@@ -34,6 +36,7 @@ export interface IUser {
   rejectionReason?: string | null;
   isActive: boolean;
   isKycVerified?: boolean;
+  isNINAdded?: boolean;
   isBusinessRegistered?: boolean;
   verificationReferenceNumber?: string;
   kycStatus: string | null;
