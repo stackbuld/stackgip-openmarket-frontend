@@ -78,7 +78,7 @@ export class SellerRegisterationFormComponent
     private locationStrategy: LocationStrategy,
     private router: Router,
     private authService: AuthService,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) {}
 
   get isBusinessRegistered() {
@@ -112,7 +112,7 @@ export class SellerRegisterationFormComponent
           this.image = result.info.secure_url;
           this.imageName = result.info.original_filename;
         }
-      },
+      }
     );
 
     this.uploadID = cloudinary.createUploadWidget(
@@ -126,7 +126,7 @@ export class SellerRegisterationFormComponent
           this.imageID = result.info.secure_url;
           this.imageNameID = result.info.original_filename;
         }
-      },
+      }
     );
 
     this.uploadBusinessDocuments = cloudinary.createUploadWidget(
@@ -142,7 +142,7 @@ export class SellerRegisterationFormComponent
           const businessDocumentObject = { fileName: fileName, url: url };
           this.businessDocuments.push(businessDocumentObject);
         }
-      },
+      }
     );
 
     this.sellerRegFormGroup
@@ -223,11 +223,7 @@ export class SellerRegisterationFormComponent
       personalIDType: [null, Validators.required],
       personalIDNumber: [
         null,
-        [
-          Validators.required,
-          Validators.minLength(11),
-          Validators.maxLength(11),
-        ],
+        [Validators.minLength(11), Validators.maxLength(11)],
       ],
       landmark: [null, Validators.required],
       lga: [null, Validators.required],
@@ -294,7 +290,7 @@ export class SellerRegisterationFormComponent
         idType: this.sellerRegFormGroup.get('personalIDType')?.value,
         idNumber: this.sellerRegFormGroup.get('personalIDNumber')?.value,
         dateOfBirth: new Date(
-          this.sellerRegFormGroup.get('dateOfBirth')?.value,
+          this.sellerRegFormGroup.get('dateOfBirth')?.value
         ).toISOString(),
         ...(this.sellerRegFormGroup.get('personalIDType')?.value === 'NIN' && {
           idUrl: this.imageID,
@@ -391,13 +387,13 @@ export class SellerRegisterationFormComponent
 
   onRemoveDocument(id: number) {
     this.businessDocuments = this.businessDocuments.filter(
-      (doc, index) => index != id,
+      (doc, index) => index != id
     );
   }
 
   setBusinessCategoryValidators() {
     const businessRegNumberControl = this.sellerRegFormGroup.get(
-      'businessRegistrationNumber',
+      'businessRegistrationNumber'
     );
     // const businessApplicantAddressControl = this.componentForm.get(
     //   "businessApplicantAddress"

@@ -37,21 +37,24 @@
 }
 
 .disabled{
-  background-color: #1b1a1adc;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 
 .verification-alert{
-  width: 708px;
+  width: 500px;
+  max-width: 95vw;
   position: fixed;
-  top: 1rem;
+  top: 0;
+  left: 35%;
   margin: 0 auto;
-  z-index: 1000;
+  z-index: 1500;
 }
 
   @media screen and (max-width: 640px){
     .verification-alert{
-      width: 100vw;
+      width: 95vw;
+      left: 2%;
     }
   }
 
