@@ -15,11 +15,11 @@ export class UploadImageComponent {
 
   @Input() public useLabel: boolean = true;
   @Input() public label: string = '';
+  @Input() imageUrl: string;
   @Output() public imageUploaded = new EventEmitter<string>();
 
   dragOver: boolean = false;
   file!: File;
-  imageUrl: string;
   private ngSubscription = new Subject();
 
   private cloudinaryService = inject(CloudinaryService);

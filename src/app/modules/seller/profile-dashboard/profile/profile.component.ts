@@ -54,6 +54,7 @@ export class ProfileComponent implements OnInit {
   profilePhotoUrl: string = 'assets/image/default-profile-picture-3.png';
   isSendingEmailVerification: boolean = false;
   private ngSubscription = new Subject();
+  showUploadButton: boolean = false;
 
   ninImageUrl: string = null;
   isUploadingNin = false;
@@ -111,11 +112,18 @@ export class ProfileComponent implements OnInit {
           lastName: this.user.lastName,
           bio: this.user.bio,
           nin: this.user.idVerificationNumber ?? '',
+          personalIdUrl: this.user.personalIdUrl,
           profileImageUrl: this.user.profileImageUrl,
           alpha2CountryCode: this.user.alpha2CountryCode,
           state: this.user.state,
           coverPhotoUrl: this.user.coverPhotoUrl,
         };
+
+        if (this.user.personalIdUrl) {
+          this.showUploadButton = false;
+        } else {
+          this.showUploadButton = true;
+        }
 
         this.isEmailVerified = user.data.emailConfirmed;
 
@@ -137,20 +145,21 @@ export class ProfileComponent implements OnInit {
           this.verifiedPhoneNumber = reformedPhoneNumber;
         }
 
-        this.profileForm.setValue({
-          firstName: this.user.firstName,
-          lastName: this.user.lastName,
-          countryCode: '+234',
-          email: this.user.email,
-          bio: this.user.bio,
-          nin: this.user.idVerificationNumber,
-          phoneNumber: reformedPhoneNumber,
-          country:
-            this.user.alpha2CountryCode === 'NGN'
-              ? 'NG'
-              : this.user.alpha2CountryCode,
-          state: this.user.state,
-        });
+        (this.ninImageUrl = user.data.personalIdUrl),
+          this.profileForm.setValue({
+            firstName: this.user.firstName,
+            lastName: this.user.lastName,
+            countryCode: '+234',
+            email: this.user.email,
+            bio: this.user.bio,
+            nin: this.user.idVerificationNumber,
+            phoneNumber: reformedPhoneNumber,
+            country:
+              this.user.alpha2CountryCode === 'NGN'
+                ? 'NG'
+                : this.user.alpha2CountryCode,
+            state: this.user.state,
+          });
 
         this.profileForm.get('email').disable();
 
@@ -241,6 +250,7 @@ export class ProfileComponent implements OnInit {
 
   setUploadedImage(imageUrl: string): void {
     this.ninImageUrl = imageUrl;
+    this.showUploadButton = true;
   }
 
   onUploadCoverPhoto(): void {
@@ -270,10 +280,12 @@ export class ProfileComponent implements OnInit {
         next: (res) => {
           if (res.status == 'success') {
             this.toast.success(`we have received your details. ${res.message}`);
+            this.showUploadButton = false;
           }
           this.isUploadingNin = false;
         },
         error: (error) => {
+          this.showUploadButton = true;
           this.isUploadingNin = false;
           if (error?.error?.message) {
             this.toast.error(error?.error?.message);
@@ -350,6 +362,7 @@ export class ProfileComponent implements OnInit {
       lastName: profileFormValue.lastName,
       bio: profileFormValue.bio,
       nin: profileFormValue.nin,
+      personalIdUrl: this.ninImageUrl,
       state: profileFormValue.state,
       alpha2CountryCode: profileFormValue.country,
       profileImageUrl: this.profilePhotoUrl,

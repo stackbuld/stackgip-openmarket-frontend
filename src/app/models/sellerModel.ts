@@ -45,6 +45,7 @@ export interface SellerProfileData {
   email?: string;
   bio: string;
   nin?: string;
+  personalIdUrl: string;
   profileImageUrl?: string;
   coverPhotoUrl?: string;
   alpha2CountryCode?: string;

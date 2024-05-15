@@ -144,9 +144,10 @@
               </mat-hint>
             </mat-form-field>
             <div class="upload-nin">
-              <app-upload-image (imageUploaded)="setUploadedImage($event)" [useLabel]="false" />
+              <app-upload-image [imageUrl]="ninImageUrl ?? ''" (imageUploaded)="setUploadedImage($event)"
+                [useLabel]="false" />
             </div>
-            <button (click)="uploadNINDocument()" *ngIf="ninImageUrl && f['nin'].valid" class="upload-document-button"
+            <button (click)="uploadNINDocument()" *ngIf="showUploadButton && f['nin'].valid" class="upload-document-button"
               type="button">
               {{isUploadingNin ? 'Uploading...' : 'Upload'}}
             </button>
