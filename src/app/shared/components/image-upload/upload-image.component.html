@@ -1,0 +1,35 @@
+<div class="">
+  <label *ngIf="useLabel" class="label" for="imageUrl">{{label}}</label>
+
+  <input type="file" hidden name="imageUrl" (change)="handleUpload($event)" id="imageUrl" />
+  <div (dragover)="handleDragOver($event)" (dragleave)="handleDragLeave()" (drop)="handleDrop($event)"
+    [ngStyle]="getClass" class="upload-image-container">
+    <ng-container *ngIf="!isUploading && !imageUrl">
+      <label title="Upload Image" for="imageUrl" class="upload-thumbnail">
+        <img src="/assets/icons/upload.svg" alt="thumbnail" id="thumbnail" />
+      </label>
+
+      <p class="click-to-upload">
+        Click to upload or drag and drop
+      </p>
+
+      <h4 class="file-types-text">
+        SVG, PNG, or GIF (max. 800x400px)
+      </h4>
+    </ng-container>
+
+    <div *ngIf="imageUrl" class="image-container">
+      <div class="image-child">
+        <div class="image-cont" *ngIf="imageUrl">
+          <label matTooltip="Change Image" for="imageUrl" class="image-upload">
+            <img src="assets/icons/upload.svg" alt="thumbnail" id="thumbnail" />
+          </label>
+        </div>
+
+        <img *ngIf="imageUrl && !isUploading" class="image" [src]="imageUrl" alt="uploaded image" />
+      </div>
+    </div>
+    <div class="upload-spinner" *ngIf="isUploading">
+      <span class="loader" uk-spinner="ratio: 2"> </span>
+    </div>
+  </div>

@@ -28,6 +28,14 @@ input::-webkit-inner-spin-button {
   width: fit-content;
   color: rgba(255, 0, 0, 0.721);
 }
+
+.error-msg {
+  position: absolute;
+  top: -19px;
+  right: 3px;
+  z-index: 50;
+}
+
 .uk-modal-body {
   max-width: 25rem !important;
 

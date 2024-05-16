@@ -1,0 +1,25 @@
+export interface CloudinaryApiResponseDto {
+  asset_id: string;
+  public_id: string;
+  version: number;
+  version_id: number;
+  signature: string;
+  width: number;
+  height: number;
+  format: string;
+  resource_type: string;
+  created_at: Date;
+  tags: string[];
+  bytes: number;
+  type: string;
+  etag: string;
+  placeholder: boolean;
+  url: string;
+  secure_url: string;
+  folder: string;
+  access_mode: string;
+  existing: false;
+  original_filename: string;
+  original_extension: string;
+}
+

@@ -36,6 +36,29 @@
   padding: 1rem 0;
 }
 
+.disabled{
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+.verification-alert{
+  width: 500px;
+  max-width: 95vw;
+  position: fixed;
+  top: 0;
+  left: 35%;
+  margin: 0 auto;
+  z-index: 1500;
+}
+
+  @media screen and (max-width: 640px){
+    .verification-alert{
+      width: 95vw;
+      left: 2%;
+    }
+  }
+
+
 
 
 .tabs {
