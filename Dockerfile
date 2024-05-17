@@ -7,9 +7,7 @@ COPY package.json yarn.lock ./
 RUN yarn install
 
 COPY . .
-RUN ls -la /app
 
-# COPY set-env.js .
 RUN yarn build:ssr
 
 
