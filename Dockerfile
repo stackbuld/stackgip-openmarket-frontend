@@ -2,11 +2,13 @@ FROM node:latest as build
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package.json yarn.lock ./
 
-RUN yarn install --verbose --no-cache
+RUN yarn install
 
 COPY . .
+RUN ls -la /app
+
 # COPY set-env.js .
 RUN yarn build:ssr
 
