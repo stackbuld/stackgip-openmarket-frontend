@@ -220,7 +220,7 @@ export class SellerRegisterationFormComponent
       businessAddress: [null, Validators.required],
       businessState: [null, Validators.required],
       businessRegistrationNumber: [null, Validators.required],
-      personalIDType: [null, Validators.required],
+      personalIDType: [null],
       personalIDNumber: [
         null,
         [Validators.minLength(11), Validators.maxLength(11)],
@@ -299,32 +299,24 @@ export class SellerRegisterationFormComponent
       businessDocuments: [...newBusinessDocuments],
     };
 
-    if (
-      this.sellerRegFormGroup.get('personalIDType')?.value === 'NIN' &&
-      !this.imageID
-    ) {
-      this.toast.error('NIN slip image is required');
-      return;
-    } else {
-      this.isLoading = true;
+    this.isLoading = true;
 
-      this.regSeller$ = this.sellerS.registerSeller(payload).subscribe({
-        next: (res: { user: IUser; response: ResponseModel }) => {
-          if (res.response.status === 'success') {
-            this.isLoading = false;
-            this.toast.success('Registration successfully submitted');
-            this.updateSellerLocalDetails();
-            // this.closeModal(true);
-            uikit.modal('#confirm-seller-register').show();
-            // this.router.navigate(['/seller/dashboard']);
-          }
-        },
-        error: (err) => {
+    this.regSeller$ = this.sellerS.registerSeller(payload).subscribe({
+      next: (res: { user: IUser; response: ResponseModel }) => {
+        if (res.response.status === 'success') {
           this.isLoading = false;
-          this.toast.error(err.error.message);
-        },
-      });
-    }
+          this.toast.success('Registration successfully submitted');
+          this.updateSellerLocalDetails();
+          // this.closeModal(true);
+          uikit.modal('#confirm-seller-register').show();
+          // this.router.navigate(['/seller/dashboard']);
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.toast.error(err.error.message);
+      },
+    });
 
     // this.isLoading = true;
     // this.regSeller$ = this.sellerS.registerSeller(sellerData).subscribe(
