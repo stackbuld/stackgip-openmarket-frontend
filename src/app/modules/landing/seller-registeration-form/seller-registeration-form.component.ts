@@ -52,7 +52,7 @@ export class SellerRegisterationFormComponent
   uploadWidget: any;
   uploadID: any;
   sellerRegFormGroup: FormGroup;
-  idCardTypes = ['NIN'];
+  idCardTypes = ['NONE', 'NIN', 'BVN'];
   regSeller$: Subscription;
   user: any;
   sellerApprovalStatus: string = '';
@@ -83,6 +83,10 @@ export class SellerRegisterationFormComponent
 
   get isBusinessRegistered() {
     return this.sellerRegFormGroup.get('isBusinessRegistered')?.value;
+  }
+
+  get ctrls() {
+    return this.sellerRegFormGroup.controls;
   }
 
   ngOnInit(): void {
@@ -209,6 +213,7 @@ export class SellerRegisterationFormComponent
           landmark: sellerData.userAddressLandMark,
         });
         this.image = sellerData.businessLogo;
+        this.isIdTypeAndIdNumberValid();
       }
     });
   }
@@ -220,9 +225,9 @@ export class SellerRegisterationFormComponent
       businessAddress: [null, Validators.required],
       businessState: [null, Validators.required],
       businessRegistrationNumber: [null, Validators.required],
-      personalIDType: [null],
+      personalIDType: [''],
       personalIDNumber: [
-        null,
+        '',
         [Validators.minLength(11), Validators.maxLength(11)],
       ],
       landmark: [null, Validators.required],
@@ -250,6 +255,26 @@ export class SellerRegisterationFormComponent
     });
   }
 
+  //checking if personalIDType is selected but the id number is not provided, or id number is provided but id type is not selected.
+  isIdTypeAndIdNumberValid(): {
+    isIdNumberValid: boolean;
+    isIdTypeValid: boolean;
+  } {
+    try {
+      const isIdTypeValidButIdNumberEmpty =
+        this.ctrls['personalIDType'].value != 'NONE' &&
+        this.ctrls['personalIDNumber'].value == '';
+
+      const isIdNumberEmptyButIdTypeEmpty =
+        this.ctrls['personalIDType'].value == 'NONE' &&
+        this.ctrls['personalIDNumber'].value != '';
+      return {
+        isIdNumberValid: isIdNumberEmptyButIdTypeEmpty,
+        isIdTypeValid: isIdTypeValidButIdNumberEmpty,
+      };
+    } catch {}
+  }
+
   submit() {
     if (!this.user?.id) {
       this.authService.showSharedLoginModal();
@@ -268,7 +293,18 @@ export class SellerRegisterationFormComponent
     const newBusinessDocuments = this.businessDocuments.map((document) => {
       return { documentUrl: document.url };
     });
+    console.log(this.isIdTypeAndIdNumberValid());
 
+    if (
+      this.isIdTypeAndIdNumberValid().isIdNumberValid ||
+      this.isIdTypeAndIdNumberValid().isIdTypeValid
+    ) {
+      this.toast.error(
+        'You must provide id number and select Id type or change id type to none and leave id number empty.',
+        'Validation error.'
+      );
+      return;
+    }
     const payload = {
       userId: this.user.id,
       businessName: this.sellerRegFormGroup.get('businessName')?.value,
@@ -287,8 +323,13 @@ export class SellerRegisterationFormComponent
       isBusinessRegistered: this.sellerRegFormGroup.get('isBusinessRegistered')
         ?.value,
       applicant: {
-        idType: this.sellerRegFormGroup.get('personalIDType')?.value,
-        idNumber: this.sellerRegFormGroup.get('personalIDNumber')?.value,
+        idType:
+          this.sellerRegFormGroup.value.personalIDType?.value ===
+          this.idCardTypes[0]
+            ? null
+            : this.sellerRegFormGroup.value.personalIDType?.value,
+        idNumber:
+          this.sellerRegFormGroup.get('personalIDNumber')?.value ?? null,
         dateOfBirth: new Date(
           this.sellerRegFormGroup.get('dateOfBirth')?.value
         ).toISOString(),
@@ -317,44 +358,6 @@ export class SellerRegisterationFormComponent
         this.toast.error(err.error.message);
       },
     });
-
-    // this.isLoading = true;
-    // this.regSeller$ = this.sellerS.registerSeller(sellerData).subscribe(
-    //   (res: { user: IUser; response: ResponseModel }) => {
-    //     if (res.response.status === "success") {
-    //       this.isLoading = false;
-    //       this.toast.success("Registeration successfully submited");
-    //       this.closeModal(true);
-    //     }
-    //   },
-    //   (err) => {
-    //     this.isLoading = false;
-    //   }
-    // );
-
-    // if (this.sellerRegFormGroup.invalid) {
-    //   this.toast.error("Please fill fields appropriately");
-    // } else if (!this.image) {
-    //   this.toast.error("business logo is required");
-    // } else {
-    //   const sellerData: ISeller = this.sellerRegFormGroup.value;
-    //   sellerData.businessLogo = this.image;
-    //   this.isLoading = true;
-
-    //   this.regSeller$ = this.sellerS.registerSeller(sellerData).subscribe(
-    //     (res: { user: IUser; response: ResponseModel }) => {
-    //       if (res.response.status === "success") {
-    //         this.isLoading = false;
-    //         this.toast.success("Registeration successfully submited");
-    //         this.closeModal(true);
-    //       }
-    //     },
-    //     (err) => {
-    //       this.isLoading = false;
-
-    //     }
-    //   );
-    // }
   }
 
   closeModal(isFormSubmit = false) {

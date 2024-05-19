@@ -103,9 +103,15 @@ export class WalletOverviewComponent implements OnInit {
     if (this.user.isKycVerified) {
       this.openAlert = true;
       this.hasDoneKyc = true;
+    } else {
+      this.hasDoneKyc = false;
+      this.openAlert = true;
     }
     if (this.user.isNINAdded) {
       this.hasDoneNinVerification = true;
+      this.openAlert = true;
+    } else {
+      this.hasDoneNinVerification = false;
       this.openAlert = true;
     }
   }
