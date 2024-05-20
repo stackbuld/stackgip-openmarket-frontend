@@ -1,11 +1,10 @@
-<div class="verification-alert" *ngIf="openAlert">
-  <app-kyc-nin-snack-bar-alert (close)="closeAlert($event)" [isKycVerified]="hasDoneKyc"
-    [isNinVerified]="hasDoneNinVerification" />
+<div class="verification-alert">
+  <app-kyc-nin-snack-bar-alert [isKycVerified]="hasDoneKyc" [isNinVerified]="hasDoneNinVerification" />
 </div>
 
 
 <div class="sub-section uk-flex">
-  <button [class.disabled]="hasDoneNinVerification || hasDoneKyc" (click)="withdraw()"
+  <button [class.disabled]="!hasDoneNinVerification || !hasDoneKyc" (click)="withdraw()"
     [matTooltip]="!hasDoneNinVerification ? 'Complete your nin verification first' : !hasDoneKyc ? 'Complete your kyc verification first.' : ''"
     class="uk-button uk-button-secondary button" type="button">
     <img src="../../../../assets/icons/cash-outline-light.svg" alt="" width="20" height="20" />

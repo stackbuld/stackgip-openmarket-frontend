@@ -11,6 +11,7 @@ import { DateRange } from '../../components/date-range/date-range.dto';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-wallet-overview',
@@ -36,7 +37,8 @@ export class WalletOverviewComponent implements OnInit {
   constructor(
     private walletService: WalletService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alert: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -89,30 +91,25 @@ export class WalletOverviewComponent implements OnInit {
 
   withdraw(): void {
     if (this.hasDoneKyc && this.hasDoneNinVerification) {
-      this.router.navigateByUrl('./withdraw');
+      this.router.navigateByUrl('/withdraw');
       return;
     }
-    this.closeAlert(true);
-  }
-
-  closeAlert(close: boolean = true): void {
-    this.openAlert = close;
+    this.checkForKYCAndNINVerificationStatus();
   }
 
   checkForKYCAndNINVerificationStatus(): void {
     if (this.user.isKycVerified) {
-      this.openAlert = true;
       this.hasDoneKyc = true;
     } else {
       this.hasDoneKyc = false;
-      this.openAlert = true;
     }
     if (this.user.isNINAdded) {
       this.hasDoneNinVerification = true;
-      this.openAlert = true;
     } else {
       this.hasDoneNinVerification = false;
-      this.openAlert = true;
+    }
+    if (!this.user.isKycVerified || !this.user.isNINAdded) {
+      this.alert.open();
     }
   }
 
