@@ -21,7 +21,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { NinAndKYCVerificationALert } from '../components/mat-snackbar/nin-kyc-verification-status-alert';
+import { NinAndKYCVerificationAlert } from '../components/mat-snackbar/nin-kyc-verification-status-alert';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -31,7 +31,7 @@ import { MatButtonModule } from '@angular/material/button';
     WalletOverviewComponent,
     WalletWithdrawComponent,
     DateRangePicker,
-    NinAndKYCVerificationALert,
+    NinAndKYCVerificationAlert,
   ],
   imports: [
     MatFormFieldModule,

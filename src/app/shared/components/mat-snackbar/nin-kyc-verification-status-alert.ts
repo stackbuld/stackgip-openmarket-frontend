@@ -1,14 +1,24 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+  SimpleChanges,
+  OnChanges,
+  OnInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-kyc-nin-snack-bar-alert',
   template: `<div class="alert-container">
-    <div class="nin-alert" *ngIf="!isNinVerified">
-      <div (click)="close.emit(false)" class="icon">
+    <div [class.closed]="ninOpen" class="nin-alert" *ngIf="!isNinVerified">
+      <div (click)="closeNin()" class="icon">
         <mat-icon class="">close</mat-icon>
       </div>
-      <span class=" text-[14px] font-normal text-left"
+      <span class=""
         >Your National ID is required to complete this withdrawal
       </span>
       <br />
@@ -21,14 +31,12 @@ import { Router } from '@angular/router';
       </button>
     </div>
 
-    <div class="kyc-alert" *ngIf="!isKycVerified">
-      <div (click)="close.emit(false)" class="close-icon">
+    <div [class.closed]="kycOpen" class="kyc-alert" *ngIf="!isKycVerified">
+      <div (click)="closeKyc()" class="close-icon">
         <mat-icon class="">close</mat-icon>
       </div>
 
-      <span class=" text-[14px] font-normal text-left"
-        >Complete KYC to withdraw
-      </span>
+      <span class="">Complete KYC to withdraw </span>
       <br />
       <button
         mat-button
@@ -41,10 +49,30 @@ import { Router } from '@angular/router';
   </div> `,
   styleUrls: ['./snackbar.scss'],
 })
-export class NinAndKYCVerificationALert {
+export class NinAndKYCVerificationAlert implements OnInit {
   @Input() isKycVerified: boolean = false;
   @Input() public isNinVerified: boolean = false;
-  @Output() close = new EventEmitter<boolean>();
-
   public router = inject(Router);
+
+  public ninOpen: boolean = false;
+  public kycOpen: boolean = false;
+
+  constructor(private alertService: AlertService) {}
+
+  ngOnInit(): void {
+    this.alertService.alert$.subscribe({
+      next: (res) => {
+        console.log(res);
+        this.ninOpen = res;
+        this.kycOpen = res;
+      },
+    });
+  }
+
+  closeKyc(): void {
+    this.kycOpen = !this.kycOpen;
+  }
+  closeNin(): void {
+    this.ninOpen = !this.ninOpen;
+  }
 }

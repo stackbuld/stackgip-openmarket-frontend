@@ -1,11 +1,8 @@
-
-:host {
-      }
-
-      .alert-container{
-        display: grid;
-        grid-template-columns: 1fr;
-        row-gap: 1.3rem;
+.alert-container{
+        display: flex;
+        flex-direction:  column;
+        row-gap: 1rem;
+        height: auto;
 
         
 .nin-alert{
@@ -20,7 +17,15 @@ border-radius: 5px ;
     padding: 15px 10px ;
 border: 0.3px solid rgba(135, 76, 4, 1) ;
 color: rgba(171, 97, 6, 1) ;
+opacity: 1;
+transition: 0.5s ease-in-out;
 
+&.closed{
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
 
 
 
@@ -43,10 +48,13 @@ color: rgba(171, 97, 6, 1) ;
     }
 
                 span{
+                    text-wrap: pretty;
                     font-size: 14px;
                     font-weight: 400;
                     color: rgba(171, 97, 6, 1);
                 }
+                @media(max-width: 400px){span{font-size: 10px}}
+
 
                 button{
                         font-size: 13px !important;
@@ -57,7 +65,7 @@ color: rgba(171, 97, 6, 1) ;
                 }
 }
 
-                .kyc-alert{
+.kyc-alert{
         position: relative;
 
     width: 500px;
@@ -69,7 +77,16 @@ border-radius: 5px ;
     height: 5rem ;
     background: rgba(240, 240, 252, 1) ;
     padding: 15px 10px ;
-  border: 0.3px solid rgba(22, 22, 159, 1) ;
+  border: 0.3px solid rgba(22, 22, 159, 1);
+  opacity: 1;
+transition: 0.5s ease-in-out;
+
+  &.closed{
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
  
   
      .close-icon{
@@ -91,10 +108,14 @@ border-radius: 5px ;
     }
 
      span{
+        text-wrap: wrap;
+
                     font-size: 14px;
                     font-weight: 400;
                     color:  rgba(11, 11, 181, 1);
                 }
+
+                @media(max-width: 400px){span{font-size: 12px}}
 
                 button{
                         font-size: 13px !important;
