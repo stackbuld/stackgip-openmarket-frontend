@@ -238,7 +238,7 @@ export class SellerRegisterationFormComponent
         '',
         [Validators.minLength(11), Validators.maxLength(11)],
       ],
-      landmark: [null, Validators.required],
+      landmark: [null],
       lga: [null, Validators.required],
       dateOfBirth: [null, Validators.required],
       isBusinessRegistered: [true, Validators.required],
