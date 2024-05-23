@@ -1,8 +1,3 @@
-<div class="verification-alert">
-  <app-kyc-nin-snack-bar-alert [isKycVerified]="hasDoneKyc" [isNinVerified]="hasDoneNinVerification" />
-</div>
-
-
 <div class="sub-section uk-flex">
   <button [class.disabled]="!hasDoneNinVerification || !hasDoneKyc" (click)="withdraw()"
     [matTooltip]="!hasDoneNinVerification ? 'Complete your nin verification first' : !hasDoneKyc ? 'Complete your kyc verification first.' : ''"

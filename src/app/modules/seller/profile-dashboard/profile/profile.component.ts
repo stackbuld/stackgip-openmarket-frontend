@@ -286,6 +286,8 @@ export class ProfileComponent implements OnInit {
             if (res.message == 'seller is already approved') {
               this.toast.error(res.message);
             } else {
+              this.user.isNINAdded = true;
+              localStorage.setItem('user', JSON.stringify(this.user));
               this.toast.success(res.message);
             }
             this.showUploadButton = false;
