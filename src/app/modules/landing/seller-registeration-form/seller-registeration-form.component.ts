@@ -94,75 +94,75 @@ export class SellerRegisterationFormComponent
       if (a) {
         this.user = JSON.parse(localStorage.getItem('user')) as IUser;
       }
+    });
 
-      this.user = this.authService.getLoggedInUser();
-      if (this.user) {
-        this.initializeFormWithSellerDetails();
+    this.user = this.authService.getLoggedInUser();
+    if (this.user) {
+      this.initializeFormWithSellerDetails();
+    }
+
+    this.sellerRegForm();
+    this.setBusinessCategoryValidators();
+
+    this.uploadWidget = cloudinary.createUploadWidget(
+      {
+        cloudName: environment.cloudinaryName,
+        uploadPreset: environment.cloudinaryUploadPerset,
+        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
+      },
+      (error, result) => {
+        if (!error && result && result.event === 'success') {
+          this.toast.success('Image uploaded successfully');
+          this.image = result.info.secure_url;
+          this.imageName = result.info.original_filename;
+        }
       }
+    );
 
-      this.sellerRegForm();
-      this.setBusinessCategoryValidators();
-
-      this.uploadWidget = cloudinary.createUploadWidget(
-        {
-          cloudName: environment.cloudinaryName,
-          uploadPreset: environment.cloudinaryUploadPerset,
-          clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
-        },
-        (error, result) => {
-          if (!error && result && result.event === 'success') {
-            this.toast.success('Image uploaded successfully');
-            this.image = result.info.secure_url;
-            this.imageName = result.info.original_filename;
-          }
+    this.uploadID = cloudinary.createUploadWidget(
+      {
+        cloudName: environment.cloudinaryName,
+        uploadPreset: environment.cloudinaryUploadPerset,
+        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
+      },
+      (error, result) => {
+        if (!error && result && result.event === 'success') {
+          this.imageID = result.info.secure_url;
+          this.imageNameID = result.info.original_filename;
         }
-      );
+      }
+    );
 
-      this.uploadID = cloudinary.createUploadWidget(
-        {
-          cloudName: environment.cloudinaryName,
-          uploadPreset: environment.cloudinaryUploadPerset,
-          clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
-        },
-        (error, result) => {
-          if (!error && result && result.event === 'success') {
-            this.imageID = result.info.secure_url;
-            this.imageNameID = result.info.original_filename;
-          }
+    this.uploadBusinessDocuments = cloudinary.createUploadWidget(
+      {
+        cloudName: environment.cloudinaryName,
+        uploadPreset: environment.cloudinaryUploadPerset,
+        clientAllowedFormats: ['jpeg', 'jpg', 'png'],
+      },
+      (error, result) => {
+        if (!error && result && result.event === 'success') {
+          const fileName = result.info.original_filename;
+          const url = result.info.secure_url;
+          const businessDocumentObject = { fileName: fileName, url: url };
+          this.businessDocuments.push(businessDocumentObject);
         }
-      );
+      }
+    );
 
-      this.uploadBusinessDocuments = cloudinary.createUploadWidget(
-        {
-          cloudName: environment.cloudinaryName,
-          uploadPreset: environment.cloudinaryUploadPerset,
-          clientAllowedFormats: ['jpeg', 'jpg', 'png'],
-        },
-        (error, result) => {
-          if (!error && result && result.event === 'success') {
-            const fileName = result.info.original_filename;
-            const url = result.info.secure_url;
-            const businessDocumentObject = { fileName: fileName, url: url };
-            this.businessDocuments.push(businessDocumentObject);
-          }
+    this.sellerRegFormGroup
+      .get('businessAddress')
+      .valueChanges.subscribe((value) => {
+        if (value === '') {
+          this.googleAddressSelected = false;
         }
-      );
-
-      this.sellerRegFormGroup
-        .get('businessAddress')
-        .valueChanges.subscribe((value) => {
-          if (value === '') {
-            this.googleAddressSelected = false;
-          }
-        });
-
-      this.sellerRegFormGroup.valueChanges.subscribe({
-        next: (res) => {
-          if (this.sellerRegFormGroup.dirty) {
-            this.sellerRegFormGroup.markAllAsTouched();
-          }
-        },
       });
+
+    this.sellerRegFormGroup.valueChanges.subscribe({
+      next: (res) => {
+        if (this.sellerRegFormGroup.dirty) {
+          this.sellerRegFormGroup.markAllAsTouched();
+        }
+      },
     });
   }
 
@@ -221,7 +221,6 @@ export class SellerRegisterationFormComponent
           landmark: sellerData.userAddressLandMark,
         });
         this.image = sellerData.businessLogo;
-        this.isIdTypeAndIdNumberValid();
       }
     });
   }
@@ -301,7 +300,6 @@ export class SellerRegisterationFormComponent
     const newBusinessDocuments = this.businessDocuments.map((document) => {
       return { documentUrl: document.url };
     });
-    console.log(this.isIdTypeAndIdNumberValid());
 
     if (
       this.isIdTypeAndIdNumberValid().isIdNumberValid ||
