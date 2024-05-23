@@ -1,13 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  SimpleChanges,
-  OnChanges,
-  OnInit,
-} from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
 
@@ -62,7 +53,6 @@ export class NinAndKYCVerificationAlert implements OnInit {
   ngOnInit(): void {
     this.alertService.alert$.subscribe({
       next: (res) => {
-        console.log(res);
         this.ninOpen = res;
         this.kycOpen = res;
       },

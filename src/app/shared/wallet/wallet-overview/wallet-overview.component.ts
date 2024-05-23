@@ -45,7 +45,9 @@ export class WalletOverviewComponent implements OnInit {
     this.user = this.authService.getLoggedInUser();
     this.getTransactions({ isInitial: true });
     this.getWithdrawalRequests();
-    this.checkForKYCAndNINVerificationStatus();
+    if (!this.user.isKycVerified || !this.user.isNINAdded) {
+      this.alert.open();
+    }
   }
 
   applyDateRange(dateRange: DateRange): void {
@@ -94,23 +96,7 @@ export class WalletOverviewComponent implements OnInit {
       this.router.navigateByUrl('/withdraw');
       return;
     }
-    this.checkForKYCAndNINVerificationStatus();
-  }
-
-  checkForKYCAndNINVerificationStatus(): void {
-    if (this.user.isKycVerified) {
-      this.hasDoneKyc = true;
-    } else {
-      this.hasDoneKyc = false;
-    }
-    if (this.user.isNINAdded) {
-      this.hasDoneNinVerification = true;
-    } else {
-      this.hasDoneNinVerification = false;
-    }
-    if (!this.user.isKycVerified || !this.user.isNINAdded) {
-      this.alert.open();
-    }
+    this.alert.open();
   }
 
   getWithdrawalRequests() {
