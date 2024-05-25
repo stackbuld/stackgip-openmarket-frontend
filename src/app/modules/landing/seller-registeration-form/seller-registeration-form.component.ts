@@ -216,8 +216,8 @@ export class SellerRegisterationFormComponent
         this.sellerRegFormGroup.patchValue(sellerData);
         this.sellerRegFormGroup.patchValue({
           lga: sellerData.userLga,
-          personalIDNumber: sellerData.idVerificationNumber,
-          personalIDType: sellerData.idVerificationType,
+          personalIDNumber: sellerData.idVerificationNumber ?? '',
+          personalIDType: sellerData.idVerificationType ?? '',
           landmark: sellerData.userAddressLandMark,
         });
         this.image = sellerData.businessLogo;
@@ -262,26 +262,6 @@ export class SellerRegisterationFormComponent
     });
   }
 
-  //checking if personalIDType is selected but the id number is not provided, or id number is provided but id type is not selected.
-  isIdTypeAndIdNumberValid(): {
-    isIdNumberValid: boolean;
-    isIdTypeValid: boolean;
-  } {
-    try {
-      const isIdTypeValidButIdNumberEmpty =
-        this.ctrls['personalIDType'].value != 'NONE' &&
-        this.ctrls['personalIDNumber'].value == '';
-
-      const isIdNumberEmptyButIdTypeEmpty =
-        this.ctrls['personalIDType'].value == 'NONE' &&
-        this.ctrls['personalIDNumber'].value != '';
-      return {
-        isIdNumberValid: isIdNumberEmptyButIdTypeEmpty,
-        isIdTypeValid: isIdTypeValidButIdNumberEmpty,
-      };
-    } catch {}
-  }
-
   submit() {
     if (!this.user?.id) {
       this.authService.showSharedLoginModal();
@@ -301,16 +281,6 @@ export class SellerRegisterationFormComponent
       return { documentUrl: document.url };
     });
 
-    if (
-      this.isIdTypeAndIdNumberValid().isIdNumberValid ||
-      this.isIdTypeAndIdNumberValid().isIdTypeValid
-    ) {
-      this.toast.error(
-        'You must provide id number and select Id type or change id type to none and leave id number empty.',
-        'Validation error.'
-      );
-      return;
-    }
     const payload = {
       userId: this.user.id,
       businessName: this.sellerRegFormGroup.get('businessName')?.value,
