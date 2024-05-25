@@ -5,6 +5,8 @@ import { IWallet } from '../../models/wallet.model';
 import { WalletService } from '../../services/wallet/wallet.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { SellerService } from 'src/app/services/seller/seller.service';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-wallet',
@@ -24,7 +26,9 @@ export class WalletComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private alert: AlertService,
+    private sellerService: SellerService
   ) {}
 
   ngOnInit(): void {
@@ -32,12 +36,23 @@ export class WalletComponent implements OnInit, OnDestroy {
 
     this.user = JSON.parse(localStorage.getItem('user'));
     this.getWalletDetails();
-
+    this.getSeller();
     this.walletService.walletRefresh
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.getWalletDetails();
       });
+  }
+
+  getSeller(): void {
+    this.sellerService.getSeller(this.user.id).subscribe({
+      next: (user) => {
+        this.user = user.data;
+        if (!this.user.isKycVerified || !this.user.isNINAdded) {
+          this.alert.open();
+        }
+      },
+    });
   }
 
   getWalletDetails() {

@@ -283,13 +283,9 @@ export class ProfileComponent implements OnInit {
       .subscribe({
         next: (res) => {
           if (res.status == 'success') {
-            if (res.message == 'seller is already approved') {
-              this.toast.error(res.message);
-            } else {
-              this.user.isNINAdded = true;
-              localStorage.setItem('user', JSON.stringify(this.user));
-              this.toast.success(res.message);
-            }
+            this.user.isNINAdded = true;
+            localStorage.setItem('user', JSON.stringify(this.user));
+            this.toast.success(res.message);
             this.showUploadButton = false;
           }
           this.isUploadingNin = false;
