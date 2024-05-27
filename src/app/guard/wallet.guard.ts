@@ -27,15 +27,17 @@ export class WalletGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-
-      if(!this.user) return this.router.createUrlTree(['/'])
+    if (!this.user) return this.router.createUrlTree(['/']);
     if (
       (!this.user.isNINAdded || !this.user.isKycVerified) &&
       this.user.sellerApprovalStatus == 'approved'
     ) {
       return this.router.createUrlTree(['/seller/wallet']);
     }
-    if (this.user.sellerApprovalStatus == 'pending') {
+    if (
+      this.user.sellerApprovalStatus == 'pending' ||
+      this.user.sellerApprovalStatus == 'pendingKycReview'
+    ) {
       return this.router.createUrlTree(['/seller/wallet']);
     }
     return this.user.sellerApprovalStatus == 'approved'
