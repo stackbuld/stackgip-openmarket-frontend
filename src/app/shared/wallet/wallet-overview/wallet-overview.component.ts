@@ -124,7 +124,10 @@ export class WalletOverviewComponent implements OnInit {
         return 'Complete your kyc verification first.';
       }
     }
-    if (this.user.sellerApprovalStatus != 'approved') {
+    if (
+      this.user.sellerApprovalStatus == 'pending' ||
+      this.user.sellerApprovalStatus == 'pendingKycReview'
+    ) {
       return 'We are currently reviewing your account.';
     }
   }
