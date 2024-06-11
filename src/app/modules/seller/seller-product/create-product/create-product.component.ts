@@ -245,7 +245,7 @@ export class CreateProductComponent
               this.availableUnitsContainer.nativeElement.offsetTop
             );
           }, 100);
-          this.availableUnitsInput.nativeElement.focus();
+          this.availableUnitsInput?.nativeElement?.focus();
         }
       }
     );
@@ -380,6 +380,7 @@ export class CreateProductComponent
             this.videoUrls = res.data.videoUrls;
             this.populateProductForm(res.data);
             this.setComplementaryImageForUpdate(res.data);
+            this.getCategories(res.data.category.id);
             this.getSubCategories(res.data.category.id);
           } else {
             this.toast.error(res.message);
@@ -804,7 +805,7 @@ export class CreateProductComponent
         if (id) {
           this.categories.forEach((cat) => {
             if (cat.id == id) {
-              this.form.patchValue({ category: cat.id });
+              this.form.patchValue({ category: cat.name });
               return;
             }
           });
@@ -901,7 +902,11 @@ export class CreateProductComponent
     } else {
       if (this.subCategories?.length === 0 && this.form.value.category !== '') {
         this.isSubCatIdEmpty = true;
-        this.form.patchValue({ categoryId: this.form.value.category });
+        this.form.patchValue({
+          categoryId: this.categories.find(
+            (c) => c.name == this.form.value.category
+          ).id,
+        });
       }
 
       if (this.form.valid) {
@@ -1006,7 +1011,11 @@ export class CreateProductComponent
 
     if (this.subCategories.length === 0 && this.form.value.category !== '') {
       this.isSubCatIdEmpty = true;
-      this.form.patchValue({ categoryId: this.form.value.category });
+      this.form.patchValue({
+        categoryId: this.categories.find(
+          (c) => c.name == this.form.value.category
+        ).id,
+      });
     }
 
     if (this.form.valid) {
