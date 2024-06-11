@@ -32,12 +32,13 @@
             <div for="name" class="label">Category</div>
             <mat-form-field class="uk-width-expand">
               <mat-label>Category</mat-label>
-              <mat-select (valueChange)="getSubCategories($event)" formControlName="category" required>
-                <mat-option disabled="true">Select</mat-option>
-                <mat-option *ngFor="let category of categories" [value]="category.id">
+              <input matInput (valueChange)="getSubCategories($event)" placeholder="Search category"
+                formControlName="category" required [matAutocomplete]="categoryFilter" />
+              <mat-autocomplete #categoryFilter="matAutocomplete">
+                <mat-option *ngFor="let category of filteredCategories | async" [value]="category.name">
                   {{ category.name }}
                 </mat-option>
-              </mat-select>
+              </mat-autocomplete>
             </mat-form-field>
           </div>
           <div *ngIf="subCategories?.length > 0" class="uk-width-expand input-sec">
@@ -172,9 +173,9 @@
           </div>
         </div>
 
-        <button class="add-video" type="button" (click)="onUploadVideo()">
+        <!-- <button class="add-video" type="button" (click)="onUploadVideo()">
           Add Video
-        </button>
+        </button> -->
       </div>
     </div>
     <!-- related items card -->
