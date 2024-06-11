@@ -1,8 +1,17 @@
+import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
 import { IUser } from '../../../../models/IUserModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CreateProductResponse } from '../../../../models/products.model';
-import { Subject, Subscription } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  Subscription,
+  map,
+  of,
+  startWith,
+  takeUntil,
+} from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import {
@@ -62,7 +71,8 @@ export class CreateProductComponent
   cproduct: CreateProductResponse;
   editProps: any;
   variationProps: FormGroup;
-  categories: any;
+  categories: any[];
+  filteredCategories: Observable<any[]>;
   stores: any;
   loading: boolean = false;
   uploadWidget: any;
@@ -145,7 +155,8 @@ export class CreateProductComponent
     @Inject(DOCUMENT) private document: Document,
     private dialog: MatDialog,
     private changeDetector: ChangeDetectorRef,
-    private variantService: VariantService
+    private variantService: VariantService,
+    private cloudinaryService: CloudinaryService
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
     localStorage.removeItem('compImagesStore');
@@ -207,7 +218,7 @@ export class CreateProductComponent
     this.getStores(this.user.id);
     this.getVariations();
 
-    this.createCloudinaryWidgets();
+    // this.createCloudinaryWidgets();
 
     this.form.get('unit').valueChanges.subscribe((value: number) => {
       if (!this.editingVariation) {
@@ -242,11 +253,30 @@ export class CreateProductComponent
     this.variantService.isAddingVariant.subscribe((value) => {
       this.isAddingVariants = value;
     });
+
+    this.filteredCategories = this.form.get('category')?.valueChanges.pipe(
+      takeUntil(this.unsubscribe$),
+      startWith(''),
+      map((category) => {
+        return this._filterCategories(category || '');
+      })
+    );
+
+    this.uploadWidget = this.cloudinaryService.createUploadWidget();
+    this.cloudinaryService.image$.subscribe((url) => {
+      this.images.push(url);
+      this.productImage = this.images[0];
+      this.form.patchValue({ imageUrls: this.images });
+    });
+
+    this.cloudinaryService.video$.subscribe((url) => {
+      this.videoUrls.push(url);
+    });
   }
 
   ngAfterViewChecked(): void {}
 
-  createCloudinaryWidgets(): void {
+  private createCloudinaryWidgets(): void {
     this.uploadWidget = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
@@ -725,20 +755,11 @@ export class CreateProductComponent
 
   // images upload start
   upload(): void {
-    if (this.images.length < 4) {
+    if (this.images.length + this.videoUrls.length < 8) {
       this.uploadWidget.open();
     } else {
-      this.imageErr = 'You can only upload maximum of four images';
+      this.imageErr = 'You can only upload maximum of four images or videos';
     }
-  }
-
-  onUploadVideo() {
-    if (this.videoUrls.length >= 4) {
-      this.toast.warining('You can only upload up to four videos');
-      return;
-    }
-
-    this.videoWidget.open();
   }
 
   onDeleteVideo(index: number) {
@@ -809,13 +830,28 @@ export class CreateProductComponent
   }
 
   getCategories() {
-    this.productService.getAllCategories().subscribe(
-      (res) => {
+    this.productService.getAllCategories().subscribe({
+      next: (res) => {
         this.categories = res.data;
+        this.filteredCategories = this.form.get('category')?.valueChanges.pipe(
+          takeUntil(this.unsubscribe$),
+          startWith(''),
+          map((category) => {
+            return this._filterCategories(category || '');
+          })
+        );
       },
-      (err) => {
+      error: (err) => {
         this.toast.error(err.message);
-      }
+      },
+    });
+  }
+
+  private _filterCategories(value: string): any[] {
+    const filterValue = value.toLowerCase();
+
+    return this.categories?.filter((state) =>
+      state?.name?.toLowerCase().includes(filterValue)
     );
   }
 
