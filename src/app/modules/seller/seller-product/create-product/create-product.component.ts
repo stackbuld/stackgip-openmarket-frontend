@@ -219,7 +219,7 @@ export class CreateProductComponent
     this.getStores(this.user.id);
     this.getVariations();
 
-    // this.createCloudinaryWidgets();
+    this.createCloudinaryWidgets();
 
     this.form.get('unit').valueChanges.subscribe((value: number) => {
       if (!this.editingVariation) {
@@ -277,38 +277,6 @@ export class CreateProductComponent
   ngAfterViewChecked(): void {}
 
   private createCloudinaryWidgets(): void {
-    this.uploadWidget = cloudinary.createUploadWidget(
-      {
-        cloudName: environment.cloudinaryName,
-        uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
-      },
-      (error, result) => {
-        if (!error && result && result.event === 'success') {
-          if (this.images.length < 4) {
-            this.images.push(result.info.secure_url);
-            this.productImage = this.images[0];
-            this.form.patchValue({ imageUrls: this.images });
-          }
-        }
-      }
-    );
-
-    this.videoWidget = cloudinary.createUploadWidget(
-      {
-        cloudName: environment.cloudinaryName,
-        uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['gif', 'mp4'],
-      },
-      (error, result) => {
-        if (!error && result && result.event === 'success') {
-          if (this.videoUrls.length < 4) {
-            this.videoUrls.push(result.info.secure_url);
-          }
-        }
-      }
-    );
-
     this.uploadComplimentaryWidget = cloudinary.createUploadWidget(
       {
         cloudName: environment.cloudinaryName,
@@ -394,7 +362,7 @@ export class CreateProductComponent
     return true;
   }
 
-  setComplementaryImageForUpdate(data: any) {
+  private setComplementaryImageForUpdate(data: any) {
     localStorage.removeItem('compImagesStore');
     for (let index = 0; index < data.productOptions.length; index++) {
       const element = data.productOptions[index];
@@ -408,30 +376,32 @@ export class CreateProductComponent
     );
   }
 
-  getProduct(id: any) {
+  private getProduct(id: string) {
     this.loading = true;
-    this.productService.getProduct(id).subscribe(
-      (res) => {
-        if (res.status === 'success') {
+    this.productService
+      .getProduct(id)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+          if (res.status == 'success') {
+            this.loading = false;
+            this.initialProductUnit = res.data.unit;
+            this.images = res.data.productImages;
+            this.productImage = this.images[0];
+            this.videoUrls = res.data.videoUrls;
+            this.populateProductForm(res.data);
+            this.setComplementaryImageForUpdate(res.data);
+            this.getSubCategories(res.data.category.id);
+          } else {
+            this.toast.error(res.message);
+            this.loading = false;
+          }
+        },
+        error: (err) => {
+          this.toast.error(err.error.message);
           this.loading = false;
-          this.initialProductUnit = res.data.unit;
-          this.populateProductForm(res.data);
-          this.getSubCategories(res.data.category.id);
-          this.setComplementaryImageForUpdate(res.data);
-          this.images = res.data.productImages;
-
-          this.productImage = this.images[0];
-          this.videoUrls = res.data.videoUrls;
-        } else {
-          this.toast.error(res.message);
-          this.loading = false;
-        }
-      },
-      (err) => {
-        this.toast.error(err.error.message);
-        this.loading = false;
-      }
-    );
+        },
+      });
   }
 
   formInit(): void {
@@ -771,7 +741,7 @@ export class CreateProductComponent
     );
   }
 
-  removeImage(image_url): void {
+  removeImage(image_url: string): void {
     this.imageErr = null;
     this.images = this.images.filter((a) => a !== image_url);
     this.form.patchValue({ imageUrls: this.images });
@@ -818,18 +788,18 @@ export class CreateProductComponent
     this.loadingSubCategories = true;
     this.selectedCategoryId = id;
     this.getVariations();
-    this.newVariationForm.patchValue({ categoryId: this.selectedCategoryId });
-    this.productService.getSubCategories(id).subscribe(
-      (res) => {
+    this.newVariationForm?.patchValue({ categoryId: this.selectedCategoryId });
+    this.productService.getSubCategories(id).subscribe({
+      next: (res) => {
         this.subCategories = res.data;
         this.getVariations();
         this.loadingSubCategories = false;
       },
-      (err) => {
+      error: (err) => {
         this.toast.error(err.message);
         this.loadingSubCategories = false;
-      }
-    );
+      },
+    });
   }
 
   getCategories() {

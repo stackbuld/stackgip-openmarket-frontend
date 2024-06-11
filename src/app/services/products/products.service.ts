@@ -108,7 +108,7 @@ export class ProductsService {
     return this.http.get<ProductModel>(this.baseUrl + `products?id=${pid.id}`);
   }
 
-  getProduct(id: any): Observable<any> {
+  getProduct(id: string): Observable<any> {
     return this.http.get(this.baseUrl + `products/${id}`);
   }
 
