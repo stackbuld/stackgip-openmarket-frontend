@@ -6,10 +6,10 @@ import { ProductsService } from 'src/app/services/products/products.service';
 import { ICategory } from 'src/app/models/CategoryModels';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import { ISeller } from 'src/app/models/sellerModel';
-import { CatgoryService } from 'src/app/services/category/catgory.service';
 import { IUser } from 'src/app/models/IUserModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WindowRefService } from 'src/app/shared/services/window.service';
+import { CategoryService } from 'src/app/services/category/category.service';
 declare var UIkit: any;
 
 @Component({
@@ -33,7 +33,7 @@ export class SellerShowCaseProductComponent implements OnInit {
   constructor(
     private productService: ProductsService,
     private sellerService: SellerService,
-    private categoryService: CatgoryService,
+    private categoryService: CategoryService,
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,

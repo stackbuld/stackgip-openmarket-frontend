@@ -32,9 +32,9 @@
             <div for="name" class="label">Category</div>
             <mat-form-field class="uk-width-expand">
               <mat-label>Category</mat-label>
-              <input matInput (valueChange)="getSubCategories($event)" placeholder="Search category"
-                formControlName="category" required [matAutocomplete]="categoryFilter" />
-              <mat-autocomplete #categoryFilter="matAutocomplete">
+              <input matInput placeholder="Search category" formControlName="category" required
+                [matAutocomplete]="categoryFilter" />
+              <mat-autocomplete #categoryFilter="matAutocomplete" (optionSelected)="getSubCategoriesEvent($event)">
                 <mat-option *ngFor="let category of filteredCategories | async" [value]="category.name">
                   {{ category.name }}
                 </mat-option>

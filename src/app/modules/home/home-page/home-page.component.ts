@@ -3,7 +3,7 @@ import {
   PromotedProduct,
   RecommendedProduct,
 } from 'src/app/models/products.model';
-import { CatgoryService } from 'src/app/services/category/catgory.service';
+import { CategoryService } from 'src/app/services/category/category.service';
 import { ICategory } from 'src/app/models/CategoryModels';
 import { PromotedProductsService } from 'src/app/services/promoted-products/promoted-products.service';
 import { RecommendedProductService } from 'src/app/services/recomended-product/recommended-product.service';
@@ -51,7 +51,7 @@ export class HomePageComponent {
   constructor(
     private promotedProductsService: PromotedProductsService,
     private recommendedProductsService: RecommendedProductService,
-    private categoryService: CatgoryService,
+    private categoryService: CategoryService,
     private productService: ProductsService
   ) {}
 

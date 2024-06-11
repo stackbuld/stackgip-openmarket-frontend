@@ -1,6 +1,5 @@
 import { IUser } from '../../../../models/IUserModel';
 import {
-  CreateProductOption,
   CreateShipmentModel,
   EditProductModel,
   ProductOption,
@@ -12,11 +11,11 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { ProductsService } from '../../../../services/products/products.service';
-import { CatgoryService } from '../../../../services/category/catgory.service';
 import { ToastrService } from '../../../../services/toastr.service';
 
 import { CategoryResponse } from '../../../../models/CategoryModels';
 import { AuthService } from 'src/app/services/auth.service';
+import { CategoryService } from 'src/app/services/category/category.service';
 
 declare var cloudinary: any;
 @Component({
@@ -40,7 +39,7 @@ export class EditProductComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private toast: ToastrService,
-    private catgoryService: CatgoryService,
+    private categoryService: CategoryService,
     private productService: ProductsService,
     private authService: AuthService
   ) {
@@ -54,7 +53,7 @@ export class EditProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categories$ = this.catgoryService.GetCategory();
+    this.categories$ = this.categoryService.GetCategory();
     this.uploadWidget = this.cloudinaryWidget();
   }
 

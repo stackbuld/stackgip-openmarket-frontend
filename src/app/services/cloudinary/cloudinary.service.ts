@@ -2,11 +2,11 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import {
   CloudinaryApiResponseDto,
   CloudinaryUploadWidgetConfig,
 } from './cloudinary.dto';
-import { ToastrService } from 'ngx-toastr';
 declare var cloudinary: any;
 
 @Injectable({ providedIn: 'root' })
@@ -37,37 +37,18 @@ export class CloudinaryService {
     );
   }
 
-  uploadImageWithWidget(): any {
-    cloudinary?.createUploadWidget(
-      {
-        cloudName: environment.cloudinaryName,
-        uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
-        multiple: false, //restrict upload to a single file
-        folder: 'banners', //upload files to the specified folder
-        tags: ['product', 'banner'], //add the given tags to the uploaded files
-        maxImageFileSize: 5000000, //restrict file size to less than 5MB
-        maxImageWidth: 800, //Scales the image down to a width of 800 pixels before uploading
-      },
-      (error: any, result: any) => {
-        console.log(result);
-        if (!error && result && result.event === 'success') {
-          return result.info;
-        }
-        return error;
-      }
-    );
-  }
-
-  createUploadWidget(maxFiles: number) {
-    const config: CloudinaryUploadWidgetConfig = {
+  public widgetConfig(
+    maxFiles: number,
+    allowedFileTypes: string[]
+  ): CloudinaryUploadWidgetConfig {
+    return {
       cloudName: environment.cloudinaryName,
       uploadPreset: environment.cloudinaryUploadPerset,
       multiple: true,
       autoUpload: false,
       maxFiles: maxFiles,
       resourceType: 'auto',
-      clientAllowedFormats: this.allowedFileTypes,
+      clientAllowedFormats: allowedFileTypes,
       styles: {
         palette: {
           window: '#FFFFFF',
@@ -123,12 +104,39 @@ export class CloudinaryService {
         },
       },
     };
-    return cloudinary.createUploadWidget(config, (error: any, result: any) => {
-      this.isLoadingUploadWidget.next(false);
-      if (!error && result && result.event === 'success') {
-        this.handleUpload(result.info);
+  }
+  uploadImageWithWidget(): any {
+    cloudinary?.createUploadWidget(
+      {
+        cloudName: environment.cloudinaryName,
+        uploadPreset: environment.cloudinaryUploadPerset,
+        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
+        multiple: false, //restrict upload to a single file
+        folder: 'banners', //upload files to the specified folder
+        tags: ['product', 'banner'], //add the given tags to the uploaded files
+        maxImageFileSize: 5000000, //restrict file size to less than 5MB
+        maxImageWidth: 800, //Scales the image down to a width of 800 pixels before uploading
+      },
+      (error: any, result: any) => {
+        console.log(result);
+        if (!error && result && result.event === 'success') {
+          return result.info;
+        }
+        return error;
       }
-    });
+    );
+  }
+
+  createUploadWidget(maxFiles: number) {
+    return cloudinary.createUploadWidget(
+      this.widgetConfig(maxFiles, this.allowedFileTypes),
+      (error: any, result: any) => {
+        this.isLoadingUploadWidget.next(false);
+        if (!error && result && result.event === 'success') {
+          this.handleUpload(result.info);
+        }
+      }
+    );
   }
 
   private handleUpload(info: CloudinaryApiResponseDto) {
