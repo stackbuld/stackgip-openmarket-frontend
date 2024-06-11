@@ -78,6 +78,7 @@ export class CreateProductComponent
   uploadWidget: any;
   uploadComplimentaryWidget: any;
   images = [];
+  maxFiles: number = 8;
   variationImages = [];
   newImageListForUpdate: any;
   complimentartImages = [];
@@ -156,7 +157,7 @@ export class CreateProductComponent
     private dialog: MatDialog,
     private changeDetector: ChangeDetectorRef,
     private variantService: VariantService,
-    private cloudinaryService: CloudinaryService
+    public cloudinaryService: CloudinaryService
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
     localStorage.removeItem('compImagesStore');
@@ -262,7 +263,6 @@ export class CreateProductComponent
       })
     );
 
-    this.uploadWidget = this.cloudinaryService.createUploadWidget();
     this.cloudinaryService.image$.subscribe((url) => {
       this.images.push(url);
       this.productImage = this.images[0];
@@ -755,10 +755,13 @@ export class CreateProductComponent
 
   // images upload start
   upload(): void {
-    if (this.images.length + this.videoUrls.length < 8) {
-      this.uploadWidget.open();
+    if (this.images.length + this.videoUrls.length < this.maxFiles) {
+      this.cloudinaryService.isLoadingUploadWidget.next(true);
+      let maxFiles = this.maxFiles - this.images.length + this.videoUrls.length;
+      maxFiles = maxFiles <= 0 ? 8 : maxFiles;
+      this.cloudinaryService.createUploadWidget(maxFiles).open();
     } else {
-      this.imageErr = 'You can only upload maximum of four images or videos';
+      this.imageErr = 'You can only upload maximum of 8 images or videos';
     }
   }
 
@@ -983,47 +986,61 @@ export class CreateProductComponent
     }
     if (this.images?.length < 1) {
       this.toast.error('Product Image(s) required');
-      // return;
-    } else if (this.form.value.description === '') {
-      this.toast.error('Enter Product Description to Procees');
-      // return;
-    } else if (this.form.value.category == '') {
+      return;
+    }
+
+    if (this.images?.length + this.videoUrls.length > 8) {
+      this.toast.error(
+        'Your cannot upload more than 8 files. Delete one file.'
+      );
+      return;
+    }
+    if (this.form.value.description === '') {
+      this.toast.error('Enter Product Description to Process');
+      return;
+    }
+
+    if (this.form.value.category == '') {
       this.toast.error('Select a Category');
-      // return;
-    } else if (this.form.get('storeIds').invalid) {
+      return;
+    }
+
+    if (this.form.get('storeIds').invalid) {
       this.toast.error('Must select a store!');
       return;
-    } else if (this.form.invalid) {
-      this.toast.error('All required fields must be available');
-      // return;
-    } else {
-      if (this.subCategories.length === 0 && this.form.value.category !== '') {
-        this.isSubCatIdEmpty = true;
-        this.form.patchValue({ categoryId: this.form.value.category });
-      }
+    }
 
-      if (this.form.valid) {
-        if (!this.isAddingVariants) {
-          this.proceedToSave();
+    if (this.form.invalid) {
+      this.toast.error('All required fields must be available');
+      return;
+    }
+
+    if (this.subCategories.length === 0 && this.form.value.category !== '') {
+      this.isSubCatIdEmpty = true;
+      this.form.patchValue({ categoryId: this.form.value.category });
+    }
+
+    if (this.form.valid) {
+      if (!this.isAddingVariants) {
+        this.proceedToSave();
+        return;
+      }
+      const dialogRef = this.dialog.open(VariationsAlertDialogComponent, {
+        data: {
+          initialUnit: 0,
+          exceededUnit: 0,
+          type: 'addingVariantAlert',
+        },
+        autoFocus: false,
+      });
+
+      dialogRef.afterClosed().subscribe((value) => {
+        if (!value) {
           return;
         }
-        const dialogRef = this.dialog.open(VariationsAlertDialogComponent, {
-          data: {
-            initialUnit: 0,
-            exceededUnit: 0,
-            type: 'addingVariantAlert',
-          },
-          autoFocus: false,
-        });
-
-        dialogRef.afterClosed().subscribe((value) => {
-          if (!value) {
-            return;
-          }
-          this.variantService.isAddingVariant.next(false);
-          this.proceedToSave();
-        });
-      }
+        this.variantService.isAddingVariant.next(false);
+        this.proceedToSave();
+      });
     }
   }
 

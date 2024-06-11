@@ -23,3 +23,31 @@ export interface CloudinaryApiResponseDto {
   original_extension: string;
 }
 
+export interface CloudinaryUploadWidgetConfig {
+  cloudName: string;
+  uploadPreset: string;
+  sources?: string[];
+  googleApiKey?: string;
+  showAdvancedOptions?: boolean;
+  cropping?: boolean;
+  multiple?: boolean;
+  resourceType?: string;
+  defaultSource?: string;
+  styles?: any; // Adjust the type as per your style object structure
+  folder?: string;
+  tags?: string[];
+  context?: { [key: string]: string };
+  clientAllowedFormats?: string[];
+  maxFileSize?: number;
+  maxImageWidth?: number;
+  maxImageHeight?: number;
+  minImageWidth?: number;
+  minImageHeight?: number;
+  maxFiles?: number;
+  autoUpload?: boolean;
+  theme?: string;
+  language?: string;
+  text?: { [key: string]: any }; // Adjust the type as per your text object structure
+  thumbnails?: boolean;
+  thumbnailTransformation?: any[];
+}

@@ -121,8 +121,11 @@
         <div class="uk-grid block-up uk-grid-row-small">
           <div class="mb-3 uk-width-expand uk-width-1-2@s input-sec editor">
             <div for="name" class="label">File Upload</div>
-            <div class="border-form mb-30 d-flex align-items-center">
-              <button type="button" (click)="upload()">Add file</button>
+            <div (click)="upload()" class="border-form mb-30 d-flex align-items-center">
+              <button *ngIf="!(cloudinaryService.isLoadingUploadWidget | async)" type="button">Add file</button>
+              <span *ngIf="cloudinaryService.isLoadingUploadWidget | async" class="loader" style="margin-right: 0.5rem"
+                uk-spinner="ratio: 0.8">
+              </span>
               <div class="px-8 d-flex justify-content-center align-items-center">
                 Accepts Images or Videos*
               </div>
