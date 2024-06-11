@@ -8,11 +8,9 @@ import {
   Subject,
   Subscription,
   map,
-  of,
   startWith,
   takeUntil,
 } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import {
   Component,
@@ -30,16 +28,13 @@ import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { ProductsService } from '../../../../services/products/products.service';
 import { ToastrService } from '../../../../services/toastr.service';
 import { StoreService } from 'src/app/services/store/store.service';
-import uikit from 'uikit';
 
 import { DOCUMENT } from '@angular/common';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SellerStoreCreateDialogComponent } from '../../seller-store/seller-store-create-dialog/seller-store-create-dialog.component';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { VariationsAlertDialogComponent } from './variations-alert-dialog/variations-alert-dialog.component';
-import { VariantComponent } from './variant/variant.component';
 import { VariantService } from './variant/variant.service';
 import { DeleteVariantComponent } from './variant/delete-variant/delete-variant.component';
 import {
@@ -47,6 +42,9 @@ import {
   pickupOptions,
   previewEditorConfig,
 } from './editor.config';
+import { ICategory } from 'src/app/models/CategoryModels';
+import { CategoryService } from 'src/app/services/category/category.service';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 declare var cloudinary: any;
 @Component({
@@ -71,8 +69,9 @@ export class CreateProductComponent
   cproduct: CreateProductResponse;
   editProps: any;
   variationProps: FormGroup;
-  categories: any[];
-  filteredCategories: Observable<any[]>;
+  categories: ICategory[];
+  category: ICategory;
+  filteredCategories: Observable<ICategory[]>;
   stores: any;
   loading: boolean = false;
   uploadWidget: any;
@@ -120,7 +119,6 @@ export class CreateProductComponent
   editingVariationUnit: number = 0;
   isProductUnitExceeded: boolean = false;
   videoUrls: string[] = [];
-  videoWidget: any;
   isAddingVariants: boolean = false;
 
   savedTotalVariantsUnit: number = 0;
@@ -157,6 +155,7 @@ export class CreateProductComponent
     private dialog: MatDialog,
     private changeDetector: ChangeDetectorRef,
     private variantService: VariantService,
+    private categoryService: CategoryService,
     public cloudinaryService: CloudinaryService
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -277,13 +276,11 @@ export class CreateProductComponent
   ngAfterViewChecked(): void {}
 
   private createCloudinaryWidgets(): void {
+    const maxFiles: number = 1;
+    const allowedFileTypes: string[] = ['jpeg', 'jpg', 'png', 'gif'];
     this.uploadComplimentaryWidget = cloudinary.createUploadWidget(
-      {
-        cloudName: environment.cloudinaryName,
-        uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
-      },
-      (error, result) => {
+      this.cloudinaryService.widgetConfig(maxFiles, allowedFileTypes),
+      (error: any, result: any) => {
         if (!error && result && result.event === 'success') {
           let list = [];
           if (JSON.parse(localStorage.getItem('compImagesStore')) === null) {
@@ -313,12 +310,8 @@ export class CreateProductComponent
     );
 
     this.uploadComplimentaryWidget2 = cloudinary.createUploadWidget(
-      {
-        cloudName: environment.cloudinaryName,
-        uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
-      },
-      (error, result) => {
+      this.cloudinaryService.widgetConfig(maxFiles, allowedFileTypes),
+      (error: any, result: any) => {
         if (!error && result && result.event === 'success') {
           if (this.editProps.value.imageUrl == '') {
             this.editProps.patchValue({ imageUrl: result.info.secure_url });
@@ -328,12 +321,8 @@ export class CreateProductComponent
     );
 
     this.uploadComplimentaryWidget3 = cloudinary.createUploadWidget(
-      {
-        cloudName: environment.cloudinaryName,
-        uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
-      },
-      (error, result) => {
+      this.cloudinaryService.widgetConfig(maxFiles, allowedFileTypes),
+      (error: any, result: any) => {
         if (!error && result && result.event === 'success') {
           if (this.variationProps.value.imageUrl == '') {
             this.variationProps.patchValue({
@@ -440,7 +429,7 @@ export class CreateProductComponent
       pickupOption: [data.pickupOption, [Validators.required]],
       imageUrl: [data.imageUrl],
       categoryId: [data.categoryId, [Validators.required]],
-      category: [data.categoryId, [Validators.required]],
+      category: ['', [Validators.required]],
       videoUrls: [data.videoUrls],
       storeIds: [sellerStoreIds, [Validators.required]],
       unit: [data.unit, [Validators.required]],
@@ -782,7 +771,13 @@ export class CreateProductComponent
   }
   // images upload stop
 
-  getSubCategories(id: any) {
+  public getSubCategoriesEvent(event: MatAutocompleteSelectedEvent) {
+    const category: ICategory = this.categories.find(
+      (c) => c.name == event.option.value
+    );
+    this.getSubCategories(category.id);
+  }
+  public getSubCategories(id: string): void {
     this.subCategories = [];
     this.form.value.categoryId = '';
     this.loadingSubCategories = true;
@@ -802,10 +797,18 @@ export class CreateProductComponent
     });
   }
 
-  getCategories() {
+  getCategories(id: string = '') {
     this.productService.getAllCategories().subscribe({
       next: (res) => {
         this.categories = res.data;
+        if (id) {
+          this.categories.forEach((cat) => {
+            if (cat.id == id) {
+              this.form.patchValue({ category: cat.id });
+              return;
+            }
+          });
+        }
         this.filteredCategories = this.form.get('category')?.valueChanges.pipe(
           takeUntil(this.unsubscribe$),
           startWith(''),
@@ -813,6 +816,22 @@ export class CreateProductComponent
             return this._filterCategories(category || '');
           })
         );
+      },
+      error: (err) => {
+        this.toast.error(err.message);
+      },
+    });
+  }
+
+  /** wanted to use it to fetch a single category by id when editing product.
+   * but later found out that getting the product from the all category will be more efficient
+   * since we are still going to call the endpoint to get all available category.
+   */
+  getCategory(id: string): void {
+    this.categoryService.getCategory(id).subscribe({
+      next: (res) => {
+        this.category = res.data as ICategory;
+        this.form.patchValue({ category: this.category.id });
       },
       error: (err) => {
         this.toast.error(err.message);
