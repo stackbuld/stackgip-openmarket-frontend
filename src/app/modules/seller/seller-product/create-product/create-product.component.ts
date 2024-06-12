@@ -99,7 +99,7 @@ export class CreateProductComponent
   addingVariation = false;
   addingComplimentaryOptions = false;
   variationList: any;
-  subCategories: any;
+  subCategories: ICategory[];
   selectedCategoryId = null;
   creatingVariation: boolean;
   loadingSubCategories: boolean;
@@ -889,53 +889,58 @@ export class CreateProductComponent
     }
     if (this.images?.length < 1) {
       this.toast.error('Product Image(s) required');
-      // return;
-    } else if (this.form.value.description === '') {
+      return;
+    }
+    if (this.form.value.description === '') {
       this.toast.error('Enter Product Description to Process');
-      // return;
-    } else if (this.form.value.category == '') {
+      return;
+    }
+    if (this.form.value.category == '') {
       this.toast.error('Select a Category');
-      // return;
-    } else if (this.form.invalid) {
+      return;
+    }
+    if (this.form.value.category != '' && this.form.value.categoryId == '') {
+      this.toast.error('Select a Category from the list.');
+      return;
+    }
+    if (this.form.invalid) {
       this.toast.error('All required fields must be available');
-      // return;
-    } else {
-      if (this.subCategories?.length === 0 && this.form.value.category !== '') {
-        this.isSubCatIdEmpty = true;
-        this.form.patchValue({
-          categoryId: this.categories.find(
-            (c) => c.name == this.form.value.category
-          ).id,
-        });
+      return;
+    }
+    if (this.subCategories?.length === 0 && this.form.value.category !== '') {
+      this.isSubCatIdEmpty = true;
+      this.form.patchValue({
+        categoryId: this.categories.find(
+          (c) => c.name == this.form.value.category
+        ).id,
+      });
+    }
+    if (this.form.valid) {
+      if (!this.isAddingVariants) {
+        this.creatingProduct = true;
+        this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
+        this.mainSaveAsDrafts();
+        return;
       }
 
-      if (this.form.valid) {
-        if (!this.isAddingVariants) {
-          this.creatingProduct = true;
-          this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
-          this.mainSaveAsDrafts();
+      const dialogRef = this.dialog.open(VariationsAlertDialogComponent, {
+        data: {
+          initialUnit: 0,
+          exceededUnit: 0,
+          type: 'addingVariantAlert',
+        },
+        autoFocus: false,
+      });
+
+      dialogRef.afterClosed().subscribe((value) => {
+        if (!value) {
           return;
         }
-
-        const dialogRef = this.dialog.open(VariationsAlertDialogComponent, {
-          data: {
-            initialUnit: 0,
-            exceededUnit: 0,
-            type: 'addingVariantAlert',
-          },
-          autoFocus: false,
-        });
-
-        dialogRef.afterClosed().subscribe((value) => {
-          if (!value) {
-            return;
-          }
-          this.creatingProduct = true;
-          this.variantService.isAddingVariant.next(false);
-          this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
-          this.mainSaveAsDrafts();
-        });
-      }
+        this.creatingProduct = true;
+        this.variantService.isAddingVariant.next(false);
+        this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
+        this.mainSaveAsDrafts();
+      });
     }
   };
 
@@ -983,7 +988,7 @@ export class CreateProductComponent
       return;
     }
 
-    if (this.images?.length + this.videoUrls.length > 8) {
+    if (this.images?.length + this.videoUrls?.length > 8) {
       this.toast.error(
         'Your cannot upload more than 8 files. Delete one file.'
       );
@@ -998,7 +1003,10 @@ export class CreateProductComponent
       this.toast.error('Select a Category');
       return;
     }
-
+    if (this.form.value.category != '' && this.form.value.categoryId == '') {
+      this.toast.error('Select a Category from the list.');
+      return;
+    }
     if (this.form.get('storeIds').invalid) {
       this.toast.error('Must select a store!');
       return;
@@ -1009,7 +1017,7 @@ export class CreateProductComponent
       return;
     }
 
-    if (this.subCategories.length === 0 && this.form.value.category !== '') {
+    if (this.subCategories?.length === 0 && this.form.value.category !== '') {
       this.isSubCatIdEmpty = true;
       this.form.patchValue({
         categoryId: this.categories.find(
