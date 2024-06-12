@@ -65,8 +65,6 @@ export class CreateProductComponent
   errors: any[];
   errorMessage: string;
   form: FormGroup;
-  newVariationForm: FormGroup;
-  cproduct: CreateProductResponse;
   editProps: any;
   variationProps: FormGroup;
   categories: ICategory[];
@@ -784,7 +782,6 @@ export class CreateProductComponent
     this.loadingSubCategories = true;
     this.selectedCategoryId = id;
     this.getVariations();
-    this.newVariationForm?.patchValue({ categoryId: this.selectedCategoryId });
     this.productService.getSubCategories(id).subscribe({
       next: (res) => {
         this.subCategories = res.data;
@@ -899,21 +896,24 @@ export class CreateProductComponent
       this.toast.error('Select a Category');
       return;
     }
-    if (this.form.value.category != '' && this.form.value.categoryId == '') {
-      this.toast.error('Select a Category from the list.');
-      return;
-    }
+
     if (this.form.invalid) {
       this.toast.error('All required fields must be available');
       return;
     }
     if (this.subCategories?.length === 0 && this.form.value.category !== '') {
       this.isSubCatIdEmpty = true;
+      const category = this.categories.find(
+        (c) => c.name == this.form.value.category
+      );
       this.form.patchValue({
-        categoryId: this.categories.find(
-          (c) => c.name == this.form.value.category
-        ).id,
+        categoryId: this.selectedCategoryId ?? category.id,
       });
+    }
+
+    if (this.form.value.category != '' && this.form.value.categoryId == '') {
+      this.toast.error('Select a Category from the list.');
+      return;
     }
     if (this.form.valid) {
       if (!this.isAddingVariants) {
@@ -1003,10 +1003,7 @@ export class CreateProductComponent
       this.toast.error('Select a Category');
       return;
     }
-    if (this.form.value.category != '' && this.form.value.categoryId == '') {
-      this.toast.error('Select a Category from the list.');
-      return;
-    }
+
     if (this.form.get('storeIds').invalid) {
       this.toast.error('Must select a store!');
       return;
@@ -1019,11 +1016,17 @@ export class CreateProductComponent
 
     if (this.subCategories?.length === 0 && this.form.value.category !== '') {
       this.isSubCatIdEmpty = true;
+      const category = this.categories.find(
+        (c) => c.name == this.form.value.category
+      );
       this.form.patchValue({
-        categoryId: this.categories.find(
-          (c) => c.name == this.form.value.category
-        ).id,
+        categoryId: this.selectedCategoryId ?? category.id,
       });
+    }
+
+    if (this.form.value.category != '' && this.form.value.categoryId == '') {
+      this.toast.error('Select a Category from the list.');
+      return;
     }
 
     if (this.form.valid) {
