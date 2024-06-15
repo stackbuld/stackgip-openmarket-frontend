@@ -18,6 +18,7 @@ import { PwaService } from './services/pwa.service';
 import { PwaPromptComponent } from './shared/components/pwa-prompt/pwa-prompt.component';
 import { IUser } from './models/IUserModel';
 import { datadogRum } from '@datadog/browser-rum';
+import { PrimeNGConfig } from 'primeng/api';
 
 const selectCounter = (state: AppState) => state.count;
 
@@ -36,17 +37,19 @@ export class AppComponent implements OnInit {
   user!: IUser;
 
   constructor(
+    private primengConfig: PrimeNGConfig,
     private store: Store<AppState>,
     private router: Router,
     private titleService: Title,
     @Inject(DOCUMENT) private document: Document,
     private pwaService: PwaService,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) {
     this.handleRouteEvents();
   }
 
   ngOnInit(): void {
+    this.primengConfig.ripple = true;
     this.count$ = this.store.select(getcount);
 
     this.pwaService.initPwaPrompt();
@@ -74,7 +77,7 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         const title = this.getTitle(
           this.router.routerState,
-          this.router.routerState.root,
+          this.router.routerState.root
         ).join('-');
         this.titleService.setTitle(title);
         // gtag('event', 'page_view', {

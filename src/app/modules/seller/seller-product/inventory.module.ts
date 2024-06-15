@@ -24,6 +24,8 @@ import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { VideoGuidePromptComponent } from '../../../shared/components/video-guide-prompt/video-guide-prompt.component';
 import { VariantComponent } from './create-product/variant/variant.component';
 import { ProductPreview } from './create-product/preview-product/preview-product';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { ProductPreview } from './create-product/preview-product/preview-product
   imports: [
     CommonModule,
     FormsModule,
+    MultiSelectModule,
+    AutoCompleteModule,
     InventoryRoutingModule,
     ReactiveFormsModule,
     SharedModule,

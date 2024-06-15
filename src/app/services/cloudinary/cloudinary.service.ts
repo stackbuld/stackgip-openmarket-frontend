@@ -12,12 +12,12 @@ declare var cloudinary: any;
 @Injectable({ providedIn: 'root' })
 export class CloudinaryService {
   private http = inject(HttpClient);
-  private imageCount = 0;
-  private videoCount = 0;
-  private maxFiles = 4;
-  private videoTypes: string[] = ['gif', 'video', 'mp4'];
-  private imageTypes: string[] = ['image', 'jpeg', 'jpg', 'png'];
-  private allowedFileTypes: string[] = [...this.imageTypes, ...this.videoTypes];
+  public readonly videoTypes: string[] = ['gif', 'video', 'mp4'];
+  public readonly imageTypes: string[] = ['image', 'jpeg', 'jpg', 'png'];
+  public readonly allowedFileTypes: string[] = [
+    ...this.imageTypes,
+    ...this.videoTypes,
+  ];
 
   private imageSubject = new Subject<string>();
   private videoSubject = new Subject<string>();
@@ -141,17 +141,11 @@ export class CloudinaryService {
 
   private handleUpload(info: CloudinaryApiResponseDto) {
     const url = info.secure_url;
-    if (
-      this.imageTypes.some((img) => img == info.resource_type) &&
-      this.imageCount <= this.maxFiles
-    ) {
+    if (this.imageTypes.some((img) => img == info.resource_type)) {
       this.imageSubject.next(url);
     }
 
-    if (
-      this.videoTypes.some((v) => v == info.resource_type) &&
-      this.videoCount <= this.maxFiles
-    ) {
+    if (this.videoTypes.some((v) => v == info.resource_type)) {
       this.videoSubject.next(url);
     }
   }

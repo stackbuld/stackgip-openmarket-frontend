@@ -7,7 +7,14 @@
 @import "uikit/src/scss/variables-theme.scss";
 @import "uikit/src/scss/mixins-theme.scss";
 @import "node_modules/uikit/src/scss/uikit-theme.scss";
-// @import 'assets/ng-custom-theme';
+
+/**
+Prime Ng css theme configuration.
+*/
+@import "assets/themes/aura-light-noir/theme.css";
+@import "primeng/resources/primeng.css";
+// @import "assets/themes/aura-dark-noir/theme.css";
+// @import 'assets/themes/mdc-theme.scss';
 :root{
     --mdc-snackbar-container-color: #fff !important;
 }
