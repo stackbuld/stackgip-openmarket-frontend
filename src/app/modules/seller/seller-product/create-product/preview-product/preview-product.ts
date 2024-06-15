@@ -7,6 +7,7 @@ import { SafeHtml } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import uikit from 'uikit';
+import { CreateProductDto } from 'src/app/models/products.model';
 
 @Component({
   selector: 'app-preview-product',
@@ -24,6 +25,7 @@ export class ProductPreview {
   @Input() productId: number | null = null;
   @Input() previewData: any = Object.create(null);
   @Input() form!: FormGroup;
+  @Input() selectedCategoryId: string = '';
   @Input() videoUrls: string[] = [];
   @Input() relatedItems: any[] = [];
   @Input() allVariantList: any[] = [];
@@ -54,33 +56,31 @@ export class ProductPreview {
 
   createProduct = () => {
     this.creatingProduct = true;
-
-    this.productService
-      .createNewProduct({
-        ...this.form.value,
-        videoUrls: [...this.videoUrls],
-        options: [...this.relatedItems, ...this.allVariantList],
-        publishOption: 'Review',
-      })
-      .subscribe({
-        next: (res) => {
-          if (res.status === 'success') {
-            this.toast.success('Product added successfully');
-            this.router.navigate(['/seller/products']);
-
-            this.creatingProduct = false;
-            localStorage.removeItem('compImagesStore');
-            this.complementaryImagesStore = [];
-          } else {
-            this.creatingProduct = false;
-            this.toast.error('Something went wrong');
-          }
-        },
-        error: (err) => {
+    const model: CreateProductDto = {
+      ...this.form.value,
+      categoryId: this.selectedCategoryId ?? this.form.value.category.id,
+      videoUrls: this.videoUrls,
+      options: [...this.relatedItems, ...this.allVariantList],
+      publishOption: 'Review',
+    };
+    this.productService.createNewProduct(model).subscribe({
+      next: (res) => {
+        if (res.status === 'success') {
+          this.toast.success('Product saved as draft Successful!');
+          this.router.navigate(['/seller/products']);
+          this.creatingProduct = false;
+          localStorage.removeItem('compImagesStore');
+          this.complementaryImagesStore = [];
+        } else {
           this.creatingProduct = false;
           this.toast.error('Something went wrong');
-        },
-      });
+        }
+      },
+      error: (err) => {
+        this.creatingProduct = false;
+        this.toast.error('Something went wrong');
+      },
+    });
   };
 
   updateProduct = () => {
@@ -88,6 +88,7 @@ export class ProductPreview {
     this.productService
       .createNewProduct({
         ...this.form.value,
+        categoryId: this.selectedCategoryId ?? this.form.value.category.id,
         videoUrls: this.videoUrls,
         options: [...this.relatedItems, ...this.allVariantList],
         publishOption: 'Review',

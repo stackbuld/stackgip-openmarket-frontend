@@ -87,6 +87,12 @@
   height: 100%;
 }
 
+@media(max-width: 600px){
+  .margin-top{
+    margin-top: 0.8rem;
+  }
+}
+
 h2,
 p {
   margin: 0;

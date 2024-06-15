@@ -2,15 +2,14 @@ import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.servic
 import { IUser } from '../../../../models/IUserModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CreateProductResponse } from '../../../../models/products.model';
 import {
-  Observable,
-  Subject,
-  Subscription,
-  map,
-  startWith,
-  takeUntil,
-} from 'rxjs';
+  CreateProductResponse,
+  SellerStore,
+  AutoCompleteCompleteEvent,
+  CreateProductDto,
+  ProductModel,
+} from '../../../../models/products.model';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import {
   Component,
@@ -67,10 +66,13 @@ export class CreateProductComponent
   form: FormGroup;
   editProps: any;
   variationProps: FormGroup;
-  categories: ICategory[];
+  categories: ICategory[] = new Array(0);
   category: ICategory;
-  filteredCategories: Observable<ICategory[]>;
-  stores: any;
+  subCategories: ICategory[] = new Array(0);
+  selectedCategoryId = null;
+  filteredCategories: ICategory[];
+  filteredSubCategories: ICategory[];
+  stores: SellerStore[] = new Array(0);
   loading: boolean = false;
   uploadWidget: any;
   uploadComplimentaryWidget: any;
@@ -97,8 +99,6 @@ export class CreateProductComponent
   addingVariation = false;
   addingComplimentaryOptions = false;
   variationList: any;
-  subCategories: ICategory[];
-  selectedCategoryId = null;
   creatingVariation: boolean;
   loadingSubCategories: boolean;
   creatingProduct: boolean;
@@ -165,8 +165,8 @@ export class CreateProductComponent
     return this.form.controls;
   }
 
-  get categoryId() {
-    return this.form.get('categoryId');
+  get subCategory() {
+    return this.form.get('subCategory');
   }
 
   ngOnInit(): void {
@@ -252,14 +252,6 @@ export class CreateProductComponent
       this.isAddingVariants = value;
     });
 
-    this.filteredCategories = this.form.get('category')?.valueChanges.pipe(
-      takeUntil(this.unsubscribe$),
-      startWith(''),
-      map((category) => {
-        return this._filterCategories(category || '');
-      })
-    );
-
     this.cloudinaryService.image$.subscribe((url) => {
       this.images.push(url);
       this.productImage = this.images[0];
@@ -275,9 +267,11 @@ export class CreateProductComponent
 
   private createCloudinaryWidgets(): void {
     const maxFiles: number = 1;
-    const allowedFileTypes: string[] = ['jpeg', 'jpg', 'png', 'gif'];
     this.uploadComplimentaryWidget = cloudinary.createUploadWidget(
-      this.cloudinaryService.widgetConfig(maxFiles, allowedFileTypes),
+      this.cloudinaryService.widgetConfig(
+        maxFiles,
+        this.cloudinaryService.allowedFileTypes
+      ),
       (error: any, result: any) => {
         if (!error && result && result.event === 'success') {
           let list = [];
@@ -308,7 +302,10 @@ export class CreateProductComponent
     );
 
     this.uploadComplimentaryWidget2 = cloudinary.createUploadWidget(
-      this.cloudinaryService.widgetConfig(maxFiles, allowedFileTypes),
+      this.cloudinaryService.widgetConfig(
+        maxFiles,
+        this.cloudinaryService.allowedFileTypes
+      ),
       (error: any, result: any) => {
         if (!error && result && result.event === 'success') {
           if (this.editProps.value.imageUrl == '') {
@@ -319,7 +316,10 @@ export class CreateProductComponent
     );
 
     this.uploadComplimentaryWidget3 = cloudinary.createUploadWidget(
-      this.cloudinaryService.widgetConfig(maxFiles, allowedFileTypes),
+      this.cloudinaryService.widgetConfig(
+        maxFiles,
+        this.cloudinaryService.allowedFileTypes
+      ),
       (error: any, result: any) => {
         if (!error && result && result.event === 'success') {
           if (this.variationProps.value.imageUrl == '') {
@@ -341,6 +341,10 @@ export class CreateProductComponent
       .subscribe((response) => {
         response ? this.getStores(this.user.id) : null;
       });
+  }
+
+  displayCategory(category: ICategory): string {
+    return category.name;
   }
 
   preventLetter(evt: any): boolean {
@@ -379,7 +383,8 @@ export class CreateProductComponent
             this.populateProductForm(res.data);
             this.setComplementaryImageForUpdate(res.data);
             this.getCategories(res.data.category.id);
-            this.getSubCategories(res.data.category.id);
+            // this.getCategory(res.data.category.id);
+            this.getSubCategories(res.data.category);
           } else {
             this.toast.error(res.message);
             this.loading = false;
@@ -403,8 +408,8 @@ export class CreateProductComponent
       imageUrls: [null],
       pickupOption: [null, Validators.required],
       imageUrl: [''],
-      categoryId: [''],
-      category: ['', [Validators.required]],
+      subCategory: [''],
+      category: [null, [Validators.required]],
       storeIds: [[], [Validators.required]],
       unit: [null, [Validators.required]],
       options: this.fb.array([]),
@@ -412,7 +417,7 @@ export class CreateProductComponent
     });
   }
 
-  populateProductForm(data: any): void {
+  populateProductForm(data: ProductModel): void {
     let variationList = [];
     let complimentaryProducts = [];
     let sellerStoreIds = [];
@@ -423,12 +428,12 @@ export class CreateProductComponent
       description: [data.description, [Validators.required]],
       price: [data.price, [Validators.required]],
       weight: [data.weight, [Validators.required]],
-      previousPrice: [data.previousPrice === '' ? 0 : data.previousPrice],
+      previousPrice: [data.previousPrice],
       imageUrls: [data.productImages],
       pickupOption: [data.pickupOption, [Validators.required]],
       imageUrl: [data.imageUrl],
-      categoryId: [data.categoryId, [Validators.required]],
-      category: ['', [Validators.required]],
+      category: [data.category, [Validators.required]],
+      subCategory: ['', [Validators.required]],
       videoUrls: [data.videoUrls],
       storeIds: [sellerStoreIds, [Validators.required]],
       unit: [data.unit, [Validators.required]],
@@ -712,7 +717,7 @@ export class CreateProductComponent
   }
 
   // images upload start
-  upload(): void {
+  public upload(): void {
     if (this.images.length + this.videoUrls.length < this.maxFiles) {
       this.cloudinaryService.isLoadingUploadWidget.next(true);
       let maxFiles = this.maxFiles - this.images.length + this.videoUrls.length;
@@ -723,13 +728,13 @@ export class CreateProductComponent
     }
   }
 
-  onDeleteVideo(index: number) {
+  public onDeleteVideo(index: number) {
     this.videoUrls = this.videoUrls.filter(
       (url, urlIndex) => urlIndex != index
     );
   }
 
-  removeImage(image_url: string): void {
+  public removeImage(image_url: string): void {
     this.imageErr = null;
     this.images = this.images.filter((a) => a !== image_url);
     this.form.patchValue({ imageUrls: this.images });
@@ -739,12 +744,12 @@ export class CreateProductComponent
     }
   }
 
-  removeRelatedImage(): void {
+  public removeRelatedImage(): void {
     this.imageErr = null;
     this.editProps.patchValue({ imageUrl: '' });
   }
 
-  uploadComplimentaryImage(): void {
+  public uploadComplimentaryImage(): void {
     if (this.variationProps.value.imageUrl == '') {
       this.uploadComplimentaryWidget3.open();
     } else {
@@ -752,7 +757,7 @@ export class CreateProductComponent
     }
   }
 
-  uploadRelatedImage(): void {
+  public uploadRelatedImage(): void {
     if (this.editProps.value.imageUrl == '') {
       this.uploadComplimentaryWidget2.open();
     } else {
@@ -760,7 +765,7 @@ export class CreateProductComponent
     }
   }
 
-  removeComplimentaryImage(id: any): void {
+  public removeComplimentaryImage(id: any): void {
     for (let index = 0; index < this.form.value.options.length; index++) {
       const element = this.form.value.options[index];
       if (index === id) {
@@ -768,23 +773,17 @@ export class CreateProductComponent
       }
     }
   }
-  // images upload stop
 
-  public getSubCategoriesEvent(event: MatAutocompleteSelectedEvent) {
-    const category: ICategory = this.categories.find(
-      (c) => c.name == event.option.value
-    );
-    this.getSubCategories(category.id);
-  }
-  public getSubCategories(id: string): void {
+  public getSubCategories(category: ICategory): void {
     this.subCategories = [];
-    this.form.value.categoryId = '';
+    this.form.value.subCategory = '';
     this.loadingSubCategories = true;
-    this.selectedCategoryId = id;
+    this.selectedCategoryId = category.id;
     this.getVariations();
-    this.productService.getSubCategories(id).subscribe({
+    this.productService.getSubCategories(category.id).subscribe({
       next: (res) => {
         this.subCategories = res.data;
+        this.form.patchValue({ subCategory: this.subCategories[0] });
         this.getVariations();
         this.loadingSubCategories = false;
       },
@@ -802,18 +801,11 @@ export class CreateProductComponent
         if (id) {
           this.categories.forEach((cat) => {
             if (cat.id == id) {
-              this.form.patchValue({ category: cat.name });
+              this.form.patchValue({ category: cat });
               return;
             }
           });
         }
-        this.filteredCategories = this.form.get('category')?.valueChanges.pipe(
-          takeUntil(this.unsubscribe$),
-          startWith(''),
-          map((category) => {
-            return this._filterCategories(category || '');
-          })
-        );
       },
       error: (err) => {
         this.toast.error(err.message);
@@ -821,28 +813,41 @@ export class CreateProductComponent
     });
   }
 
-  /** wanted to use it to fetch a single category by id when editing product.
-   * but later found out that getting the product from the all category will be more efficient
-   * since we are still going to call the endpoint to get all available category.
-   */
-  getCategory(id: string): void {
+  filterCategories(
+    event: AutoCompleteCompleteEvent,
+    isSubCategory: boolean = false
+  ) {
+    let filtered: any[] = [];
+    let query = event.query;
+    if (isSubCategory) {
+      for (let i = 0; i < this.subCategories.length; i++) {
+        let category = this.subCategories[i];
+        if (category.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(category);
+        }
+      }
+      this.filteredSubCategories = filtered;
+    } else {
+      for (let i = 0; i < this.categories.length; i++) {
+        let category = this.categories[i];
+        if (category.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(category);
+        }
+      }
+      this.filteredCategories = filtered;
+    }
+  }
+
+  private getCategory(id: string): void {
     this.categoryService.getCategory(id).subscribe({
       next: (res) => {
         this.category = res.data as ICategory;
-        this.form.patchValue({ category: this.category.id });
+        this.form.patchValue({ category: this.category });
       },
       error: (err) => {
         this.toast.error(err.message);
       },
     });
-  }
-
-  private _filterCategories(value: string): any[] {
-    const filterValue = value.toLowerCase();
-
-    return this.categories?.filter((state) =>
-      state?.name?.toLowerCase().includes(filterValue)
-    );
   }
 
   getVariations() {
@@ -892,8 +897,8 @@ export class CreateProductComponent
       this.toast.error('Enter Product Description to Process');
       return;
     }
-    if (this.form.value.category == '') {
-      this.toast.error('Select a Category');
+    if (!this.selectedCategoryId) {
+      this.toast.error('Select a category from the list.');
       return;
     }
 
@@ -901,20 +906,7 @@ export class CreateProductComponent
       this.toast.error('All required fields must be available');
       return;
     }
-    if (this.subCategories?.length === 0 && this.form.value.category !== '') {
-      this.isSubCatIdEmpty = true;
-      const category = this.categories.find(
-        (c) => c.name == this.form.value.category
-      );
-      this.form.patchValue({
-        categoryId: this.selectedCategoryId ?? category.id,
-      });
-    }
 
-    if (this.form.value.category != '' && this.form.value.categoryId == '') {
-      this.toast.error('Select a Category from the list.');
-      return;
-    }
     if (this.form.valid) {
       if (!this.isAddingVariants) {
         this.creatingProduct = true;
@@ -945,32 +937,32 @@ export class CreateProductComponent
   };
 
   mainSaveAsDrafts() {
-    this.productService
-      .createNewProduct({
-        ...this.form.value,
-        videoUrls: [...this.videoUrls],
-        options: [...this.relatedItems, ...this.allVariantList],
-        publishOption: 'Draft',
-        ...(this.productId && { draftProductId: this.productId }),
-      })
-      .subscribe({
-        next: (res) => {
-          if (res.status === 'success') {
-            this.toast.success('Product saved as draft Successful!');
-            this.router.navigate(['/seller/products']);
-            this.creatingProduct = false;
-            localStorage.removeItem('compImagesStore');
-            this.complementaryImagesStore = [];
-          } else {
-            this.creatingProduct = false;
-            this.toast.error('Something went wrong');
-          }
-        },
-        error: (err) => {
+    const model: CreateProductDto = {
+      ...this.form.value,
+      categoryId: this.selectedCategoryId ?? this.form.value.category.id,
+      videoUrls: this.videoUrls,
+      options: [...this.relatedItems, ...this.allVariantList],
+      publishOption: 'Draft',
+      ...(this.productId && { draftProductId: this.productId }),
+    };
+    this.productService.createNewProduct(model).subscribe({
+      next: (res) => {
+        if (res.status === 'success') {
+          this.toast.success('Product saved as draft Successful!');
+          this.router.navigate(['/seller/products']);
+          this.creatingProduct = false;
+          localStorage.removeItem('compImagesStore');
+          this.complementaryImagesStore = [];
+        } else {
           this.creatingProduct = false;
           this.toast.error('Something went wrong');
-        },
-      });
+        }
+      },
+      error: (err) => {
+        this.creatingProduct = false;
+        this.toast.error('Something went wrong');
+      },
+    });
   }
 
   isSubCatIdEmpty = false;
@@ -988,19 +980,19 @@ export class CreateProductComponent
       return;
     }
 
-    if (this.images?.length + this.videoUrls?.length > 8) {
+    if (this.images?.length + this.videoUrls?.length > this.maxFiles) {
       this.toast.error(
         'Your cannot upload more than 8 files. Delete one file.'
       );
       return;
     }
     if (this.form.value.description === '') {
-      this.toast.error('Enter Product Description to Process');
+      this.toast.error('Enter Product Description');
       return;
     }
 
-    if (this.form.value.category == '') {
-      this.toast.error('Select a Category');
+    if (!this.selectedCategoryId) {
+      this.toast.error('Select a category from the list.');
       return;
     }
 
@@ -1011,21 +1003,6 @@ export class CreateProductComponent
 
     if (this.form.invalid) {
       this.toast.error('All required fields must be available');
-      return;
-    }
-
-    if (this.subCategories?.length === 0 && this.form.value.category !== '') {
-      this.isSubCatIdEmpty = true;
-      const category = this.categories.find(
-        (c) => c.name == this.form.value.category
-      );
-      this.form.patchValue({
-        categoryId: this.selectedCategoryId ?? category.id,
-      });
-    }
-
-    if (this.form.value.category != '' && this.form.value.categoryId == '') {
-      this.toast.error('Select a Category from the list.');
       return;
     }
 
