@@ -384,7 +384,7 @@ export class CreateProductComponent
             this.populateProductForm(res.data);
             this.setComplementaryImageForUpdate(res.data);
             this.getCategories(res.data.category.id);
-            //use to get single category 
+            //use to get single category
             // this.getCategory(res.data.category.id);
             this.getSubCategories(res.data.category);
           } else {
@@ -764,7 +764,7 @@ export class CreateProductComponent
     if (this.editProps.value.imageUrl == '') {
       this.uploadComplimentaryWidget2.open();
     } else {
-      this.imageErr = 'You can only upload maximum of one images';
+      this.imageErr = 'You can only upload maximum of one image or video';
     }
   }
 
