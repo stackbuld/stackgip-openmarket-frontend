@@ -11,18 +11,16 @@ import { CreateProductDto } from 'src/app/models/products.model';
 
 @Component({
   selector: 'app-preview-product',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './preview-product.html',
   styleUrls: ['./preview-product.scss'],
-  providers: [SafeHtmlPipe],
 })
 export class ProductPreview {
   previewDesc: SafeHtml;
   creatingProduct: boolean = false;
   loading: boolean = false;
+  isVisible: boolean = false;
 
-  @Input() productId: number | null = null;
+  @Input() productId: string | null = null;
   @Input() previewData: any = Object.create(null);
   @Input() form!: FormGroup;
   @Input() selectedCategoryId: string = '';
@@ -36,7 +34,7 @@ export class ProductPreview {
   @Output() onChangeUnit = new EventEmitter<{ unit: number; type: string }>();
 
   constructor(
-    private productService: ProductsService,
+    public productService: ProductsService,
     private safeHtml: SafeHtmlPipe,
     private toast: ToastrService,
     private router: Router
@@ -114,25 +112,7 @@ export class ProductPreview {
       });
   };
 
-  deleteProduct(): void {
-    uikit.modal.confirm('Are you sure that you want to delete product ?').then(
-      () => {
-        this.loading = true;
-        this.productService.deleteProduct(this.productId).subscribe((res) => {
-          if (res.status === 'success') {
-            this.loading = false;
-            this.toast.success(res.message);
-            this.router.navigate(['/seller/products']);
-          } else {
-            this.loading = false;
-            this.toast.error(res.message);
-          }
-        });
-      },
-      (err) => {
-        this.loading = false;
-        this.toast.error(err.message);
-      }
-    );
+  openDeleteModal(): void {
+    this.productService.deleteModalOpen.next(true);
   }
 }

@@ -32,7 +32,7 @@ export class ViewProductComponent implements OnInit {
     private toastservice: ToastrService,
     private router: Router,
     private productService: ProductsService,
-    @Inject(DOCUMENT) private document: Document,
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   ngOnInit(): void {
@@ -132,7 +132,7 @@ export class ViewProductComponent implements OnInit {
     if (unit >= 0) {
       uikit.modal
         .confirm(
-          `Are you sure you want to update <strong>${product.name}</strong> unit ?`,
+          `Are you sure you want to update <strong>${product.name}</strong> unit ?`
         )
         .then(
           () => {
@@ -156,33 +156,15 @@ export class ViewProductComponent implements OnInit {
           (err) => {
             this.loading = false;
             this.toastservice.error(err.message);
-          },
+          }
         );
     } else {
       this.toastservice.error(`Prouct Unit is already zero.`);
     }
   }
 
-  deleteProduct(productId: number): void {
-    uikit.modal.confirm('Are you sure that you want to delete product ?').then(
-      () => {
-        this.loading = true;
-        this.productService.deleteProduct(productId).subscribe((res) => {
-          if (res.status === 'success') {
-            this.loading = false;
-            this.toastservice.success(res.message);
-            this.router.navigate(['/seller/products']);
-          } else {
-            this.loading = false;
-            this.toastservice.error(res.message);
-          }
-        });
-      },
-      (err) => {
-        this.loading = false;
-        this.toastservice.error(err.message);
-      },
-    );
+  deleteProduct(): void {
+    this.productService.deleteModalOpen.next(true);
   }
 
   showImg(img: string) {

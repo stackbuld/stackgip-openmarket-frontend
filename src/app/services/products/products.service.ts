@@ -32,6 +32,7 @@ export class ProductsService {
   newProductUnit = new Subject<number>();
   exceededUnitAction = new BehaviorSubject<boolean>(false);
   promotedProductsInView = new BehaviorSubject<boolean>(false);
+  deleteModalOpen = new BehaviorSubject<boolean>(false);
 
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
@@ -220,8 +221,10 @@ export class ProductsService {
     return this.http.get<any>(this.baseUrl + `products/${productId}/cached`);
   }
 
-  deleteProduct(productId: number): Observable<any> {
-    return this.http.delete(this.baseUrl + `products/${productId}`);
+  deleteProduct(productId: string): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(
+      this.baseUrl + `products/${productId}`
+    );
   }
 
   updateProductUnit(productId: any, payload: any): Observable<any> {

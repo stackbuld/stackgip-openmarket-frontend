@@ -73,6 +73,7 @@ export class CreateProductComponent
   filteredCategories: ICategory[];
   filteredSubCategories: ICategory[];
   stores: SellerStore[] = new Array(0);
+  reArrangedStores: { id: string; storeName: string }[] = new Array(0);
   loading: boolean = false;
   uploadWidget: any;
   uploadComplimentaryWidget: any;
@@ -383,6 +384,7 @@ export class CreateProductComponent
             this.populateProductForm(res.data);
             this.setComplementaryImageForUpdate(res.data);
             this.getCategories(res.data.category.id);
+            //use to get single category
             // this.getCategory(res.data.category.id);
             this.getSubCategories(res.data.category);
           } else {
@@ -433,7 +435,7 @@ export class CreateProductComponent
       pickupOption: [data.pickupOption, [Validators.required]],
       imageUrl: [data.imageUrl],
       category: [data.category, [Validators.required]],
-      subCategory: ['', [Validators.required]],
+      subCategory: [''],
       videoUrls: [data.videoUrls],
       storeIds: [sellerStoreIds, [Validators.required]],
       unit: [data.unit, [Validators.required]],
@@ -720,7 +722,8 @@ export class CreateProductComponent
   public upload(): void {
     if (this.images.length + this.videoUrls.length < this.maxFiles) {
       this.cloudinaryService.isLoadingUploadWidget.next(true);
-      let maxFiles = this.maxFiles - this.images.length + this.videoUrls.length;
+      let totalUploads = this.images.length + this.videoUrls.length;
+      let maxFiles = this.maxFiles - totalUploads;
       maxFiles = maxFiles <= 0 ? 8 : maxFiles;
       this.cloudinaryService.createUploadWidget(maxFiles).open();
     } else {
@@ -761,7 +764,7 @@ export class CreateProductComponent
     if (this.editProps.value.imageUrl == '') {
       this.uploadComplimentaryWidget2.open();
     } else {
-      this.imageErr = 'You can only upload maximum of one images';
+      this.imageErr = 'You can only upload maximum of one image or video';
     }
   }
 
@@ -861,10 +864,17 @@ export class CreateProductComponent
     );
   }
 
-  getStores(id: any) {
+  getStores(id: string) {
     this.storeService.getStoresById(id).subscribe(
       (res) => {
-        this.stores = res.data;
+        if (res && res.data) {
+          this.stores = res.data;
+          for (const store of this.stores)
+            this.reArrangedStores.push({
+              id: store.id,
+              storeName: `${store.storeName} (${store.storeName} ${store.city})`,
+            });
+        }
       },
       (err) => {
         this.toast.error(err.message);

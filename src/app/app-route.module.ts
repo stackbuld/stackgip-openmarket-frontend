@@ -51,7 +51,7 @@ const route: Routes = [
   declarations: [],
   imports: [
     RouterModule.forRoot(route, {
-      enableTracing: true,
+      enableTracing: false,
       initialNavigation: 'enabledBlocking',
     }),
     CommonModule,

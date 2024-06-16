@@ -1,6 +1,12 @@
 @import "../../../../../mixins";
 @import "../../../../../assets/base-styles/config";
 
+.h-full{
+  height: 100%;
+}
+.w-full{
+  width: 100%;
+}
 
 .stage0-container {
   max-width: 70rem;
