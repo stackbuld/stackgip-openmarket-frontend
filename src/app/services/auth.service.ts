@@ -36,7 +36,7 @@ import uikit from 'uikit';
 import { AppLocalStorage } from '../helpers/local-storage';
 import { H } from 'highlight.run';
 import { datadogRum } from '@datadog/browser-rum';
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import {environment} from '../../environments/environment';
 declare var clarity: any;
 export interface IAuth {
@@ -309,7 +309,7 @@ export class AuthService {
   }
   private SetAuthCookieStorage(a: SiginResponseModel): void {
     const cookieDomain = environment.cookieDomain ?? '.renamarkets.com';
-    const cookieSetting = {
+    const cookieSetting: Cookies.CookieAttributes = {
       expires: 5, // 1 day
       domain: cookieDomain, // Replace with your main domain
       secure: true,

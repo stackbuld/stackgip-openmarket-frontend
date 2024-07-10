@@ -54,6 +54,7 @@
     "@types/chart.js": "^2.9.37",
     "@types/crypto-js": "^4.1.1",
     "@types/google-one-tap": "^1.2.2",
+    "@types/js-cookie": "^3.0.6",
     "@types/uikit": "^3.14.0",
     "algoliasearch": "^4.20.0",
     "angular-font-awesome": "^3.1.2",
