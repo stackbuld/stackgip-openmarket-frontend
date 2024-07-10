@@ -12,6 +12,7 @@ export const environment = {
   cloudinaryUploadPerset: 'unsigned1_openmarket',
   sellerStorefrontApi: 'https://api-identity.renamarkets.com/api/v1/sellers/',
   walletApi: 'https://api-wallet.renamarkets.com/api/v1/',
+  cookieDomain: '.renamarkets.com', // should be .renamarkets.com on production and for  .staging.renamarkets.com
   algolia: {
     appId: '3FEM6PO229',
     apiKey: '1d3b29cfc6e95e3fbb2c76d05025d8f5',

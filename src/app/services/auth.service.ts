@@ -36,7 +36,8 @@ import uikit from 'uikit';
 import { AppLocalStorage } from '../helpers/local-storage';
 import { H } from 'highlight.run';
 import { datadogRum } from '@datadog/browser-rum';
-
+import * as Cookies from 'js-cookie';
+import {environment} from '../../environments/environment';
 declare var clarity: any;
 export interface IAuth {
   isLoggedId: boolean;
@@ -82,12 +83,6 @@ export class AuthService {
       .subscribe((event: any) => (this.currentUrl = event.url));
   }
 
-  // public signIn(signInModel: SignInModel): Observable<SiginResponseModel> {
-  //   return this.http.post<SiginResponseModel>(
-  //     this.api.baseApiUrl + "Auth/Login",
-  //     signInModel
-  //   );
-  // }
 
   public signIn(signInModel: any): Observable<SiginResponseModel> {
     return this.http.post<SiginResponseModel>(
@@ -310,23 +305,53 @@ export class AuthService {
     localStorage.setItem('role', JSON.stringify(a.data.roles));
     localStorage.setItem('siginResponse', JSON.stringify(a.data));
     // this.store.dispatch(LoginAction(a.data.user));
+    this.SetAuthCookieStorage(a);
+  }
+  private SetAuthCookieStorage(a: SiginResponseModel): void {
+    const cookieDomain = environment.cookieDomain ?? '.renamarkets.com';
+    const cookieSetting = {
+      expires: 5, // 1 day
+      domain: cookieDomain, // Replace with your main domain
+      secure: true,
+      sameSite: 'Strict'
+    };
+    Cookies.set('token', a.data.auth_token, cookieSetting);
+    Cookies.set('siginResponse', JSON.stringify(a.data), cookieSetting);
+    Cookies.set('role', JSON.stringify(a.data.roles));
+    Cookies.set('userId', JSON.stringify(a.data.user.id));
+    Cookies.set('user', JSON.stringify(a.data.user));
   }
 
   public Logout() {
     this.isLogin.next(false);
     localStorage.clear();
+    const cookieDomain = environment.cookieDomain ?? '.renamarkets.com';
+    Cookies.remove('token', { domain: cookieDomain });
+    Cookies.remove('siginResponse', { domain: cookieDomain });
+    Cookies.remove('userId', { domain: cookieDomain });
+    Cookies.remove('role', { domain: cookieDomain });
+    Cookies.remove('user', { domain: cookieDomain });
+
+
     this.store.dispatch(LogOutAction());
   }
 
   public GetSignInData(): ISignIn {
-    const datastr = localStorage.getItem('siginResponse');
+    let datastr = Cookies.get('siginResponse');
+    if(!datastr){
+       datastr = localStorage.getItem('siginResponse');
+    }
+
     const data = JSON.parse(datastr) as ISignIn;
 
     return data;
   }
 
   public getLoggedInUser(): IUser {
-    const user = localStorage.getItem('user');
+    let user = Cookies.get('user');
+    if(!user){
+       user = localStorage.getItem('user');
+    }
     if (user) {
       const userJson: IUser = JSON.parse(user);
       return userJson;
@@ -341,14 +366,6 @@ export class AuthService {
       this.api.baseApiUrl + 'auth/password/change',
       credentials,
     );
-  }
-
-  public UpdateUser(user: IUser) {
-    localStorage.setItem('user', JSON.stringify(user));
-    const sigin = this.GetSignInData();
-    sigin.user = user;
-    localStorage.setItem('siginResponse', JSON.stringify(sigin));
-    this.store.dispatch(UpdateProfileAction(user));
   }
 
   sendDeactivateSellerOTP() {
