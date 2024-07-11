@@ -11,20 +11,20 @@ export const AddToCart = createAction(
 
 export const RemoveItemFromCart = createAction(
   "[Button RemoveFromCart] RemoveItemFromCart",
-  props<{ id: number }>()
+  props<{ id: string }>()
 );
 export const IncreamentCartItem = createAction(
   "[Button IncreamentCart] IncreamentCartItem",
-  props<{ id: number }>()
+  props<{ id: string }>()
 );
 
 export const DecreamentCartItem = createAction(
   "[Button DecreamentCart] DecreamentCartItem",
-  props<{ id: number }>()
+  props<{ id: string }>()
 );
 export const UpdateCartItemUnit = createAction(
   "[Textbox UpdateCartItemUnit] UpdateCartItemUnit",
-  props<{ id: number; orderedUnit: number }>()
+  props<{ id: string; orderedUnit: number }>()
 );
 
 export const ClearCartItems = createAction(
@@ -34,7 +34,7 @@ export const ClearCartItems = createAction(
 //
 export const onIncreamentCartItem = on(
   IncreamentCartItem,
-  (state: AppState, item: { id: number }) => {
+  (state: AppState, item: { id: string }) => {
     const nextState = produce(state, (draftState) => {
       const itemExist = draftState.cart.find((a) => a.id === item.id);
       if (itemExist) {
@@ -56,7 +56,7 @@ export const onClearCartItem = on(ClearCartItems, (state: AppState) => {
 
 export const onDecreamentCartItem = on(
   DecreamentCartItem,
-  (state: AppState, item: { id: number }) => {
+  (state: AppState, item: { id: string }) => {
     const nextState = produce(state, (draftState) => {
       const itemExist = draftState.cart.find((a) => a.id === item.id);
       if (itemExist) {
@@ -73,7 +73,7 @@ export const onDecreamentCartItem = on(
 //
 export const onUpdateCartItemUnit = on(
   UpdateCartItemUnit,
-  (state: AppState, item: { id: number; orderedUnit: number }) => {
+  (state: AppState, item: { id: string; orderedUnit: number }) => {
     const nextState = produce(state, (draftState) => {
       const itemExist = draftState.cart.find((a) => a.id === item.id);
       if (itemExist && item.orderedUnit > 0) {
@@ -86,7 +86,7 @@ export const onUpdateCartItemUnit = on(
 
 export const onRemoveItemFromCart = on(
   RemoveItemFromCart,
-  (state: AppState, item: { id: number }) => {
+  (state: AppState, item: { id: string }) => {
     const nextState = produce(state, (draftState) => {
       draftState.cart = draftState.cart.filter((a) => a.id !== item.id);
     });

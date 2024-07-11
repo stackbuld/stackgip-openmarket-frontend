@@ -1,10 +1,12 @@
 <div class="main" *appAppShellRender>
-  <img
+  <a [href]="seoDomain" [style]="{'text-decoration': 'none'}">
+
+    <img
     [style]="{ cursor: 'pointer', delay: '0.5s' }"
     alt="home-nav"
-    routerLink="/"
     src="assets/image/quality-logo.svg"
-  />
+    />
+  </a>
   <div (click)="toggleSearch()" class="search-section uk-flex uk-flex-between">
     <div class="uk-flex">
       <svg
@@ -60,21 +62,21 @@
   </div>
 
   <div class="flex">
-    <span class="txt pointer uk-margin-small-left" routerLink="/seller-form"
-    >Sell</span
+    <a [style]="{'text-decoration': 'none'}" class="txt pointer uk-margin-small-left" href="{{seoDomain}}/seller-form"
+    >Sell</a
     >
     &nbsp; &nbsp; &nbsp;
-    <span class="txt pointer" routerLink="/learn-more">Learn More</span>
+    <a [style]="{'text-decoration': 'none'}" class="txt pointer" href="{{seoDomain}}/learn">Learn More</a>
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
     <!-- <span routerLink="/homepage/history" class="txt pointer">
       <img src="/assets/images/orders-iccn.svg" alt="orders-icn" />
     </span>
     &nbsp; &nbsp; &nbsp; -->
 
-    <span class="txt pointer cart-tag" routerLink="/homepage/checkout">
+    <a [style]="{'text-decoration': 'none'}" class="txt pointer cart-tag" href="{{seoDomain}}/cart">
       <span class="tag">{{ cartCount }}</span>
       <img alt="cart-icn" src="/assets/images/cart-icn.svg"/>
-    </span>
+    </a>
     &nbsp; &nbsp; &nbsp;
 
     <div class="uk-inline">

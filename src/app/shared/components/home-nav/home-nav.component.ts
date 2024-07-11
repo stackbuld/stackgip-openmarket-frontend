@@ -26,6 +26,7 @@ export class HomeNavComponent implements OnInit {
   cartCount = 0;
   user: IUser;
   referenceId: any;
+  seoDomain = environment.seoDomain;
 
   constructor(
     private categoryService: CategoryService,

@@ -72,7 +72,7 @@ export interface RecommendedProduct extends PromotedProduct {}
 
 // END OF RECOMMENDED PRODUCT MODEL
 export interface ProductModel {
-  id: number;
+  id: string;
   weight?: number;
   productOptions?: any;
   name: string;
@@ -80,10 +80,11 @@ export interface ProductModel {
   sellingPrice: number;
   previousPrice: number;
   description: string;
-  categoryId: number;
+  categoryId: string;
   category: Category;
   imageUrl: string;
   unit: number;
+  slug: string;
   productImages: string[];
   createdOn: string;
   paymentOptions: string;

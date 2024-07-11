@@ -66,12 +66,12 @@
             <div
               class="uk-position-medium uk-position-bottom-right shop-now-btn-container"
             >
-              <button
+              <a
                 class="ghost-button"
-                [routerLink]="i === 0 ? '/seller-form' : '/homepage/search'"
+                [href]="i === 0 ? seoSellerFormPage : seoProductsPage"
               >
                 {{ i === 0 ? "Sell now" : "Shop now" }}
-              </button>
+              </a>
             </div>
           </li>
         </ul>

@@ -16,7 +16,7 @@ export interface CreateInvoiceModel {
 }
 
 export interface CreateOrderDto {
-  productId: number;
+  productId: string;
   unit: number;
   price: number;
   discount: number;
