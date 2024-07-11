@@ -33,15 +33,15 @@ export class CartComponent implements OnInit {
     });
   }
 
-  updateCartItem(id: number, unit: any) {
+  updateCartItem(id: string, unit: any) {
     this.store.dispatch(UpdateCartItemUnit({ id, orderedUnit: unit }));
   }
 
-  incrementCartItem(id: number) {
+  incrementCartItem(id: string) {
     this.store.dispatch(IncreamentCartItem({ id }));
   }
 
-  decrementCartItem(id: number) {
+  decrementCartItem(id: string) {
     this.store.dispatch(DecreamentCartItem({ id }));
   }
   clearAll() {
