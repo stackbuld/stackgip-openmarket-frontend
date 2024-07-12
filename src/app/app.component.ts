@@ -25,6 +25,7 @@ const selectCounter = (state: AppState) => state.count;
 export const selectState = createFeatureSelector<AppState>('counterReducer');
 export const getcount = createSelector(selectState, selectCounter);
 declare var gtag: any;
+declare let clarity;
 
 @Component({
   selector: 'app-root',
@@ -34,6 +35,7 @@ declare var gtag: any;
 export class AppComponent implements OnInit {
   title = 'Renamarket -Most Reliable and Secured Ecommerce Website';
   count$: Observable<number>;
+
   user!: IUser;
 
   constructor(
@@ -54,6 +56,7 @@ export class AppComponent implements OnInit {
 
     this.pwaService.initPwaPrompt();
 
+
     if (!JSON.parse(localStorage.getItem('isPwaPromptCancelled'))) {
       this.pwaService.showModal.pipe(take(1)).subscribe((status) => {
         if (status) {
@@ -69,7 +72,25 @@ export class AppComponent implements OnInit {
         name: this.user.firstName + ' ' + this.user.lastName,
         email: this.user.email,
       });
-    }
+    
+  // microsoft clarity integration
+  // @ts-ignore
+  if (window.clarity) {
+     clarity(
+       'identify',
+       this.user.id,
+       this.user.email,
+       this.user.phoneNumber,
+       `${this.user.firstName} ${this.user.lastName}`
+     );
+    clarity('set', 'user_id', this.user.id);
+    clarity('set', 'email', this.user.email);
+    clarity('set', 'phone_number', this.user.phoneNumber);
+    clarity('set', 'full_name', `${this.user.firstName} ${this.user.lastName}`);
+  }
+  }
+
+
   }
 
   handleRouteEvents() {

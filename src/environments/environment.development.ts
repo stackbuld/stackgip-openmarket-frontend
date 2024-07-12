@@ -14,6 +14,7 @@ export const environment = {
   walletApi: 'https://dev-wallet.renamarkets.com/api/v1/',
   cookieDomain: 'localhost', // should be .renamarkets.com on production and for  .staging.renamarkets.com
   seoDomain: 'https://renamarket-ecommerce-seo-next-v2.vercel.app',
+  msClarityProjectId: 'n5lxnxt0d0',
   algolia: {
     appId: 'FFW9XSFVBK',
     apiKey: '8e009ce54b2cb72e747aad9fb4ca822c',

@@ -1,5 +1,3 @@
-import { UpdateProfileAction } from './../reducers/action/auth.action';
-import { IUpdatePassword } from './../models/auth-model';
 import {
   GetWssUrlResponse,
   IResponseModel,
@@ -7,25 +5,15 @@ import {
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {
-  Observable,
-  BehaviorSubject,
-  of,
-  Subscription,
-  firstValueFrom,
-} from 'rxjs';
+import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
 import { IUser } from '../models/IUserModel';
 import { ApiAppUrlService } from './api-app-url.service';
-import {
-  SignInModel,
-  SiginResponseModel,
-  ISignIn,
-} from '../models/signin-model';
+import { SiginResponseModel, ISignIn } from '../models/signin-model';
 import { RegisterModel, RegisterResponseModel } from '../models/register-model';
 import { IForgetModel, IForgetPasswordModel } from '../models/auth-model';
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers';
-import { LoginAction, LogOutAction } from '../reducers/action/auth.action';
+import { LogOutAction } from '../reducers/action/auth.action';
 import { v4 as uuidv4 } from 'uuid';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { delay, filter, tap } from 'rxjs/operators';
@@ -34,10 +22,9 @@ import { JwtHelperService } from './jwt-helper.service';
 import { ToastrService } from 'ngx-toastr';
 import uikit from 'uikit';
 import { AppLocalStorage } from '../helpers/local-storage';
-import { H } from 'highlight.run';
 import { datadogRum } from '@datadog/browser-rum';
 import Cookies from 'js-cookie';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 declare var clarity: any;
 export interface IAuth {
   isLoggedId: boolean;
@@ -70,7 +57,7 @@ export class AuthService {
     // private socialAuthService: SocialAuthService,
     private router: Router,
     private jwtHelperService: JwtHelperService,
-    private toast: ToastrService,
+    private toast: ToastrService
   ) {
     const userData = this.GetSignInData();
     if (userData != null) {
@@ -83,27 +70,26 @@ export class AuthService {
       .subscribe((event: any) => (this.currentUrl = event.url));
   }
 
-
   public signIn(signInModel: any): Observable<SiginResponseModel> {
     return this.http.post<SiginResponseModel>(
       this.api.baseApiUrl + 'Auth/Login',
-      signInModel,
+      signInModel
     );
   }
 
   public register(
-    registerModel: RegisterModel,
+    registerModel: RegisterModel
   ): Observable<RegisterResponseModel> {
     return this.http.post<RegisterResponseModel>(
       this.api.baseApiUrl + 'auth/register',
-      registerModel,
+      registerModel
     );
   }
 
   public GoogleSignIn(token): Observable<SiginResponseModel> {
     return this.http.post<SiginResponseModel>(
       this.api.baseApiUrl + 'Auth/Google',
-      { idToken: token },
+      { idToken: token }
     );
   }
 
@@ -183,7 +169,7 @@ export class AuthService {
   public FacebookSignIn(userId, token): Observable<SiginResponseModel> {
     return this.http.post<SiginResponseModel>(
       this.api.baseApiUrl + 'Auth/Facebook',
-      { token, userId },
+      { token, userId }
     );
   }
 
@@ -222,28 +208,28 @@ export class AuthService {
   public SendForgetPassword(forget: IForgetModel): Observable<IResponseModel> {
     return this.http.post<IResponseModel>(
       this.api.baseApiUrl + 'Auth/Password/forgot',
-      forget,
+      forget
     );
   }
 
   public ForgetPassword(
-    forgetPassword: IForgetPasswordModel,
+    forgetPassword: IForgetPasswordModel
   ): Observable<IResponseModel> {
     return this.http.patch<IResponseModel>(
       this.api.baseApiUrl + 'auth/Password/reset',
-      forgetPassword,
+      forgetPassword
     );
   }
 
   public SendConfirmationEmail(email: string): Observable<IResponseModel> {
     return this.http.get<IResponseModel>(
-      this.api.baseApiUrl + 'auth/verification/resend/?email=' + email,
+      this.api.baseApiUrl + 'auth/verification/resend/?email=' + email
     );
   }
 
   public resendConfirmationEmail(email: string) {
     return this.http.get(
-      this.api.baseApiUrl + 'auth/verification/resend?email=' + email,
+      this.api.baseApiUrl + 'auth/verification/resend?email=' + email
     );
   }
 
@@ -258,7 +244,7 @@ export class AuthService {
   updatePin(credentials: { newPin: string; phoneOtp: string }) {
     return this.http.patch<OTPVerificationResponse>(
       this.api.baseApiUrl + 'auth/pin/change',
-      credentials,
+      credentials
     );
   }
 
@@ -269,13 +255,13 @@ export class AuthService {
   verifyPersonalPhoneNumber(credentials: { phoneNumber: string; otp: string }) {
     return this.http.put<OTPVerificationResponse>(
       this.api.baseApiUrl + 'users/phonenumber/verify',
-      credentials,
+      credentials
     );
   }
 
   sendBusinessPhoneOTP() {
     return this.http.get(
-      this.api.baseApiUrl + 'sellers/businessphone/send-otp',
+      this.api.baseApiUrl + 'sellers/businessphone/send-otp'
     );
   }
 
@@ -285,16 +271,16 @@ export class AuthService {
   }) {
     return this.http.put<OTPVerificationResponse>(
       this.api.baseApiUrl + 'sellers/businessphone/verify',
-      credentials,
+      credentials
     );
   }
 
   public ConfirmEmail(
     email: string,
-    token: string,
+    token: string
   ): Observable<IResponseModel> {
     return this.http.get<IResponseModel>(
-      this.api.baseApiUrl + `Auth/verification?userId=${email}&token=${token}`,
+      this.api.baseApiUrl + `Auth/verification?userId=${email}&token=${token}`
     );
   }
 
@@ -313,7 +299,7 @@ export class AuthService {
       expires: 5, // 1 day
       domain: cookieDomain, // Replace with your main domain
       secure: true,
-      sameSite: 'Strict'
+      sameSite: 'Strict',
     };
     Cookies.set('token', a.data.auth_token, cookieSetting);
     Cookies.set('siginResponse', JSON.stringify(a.data), cookieSetting);
@@ -325,6 +311,7 @@ export class AuthService {
   public Logout() {
     this.isLogin.next(false);
     localStorage.clear();
+    sessionStorage.clear();
     const cookieDomain = environment.cookieDomain ?? '.renamarkets.com';
     Cookies.remove('token', { domain: cookieDomain });
     Cookies.remove('siginResponse', { domain: cookieDomain });
@@ -332,14 +319,13 @@ export class AuthService {
     Cookies.remove('role', { domain: cookieDomain });
     Cookies.remove('user', { domain: cookieDomain });
 
-
     this.store.dispatch(LogOutAction());
   }
 
   public GetSignInData(): ISignIn {
     let datastr = Cookies.get('siginResponse');
-    if(!datastr){
-       datastr = localStorage.getItem('siginResponse');
+    if (!datastr) {
+      datastr = localStorage.getItem('siginResponse');
     }
 
     const data = JSON.parse(datastr) as ISignIn;
@@ -349,8 +335,8 @@ export class AuthService {
 
   public getLoggedInUser(): IUser {
     let user = Cookies.get('user');
-    if(!user){
-       user = localStorage.getItem('user');
+    if (!user) {
+      user = localStorage.getItem('user');
     }
     if (user) {
       const userJson: IUser = JSON.parse(user);
@@ -364,7 +350,7 @@ export class AuthService {
   }): Observable<IResponseModel> {
     return this.http.patch<IResponseModel>(
       this.api.baseApiUrl + 'auth/password/change',
-      credentials,
+      credentials
     );
   }
 
@@ -375,7 +361,7 @@ export class AuthService {
   deactivateSeller(data: { otp: string }) {
     return this.http.put<OTPVerificationResponse>(
       this.api.baseApiUrl + 'auth/deactivate',
-      data,
+      data
     );
   }
 
@@ -386,7 +372,7 @@ export class AuthService {
   activateSeller(data: { email: string; otp: string }) {
     return this.http.put<OTPVerificationResponse>(
       this.api.baseApiUrl + 'auth/activate',
-      data,
+      data
     );
   }
 
@@ -427,9 +413,9 @@ export class AuthService {
           this.setLocalStorageItemWithExpiry(
             'notificationWssUrl',
             a?.wssUrl,
-            60 * 24,
+            60 * 24
           );
-        }),
+        })
       );
       return wssUrlResponse;
     } else {
@@ -466,26 +452,32 @@ export class AuthService {
     } catch {}
     const user = res.data.user;
 
-    H.identify(user.email, {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-    });
+    //highlight integration
+    // H.identify(user.email, {
+    //   id: user.id,
+    //   firstName: user.firstName,
+    //   lastName: user.lastName,
+    // });
 
     datadogRum.setUser({
       id: user.id,
       name: user.firstName + ' ' + user.lastName,
       email: user.email,
     });
-
     // @ts-ignore
-    window.clarity(
-      'identify',
-      user.email,
-      'custom-session-123',
-      'custom-session-123',
-      user.firstName + ' ' + user.lastName,
-    );
+    if (window.clarity) {
+      clarity(
+        'identify',
+        user.id,
+        user.email,
+        user.phoneNumber,
+        `${user.firstName} ${user.lastName}`
+      );
+      clarity('set', 'user_id', user.id);
+      clarity('set', 'email', user.email);
+      clarity('set', 'phone_number', user.phoneNumber);
+      clarity('set', 'full_name', user.firstName + ' ' + user.lastName);
+    }
 
     this.ngxService.stopAll();
     if (
@@ -547,7 +539,7 @@ export class AuthService {
       }
 
       this.toast.success(
-        `${accessType === 'signin' ? 'Login' : 'Signup'} Successful`,
+        `${accessType === 'signin' ? 'Login' : 'Signup'} Successful`
       );
     }
     this.isLogin.next(true);
