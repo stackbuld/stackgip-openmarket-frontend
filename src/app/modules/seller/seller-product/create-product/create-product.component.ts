@@ -344,9 +344,6 @@ export class CreateProductComponent
       });
   }
 
-  displayCategory(category: ICategory): string {
-    return category.name;
-  }
 
   preventLetter(evt: any): boolean {
     var charCode = evt.which ? evt.which : evt.keyCode;
@@ -949,6 +946,7 @@ export class CreateProductComponent
   mainSaveAsDrafts() {
     const model: CreateProductDto = {
       ...this.form.value,
+      createdByAdmin: false,
       categoryId: this.selectedCategoryId ?? this.form.value.category.id,
       videoUrls: this.videoUrls,
       options: [...this.relatedItems, ...this.allVariantList],

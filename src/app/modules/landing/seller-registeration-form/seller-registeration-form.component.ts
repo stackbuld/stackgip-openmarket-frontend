@@ -2,6 +2,7 @@ import {
   AfterViewChecked,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -23,7 +24,7 @@ import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import { ResponseModel } from 'src/app/shared/models/ResponseModel';
 import { ToastrService } from 'src/app/services/toastr.service';
-import { LocationStrategy } from '@angular/common';
+import { DOCUMENT, LocationStrategy } from '@angular/common';
 import { countryCodes } from '../../../data/countryCodes';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
@@ -70,6 +71,8 @@ export class SellerRegisterationFormComponent
   termsAndConditions: string = environment.termsAndConditionsUrl;
   uploadBusinessDocuments!: any;
   businessDocuments: { fileName: string; url: string }[] = [];
+  seoDomain = environment.seoDomain;
+  window = inject(DOCUMENT).defaultView;
 
   constructor(
     private fb: FormBuilder,
@@ -90,6 +93,10 @@ export class SellerRegisterationFormComponent
   }
 
   ngOnInit(): void {
+ window?.open(
+      `${this.seoDomain}/seller-form`,
+      '_self'
+    );
     this.authService.isLogin.subscribe((a) => {
       if (a) {
         this.user = JSON.parse(localStorage.getItem('user')) as IUser;

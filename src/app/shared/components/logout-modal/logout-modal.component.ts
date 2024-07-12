@@ -23,8 +23,7 @@ export class LogoutModalComponent {
     }
 
     onLogout() {
-        localStorage.clear();
-        sessionStorage.clear();
+        this.authService.Logout();
         this.authService.isLogin.next(false)
         this.applocal.currentUser.next(null);
         this.onCancel();

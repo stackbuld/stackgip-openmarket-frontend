@@ -42,6 +42,7 @@ export class ProductPreview {
 
   ngOnInit(): void {
     this.previewDesc = this.safeHtml.transform(this.form.value.description);
+    console.log(this.complementaryImagesStore)
   }
 
   changeUnit(unit: number, type: string): void {
@@ -56,6 +57,7 @@ export class ProductPreview {
     this.creatingProduct = true;
     const model: CreateProductDto = {
       ...this.form.value,
+      createdByAdmin: false,
       categoryId: this.selectedCategoryId ?? this.form.value.category.id,
       videoUrls: this.videoUrls,
       options: [...this.relatedItems, ...this.allVariantList],
@@ -64,7 +66,7 @@ export class ProductPreview {
     this.productService.createNewProduct(model).subscribe({
       next: (res) => {
         if (res.status === 'success') {
-          this.toast.success('Product saved as draft Successful!');
+          this.toast.success('Product created", "Success');
           this.router.navigate(['/seller/products']);
           this.creatingProduct = false;
           localStorage.removeItem('compImagesStore');

@@ -14,7 +14,7 @@ import { ToastrService } from 'src/app/services/toastr.service';
     [style]="{ width: '500px' }"
     [breakpoints]="{ '1199px': '500px', '575px': '95vw' }"
   >
-    <p>Are you sure want to delete this product.</p>
+    <p>Are you sure you want to delete this product.</p>
 
     <ng-template pTemplate="footer">
       <p-button
