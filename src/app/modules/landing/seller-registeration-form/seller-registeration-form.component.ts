@@ -93,10 +93,6 @@ export class SellerRegisterationFormComponent
   }
 
   ngOnInit(): void {
- window?.open(
-      `${this.seoDomain}/seller-form`,
-      '_self'
-    );
     this.authService.isLogin.subscribe((a) => {
       if (a) {
         this.user = JSON.parse(localStorage.getItem('user')) as IUser;

@@ -465,7 +465,7 @@ export class AuthService {
       email: user.email,
     });
     // @ts-ignore
-    if (window.clarity) {
+    if (window.clarity && user) {
       clarity(
         'identify',
         user.id,

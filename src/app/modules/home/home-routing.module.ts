@@ -9,6 +9,10 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
 import { SellerStorefrontComponent } from './seller-storefront/seller-storefront.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import {
+  sellerStoreGuard,
+  singleProductGuard,
+} from 'src/app/guard/redirects.guard';
 
 const routes: Routes = [
   {
@@ -16,7 +20,11 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       { path: '', component: HomePageComponent },
-      { path: 'product/:id', component: SingleProductComponent },
+      {
+        path: 'product/:id',
+        component: SingleProductComponent,
+        canActivate: [singleProductGuard],
+      },
       { path: 'checkout', component: ProductCheckoutComponent },
       { path: 'details/:id', component: OrderDetailsComponent },
       { path: 'history', component: OrderHistoryComponent },
@@ -25,6 +33,7 @@ const routes: Routes = [
       {
         path: 'seller-store/:sellerId',
         component: SellerStorefrontComponent,
+        canActivate: [sellerStoreGuard],
       },
       {
         path: 'wallet',
@@ -42,7 +51,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), ],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
 export class HomeRoutingModule {}

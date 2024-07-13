@@ -440,10 +440,7 @@ export class SingleProductComponent implements OnInit {
       next: (res) => {
         this.isLoadingDetails = false;
         this.product = res.data;
-        if(this.product.slug){
-          this.windowRef.nativeWindow.open(`${environment.seoDomain}/product/${this.product.slug}`, '_self');
-          return;
-        }
+     
         this.loadingProductDescription = false;
         this.sellerStores = res.data?.sellerStores;
 
