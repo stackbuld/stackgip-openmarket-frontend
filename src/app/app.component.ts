@@ -19,6 +19,7 @@ import { PwaPromptComponent } from './shared/components/pwa-prompt/pwa-prompt.co
 import { IUser } from './models/IUserModel';
 import { datadogRum } from '@datadog/browser-rum';
 import { PrimeNGConfig } from 'primeng/api';
+import {AuthService} from './services/auth.service';
 
 const selectCounter = (state: AppState) => state.count;
 
@@ -45,7 +46,8 @@ export class AppComponent implements OnInit {
     private titleService: Title,
     @Inject(DOCUMENT) private document: Document,
     private pwaService: PwaService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService,
   ) {
     this.handleRouteEvents();
   }
@@ -64,18 +66,18 @@ export class AppComponent implements OnInit {
         }
       });
     }
-
-    this.user = JSON.parse(localStorage.getItem('user')!);
+    const signedInUser = this.authService.getLoggedInUser();
+    this.user =  signedInUser;// JSON.parse(localStorage.getItem('user')!);
     if (this.user) {
       datadogRum.setUser({
         id: this.user.id,
         name: this.user.firstName + ' ' + this.user.lastName,
         email: this.user.email,
       });
-    
+
   // microsoft clarity integration
   // @ts-ignore
-  if (window.clarity) {
+  if (window.clarity && this.user) {
      clarity(
        'identify',
        this.user.id,

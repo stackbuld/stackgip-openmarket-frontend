@@ -39,7 +39,7 @@ const routes: Routes = [
       {path: 'market-place', component: MarketPlaceComponent},
       {path: 'wait-list', component: JoinWaitlistComponent},
       {path: 'join', component: SuccessModalComponent},
-      {path: 'cart', component: CartComponent},
+      {path: 'cart',   component: CartComponent},
       {path: 'checkout', component: CheckoutComponent},
       {path: 'home', component: IndexComponent},
       {path: 'products', component: ListProductComponent},
