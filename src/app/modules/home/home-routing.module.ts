@@ -10,8 +10,8 @@ import { PaymentConfirmationComponent } from './payment-confirmation/payment-con
 import { SellerStorefrontComponent } from './seller-storefront/seller-storefront.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import {
-  sellerStoreGuard,
-  singleProductGuard,
+  sellerStoreRedirectGuard,
+  singleProductRedirectGuard,
 } from 'src/app/guard/redirects.guard';
 
 const routes: Routes = [
@@ -23,7 +23,7 @@ const routes: Routes = [
       {
         path: 'product/:id',
         component: SingleProductComponent,
-        canActivate: [singleProductGuard],
+        canActivate: [singleProductRedirectGuard],
       },
       { path: 'checkout', component: ProductCheckoutComponent },
       { path: 'details/:id', component: OrderDetailsComponent },
@@ -33,7 +33,7 @@ const routes: Routes = [
       {
         path: 'seller-store/:sellerId',
         component: SellerStorefrontComponent,
-        canActivate: [sellerStoreGuard],
+        canActivate: [sellerStoreRedirectGuard],
       },
       {
         path: 'wallet',

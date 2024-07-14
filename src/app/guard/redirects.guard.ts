@@ -10,7 +10,7 @@ import { inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { DOCUMENT } from '@angular/common';
 
-export const singleProductGuard: CanActivateFn = (
+export const singleProductRedirectGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ):
@@ -35,7 +35,7 @@ export const singleProductGuard: CanActivateFn = (
   return false;
 };
 
-export const sellerStoreGuard: CanActivateFn = (
+export const sellerStoreRedirectGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ):
@@ -51,7 +51,7 @@ export const sellerStoreGuard: CanActivateFn = (
   return false;
 };
 
-export const cartGuard: CanActivateFn = (
+export const cartRedirectGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ):
@@ -65,7 +65,7 @@ export const cartGuard: CanActivateFn = (
   return false;
 };
 
-export const learnMoreGuard: CanActivateFn = (
+export const learnMoreRedirectGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ):
@@ -78,7 +78,7 @@ export const learnMoreGuard: CanActivateFn = (
   return false;
 };
 
-export const sellerFormGuard: CanActivateFn = (
+export const sellerFormRedirectGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ):

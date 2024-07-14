@@ -23,9 +23,9 @@ import { AuthGuard } from 'src/app/guard/auth.guard';
 import { OrderComponent } from './order/order.component';
 import { environment } from 'src/environments/environment';
 import {
-  learnMoreGuard,
-  cartGuard,
-  sellerFormGuard,
+  learnMoreRedirectGuard,
+  cartRedirectGuard,
+  sellerRedirectFormGuard,
 } from 'src/app/guard/redirects.guard';
 
 const routes: Routes = [
@@ -37,7 +37,7 @@ const routes: Routes = [
       {
         path: 'learn-more',
         component: HomeLandingComponent,
-        canActivate: [learnMoreGuard],
+        canActivate: [learnMoreRedirectGuard],
       },
       { path: 'ourservices', component: OurservicesComponent },
       { path: 'private-policy', component: PrivatePolicyComponent },
@@ -49,14 +49,18 @@ const routes: Routes = [
       { path: 'market-place', component: MarketPlaceComponent },
       { path: 'wait-list', component: JoinWaitlistComponent },
       { path: 'join', component: SuccessModalComponent },
-      { path: 'cart', component: CartComponent, canActivate: [cartGuard] },
+      {
+        path: 'cart',
+        component: CartComponent,
+        canActivate: [cartRedirectGuard],
+      },
       { path: 'checkout', component: CheckoutComponent },
       { path: 'home', component: IndexComponent },
       { path: 'products', component: ListProductComponent },
       {
         path: 'seller-form',
         component: SellerRegisterationFormComponent,
-        canActivate: [sellerFormGuard],
+        canActivate: [sellerFormRedirectGuard],
       },
       { path: 'orders', component: OrderComponent, canActivate: [AuthGuard] },
       {
