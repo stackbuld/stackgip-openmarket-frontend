@@ -25,7 +25,7 @@ import { environment } from 'src/environments/environment';
 import {
   learnMoreRedirectGuard,
   cartRedirectGuard,
-  sellerRedirectFormGuard,
+  sellerFormRedirectGuard,
 } from 'src/app/guard/redirects.guard';
 
 const routes: Routes = [
