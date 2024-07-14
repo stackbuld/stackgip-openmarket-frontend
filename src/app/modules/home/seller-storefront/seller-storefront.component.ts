@@ -34,20 +34,12 @@ export class SellerStorefrontComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private sellerStorefrontService: SellerStorefrontService,
-    private toaster: ToastrService,
-    private windowRef: WindowRefService
+    private toaster: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.sellerId = params.get('sellerId');
-      if(this.sellerId){
-          this.windowRef.nativeWindow.open(
-            `${environment.seoDomain}/seller/${this.sellerId}`,
-            '_self'
-          );
-          return;
-      }
     });
 
     let unchangedBannerUrl: string;

@@ -28,11 +28,7 @@ export class CartComponent implements OnInit {
   window = inject(DOCUMENT).defaultView;
 
   ngOnInit(): void {
-        window?.open(
-          `${this.seoDomain}/seller-form`,
-          '_self'
-        );
-    this.carts$ = this.store.select(getCart);
+      this.carts$ = this.store.select(getCart);
     this.carts$.subscribe((items) => {
       let total = 0;
       for (const item of items) {
