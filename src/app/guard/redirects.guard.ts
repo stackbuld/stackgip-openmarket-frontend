@@ -10,6 +10,20 @@ import { inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { DOCUMENT } from '@angular/common';
 
+
+export const homeRedirectGuard: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+):
+  | Observable<boolean | UrlTree>
+  | Promise<boolean | UrlTree>
+  | boolean
+  | UrlTree => {
+  const windowRef = inject(DOCUMENT).defaultView;
+  windowRef.open(`${environment.seoDomain}`, '_self');
+  return false;
+};
+
 export const singleProductRedirectGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
@@ -60,7 +74,6 @@ export const cartRedirectGuard: CanActivateFn = (
   | boolean
   | UrlTree => {
   const windowRef = inject(DOCUMENT).defaultView;
-
   windowRef.open(`${environment.seoDomain}/cart`, '_self');
   return false;
 };

@@ -12,6 +12,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import {
   sellerStoreRedirectGuard,
   singleProductRedirectGuard,
+  homeRedirectGuard
 } from 'src/app/guard/redirects.guard';
 
 const routes: Routes = [
@@ -19,7 +20,11 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     children: [
-      { path: '', component: HomePageComponent },
+      {
+        path: '',
+        component: HomePageComponent,
+        canActivate: [homeRedirectGuard],
+      },
       {
         path: 'product/:id',
         component: SingleProductComponent,

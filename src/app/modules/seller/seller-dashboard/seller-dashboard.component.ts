@@ -1,7 +1,10 @@
+import { Router } from '@angular/router';
 import { DashboardService } from '../../../services/dashboard/dashboard.service';
 import { Component, OnInit } from '@angular/core';
 import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-seller-dashboard',
@@ -56,13 +59,21 @@ export class SellerDashboardComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private userService: UserService,
+    private authService: AuthService,
+    private toast: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('user'));
-    this.getDashboardData();
-    this.getMostSelling();
-    this.getUserDetails();
+    this.user = this.authService.getLoggedInUser();
+    if(this.user){
+      this.getDashboardData();
+      this.getMostSelling();
+      this.getUserDetails();
+    }else{
+      this.toast.error("User not found. Please logout if you are already logged in and login again.");
+      this.router.navigate(['/homepage'])
+    }
   }
 
   getUserDetails() {
@@ -76,7 +87,7 @@ export class SellerDashboardComponent implements OnInit {
 
   getDashboardData() {
     this.loadingSummary = true;
-    this.dashboardService.getSellerDashboardSummary(this.user.id).subscribe({
+    this.dashboardService.getSellerDashboardSummary(this.user?.id).subscribe({
       next: (res) => {
         this.dashboardData = res.data;
         this.loadingSummary = false;
