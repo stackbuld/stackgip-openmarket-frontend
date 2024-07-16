@@ -25,7 +25,6 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    debugger;
     let isLogin: boolean;
     const signInData = this.authService.GetSignInData();
     if (signInData) {
