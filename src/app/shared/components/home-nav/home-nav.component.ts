@@ -41,7 +41,7 @@ export class HomeNavComponent implements OnInit {
     private searchService: SearchService,
     private dialog: MatDialog
   ) {
-    // this.user = JSON.parse(localStorage.getItem('user'));
+    // this.user = this.authService.getLoggedInUser());
   }
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class HomeNavComponent implements OnInit {
       if (res) {
         this.user = res;
       } else {
-        this.user = JSON.parse(localStorage.getItem('user'));
+        this.user = this.authService.getLoggedInUser();
       }
     });
     this.appLocalStorage.productViewed.subscribe((res) => {

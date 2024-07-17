@@ -208,13 +208,13 @@ export class SingleProductComponent implements OnInit {
     });
     this.footerService.setShowFooter(true);
     this.referenceId = this.authService.getUserReferenceNumber();
-    // this.user = JSON.parse(localStorage.getItem('user') as string) as IUser;
+    // this.user = this.authService.getLoggedInUser() as string) as IUser;
     this.applocal.currentUser.subscribe((res) => {
       if (res) {
         this.user = res as IUser;
         this.fetchUserAddresses();
       } else {
-        this.user = JSON.parse(localStorage.getItem('user') as string) as IUser;
+        this.user = this.authService.getLoggedInUser() as IUser;
       }
     });
     this.getParams();

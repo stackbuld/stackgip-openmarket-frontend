@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import { AlertService } from '../services/alert.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-wallet',
@@ -28,13 +29,14 @@ export class WalletComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private walletService: WalletService,
     private alert: AlertService,
-    private sellerService: SellerService
+    private sellerService: SellerService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.currentRoute = this.router.url.split('/');
 
-    this.user = JSON.parse(localStorage.getItem('user'));
+    this.user = this.authService.getLoggedInUser();
     this.getWalletDetails();
     this.getSeller();
     this.walletService.walletRefresh

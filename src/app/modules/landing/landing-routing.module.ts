@@ -21,11 +21,12 @@ import { SellerRegisterationFormComponent } from './seller-registeration-form/se
 import { OrderInvoiceComponent } from '../../shared/components/order-invoice/order-invoice.component';
 import { AuthGuard } from 'src/app/guard/auth.guard';
 import { OrderComponent } from './order/order.component';
-import { environment } from 'src/environments/environment';
+
 import {
   learnMoreRedirectGuard,
   cartRedirectGuard,
   sellerFormRedirectGuard,
+  
 } from 'src/app/guard/redirects.guard';
 
 const routes: Routes = [
@@ -33,7 +34,10 @@ const routes: Routes = [
     path: '',
     component: LandingComponent,
     children: [
-      { path: '', component: HomeLandingComponent },
+      {
+        path: '',
+        component: HomeLandingComponent,
+      },
       {
         path: 'learn-more',
         component: HomeLandingComponent,

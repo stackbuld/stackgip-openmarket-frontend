@@ -42,7 +42,6 @@ export class ProductPreview {
 
   ngOnInit(): void {
     this.previewDesc = this.safeHtml.transform(this.form.value.description);
-    console.log(this.complementaryImagesStore)
   }
 
   changeUnit(unit: number, type: string): void {

@@ -33,7 +33,7 @@ export interface CloudinaryUploadWidgetConfig {
   multiple?: boolean;
   resourceType?: string;
   defaultSource?: string;
-  styles?: any; // Adjust the type as per your style object structure
+  styles?: any;
   folder?: string;
   tags?: string[];
   context?: { [key: string]: string };
@@ -47,7 +47,7 @@ export interface CloudinaryUploadWidgetConfig {
   autoUpload?: boolean;
   theme?: string;
   language?: string;
-  text?: { [key: string]: any }; // Adjust the type as per your text object structure
+  text?: { [key: string]: any };
   thumbnails?: boolean;
   thumbnailTransformation?: any[];
 }
