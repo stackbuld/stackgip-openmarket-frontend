@@ -19,7 +19,7 @@ import { PwaPromptComponent } from './shared/components/pwa-prompt/pwa-prompt.co
 import { IUser } from './models/IUserModel';
 import { datadogRum } from '@datadog/browser-rum';
 import { PrimeNGConfig } from 'primeng/api';
-import {AuthService} from './services/auth.service';
+import { AuthService } from './services/auth.service';
 
 const selectCounter = (state: AppState) => state.count;
 
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     private pwaService: PwaService,
     private dialog: MatDialog,
-    private authService: AuthService,
+    private authService: AuthService
   ) {
     this.handleRouteEvents();
   }
@@ -58,7 +58,6 @@ export class AppComponent implements OnInit {
 
     this.pwaService.initPwaPrompt();
 
-
     if (!JSON.parse(localStorage.getItem('isPwaPromptCancelled'))) {
       this.pwaService.showModal.pipe(take(1)).subscribe((status) => {
         if (status) {
@@ -67,7 +66,7 @@ export class AppComponent implements OnInit {
       });
     }
     const signedInUser = this.authService.getLoggedInUser();
-    this.user =  signedInUser;// JSON.parse(localStorage.getItem('user')!);
+    this.user = signedInUser; // this.authService.getLoggedInUser()!);
     if (this.user) {
       datadogRum.setUser({
         id: this.user.id,
@@ -75,24 +74,26 @@ export class AppComponent implements OnInit {
         email: this.user.email,
       });
 
-  // microsoft clarity integration
-  // @ts-ignore
-  if (window.clarity && this.user) {
-     clarity(
-       'identify',
-       this.user.id,
-       this.user.email,
-       this.user.phoneNumber,
-       `${this.user.firstName} ${this.user.lastName}`
-     );
-    clarity('set', 'user_id', this.user.id);
-    clarity('set', 'email', this.user.email);
-    clarity('set', 'phone_number', this.user.phoneNumber);
-    clarity('set', 'full_name', `${this.user.firstName} ${this.user.lastName}`);
-  }
-  }
-
-
+      // microsoft clarity integration
+      // @ts-ignore
+      if (window.clarity && this.user) {
+        clarity(
+          'identify',
+          this.user.id,
+          this.user.email,
+          this.user.phoneNumber,
+          `${this.user.firstName} ${this.user.lastName}`
+        );
+        clarity('set', 'user_id', this.user.id);
+        clarity('set', 'email', this.user.email);
+        clarity('set', 'phone_number', this.user.phoneNumber);
+        clarity(
+          'set',
+          'full_name',
+          `${this.user.firstName} ${this.user.lastName}`
+        );
+      }
+    }
   }
 
   handleRouteEvents() {

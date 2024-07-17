@@ -95,7 +95,7 @@ export class SellerRegisterationFormComponent
   ngOnInit(): void {
     this.authService.isLogin.subscribe((a) => {
       if (a) {
-        this.user = JSON.parse(localStorage.getItem('user')) as IUser;
+        this.user = this.authService.getLoggedInUser() as IUser;
       }
     });
 

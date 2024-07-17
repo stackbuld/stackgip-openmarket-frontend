@@ -19,6 +19,7 @@ import { WalletKycPromptComponent } from '../wallet-kyc-prompt/wallet-kyc-prompt
 import { Router } from '@angular/router';
 import e from 'express';
 import { bankData } from 'src/app/models/wallet.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-wallet-withdraw',
@@ -64,11 +65,12 @@ export class WalletWithdrawComponent {
     private ngxService: NgxUiLoaderService,
     private otpService: OtpService,
     private toast: ToastrService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('user') as string);
+    this.user = this.authService.getLoggedInUser();
     this.getBanks();
     this.getBankAccount();
     this.walletService.getWalletInfo.subscribe((data) => {

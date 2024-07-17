@@ -5,6 +5,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-view-product',
@@ -32,13 +33,14 @@ export class ViewProductComponent implements OnInit {
     private toastservice: ToastrService,
     private router: Router,
     private productService: ProductsService,
+    private authService: AuthService,
     @Inject(DOCUMENT) private document: Document
   ) {}
 
   ngOnInit(): void {
     this.document.body.scrollTop = 0;
     this.document.documentElement.scrollTop = 0;
-    this.user = JSON.parse(localStorage.getItem('user'));
+    this.user = this.authService.getLoggedInUser();
 
     this.activatedRoute.params.subscribe((param) => {
       this.id = param['id'];
