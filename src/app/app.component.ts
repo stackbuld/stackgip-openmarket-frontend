@@ -58,7 +58,7 @@ export class AppComponent implements OnInit {
 
     this.pwaService.initPwaPrompt();
 
-    if (!JSON.parse(localStorage.getItem('isPwaPromptCancelled'))) {
+    if (!JSON.parse(localStorage.getItem('isPwaPromptCancelled')!)) {
       this.pwaService.showModal.pipe(take(1)).subscribe((status) => {
         if (status) {
           this.dialog.open(PwaPromptComponent, { position: { top: '40px' } });
@@ -114,7 +114,7 @@ export class AppComponent implements OnInit {
   }
 
   getTitle(state: RouterState, parent: ActivatedRoute): string[] {
-    const data = [];
+    const data: any[] = [];
     if (parent && parent.snapshot.data && parent.snapshot.data['title']) {
       data.push(parent.snapshot.data['title']);
     }

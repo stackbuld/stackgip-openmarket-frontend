@@ -344,6 +344,14 @@ export class AuthService {
     }
   }
 
+  public getUserToken(): string | null{
+    let token: string = Cookies.get("token");
+    if(!token){
+      token = localStorage.getItem("token");
+    }
+    return token;
+  }
+
   public UpdatePassword(credentials: {
     newPassword: string;
     phoneOtp: string;

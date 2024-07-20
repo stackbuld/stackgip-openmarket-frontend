@@ -11,16 +11,17 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private api: ApiAppUrlService) {}
+  constructor(private api: ApiAppUrlService, private authService: AuthService) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const token: string = localStorage.getItem('token');
+    const token: string = this.authService.getUserToken();
     let authReq = req.clone();
     const identityUrl = authReq.url.search(this.api.baseApiUrl);
     const ecommerceUrl = authReq.url.search(this.api.ecommerceBaseUrl);

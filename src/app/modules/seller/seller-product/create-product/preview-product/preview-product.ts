@@ -65,7 +65,7 @@ export class ProductPreview {
     this.productService.createNewProduct(model).subscribe({
       next: (res) => {
         if (res.status === 'success') {
-          this.toast.success('Product created", "Success');
+          this.toast.success('Product created', 'Success');
           this.router.navigate(['/seller/products']);
           this.creatingProduct = false;
           localStorage.removeItem('compImagesStore');
