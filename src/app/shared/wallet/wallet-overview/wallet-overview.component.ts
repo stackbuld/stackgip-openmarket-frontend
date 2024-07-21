@@ -103,7 +103,6 @@ export class WalletOverviewComponent implements OnInit {
   }
 
   withdraw(): void {
-    console.log(this.user);
     if (this.user.sellerApprovalStatus == 'approved') {
       if (this.user.isKycVerified && this.user.isNINAdded) {
         this.router.navigateByUrl('/seller/wallet/withdraw');
@@ -112,7 +111,11 @@ export class WalletOverviewComponent implements OnInit {
       this.alert.open();
       return;
     }
-    this.router.navigateByUrl('/homepage/wallet/withdraw');
+    if (this.user.sellerApprovalStatus == 'failedKyc'){
+      this.alert.open();
+      return;
+    }
+      this.router.navigateByUrl('/homepage/wallet/withdraw');
   }
 
   get getTooltipMessage(): string {

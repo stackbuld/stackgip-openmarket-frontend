@@ -1,5 +1,5 @@
 <div class="seller-wallet-page">
-  <app-kyc-nin-snack-bar-alert *ngIf="user.sellerApprovalStatus == 'approved'" [isKycVerified]="user.isKycVerified"
+  <app-kyc-nin-snack-bar-alert *ngIf="user.sellerApprovalStatus == 'approved' || user.sellerApprovalStatus == 'failedKyc'" [isKycVerified]="user.isKycVerified"
     [isNinVerified]="user.isNINAdded" />
   <div class="balance-row">
     <div (click)="onNavigateToTransactions(mainFunds.id)"

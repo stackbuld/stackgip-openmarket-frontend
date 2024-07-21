@@ -2,6 +2,7 @@
   <button [class.disabled]="(!user.isKycVerified || !user.isNINAdded)
     && user.sellerApprovalStatus == 'approved'
     || user.sellerApprovalStatus == 'pending'
+    || user.sellerApprovalStatus == 'failedKyc'
     || user.sellerApprovalStatus == 'pendingKycReview'" (click)="withdraw()" [matTooltip]="getTooltipMessage"
     class="uk-button uk-button-secondary button" type="button">
     <img src="../../../../assets/icons/cash-outline-light.svg" alt="" width="20" height="20" />

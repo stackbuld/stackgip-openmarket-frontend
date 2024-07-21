@@ -33,6 +33,12 @@ export class AuthInterceptor implements HttpInterceptor {
         });
       }
     }
+
+   if (req.url.startsWith(this.api.storeBaseUrl) && !req.headers.has('Authorization')) {
+      authReq = req.clone({
+        headers: req.headers.set('Authorization', `Bearer ${token}`),
+      });
+    }
     const isExternalApiRequest = req.headers.get('x-external-api-request');
     if (isExternalApiRequest) {
       let headers = req.headers;

@@ -50,7 +50,10 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.sellerService.getSeller(this.user.id).subscribe({
       next: (user) => {
         this.user = user.data;
-        if (!this.user.isKycVerified || !this.user.isNINAdded) {
+        if (!this.user.isKycVerified) {
+          this.alert.open();
+        }
+        if (!this.user.isNINAdded) {
           this.alert.open();
         }
       },

@@ -12,6 +12,14 @@
   gap: 0.94rem;
 }
 
+.loading-svg {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 200px !important;
+  margin: auto !important;
+}
+
 .firstCard-container {
   gap: 0.5rem;
   width: 47.5%;
