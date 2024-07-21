@@ -5,11 +5,11 @@ import { BehaviorSubject } from 'rxjs';
 export class AlertService {
   public alert$ = new BehaviorSubject<boolean>(false);
 
-  close(): void {
+ public close(): void {
     this.alert$.next(true);
   }
 
-  open(): void {
+  public open(): void {
     this.alert$.next(false);
   }
 }

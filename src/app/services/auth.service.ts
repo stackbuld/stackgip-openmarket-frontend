@@ -314,7 +314,10 @@ export class AuthService {
     sessionStorage.clear();
     const cookieDomain = environment.cookieDomain ?? '.renamarkets.com';
     Cookies.remove('token', { domain: cookieDomain });
+     Cookies.remove('rena_user', { domain: cookieDomain });
+     Cookies.remove('rena_auth_token', { domain: cookieDomain });
     Cookies.remove('siginResponse', { domain: cookieDomain });
+    Cookies.remove('userAuthToken', { domain: cookieDomain });
     Cookies.remove('userId', { domain: cookieDomain });
     Cookies.remove('role', { domain: cookieDomain });
     Cookies.remove('user', { domain: cookieDomain });
