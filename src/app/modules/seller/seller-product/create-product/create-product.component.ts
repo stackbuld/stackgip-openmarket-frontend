@@ -1,9 +1,15 @@
+import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
 import { IUser } from '../../../../models/IUserModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CreateProductResponse } from '../../../../models/products.model';
-import { Subject, Subscription } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import {
+  CreateProductResponse,
+  SellerStore,
+  AutoCompleteCompleteEvent,
+  CreateProductDto,
+  ProductModel,
+} from '../../../../models/products.model';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import {
   Component,
@@ -21,16 +27,13 @@ import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { ProductsService } from '../../../../services/products/products.service';
 import { ToastrService } from '../../../../services/toastr.service';
 import { StoreService } from 'src/app/services/store/store.service';
-import uikit from 'uikit';
 
 import { DOCUMENT } from '@angular/common';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SellerStoreCreateDialogComponent } from '../../seller-store/seller-store-create-dialog/seller-store-create-dialog.component';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { VariationsAlertDialogComponent } from './variations-alert-dialog/variations-alert-dialog.component';
-import { VariantComponent } from './variant/variant.component';
 import { VariantService } from './variant/variant.service';
 import { DeleteVariantComponent } from './variant/delete-variant/delete-variant.component';
 import {
@@ -38,6 +41,9 @@ import {
   pickupOptions,
   previewEditorConfig,
 } from './editor.config';
+import { ICategory } from 'src/app/models/CategoryModels';
+import { CategoryService } from 'src/app/services/category/category.service';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 declare var cloudinary: any;
 @Component({
@@ -58,16 +64,21 @@ export class CreateProductComponent
   errors: any[];
   errorMessage: string;
   form: FormGroup;
-  newVariationForm: FormGroup;
-  cproduct: CreateProductResponse;
   editProps: any;
   variationProps: FormGroup;
-  categories: any;
-  stores: any;
+  categories: ICategory[] = new Array(0);
+  category: ICategory;
+  subCategories: ICategory[] = new Array(0);
+  selectedCategoryId = null;
+  filteredCategories: ICategory[];
+  filteredSubCategories: ICategory[];
+  stores: SellerStore[] = new Array(0);
+  reArrangedStores: { id: string; storeName: string }[] = new Array(0);
   loading: boolean = false;
   uploadWidget: any;
   uploadComplimentaryWidget: any;
   images = [];
+  maxFiles: number = 8;
   variationImages = [];
   newImageListForUpdate: any;
   complimentartImages = [];
@@ -89,8 +100,6 @@ export class CreateProductComponent
   addingVariation = false;
   addingComplimentaryOptions = false;
   variationList: any;
-  subCategories: any;
-  selectedCategoryId = null;
   creatingVariation: boolean;
   loadingSubCategories: boolean;
   creatingProduct: boolean;
@@ -109,7 +118,6 @@ export class CreateProductComponent
   editingVariationUnit: number = 0;
   isProductUnitExceeded: boolean = false;
   videoUrls: string[] = [];
-  videoWidget: any;
   isAddingVariants: boolean = false;
 
   savedTotalVariantsUnit: number = 0;
@@ -145,7 +153,9 @@ export class CreateProductComponent
     @Inject(DOCUMENT) private document: Document,
     private dialog: MatDialog,
     private changeDetector: ChangeDetectorRef,
-    private variantService: VariantService
+    private variantService: VariantService,
+    private categoryService: CategoryService,
+    public cloudinaryService: CloudinaryService
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('id');
     localStorage.removeItem('compImagesStore');
@@ -156,8 +166,8 @@ export class CreateProductComponent
     return this.form.controls;
   }
 
-  get categoryId() {
-    return this.form.get('categoryId');
+  get subCategory() {
+    return this.form.get('subCategory');
   }
 
   ngOnInit(): void {
@@ -234,7 +244,7 @@ export class CreateProductComponent
               this.availableUnitsContainer.nativeElement.offsetTop
             );
           }, 100);
-          this.availableUnitsInput.nativeElement.focus();
+          this.availableUnitsInput?.nativeElement?.focus();
         }
       }
     );
@@ -242,50 +252,28 @@ export class CreateProductComponent
     this.variantService.isAddingVariant.subscribe((value) => {
       this.isAddingVariants = value;
     });
+
+    this.cloudinaryService.image$.subscribe((url) => {
+      this.images.push(url);
+      this.productImage = this.images[0];
+      this.form.patchValue({ imageUrls: this.images });
+    });
+
+    this.cloudinaryService.video$.subscribe((url) => {
+      this.videoUrls.push(url);
+    });
   }
 
   ngAfterViewChecked(): void {}
 
-  createCloudinaryWidgets(): void {
-    this.uploadWidget = cloudinary.createUploadWidget(
-      {
-        cloudName: environment.cloudinaryName,
-        uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
-      },
-      (error, result) => {
-        if (!error && result && result.event === 'success') {
-          if (this.images.length < 4) {
-            this.images.push(result.info.secure_url);
-            this.productImage = this.images[0];
-            this.form.patchValue({ imageUrls: this.images });
-          }
-        }
-      }
-    );
-
-    this.videoWidget = cloudinary.createUploadWidget(
-      {
-        cloudName: environment.cloudinaryName,
-        uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['gif', 'mp4'],
-      },
-      (error, result) => {
-        if (!error && result && result.event === 'success') {
-          if (this.videoUrls.length < 4) {
-            this.videoUrls.push(result.info.secure_url);
-          }
-        }
-      }
-    );
-
+  private createCloudinaryWidgets(): void {
+    const maxFiles: number = 1;
     this.uploadComplimentaryWidget = cloudinary.createUploadWidget(
-      {
-        cloudName: environment.cloudinaryName,
-        uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
-      },
-      (error, result) => {
+      this.cloudinaryService.widgetConfig(
+        maxFiles,
+        this.cloudinaryService.allowedFileTypes
+      ),
+      (error: any, result: any) => {
         if (!error && result && result.event === 'success') {
           let list = [];
           if (JSON.parse(localStorage.getItem('compImagesStore')) === null) {
@@ -315,12 +303,11 @@ export class CreateProductComponent
     );
 
     this.uploadComplimentaryWidget2 = cloudinary.createUploadWidget(
-      {
-        cloudName: environment.cloudinaryName,
-        uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
-      },
-      (error, result) => {
+      this.cloudinaryService.widgetConfig(
+        maxFiles,
+        this.cloudinaryService.allowedFileTypes
+      ),
+      (error: any, result: any) => {
         if (!error && result && result.event === 'success') {
           if (this.editProps.value.imageUrl == '') {
             this.editProps.patchValue({ imageUrl: result.info.secure_url });
@@ -330,12 +317,11 @@ export class CreateProductComponent
     );
 
     this.uploadComplimentaryWidget3 = cloudinary.createUploadWidget(
-      {
-        cloudName: environment.cloudinaryName,
-        uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
-      },
-      (error, result) => {
+      this.cloudinaryService.widgetConfig(
+        maxFiles,
+        this.cloudinaryService.allowedFileTypes
+      ),
+      (error: any, result: any) => {
         if (!error && result && result.event === 'success') {
           if (this.variationProps.value.imageUrl == '') {
             this.variationProps.patchValue({
@@ -358,13 +344,14 @@ export class CreateProductComponent
       });
   }
 
+
   preventLetter(evt: any): boolean {
     var charCode = evt.which ? evt.which : evt.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
     return true;
   }
 
-  setComplementaryImageForUpdate(data: any) {
+  private setComplementaryImageForUpdate(data: any) {
     localStorage.removeItem('compImagesStore');
     for (let index = 0; index < data.productOptions.length; index++) {
       const element = data.productOptions[index];
@@ -378,30 +365,35 @@ export class CreateProductComponent
     );
   }
 
-  getProduct(id: any) {
+  private getProduct(id: string) {
     this.loading = true;
-    this.productService.getProduct(id).subscribe(
-      (res) => {
-        if (res.status === 'success') {
+    this.productService
+      .getProduct(id)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+          if (res.status == 'success') {
+            this.loading = false;
+            this.initialProductUnit = res.data.unit;
+            this.images = res.data.productImages;
+            this.productImage = this.images[0];
+            this.videoUrls = res.data.videoUrls;
+            this.populateProductForm(res.data);
+            this.setComplementaryImageForUpdate(res.data);
+            this.getCategories(res.data.category.id);
+            //use to get single category
+            // this.getCategory(res.data.category.id);
+            this.getSubCategories(res.data.category);
+          } else {
+            this.toast.error(res.message);
+            this.loading = false;
+          }
+        },
+        error: (err) => {
+          this.toast.error(err.error.message);
           this.loading = false;
-          this.initialProductUnit = res.data.unit;
-          this.populateProductForm(res.data);
-          this.getSubCategories(res.data.category.id);
-          this.setComplementaryImageForUpdate(res.data);
-          this.images = res.data.productImages;
-
-          this.productImage = this.images[0];
-          this.videoUrls = res.data.videoUrls;
-        } else {
-          this.toast.error(res.message);
-          this.loading = false;
-        }
-      },
-      (err) => {
-        this.toast.error(err.error.message);
-        this.loading = false;
-      }
-    );
+        },
+      });
   }
 
   formInit(): void {
@@ -415,8 +407,8 @@ export class CreateProductComponent
       imageUrls: [null],
       pickupOption: [null, Validators.required],
       imageUrl: [''],
-      categoryId: [''],
-      category: ['', [Validators.required]],
+      subCategory: [''],
+      category: [null, [Validators.required]],
       storeIds: [[], [Validators.required]],
       unit: [null, [Validators.required]],
       options: this.fb.array([]),
@@ -424,7 +416,7 @@ export class CreateProductComponent
     });
   }
 
-  populateProductForm(data: any): void {
+  populateProductForm(data: ProductModel): void {
     let variationList = [];
     let complimentaryProducts = [];
     let sellerStoreIds = [];
@@ -435,12 +427,12 @@ export class CreateProductComponent
       description: [data.description, [Validators.required]],
       price: [data.price, [Validators.required]],
       weight: [data.weight, [Validators.required]],
-      previousPrice: [data.previousPrice === '' ? 0 : data.previousPrice],
+      previousPrice: [data.previousPrice],
       imageUrls: [data.productImages],
       pickupOption: [data.pickupOption, [Validators.required]],
       imageUrl: [data.imageUrl],
-      categoryId: [data.categoryId, [Validators.required]],
-      category: [data.categoryId, [Validators.required]],
+      category: [data.category, [Validators.required]],
+      subCategory: [''],
       videoUrls: [data.videoUrls],
       storeIds: [sellerStoreIds, [Validators.required]],
       unit: [data.unit, [Validators.required]],
@@ -724,30 +716,25 @@ export class CreateProductComponent
   }
 
   // images upload start
-  upload(): void {
-    if (this.images.length < 4) {
-      this.uploadWidget.open();
+  public upload(): void {
+    if (this.images.length + this.videoUrls.length < this.maxFiles) {
+      this.cloudinaryService.isLoadingUploadWidget.next(true);
+      let totalUploads = this.images.length + this.videoUrls.length;
+      let maxFiles = this.maxFiles - totalUploads;
+      maxFiles = maxFiles <= 0 ? 8 : maxFiles;
+      this.cloudinaryService.createUploadWidget(maxFiles).open();
     } else {
-      this.imageErr = 'You can only upload maximum of four images';
+      this.imageErr = 'You can only upload maximum of 8 images or videos';
     }
   }
 
-  onUploadVideo() {
-    if (this.videoUrls.length >= 4) {
-      this.toast.warining('You can only upload up to four videos');
-      return;
-    }
-
-    this.videoWidget.open();
-  }
-
-  onDeleteVideo(index: number) {
+  public onDeleteVideo(index: number) {
     this.videoUrls = this.videoUrls.filter(
       (url, urlIndex) => urlIndex != index
     );
   }
 
-  removeImage(image_url): void {
+  public removeImage(image_url: string): void {
     this.imageErr = null;
     this.images = this.images.filter((a) => a !== image_url);
     this.form.patchValue({ imageUrls: this.images });
@@ -757,12 +744,12 @@ export class CreateProductComponent
     }
   }
 
-  removeRelatedImage(): void {
+  public removeRelatedImage(): void {
     this.imageErr = null;
     this.editProps.patchValue({ imageUrl: '' });
   }
 
-  uploadComplimentaryImage(): void {
+  public uploadComplimentaryImage(): void {
     if (this.variationProps.value.imageUrl == '') {
       this.uploadComplimentaryWidget3.open();
     } else {
@@ -770,15 +757,15 @@ export class CreateProductComponent
     }
   }
 
-  uploadRelatedImage(): void {
+  public uploadRelatedImage(): void {
     if (this.editProps.value.imageUrl == '') {
       this.uploadComplimentaryWidget2.open();
     } else {
-      this.imageErr = 'You can only upload maximum of one images';
+      this.imageErr = 'You can only upload maximum of one image or video';
     }
   }
 
-  removeComplimentaryImage(id: any): void {
+  public removeComplimentaryImage(id: any): void {
     for (let index = 0; index < this.form.value.options.length; index++) {
       const element = this.form.value.options[index];
       if (index === id) {
@@ -786,37 +773,81 @@ export class CreateProductComponent
       }
     }
   }
-  // images upload stop
 
-  getSubCategories(id: any) {
+  public getSubCategories(category: ICategory): void {
     this.subCategories = [];
-    this.form.value.categoryId = '';
+    this.form.value.subCategory = '';
     this.loadingSubCategories = true;
-    this.selectedCategoryId = id;
+    this.selectedCategoryId = category.id;
     this.getVariations();
-    this.newVariationForm.patchValue({ categoryId: this.selectedCategoryId });
-    this.productService.getSubCategories(id).subscribe(
-      (res) => {
+    this.productService.getSubCategories(category.id).subscribe({
+      next: (res) => {
         this.subCategories = res.data;
+        this.form.patchValue({ subCategory: this.subCategories[0] });
         this.getVariations();
         this.loadingSubCategories = false;
       },
-      (err) => {
+      error: (err) => {
         this.toast.error(err.message);
         this.loadingSubCategories = false;
-      }
-    );
+      },
+    });
   }
 
-  getCategories() {
-    this.productService.getAllCategories().subscribe(
-      (res) => {
+  getCategories(id: string = '') {
+    this.productService.getAllCategories().subscribe({
+      next: (res) => {
         this.categories = res.data;
+        if (id) {
+          this.categories.forEach((cat) => {
+            if (cat.id == id) {
+              this.form.patchValue({ category: cat });
+              return;
+            }
+          });
+        }
       },
-      (err) => {
+      error: (err) => {
         this.toast.error(err.message);
+      },
+    });
+  }
+
+  filterCategories(
+    event: AutoCompleteCompleteEvent,
+    isSubCategory: boolean = false
+  ) {
+    let filtered: any[] = [];
+    let query = event.query;
+    if (isSubCategory) {
+      for (let i = 0; i < this.subCategories.length; i++) {
+        let category = this.subCategories[i];
+        if (category.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(category);
+        }
       }
-    );
+      this.filteredSubCategories = filtered;
+    } else {
+      for (let i = 0; i < this.categories.length; i++) {
+        let category = this.categories[i];
+        if (category.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(category);
+        }
+      }
+      this.filteredCategories = filtered;
+    }
+  }
+
+  private getCategory(id: string): void {
+    this.categoryService.getCategory(id).subscribe({
+      next: (res) => {
+        this.category = res.data as ICategory;
+        this.form.patchValue({ category: this.category });
+      },
+      error: (err) => {
+        this.toast.error(err.message);
+      },
+    });
   }
 
   getVariations() {
@@ -830,10 +861,17 @@ export class CreateProductComponent
     );
   }
 
-  getStores(id: any) {
+  getStores(id: string) {
     this.storeService.getStoresById(id).subscribe(
       (res) => {
-        this.stores = res.data;
+        if (res && res.data) {
+          this.stores = res.data;
+          for (const store of this.stores)
+            this.reArrangedStores.push({
+              id: store.id,
+              storeName: `${store.storeName} (${store.storeName} ${store.city})`,
+            });
+        }
       },
       (err) => {
         this.toast.error(err.message);
@@ -860,79 +898,79 @@ export class CreateProductComponent
     }
     if (this.images?.length < 1) {
       this.toast.error('Product Image(s) required');
-      // return;
-    } else if (this.form.value.description === '') {
+      return;
+    }
+    if (this.form.value.description === '') {
       this.toast.error('Enter Product Description to Process');
-      // return;
-    } else if (this.form.value.category == '') {
-      this.toast.error('Select a Category');
-      // return;
-    } else if (this.form.invalid) {
+      return;
+    }
+    if (!this.selectedCategoryId) {
+      this.toast.error('Select a category from the list.');
+      return;
+    }
+
+    if (this.form.invalid) {
       this.toast.error('All required fields must be available');
-      // return;
-    } else {
-      if (this.subCategories?.length === 0 && this.form.value.category !== '') {
-        this.isSubCatIdEmpty = true;
-        this.form.patchValue({ categoryId: this.form.value.category });
+      return;
+    }
+
+    if (this.form.valid) {
+      if (!this.isAddingVariants) {
+        this.creatingProduct = true;
+        this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
+        this.mainSaveAsDrafts();
+        return;
       }
 
-      if (this.form.valid) {
-        if (!this.isAddingVariants) {
-          this.creatingProduct = true;
-          this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
-          this.mainSaveAsDrafts();
+      const dialogRef = this.dialog.open(VariationsAlertDialogComponent, {
+        data: {
+          initialUnit: 0,
+          exceededUnit: 0,
+          type: 'addingVariantAlert',
+        },
+        autoFocus: false,
+      });
+
+      dialogRef.afterClosed().subscribe((value) => {
+        if (!value) {
           return;
         }
-
-        const dialogRef = this.dialog.open(VariationsAlertDialogComponent, {
-          data: {
-            initialUnit: 0,
-            exceededUnit: 0,
-            type: 'addingVariantAlert',
-          },
-          autoFocus: false,
-        });
-
-        dialogRef.afterClosed().subscribe((value) => {
-          if (!value) {
-            return;
-          }
-          this.creatingProduct = true;
-          this.variantService.isAddingVariant.next(false);
-          this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
-          this.mainSaveAsDrafts();
-        });
-      }
+        this.creatingProduct = true;
+        this.variantService.isAddingVariant.next(false);
+        this.form.patchValue({ imageUrl: this.form.value.imageUrls[0] });
+        this.mainSaveAsDrafts();
+      });
     }
   };
 
   mainSaveAsDrafts() {
-    this.productService
-      .createNewProduct({
-        ...this.form.value,
-        videoUrls: [...this.videoUrls],
-        options: [...this.relatedItems, ...this.allVariantList],
-        publishOption: 'Draft',
-        ...(this.productId && { draftProductId: this.productId }),
-      })
-      .subscribe({
-        next: (res) => {
-          if (res.status === 'success') {
-            this.toast.success('Product saved as draft Successful!');
-            this.router.navigate(['/seller/products']);
-            this.creatingProduct = false;
-            localStorage.removeItem('compImagesStore');
-            this.complementaryImagesStore = [];
-          } else {
-            this.creatingProduct = false;
-            this.toast.error('Something went wrong');
-          }
-        },
-        error: (err) => {
+    const model: CreateProductDto = {
+      ...this.form.value,
+      createdByAdmin: false,
+      categoryId: this.selectedCategoryId ?? this.form.value.category.id,
+      videoUrls: this.videoUrls,
+      options: [...this.relatedItems, ...this.allVariantList],
+      publishOption: 'Draft',
+      ...(this.productId && { draftProductId: this.productId }),
+    };
+    this.productService.createNewProduct(model).subscribe({
+      next: (res) => {
+        if (res.status === 'success') {
+          this.toast.success('Product saved as draft Successful!');
+          this.router.navigate(['/seller/products']);
+          this.creatingProduct = false;
+          localStorage.removeItem('compImagesStore');
+          this.complementaryImagesStore = [];
+        } else {
           this.creatingProduct = false;
           this.toast.error('Something went wrong');
-        },
-      });
+        }
+      },
+      error: (err) => {
+        this.creatingProduct = false;
+        this.toast.error('Something went wrong');
+      },
+    });
   }
 
   isSubCatIdEmpty = false;
@@ -947,47 +985,56 @@ export class CreateProductComponent
     }
     if (this.images?.length < 1) {
       this.toast.error('Product Image(s) required');
-      // return;
-    } else if (this.form.value.description === '') {
-      this.toast.error('Enter Product Description to Procees');
-      // return;
-    } else if (this.form.value.category == '') {
-      this.toast.error('Select a Category');
-      // return;
-    } else if (this.form.get('storeIds').invalid) {
+      return;
+    }
+
+    if (this.images?.length + this.videoUrls?.length > this.maxFiles) {
+      this.toast.error(
+        'Your cannot upload more than 8 files. Delete one file.'
+      );
+      return;
+    }
+    if (this.form.value.description === '') {
+      this.toast.error('Enter Product Description');
+      return;
+    }
+
+    if (!this.selectedCategoryId) {
+      this.toast.error('Select a category from the list.');
+      return;
+    }
+
+    if (this.form.get('storeIds').invalid) {
       this.toast.error('Must select a store!');
       return;
-    } else if (this.form.invalid) {
-      this.toast.error('All required fields must be available');
-      // return;
-    } else {
-      if (this.subCategories.length === 0 && this.form.value.category !== '') {
-        this.isSubCatIdEmpty = true;
-        this.form.patchValue({ categoryId: this.form.value.category });
-      }
+    }
 
-      if (this.form.valid) {
-        if (!this.isAddingVariants) {
-          this.proceedToSave();
+    if (this.form.invalid) {
+      this.toast.error('All required fields must be available');
+      return;
+    }
+
+    if (this.form.valid) {
+      if (!this.isAddingVariants) {
+        this.proceedToSave();
+        return;
+      }
+      const dialogRef = this.dialog.open(VariationsAlertDialogComponent, {
+        data: {
+          initialUnit: 0,
+          exceededUnit: 0,
+          type: 'addingVariantAlert',
+        },
+        autoFocus: false,
+      });
+
+      dialogRef.afterClosed().subscribe((value) => {
+        if (!value) {
           return;
         }
-        const dialogRef = this.dialog.open(VariationsAlertDialogComponent, {
-          data: {
-            initialUnit: 0,
-            exceededUnit: 0,
-            type: 'addingVariantAlert',
-          },
-          autoFocus: false,
-        });
-
-        dialogRef.afterClosed().subscribe((value) => {
-          if (!value) {
-            return;
-          }
-          this.variantService.isAddingVariant.next(false);
-          this.proceedToSave();
-        });
-      }
+        this.variantService.isAddingVariant.next(false);
+        this.proceedToSave();
+      });
     }
   }
 

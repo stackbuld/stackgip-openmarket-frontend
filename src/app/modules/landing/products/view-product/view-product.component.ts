@@ -5,6 +5,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-view-product',
@@ -32,13 +33,14 @@ export class ViewProductComponent implements OnInit {
     private toastservice: ToastrService,
     private router: Router,
     private productService: ProductsService,
-    @Inject(DOCUMENT) private document: Document,
+    private authService: AuthService,
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   ngOnInit(): void {
     this.document.body.scrollTop = 0;
     this.document.documentElement.scrollTop = 0;
-    this.user = JSON.parse(localStorage.getItem('user'));
+    this.user = this.authService.getLoggedInUser();
 
     this.activatedRoute.params.subscribe((param) => {
       this.id = param['id'];
@@ -132,7 +134,7 @@ export class ViewProductComponent implements OnInit {
     if (unit >= 0) {
       uikit.modal
         .confirm(
-          `Are you sure you want to update <strong>${product.name}</strong> unit ?`,
+          `Are you sure you want to update <strong>${product.name}</strong> unit ?`
         )
         .then(
           () => {
@@ -156,33 +158,15 @@ export class ViewProductComponent implements OnInit {
           (err) => {
             this.loading = false;
             this.toastservice.error(err.message);
-          },
+          }
         );
     } else {
       this.toastservice.error(`Prouct Unit is already zero.`);
     }
   }
 
-  deleteProduct(productId: number): void {
-    uikit.modal.confirm('Are you sure that you want to delete product ?').then(
-      () => {
-        this.loading = true;
-        this.productService.deleteProduct(productId).subscribe((res) => {
-          if (res.status === 'success') {
-            this.loading = false;
-            this.toastservice.success(res.message);
-            this.router.navigate(['/seller/products']);
-          } else {
-            this.loading = false;
-            this.toastservice.error(res.message);
-          }
-        });
-      },
-      (err) => {
-        this.loading = false;
-        this.toastservice.error(err.message);
-      },
-    );
+  deleteProduct(): void {
+    this.productService.deleteModalOpen.next(true);
   }
 
   showImg(img: string) {

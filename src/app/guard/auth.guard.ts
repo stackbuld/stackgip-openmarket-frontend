@@ -1,26 +1,21 @@
 import { WindowRefService } from './../shared/services/window.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   UrlTree,
+  Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  window: Window;
-  constructor(
-    private authService: AuthService,
-    private windowRefS: WindowRefService
-  ) {
-    this.window = windowRefS.nativeWindow;
-  }
+  private router = inject(Router);
+  constructor(private authService: AuthService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -30,14 +25,13 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let isLogin = false;
-
-    const siginData = this.authService.GetSignInData();
-    if (siginData) {
-      isLogin = siginData.canLogin;
+    let isLogin: boolean;
+    const signInData = this.authService.GetSignInData();
+    if (signInData) {
+      isLogin = signInData.canLogin;
     }
     if (!isLogin) {
-      this.window.location.href = '/auth/login';
+      this.router.navigate(['/auth/login']);
     }
     return isLogin;
   }

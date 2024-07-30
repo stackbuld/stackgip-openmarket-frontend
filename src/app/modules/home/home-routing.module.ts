@@ -9,14 +9,27 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
 import { SellerStorefrontComponent } from './seller-storefront/seller-storefront.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import {
+  sellerStoreRedirectGuard,
+  singleProductRedirectGuard,
+  homeRedirectGuard
+} from 'src/app/guard/redirects.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
     children: [
-      { path: '', component: HomePageComponent },
-      { path: 'product/:id', component: SingleProductComponent },
+      {
+        path: '',
+        component: HomePageComponent,
+        canActivate: [homeRedirectGuard],
+      },
+      {
+        path: 'product/:id',
+        component: SingleProductComponent,
+        canActivate: [singleProductRedirectGuard],
+      },
       { path: 'checkout', component: ProductCheckoutComponent },
       { path: 'details/:id', component: OrderDetailsComponent },
       { path: 'history', component: OrderHistoryComponent },
@@ -25,6 +38,7 @@ const routes: Routes = [
       {
         path: 'seller-store/:sellerId',
         component: SellerStorefrontComponent,
+        canActivate: [sellerStoreRedirectGuard],
       },
       {
         path: 'wallet',
@@ -42,7 +56,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), ],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
 export class HomeRoutingModule {}

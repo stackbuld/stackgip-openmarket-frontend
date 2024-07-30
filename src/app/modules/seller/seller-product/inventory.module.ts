@@ -24,6 +24,12 @@ import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { VideoGuidePromptComponent } from '../../../shared/components/video-guide-prompt/video-guide-prompt.component';
 import { VariantComponent } from './create-product/variant/variant.component';
 import { ProductPreview } from './create-product/preview-product/preview-product';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { DeleteProductConfirmation } from './create-product/preview-product/delete-product';
+import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
 
 @NgModule({
   declarations: [
@@ -37,10 +43,16 @@ import { ProductPreview } from './create-product/preview-product/preview-product
     ProductItemComponent,
     ViewMoreComponent,
     CreateProductComponent,
+    DeleteProductConfirmation,
+    ProductPreview,
   ],
   imports: [
     CommonModule,
     FormsModule,
+    MultiSelectModule,
+    ButtonModule,
+    DialogModule,
+    AutoCompleteModule,
     InventoryRoutingModule,
     ReactiveFormsModule,
     SharedModule,
@@ -54,7 +66,7 @@ import { ProductPreview } from './create-product/preview-product/preview-product
     NgxPageScrollCoreModule.forRoot({ duration: 2500, scrollInView: false }),
     VideoGuidePromptComponent,
     VariantComponent,
-    ProductPreview,
   ],
+  providers: [SafeHtmlPipe],
 })
 export class InventoryModule {}

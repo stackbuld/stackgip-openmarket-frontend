@@ -1,5 +1,5 @@
+import { ProductModel } from 'src/app/models/products.model';
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   NgZone,
@@ -32,7 +32,6 @@ import * as cryptoJs from 'crypto-js';
 import { FooterService } from 'src/app/services/footer.service';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { BehaviorSubject } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { WindowRefService } from '../../../shared/services/window.service';
 import uikit from 'uikit';
 
@@ -42,6 +41,7 @@ import { SellerStoreLocationService } from 'src/app/services/cart/seller-store.s
 import { SearchService } from 'src/app/services/search/search.service';
 import { DeliveryAddressService } from 'src/app/services/cart/delivery-address.service';
 import { MetaService } from 'src/app/shared/services/meta.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-single-product',
@@ -56,8 +56,8 @@ export class SingleProductComponent implements OnInit {
   addresses: any[] = [];
   imgUrls: any[] = [];
   count = 1;
-  productId = null;
-  product = null;
+  productId: string | null = null;
+  product: ProductModel | null = null;
   loading: boolean;
   loadingProductDescription: boolean;
   allVariationsList: any[] = [];
@@ -208,13 +208,13 @@ export class SingleProductComponent implements OnInit {
     });
     this.footerService.setShowFooter(true);
     this.referenceId = this.authService.getUserReferenceNumber();
-    // this.user = JSON.parse(localStorage.getItem('user') as string) as IUser;
+    // this.user = this.authService.getLoggedInUser() as string) as IUser;
     this.applocal.currentUser.subscribe((res) => {
       if (res) {
         this.user = res as IUser;
         this.fetchUserAddresses();
       } else {
-        this.user = JSON.parse(localStorage.getItem('user') as string) as IUser;
+        this.user = this.authService.getLoggedInUser() as IUser;
       }
     });
     this.getParams();
@@ -440,7 +440,7 @@ export class SingleProductComponent implements OnInit {
       next: (res) => {
         this.isLoadingDetails = false;
         this.product = res.data;
-
+     
         this.loadingProductDescription = false;
         this.sellerStores = res.data?.sellerStores;
 

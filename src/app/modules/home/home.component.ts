@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IUser } from 'src/app/models/IUserModel';
+import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -11,11 +12,12 @@ import { UserService } from 'src/app/services/user/user.service';
 export class HomeComponent implements OnInit {
   constructor(
     private userService: UserService,
-    private cartService: CartService
+    private cartService: CartService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    const user: IUser = JSON.parse(localStorage.getItem('user'));
+    const user: IUser = this.authService.getLoggedInUser();
 
     if (user) {
       const userId = user.id;

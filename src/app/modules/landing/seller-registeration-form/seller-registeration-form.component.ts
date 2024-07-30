@@ -2,6 +2,7 @@ import {
   AfterViewChecked,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -23,7 +24,7 @@ import { nigeriaSates } from 'src/app/data/nigeriastates';
 import { SellerService } from 'src/app/services/seller/seller.service';
 import { ResponseModel } from 'src/app/shared/models/ResponseModel';
 import { ToastrService } from 'src/app/services/toastr.service';
-import { LocationStrategy } from '@angular/common';
+import { DOCUMENT, LocationStrategy } from '@angular/common';
 import { countryCodes } from '../../../data/countryCodes';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
@@ -52,7 +53,7 @@ export class SellerRegisterationFormComponent
   uploadWidget: any;
   uploadID: any;
   sellerRegFormGroup: FormGroup;
-  idCardTypes = ['NIN'];
+  idCardTypes = ['NONE', 'NIN', 'BVN'];
   regSeller$: Subscription;
   user: any;
   sellerApprovalStatus: string = '';
@@ -70,6 +71,8 @@ export class SellerRegisterationFormComponent
   termsAndConditions: string = environment.termsAndConditionsUrl;
   uploadBusinessDocuments!: any;
   businessDocuments: { fileName: string; url: string }[] = [];
+  seoDomain = environment.seoDomain;
+  window = inject(DOCUMENT).defaultView;
 
   constructor(
     private fb: FormBuilder,
@@ -85,10 +88,14 @@ export class SellerRegisterationFormComponent
     return this.sellerRegFormGroup.get('isBusinessRegistered')?.value;
   }
 
+  get ctrls() {
+    return this.sellerRegFormGroup.controls;
+  }
+
   ngOnInit(): void {
     this.authService.isLogin.subscribe((a) => {
       if (a) {
-        this.user = JSON.parse(localStorage.getItem('user')) as IUser;
+        this.user = this.authService.getLoggedInUser() as IUser;
       }
     });
 
@@ -152,6 +159,14 @@ export class SellerRegisterationFormComponent
           this.googleAddressSelected = false;
         }
       });
+
+    this.sellerRegFormGroup.valueChanges.subscribe({
+      next: (res) => {
+        if (this.sellerRegFormGroup.dirty) {
+          this.sellerRegFormGroup.markAllAsTouched();
+        }
+      },
+    });
   }
 
   ngAfterViewChecked(): void {
@@ -204,8 +219,8 @@ export class SellerRegisterationFormComponent
         this.sellerRegFormGroup.patchValue(sellerData);
         this.sellerRegFormGroup.patchValue({
           lga: sellerData.userLga,
-          personalIDNumber: sellerData.idVerificationNumber,
-          personalIDType: sellerData.idVerificationType,
+          personalIDNumber: sellerData.idVerificationNumber ?? '',
+          personalIDType: sellerData.idVerificationType ?? '',
           landmark: sellerData.userAddressLandMark,
         });
         this.image = sellerData.businessLogo;
@@ -220,12 +235,12 @@ export class SellerRegisterationFormComponent
       businessAddress: [null, Validators.required],
       businessState: [null, Validators.required],
       businessRegistrationNumber: [null, Validators.required],
-      personalIDType: [null],
+      personalIDType: [''],
       personalIDNumber: [
-        null,
+        '',
         [Validators.minLength(11), Validators.maxLength(11)],
       ],
-      landmark: [null, Validators.required],
+      landmark: [null],
       lga: [null, Validators.required],
       dateOfBirth: [null, Validators.required],
       isBusinessRegistered: [true, Validators.required],
@@ -287,8 +302,13 @@ export class SellerRegisterationFormComponent
       isBusinessRegistered: this.sellerRegFormGroup.get('isBusinessRegistered')
         ?.value,
       applicant: {
-        idType: this.sellerRegFormGroup.get('personalIDType')?.value,
-        idNumber: this.sellerRegFormGroup.get('personalIDNumber')?.value,
+        idType:
+          this.sellerRegFormGroup.value.personalIDType?.value ===
+          this.idCardTypes[0]
+            ? null
+            : this.sellerRegFormGroup.value.personalIDType?.value,
+        idNumber:
+          this.sellerRegFormGroup.get('personalIDNumber')?.value ?? null,
         dateOfBirth: new Date(
           this.sellerRegFormGroup.get('dateOfBirth')?.value
         ).toISOString(),
@@ -317,44 +337,6 @@ export class SellerRegisterationFormComponent
         this.toast.error(err.error.message);
       },
     });
-
-    // this.isLoading = true;
-    // this.regSeller$ = this.sellerS.registerSeller(sellerData).subscribe(
-    //   (res: { user: IUser; response: ResponseModel }) => {
-    //     if (res.response.status === "success") {
-    //       this.isLoading = false;
-    //       this.toast.success("Registeration successfully submited");
-    //       this.closeModal(true);
-    //     }
-    //   },
-    //   (err) => {
-    //     this.isLoading = false;
-    //   }
-    // );
-
-    // if (this.sellerRegFormGroup.invalid) {
-    //   this.toast.error("Please fill fields appropriately");
-    // } else if (!this.image) {
-    //   this.toast.error("business logo is required");
-    // } else {
-    //   const sellerData: ISeller = this.sellerRegFormGroup.value;
-    //   sellerData.businessLogo = this.image;
-    //   this.isLoading = true;
-
-    //   this.regSeller$ = this.sellerS.registerSeller(sellerData).subscribe(
-    //     (res: { user: IUser; response: ResponseModel }) => {
-    //       if (res.response.status === "success") {
-    //         this.isLoading = false;
-    //         this.toast.success("Registeration successfully submited");
-    //         this.closeModal(true);
-    //       }
-    //     },
-    //     (err) => {
-    //       this.isLoading = false;
-
-    //     }
-    //   );
-    // }
   }
 
   closeModal(isFormSubmit = false) {

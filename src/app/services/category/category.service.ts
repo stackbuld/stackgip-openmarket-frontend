@@ -3,7 +3,7 @@ import { Observable, from, of, map, switchMap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiAppUrlService } from '../api-app-url.service';
-import { ICatgoryService } from './ICatgoryService.interface';
+import { ICategoryService } from './ICategoryService.interface';
 import { environment } from 'src/environments/environment';
 import algoliasearch from 'algoliasearch';
 
@@ -23,7 +23,7 @@ const filterAttribute = 'userId';
 @Injectable({
   providedIn: 'root',
 })
-export class CatgoryService implements ICatgoryService {
+export class CategoryService implements ICategoryService {
   // config = {
   //   indexName: environment.algolia.indexName,
   //   searchClient,
@@ -41,6 +41,12 @@ export class CatgoryService implements ICatgoryService {
 
   public GetCategory(): Observable<CategoryResponse> {
     return this.http.get<CategoryResponse>(this.baseUrl + 'categories');
+  }
+
+  public getCategory(id: string): Observable<CategoryResponse<ICategory>> {
+    return this.http.get<CategoryResponse<ICategory>>(
+      `${this.baseUrl}categories/${id}`
+    );
   }
 
   getCategoryByUserId(id: string): Observable<CategoryResponse> {

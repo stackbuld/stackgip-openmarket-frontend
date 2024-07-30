@@ -7,17 +7,17 @@ import { ViewportScroller } from '@angular/common';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
   user: any;
-  currentSelection = "";
+  currentSelection = '';
 
   constructor(
     private router: Router,
     private toastService: ToastrService,
-    private authService: AuthService,
-    ) { }
+    private authService: AuthService
+  ) {}
 
   public onClick(elementId: string): void {
     this.currentSelection = elementId;
@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.user = JSON.parse(localStorage.getItem('user'));
+    // this.user = this.authService.getLoggedInUser());
     this.user = this.authService.getLoggedInUser();
   }
 
@@ -38,21 +38,27 @@ export class NavbarComponent implements OnInit {
       if (this.user.isSellerApproved === true) {
         this.router.navigate(['/seller/dashboard']);
       } else {
-        if (this.user.sellerApprovalStatus === null || this.user.sellerApprovalStatus === '' ||
-          this.user.sellerApprovalStatus.toLowerCase() === 'none') {
-            this.router.navigate(['/seller-form']);
+        if (
+          this.user.sellerApprovalStatus === null ||
+          this.user.sellerApprovalStatus === '' ||
+          this.user.sellerApprovalStatus.toLowerCase() === 'none'
+        ) {
+          this.router.navigate(['/seller-form']);
         }
-        if (this.user.sellerApprovalStatus.toLowerCase() === 'pending' ||
-          this.user.sellerApprovalStatus.toLowerCase() === 'failed') {
-            if (this.user.sellerApprovalStatus.toLowerCase() === 'pending') {
-              this.toastService.warining('Your registration is pending approval, check back later!');
-            }
-            if (this.user.sellerApprovalStatus.toLowerCase() === 'failed') {
-              this.toastService.error('Your registration failed, contact admin!');
-            }
+        if (
+          this.user.sellerApprovalStatus.toLowerCase() === 'pending' ||
+          this.user.sellerApprovalStatus.toLowerCase() === 'failed'
+        ) {
+          if (this.user.sellerApprovalStatus.toLowerCase() === 'pending') {
+            this.toastService.warining(
+              'Your registration is pending approval, check back later!'
+            );
+          }
+          if (this.user.sellerApprovalStatus.toLowerCase() === 'failed') {
+            this.toastService.error('Your registration failed, contact admin!');
+          }
         }
       }
     }
-  }
-
+  };
 }

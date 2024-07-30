@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
-import { CatgoryService } from 'src/app/services/category/catgory.service';
+import { CategoryService } from 'src/app/services/category/category.service';
 import { ProductsService } from 'src/app/services/products/products.service';
 import algoliasearch from 'algoliasearch';
 import { Router } from '@angular/router';
@@ -26,9 +26,10 @@ export class HomeNavComponent implements OnInit {
   cartCount = 0;
   user: IUser;
   referenceId: any;
+  seoDomain = environment.seoDomain;
 
   constructor(
-    private categoryService: CatgoryService,
+    private categoryService: CategoryService,
     private appLocalStorage: AppLocalStorage,
     // private productService: ProductsService,
     private cartService: CartService,
@@ -40,7 +41,7 @@ export class HomeNavComponent implements OnInit {
     private searchService: SearchService,
     private dialog: MatDialog
   ) {
-    // this.user = JSON.parse(localStorage.getItem('user'));
+    // this.user = this.authService.getLoggedInUser());
   }
 
   ngOnInit(): void {
@@ -52,7 +53,7 @@ export class HomeNavComponent implements OnInit {
       if (res) {
         this.user = res;
       } else {
-        this.user = JSON.parse(localStorage.getItem('user'));
+        this.user = this.authService.getLoggedInUser();
       }
     });
     this.appLocalStorage.productViewed.subscribe((res) => {

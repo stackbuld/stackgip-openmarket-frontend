@@ -1,3 +1,4 @@
+import { WalletGuard } from './../../guard/wallet.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { WalletOverviewComponent } from './wallet-overview/wallet-overview.component';
@@ -10,7 +11,11 @@ const routes: Routes = [
     component: WalletComponent,
     children: [
       { path: '', component: WalletOverviewComponent },
-      { path: 'withdraw', component: WalletWithdrawComponent },
+      {
+        path: 'withdraw',
+        component: WalletWithdrawComponent,
+        canActivate: [WalletGuard],
+      },
     ],
   },
 ];

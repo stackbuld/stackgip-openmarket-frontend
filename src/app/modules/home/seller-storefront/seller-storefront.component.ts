@@ -6,6 +6,8 @@ import { SellerStorefrontService } from 'src/app/services/seller-storefront/sell
 import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { WindowRefService } from 'src/app/shared/services/window.service';
 
 @Component({
   selector: 'app-seller-storefront',
@@ -32,7 +34,7 @@ export class SellerStorefrontComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private sellerStorefrontService: SellerStorefrontService,
-    private toaster: ToastrService,
+    private toaster: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +48,6 @@ export class SellerStorefrontComponent implements OnInit {
       .getSellerStorefrontDetails(this.sellerId)
       .subscribe((data) => {
         this.sellerStorefrontDetails = data.data;
-
         this.bannerImgUrl =
           !this.sellerStorefrontDetails.coverPhotoUrl ||
           this.sellerStorefrontDetails.coverPhotoUrl === 'string'
@@ -62,7 +63,7 @@ export class SellerStorefrontComponent implements OnInit {
         this.bannerImgUrl = this.getImageResolution(
           this.bannerImgUrl,
           1200,
-          300,
+          300
         );
 
         this.logoImgUrl = this.getImageResolution(this.logoImgUrl, 300, 300);

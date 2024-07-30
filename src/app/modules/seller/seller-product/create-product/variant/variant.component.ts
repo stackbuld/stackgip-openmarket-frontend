@@ -34,6 +34,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { VariationsAlertDialogComponent } from '../variations-alert-dialog/variations-alert-dialog.component';
 import { VariantOptions, Variants } from './variant-types';
+import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
 declare var cloudinary: any;
 
 @Component({
@@ -94,7 +95,8 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private variantService: VariantService,
     private toast: ToastrService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private cloudinaryService: CloudinaryService
   ) {}
 
   ngOnInit() {
@@ -146,13 +148,11 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       this.scrollToFirstInvalidControl();
     });
 
+    const maxFiles: number = 1;
+    const allowedFileTypes: string[] = ['jpeg', 'jpg', 'png', 'gif'];
     this.uploadPhotoWidget = cloudinary.createUploadWidget(
-      {
-        cloudName: environment.cloudinaryName,
-        uploadPreset: environment.cloudinaryUploadPerset,
-        clientAllowedFormats: ['jpeg', 'jpg', 'png', 'gif'],
-      },
-      (error, result) => {
+      this.cloudinaryService.widgetConfig(maxFiles, allowedFileTypes),
+      (error: any, result: any) => {
         if (!error && result && result.event === 'success') {
           this.variantOptionsValuesArray.controls.map((control, index) => {
             if (index == this.optionsImageIndex) {

@@ -13,6 +13,8 @@ import {
   CreateShipmentModel,
   SingleProductResponse,
   PromotedProduct,
+  CreateProductDto,
+  ApiResponse,
 } from '../../models/products.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { CategoryResponse } from './../../models/CategoryModels';
@@ -30,6 +32,7 @@ export class ProductsService {
   newProductUnit = new Subject<number>();
   exceededUnitAction = new BehaviorSubject<boolean>(false);
   promotedProductsInView = new BehaviorSubject<boolean>(false);
+  deleteModalOpen = new BehaviorSubject<boolean>(false);
 
   constructor(private apiUrls: ApiAppUrlService, private http: HttpClient) {
     this.baseUrl = apiUrls.ecommerceBaseUrl;
@@ -108,8 +111,10 @@ export class ProductsService {
     return this.http.get<ProductModel>(this.baseUrl + `products?id=${pid.id}`);
   }
 
-  getProduct(id: any): Observable<any> {
-    return this.http.get(this.baseUrl + `products/${id}`);
+  getProduct(id: string): Observable<ApiResponse<ProductModel>> {
+    return this.http.get<ApiResponse<ProductModel>>(
+      this.baseUrl + `products/${id}`
+    );
   }
 
   getCategoriesData(id: string): Observable<ProductModel[]> {
@@ -165,13 +170,7 @@ export class ProductsService {
     }
   }
 
-  createNewProduct(payload: any): Observable<any> {
-    // for (let index = 0; index < payload.variations.length; index++) {
-    //   const element = payload.variations[index];
-    //   payload.options.push(element);
-    // }
-    // delete payload.variations;
-    console.log(payload);
+  createNewProduct(payload: CreateProductDto): Observable<any> {
     return this.http.post(this.baseUrl + `products`, payload);
   }
 
@@ -222,8 +221,10 @@ export class ProductsService {
     return this.http.get<any>(this.baseUrl + `products/${productId}/cached`);
   }
 
-  deleteProduct(productId: number): Observable<any> {
-    return this.http.delete(this.baseUrl + `products/${productId}`);
+  deleteProduct(productId: string): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(
+      this.baseUrl + `products/${productId}`
+    );
   }
 
   updateProductUnit(productId: any, payload: any): Observable<any> {

@@ -60,6 +60,11 @@ export interface SellerStore {
   createdOn: string;
 }
 
+export interface AutoCompleteCompleteEvent {
+  originalEvent: Event;
+  query: string;
+}
+
 // END OF PROMOTED PRODUCT MODEL
 
 // RECOMMENDED PRODUCT
@@ -67,20 +72,24 @@ export interface RecommendedProduct extends PromotedProduct {}
 
 // END OF RECOMMENDED PRODUCT MODEL
 export interface ProductModel {
+  id: string;
+  weight?: number;
   productOptions?: any;
   name: string;
   price: number;
   sellingPrice: number;
   previousPrice: number;
   description: string;
-  categoryId: number;
+  categoryId: string;
   category: Category;
   imageUrl: string;
   unit: number;
-  productImages: any[];
-  id: number;
+  slug: string;
+  productImages: string[];
   createdOn: string;
   paymentOptions: string;
+  pickupOption?: string;
+  draftProductId?: string;
   sellerStores?: SellerStores[];
   userId: string;
   videoUrl?: string;
@@ -99,6 +108,26 @@ export interface ProductOptions {
   cost: number;
   unit: number;
   isMultiple: boolean;
+}
+
+export interface CreateProductDto {
+  name: string;
+  price: number;
+  draftProductId: string;
+  previousPrice: number;
+  description: string;
+  categoryId: string;
+  imageUrl: string;
+  videoUrl: string;
+  unit: number;
+  weight: number;
+  userId: string;
+  storeIds: string[];
+  publishOption: string;
+  pickupOption: string;
+  imageUrls: string[];
+  videoUrls: string[];
+  options: ProductOptions[];
 }
 
 export interface SingleProductResponse extends ResponseModel {
@@ -169,6 +198,12 @@ export interface IApiResponseModel {
   message: string;
   status: string;
   data: object;
+}
+
+export interface ApiResponse<T = null> {
+  message: string;
+  status: string;
+  data: T;
 }
 
 export interface IPagerModel {}

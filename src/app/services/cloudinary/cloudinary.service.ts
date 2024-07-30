@@ -1,15 +1,34 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CloudinaryApiResponseDto } from './cloudinary.dto';
+
+import {
+  CloudinaryApiResponseDto,
+  CloudinaryUploadWidgetConfig,
+} from './cloudinary.dto';
 declare var cloudinary: any;
 
 @Injectable({ providedIn: 'root' })
 export class CloudinaryService {
-  http = inject(HttpClient);
+  private http = inject(HttpClient);
+  public readonly videoTypes: string[] = ['gif', 'video', 'mp4'];
+  public readonly imageTypes: string[] = ['image', 'jpeg', 'jpg', 'png'];
+  public readonly allowedFileTypes: string[] = [
+    ...this.imageTypes,
+    ...this.videoTypes,
+  ];
 
-  uploadImage(formData: FormData): Observable<CloudinaryApiResponseDto> {
+  private imageSubject = new Subject<string>();
+  private videoSubject = new Subject<string>();
+
+  public isLoadingUploadWidget = new Subject<boolean>();
+  public image$ = this.imageSubject.asObservable();
+  public video$ = this.videoSubject.asObservable();
+
+  constructor() {}
+
+  public uploadImage(formData: FormData): Observable<CloudinaryApiResponseDto> {
     const headers = new HttpHeaders().set('x-external-api-request', 'true');
     return this.http.post<CloudinaryApiResponseDto>(
       `https://api.cloudinary.com/v1_1/${environment.cloudinaryName}/image/upload`,
@@ -18,6 +37,74 @@ export class CloudinaryService {
     );
   }
 
+  public widgetConfig(
+    maxFiles: number,
+    allowedFileTypes: string[]
+  ): CloudinaryUploadWidgetConfig {
+    return {
+      cloudName: environment.cloudinaryName,
+      uploadPreset: environment.cloudinaryUploadPerset,
+      multiple: true,
+      autoUpload: false,
+      maxFiles: maxFiles,
+      resourceType: 'auto',
+      clientAllowedFormats: allowedFileTypes,
+      styles: {
+        palette: {
+          window: '#FFFFFF',
+          windowBorder: '#000000',
+          tabIcon: '#000000',
+          menuIcons: '#000000',
+          textDark: '#000000',
+          textLight: '#FFFFFF',
+          link: '#000000',
+          action: '#000000',
+          inactiveTabIcon: '#0E2F5A',
+          error: '#F44235',
+          inProgress: '#000000',
+          complete: '#20B832',
+          sourceBg: '#E4EBF1',
+        },
+        window: {
+          background: '#E4EBF1',
+          border: '1px solid #90A0B3',
+          width: '400px',
+          height: '300px',
+          borderRadius: '30px',
+        },
+        tab: {
+          background: '#FFFFFF',
+          activeBorderColor: '#000000',
+          inactiveBorderColor: '#E4EBF1',
+          borderRadius: '5px',
+        },
+        button: {
+          background: '#000000',
+          borderRadius: '5px',
+        },
+        dropzone: {
+          background: '#F4F4F5',
+          border: '2px dashed #90A0B3',
+          borderRadius: '5px',
+        },
+        progress: {
+          background: '#F4F4F5',
+          borderRadius: '5px',
+        },
+        panel: {
+          background: '#FFFFFF',
+          borderRadius: '10px',
+        },
+        fonts: {
+          default: null,
+          "'Fira Sans', sans-serif": {
+            url: 'https://fonts.googleapis.com/css?family=Fira+Sans',
+            active: true,
+          },
+        },
+      },
+    };
+  }
   uploadImageWithWidget(): any {
     cloudinary?.createUploadWidget(
       {
@@ -40,7 +127,30 @@ export class CloudinaryService {
     );
   }
 
-  generateUniqueFilName(): string {
+  createUploadWidget(maxFiles: number) {
+    return cloudinary.createUploadWidget(
+      this.widgetConfig(maxFiles, this.allowedFileTypes),
+      (error: any, result: any) => {
+        this.isLoadingUploadWidget.next(false);
+        if (!error && result && result.event === 'success') {
+          this.handleUpload(result.info);
+        }
+      }
+    );
+  }
+
+  private handleUpload(info: CloudinaryApiResponseDto) {
+    const url = info.secure_url;
+    if (this.imageTypes.some((img) => img == info.resource_type)) {
+      this.imageSubject.next(url);
+    }
+
+    if (this.videoTypes.some((v) => v == info.resource_type)) {
+      this.videoSubject.next(url);
+    }
+  }
+
+  public generateUniqueFilName(): string {
     const timestamp: number = new Date().getTime();
     const randomString: string = Math.random().toString(36).substr(2, 10); // Generate random string
     return timestamp.toString(36) + randomString; // Concatenate timestamp and random string

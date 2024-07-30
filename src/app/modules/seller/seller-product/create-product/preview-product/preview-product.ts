@@ -7,23 +7,23 @@ import { SafeHtml } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import uikit from 'uikit';
+import { CreateProductDto } from 'src/app/models/products.model';
 
 @Component({
   selector: 'app-preview-product',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './preview-product.html',
   styleUrls: ['./preview-product.scss'],
-  providers: [SafeHtmlPipe],
 })
 export class ProductPreview {
   previewDesc: SafeHtml;
   creatingProduct: boolean = false;
   loading: boolean = false;
+  isVisible: boolean = false;
 
-  @Input() productId: number | null = null;
+  @Input() productId: string | null = null;
   @Input() previewData: any = Object.create(null);
   @Input() form!: FormGroup;
+  @Input() selectedCategoryId: string = '';
   @Input() videoUrls: string[] = [];
   @Input() relatedItems: any[] = [];
   @Input() allVariantList: any[] = [];
@@ -34,7 +34,7 @@ export class ProductPreview {
   @Output() onChangeUnit = new EventEmitter<{ unit: number; type: string }>();
 
   constructor(
-    private productService: ProductsService,
+    public productService: ProductsService,
     private safeHtml: SafeHtmlPipe,
     private toast: ToastrService,
     private router: Router
@@ -54,33 +54,32 @@ export class ProductPreview {
 
   createProduct = () => {
     this.creatingProduct = true;
-
-    this.productService
-      .createNewProduct({
-        ...this.form.value,
-        videoUrls: [...this.videoUrls],
-        options: [...this.relatedItems, ...this.allVariantList],
-        publishOption: 'Review',
-      })
-      .subscribe({
-        next: (res) => {
-          if (res.status === 'success') {
-            this.toast.success('Product added successfully');
-            this.router.navigate(['/seller/products']);
-
-            this.creatingProduct = false;
-            localStorage.removeItem('compImagesStore');
-            this.complementaryImagesStore = [];
-          } else {
-            this.creatingProduct = false;
-            this.toast.error('Something went wrong');
-          }
-        },
-        error: (err) => {
+    const model: CreateProductDto = {
+      ...this.form.value,
+      createdByAdmin: false,
+      categoryId: this.selectedCategoryId ?? this.form.value.category.id,
+      videoUrls: this.videoUrls,
+      options: [...this.relatedItems, ...this.allVariantList],
+      publishOption: 'Review',
+    };
+    this.productService.createNewProduct(model).subscribe({
+      next: (res) => {
+        if (res.status === 'success') {
+          this.toast.success('Product created', 'Success');
+          this.router.navigate(['/seller/products']);
+          this.creatingProduct = false;
+          localStorage.removeItem('compImagesStore');
+          this.complementaryImagesStore = [];
+        } else {
           this.creatingProduct = false;
           this.toast.error('Something went wrong');
-        },
-      });
+        }
+      },
+      error: (err) => {
+        this.creatingProduct = false;
+        this.toast.error('Something went wrong');
+      },
+    });
   };
 
   updateProduct = () => {
@@ -88,6 +87,7 @@ export class ProductPreview {
     this.productService
       .createNewProduct({
         ...this.form.value,
+        categoryId: this.selectedCategoryId ?? this.form.value.category.id,
         videoUrls: this.videoUrls,
         options: [...this.relatedItems, ...this.allVariantList],
         publishOption: 'Review',
@@ -113,25 +113,7 @@ export class ProductPreview {
       });
   };
 
-  deleteProduct(): void {
-    uikit.modal.confirm('Are you sure that you want to delete product ?').then(
-      () => {
-        this.loading = true;
-        this.productService.deleteProduct(this.productId).subscribe((res) => {
-          if (res.status === 'success') {
-            this.loading = false;
-            this.toast.success(res.message);
-            this.router.navigate(['/seller/products']);
-          } else {
-            this.loading = false;
-            this.toast.error(res.message);
-          }
-        });
-      },
-      (err) => {
-        this.loading = false;
-        this.toast.error(err.message);
-      }
-    );
+  openDeleteModal(): void {
+    this.productService.deleteModalOpen.next(true);
   }
 }

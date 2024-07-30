@@ -73,7 +73,7 @@ export class ProductCheckoutComponent implements OnInit {
   }
 
   init() {
-    this.user = JSON.parse(localStorage.getItem('user') as string);
+    this.user = this.authService.getLoggedInUser();
     this.referenceId = this.authService.getUserReferenceNumber();
     if (this.referenceId !== null || this.user !== null) {
       this.getCustomerCart();

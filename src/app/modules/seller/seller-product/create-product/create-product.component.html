@@ -1,4 +1,4 @@
-<div *ngIf="!isPreview">
+<div #container *ngIf="!isPreview && !loading">
   <h1 class="uk-margin-bottom">Product(s) Information</h1>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -6,7 +6,7 @@
     <div class="content-container body-add">
       <div class="full-width form-content">
         <div class="mb-3 uk-width-expand input-sec">
-          <div for="name" class="label">Product Name</div>
+          <div for="name" class="label">Product name</div>
           <mat-form-field class="uk-width-expand">
             <input type="text" formControlName="name" matInput placeholder="eg Samsung S10" formControlName="name"
               required />
@@ -14,55 +14,49 @@
         </div>
 
         <div class="mb-3 input-sec">
-          <div for="name" class="label">Store Address</div>
-          <div class="uk-flex justify-content-end pointer">
-            <p (click)="addStore()" class="add-store-btn">+ Add new store</p>
-          </div>
-          <mat-form-field class="uk-width-expand">
-            <mat-select formControlName="storeIds" multiple required>
-              <mat-option disabled="true">Select</mat-option>
-              <mat-option *ngFor="let store of stores" [value]="store.id">
-                {{ store.storeName }} <span>({{ store.city }})</span>
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div for="name" class="label">Store name</div>
+          <p-multiSelect [options]="reArrangedStores" display="chip" optionLabel="storeName" formControlName="storeIds"
+            [style]="{'max-width': '100vw', width: '100%', height: '3.5rem', 'padding-top': '0.5rem'}" [appendTo]="container"
+            [panelStyle]="{'z-index': '1000'}" optionValue="id" placeholder="Select stores"
+            emptyFilterMessage="No result found" filterPlaceHolder="Search store by name">
+
+            <ng-template pTemplate="empty">
+              <div class="empty-message">
+                <p>No store found.</p>
+                <button type="button" (click)="addStore()" mat-button>+ Add new store</button>
+              </div>
+            </ng-template>
+          </p-multiSelect>
         </div>
+
         <div class="mb-3 uk-grid uk-child-width-1-2@s input-sec">
           <div class="uk-width-expand">
             <div for="name" class="label">Category</div>
-            <mat-form-field class="uk-width-expand">
-              <mat-label>Category</mat-label>
-              <mat-select (valueChange)="getSubCategories($event)" formControlName="category" required>
-                <mat-option disabled="true">Select</mat-option>
-                <mat-option *ngFor="let category of categories" [value]="category.id">
-                  {{ category.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+
+            <p-autoComplete [dropdown]="true" [style]="{width: '100%', height: '3.5rem'}" formControlName="category"
+              placeholder="Search for category" [showEmptyMessage]="true" [completeOnFocus]="true"
+              (onSelect)="getSubCategories($event)" [emptyMessage]="'No category found.'"
+              [suggestions]="filteredCategories" (completeMethod)="filterCategories($event)" field="name" />
           </div>
-          <div *ngIf="subCategories?.length > 0" class="uk-width-expand input-sec">
-            <div for="name" class="label">Sub Category</div>
-            <mat-form-field class="uk-width-expand">
-              <mat-label>Sub Category</mat-label>
-              <mat-select formControlName="categoryId">
-                <mat-option disabled="true">Select</mat-option>
-                <mat-option *ngFor="let item of subCategories" [value]="item.id">
-                  {{ item?.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+
+          <div *ngIf="subCategories?.length > 0" class="uk-width-expand input-sec margin-top">
+            <div for="name" class="label">Sub category</div>
+            <p-autoComplete [dropdown]="true" [style]="{width: '100%', height: '3.5rem'}" [completeOnFocus]="true"
+              formControlName="subCategory" placeholder="Search for category" [showEmptyMessage]="true"
+              [emptyMessage]="'No category found.'" [suggestions]="filteredSubCategories"
+              (completeMethod)="filterCategories($event, true)" field="name" />
           </div>
         </div>
         <div class="mb-3 uk-grid block-up uk-grid-row-small uk-child-width-1-2@s input-sec">
           <div class="uk-width-expand input-sec">
-            <div for="name" class="label">Price</div>
+            <div for="name" class="label">Discount price</div>
             <mat-form-field class="uk-width-expand">
               <input (keypress)="preventLetter($event)" type="number" matInput formControlName="price"
                 placeholder="eg 1000" required />
             </mat-form-field>
           </div>
           <div class="uk-width-expand input-sec">
-            <div for="name" class="label">Previous Price</div>
+            <div for="name" class="label">Old price</div>
             <mat-form-field class="uk-width-expand">
               <input (keypress)="preventLetter($event)" type="text" matInput placeholder="eg 1000"
                 formControlName="previousPrice" />
@@ -75,7 +69,7 @@
         <div class="mb-3 uk-grid block-up uk-grid-row-small uk-child-width-1-2@s input-sec">
           <div class="uk-width-expand input-sec">
             <div for="name" class="label availableUnitsHeading">
-              Available Units
+              Available units
             </div>
             <mat-form-field class="uk-width-expand">
               <input (keypress)="preventLetter($event)" type="text" formControlName="unit" matInput placeholder="200"
@@ -98,8 +92,7 @@
           <div class="uk-width-expand input-sec">
             <div for="name" class="label">Pickup Method</div>
             <mat-form-field class="mb-3 uk-width-expand">
-              <mat-select formControlName="pickupOption" required>
-                <mat-option disabled="true">Select pickup method</mat-option>
+              <mat-select formControlName="pickupOption" required placeholder="Select pickup method">
                 <mat-option [value]="'None'">None</mat-option>
                 <mat-option [value]="'Bike'">Bike</mat-option>
                 <mat-option [value]="'Car'">Car</mat-option>
@@ -119,11 +112,14 @@
 
         <div class="uk-grid block-up uk-grid-row-small">
           <div class="mb-3 uk-width-expand uk-width-1-2@s input-sec editor">
-            <div for="name" class="label">File Upload</div>
-            <div class="border-form mb-30 d-flex align-items-center">
-              <button type="button" (click)="upload()">Add file</button>
+            <div for="name" class="label">File upload</div>
+            <div (click)="upload()" class="border-form mb-30 d-flex align-items-center">
+              <button *ngIf="!(cloudinaryService.isLoadingUploadWidget | async)" type="button">Add file</button>
+              <span *ngIf="cloudinaryService.isLoadingUploadWidget | async" class="loader" style="margin-right: 0.5rem"
+                uk-spinner="ratio: 0.8">
+              </span>
               <div class="px-8 d-flex justify-content-center align-items-center">
-                Accepts Images or Videos*
+                Attach product images and videos*
               </div>
             </div>
 
@@ -172,9 +168,9 @@
           </div>
         </div>
 
-        <button class="add-video" type="button" (click)="onUploadVideo()">
+        <!-- <button class="add-video" type="button" (click)="onUploadVideo()">
           Add Video
-        </button>
+        </button> -->
       </div>
     </div>
     <!-- related items card -->
@@ -227,7 +223,7 @@
                   <div class="uk-width-1-2@s input-sec">
                     <div for="name" class="label">Quantity Available</div>
                     <mat-form-field class="uk-width-expand create-product-form-field">
-                      <input type="text" matTooltip="Provide Product Title" matInput (keypress)="preventLetter($event)"
+                      <input type="text" matTooltip="Provide Product quantity" matInput (keypress)="preventLetter($event)"
                         placeholder="Type info here" formControlName="unit" required />
                     </mat-form-field>
                     <div class="uk-text-danger" *ngIf="
@@ -259,12 +255,12 @@
                   <div for="name" class="label">
                     Complementary Item Images/Videos
                   </div>
-                  <div class="border-form mb-30 d-flex align-items-center">
-                    <button (click)="uploadRelatedImage()" type="button">
-                      Upload Image
+                  <div (click)="uploadRelatedImage()" class="border-form mb-30 d-flex align-items-center">
+                    <button type="button">
+                      Add file
                     </button>
                     <div class="px-8 d-flex justify-content-center align-items-center">
-                      Accepts Images or Videos*
+                      Attach product image or video*
                     </div>
                   </div>
                   <div class="error-txt" *ngIf="imageErr">{{ imageErr }}</div>
@@ -503,10 +499,15 @@
   </form>
 </div>
 
+<div *ngIf="loading" class="w-full h-full d-flex align-items-center justify-content-center">
+  <span class="loader" uk-spinner="ratio: 2">
+  </span>
+</div>
+
 <!-- product preview -->
 <div *ngIf="isPreview" class="content-container">
   <app-preview-product (onEdit)="edit()" (onChangeUnit)="changeUnit($event.unit, $event.type)" [productId]="productId"
     [relatedItems]="relatedItems" [(complementaryImagesStore)]="complementaryImagesStore" [form]="form"
-    [previewData]="previewData" [videoUrls]="videoUrls" [uniqueVariant]="uniqueVariant"
-    [allVariantList]="allVariantList" />
+    [selectedCategoryId]="selectedCategoryId" [previewData]="previewData" [videoUrls]="videoUrls"
+    [uniqueVariant]="uniqueVariant" [allVariantList]="allVariantList" />
 </div>

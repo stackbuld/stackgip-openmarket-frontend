@@ -5,6 +5,9 @@ import { IWallet } from '../../models/wallet.model';
 import { WalletService } from '../../services/wallet/wallet.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { SellerService } from 'src/app/services/seller/seller.service';
+import { AlertService } from '../services/alert.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-wallet',
@@ -25,20 +28,36 @@ export class WalletComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private walletService: WalletService,
+    private alert: AlertService,
+    private sellerService: SellerService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.currentRoute = this.router.url.split('/');
 
-    this.user = JSON.parse(localStorage.getItem('user'));
-
+    this.user = this.authService.getLoggedInUser();
     this.getWalletDetails();
-
+    this.getSeller();
     this.walletService.walletRefresh
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.getWalletDetails();
       });
+  }
+
+  getSeller(): void {
+    this.sellerService.getSeller(this.user.id).subscribe({
+      next: (user) => {
+        this.user = user.data;
+        if (!this.user.isKycVerified) {
+          this.alert.open();
+        }
+        if (!this.user.isNINAdded) {
+          this.alert.open();
+        }
+      },
+    });
   }
 
   getWalletDetails() {
@@ -47,13 +66,13 @@ export class WalletComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.wallet = res.data;
         this.mainFunds = [...res.data].find(
-          (value: IWallet) => value.walletType === 'MAIN',
+          (value: IWallet) => value.walletType === 'MAIN'
         );
         this.escrowFunds = [...res.data].find(
-          (value: IWallet) => value.walletType === 'ESCROW',
+          (value: IWallet) => value.walletType === 'ESCROW'
         );
         this.cashbackFunds = [...res.data].find(
-          (value: IWallet) => value.walletType === 'CASHBACK',
+          (value: IWallet) => value.walletType === 'CASHBACK'
         );
         this.loading = false;
         this.walletService.setWalletInfo(res.data[0]);

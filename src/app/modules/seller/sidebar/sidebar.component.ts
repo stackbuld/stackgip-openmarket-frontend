@@ -6,6 +6,7 @@ import { DOCUMENT } from '@angular/common';
 import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { MatDialog } from '@angular/material/dialog';
 import { LogoutModalComponent } from 'src/app/shared/components/logout-modal/logout-modal.component';
+import {environment} from 'src/environments/environment';
 
 @Component({
   selector: 'app-seller-sidebar',
@@ -14,6 +15,7 @@ import { LogoutModalComponent } from 'src/app/shared/components/logout-modal/log
 })
 export class SellerSidebarComponent implements OnInit {
   loggedInUser: IUser;
+  seoDomain = environment.seoDomain;
 
   constructor(
     private router: Router,

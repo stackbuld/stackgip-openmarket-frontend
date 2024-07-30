@@ -18,12 +18,15 @@ import { PwaService } from './services/pwa.service';
 import { PwaPromptComponent } from './shared/components/pwa-prompt/pwa-prompt.component';
 import { IUser } from './models/IUserModel';
 import { datadogRum } from '@datadog/browser-rum';
+import { PrimeNGConfig } from 'primeng/api';
+import { AuthService } from './services/auth.service';
 
 const selectCounter = (state: AppState) => state.count;
 
 export const selectState = createFeatureSelector<AppState>('counterReducer');
 export const getcount = createSelector(selectState, selectCounter);
 declare var gtag: any;
+declare let clarity;
 
 @Component({
   selector: 'app-root',
@@ -33,39 +36,63 @@ declare var gtag: any;
 export class AppComponent implements OnInit {
   title = 'Renamarket -Most Reliable and Secured Ecommerce Website';
   count$: Observable<number>;
+
   user!: IUser;
 
   constructor(
+    private primengConfig: PrimeNGConfig,
     private store: Store<AppState>,
     private router: Router,
     private titleService: Title,
     @Inject(DOCUMENT) private document: Document,
     private pwaService: PwaService,
     private dialog: MatDialog,
+    private authService: AuthService
   ) {
     this.handleRouteEvents();
   }
 
   ngOnInit(): void {
+    this.primengConfig.ripple = true;
     this.count$ = this.store.select(getcount);
 
     this.pwaService.initPwaPrompt();
 
-    if (!JSON.parse(localStorage.getItem('isPwaPromptCancelled'))) {
+    if (!JSON.parse(localStorage.getItem('isPwaPromptCancelled')!)) {
       this.pwaService.showModal.pipe(take(1)).subscribe((status) => {
         if (status) {
           this.dialog.open(PwaPromptComponent, { position: { top: '40px' } });
         }
       });
     }
-
-    this.user = JSON.parse(localStorage.getItem('user')!);
+    const signedInUser = this.authService.getLoggedInUser();
+    this.user = signedInUser; // this.authService.getLoggedInUser()!);
     if (this.user) {
       datadogRum.setUser({
         id: this.user.id,
         name: this.user.firstName + ' ' + this.user.lastName,
         email: this.user.email,
       });
+
+      // microsoft clarity integration
+      // @ts-ignore
+      if (window.clarity && this.user) {
+        clarity(
+          'identify',
+          this.user.id,
+          this.user.email,
+          this.user.phoneNumber,
+          `${this.user.firstName} ${this.user.lastName}`
+        );
+        clarity('set', 'user_id', this.user.id);
+        clarity('set', 'email', this.user.email);
+        clarity('set', 'phone_number', this.user.phoneNumber);
+        clarity(
+          'set',
+          'full_name',
+          `${this.user.firstName} ${this.user.lastName}`
+        );
+      }
     }
   }
 
@@ -74,7 +101,7 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         const title = this.getTitle(
           this.router.routerState,
-          this.router.routerState.root,
+          this.router.routerState.root
         ).join('-');
         this.titleService.setTitle(title);
         // gtag('event', 'page_view', {
@@ -87,7 +114,7 @@ export class AppComponent implements OnInit {
   }
 
   getTitle(state: RouterState, parent: ActivatedRoute): string[] {
-    const data = [];
+    const data: any[] = [];
     if (parent && parent.snapshot.data && parent.snapshot.data['title']) {
       data.push(parent.snapshot.data['title']);
     }

@@ -1,10 +1,8 @@
 <div class="dashboard-container">
   <div class="video-guide" style="margin-bottom: 20px">
-    <app-video-guide-prompt
-      [promptHeading]="
+    <app-video-guide-prompt [promptHeading]="
         'Play this video to learn how to easily confirm an order'
-      "
-      [contents]="[
+      " [contents]="[
         {
           videoId: 'CJP6A13zpAI',
           text: 'Play now',
@@ -12,25 +10,17 @@
           action: null,
           routeUrl: '/seller/orders'
         }
-      ]"
-    >
+      ]">
     </app-video-guide-prompt>
   </div>
   <div class="cards-div uk-flex uk-flex-between">
-    <div
-      class="firstCard-container uk-flex uk-card uk-card-default uk-card-body"
-    >
+    <div class="firstCard-container uk-flex uk-card uk-card-default uk-card-body">
       <div class="firstCard-img">
         <img alt="" src="/assets/image/Frame 51514 (1).svg" />
       </div>
       <div>
         <div *ngIf="loadingOverviewData">
-          <img
-            alt=""
-            height="40"
-            src="/assets/svg/loader-icon.svg"
-            width="40"
-          />
+          <img alt="" height="40" src="/assets/svg/loader-icon.svg" width="40" />
         </div>
         <p *ngIf="!loadingOverviewData" class="firstCard-num">
           {{ overviewData?.newOrderCount || 0 }}
@@ -38,20 +28,13 @@
         <div class="firstCard-text">New Orders</div>
       </div>
     </div>
-    <div
-      class="firstCard-container uk-flex uk-card uk-card-default uk-card-body"
-    >
+    <div class="firstCard-container uk-flex uk-card uk-card-default uk-card-body">
       <div class="firstCard-img">
         <img alt="" src="/assets/image/Frame 51514 (4).svg" />
       </div>
       <div>
         <div *ngIf="loadingOverviewData">
-          <img
-            alt=""
-            height="40"
-            src="/assets/svg/loader-icon.svg"
-            width="40"
-          />
+          <img alt="" height="40" src="/assets/svg/loader-icon.svg" width="40" />
         </div>
         <p *ngIf="!loadingOverviewData" class="firstCard-num">
           {{ overviewData?.totalOrderCount || 0 }}
@@ -59,20 +42,13 @@
         <div class="firstCard-text">Total orders</div>
       </div>
     </div>
-    <div
-      class="firstCard-container uk-flex uk-card uk-card-default uk-card-body"
-    >
+    <div class="firstCard-container uk-flex uk-card uk-card-default uk-card-body">
       <div class="firstCard-img">
         <img alt="" src="/assets/image/newer-img.svg" />
       </div>
       <div>
         <div *ngIf="loadingOverviewData">
-          <img
-            alt=""
-            height="40"
-            src="/assets/svg/loader-icon.svg"
-            width="40"
-          />
+          <img alt="" height="40" src="/assets/svg/loader-icon.svg" width="40" />
         </div>
         <p *ngIf="!loadingOverviewData" class="firstCard-num">
           {{ overviewData?.successOrderCount || 0 }}
@@ -80,20 +56,13 @@
         <div class="firstCard-text">Successful orders</div>
       </div>
     </div>
-    <div
-      class="firstCard-container uk-flex uk-card uk-card-default uk-card-body"
-    >
+    <div class="firstCard-container uk-flex uk-card uk-card-default uk-card-body">
       <div class="firstCard-img">
         <img alt="" src="/assets/image/Frame 51514 (2).svg" />
       </div>
       <div>
         <div *ngIf="loadingOverviewData">
-          <img
-            alt=""
-            height="40"
-            src="/assets/svg/loader-icon.svg"
-            width="40"
-          />
+          <img alt="" height="40" src="/assets/svg/loader-icon.svg" width="40" />
         </div>
         <p *ngIf="!loadingOverviewData" class="firstCard-num">
           {{ overviewData?.rejectedOrderCount || 0 }}
@@ -106,70 +75,31 @@
   <div class="mobile-block d-flex mt-5">
     <div class="w-70 uk-flex">
       <div class="input-search uk-flex">
-        <svg
-          class="icn-search"
-          fill="none"
-          height="18"
-          viewBox="0 0 19 18"
-          width="19"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg class="icn-search" fill="none" height="18" viewBox="0 0 19 18" width="19"
+          xmlns="http://www.w3.org/2000/svg">
           <path
             d="M8.8877 14.25C12.2014 14.25 14.8877 11.5637 14.8877 8.25C14.8877 4.93629 12.2014 2.25 8.8877 2.25C5.57399 2.25 2.8877 4.93629 2.8877 8.25C2.8877 11.5637 5.57399 14.25 8.8877 14.25Z"
-            stroke="#828282"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.01393"
-          />
-          <path
-            d="M16.3855 15.7508L13.123 12.4883"
-            stroke="#828282"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.01393"
-          />
+            stroke="#828282" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.01393" />
+          <path d="M16.3855 15.7508L13.123 12.4883" stroke="#828282" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="1.01393" />
         </svg>
-        <input
-          #orderSearch
-          [(ngModel)]="search"
-          id="searchInput"
-          placeholder="Search by order No, product name..."
-          type="text"
-        />
+        <input #orderSearch [(ngModel)]="search" id="searchInput" placeholder="Search by order No, product name..."
+          type="text" />
       </div>
       <button (click)="searchOrders()" class="search-btn">
-        <svg
-          class="icn-search"
-          fill="none"
-          height="18"
-          viewBox="0 0 19 18"
-          width="19"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg class="icn-search" fill="none" height="18" viewBox="0 0 19 18" width="19"
+          xmlns="http://www.w3.org/2000/svg">
           <path
             d="M8.8877 14.25C12.2014 14.25 14.8877 11.5637 14.8877 8.25C14.8877 4.93629 12.2014 2.25 8.8877 2.25C5.57399 2.25 2.8877 4.93629 2.8877 8.25C2.8877 11.5637 5.57399 14.25 8.8877 14.25Z"
-            stroke="#828282"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.01393"
-          />
-          <path
-            d="M16.3855 15.7508L13.123 12.4883"
-            stroke="#828282"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.01393"
-          />
+            stroke="#828282" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.01393" />
+          <path d="M16.3855 15.7508L13.123 12.4883" stroke="#828282" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="1.01393" />
         </svg>
       </button>
     </div>
     <div class="w-30">
       <div class="ml">
-        <select
-          (change)="filterOrders($event)"
-          class="w-100 select"
-          id="filterSelect"
-        >
+        <select (change)="filterOrders($event)" class="w-100 select" id="filterSelect">
           <option value="all">All</option>
           <option value="today">Today</option>
           <option value="week">This Week</option>
@@ -182,23 +112,11 @@
 
   <div class="mt-3 d-flex flexing justify-content-end">
     <!-- <span *ngIf="isCustomDate"> -->
-    <input
-      *ngIf="isCustomDate"
-      [(ngModel)]="startDate"
-      class="date-input"
-      onfocus="(this.type='date')"
-      placeholder="Select Start Date"
-      type="text"
-    />
+    <input *ngIf="isCustomDate" [(ngModel)]="startDate" class="date-input" onfocus="(this.type='date')"
+      placeholder="Select Start Date" type="text" />
     &nbsp; &nbsp;
-    <input
-      *ngIf="isCustomDate"
-      [(ngModel)]="endDate"
-      class="date-input"
-      onfocus="(this.type='date')"
-      placeholder="Select End Date"
-      type="text"
-    />
+    <input *ngIf="isCustomDate" [(ngModel)]="endDate" class="date-input" onfocus="(this.type='date')"
+      placeholder="Select End Date" type="text" />
     &nbsp; &nbsp;
     <button (click)="customFilter()" *ngIf="isCustomDate" class="filter-btn">
       Filter
@@ -209,46 +127,28 @@
   </div>
 
   <div class="mt-5 tabs">
-    <p
-      (click)="switchTabs('newTab')"
-      [ngClass]="{ activeTab: newTab === true }"
-    >
+    <p (click)="switchTabs('newTab')" [ngClass]="{ activeTab: newTab === true }">
       New
     </p>
     &nbsp; &nbsp; &nbsp; &nbsp;
-    <p
-      (click)="switchTabs('confirmedTab')"
-      [ngClass]="{ activeTab: confirmedTab === true }"
-    >
+    <p (click)="switchTabs('confirmedTab')" [ngClass]="{ activeTab: confirmedTab === true }">
       Confirmed
     </p>
     &nbsp; &nbsp; &nbsp; &nbsp;
-    <p
-      (click)="switchTabs('cancelledTab')"
-      [ngClass]="{ activeTab: cancelledTab === true }"
-    >
+    <p (click)="switchTabs('cancelledTab')" [ngClass]="{ activeTab: cancelledTab === true }">
       Cancelled
     </p>
 
     &nbsp; &nbsp; &nbsp; &nbsp;
-    <p
-      (click)="switchTabs('allTab')"
-      [ngClass]="{ activeTab: allTab === true }"
-    >
+    <p (click)="switchTabs('allTab')" [ngClass]="{ activeTab: allTab === true }">
       All
     </p>
     &nbsp; &nbsp; &nbsp; &nbsp;
-    <p
-      (click)="switchTabs('inTransitTab')"
-      [ngClass]="{ activeTab: inTransitTab === true }"
-    >
+    <p (click)="switchTabs('inTransitTab')" [ngClass]="{ activeTab: inTransitTab === true }">
       In transit
     </p>
 
-    <p
-      (click)="switchTabs('refundTab')"
-      [ngClass]="{ activeTab: refundTab === true }"
-    >
+    <p (click)="switchTabs('refundTab')" [ngClass]="{ activeTab: refundTab === true }">
       Refund
     </p>
   </div>
@@ -259,10 +159,7 @@
       <mat-form-field>
         <mat-label>Delivery status</mat-label>
         <mat-select [formControl]="allFilterInput">
-          <mat-option
-            *ngFor="let status of orderDeliveryStatus"
-            [value]="status.toLowerCase()"
-            >{{ status }}
+          <mat-option *ngFor="let status of orderDeliveryStatus" [value]="status.toLowerCase()">{{ status }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -270,31 +167,19 @@
 
     <div *ngIf="inTransitTab == true" class="intransit-tab">
       <div class="mt-4 tabs" style="margin-top: 10px">
-        <p
-          (click)="switchTabs('awaitingPickup')"
-          [ngClass]="{ activeTab: awaitingPickup === true }"
-        >
+        <p (click)="switchTabs('awaitingPickup')" [ngClass]="{ activeTab: awaitingPickup === true }">
           Awaiting Pickup
         </p>
         &nbsp; &nbsp; &nbsp; &nbsp;
-        <p
-          (click)="switchTabs('delivering')"
-          [ngClass]="{ activeTab: delivering === true }"
-        >
+        <p (click)="switchTabs('delivering')" [ngClass]="{ activeTab: delivering === true }">
           Delivering
         </p>
         &nbsp; &nbsp; &nbsp; &nbsp;
-        <p
-          (click)="switchTabs('delivered')"
-          [ngClass]="{ activeTab: delivered === true }"
-        >
+        <p (click)="switchTabs('delivered')" [ngClass]="{ activeTab: delivered === true }">
           Delivered
         </p>
         &nbsp; &nbsp; &nbsp; &nbsp;
-        <p
-          (click)="switchTabs('inTransitAll')"
-          [ngClass]="{ activeTab: inTransitAll === true }"
-        >
+        <p (click)="switchTabs('inTransitAll')" [ngClass]="{ activeTab: inTransitAll === true }">
           All
         </p>
       </div>
@@ -309,8 +194,7 @@
       <span class="w-15">Action</span>
     </div>
     <div *ngIf="!loadingOrders && orders.length > 0">
-      <div
-        *ngFor="
+      <div *ngFor="
           let item of orders
             | paginate
               : {
@@ -318,39 +202,20 @@
                   currentPage: pageNumber,
                   totalItems: totalItemCount
                 }
-        "
-        class="w-100 table-body d-flex align-items-center"
-      >
+        " class="w-100 table-body d-flex align-items-center">
         <span class="w-15">{{ item?.orderNo || "N/A" }}</span>
         <span class="w-20">{{
           item?.cartProduct?.product?.name || "N/A"
-        }}</span>
+          }}</span>
         <span class="w-20">{{ item?.createdOn | date: "mediumDate" }}</span>
         <span class="w-15">{{ item?.productAmount || 0 | currency: "₦" }}</span>
         <span class="w-15">
-          <span
-            [appDeliveryStatus]="item?.deliveryStatus"
-            appDeliveryStatus
-            class="delivery-status"
-            >{{ item?.deliveryStatus }}</span
-          ></span
-        >
+          <span [appDeliveryStatus]="item?.deliveryStatus" appDeliveryStatus class="delivery-status">{{
+            item?.deliveryStatus }}</span></span>
         <span class="w-15">
           <span style="white-space: nowrap">
-            <svg
-              fill="none"
-              height="9"
-              viewBox="0 0 8 9"
-              widspan="8"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                [appOrderStatusDirective]="item?.orderStatus"
-                appOrderStatusDirective
-                cx="4"
-                cy="4.5"
-                r="4"
-              />
+            <svg fill="none" height="9" viewBox="0 0 8 9" widspan="8" xmlns="http://www.w3.org/2000/svg">
+              <circle [appOrderStatusDirective]="item?.orderStatus" appOrderStatusDirective cx="4" cy="4.5" r="4" />
             </svg>
             &nbsp;
             <span class="ml-3">{{ item?.orderStatus }}</span>
@@ -361,14 +226,12 @@
         </span>
       </div>
       <div class="uk-flex uk-flex-right">
-        <pagination-controls
-          (pageChange)="fetchAllOrders($event)"
-        ></pagination-controls>
+        <pagination-controls (pageChange)="fetchAllOrders($event)"></pagination-controls>
       </div>
     </div>
 
-    <div *ngIf="loadingOrders" class="p-5">
-      <p class="p-5 loading text-center">Loading...</p>
+    <div class="loading-svg" *ngIf="loadingOrders" class="p-5">
+      <img src="/assets/svg/loader-icon.svg" width="100" height="100" alt="Loading..." />
     </div>
 
     <div *ngIf="!loadingOrders && orders.length === 0" class="p-5">
@@ -382,48 +245,32 @@
       <mat-form-field>
         <mat-label>Delivery status</mat-label>
         <mat-select [formControl]="allFilterInput">
-          <mat-option
-            *ngFor="let status of orderDeliveryStatus"
-            [value]="status.toLowerCase()"
-            >{{ status }}
+          <mat-option *ngFor="let status of orderDeliveryStatus" [value]="status.toLowerCase()">{{ status }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div *ngIf="inTransitTab == true" class="intransit-tab">
       <div class="mt-4 tabs" style="margin-top: 10px">
-        <p
-          (click)="switchTabs('awaitingPickup')"
-          [ngClass]="{ activeTab: awaitingPickup === true }"
-        >
+        <p (click)="switchTabs('awaitingPickup')" [ngClass]="{ activeTab: awaitingPickup === true }">
           Awaiting Pickup
         </p>
         &nbsp; &nbsp; &nbsp; &nbsp;
-        <p
-          (click)="switchTabs('delivering')"
-          [ngClass]="{ activeTab: delivering === true }"
-        >
+        <p (click)="switchTabs('delivering')" [ngClass]="{ activeTab: delivering === true }">
           Delivering
         </p>
         &nbsp; &nbsp; &nbsp; &nbsp;
-        <p
-          (click)="switchTabs('delivered')"
-          [ngClass]="{ activeTab: delivered === true }"
-        >
+        <p (click)="switchTabs('delivered')" [ngClass]="{ activeTab: delivered === true }">
           Delivered
         </p>
         &nbsp; &nbsp; &nbsp; &nbsp;
-        <p
-          (click)="switchTabs('inTransitAll')"
-          [ngClass]="{ activeTab: inTransitAll === true }"
-        >
+        <p (click)="switchTabs('inTransitAll')" [ngClass]="{ activeTab: inTransitAll === true }">
           All
         </p>
       </div>
     </div>
     <div *ngIf="!loadingOrders && orders.length > 0">
-      <div
-        *ngFor="
+      <div *ngFor="
           let item of orders
             | paginate
               : {
@@ -431,37 +278,20 @@
                   currentPage: pageNumber,
                   totalItems: totalItemCount
                 }
-        "
-      >
+        ">
         <div class="mb-3 p-3 uk-card uk-card-default">
           <div class="d-flex justify-content-between align-items-start">
             <div>
               <p>Order ID: {{ item?.orderNo || "N/A" }}</p>
               <p>
                 Delivery status:
-                <span
-                  [appDeliveryStatus]="item?.deliveryStatus"
-                  appDeliveryStatus
-                  class="delivery-status mobile"
-                  >{{ item?.deliveryStatus }}</span
-                >
+                <span [appDeliveryStatus]="item?.deliveryStatus" appDeliveryStatus class="delivery-status mobile">{{
+                  item?.deliveryStatus }}</span>
               </p>
             </div>
             <div class="d-flex align-items-center">
-              <svg
-                fill="none"
-                height="9"
-                viewBox="0 0 8 9"
-                widspan="8"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  [appOrderStatusDirective]="item?.orderStatus"
-                  appOrderStatusDirective
-                  cx="4"
-                  cy="4.5"
-                  r="4"
-                />
+              <svg fill="none" height="9" viewBox="0 0 8 9" widspan="8" xmlns="http://www.w3.org/2000/svg">
+                <circle [appOrderStatusDirective]="item?.orderStatus" appOrderStatusDirective cx="4" cy="4.5" r="4" />
               </svg>
               &nbsp;
               <span class="ml-3">{{ item?.orderStatus }}</span>
@@ -476,15 +306,14 @@
         </div>
       </div>
       <div class="uk-flex uk-flex-right">
-        <pagination-controls
-          (pageChange)="fetchAllOrders($event)"
-        ></pagination-controls>
+        <pagination-controls (pageChange)="fetchAllOrders($event)"></pagination-controls>
       </div>
     </div>
 
-    <div *ngIf="loadingOrders" class="p-5">
-      <p class="p-5 loading text-center">Loading...</p>
+    <div class="loading-svg" *ngIf="loadingOrders" class="p-5">
+      <img src="/assets/svg/loader-icon.svg" width="100" height="100" alt="Loading..." />
     </div>
+
 
     <div *ngIf="!loadingOrders && orders.length === 0" class="p-5">
       <p class="p-5 loading text-center">No orders available</p>

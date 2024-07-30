@@ -1,7 +1,8 @@
+import { getLoggedInUser } from './helpers/userUtility';
 import { SharedModule } from './shared/shared.module';
 import { AppRouteModule } from './app-route.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, isDevMode } from '@angular/core';
+import { NgModule, inject, isDevMode } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
@@ -25,24 +26,28 @@ import {
   NgxMatTimepickerModule,
 } from '@angular-material-components/datetime-picker';
 import { datadogRum } from '@datadog/browser-rum';
-import { H } from 'highlight.run';
 import { WalletModule } from './shared/wallet/wallet.module';
+import { provideClarity } from './helpers/ms-clarity';
+import { AuthService } from './services/auth.service';
 
 if (environment.production) {
-  H.init(environment.highlightInfo.id, {
-    environment: 'production',
-    version: 'commit:' + environment.highlightInfo.commmitVersion,
-    tracingOrigins: true,
-    privacySetting: 'none',
-    networkRecording: {
-      enabled: true,
-      recordHeadersAndBody: true,
-      urlBlocklist: [
-        'https://www.googleapis.com/identitytoolkit',
-        'https://securetoken.googleapis.com',
-      ],
-    },
-  });
+  //highlight integration
+
+  // H.init(environment.highlightInfo.id, {
+  //   environment: 'production',
+  //   version: 'commit:' + environment.highlightInfo.commmitVersion,
+  //   tracingOrigins: true,
+  //   privacySetting: 'none',
+  //   networkRecording: {
+  //     enabled: true,
+  //     recordHeadersAndBody: true,
+  //     urlBlocklist: [
+  //       'https://www.googleapis.com/identitytoolkit',
+  //       'https://securetoken.googleapis.com',
+  //     ],
+  //   },
+  // });
+
 
   datadogRum.init({
     applicationId: environment.dataDog.applicationId,
@@ -106,6 +111,7 @@ if (environment.production) {
       useClass: ErrorHandlerInterceptor,
       multi: true,
     },
+    provideClarity({projectId: environment.msClarityProjectId, enabled: true})
     // {
     //   provide: "SocialAuthServiceConfig",
     //   useValue: {
@@ -114,7 +120,7 @@ if (environment.production) {
     //       {
     //         id: GoogleLoginProvider.PROVIDER_ID,
     //         provider: new GoogleLoginProvider(environment.googleClientId),
-    //       },
+  //       },
     //       {
     //         id: FacebookLoginProvider.PROVIDER_ID,
     //         provider: new FacebookLoginProvider(environment.facebookAppId),

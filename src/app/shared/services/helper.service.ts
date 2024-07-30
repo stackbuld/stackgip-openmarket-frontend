@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import Cookies from 'js-cookie';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,11 @@ export class HelperService {
   constructor() { }
 
   getLoggedInUserId() {
-    return localStorage.getItem('userId');
+    let userId = JSON.parse(Cookies.get("userId"));
+    if(!userId){
+      userId = localStorage.getItem('userId');
+    }
+    return userId;
   }
 
   validateAllFormFields(formGroup: FormGroup) {

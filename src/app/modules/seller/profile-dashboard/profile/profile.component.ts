@@ -144,6 +144,7 @@ export class ProfileComponent implements OnInit {
         if (user.data.phoneNumberConfirmed) {
           this.verifiedPhoneNumber = reformedPhoneNumber;
         }
+        console.log(user.data);
 
         (this.ninImageUrl = user.data.personalIdUrl),
           this.profileForm.setValue({
@@ -266,7 +267,10 @@ export class ProfileComponent implements OnInit {
   }
 
   uploadNINDocument(): void {
-    if (!this.ninImageUrl || !this.profileForm.value.nin) return;
+    if (!this.ninImageUrl || !this.profileForm.value.nin) {
+      this.toast.error('Upload your id document and enter your id number.');
+      return;
+    }
 
     this.isUploadingNin = true;
     this.sellerService
@@ -279,7 +283,9 @@ export class ProfileComponent implements OnInit {
       .subscribe({
         next: (res) => {
           if (res.status == 'success') {
-            this.toast.success(`we have received your details. ${res.message}`);
+            this.user.isNINAdded = true;
+            localStorage.setItem('user', JSON.stringify(this.user));
+            this.toast.success(res.message);
             this.showUploadButton = false;
           }
           this.isUploadingNin = false;

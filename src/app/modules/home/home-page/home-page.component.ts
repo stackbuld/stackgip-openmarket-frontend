@@ -3,13 +3,12 @@ import {
   PromotedProduct,
   RecommendedProduct,
 } from 'src/app/models/products.model';
-import { CatgoryService } from 'src/app/services/category/catgory.service';
+import { CategoryService } from 'src/app/services/category/category.service';
 import { ICategory } from 'src/app/models/CategoryModels';
 import { PromotedProductsService } from 'src/app/services/promoted-products/promoted-products.service';
 import { RecommendedProductService } from 'src/app/services/recomended-product/recommended-product.service';
-import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
-import { ProductSearchService } from '../../../services/seller/product-search.service';
 import { ProductsService } from '../../../services/products/products.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home-page',
@@ -47,11 +46,14 @@ export class HomePageComponent {
   ];
 
   loadingCategories: boolean = false;
+  seoDomain = environment.seoDomain;
+  seoSellerFormPage = `${this.seoDomain}/seller-form`;
+  seoProductsPage = `${this.seoDomain}/products`;
 
   constructor(
     private promotedProductsService: PromotedProductsService,
     private recommendedProductsService: RecommendedProductService,
-    private categoryService: CatgoryService,
+    private categoryService: CategoryService,
     private productService: ProductsService
   ) {}
 

@@ -10,7 +10,7 @@ import {
 import { Options } from '@angular-slider/ngx-slider';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductModel } from 'src/app/models/products.model';
-import { CatgoryService } from 'src/app/services/category/catgory.service';
+import { CategoryService } from 'src/app/services/category/category.service';
 import { FooterService } from 'src/app/services/footer.service';
 import { SearchService } from 'src/app/services/search/search.service';
 import { CityService } from 'src/app/services/city/city.service';
@@ -99,7 +99,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductsService,
-    private categoryService: CatgoryService,
+    private categoryService: CategoryService,
     private footerService: FooterService,
     private searchService: SearchService,
     private cityService: CityService,

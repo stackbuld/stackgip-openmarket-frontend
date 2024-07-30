@@ -1,21 +1,16 @@
 <div class="seller-wallet-page">
+  <app-kyc-nin-snack-bar-alert *ngIf="user.sellerApprovalStatus == 'approved' || user.sellerApprovalStatus == 'failedKyc'" [isKycVerified]="user.isKycVerified"
+    [isNinVerified]="user.isNINAdded" />
   <div class="balance-row">
-    <div
-      (click)="onNavigateToTransactions(mainFunds.id)"
-      class="card-container uk-flex uk-card uk-card-default uk-card-body"
-    >
+    <div (click)="onNavigateToTransactions(mainFunds.id)"
+      class="card-container uk-flex uk-card uk-card-default uk-card-body">
       <div class="withdrawcard-img">
         <img src="../../../../assets/image/withdraw-wallet.svg" alt="" />
       </div>
       <div class="withdrawcard-info">
         <p class="card-title">Withdrawable Balance</p>
         <div *ngIf="loading">
-          <img
-            src="/assets/svg/loader-icon.svg"
-            alt=""
-            width="40"
-            height="40"
-          />
+          <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
         </div>
         <h3 *ngIf="!loading" class="card-balance">
           &#8358;{{ mainFunds?.availableAmount.toLocaleString() }}
@@ -25,23 +20,15 @@
       <i class="fa fa-angle-right"></i>
     </div>
 
-    <div
-      (click)="onNavigateToTransactions(escrowFunds.id)"
-      *ngIf="currentRoute.includes('seller')"
-      class="card-container uk-flex uk-card uk-card-default uk-card-body"
-    >
+    <div (click)="onNavigateToTransactions(escrowFunds.id)" *ngIf="currentRoute.includes('seller')"
+      class="card-container uk-flex uk-card uk-card-default uk-card-body">
       <div class="withdrawcard-img">
         <img src="../../../../assets/image/withdraw-wallet.svg" alt="" />
       </div>
       <div class="withdrawcard-info">
         <p class="card-title">Incoming Funds</p>
         <div *ngIf="loading">
-          <img
-            src="/assets/svg/loader-icon.svg"
-            alt=""
-            width="40"
-            height="40"
-          />
+          <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
         </div>
         <h3 *ngIf="!loading" class="card-balance">
           &#8358;{{ escrowFunds?.availableAmount.toLocaleString() }}
@@ -51,27 +38,15 @@
       <i class="fa fa-angle-right"></i>
     </div>
 
-    <div
-      (click)="onNavigateToTransactions(cashbackFunds.id)"
-      *ngIf="currentRoute.includes('buyer')"
-      class="card-container uk-flex uk-card uk-card-default uk-card-body"
-    >
+    <div (click)="onNavigateToTransactions(cashbackFunds.id)" *ngIf="currentRoute.includes('buyer')"
+      class="card-container uk-flex uk-card uk-card-default uk-card-body">
       <div class="withdrawcard-img">
-        <img
-          src="../../../../assets/image/withdraw-wallet.svg"
-          alt=""
-          style="min-width: 40px"
-        />
+        <img src="../../../../assets/image/withdraw-wallet.svg" alt="" style="min-width: 40px" />
       </div>
       <div class="withdrawcard-info">
         <p class="card-title">Cashback Funds</p>
         <div *ngIf="loading">
-          <img
-            src="/assets/svg/loader-icon.svg"
-            alt=""
-            width="40"
-            height="40"
-          />
+          <img src="/assets/svg/loader-icon.svg" alt="" width="40" height="40" />
         </div>
         <h3 *ngIf="!loading" class="card-balance">
           &#8358;{{ cashbackFunds?.availableAmount.toLocaleString() }}

@@ -3,11 +3,13 @@ import {
   RemoveItemFromCart,
 } from '../../../reducers/action/cart.actions';
 import { Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ProductCartModel } from 'src/app/models/products.model';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/reducers';
 import { getCart } from 'src/app/reducers/selectors/cart.selector';
+import {environment} from 'src/environments/environment';
+import {DOCUMENT} from "@angular/common";
 import {
   UpdateCartItemUnit,
   IncreamentCartItem,
@@ -22,8 +24,11 @@ export class CartComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
   carts$: Observable<ProductCartModel[]>;
   cartTotal: number;
+  seoDomain = environment.seoDomain;
+  window = inject(DOCUMENT).defaultView;
+
   ngOnInit(): void {
-    this.carts$ = this.store.select(getCart);
+      this.carts$ = this.store.select(getCart);
     this.carts$.subscribe((items) => {
       let total = 0;
       for (const item of items) {
@@ -33,15 +38,15 @@ export class CartComponent implements OnInit {
     });
   }
 
-  updateCartItem(id: number, unit: any) {
+  updateCartItem(id: string, unit: any) {
     this.store.dispatch(UpdateCartItemUnit({ id, orderedUnit: unit }));
   }
 
-  incrementCartItem(id: number) {
+  incrementCartItem(id: string) {
     this.store.dispatch(IncreamentCartItem({ id }));
   }
 
-  decrementCartItem(id: number) {
+  decrementCartItem(id: string) {
     this.store.dispatch(DecreamentCartItem({ id }));
   }
   clearAll() {

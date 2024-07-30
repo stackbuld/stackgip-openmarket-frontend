@@ -11,6 +11,8 @@ import { DateRange } from '../../components/date-range/date-range.dto';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AlertService } from '../../services/alert.service';
+import { SellerService } from 'src/app/services/seller/seller.service';
 
 @Component({
   selector: 'app-wallet-overview',
@@ -36,14 +38,27 @@ export class WalletOverviewComponent implements OnInit {
   constructor(
     private walletService: WalletService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alert: AlertService,
+    private sellerService: SellerService
   ) {}
 
   ngOnInit(): void {
     this.user = this.authService.getLoggedInUser();
     this.getTransactions({ isInitial: true });
     this.getWithdrawalRequests();
-    this.checkForKYCAndNINVerificationStatus();
+    this.getSeller();
+  }
+
+  getSeller(): void {
+    this.sellerService.getSeller(this.user.id).subscribe({
+      next: (user) => {
+        this.user = user.data;
+        if (!this.user.isKycVerified || !this.user.isNINAdded) {
+          this.alert.open();
+        }
+      },
+    });
   }
 
   applyDateRange(dateRange: DateRange): void {
@@ -88,25 +103,35 @@ export class WalletOverviewComponent implements OnInit {
   }
 
   withdraw(): void {
-    if (this.hasDoneKyc && this.hasDoneNinVerification) {
-      this.router.navigateByUrl('./withdraw');
+    if (this.user.sellerApprovalStatus == 'approved') {
+      if (this.user.isKycVerified && this.user.isNINAdded) {
+        this.router.navigateByUrl('/seller/wallet/withdraw');
+        return;
+      }
+      this.alert.open();
       return;
     }
-    this.closeAlert(true);
-  }
-
-  closeAlert(close: boolean = true): void {
-    this.openAlert = close;
-  }
-
-  checkForKYCAndNINVerificationStatus(): void {
-    if (this.user.isKycVerified) {
-      this.openAlert = true;
-      this.hasDoneKyc = true;
+    if (this.user.sellerApprovalStatus == 'failedKyc'){
+      this.alert.open();
+      return;
     }
-    if (this.user.isNINAdded) {
-      this.hasDoneNinVerification = true;
-      this.openAlert = true;
+      this.router.navigateByUrl('/homepage/wallet/withdraw');
+  }
+
+  get getTooltipMessage(): string {
+    if (this.user.sellerApprovalStatus == 'approved') {
+      if (!this.user.isNINAdded) {
+        return 'Complete your nin verification first';
+      }
+      if (!this.user.isKycVerified) {
+        return 'Complete your kyc verification first.';
+      }
+    }
+    if (
+      this.user.sellerApprovalStatus == 'pending' ||
+      this.user.sellerApprovalStatus == 'pendingKycReview'
+    ) {
+      return 'We are currently reviewing your account.';
     }
   }
 
