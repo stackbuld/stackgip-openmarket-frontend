@@ -1,4 +1,4 @@
-FROM node:latest as build
+FROM node:20.12.1 as build
 
 WORKDIR /app
 
@@ -7,20 +7,6 @@ COPY package.json yarn.lock ./
 RUN yarn install
 
 COPY . .
-
-RUN yarn build:ssr
-
-
-# Stage 2: Set up the server
-
-FROM node:latest as serve
-
-WORKDIR /app
-
-COPY --from=build /app/dist ./dist
-
-
-EXPOSE 4000
 ENV NG_APP_PRODUCTION "true"
 ENV NG_APP_IDENTITY_API "https://api-identity.renamarkets.com/api/v1/"
 ENV NG_APP_ECOMMERCE_API "https://api-ecommerce.renamarkets.com/api/v1/"
@@ -53,6 +39,20 @@ ENV NG_APP_KYC_VERIFICATION_WIDGETID_BUSINESS "65bb6ea17063700040c23802"
 ENV NG_APP_KYC_VERIFICATION_WIDGETID_INDIVIDUAL "65baf9e6cd21f60040595585"
 ENV NG_APP_DATADOG_APPLICATION_ID "35fa418c-28ea-4625-8395-49e534fefebb"
 ENV NG_APP_DATADOG_CLIENT_TOKEN "pub21303a9a96fe4b820954d29340bea694"
+RUN yarn build:ssr
+
+
+# Stage 2: Set up the server
+
+FROM node:20.12.1 as serve
+
+WORKDIR /app
+
+COPY --from=build /app/dist ./dist
+
+
+EXPOSE 4000
+
 
 CMD [ "node", "dist/stackbuld-ecommerce/server/main.js" ]
 
