@@ -7,13 +7,13 @@ on:
     branches: [ master, staging, development ]
   pull_request:
     branches: [ master, staging, development ]
-    
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: yarn install && yarn start
+      - run: yarn install && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
