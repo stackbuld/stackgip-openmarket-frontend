@@ -17,6 +17,7 @@ import { environment } from 'src/environments/environment';
 import { SellerProfileData } from 'src/app/models/sellerModel';
 import { profile } from 'console';
 import { Subject, takeUntil } from 'rxjs';
+import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
 declare var cloudinary: any;
 
 @Component({
@@ -61,7 +62,6 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService,
     private toast: ToastrService,
     private authService: AuthService,
     private sellerService: SellerService,
@@ -131,6 +131,7 @@ export class ProfileComponent implements OnInit {
 
         if (this.user.coverPhotoUrl) {
           this.coverPhotoUrl = this.user.coverPhotoUrl;
+          this.cropCoverBgToFace()
         }
 
         if (this.user.profileImageUrl) {
@@ -144,7 +145,6 @@ export class ProfileComponent implements OnInit {
         if (user.data.phoneNumberConfirmed) {
           this.verifiedPhoneNumber = reformedPhoneNumber;
         }
-        console.log(user.data);
 
         (this.ninImageUrl = user.data.personalIdUrl),
           this.profileForm.setValue({
@@ -199,7 +199,7 @@ export class ProfileComponent implements OnInit {
           this.toast.success('Image uploaded successfully');
 
           this.coverPhotoUrl = result.info.secure_url;
-
+          this.cropCoverBgToFace()
           this.sellerService
             .updateSellerPersonalProfile({
               ...this.specificUserData,
@@ -243,6 +243,11 @@ export class ProfileComponent implements OnInit {
         }
       }
     );
+  }
+
+
+  public cropCoverBgToFace():void{
+    this.coverPhotoUrl = ImageResolutionUtility.cropImageToFace(this.coverPhotoUrl, 700, 500);
   }
 
   get f() {
