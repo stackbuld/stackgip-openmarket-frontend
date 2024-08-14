@@ -2,7 +2,12 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on PR
-on: pull_request
+on:
+  push:
+    branches: [ master, staging, development ]
+  pull_request:
+    branches: [ master, staging, development ]
+    
 permissions:
   checks: write
   contents: read
@@ -13,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: yarn install && yarn ci && yarn start
+      - run: yarn install && yarn start
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
