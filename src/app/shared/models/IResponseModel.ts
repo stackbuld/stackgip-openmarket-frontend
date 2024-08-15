@@ -6,6 +6,12 @@ export interface IResponseModel {
   data: object;
 }
 
+export interface ApiResponse<T = null> {
+  message: string;
+  status: string;
+  data: T;
+}
+
 export const ResponseStatus = {
   success: 'success',
   fail: 'fail',

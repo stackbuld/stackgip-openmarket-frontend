@@ -144,7 +144,6 @@ export class SellerStoreService {
         return availability;
       }
       return;
-      console.log(availability);
     });
 
     return availability;

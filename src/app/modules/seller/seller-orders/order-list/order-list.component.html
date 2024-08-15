@@ -28,7 +28,7 @@
               <td>#{{ invoice.id }}</td>
               <td>{{ formatDate(invoice.createdOn) }}</td>
               <td *ngIf="invoice.user$ | async as user">
-                {{ user.data.firstName + " " + user.data.lastName }}
+                {{ user.data.user.firstName + " " + user.data.user.lastName }}
               </td>
               <td>
                 <span class="uk-badge backgound-dark-green">{{invoice.orders.length}}</span>

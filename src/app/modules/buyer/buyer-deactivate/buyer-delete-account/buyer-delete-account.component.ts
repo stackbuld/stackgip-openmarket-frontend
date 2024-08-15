@@ -40,8 +40,8 @@ export class BuyerDeleteAccountComponent implements OnInit {
 
     this.userService.getUserById(this.userId).subscribe({
       next: (user) => {
-        this.isActive = user.data.isActive;
-        this.user = user.data;
+        this.isActive = user.data.user.isActive;
+        this.user = user.data.user;
 
         this.isFetching = false;
       },

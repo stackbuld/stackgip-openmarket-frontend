@@ -75,21 +75,20 @@ export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
   updateUser() {
     this.isFetching = true;
     this.userId = this.authService.getLoggedInUser().id;
-
     this.userService.getUserById(this.userId).subscribe({
       next: (user) => {
         this.isFetching = false;
-        this.user = user.data;
+        this.user = user.data.user;
         this.isEmailVerified = this.user.emailConfirmed;
 
-        user.data.profileImageUrl
-          ? (this.profileImgUrl = user.data.profileImageUrl)
+        this.user.profileImageUrl
+          ? (this.profileImgUrl = this.user.profileImageUrl)
           : (this.profileImgUrl = this.defaultImgUrl);
 
         this.personalInfoForm.setValue({
-          firstName: this.user.firstName,
-          lastName: this.user.lastName,
-          email: this.user.email,
+          firstName: this.user.firstName ?? '',
+          lastName: this.user.lastName ?? '',
+          email: this.user.email ?? '',
         });
 
         this.specificUserData = {

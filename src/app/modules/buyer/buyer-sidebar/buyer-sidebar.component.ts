@@ -35,9 +35,9 @@ export class BuyerSidebarComponent implements OnInit, OnDestroy {
         this.userService.getUserById(this.userId).subscribe({
           next: (user) => {
             this.isFetching = false;
-            this.user = user.data;
-            user.data.profileImageUrl
-              ? (this.profileImgUrl = user.data.profileImageUrl)
+            this.user = user.data.user;
+            user.data.user.profileImageUrl
+              ? (this.profileImgUrl = user.data.user.profileImageUrl)
               : (this.profileImgUrl = this.defaultImgUrl);
           },
           error: (err) => {
