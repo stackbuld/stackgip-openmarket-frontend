@@ -51,8 +51,8 @@ export class OrderListComponent implements OnInit {
         pageNumber,
         this.maximumItem
       )
-      .subscribe(
-        (o) => {
+      .subscribe({
+       next:  (o) => {
           let oList: OrderDetail[] = o.data.data;
           this.orderList = oList.map((oi) => {
             oi.user$ = this.userService.getUserById(oi.userId);
@@ -61,7 +61,7 @@ export class OrderListComponent implements OnInit {
           this.pageNumber = o.data.pager.pageNumber;
           this.totalItemCount = o.data.pager.totalItemCount;
         },
-        (error) => console.error(error)
-      );
+        error: (error) => console.error(error)
+  });
   }
 }

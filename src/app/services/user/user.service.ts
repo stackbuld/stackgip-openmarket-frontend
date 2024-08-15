@@ -1,4 +1,7 @@
-import { IResponseModel } from './../../shared/models/IResponseModel';
+import {
+  ApiResponse,
+  IResponseModel,
+} from './../../shared/models/IResponseModel';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -7,6 +10,7 @@ import {
   PostAddressReturnData,
   UserAddressData,
   UserAddressRawInfo,
+  UserResponse,
 } from './../../models/IUserModel';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -33,8 +37,8 @@ export class UserService {
     return this.http.get<IUserResponse>('auth/getcurrentuser');
   }
 
-  getUserById(userId: string): Observable<IUserResponse> {
-    return this.http.get<IUserResponse>(
+  getUserById(userId: string): Observable<ApiResponse<UserResponse>> {
+    return this.http.get<ApiResponse<UserResponse>>(
       this.api.baseApiUrl + `users/${userId}`
     );
   }

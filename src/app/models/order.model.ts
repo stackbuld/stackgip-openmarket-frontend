@@ -6,8 +6,9 @@ import {
   IApiResponseModel,
   ProductOptions,
 } from './products.model';
-import { IUserResponse } from './IUserModel';
+import { UserResponse } from './IUserModel';
 import { Observable } from 'rxjs';
+import { ApiResponse } from '../shared/models/IResponseModel';
 
 export interface OrderResponce extends IApiResponseModel {
   data: OrderDetail[];
@@ -32,7 +33,7 @@ export interface OrderDetail {
   id: number;
   createdOn: Date;
   viewMore?: boolean;
-  user$?: Observable<IUserResponse>;
+  user$?: Observable<ApiResponse<UserResponse>>;
 }
 
 export interface OrderDetail2 {

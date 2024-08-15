@@ -6,7 +6,7 @@ import { InvoiceService } from '../../../../services/invoice/invoice.service';
 import { fullInvoiceStatus } from '../../../../models/invoice.model';
 import { Observable } from 'rxjs';
 import { UserService } from '../../../../services/user/user.service';
-import { IUser, IUserResponse } from '../../../../models/IUserModel';
+import { IUser, IUserResponse, UserResponse } from '../../../../models/IUserModel';
 
 import { ToastrService } from 'src/app/services/toastr.service';
 import { Order, OrderStatus } from '../../../../models/order.model';
@@ -18,6 +18,7 @@ import {
   formatShipmentOption,
 } from '../../../../helpers/productOption';
 import { AuthService } from 'src/app/services/auth.service';
+import { ApiResponse } from 'src/app/shared/models/IResponseModel';
 
 @Component({
   selector: 'app-order-detail',
@@ -31,7 +32,7 @@ export class OrderDetailComponent implements OnInit {
   @ViewChild('closeUpdateStatus') closeUpdateStatus: ElementRef;
   formatProductOptions: Function = formatProductOptions;
   formatShipmentOption: Function = formatShipmentOption;
-  user$: Observable<IUserResponse>;
+  user$: Observable<ApiResponse<UserResponse>>;
   filterType = fullInvoiceStatus;
   loginUser = {} as IUser;
   invoice: InvoiceModel;

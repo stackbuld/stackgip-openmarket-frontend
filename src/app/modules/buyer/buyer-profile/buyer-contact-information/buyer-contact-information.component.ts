@@ -66,7 +66,7 @@ export class BuyerContactInformationComponent implements OnInit, OnDestroy {
 
     this.userService.getUserById(this.userId).subscribe({
       next: (user) => {
-        this.user = user.data;
+        this.user = user.data.user;
         this.isPhoneVerified = this.user.phoneNumberConfirmed;
         this.isFetching = false;
 
