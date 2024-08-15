@@ -115,7 +115,7 @@ export class BuyerContactDialogComponent {
 
     this.userService.getUserById(this.userId).subscribe({
       next: (user) => {
-        this.user = user.data;
+        this.user = user.data.user;
       },
       error: (err) => {},
     });

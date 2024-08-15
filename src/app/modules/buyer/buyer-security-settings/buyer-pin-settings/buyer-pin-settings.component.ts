@@ -42,7 +42,7 @@ export class BuyerPinSettingsComponent implements OnInit {
     this.userId = this.authService.getLoggedInUser().id;
     this.userService.getUserById(this.userId).subscribe({
       next: (user) => {
-        this.phoneNumber = user.data.phoneNumber;
+        this.phoneNumber = user.data.user.phoneNumber;
       },
     });
   }

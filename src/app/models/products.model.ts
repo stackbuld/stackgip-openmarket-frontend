@@ -200,12 +200,6 @@ export interface IApiResponseModel {
   data: object;
 }
 
-export interface ApiResponse<T = null> {
-  message: string;
-  status: string;
-  data: T;
-}
-
 export interface IPagerModel {}
 
 export interface ProductsApiModel extends IApiResponseModel {

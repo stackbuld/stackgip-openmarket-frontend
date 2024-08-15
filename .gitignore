@@ -41,5 +41,5 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-/.env
+# /.env Commented on because file base uses the .env file to load environments virable.
 /.env.prod

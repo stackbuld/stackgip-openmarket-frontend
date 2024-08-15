@@ -47,6 +47,13 @@ export interface IUserResponse extends ResponseModel {
   data: IUser;
 }
 
+export interface UserResponse {
+  id: string;
+  auth_token: string;
+  roles: string[];
+  user: IUser;
+}
+
 export interface UserDataResponse {
   data: IUser;
   message: string;
