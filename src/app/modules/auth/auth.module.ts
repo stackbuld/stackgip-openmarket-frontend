@@ -24,7 +24,6 @@ import { SignupModule } from 'src/app/shared/components/signup-component/signup.
     ForgetPasswordComponent,
     AccountConfirmationComponent,
     ResetPasswordComponent,
-    ResetPasswordComponent,
     AccountConfirmationComponent,
   ],
   imports: [
