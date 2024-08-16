@@ -51,7 +51,6 @@ export class ResetPasswordComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-
       if (this.email != null || this.token != null) {
         this.isSubmited = false;
         this.isLoading = true;
@@ -63,7 +62,7 @@ export class ResetPasswordComponent implements OnInit {
         } as IForgetPasswordModel;
         this.authService.ForgetPassword(obj).subscribe(
           (a) => {
-        this.isSubmited = true;
+            this.isSubmited = true;
             this.message = 'Success Your Password has been reset, Please Login';
             this.authService.Logout();
             this.isLoading = false;
@@ -74,12 +73,14 @@ export class ResetPasswordComponent implements OnInit {
           },
           (err) => {
             this.isLoading = false;
+            this.isSubmited = true;
             this.success = false;
             this.message =
               'Link must have expired and no longer valid, Resend a new link';
           }
         );
       } else {
+        this.isSubmited = true;
         this.success = false;
         this.message =
           'Link must have expired and no longer valid, Resend a new link';
