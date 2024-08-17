@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { IForgetPasswordModel } from 'src/app/models/auth-model';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-reset-password',
@@ -28,7 +29,8 @@ export class ResetPasswordComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private toast: ToastrService
   ) {
     this.initForm();
   }
@@ -65,6 +67,10 @@ export class ResetPasswordComponent implements OnInit {
             this.isSubmited = true;
             this.message = 'Success Your Password has been reset, Please Login';
             this.authService.Logout();
+            setTimeout(() => {
+              this.router.navigate(['/auth/login'])
+              this.toast.success('Success Your Password has been reset, Please Login', "Password Reset");
+            }, 2000);
             this.isLoading = false;
             // this.initForm();
             if (a.status == 'success') {
