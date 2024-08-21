@@ -14,6 +14,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HomeService} from 'src/app/services/home/home.service';
 import {ToastrService} from 'src/app/services/toastr.service';
 import {AuthService} from "../../../services/auth.service";
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-home-landing',
@@ -36,6 +37,7 @@ export class HomeLandingComponent implements AfterViewInit, OnInit {
     features!: ElementRef;
     navbarHeight: number;
     isLoggedIn: boolean = false
+    seoDomain = environment.seoDomain
 
     constructor(
         private activeRoute: ActivatedRoute,

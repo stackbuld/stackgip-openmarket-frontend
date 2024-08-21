@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { IUser } from "src/app/models/IUserModel";
 import { SellerService } from 'src/app/services/seller/seller.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-seller-header',
@@ -11,6 +12,7 @@ import { SellerService } from 'src/app/services/seller/seller.service';
 export class SellerHeaderComponent implements OnInit {
   loggedInUser: IUser;
   currentRoute: string = "";
+  seoDomain = environment.seoDomain;
 
   constructor(
     private sellerS: SellerService,
