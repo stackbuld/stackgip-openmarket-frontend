@@ -104,7 +104,7 @@ export class WalletComponent implements OnInit, OnDestroy {
         queryParams: { id },
       });
     } else {
-      this.router.navigate(['/buyer/transaction-history'], {
+      this.router.navigate(['/buyer/profile/transaction-history'], {
         relativeTo: this.route,
       });
     }
