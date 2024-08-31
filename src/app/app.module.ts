@@ -48,7 +48,6 @@ if (environment.production) {
   //   },
   // });
 
-
   datadogRum.init({
     applicationId: environment.dataDog.applicationId,
     clientToken: environment.dataDog.clientToken,
@@ -87,7 +86,7 @@ if (environment.production) {
       { counterReducer },
       {
         // metaReducers: [storageSyncMetaReducer],
-      },
+      }
     ),
 
     StoreDevtoolsModule.instrument({
@@ -111,7 +110,10 @@ if (environment.production) {
       useClass: ErrorHandlerInterceptor,
       multi: true,
     },
-    provideClarity({projectId: environment.msClarityProjectId, enabled: true})
+    provideClarity({
+      projectId: environment.msClarityProjectId,
+      enabled: true,
+    }),
     // {
     //   provide: "SocialAuthServiceConfig",
     //   useValue: {
@@ -120,7 +122,7 @@ if (environment.production) {
     //       {
     //         id: GoogleLoginProvider.PROVIDER_ID,
     //         provider: new GoogleLoginProvider(environment.googleClientId),
-  //       },
+    //       },
     //       {
     //         id: FacebookLoginProvider.PROVIDER_ID,
     //         provider: new FacebookLoginProvider(environment.facebookAppId),
