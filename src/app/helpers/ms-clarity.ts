@@ -47,10 +47,12 @@ export function provideClarity(config: ClarityConfiguration) {
       ) => {
         return () => {
           if (isPlatformBrowser(platformId) && enabled) {
-            const s = d.createElement('script');
-            s.type = 'text/javascript';
-            s.innerHTML = clarityScript(projectId);
-            d.head.appendChild(s);
+            if (projectId) {
+              const s = d.createElement('script');
+              s.type = 'text/javascript';
+              s.innerHTML = clarityScript(projectId);
+              d.head.appendChild(s);
+            }
           }
         };
       },
