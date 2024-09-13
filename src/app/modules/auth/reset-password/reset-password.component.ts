@@ -1,10 +1,11 @@
 import { MustMatch } from 'src/app/helpers/control-validators';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { IForgetPasswordModel } from 'src/app/models/auth-model';
-import {ToastrService} from "ngx-toastr";
+import { ToastrService } from 'ngx-toastr';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-reset-password',
@@ -17,6 +18,7 @@ export class ResetPasswordComponent implements OnInit {
   passWordType2 = 'password';
   passwordImgUrl2 = '/assets/icons/eye-block.png';
   isLoading: boolean;
+  document: Document = inject(DOCUMENT);
 
   form: FormGroup = new FormGroup({});
   message = '';
@@ -33,6 +35,13 @@ export class ResetPasswordComponent implements OnInit {
     private toast: ToastrService
   ) {
     this.initForm();
+  }
+
+  ngOnInit(): void {
+    this.email = this.route.snapshot.queryParamMap
+      .get('userId')
+      .replace(/ /g, '+');
+    this.token = this.route.snapshot.queryParamMap.get('token');
   }
 
   initForm = () => {
@@ -68,8 +77,11 @@ export class ResetPasswordComponent implements OnInit {
             this.message = 'Success Your Password has been reset, Please Login';
             this.authService.Logout();
             setTimeout(() => {
-              this.router.navigate(['/auth/login'])
-              this.toast.success('Success Your Password has been reset, Please Login', "Password Reset");
+              this.router.navigate(['/auth/login']);
+              this.toast.success(
+                'Success Your Password has been reset, Please Login',
+                'Password Reset'
+              );
             }, 2000);
             this.isLoading = false;
             // this.initForm();
@@ -95,11 +107,6 @@ export class ResetPasswordComponent implements OnInit {
       this.message = 'Please fill all required filled';
       this.success = false;
     }
-  }
-
-  ngOnInit(): void {
-    this.email = this.route.snapshot.queryParamMap.get('userId');
-    this.token = this.route.snapshot.queryParamMap.get('token');
   }
 
   togglePassword = () => {
