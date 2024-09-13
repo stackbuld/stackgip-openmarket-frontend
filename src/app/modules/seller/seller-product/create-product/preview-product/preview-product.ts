@@ -85,14 +85,17 @@ export class ProductPreview {
   updateProduct = () => {
     this.creatingProduct = true;
     this.productService
-      .createNewProduct({
-        ...this.form.value,
-        categoryId: this.selectedCategoryId ?? this.form.value.category.id,
-        videoUrls: this.videoUrls,
-        options: [...this.relatedItems, ...this.allVariantList],
-        publishOption: 'Review',
-        draftProductId: this.productId,
-      })
+      .updateProduct(
+        {
+          ...this.form.value,
+          categoryId: this.selectedCategoryId ?? this.form.value.category.id,
+          videoUrls: this.videoUrls,
+          options: [...this.relatedItems, ...this.allVariantList],
+          publishOption: 'Review',
+          draftProductId: this.productId,
+        },
+        this.productId
+      )
       .subscribe({
         next: (res) => {
           if (res.status === 'success') {
