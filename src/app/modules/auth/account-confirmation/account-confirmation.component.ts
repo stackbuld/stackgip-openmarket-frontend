@@ -24,7 +24,9 @@ export class AccountConfirmationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const email = this.route.snapshot.queryParamMap.get('userId');
+    const email = this.route.snapshot.queryParamMap
+      .get('userId')
+      .replace(/ /g, '+');
     const token = this.route.snapshot.queryParamMap.get('token');
     if (email != null || token != null) {
       this.isSubmited = true;
