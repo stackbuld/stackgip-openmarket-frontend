@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start:without-ssr": "ng serve",
+    "start:ssl": "ng serve --host app.renamarkets.com --ssl true --ssl-cert $(pwd)/app.renamarkets.com.pem --ssl-key $(pwd)/app.renamarkets.com-key.pem",
     "start": "yarn build && yarn run dev:ssr",
     "build-dev": "ng build",
     "build-prod": "cross-env BUILD_ENV=$BUILD_ENV node select-build-script.js",
