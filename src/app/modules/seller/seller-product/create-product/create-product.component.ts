@@ -572,9 +572,7 @@ export class CreateProductComponent
     }
 
     const variantCost =
-      this.variationProps.value.cost === 0
-        ? 0
-        : this.variationProps.value.cost - this.form.get('price').value;
+      this.variationProps.value.cost === 0;
 
     this.variations().push(this.variationProps);
     if (this.editingVariation) {

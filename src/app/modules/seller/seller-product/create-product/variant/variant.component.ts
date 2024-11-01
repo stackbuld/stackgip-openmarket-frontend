@@ -348,7 +348,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       const cost = control.get('cost').value;
       this.finishedVariants.push({
         ...control.value,
-        cost: cost == 0 ? 0 : cost - this.productPrice,
+        cost: cost,
       });
     });
     this.variantService.getVariantCount.next(variantUnitValue);
