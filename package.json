@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "dev": "ng serve",
     "start:without-ssr": "ng serve",
     "start:ssl": "ng serve --host app.renamarkets.com --ssl true --ssl-cert $(pwd)/app.renamarkets.com.pem --ssl-key $(pwd)/app.renamarkets.com-key.pem",
     "start": "yarn build && yarn run dev:ssr",
