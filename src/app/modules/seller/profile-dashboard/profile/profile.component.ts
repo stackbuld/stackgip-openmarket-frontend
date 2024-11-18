@@ -177,6 +177,7 @@ export class ProfileComponent implements OnInit {
         });
       },
       error: (err) => {
+        this.showUploadButton
         this.isFetching = false;
         this.toast.error('Something went wrong!');
       },

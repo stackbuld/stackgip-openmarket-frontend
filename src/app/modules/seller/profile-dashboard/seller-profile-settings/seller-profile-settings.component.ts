@@ -87,6 +87,7 @@ export class SellerProfileSettingsComponent implements OnInit {
         this.userPhoneNumber = user.data.phoneNumber;
       },
       error: (err) => {
+        this.isFetching = false;
         this.toast.error(err.error.message);
       },
     });
@@ -211,6 +212,7 @@ export class SellerProfileSettingsComponent implements OnInit {
           );
         },
         error: (err) => {
+          this.isSendingDeactivateOTP = false;
           this.toast.error(err.error.message);
         },
       });
@@ -236,6 +238,7 @@ export class SellerProfileSettingsComponent implements OnInit {
             );
           },
           error: (err) => {
+            this.isSendingDeactivateOTP = false;
             this.toast.error(err.error.message);
           },
         });
