@@ -95,7 +95,7 @@ export class ProfileComponent implements OnInit {
       state: [null, [Validators.required]],
     });
 
-    this.userId = this.authService.getLoggedInUser().id;
+    this.userId = this.authService.getLoggedInUser()?.id;
 
     this.sellerService.phoneNumberConfirmed.subscribe((status) => {
       this.isPhoneVerified = status;
