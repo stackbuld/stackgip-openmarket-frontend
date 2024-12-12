@@ -29,6 +29,7 @@ import { datadogRum } from '@datadog/browser-rum';
 import { WalletModule } from './shared/wallet/wallet.module';
 import { provideClarity } from './helpers/ms-clarity';
 import { AuthService } from './services/auth.service';
+import { ClarityUnmaskDirective } from './shared/directives/clarity-unmask.directive';
 
 if (environment.production) {
   //highlight integration
@@ -66,7 +67,7 @@ if (environment.production) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ClarityUnmaskDirective],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,

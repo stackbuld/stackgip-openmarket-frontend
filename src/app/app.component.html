@@ -1,6 +1,9 @@
-<router-outlet></router-outlet>
-<app-login-pop-up-modal></app-login-pop-up-modal>
-<ngx-ui-loader
+<div renaClarityUnmask>
+  <router-outlet></router-outlet>
+
+  <app-login-pop-up-modal></app-login-pop-up-modal>
+  <ngx-ui-loader
   [loaderId]="'loader-01'"
   text="loading please wait ... "
-></ngx-ui-loader>
+  ></ngx-ui-loader>
+</div>

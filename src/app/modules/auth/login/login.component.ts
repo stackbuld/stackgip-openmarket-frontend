@@ -80,7 +80,6 @@ export class LoginComponent implements OnInit {
     });
 
     this.countryService.getCountry().subscribe();
-
     if (this.authService.getLoggedInUser()) {
       this.router.navigate(['/homepage']);
     }
