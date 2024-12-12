@@ -33,13 +33,12 @@
 
                 <div class="uk-navbar-right">
                     <div class="">
-                        <button
-                                [routerLink]="['/auth/signup']"
+                        <a href="{{seoDomain}}/seller-form"
                                 class="block-button"
                                 type="button"
                         >
                             Sign Up
-                        </button>
+                    </a>
                     </div>
                 </div>
             </div>
@@ -164,12 +163,12 @@
                 create a seamless online shopping experience for customers, and provide
                 the best prices for a variety of products.
             </div>
-            <button
-                    [routerLink]="isLoggedIn ? ['/homepage'] : [ '/auth/login']"
+            <a
+            href="{{seoDomain}}/seller-form"
                     class="uk-button uk-button-default uk-text-capitalize waitList mt-2"
             >
                 Get Started
-            </button>
+        </a>
         </div>
         <div class="w-50 pl-6 mt-md-1">
             <img
