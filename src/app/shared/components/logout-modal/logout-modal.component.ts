@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {Router} from '@angular/router';
 import {AppLocalStorage} from 'src/app/helpers/local-storage';
 import {AuthService} from "../../../services/auth.service";
+import { environment } from 'src/environments/environment';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
     selector: 'app-logout-modal',
@@ -10,14 +11,15 @@ import {AuthService} from "../../../services/auth.service";
     styleUrls: ['./logout-modal.component.scss'],
 })
 export class LogoutModalComponent {
+    private windowRef = inject(DOCUMENT).defaultView;
+
     constructor(
-        private router: Router,
         private applocal: AppLocalStorage,
         private dialog: MatDialog,
         private authService: AuthService
     ) {
     }
-
+    
     onCancel() {
         this.dialog.closeAll();
     }
@@ -27,6 +29,6 @@ export class LogoutModalComponent {
         this.authService.isLogin.next(false)
         this.applocal.currentUser.next(null);
         this.onCancel();
-        this.router.navigate(['/']);
+        this.windowRef.open(`${environment.seoDomain}`, '_self');
     }
 }
