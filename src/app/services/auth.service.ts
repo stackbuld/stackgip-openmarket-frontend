@@ -3,7 +3,7 @@ import {
   IResponseModel,
 } from './../shared/models/IResponseModel';
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
 import { IUser } from '../models/IUserModel';
@@ -25,6 +25,7 @@ import { AppLocalStorage } from '../helpers/local-storage';
 import { datadogRum } from '@datadog/browser-rum';
 import Cookies from 'js-cookie';
 import { environment } from '../../environments/environment';
+import { DOCUMENT } from '@angular/common';
 declare var clarity: any;
 export interface IAuth {
   isLoggedId: boolean;
@@ -45,6 +46,8 @@ export interface OTPVerificationResponse {
 export class AuthService {
   currentUrl: string = '';
   public isLogin: BehaviorSubject<boolean>;
+  private windowRef = inject(DOCUMENT).defaultView;
+
   tokenSubscription = new Subscription();
   decodedJwt;
 
@@ -528,7 +531,8 @@ export class AuthService {
           }
         } else {
           if (this.currentUrl.includes('auth')) {
-            this.router.navigate(['/']);
+            // this.router.navigate(['/']);
+            this.windowRef.open(`${environment.seoDomain}`, '_self');
           } else {
             this.hideSharedLoginModal();
             this.hideSharedSignupModal();
@@ -541,7 +545,8 @@ export class AuthService {
 
         if (this.currentUrl.includes('auth')) {
           authType === 'login'
-            ? this.router.navigate(['/'])
+            ?             this.windowRef.open(`${environment.seoDomain}`, '_self')
+
             : this.router.navigate(['/homepage']);
         } else {
           this.hideSharedLoginModal();
