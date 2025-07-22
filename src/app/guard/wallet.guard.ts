@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { IUser } from '../models/IUserModel';
@@ -13,7 +7,7 @@ import { IUser } from '../models/IUserModel';
 @Injectable({
   providedIn: 'root',
 })
-export class WalletGuard implements CanActivate {
+export class WalletGuard  {
   user: IUser;
   constructor(private authService: AuthService, private router: Router) {
     this.user = this.authService.getLoggedInUser();

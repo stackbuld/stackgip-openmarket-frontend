@@ -1,19 +1,13 @@
 import { WindowRefService } from './../shared/services/window.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Injectable, inject } from '@angular/core';
-import {
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
-  Router,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard  {
   private router = inject(Router);
   constructor(private authService: AuthService) {}
 
