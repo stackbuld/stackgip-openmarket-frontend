@@ -85,7 +85,7 @@ if (environment.production) {
         StoreDevtoolsModule.instrument({
             maxAge: 25,
             logOnly: environment.production,
-        }),
+        connectInZone: true}),
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: !isDevMode(),
             // Register the ServiceWorker as soon as the application is stable
