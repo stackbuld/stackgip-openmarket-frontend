@@ -1,14 +1,7 @@
 import { ApiAppUrlService } from './../services/api-app-url.service';
 
 import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpInterceptor,
-  HttpHandler,
-  HttpEvent,
-  HttpResponse,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpRequest, HttpInterceptor, HttpHandler, HttpEvent, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';

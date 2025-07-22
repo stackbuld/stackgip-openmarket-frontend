@@ -30,9 +30,10 @@ interface Bank {
 }
 
 @Component({
-  selector: 'app-custom-dropdown',
-  templateUrl: './custom-dropdown.component.html',
-  styleUrls: ['./custom-dropdown.component.scss'],
+    selector: 'app-custom-dropdown',
+    templateUrl: './custom-dropdown.component.html',
+    styleUrls: ['./custom-dropdown.component.scss'],
+    standalone: false
 })
 export class CustomDropdownComponent implements OnInit, OnDestroy {
   private _data = new BehaviorSubject<any[]>([]);

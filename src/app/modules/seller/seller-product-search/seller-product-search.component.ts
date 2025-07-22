@@ -7,9 +7,10 @@ import { ProductSearchResult } from 'src/app/models/products.model';
 import { ProductSearchService } from 'src/app/services/seller/product-search.service';
 
 @Component({
-  selector: 'app-seller-product-search',
-  templateUrl: './seller-product-search.component.html',
-  styleUrls: ['./seller-product-search.component.scss'],
+    selector: 'app-seller-product-search',
+    templateUrl: './seller-product-search.component.html',
+    styleUrls: ['./seller-product-search.component.scss'],
+    standalone: false
 })
 export class SellerProductSearchComponent implements OnInit {
   searchResults: Observable<ProductSearchResult[]>;

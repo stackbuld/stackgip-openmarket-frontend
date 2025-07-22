@@ -8,9 +8,10 @@ import { UserService } from 'src/app/services/user/user.service';
 import { BuyerSecurityOtpComponent } from '../../buyer-security-settings/buyer-security-otp/buyer-security-otp.component';
 
 @Component({
-  selector: 'app-buyer-delete-account',
-  templateUrl: './buyer-delete-account.component.html',
-  styleUrls: ['./buyer-delete-account.component.scss'],
+    selector: 'app-buyer-delete-account',
+    templateUrl: './buyer-delete-account.component.html',
+    styleUrls: ['./buyer-delete-account.component.scss'],
+    standalone: false
 })
 export class BuyerDeleteAccountComponent implements OnInit {
   showPassword: boolean;

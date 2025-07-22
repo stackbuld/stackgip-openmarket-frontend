@@ -1,10 +1,5 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import {
-  ENVIRONMENT_INITIALIZER,
-  InjectionToken,
-  PLATFORM_ID,
-  makeEnvironmentProviders,
-} from '@angular/core';
+import { InjectionToken, PLATFORM_ID, makeEnvironmentProviders, inject, provideEnvironmentInitializer } from '@angular/core';
 
 function clarityScript(projectId: string): string {
   return `(function(c,l,a,r,i,t,y){
@@ -38,9 +33,8 @@ export type ClarityConfiguration = Readonly<{
 export function provideClarity(config: ClarityConfiguration) {
   return makeEnvironmentProviders([
     { provide: CLARITY_CONFIG_TOKEN, useValue: config },
-    {
-      provide: ENVIRONMENT_INITIALIZER,
-      useFactory: (
+    provideEnvironmentInitializer(() => {
+        const initializerFn = ((
         platformId: Object,
         d: Document,
         { enabled, projectId }: ClarityConfiguration
@@ -55,9 +49,8 @@ export function provideClarity(config: ClarityConfiguration) {
             }
           }
         };
-      },
-      deps: [PLATFORM_ID, DOCUMENT, CLARITY_CONFIG_TOKEN],
-      multi: true,
-    },
+      })(inject(PLATFORM_ID), inject(DOCUMENT), inject(CLARITY_CONFIG_TOKEN));
+        return initializerFn();
+      }),
   ]);
 }

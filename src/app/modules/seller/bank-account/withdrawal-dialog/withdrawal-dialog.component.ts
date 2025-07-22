@@ -6,9 +6,10 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { HelperService } from 'src/app/shared/services/helper.service';
 
 @Component({
-  selector: 'app-withdrawal-dialog',
-  templateUrl: './withdrawal-dialog.component.html',
-  styleUrls: ['./withdrawal-dialog.component.scss']
+    selector: 'app-withdrawal-dialog',
+    templateUrl: './withdrawal-dialog.component.html',
+    styleUrls: ['./withdrawal-dialog.component.scss'],
+    standalone: false
 })
 export class WithdrawalDialogComponent implements OnInit {
   bankList: any[];

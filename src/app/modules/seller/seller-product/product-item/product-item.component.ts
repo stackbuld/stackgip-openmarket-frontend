@@ -23,9 +23,10 @@ import { DOCUMENT } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-product-item',
-  templateUrl: './product-item.component.html',
-  styleUrls: ['./product-item.component.scss'],
+    selector: 'app-product-item',
+    templateUrl: './product-item.component.html',
+    styleUrls: ['./product-item.component.scss'],
+    standalone: false
 })
 export class ProductItemComponent implements OnInit {
   @Output() productIdSend = new EventEmitter();

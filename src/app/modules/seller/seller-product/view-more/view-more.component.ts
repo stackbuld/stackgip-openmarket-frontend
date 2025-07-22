@@ -6,9 +6,10 @@ import { formatDate } from '../../../../helpers/date-format';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-view-more',
-  templateUrl: './view-more.component.html',
-  styleUrls: ['./view-more.component.css']
+    selector: 'app-view-more',
+    templateUrl: './view-more.component.html',
+    styleUrls: ['./view-more.component.css'],
+    standalone: false
 })
 export class ViewMoreComponent implements OnInit {
   numberWithCommas:Function = numberWithCommas

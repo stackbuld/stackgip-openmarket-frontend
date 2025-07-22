@@ -5,8 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { DateRange } from './date-range.dto';
 
 @Component({
-  selector: 'date-range-picker',
-  templateUrl: 'date-range.html',
+    selector: 'date-range-picker',
+    templateUrl: 'date-range.html',
+    standalone: false
 })
 export class DateRangePicker {
   @Output() onApplyDateRange = new EventEmitter<DateRange>();

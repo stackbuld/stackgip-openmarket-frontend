@@ -21,12 +21,13 @@ import {
 import { ProductsService } from '../../../../services/products/products.service';
 
 @Component({
-  selector: 'app-product-shipment',
-  templateUrl: './product-shipment.component.html',
-  styleUrls: [
-    './product-shipment.component.css',
-    '../../../../shared/css/spinner.css',
-  ],
+    selector: 'app-product-shipment',
+    templateUrl: './product-shipment.component.html',
+    styleUrls: [
+        './product-shipment.component.css',
+        '../../../../shared/css/spinner.css',
+    ],
+    standalone: false
 })
 export class ProductShipmentComponent implements OnInit, OnChanges {
   @Input() shipments: CreateShipmentModel[];

@@ -10,9 +10,10 @@ import { environment } from 'src/environments/environment';
 import { WindowRefService } from 'src/app/shared/services/window.service';
 
 @Component({
-  selector: 'app-seller-storefront',
-  templateUrl: './seller-storefront.component.html',
-  styleUrls: ['./seller-storefront.component.scss'],
+    selector: 'app-seller-storefront',
+    templateUrl: './seller-storefront.component.html',
+    styleUrls: ['./seller-storefront.component.scss'],
+    standalone: false
 })
 export class SellerStorefrontComponent implements OnInit {
   ratings = 4;

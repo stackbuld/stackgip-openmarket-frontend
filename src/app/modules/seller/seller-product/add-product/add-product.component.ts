@@ -18,12 +18,13 @@ import { SellerStoreCreateDialogComponent } from '../../seller-store/seller-stor
 
 declare var cloudinary: any;
 @Component({
-  selector: 'app-add-product',
-  templateUrl: './add-product.component.html',
-  styleUrls: [
-    './add-product.component.scss',
-    '../../../../shared/css/spinner.css',
-  ],
+    selector: 'app-add-product',
+    templateUrl: './add-product.component.html',
+    styleUrls: [
+        './add-product.component.scss',
+        '../../../../shared/css/spinner.css',
+    ],
+    standalone: false
 })
 export class AddProductComponent implements OnInit {
   private unsubscribe$ = new Subject<void>();

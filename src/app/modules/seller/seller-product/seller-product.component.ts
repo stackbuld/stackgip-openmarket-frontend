@@ -6,9 +6,10 @@ import { EditProductComponent } from './edit-product/edit-product.component';
 import { ProductItemComponent } from './product-item/product-item.component';
 
 @Component({
-  selector: "app-seller-product",
-  templateUrl: "./seller-product.component.html",
-  styleUrls: ["./seller-product.component.css"],
+    selector: "app-seller-product",
+    templateUrl: "./seller-product.component.html",
+    styleUrls: ["./seller-product.component.css"],
+    standalone: false
 })
 export class SellerProductComponent implements OnInit {
   @ViewChild('productList') productList: ProductItemComponent;

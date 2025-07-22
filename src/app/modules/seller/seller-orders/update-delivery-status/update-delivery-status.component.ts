@@ -7,9 +7,10 @@ import { ToastrService } from 'src/app/services/toastr.service';
 import uikit from 'uikit';
 
 @Component({
-  selector: 'app-update-delivery-status',
-  templateUrl: './update-delivery-status.component.html',
-  styleUrls: ['./update-delivery-status.component.css','../../../../shared/css/spinner.css']
+    selector: 'app-update-delivery-status',
+    templateUrl: './update-delivery-status.component.html',
+    styleUrls: ['./update-delivery-status.component.css', '../../../../shared/css/spinner.css'],
+    standalone: false
 })
 export class UpdateDeliveryStatusComponent implements OnInit {
   type:string = "";

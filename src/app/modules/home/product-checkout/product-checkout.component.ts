@@ -20,9 +20,10 @@ import { DeleteDialogComponent } from '../../../shared/components/delete-dialog/
 import { ProductDeleteModalComponent } from './product-delete-modal/product-delete-modal.component';
 
 @Component({
-  selector: 'app-product-checkout',
-  templateUrl: './product-checkout.component.html',
-  styleUrls: ['./product-checkout.component.scss'],
+    selector: 'app-product-checkout',
+    templateUrl: './product-checkout.component.html',
+    styleUrls: ['./product-checkout.component.scss'],
+    standalone: false
 })
 export class ProductCheckoutComponent implements OnInit {
   cart: CartData;

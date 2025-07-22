@@ -19,9 +19,10 @@ import { WindowRefService } from '../../../shared/services/window.service';
 declare const FB: any;
 
 @Component({
-  selector: 'app-login-modal',
-  templateUrl: './login-modal.component.html',
-  styleUrls: ['./login-modal.component.scss']
+    selector: 'app-login-modal',
+    templateUrl: './login-modal.component.html',
+    styleUrls: ['./login-modal.component.scss'],
+    standalone: false
 })
 export class LoginModalComponent implements OnInit{
 

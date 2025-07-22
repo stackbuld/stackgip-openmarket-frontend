@@ -20,9 +20,10 @@ import { ToastrService } from 'src/app/services/toastr.service';
 import { NgOtpInputComponent } from 'ng-otp-input';
 
 @Component({
-  selector: 'app-otp-dialog',
-  templateUrl: './otp-dialog.component.html',
-  styleUrls: ['./otp-dialog.component.scss'],
+    selector: 'app-otp-dialog',
+    templateUrl: './otp-dialog.component.html',
+    styleUrls: ['./otp-dialog.component.scss'],
+    standalone: false
 })
 export class OTPDialogComponent implements OnInit, AfterViewChecked {
   config = {

@@ -22,8 +22,9 @@ export interface PipeState {
 }
 
 @Pipe({
-  name: "paginate",
-  pure: false,
+    name: "paginate",
+    pure: false,
+    standalone: false
 })
 export class PaginatePipe {
   // store the values from the last time the pipe was invoked

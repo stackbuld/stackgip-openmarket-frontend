@@ -2,7 +2,8 @@ import {Directive, Inject, OnInit, PLATFORM_ID, TemplateRef, ViewContainerRef} f
 import {isPlatformBrowser} from '@angular/common';
 
 @Directive({
-  selector: '[appAppShellRender]'
+    selector: '[appAppShellRender]',
+    standalone: false
 })
 export class AppShellRenderDirective implements OnInit {
 

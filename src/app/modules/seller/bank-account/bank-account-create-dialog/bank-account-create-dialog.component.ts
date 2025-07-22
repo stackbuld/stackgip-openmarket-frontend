@@ -6,9 +6,10 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { HelperService } from 'src/app/shared/services/helper.service';
 
 @Component({
-  selector: 'app-bank-account-create-dialog',
-  templateUrl: './bank-account-create-dialog.component.html',
-  styleUrls: ['./bank-account-create-dialog.component.scss'],
+    selector: 'app-bank-account-create-dialog',
+    templateUrl: './bank-account-create-dialog.component.html',
+    styleUrls: ['./bank-account-create-dialog.component.scss'],
+    standalone: false
 })
 export class BankAccountCreateDialogComponent implements OnInit {
   mode: string = 'create';

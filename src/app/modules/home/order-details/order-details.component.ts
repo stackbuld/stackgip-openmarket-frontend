@@ -12,9 +12,10 @@ import { ProductOptions } from '../../../models/products.model';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-order-details',
-  templateUrl: './order-details.component.html',
-  styleUrls: ['./order-details.component.scss'],
+    selector: 'app-order-details',
+    templateUrl: './order-details.component.html',
+    styleUrls: ['./order-details.component.scss'],
+    standalone: false
 })
 export class OrderDetailsComponent implements OnInit {
   order!: OrderDetail2;

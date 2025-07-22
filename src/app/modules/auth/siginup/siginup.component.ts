@@ -26,9 +26,10 @@ import { countryCodes } from 'src/app/data/countryCodes';
 declare const FB: any
 
 @Component({
-  selector: 'app-siginup',
-  templateUrl: './siginup.component.html',
-  styleUrls: ['./siginup.component.scss', '../login/login.component.scss'],
+    selector: 'app-siginup',
+    templateUrl: './siginup.component.html',
+    styleUrls: ['./siginup.component.scss', '../login/login.component.scss'],
+    standalone: false
 })
 export class SiginupComponent implements OnInit {
   tokenSubscription = new Subscription();

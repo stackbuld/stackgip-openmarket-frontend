@@ -9,9 +9,10 @@ import {Router} from "@angular/router";
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-join-waitlist',
-  templateUrl: './join-waitlist.component.html',
-  styleUrls: ['./join-waitlist.component.css'],
+    selector: 'app-join-waitlist',
+    templateUrl: './join-waitlist.component.html',
+    styleUrls: ['./join-waitlist.component.css'],
+    standalone: false
 })
 export class JoinWaitlistComponent implements OnInit {
   window: Window;

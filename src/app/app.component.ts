@@ -29,9 +29,10 @@ declare var gtag: any;
 declare let clarity;
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: false
 })
 export class AppComponent implements OnInit {
   title = 'Renamarket -Most Reliable and Secured Ecommerce Website';

@@ -22,7 +22,7 @@ import {
   NgOptimizedImage,
 } from '@angular/common';
 
-import { HttpClientJsonpModule } from '@angular/common/http';
+import {} from '@angular/common/http';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatRippleModule } from '@angular/material/core';

@@ -4,9 +4,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-account-confirmation',
-  templateUrl: './account-confirmation.component.html',
-  styleUrls: ['./account-confirmation.component.css'],
+    selector: 'app-account-confirmation',
+    templateUrl: './account-confirmation.component.html',
+    styleUrls: ['./account-confirmation.component.css'],
+    standalone: false
 })
 export class AccountConfirmationComponent implements OnInit {
   message =

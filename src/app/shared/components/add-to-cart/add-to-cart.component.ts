@@ -11,9 +11,10 @@ import { debounceTime } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-add-to-cart',
-  templateUrl: './add-to-cart.component.html',
-  styleUrls: ['./add-to-cart.component.scss'],
+    selector: 'app-add-to-cart',
+    templateUrl: './add-to-cart.component.html',
+    styleUrls: ['./add-to-cart.component.scss'],
+    standalone: false
 })
 export class AddToCartComponent implements OnInit {
   @Input() productId: number;

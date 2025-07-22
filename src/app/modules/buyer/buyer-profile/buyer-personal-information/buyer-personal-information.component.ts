@@ -12,9 +12,10 @@ import { BuyerEmailDialogComponent } from './buyer-email-dialog/buyer-email-dial
 declare var cloudinary: any;
 
 @Component({
-  selector: 'app-buyer-personal-information',
-  templateUrl: './buyer-personal-information.component.html',
-  styleUrls: ['./buyer-personal-information.component.scss'],
+    selector: 'app-buyer-personal-information',
+    templateUrl: './buyer-personal-information.component.html',
+    styleUrls: ['./buyer-personal-information.component.scss'],
+    standalone: false
 })
 export class BuyerPersonalInformationComponent implements OnInit, OnDestroy {
   personalInfoForm: FormGroup;

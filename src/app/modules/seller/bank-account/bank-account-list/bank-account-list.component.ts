@@ -7,9 +7,10 @@ import { BankAccountCreateDialogComponent } from '../bank-account-create-dialog/
 import { bankData } from 'src/app/models/wallet.model';
 
 @Component({
-  selector: 'app-bank-account-list',
-  templateUrl: './bank-account-list.component.html',
-  styleUrls: ['./bank-account-list.component.scss'],
+    selector: 'app-bank-account-list',
+    templateUrl: './bank-account-list.component.html',
+    styleUrls: ['./bank-account-list.component.scss'],
+    standalone: false
 })
 export class BankAccountListComponent implements OnInit {
   bankAccountList: bankData[];

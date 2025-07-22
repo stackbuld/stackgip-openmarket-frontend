@@ -17,9 +17,10 @@ import { CountryInfo } from 'src/app/models/country.model';
 import { CountryService } from 'src/app/services/country/country.service';
 
 @Component({
-  selector: 'app-seller-store-create-dialog',
-  templateUrl: './seller-store-create-dialog.component.html',
-  styleUrls: ['./seller-store-create-dialog.component.scss'],
+    selector: 'app-seller-store-create-dialog',
+    templateUrl: './seller-store-create-dialog.component.html',
+    styleUrls: ['./seller-store-create-dialog.component.scss'],
+    standalone: false
 })
 export class SellerStoreCreateDialogComponent implements OnInit {
   sellerStoreAddressForm: FormGroup = new FormGroup({});

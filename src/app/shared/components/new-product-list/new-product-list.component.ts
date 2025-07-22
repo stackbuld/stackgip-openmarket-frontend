@@ -3,9 +3,10 @@ import { ProductsService } from "../../../services/products/products.service";
 import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: "app-new-product-list",
-  templateUrl: "./new-product-list.component.html",
-  styleUrls: ["./new-product-list.component.css"],
+    selector: "app-new-product-list",
+    templateUrl: "./new-product-list.component.html",
+    styleUrls: ["./new-product-list.component.css"],
+    standalone: false
 })
 export class NewProductListComponent implements OnInit {
   constructor(private productService: ProductsService) {}

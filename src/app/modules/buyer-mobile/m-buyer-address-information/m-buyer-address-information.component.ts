@@ -5,9 +5,10 @@ import { CountryInfo } from 'src/app/models/country.model';
 import { CountryService } from 'src/app/services/country/country.service';
 
 @Component({
-  selector: 'app-m-buyer-address-information',
-  templateUrl: './m-buyer-address-information.component.html',
-  styleUrls: ['./m-buyer-address-information.component.scss'],
+    selector: 'app-m-buyer-address-information',
+    templateUrl: './m-buyer-address-information.component.html',
+    styleUrls: ['./m-buyer-address-information.component.scss'],
+    standalone: false
 })
 export class MBuyerAddressInformationComponent implements OnInit {
   isToggled: boolean = false;

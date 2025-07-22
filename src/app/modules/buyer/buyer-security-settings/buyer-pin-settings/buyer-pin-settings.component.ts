@@ -8,9 +8,10 @@ import { BuyerSecurityOtpComponent } from '../buyer-security-otp/buyer-security-
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
-  selector: 'app-buyer-pin-settings',
-  templateUrl: './buyer-pin-settings.component.html',
-  styleUrls: ['./buyer-pin-settings.component.scss'],
+    selector: 'app-buyer-pin-settings',
+    templateUrl: './buyer-pin-settings.component.html',
+    styleUrls: ['./buyer-pin-settings.component.scss'],
+    standalone: false
 })
 export class BuyerPinSettingsComponent implements OnInit {
   pinForm: FormGroup;

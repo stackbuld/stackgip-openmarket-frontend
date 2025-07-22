@@ -15,9 +15,10 @@ import { RefundDetailsDialogComponent } from '../refund-details-dialog/refund-de
 declare var cloudinary: any;
 
 @Component({
-  selector: 'app-order-view',
-  templateUrl: './order-view.component.html',
-  styleUrls: ['./order-view.component.scss'],
+    selector: 'app-order-view',
+    templateUrl: './order-view.component.html',
+    styleUrls: ['./order-view.component.scss'],
+    standalone: false
 })
 export class OrderViewComponent implements OnInit {
   order: any;

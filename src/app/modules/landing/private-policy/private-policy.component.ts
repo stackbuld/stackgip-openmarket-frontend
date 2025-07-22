@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-private-policy',
-  templateUrl: './private-policy.component.html',
-  styleUrls: ['./private-policy.component.css']
+    selector: 'app-private-policy',
+    templateUrl: './private-policy.component.html',
+    styleUrls: ['./private-policy.component.css'],
+    standalone: false
 })
 export class PrivatePolicyComponent implements OnInit {
 

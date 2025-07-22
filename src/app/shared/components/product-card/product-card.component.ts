@@ -5,9 +5,10 @@ import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { ProductModel, PromotedProduct } from 'src/app/models/products.model';
 
 @Component({
-  selector: 'app-product-card',
-  templateUrl: './product-card.component.html',
-  styleUrls: ['./product-card.component.scss'],
+    selector: 'app-product-card',
+    templateUrl: './product-card.component.html',
+    styleUrls: ['./product-card.component.scss'],
+    standalone: false
 })
 export class ProductCardComponent {
   @Input() product: PromotedProduct | ProductModel;

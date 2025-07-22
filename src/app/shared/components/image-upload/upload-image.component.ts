@@ -5,9 +5,10 @@ import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.servic
 import { environment } from 'src/environments/environment.development';
 
 @Component({
-  selector: 'app-upload-image',
-  templateUrl: './upload-image.component.html',
-  styleUrls: ['./upload-image-component.scss'],
+    selector: 'app-upload-image',
+    templateUrl: './upload-image.component.html',
+    styleUrls: ['./upload-image-component.scss'],
+    standalone: false
 })
 export class UploadImageComponent {
   isUploading: boolean = false;

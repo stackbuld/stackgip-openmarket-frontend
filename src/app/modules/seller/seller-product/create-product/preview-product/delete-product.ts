@@ -5,8 +5,8 @@ import { ProductsService } from 'src/app/services/products/products.service';
 import { ToastrService } from 'src/app/services/toastr.service';
 
 @Component({
-  selector: 'app-delete-product-confirmation',
-  template: ` <p-dialog
+    selector: 'app-delete-product-confirmation',
+    template: ` <p-dialog
     header="Delete product"
     [modal]="true"
     [(visible)]="isVisible"
@@ -37,6 +37,7 @@ import { ToastrService } from 'src/app/services/toastr.service';
       />
     </ng-template>
   </p-dialog>`,
+    standalone: false
 })
 export class DeleteProductConfirmation implements OnDestroy, OnInit {
   public isVisible: boolean = false;

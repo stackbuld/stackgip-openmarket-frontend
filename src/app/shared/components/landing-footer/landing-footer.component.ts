@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
-  selector: 'app-landing-footer',
-  templateUrl: './landing-footer.component.html',
-  styleUrls: ['./landing-footer.component.scss']
+    selector: 'app-landing-footer',
+    templateUrl: './landing-footer.component.html',
+    styleUrls: ['./landing-footer.component.scss'],
+    standalone: false
 })
 export class LandingFooterComponent {
   showFooter = true;

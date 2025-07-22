@@ -22,9 +22,10 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { FormControl } from '@angular/forms';
 @Component({
-  selector: 'app-product-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss'],
+    selector: 'app-product-list',
+    templateUrl: './product-list.component.html',
+    styleUrls: ['./product-list.component.scss'],
+    standalone: false
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   // @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;

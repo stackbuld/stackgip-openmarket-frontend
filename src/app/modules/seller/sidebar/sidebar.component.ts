@@ -9,9 +9,10 @@ import { LogoutModalComponent } from 'src/app/shared/components/logout-modal/log
 import {environment} from 'src/environments/environment';
 
 @Component({
-  selector: 'app-seller-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
+    selector: 'app-seller-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.scss'],
+    standalone: false
 })
 export class SellerSidebarComponent implements OnInit {
   loggedInUser: IUser;

@@ -14,9 +14,10 @@ import { SellerService } from 'src/app/services/seller/seller.service';
 import { IUser } from 'src/app/models/IUserModel';
 
 @Component({
-  selector: 'app-change-password',
-  templateUrl: './seller-profile-settings.component.html',
-  styleUrls: ['./seller-profile-settings.component.scss'],
+    selector: 'app-change-password',
+    templateUrl: './seller-profile-settings.component.html',
+    styleUrls: ['./seller-profile-settings.component.scss'],
+    standalone: false
 })
 export class SellerProfileSettingsComponent implements OnInit {
   isActive: boolean;

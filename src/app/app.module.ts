@@ -6,7 +6,7 @@ import { NgModule, inject, isDevMode } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthInterceptor } from './shared/auth-interceptor';
 import { ErrorHandlerInterceptor } from './shared/error-handler-interceptor';
 import { ToastrModule } from 'ngx-toastr';
@@ -66,72 +66,44 @@ if (environment.production) {
   });
 }
 
-@NgModule({
-  declarations: [AppComponent, ClarityUnmaskDirective],
-  imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AppRouteModule,
-    ToastrModule.forRoot(toastOptions),
-    CommonModule,
-    SharedModule,
-    NgxSliderModule,
-    NgxPaginationModule,
-    MatPaginatorModule,
-    NgxMatNativeDateModule,
-    NgxMatTimepickerModule,
-
-    NgAisModule.forRoot(),
-    StoreModule.forRoot(
-      { counterReducer },
-      {
+@NgModule({ declarations: [AppComponent, ClarityUnmaskDirective],
+    bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({ appId: 'serverApp' }),
+        BrowserAnimationsModule,
+        AppRouteModule,
+        ToastrModule.forRoot(toastOptions),
+        CommonModule,
+        SharedModule,
+        NgxSliderModule,
+        NgxPaginationModule,
+        MatPaginatorModule,
+        NgxMatNativeDateModule,
+        NgxMatTimepickerModule,
+        NgAisModule.forRoot(),
+        StoreModule.forRoot({ counterReducer }, {
         // metaReducers: [storageSyncMetaReducer],
-      }
-    ),
-
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000',
-    }),
-    RouterModule,
-    WalletModule,
-  ],
-
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorHandlerInterceptor,
-      multi: true,
-    },
-    provideClarity({
-      projectId: environment.msClarityProjectId,
-      enabled: true,
-    }),
-    // {
-    //   provide: "SocialAuthServiceConfig",
-    //   useValue: {
-    //     autoLogin: false,
-    //     providers: [
-    //       {
-    //         id: GoogleLoginProvider.PROVIDER_ID,
-    //         provider: new GoogleLoginProvider(environment.googleClientId),
-    //       },
-    //       {
-    //         id: FacebookLoginProvider.PROVIDER_ID,
-    //         provider: new FacebookLoginProvider(environment.facebookAppId),
-    //       },
-    //     ],
-    //   } as SocialAuthServiceConfig,
-    // },
-  ],
-  bootstrap: [AppComponent],
-})
+        }),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25,
+            logOnly: environment.production,
+        }),
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            // Register the ServiceWorker as soon as the application is stable
+            // or after 30 seconds (whichever comes first).
+            registrationStrategy: 'registerWhenStable:30000',
+        }),
+        RouterModule,
+        WalletModule], providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorHandlerInterceptor,
+            multi: true,
+        },
+        provideClarity({
+            projectId: environment.msClarityProjectId,
+            enabled: true,
+        }),
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {}

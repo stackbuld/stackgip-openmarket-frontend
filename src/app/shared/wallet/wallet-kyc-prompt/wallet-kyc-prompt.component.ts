@@ -3,9 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-wallet-kyc-prompt',
-  templateUrl: './wallet-kyc-prompt.component.html',
-  styleUrls: ['./wallet-kyc-prompt.component.scss'],
+    selector: 'app-wallet-kyc-prompt',
+    templateUrl: './wallet-kyc-prompt.component.html',
+    styleUrls: ['./wallet-kyc-prompt.component.scss'],
+    standalone: false
 })
 export class WalletKycPromptComponent {
   constructor(

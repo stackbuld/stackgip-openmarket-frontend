@@ -15,9 +15,10 @@ import { MatDatepickerToggle } from '@angular/material/datepicker';
 import { CategoryService } from 'src/app/services/category/category.service';
 
 @Component({
-  selector: 'app-search-item',
-  templateUrl: './search-item.component.html',
-  styleUrls: ['./search-item.component.css'],
+    selector: 'app-search-item',
+    templateUrl: './search-item.component.html',
+    styleUrls: ['./search-item.component.css'],
+    standalone: false
 })
 export class SearchItemComponent implements OnInit {
   @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;

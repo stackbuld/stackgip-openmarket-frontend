@@ -5,9 +5,10 @@ import { ErrorService } from '../../../../services/error.service';
 import { ProductsService } from '../../../../services/products/products.service';
 
 @Component({
-  selector: 'app-product-option',
-  templateUrl: './product-option.component.html',
-  styleUrls: ['./product-option.component.css','../../../../shared/css/spinner.css']
+    selector: 'app-product-option',
+    templateUrl: './product-option.component.html',
+    styleUrls: ['./product-option.component.css', '../../../../shared/css/spinner.css'],
+    standalone: false
 })
 export class ProductOptionComponent implements OnInit, OnChanges {
   @Input() options: ProductOption[];

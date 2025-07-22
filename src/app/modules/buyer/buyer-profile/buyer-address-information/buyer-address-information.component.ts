@@ -11,9 +11,10 @@ import { UserService } from 'src/app/services/user/user.service';
 import { IUser, UserAddressData } from 'src/app/models/IUserModel';
 
 @Component({
-  selector: 'app-buyer-address-information',
-  templateUrl: './buyer-address-information.component.html',
-  styleUrls: ['./buyer-address-information.component.scss'],
+    selector: 'app-buyer-address-information',
+    templateUrl: './buyer-address-information.component.html',
+    styleUrls: ['./buyer-address-information.component.scss'],
+    standalone: false
 })
 export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
   states: string[] = [];

@@ -1,7 +1,8 @@
 import { Directive, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: 'img:not([loading])',
+    selector: 'img:not([loading])',
+    standalone: false
 })
 export class LazyLoadImagesDirective {
   constructor(el: ElementRef) {

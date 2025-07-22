@@ -18,9 +18,10 @@ enum Reasons {
 }
 
 @Component({
-  selector: 'app-request-refund-modal',
-  templateUrl: './request-refund-modal.component.html',
-  styleUrls: ['./request-refund-modal.component.scss'],
+    selector: 'app-request-refund-modal',
+    templateUrl: './request-refund-modal.component.html',
+    styleUrls: ['./request-refund-modal.component.scss'],
+    standalone: false
 })
 export class RequestRefundModalComponent implements OnInit {
   refundReasons: string[] = [

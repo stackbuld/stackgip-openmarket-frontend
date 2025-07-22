@@ -14,9 +14,10 @@ import { SellerStoreCreateDialogComponent } from '../../seller/seller-store/sell
 import { SellerStoreService } from '../../../shared/services/seller-store.service';
 
 @Component({
-  selector: 'app-video-guide',
-  templateUrl: './video-guide.component.html',
-  styleUrls: ['./video-guide.component.scss'],
+    selector: 'app-video-guide',
+    templateUrl: './video-guide.component.html',
+    styleUrls: ['./video-guide.component.scss'],
+    standalone: false
 })
 export class VideoGuideComponent implements OnInit, AfterViewInit {
   @ViewChild('container', { static: true })

@@ -7,7 +7,10 @@ import {
   Output,
 } from '@angular/core';
 
-@Directive({ selector: '[onVisible]' })
+@Directive({
+    selector: '[onVisible]',
+    standalone: false
+})
 export class OnVisibleDirective implements AfterViewInit, OnDestroy {
   @Output() public onVisible: EventEmitter<Boolean> = new EventEmitter();
 

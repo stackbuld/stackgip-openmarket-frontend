@@ -3,9 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/category/category.service';
 
 @Component({
-  selector: 'app-category-home-grid',
-  templateUrl: './category-home-grid.component.html',
-  styleUrls: ['./category-home-grid.component.css'],
+    selector: 'app-category-home-grid',
+    templateUrl: './category-home-grid.component.html',
+    styleUrls: ['./category-home-grid.component.css'],
+    standalone: false
 })
 export class CategoryHomeGridComponent implements OnInit {
   categories: ICategory[] = [];

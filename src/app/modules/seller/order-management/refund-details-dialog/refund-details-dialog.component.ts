@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Refund } from '../../../../models/order.model';
 
 @Component({
-  selector: 'app-refund-details-dialog',
-  templateUrl: './refund-details-dialog.component.html',
-  styleUrls: ['./refund-details-dialog.component.scss'],
+    selector: 'app-refund-details-dialog',
+    templateUrl: './refund-details-dialog.component.html',
+    styleUrls: ['./refund-details-dialog.component.scss'],
+    standalone: false
 })
 export class RefundDetailsDialogComponent implements OnInit {
   refundData!: Refund;

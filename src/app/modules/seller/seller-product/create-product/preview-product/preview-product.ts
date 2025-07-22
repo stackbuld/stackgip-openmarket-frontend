@@ -10,9 +10,10 @@ import uikit from 'uikit';
 import { CreateProductDto } from 'src/app/models/products.model';
 
 @Component({
-  selector: 'app-preview-product',
-  templateUrl: './preview-product.html',
-  styleUrls: ['./preview-product.scss'],
+    selector: 'app-preview-product',
+    templateUrl: './preview-product.html',
+    styleUrls: ['./preview-product.scss'],
+    standalone: false
 })
 export class ProductPreview {
   previewDesc: SafeHtml;

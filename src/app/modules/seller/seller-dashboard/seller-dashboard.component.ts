@@ -7,9 +7,10 @@ import { UserService } from 'src/app/services/user/user.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-seller-dashboard',
-  templateUrl: './seller-dashboard.component.html',
-  styleUrls: ['./seller-dashboard.component.css'],
+    selector: 'app-seller-dashboard',
+    templateUrl: './seller-dashboard.component.html',
+    styleUrls: ['./seller-dashboard.component.css'],
+    standalone: false
 })
 export class SellerDashboardComponent implements OnInit {
   loadingSummary: boolean;

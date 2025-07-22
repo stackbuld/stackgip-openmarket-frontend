@@ -7,9 +7,10 @@ import { MostSelling } from '../../../models/products.model';
 import { ProductsService } from '../../../services/products/products.service';
 
 @Component({
-  selector: 'app-seller-home',
-  templateUrl: './seller-home.component.html',
-  styleUrls: ['./seller-home.component.css'],
+    selector: 'app-seller-home',
+    templateUrl: './seller-home.component.html',
+    styleUrls: ['./seller-home.component.css'],
+    standalone: false
 })
 export class SellerHomeComponent implements OnInit {
   overview: OverView;

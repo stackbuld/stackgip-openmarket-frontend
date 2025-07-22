@@ -38,25 +38,24 @@ import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.servic
 declare var cloudinary: any;
 
 @Component({
-  selector: 'app-variant',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    CommonModule,
-    FormsModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatMenuModule,
-    MatCheckboxModule,
-  ],
-  providers: [
-    {
-      provide: MAT_SELECT_CONFIG,
-      useValue: { overlayPanelClass: 'matSelectCustom3' },
-    },
-  ],
-  templateUrl: './variant.component.html',
-  styleUrls: ['./variant.component.scss'],
+    selector: 'app-variant',
+    imports: [
+        ReactiveFormsModule,
+        CommonModule,
+        FormsModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatMenuModule,
+        MatCheckboxModule,
+    ],
+    providers: [
+        {
+            provide: MAT_SELECT_CONFIG,
+            useValue: { overlayPanelClass: 'matSelectCustom3' },
+        },
+    ],
+    templateUrl: './variant.component.html',
+    styleUrls: ['./variant.component.scss']
 })
 export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() variantOptions: VariantOptions[] = [];

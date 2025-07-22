@@ -44,9 +44,10 @@ import { MetaService } from 'src/app/shared/services/meta.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-single-product',
-  templateUrl: './single-product.component.html',
-  styleUrls: ['./single-product.component.scss'],
+    selector: 'app-single-product',
+    templateUrl: './single-product.component.html',
+    styleUrls: ['./single-product.component.scss'],
+    standalone: false
 })
 export class SingleProductComponent implements OnInit {
   currentImgUrl = '';

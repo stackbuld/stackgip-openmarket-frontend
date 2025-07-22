@@ -3,9 +3,10 @@ import { ControlValueAccessor, FormArray, FormControl, FormGroup } from '@angula
 import { NgxOtpInputConfig } from 'ngx-otp-input';
 
 @Component({
-  selector: 'app-otp',
-  templateUrl: './otp.component.html',
-  styleUrls: ['./otp.component.scss']
+    selector: 'app-otp',
+    templateUrl: './otp.component.html',
+    styleUrls: ['./otp.component.scss'],
+    standalone: false
 })
 export class OtpComponent implements ControlValueAccessor {
   @Output() closeEvent = new EventEmitter()

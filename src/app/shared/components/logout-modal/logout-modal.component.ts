@@ -9,6 +9,7 @@ import { DOCUMENT } from '@angular/common';
     selector: 'app-logout-modal',
     templateUrl: './logout-modal.component.html',
     styleUrls: ['./logout-modal.component.scss'],
+    standalone: false
 })
 export class LogoutModalComponent {
     private windowRef = inject(DOCUMENT).defaultView;

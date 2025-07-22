@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-confirm-order-dialog',
-  templateUrl: './confirm-order-dialog.component.html',
-  styleUrls: ['./confirm-order-dialog.component.scss']
+    selector: 'app-confirm-order-dialog',
+    templateUrl: './confirm-order-dialog.component.html',
+    styleUrls: ['./confirm-order-dialog.component.scss'],
+    standalone: false
 })
 export class ConfirmOrderDialogComponent {
   form

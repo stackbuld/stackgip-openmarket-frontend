@@ -10,7 +10,8 @@ import {ToastrService} from "ngx-toastr";
 @Component({
     selector: 'app-single-product-address-dialog',
     templateUrl: './single-product-address-dialog.component.html',
-    styleUrls: ['./single-product-address-dialog.component.scss']
+    styleUrls: ['./single-product-address-dialog.component.scss'],
+    standalone: false
 })
 export class SingleProductAddressDialogComponent implements OnInit {
     user: IUser;

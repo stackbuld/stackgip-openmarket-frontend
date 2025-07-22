@@ -14,20 +14,19 @@ import { NgxPaginationModule } from '../../pagination/ngx-pagination.module';
 import { SharedModule } from '../../shared.module';
 
 @Component({
-  selector: 'app-transactions',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    TransactionDirective,
-    TransactionAmount,
-    LockedFundsComponent,
-    RouterLink,
-    NgxPaginationModule,
-    SharedModule,
-  ],
-  templateUrl: './transactions.component.html',
-  styleUrls: ['./transactions.component.scss'],
+    selector: 'app-transactions',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        TransactionDirective,
+        TransactionAmount,
+        LockedFundsComponent,
+        RouterLink,
+        NgxPaginationModule,
+        SharedModule,
+    ],
+    templateUrl: './transactions.component.html',
+    styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit, OnDestroy {
   userId: string;

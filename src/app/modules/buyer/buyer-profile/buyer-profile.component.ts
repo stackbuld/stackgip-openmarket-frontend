@@ -4,9 +4,10 @@ import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
-  selector: 'app-buyer-profile',
-  templateUrl: './buyer-profile.component.html',
-  styleUrls: ['./buyer-profile.component.scss'],
+    selector: 'app-buyer-profile',
+    templateUrl: './buyer-profile.component.html',
+    styleUrls: ['./buyer-profile.component.scss'],
+    standalone: false
 })
 export class BuyerProfileComponent implements OnInit, OnDestroy {
   isEditing: boolean = false;

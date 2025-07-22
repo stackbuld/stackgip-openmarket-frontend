@@ -16,9 +16,10 @@ import { numberWithCommas } from '../../../helpers/number-format';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-order-invoice',
-  templateUrl: './order-invoice.component.html',
-  styleUrls: ['./order-invoice.component.css'],
+    selector: 'app-order-invoice',
+    templateUrl: './order-invoice.component.html',
+    styleUrls: ['./order-invoice.component.css'],
+    standalone: false
 })
 export class OrderInvoiceComponent implements OnInit {
   numberWithCommas: Function = numberWithCommas;

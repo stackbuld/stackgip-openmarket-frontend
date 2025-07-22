@@ -10,9 +10,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { CategoryService } from 'src/app/services/category/category.service';
 
 @Component({
-  selector: 'app-list-product',
-  templateUrl: './list-product.component.html',
-  styleUrls: ['./list-product.component.css'],
+    selector: 'app-list-product',
+    templateUrl: './list-product.component.html',
+    styleUrls: ['./list-product.component.css'],
+    standalone: false
 })
 export class ListProductComponent implements OnInit {
   @ViewChild('categoryItem') categoryItem: ElementRef<HTMLElement>;

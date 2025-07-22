@@ -19,9 +19,10 @@ import { CategoryService } from 'src/app/services/category/category.service';
 
 declare var cloudinary: any;
 @Component({
-  selector: 'app-edit-product',
-  templateUrl: './edit-product.component.html',
-  styleUrls: ['./edit-product.component.css'],
+    selector: 'app-edit-product',
+    templateUrl: './edit-product.component.html',
+    styleUrls: ['./edit-product.component.css'],
+    standalone: false
 })
 export class EditProductComponent implements OnInit {
   @Output() closed = new EventEmitter();

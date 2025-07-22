@@ -19,9 +19,10 @@ import { ToastrService } from 'src/app/services/toastr.service';
 import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
 
 @Component({
-  selector: 'app-business-profile',
-  templateUrl: './business-profile.component.html',
-  styleUrls: ['./business-profile.component.scss'],
+    selector: 'app-business-profile',
+    templateUrl: './business-profile.component.html',
+    styleUrls: ['./business-profile.component.scss'],
+    standalone: false
 })
 export class BusinessProfileComponent implements OnInit {
   states: string[] = [];

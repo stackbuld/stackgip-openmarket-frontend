@@ -10,9 +10,10 @@ import { ICategory } from 'src/app/models/CategoryModels';
 import { CategoryService } from 'src/app/services/category/category.service';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.css'],
+    standalone: false
 })
 export class HeaderComponent implements OnInit {
   user$: Observable<IUser>;

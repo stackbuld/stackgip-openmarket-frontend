@@ -4,9 +4,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { IForgetModel } from 'src/app/models/auth-model';
 
 @Component({
-  selector: 'app-forget-password',
-  templateUrl: './forget-password.component.html',
-  styleUrls: ['./forget-password.component.css']
+    selector: 'app-forget-password',
+    templateUrl: './forget-password.component.html',
+    styleUrls: ['./forget-password.component.css'],
+    standalone: false
 })
 export class ForgetPasswordComponent implements OnInit {
   isLoading: boolean;

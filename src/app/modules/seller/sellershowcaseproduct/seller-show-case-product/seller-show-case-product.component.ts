@@ -13,9 +13,10 @@ import { CategoryService } from 'src/app/services/category/category.service';
 declare var UIkit: any;
 
 @Component({
-  selector: 'app-seller-show-case-product',
-  templateUrl: './seller-show-case-product.component.html',
-  styleUrls: ['./seller-show-case-product.component.css'],
+    selector: 'app-seller-show-case-product',
+    templateUrl: './seller-show-case-product.component.html',
+    styleUrls: ['./seller-show-case-product.component.css'],
+    standalone: false
 })
 export class SellerShowCaseProductComponent implements OnInit {
   categories: ICategory[] = [];

@@ -19,9 +19,10 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-seller-store',
-  templateUrl: './seller-store.component.html',
-  styleUrls: ['./seller-store.component.css'],
+    selector: 'app-seller-store',
+    templateUrl: './seller-store.component.html',
+    styleUrls: ['./seller-store.component.css'],
+    standalone: false
 })
 export class SellerStoreComponent implements OnInit, OnDestroy {
   @ViewChild('closeEdit') closeEdit: ElementRef<HTMLElement>;

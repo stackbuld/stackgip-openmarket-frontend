@@ -21,9 +21,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ApiResponse } from 'src/app/shared/models/IResponseModel';
 
 @Component({
-  selector: 'app-order-detail',
-  templateUrl: './order-detail.component.html',
-  styleUrls: ['./order-detail.component.scss'],
+    selector: 'app-order-detail',
+    templateUrl: './order-detail.component.html',
+    styleUrls: ['./order-detail.component.scss'],
+    standalone: false
 })
 export class OrderDetailComponent implements OnInit {
   @ViewChild(OrderViewMoreComponent) orderViewMore: OrderViewMoreComponent;

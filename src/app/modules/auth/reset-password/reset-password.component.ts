@@ -8,9 +8,10 @@ import { ToastrService } from 'ngx-toastr';
 import { DOCUMENT } from '@angular/common';
 
 @Component({
-  selector: 'app-reset-password',
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss'],
+    selector: 'app-reset-password',
+    templateUrl: './reset-password.component.html',
+    styleUrls: ['./reset-password.component.scss'],
+    standalone: false
 })
 export class ResetPasswordComponent implements OnInit {
   passWordType = 'password';

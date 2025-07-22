@@ -24,9 +24,10 @@ import { countryCodes } from 'src/app/data/countryCodes';
 declare const FB: any;
 
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'],
+    selector: 'app-signup',
+    templateUrl: './signup.component.html',
+    styleUrls: ['./signup.component.scss'],
+    standalone: false
 })
 export class SignupComponent implements OnInit {
   tokenSubscription = new Subscription();

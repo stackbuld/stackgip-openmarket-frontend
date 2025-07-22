@@ -3,9 +3,10 @@ import { PwaService } from '../../../services/pwa.service';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-pwa-prompt',
-  templateUrl: './pwa-prompt.component.html',
-  styleUrls: ['./pwa-prompt.component.scss'],
+    selector: 'app-pwa-prompt',
+    templateUrl: './pwa-prompt.component.html',
+    styleUrls: ['./pwa-prompt.component.scss'],
+    standalone: false
 })
 export class PwaPromptComponent {
   constructor(

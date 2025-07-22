@@ -26,9 +26,10 @@ import { AuthService } from 'src/app/services/auth.service';
 
 declare var PaystackPop: any;
 @Component({
-  selector: 'app-checkout',
-  templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.css'],
+    selector: 'app-checkout',
+    templateUrl: './checkout.component.html',
+    styleUrls: ['./checkout.component.css'],
+    standalone: false
 })
 export class CheckoutComponent implements OnInit {
   window: Window;

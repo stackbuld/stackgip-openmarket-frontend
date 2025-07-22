@@ -16,9 +16,10 @@ import {
   DecreamentCartItem,
 } from 'src/app/reducers/action/cart.actions';
 @Component({
-  selector: 'app-cart',
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss'],
+    selector: 'app-cart',
+    templateUrl: './cart.component.html',
+    styleUrls: ['./cart.component.scss'],
+    standalone: false
 })
 export class CartComponent implements OnInit {
   constructor(private store: Store<AppState>) {}

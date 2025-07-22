@@ -16,9 +16,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import * as _ from 'lodash';
 import { numberWithCommas } from '../../../helpers/number-format';
 @Component({
-  selector: 'app-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss'],
+    selector: 'app-order',
+    templateUrl: './order.component.html',
+    styleUrls: ['./order.component.scss'],
+    standalone: false
 })
 export class OrderComponent implements OnInit {
   numberWithCommas: Function = numberWithCommas;

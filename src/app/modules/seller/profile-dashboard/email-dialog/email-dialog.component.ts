@@ -4,9 +4,10 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-email-dialog',
-  templateUrl: './email-dialog.component.html',
-  styleUrls: ['./email-dialog.component.scss'],
+    selector: 'app-email-dialog',
+    templateUrl: './email-dialog.component.html',
+    styleUrls: ['./email-dialog.component.scss'],
+    standalone: false
 })
 export class EmailDialogComponent implements OnInit {
   email: string;

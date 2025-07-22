@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
 
 @Component({
-  selector: 'app-kyc-nin-snack-bar-alert',
-  template: `<div class="alert-container">
+    selector: 'app-kyc-nin-snack-bar-alert',
+    template: `<div class="alert-container">
     <div [class.closed]="ninOpen" class="nin-alert" *ngIf="!isNinVerified">
       <div (click)="closeNin()" class="icon">
         <mat-icon class="">close</mat-icon>
@@ -38,7 +38,8 @@ import { AlertService } from '../../services/alert.service';
       </button>
     </div>
   </div> `,
-  styleUrls: ['./snackbar.scss'],
+    styleUrls: ['./snackbar.scss'],
+    standalone: false
 })
 export class NinAndKYCVerificationAlert implements OnInit {
   @Input() isKycVerified: boolean = false;

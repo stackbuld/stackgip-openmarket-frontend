@@ -15,9 +15,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { LogoutModalComponent } from '../logout-modal/logout-modal.component';
 
 @Component({
-  selector: 'app-home-nav',
-  templateUrl: './home-nav.component.html',
-  styleUrls: ['./home-nav.component.scss'],
+    selector: 'app-home-nav',
+    templateUrl: './home-nav.component.html',
+    styleUrls: ['./home-nav.component.scss'],
+    standalone: false
 })
 export class HomeNavComponent implements OnInit {
   config = this.searchService.getAlgoliaConfig();

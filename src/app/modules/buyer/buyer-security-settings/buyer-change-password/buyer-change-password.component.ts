@@ -8,9 +8,10 @@ import { BuyerSecurityOtpComponent } from '../buyer-security-otp/buyer-security-
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
-  selector: 'app-buyer-change-password',
-  templateUrl: './buyer-change-password.component.html',
-  styleUrls: ['./buyer-change-password.component.scss'],
+    selector: 'app-buyer-change-password',
+    templateUrl: './buyer-change-password.component.html',
+    styleUrls: ['./buyer-change-password.component.scss'],
+    standalone: false
 })
 export class BuyerChangePasswordComponent implements OnInit {
   passwordForm: FormGroup;

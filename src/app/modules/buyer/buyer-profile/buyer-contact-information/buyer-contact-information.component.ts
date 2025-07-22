@@ -12,9 +12,10 @@ import { UserService } from 'src/app/services/user/user.service';
 import { BuyerContactDialogComponent } from './buyer-contact-dialog/buyer-contact-dialog.component';
 
 @Component({
-  selector: 'app-buyer-contact-information',
-  templateUrl: './buyer-contact-information.component.html',
-  styleUrls: ['./buyer-contact-information.component.scss'],
+    selector: 'app-buyer-contact-information',
+    templateUrl: './buyer-contact-information.component.html',
+    styleUrls: ['./buyer-contact-information.component.scss'],
+    standalone: false
 })
 export class BuyerContactInformationComponent implements OnInit, OnDestroy {
   countryInfo: CountryInfo[];

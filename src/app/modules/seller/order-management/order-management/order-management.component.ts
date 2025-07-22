@@ -37,9 +37,10 @@ enum Tabs {
 }
 
 @Component({
-  selector: 'app-order-management',
-  templateUrl: './order-management.component.html',
-  styleUrls: ['./order-management.component.scss'],
+    selector: 'app-order-management',
+    templateUrl: './order-management.component.html',
+    styleUrls: ['./order-management.component.scss'],
+    standalone: false
 })
 export class OrderManagementComponent
   implements OnInit, AfterViewInit, OnDestroy

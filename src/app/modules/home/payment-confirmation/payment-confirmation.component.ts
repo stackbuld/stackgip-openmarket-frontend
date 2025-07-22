@@ -4,9 +4,10 @@ import { AppLocalStorage } from 'src/app/helpers/local-storage';
 import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
-  selector: 'app-payment-confirmation',
-  templateUrl: './payment-confirmation.component.html',
-  styleUrls: ['./payment-confirmation.component.scss']
+    selector: 'app-payment-confirmation',
+    templateUrl: './payment-confirmation.component.html',
+    styleUrls: ['./payment-confirmation.component.scss'],
+    standalone: false
 })
 export class PaymentConfirmationComponent implements OnInit {
   paymentStatus: boolean;

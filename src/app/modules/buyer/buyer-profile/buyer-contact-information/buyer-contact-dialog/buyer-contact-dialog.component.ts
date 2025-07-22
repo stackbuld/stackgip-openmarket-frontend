@@ -8,9 +8,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
-  selector: 'app-buyer-contact-dialog',
-  templateUrl: './buyer-contact-dialog.component.html',
-  styleUrls: ['./buyer-contact-dialog.component.scss'],
+    selector: 'app-buyer-contact-dialog',
+    templateUrl: './buyer-contact-dialog.component.html',
+    styleUrls: ['./buyer-contact-dialog.component.scss'],
+    standalone: false
 })
 export class BuyerContactDialogComponent {
   contactForm: FormGroup;

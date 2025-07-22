@@ -23,9 +23,10 @@ import { ProductSearchService } from 'src/app/services/seller/product-search.ser
 import { SellerService } from 'src/app/services/seller/seller.service';
 
 @Component({
-  selector: 'app-sidebar-header-display',
-  templateUrl: './sidebar-header-display.component.html',
-  styleUrls: ['./sidebar-header-display.component.css'],
+    selector: 'app-sidebar-header-display',
+    templateUrl: './sidebar-header-display.component.html',
+    styleUrls: ['./sidebar-header-display.component.css'],
+    standalone: false
 })
 export class SidebarHeaderDisplayComponent
   implements OnInit, AfterViewInit, OnDestroy

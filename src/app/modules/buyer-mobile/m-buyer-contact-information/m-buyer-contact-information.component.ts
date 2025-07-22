@@ -3,9 +3,10 @@ import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
-  selector: 'app-m-buyer-contact-information',
-  templateUrl: './m-buyer-contact-information.component.html',
-  styleUrls: ['./m-buyer-contact-information.component.scss'],
+    selector: 'app-m-buyer-contact-information',
+    templateUrl: './m-buyer-contact-information.component.html',
+    styleUrls: ['./m-buyer-contact-information.component.scss'],
+    standalone: false
 })
 export class MBuyerContactInformationComponent implements OnInit, OnDestroy {
   isEditingSub$: Subscription;

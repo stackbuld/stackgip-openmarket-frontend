@@ -12,10 +12,10 @@ import {
 import { WindowRefService } from "../services/window.service";
 
 @Component({
-  selector: "infinite-scroll",
-  // templateUrl: "./infinite-scroll.component.html",
-  template: `<div #anchor><ng-content></ng-content></div>`,
-  // template: `<ng-content></ng-content><div #anchor></div>`,
+    selector: "infinite-scroll",
+    // templateUrl: "./infinite-scroll.component.html",
+    template: `<div #anchor><ng-content></ng-content></div>`,
+    standalone: false
 })
 export class InfiniteScrollComponent
   implements OnInit, AfterViewInit, OnDestroy

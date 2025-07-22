@@ -7,9 +7,10 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
-  selector: 'app-buyer-security-otp',
-  templateUrl: './buyer-security-otp.component.html',
-  styleUrls: ['./buyer-security-otp.component.scss'],
+    selector: 'app-buyer-security-otp',
+    templateUrl: './buyer-security-otp.component.html',
+    styleUrls: ['./buyer-security-otp.component.scss'],
+    standalone: false
 })
 export class BuyerSecurityOtpComponent implements OnInit {
   config = {

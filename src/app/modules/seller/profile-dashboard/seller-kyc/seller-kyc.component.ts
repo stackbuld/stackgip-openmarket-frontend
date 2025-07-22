@@ -18,9 +18,10 @@ import { ScriptLoaderService } from '../../../../services/script-loader.service'
 
 declare var Connect;
 @Component({
-  selector: 'app-seller-kyc',
-  templateUrl: './seller-kyc.component.html',
-  styleUrls: ['./seller-kyc.component.scss'],
+    selector: 'app-seller-kyc',
+    templateUrl: './seller-kyc.component.html',
+    styleUrls: ['./seller-kyc.component.scss'],
+    standalone: false
 })
 export class SellerKycComponent implements OnInit {
   isFetching = false;

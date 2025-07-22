@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {
     AfterViewInit,
     Component,
@@ -20,6 +20,7 @@ import { environment } from 'src/environments/environment';
     selector: 'app-home-landing',
     templateUrl: './home-landing.component.html',
     styleUrls: ['./home-landing.component.scss'],
+    standalone: false
 })
 export class HomeLandingComponent implements AfterViewInit, OnInit {
     window: Window;

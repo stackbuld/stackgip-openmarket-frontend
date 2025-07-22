@@ -15,9 +15,10 @@ import { AlertService } from '../../services/alert.service';
 import { SellerService } from 'src/app/services/seller/seller.service';
 
 @Component({
-  selector: 'app-wallet-overview',
-  templateUrl: './wallet-overview.component.html',
-  styleUrls: ['./wallet-overview.component.scss', '../wallet.component.scss'],
+    selector: 'app-wallet-overview',
+    templateUrl: './wallet-overview.component.html',
+    styleUrls: ['./wallet-overview.component.scss', '../wallet.component.scss'],
+    standalone: false
 })
 export class WalletOverviewComponent implements OnInit {
   transactionsList: TransactionsResponse;

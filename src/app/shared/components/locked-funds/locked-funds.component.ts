@@ -7,11 +7,10 @@ import { NgxPaginationModule } from '../../pagination/ngx-pagination.module';
 import { SharedModule } from '../../shared.module';
 
 @Component({
-  selector: 'app-locked-funds',
-  standalone: true,
-  imports: [CommonModule, NgxPaginationModule, SharedModule],
-  templateUrl: './locked-funds.component.html',
-  styleUrls: ['./locked-funds.component.scss'],
+    selector: 'app-locked-funds',
+    imports: [CommonModule, NgxPaginationModule, SharedModule],
+    templateUrl: './locked-funds.component.html',
+    styleUrls: ['./locked-funds.component.scss']
 })
 export class LockedFundsComponent implements OnInit {
   @Input() walletId!: string;

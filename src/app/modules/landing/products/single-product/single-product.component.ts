@@ -11,9 +11,10 @@ import { AddToCart } from 'src/app/reducers/action/cart.actions';
 import { numberWithCommas } from '../../../../helpers/number-format';
 
 @Component({
-  selector: 'app-single-product',
-  templateUrl: './single-product.component.html',
-  styleUrls: ['./single-product.component.css'],
+    selector: 'app-single-product',
+    templateUrl: './single-product.component.html',
+    styleUrls: ['./single-product.component.css'],
+    standalone: false
 })
 export class SingleProductComponent implements OnInit {
   constructor(private toast: ToastrService, private store: Store<AppState>) {}

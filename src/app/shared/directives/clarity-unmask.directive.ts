@@ -4,7 +4,8 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 @Directive({
-  selector: '[renaClarityUnmask]'
+    selector: '[renaClarityUnmask]',
+    standalone: false
 })
 export class ClarityUnmaskDirective implements OnInit, OnDestroy {
   private routerSubscription: Subscription | undefined;

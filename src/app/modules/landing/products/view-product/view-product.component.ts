@@ -8,9 +8,10 @@ import { DOCUMENT } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-view-product',
-  templateUrl: './view-product.component.html',
-  styleUrls: ['./view-product.component.css'],
+    selector: 'app-view-product',
+    templateUrl: './view-product.component.html',
+    styleUrls: ['./view-product.component.css'],
+    standalone: false
 })
 export class ViewProductComponent implements OnInit {
   private unsubscribe$ = new Subject<void>();

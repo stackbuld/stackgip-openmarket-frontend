@@ -7,9 +7,10 @@ import { LogoutModalComponent } from '../../../shared/components/logout-modal/lo
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-buyer-sidebar',
-  templateUrl: './buyer-sidebar.component.html',
-  styleUrls: ['./buyer-sidebar.component.scss'],
+    selector: 'app-buyer-sidebar',
+    templateUrl: './buyer-sidebar.component.html',
+    styleUrls: ['./buyer-sidebar.component.scss'],
+    standalone: false
 })
 export class BuyerSidebarComponent implements OnInit, OnDestroy {
   isPersonalOpened: boolean = true;

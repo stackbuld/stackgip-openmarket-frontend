@@ -4,9 +4,10 @@ import { formatDate } from '../../../../helpers/date-format';
 import { numberWithCommas } from '../../../../helpers/number-format';
 
 @Component({
-  selector: 'app-order-view-more',
-  templateUrl: './order-view-more.component.html',
-  styleUrls: ['./order-view-more.component.css']
+    selector: 'app-order-view-more',
+    templateUrl: './order-view-more.component.html',
+    styleUrls: ['./order-view-more.component.css'],
+    standalone: false
 })
 export class OrderViewMoreComponent implements OnInit {
   numberWithCommas:Function = numberWithCommas

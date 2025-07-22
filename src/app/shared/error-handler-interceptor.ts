@@ -2,14 +2,7 @@ import { ErrorService } from './../services/error.service';
 import { ToastrService } from 'src/app/services/toastr.service';
 
 import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpInterceptor,
-  HttpHandler,
-  HttpEvent,
-  HttpResponse,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpRequest, HttpInterceptor, HttpHandler, HttpEvent, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError, take } from 'rxjs/operators';
 import { NgxUiLoaderService } from 'ngx-ui-loader';

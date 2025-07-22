@@ -5,9 +5,10 @@ import { SellerService } from 'src/app/services/seller/seller.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-seller-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+    selector: 'app-seller-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.css'],
+    standalone: false
 })
 export class SellerHeaderComponent implements OnInit {
   loggedInUser: IUser;

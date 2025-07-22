@@ -6,7 +6,8 @@ import {Toast, ToastrService} from "ngx-toastr";
 @Component({
     selector: 'app-product-delete-modal',
     templateUrl: './product-delete-modal.component.html',
-    styleUrls: ['./product-delete-modal.component.scss']
+    styleUrls: ['./product-delete-modal.component.scss'],
+    standalone: false
 })
 export class ProductDeleteModalComponent {
     deletingCartItem: boolean = false

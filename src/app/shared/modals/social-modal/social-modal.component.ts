@@ -11,9 +11,10 @@ declare const FB: any;
 
 
 @Component({
-  selector: 'app-social-modal',
-  templateUrl: './social-modal.component.html',
-  styleUrls: ['./social-modal.component.scss']
+    selector: 'app-social-modal',
+    templateUrl: './social-modal.component.html',
+    styleUrls: ['./social-modal.component.scss'],
+    standalone: false
 })
 export class SocialModalComponent implements OnInit {
   private clientId = environment.googleClientId;

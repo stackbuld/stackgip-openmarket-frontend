@@ -1,10 +1,11 @@
 import { Directive, Input, OnInit } from '@angular/core';
 
 @Directive({
-  selector: '[img-preloader]',
-  host: {
-    '[attr.src]': 'finalImage',
-  },
+    selector: '[img-preloader]',
+    host: {
+        '[attr.src]': 'finalImage',
+    },
+    standalone: false
 })
 export class ProductSearchImageDirective implements OnInit {
   @Input('img-preloader') targetSource: string;

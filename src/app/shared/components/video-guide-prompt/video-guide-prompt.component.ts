@@ -6,11 +6,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { SharedModule } from '../../shared.module';
 
 @Component({
-  selector: 'app-video-guide-prompt',
-  standalone: true,
-  imports: [CommonModule, MatDialogModule, SharedModule],
-  templateUrl: './video-guide-prompt.component.html',
-  styleUrls: ['./video-guide-prompt.component.scss'],
+    selector: 'app-video-guide-prompt',
+    imports: [CommonModule, MatDialogModule, SharedModule],
+    templateUrl: './video-guide-prompt.component.html',
+    styleUrls: ['./video-guide-prompt.component.scss']
 })
 export class VideoGuidePromptComponent {
   @Input() promptHeading!: string;

@@ -1,7 +1,8 @@
 import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appOrderStatusDirective]',
+    selector: '[appOrderStatusDirective]',
+    standalone: false
 })
 export class OrderStatusDirective implements OnInit {
   @Input('appOrderStatusDirective') appOrderStatusDirective: string;

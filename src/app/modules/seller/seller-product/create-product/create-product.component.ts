@@ -47,10 +47,11 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 declare var cloudinary: any;
 @Component({
-  selector: 'app-create-product',
-  templateUrl: './create-product.component.html',
-  styleUrls: ['./create-product.component.scss'],
-  providers: [SafeHtmlPipe],
+    selector: 'app-create-product',
+    templateUrl: './create-product.component.html',
+    styleUrls: ['./create-product.component.scss'],
+    providers: [SafeHtmlPipe],
+    standalone: false
 })
 export class CreateProductComponent
   implements OnInit, AfterViewChecked, OnDestroy

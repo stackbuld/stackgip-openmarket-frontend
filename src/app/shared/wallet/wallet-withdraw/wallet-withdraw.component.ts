@@ -22,13 +22,14 @@ import { bankData } from 'src/app/models/wallet.model';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-wallet-withdraw',
-  templateUrl: './wallet-withdraw.component.html',
-  styleUrls: [
-    '../wallet.component.scss',
-    './wallet-withdraw.component.scss',
-    '../../css/spinner.css',
-  ],
+    selector: 'app-wallet-withdraw',
+    templateUrl: './wallet-withdraw.component.html',
+    styleUrls: [
+        '../wallet.component.scss',
+        './wallet-withdraw.component.scss',
+        '../../css/spinner.css',
+    ],
+    standalone: false
 })
 export class WalletWithdrawComponent {
   loading: boolean;
