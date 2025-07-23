@@ -10,7 +10,7 @@ import {
   OrderAcceptRejectPayload,
 } from './../../models/order.model';
 import { IApiResponseModel } from '../../models/products.model';
-import * as moment from 'moment';
+import moment from 'moment';
 import { isObject } from 'lodash';
 
 @Injectable({

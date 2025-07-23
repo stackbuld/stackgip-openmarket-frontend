@@ -1,5 +1,5 @@
 import { ProductCheckoutComponent } from './product-checkout/product-checkout.component';
-import { SingleProductComponent } from './single-product/single-product.component';
+import { HomeSingleProductComponent } from './single-product/single-product.component';
 import { HomeComponent } from './home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -27,7 +27,7 @@ const routes: Routes = [
       },
       {
         path: 'product/:id',
-        component: SingleProductComponent,
+        component: HomeSingleProductComponent,
         canActivate: [singleProductRedirectGuard],
       },
       { path: 'checkout', component: ProductCheckoutComponent },

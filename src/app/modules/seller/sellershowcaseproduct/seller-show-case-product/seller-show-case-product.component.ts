@@ -19,7 +19,7 @@ declare var UIkit: any;
     standalone: false
 })
 export class SellerShowCaseProductComponent implements OnInit {
-  categories: ICategory[] = [];
+  categories: ICategory[] | null = [];
   sellerId: string;
   sellerinfo: ISeller;
   sellerUrl: string;
@@ -48,7 +48,7 @@ export class SellerShowCaseProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sellerId = this.route.snapshot.paramMap.get('sellerId');
+    this.sellerId = this.route.snapshot.paramMap.get('sellerId') ?? '';
     this.sellerUrl = this.window.location.href;
 
     let categoryId = this.route.snapshot.queryParamMap.get('categoryId');

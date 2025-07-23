@@ -12,7 +12,7 @@ import { NgImageFullscreenViewModule } from 'ng-image-fullscreen-view';
 
 import { SharedModule } from '../../shared/shared.module';
 import { ProductListComponent } from './product-list/product-list.component';
-import { SingleProductComponent } from './single-product/single-product.component';
+import { HomeSingleProductComponent } from './single-product/single-product.component';
 import { ProductCheckoutComponent } from './product-checkout/product-checkout.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
@@ -40,7 +40,7 @@ if(isPlatformBrowser(PLATFORM_ID)) {
   declarations: [
     HomeComponent,
     ProductListComponent,
-    SingleProductComponent,
+    HomeSingleProductComponent,
     ProductCheckoutComponent,
     OrderDetailsComponent,
     OrderHistoryComponent,

@@ -44,12 +44,12 @@ import { MetaService } from '../../../shared/services/meta.service';
 import { environment } from '../../../../environments/environment';
 
 @Component({
-    selector: 'app-single-product',
+    selector: 'home-single-product',
     templateUrl: './single-product.component.html',
     styleUrls: ['./single-product.component.scss'],
     standalone: false
 })
-export class SingleProductComponent implements OnInit {
+export class HomeSingleProductComponent implements OnInit {
   currentImgUrl = '';
   activeImgId = 0;
   isInformation: boolean = false;

@@ -1,5 +1,5 @@
 import { SellerRoutingModule } from './seller-routing.module';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
@@ -83,6 +83,7 @@ import { MatButtonModule } from '@angular/material/button';
     DeliveryStatusDirective,
     RefundDetailsDialogComponent,
     UploadImageComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -99,11 +100,12 @@ import { MatButtonModule } from '@angular/material/button';
     NgOtpInputModule,
     MatTabsModule,
     MatButtonModule,
-    IvyCarouselModule,
+    IvyCarouselModule as unknown as any,,
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
     VideoGuidePromptComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class SellerModule {}

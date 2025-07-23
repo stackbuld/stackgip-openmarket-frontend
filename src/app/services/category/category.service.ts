@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiAppUrlService } from '../api-app-url.service';
 import { ICategoryService } from './ICategoryService.interface';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import algoliasearch from 'algoliasearch';
 
 const searchClient = algoliasearch(
