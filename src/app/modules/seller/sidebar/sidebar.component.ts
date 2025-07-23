@@ -1,12 +1,12 @@
 import { Router } from '@angular/router';
 import { Component, Inject, OnInit } from '@angular/core';
-import { IUser } from 'src/app/models/IUserModel';
-import { SellerService } from 'src/app/services/seller/seller.service';
+import { IUser } from '../../../models/IUserModel';
+import { SellerService } from '../../../services/seller/seller.service';
 import { DOCUMENT } from '@angular/common';
-import { AppLocalStorage } from 'src/app/helpers/local-storage';
+import { AppLocalStorage } from '../../../helpers/local-storage';
 import { MatDialog } from '@angular/material/dialog';
-import { LogoutModalComponent } from 'src/app/shared/components/logout-modal/logout-modal.component';
-import {environment} from 'src/environments/environment';
+import { LogoutModalComponent } from '../../../shared/components/logout-modal/logout-modal.component';
+import {environment} from '../../../../environments/environment';
 
 @Component({
     selector: 'app-seller-sidebar',

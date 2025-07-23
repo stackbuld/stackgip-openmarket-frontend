@@ -6,16 +6,16 @@ import {
 } from '../../../../models/products.model';
 import { CreateProductModel } from '../../../../models/products.model';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { nigeriaSates } from 'src/app/data/nigeriastates';
+import { nigeriaSates } from '../../../../data/nigeriastates';
 import { ProductsService } from '../../../../services/products/products.service';
 import { ToastrService } from '../../../../services/toastr.service';
 
 import { CategoryResponse } from '../../../../models/CategoryModels';
-import { AuthService } from 'src/app/services/auth.service';
-import { CategoryService } from 'src/app/services/category/category.service';
+import { AuthService } from '../../../../services/auth.service';
+import { CategoryService } from '../../../../services/category/category.service';
 
 declare var cloudinary: any;
 @Component({

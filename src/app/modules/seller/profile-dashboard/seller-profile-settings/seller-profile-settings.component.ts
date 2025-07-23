@@ -1,5 +1,5 @@
 import { ToastrService } from '../../../../services/toastr.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
@@ -10,8 +10,8 @@ import {
 
 import { MatDialog } from '@angular/material/dialog';
 import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
-import { SellerService } from 'src/app/services/seller/seller.service';
-import { IUser } from 'src/app/models/IUserModel';
+import { SellerService } from '../../../../services/seller/seller.service';
+import { IUser } from '../../../../models/IUserModel';
 
 @Component({
     selector: 'app-change-password',

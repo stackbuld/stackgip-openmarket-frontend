@@ -1,6 +1,6 @@
 import { ICategory } from '../../../models/CategoryModels';
 import { Component, OnInit } from '@angular/core';
-import { CategoryService } from 'src/app/services/category/category.service';
+import { CategoryService } from '../../../services/category/category.service';
 
 @Component({
     selector: 'app-category-home-grid',
@@ -14,7 +14,7 @@ export class CategoryHomeGridComponent implements OnInit {
 
   ngOnInit(): void {
     this.categoryService.GetCategory().subscribe((a) => {
-      this.categories = a.data;
+      this.categories = a.data ?? [];
     });
   }
 }

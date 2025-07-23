@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
-import { IForgetModel } from 'src/app/models/auth-model';
+import { IForgetModel } from '../../../models/auth-model';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'app-forget-password',
@@ -15,14 +15,14 @@ export class ForgetPasswordComponent implements OnInit {
   message = '';
   success = false;
   isSubmited = false;
-  
+
   get f() {
-    return this.formGroup.controls; 
+    return this.formGroup.controls;
   }
 
   constructor(
-    private fb: FormBuilder, 
-    private authService : AuthService 
+    private fb: FormBuilder,
+    private authService : AuthService
   ) { }
 
 
@@ -43,7 +43,7 @@ export class ForgetPasswordComponent implements OnInit {
       this.message = 'Please enter a valid email address';
       return;
     }
-    const email = this.formGroup.get('email').value;
+    const email = this.formGroup.get('email')!.value;
     const model = {
           email
         } as IForgetModel;

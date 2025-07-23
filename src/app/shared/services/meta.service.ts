@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import { ProductModel } from 'src/app/models/products.model';
+import { ProductModel } from '../../models/products.model';
 
 @Injectable({ providedIn: 'root' })
 export class MetaService {

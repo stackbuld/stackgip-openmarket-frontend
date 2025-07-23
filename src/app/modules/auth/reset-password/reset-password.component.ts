@@ -1,11 +1,11 @@
-import { MustMatch } from 'src/app/helpers/control-validators';
+import { MustMatch } from '../../../helpers/control-validators';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
-import { IForgetPasswordModel } from 'src/app/models/auth-model';
 import { ToastrService } from 'ngx-toastr';
 import { DOCUMENT } from '@angular/common';
+import { AuthService } from '../../../services/auth.service';
+import { IForgetPasswordModel } from '../../../models/auth-model';
 
 @Component({
     selector: 'app-reset-password',
@@ -39,10 +39,10 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.email = this.route.snapshot.queryParamMap
-      .get('userId')
+    this.email = (this.route.snapshot.queryParamMap
+      .get('userId') ?? '')
       .replace(/ /g, '+');
-    this.token = this.route.snapshot.queryParamMap.get('token');
+    this.token = this.route.snapshot.queryParamMap.get('token') ?? '';
   }
 
   initForm = () => {
@@ -66,7 +66,7 @@ export class ResetPasswordComponent implements OnInit {
       if (this.email != null || this.token != null) {
         this.isSubmited = false;
         this.isLoading = true;
-        const password = this.form.get('password').value;
+        const password = this.form.get('password')!.value;
         const obj = {
           userId: this.email,
           token: this.token,

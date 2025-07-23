@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
-import { AppLocalStorage } from 'src/app/helpers/local-storage';
-import { ProductModel, PromotedProduct } from 'src/app/models/products.model';
+import { ImageResolutionUtility } from '../../../helpers/image-resolution.utility';
+import { AppLocalStorage } from '../../../helpers/local-storage';
+import { ProductModel, PromotedProduct } from '../../../models/products.model';
 
 @Component({
     selector: 'app-product-card',

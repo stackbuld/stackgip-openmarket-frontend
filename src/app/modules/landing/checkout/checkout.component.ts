@@ -9,20 +9,20 @@ import {
 } from '../../../models/invoice.model';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProductCartModel } from 'src/app/models/products.model';
-import { getCart } from 'src/app/reducers/selectors/cart.selector';
+import { ProductCartModel } from '../../../models/products.model';
+import { getCart } from '../../../reducers/selectors/cart.selector';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/reducers';
+import { AppState } from '../../../reducers';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IUser } from 'src/app/models/IUserModel';
-import { getUser } from 'src/app/reducers/selectors/auth.selector';
-import { nigeriaSates } from 'src/app/data/nigeriastates';
-import { environment } from 'src/environments/environment';
+import { IUser } from '../../../models/IUserModel';
+import { getUser } from '../../../reducers/selectors/auth.selector';
+import { nigeriaSates } from '../../../data/nigeriastates';
+import { environment } from '../../../../environments/environment';
 
-import { InvoiceService } from 'src/app/services/invoice/invoice.service';
+import { InvoiceService } from '../../../services/invoice/invoice.service';
 import uikit from 'uikit';
-import { WindowRefService } from 'src/app/shared/services/window.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { WindowRefService } from '../../../shared/services/window.service';
+import { AuthService } from '../../../services/auth.service';
 
 declare var PaystackPop: any;
 @Component({
@@ -60,7 +60,7 @@ export class CheckoutComponent implements OnInit {
       let total = 0;
       let onlineTotal = 0;
       this.hasOnlinePaymentItems =
-        items.filter((a) => a.paymentOption.includes('online')).length > 0;
+        items.filter((a) => a.paymentOption?.includes('online')).length > 0;
       for (const item of items) {
         total += item.price * item.orderedUnit;
         if (item.paymentOption === 'online') {
@@ -132,10 +132,10 @@ export class CheckoutComponent implements OnInit {
     });
     const invoiceData: CreateInvoiceModel = {
       userId: this.authService.getLoggedInUser()?.id,
-      billingAddress: this.checkoutForm.get('address').value,
-      city: this.checkoutForm.get('city').value,
-      country: this.checkoutForm.get('country').value,
-      state: this.checkoutForm.get('state').value,
+      billingAddress: this.checkoutForm.get('address')?.value,
+      city: this.checkoutForm.get('city')?.value,
+      country: this.checkoutForm.get('country')?.value,
+      state: this.checkoutForm.get('state')?.value,
       createOrderDto: createOrders,
     };
     this.invoiceService.createInvoice(invoiceData).subscribe(
@@ -156,7 +156,7 @@ export class CheckoutComponent implements OnInit {
         <p>Processing your transaction, please wait</p>
         </div>
       `,
-                { 'bg-close': false }
+                { bgClose: false, i18n: {} as any }
               );
               this.store.dispatch(ClearCartItems());
               // this.router.navigate(["/orders"]);
@@ -177,11 +177,11 @@ export class CheckoutComponent implements OnInit {
   payWithPaystack(ref) {
     let handler = PaystackPop.setup({
       key: environment.paystackPublicKey, // Replace with your public key
-      email: this.checkoutForm.get('email').value,
+      email: this.checkoutForm.get('email')?.value,
       amount: Math.ceil(this.onlineCartTotal) * 100,
-      firstname: this.checkoutForm.get('firstname').value,
-      lastname: this.checkoutForm.get('lastname').value,
-      phone: this.checkoutForm.get('phoneNumber').value,
+      firstname: this.checkoutForm.get('firstname')?.value,
+      lastname: this.checkoutForm.get('lastname')?.value,
+      phone: this.checkoutForm.get('phoneNumber')?.value,
       ref: ref,
       // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
       // label: "Optional string that replaces customer email"
@@ -194,7 +194,7 @@ export class CheckoutComponent implements OnInit {
         <p>Redirecting you to order page to complete the payment</p>
         </div>
       `,
-          { 'bg-close': false }
+          { bgClose: false, i18n: {} as any }
         );
         this.invoiceService
           .updateStatus(ref, invoiceStatusEnums.paymentCanceled)
@@ -218,7 +218,7 @@ export class CheckoutComponent implements OnInit {
 
 
       `,
-          { 'bg-close': false }
+          { bgClose: false, i18n: {} as any }
         );
         this.invoiceService.verifyInvoice(ref).subscribe((a) => {
           // this.router.navigate(["/orders"]);

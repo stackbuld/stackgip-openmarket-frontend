@@ -1,9 +1,9 @@
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from './../../../services/toastr.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
     selector: 'app-navbar',

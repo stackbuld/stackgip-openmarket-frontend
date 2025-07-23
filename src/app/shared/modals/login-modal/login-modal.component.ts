@@ -8,11 +8,11 @@ import {
   FormBuilder,
 } from '@angular/forms';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { of, Subscription } from 'rxjs';
 import { JwtHelperService } from '../../../services/jwt-helper.service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { WindowRefService } from '../../../shared/services/window.service';
 

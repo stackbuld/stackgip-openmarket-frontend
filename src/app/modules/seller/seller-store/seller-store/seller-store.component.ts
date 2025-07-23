@@ -5,16 +5,16 @@ import {
   ViewChild,
   OnDestroy,
 } from '@angular/core';
-import { SellerStores } from 'src/app/models/StoreModels';
-import { DialogService } from 'src/app/shared/services/dialog.service';
-import { HelperService } from 'src/app/shared/services/helper.service';
-import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
+import { SellerStores } from '../../../../models/StoreModels';
+import { DialogService } from '../../../../shared/services/dialog.service';
+import { HelperService } from '../../../../shared/services/helper.service';
+import { SellerStoreService } from '../../../../shared/services/seller-store.service';
 import {
   CreateProductResponse,
   SellerStore,
 } from '../../../../models/products.model';
 import { SellerStoreCreateDialogComponent } from '../seller-store-create-dialog/seller-store-create-dialog.component';
-import { ToastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from '../../../../services/toastr.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

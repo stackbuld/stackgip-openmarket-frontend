@@ -9,7 +9,7 @@ import {
   OrderStatus,
   OrderAcceptRejectPayload,
 } from './../../models/order.model';
-import { IApiResponseModel } from 'src/app/models/products.model';
+import { IApiResponseModel } from '../../models/products.model';
 import * as moment from 'moment';
 import { isObject } from 'lodash';
 

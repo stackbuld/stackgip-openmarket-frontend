@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { ProductSearchService } from 'src/app/services/seller/product-search.service';
-import { SellerService } from 'src/app/services/seller/seller.service';
+import { ProductSearchService } from '../../services/seller/product-search.service';
+import { SellerService } from '../../services/seller/seller.service';
 
 @Component({
     selector: 'app-dashboard',

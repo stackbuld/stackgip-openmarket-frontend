@@ -16,12 +16,12 @@ import {
 } from '../../models/products.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { CategoryResponse } from './../../models/CategoryModels';
-import { IUser } from 'src/app/models/IUserModel';
+import { IUser } from '../../models/IUserModel';
 import { HttpClient } from '@angular/common/http';
 import { ApiAppUrlService } from '../api-app-url.service';
 import { Injectable } from '@angular/core';
 import { map, retry } from 'rxjs/operators';
-import { ApiResponse } from 'src/app/shared/models/IResponseModel';
+import { ApiResponse } from '../../shared/models/IResponseModel';
 
 @Injectable({
   providedIn: 'root',

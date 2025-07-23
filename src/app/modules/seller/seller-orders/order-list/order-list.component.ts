@@ -5,7 +5,7 @@ import { UserService } from '../../../../services/user/user.service';
 import { fullInvoiceStatus } from '../../../../models/invoice.model';
 import { formatDate } from '../../../../helpers/date-format';
 import { numberWithCommas } from '../../../../helpers/number-format';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
     selector: 'app-order-list',
@@ -16,7 +16,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class OrderListComponent implements OnInit {
   numberWithCommas: Function = numberWithCommas;
   status: string;
-  user = this.authService.getLoggedInUser();
+  public user: any;
   public orderList: OrderDetail[];
   pageNumber: number;
   totalItemCount: number;
@@ -32,6 +32,7 @@ export class OrderListComponent implements OnInit {
     private authService: AuthService
   ) {
     this.formatDate = formatDate;
+    this.user = this.authService.getLoggedInUser();
   }
 
   ngOnInit(): void {

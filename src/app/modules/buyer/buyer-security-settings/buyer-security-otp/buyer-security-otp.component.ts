@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { ToastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from '../../../../services/toastr.service';
 
-import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { AuthService } from '../../../../services/auth.service';
+import { UserService } from '../../../../services/user/user.service';
 
 @Component({
     selector: 'app-buyer-security-otp',
@@ -79,7 +79,7 @@ export class BuyerSecurityOtpComponent implements OnInit {
   ngOnInit(): void {
     this.resendTimerF();
 
-    this.otpInput = new FormControl<string>(null, Validators.required);
+    this.otpInput = new FormControl<string>('', Validators.required);
     this.otpData = this.data.payload;
     this.otpType = this.data.type;
     this.phoneNumber = this.data.phoneNumber;

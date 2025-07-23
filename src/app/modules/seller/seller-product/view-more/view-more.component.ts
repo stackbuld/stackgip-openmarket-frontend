@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../../../../services/products/products.service';
 import { numberWithCommas } from '../../../../helpers/number-format';
-import { ProductResponse } from 'src/app/models/products.model';
+import { ProductResponse } from '../../../../models/products.model';
 import { formatDate } from '../../../../helpers/date-format';
 import { Observable } from 'rxjs';
 

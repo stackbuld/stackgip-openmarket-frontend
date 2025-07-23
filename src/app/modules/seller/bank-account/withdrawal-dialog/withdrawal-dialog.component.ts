@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BankAccountService } from 'src/app/shared/services/bank-account.service';
-import { DialogService } from 'src/app/shared/services/dialog.service';
-import { HelperService } from 'src/app/shared/services/helper.service';
+import { BankAccountService } from '../../../../shared/services/bank-account.service';
+import { DialogService } from '../../../../shared/services/dialog.service';
+import { HelperService } from '../../../../shared/services/helper.service';
 
 @Component({
     selector: 'app-withdrawal-dialog',
@@ -60,15 +60,15 @@ export class WithdrawalDialogComponent implements OnInit {
   }
 
   onSelectBank() {
-    this.bank.valueChanges.subscribe((value) => {
-      this.bankCode.patchValue(value.bankCode);
-      this.bankName.patchValue(value.bankName);
-      this.accountNumber.patchValue(value.accountNumber);
-      this.accountName.patchValue(value.accountName);
-      this.bankCode.updateValueAndValidity();
-      this.bankName.updateValueAndValidity();
-      this.accountNumber.updateValueAndValidity();
-      this.accountName.updateValueAndValidity();
+    this.bank?.valueChanges.subscribe((value) => {
+      this.bankCode?.patchValue(value.bankCode);
+      this.bankName?.patchValue(value.bankName);
+      this.accountNumber?.patchValue(value.accountNumber);
+      this.accountName?.patchValue(value.accountName);
+      this.bankCode?.updateValueAndValidity();
+      this.bankName?.updateValueAndValidity();
+      this.accountNumber?.updateValueAndValidity();
+      this.accountName?.updateValueAndValidity();
     });
   }
 

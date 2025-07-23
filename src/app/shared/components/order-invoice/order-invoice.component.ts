@@ -5,15 +5,15 @@ import {
   formatShipmentOption,
 } from '../../../helpers/productOption';
 
-import { InvoiceService } from 'src/app/services/invoice/invoice.service';
+import { InvoiceService } from '../../../services/invoice/invoice.service';
 import { InvoiceModel, invoiceStatus } from '../../../models/invoice.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 declare var PaystackPop: any;
 import uikit from 'uikit';
 import { numberWithCommas } from '../../../helpers/number-format';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'app-order-invoice',
@@ -74,7 +74,7 @@ export class OrderInvoiceComponent implements OnInit {
         <h3> Payment canceled</h3>
         <p>Redirecting you to order page to complete the payment</p>
         </div>`,
-          { 'bg-close': false }
+           { bgClose: false, i18n: {} as any }
         );
 
         // redirect user to orders page
@@ -87,7 +87,7 @@ export class OrderInvoiceComponent implements OnInit {
         <h3> Payment complete!</h3>
         <p>Processing your transaction, please wait</p>
         </div>`,
-          { 'bg-close': false }
+          { bgClose: false, i18n: {} as any }
         );
         this.invoiceService.verifyInvoice(ref).subscribe((a) => {
           // this.router.navigate(["/orders"]);

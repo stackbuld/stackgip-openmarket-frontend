@@ -51,7 +51,7 @@ export class JoinWaitlistComponent implements OnInit {
         interest: this.waitListForm.value.interest,
       };
       this.isLoading = true;
-      this.getUser(data.email, (user) => {
+      this.getUser(data.email ?? '', (user) => {
         if (!user.data) {
           this.window?.prefinery('addUser', data, (record) => {
             this.isLoading = false;

@@ -12,7 +12,7 @@ import { BuyerChangePasswordComponent } from './buyer-security-settings/buyer-ch
 import { BuyerPinSettingsComponent } from './buyer-security-settings/buyer-pin-settings/buyer-pin-settings.component';
 import { BuyerDeleteAccountComponent } from './buyer-deactivate/buyer-delete-account/buyer-delete-account.component';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { BuyerSidebarComponent } from './buyer-sidebar/buyer-sidebar.component';
 import { BuyerDeactivateComponent } from './buyer-deactivate/buyer-deactivate.component';
 import { BuyerNavComponent } from './buyer-nav/buyer-nav.component';
@@ -22,7 +22,7 @@ import { MAT_SELECT_CONFIG } from '@angular/material/select';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { BuyerSecurityOtpComponent } from './buyer-security-settings/buyer-security-otp/buyer-security-otp.component';
 import { BuyerWalletComponent } from './buyer-profile/buyer-wallet/buyer-wallet.component';
-import { WalletModule } from 'src/app/shared/wallet/wallet.module';
+import { WalletModule } from '../../shared/wallet/wallet.module';
 import { BuyerEmailDialogComponent } from './buyer-profile/buyer-personal-information/buyer-email-dialog/buyer-email-dialog.component';
 
 @NgModule({

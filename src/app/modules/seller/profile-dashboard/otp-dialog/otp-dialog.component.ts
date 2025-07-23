@@ -8,15 +8,15 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { IUser } from 'src/app/models/IUserModel';
+import { IUser } from '../../../../models/IUserModel';
 import {
   ISeller,
   SellerBusinessProfileData,
   SellerProfileData,
-} from 'src/app/models/sellerModel';
-import { AuthService } from 'src/app/services/auth.service';
-import { SellerService } from 'src/app/services/seller/seller.service';
-import { ToastrService } from 'src/app/services/toastr.service';
+} from '../../../../models/sellerModel';
+import { AuthService } from '../../../../services/auth.service';
+import { SellerService } from '../../../../services/seller/seller.service';
+import { ToastrService } from '../../../../services/toastr.service';
 import { NgOtpInputComponent } from 'ng-otp-input';
 
 @Component({
@@ -114,7 +114,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
         this.specificProfileData = {
           firstName: this.user.firstName,
           lastName: this.user.lastName,
-          bio: this.user.bio,
+          bio: this.user.bio ?? '',
           personalIdUrl: this.user.personalIdUrl,
           profileImageUrl: this.user.profileImageUrl,
           alpha2CountryCode: this.user.alpha2CountryCode,
@@ -369,7 +369,7 @@ export class OTPDialogComponent implements OnInit, AfterViewChecked {
       case 'activate':
         this.authService
           .sendActivateSellerOTP({
-            phoneNumber: this.specificProfileData.phoneNumber,
+            phoneNumber: this.specificProfileData.phoneNumber ?? '',
           })
           .subscribe({
             next: (data) => {

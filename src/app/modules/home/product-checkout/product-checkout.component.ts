@@ -1,9 +1,9 @@
 import { CartPaymentMethod } from './../../../services/cart/model/cart-payment-model';
-import { IUser } from 'src/app/models/IUserModel';
+import { IUser } from '../../../models/IUserModel';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { AppLocalStorage } from 'src/app/helpers/local-storage';
-import { ProductsService } from 'src/app/services/products/products.service';
+import { AppLocalStorage } from '../../../helpers/local-storage';
+import { ProductsService } from '../../../services/products/products.service';
 import { CartService } from '../../../services/cart/cart.service';
 import {
   CartData,
@@ -12,7 +12,7 @@ import {
 } from '../../../services/cart/model/get-cart.model';
 import { Observable } from 'rxjs';
 import { WindowRefService } from '../../../shared/services/window.service';
-import { FooterService } from 'src/app/services/footer.service';
+import { FooterService } from '../../../services/footer.service';
 import { AuthService } from '../../../services/auth.service';
 import { take } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -28,7 +28,7 @@ import { ProductDeleteModalComponent } from './product-delete-modal/product-dele
 export class ProductCheckoutComponent implements OnInit {
   cart: CartData;
   cartItems: CartItem[] = [];
-  user: IUser = null;
+  user: IUser | null = null;
   referenceId: string = '';
   paymentMethods: CartPaymentMethod[] = [];
   paymentMethod!: CartPaymentMethod;

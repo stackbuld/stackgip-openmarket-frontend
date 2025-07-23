@@ -19,9 +19,9 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import { AppLocalStorage } from 'src/app/helpers/local-storage';
-import { AuthService } from 'src/app/services/auth.service';
-import { OrderService } from 'src/app/services/order/order.service';
+import { AppLocalStorage } from '../../../../helpers/local-storage';
+import { AuthService } from '../../../../services/auth.service';
+import { OrderService } from '../../../../services/order/order.service';
 
 enum Tabs {
   All = 'allTab',
@@ -293,7 +293,7 @@ export class OrderManagementComponent
         break;
       case Tabs.Delivering:
         this.orderStatus = '';
-        this.deliveryStatus = 'pickedUpFromStore ' || 'assignedForDelivery';
+        this.deliveryStatus = 'pickedUpFromStore ', 'assignedForDelivery';
         this.setTabs(Tabs.Delivering);
         this.fetchAllOrders(this.defaultPage);
         break;

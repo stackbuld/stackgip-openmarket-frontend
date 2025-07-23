@@ -17,10 +17,10 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { IUser } from 'src/app/models/IUserModel';
-import { AuthService } from 'src/app/services/auth.service';
-import { ProductSearchService } from 'src/app/services/seller/product-search.service';
-import { SellerService } from 'src/app/services/seller/seller.service';
+import { IUser } from '../../../models/IUserModel';
+import { AuthService } from '../../../services/auth.service';
+import { ProductSearchService } from '../../../services/seller/product-search.service';
+import { SellerService } from '../../../services/seller/seller.service';
 
 @Component({
     selector: 'app-sidebar-header-display',

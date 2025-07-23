@@ -20,7 +20,7 @@ import { numberWithCommas } from '../../../../helpers/number-format';
 import { formatDateToLocal } from '../../../../helpers/date-format';
 import uikit from 'uikit';
 import { DOCUMENT } from '@angular/common';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
     selector: 'app-product-item',

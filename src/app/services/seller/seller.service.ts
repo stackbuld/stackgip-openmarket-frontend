@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { IUser, UserDataResponse } from 'src/app/models/IUserModel';
+import { IUser, UserDataResponse } from '../../models/IUserModel';
 import {
   GetSeller,
   ISeller,
   SellerBusinessProfileData,
   SellerProfileData,
-} from 'src/app/models/sellerModel';
-import { ResponseModel } from 'src/app/shared/models/ResponseModel';
+} from '../../models/sellerModel';
+import { ResponseModel } from '../../shared/models/ResponseModel';
 import { ApiAppUrlService } from '../api-app-url.service';
 import { RequestService } from '../request/request.service';
 

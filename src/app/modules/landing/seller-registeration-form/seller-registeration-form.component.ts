@@ -17,13 +17,13 @@ import {
 } from '@angular/forms';
 import uikit from 'uikit';
 import { Subscription } from 'rxjs';
-import { IUser } from 'src/app/models/IUserModel';
-import { ISeller } from 'src/app/models/sellerModel';
-import { environment } from 'src/environments/environment';
-import { nigeriaSates } from 'src/app/data/nigeriastates';
-import { SellerService } from 'src/app/services/seller/seller.service';
-import { ResponseModel } from 'src/app/shared/models/ResponseModel';
-import { ToastrService } from 'src/app/services/toastr.service';
+import { IUser } from '../../../models/IUserModel';
+import { ISeller } from '../../../models/sellerModel';
+import { environment } from '../../../../environments/environment';
+import { nigeriaSates } from '../../../data/nigeriastates';
+import { SellerService } from '../../../services/seller/seller.service';
+import { ResponseModel } from '../../../shared/models/ResponseModel';
+import { ToastrService } from '../../../services/toastr.service';
 import { DOCUMENT, LocationStrategy } from '@angular/common';
 import { countryCodes } from '../../../data/countryCodes';
 import { Router } from '@angular/router';
@@ -44,7 +44,7 @@ export class SellerRegisterationFormComponent
   implements OnInit, AfterViewChecked, OnDestroy
 {
   @Input() openModal: boolean = false;
-  @Output() modalStatus = new EventEmitter(null);
+  @Output() modalStatus = new EventEmitter();
 
   image: string;
   imageName: string;
@@ -153,9 +153,7 @@ export class SellerRegisterationFormComponent
       }
     );
 
-    this.sellerRegFormGroup
-      .get('businessAddress')
-      .valueChanges.subscribe((value) => {
+    this.sellerRegFormGroup.get('businessAddress')?.valueChanges.subscribe((value) => {
         if (value === '') {
           this.googleAddressSelected = false;
         }
@@ -224,7 +222,7 @@ export class SellerRegisterationFormComponent
           personalIDType: sellerData.idVerificationType ?? '',
           landmark: sellerData.userAddressLandMark,
         });
-        this.image = sellerData.businessLogo;
+        this.image = sellerData.businessLogo ?? '';
       }
     });
   }

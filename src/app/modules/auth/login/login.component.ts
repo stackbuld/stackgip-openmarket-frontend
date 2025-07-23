@@ -10,9 +10,7 @@ import {
 import { Component, OnInit, NgZone } from '@angular/core';
 
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { SignInModel } from 'src/app/models/signin-model';
 // import { UIkit } from "uikit";
-import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 // import {
 //   FacebookLoginProvider,
@@ -22,10 +20,11 @@ import { ToastrService } from 'ngx-toastr';
 import { of, Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { JwtHelperService } from '../../../services/jwt-helper.service';
-import { environment } from 'src/environments/environment';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { WindowRefService } from '../../../shared/services/window.service';
 import { CountryService } from '../../../services/country/country.service';
+import { AuthService } from '../../../services/auth.service';
+import { environment } from '../../../../environments/environment';
 
 declare const FB: any;
 

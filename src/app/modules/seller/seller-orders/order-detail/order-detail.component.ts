@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { InvoiceModel } from 'src/app/models/invoice.model';
+import { InvoiceModel } from '../../../../models/invoice.model';
 import { OrderService } from '../../../../services/order/order.service';
 import { ActivatedRoute } from '@angular/router';
 import { InvoiceService } from '../../../../services/invoice/invoice.service';
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { UserService } from '../../../../services/user/user.service';
 import { IUser, IUserResponse, UserResponse } from '../../../../models/IUserModel';
 
-import { ToastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from '../../../../services/toastr.service';
 import { Order, OrderStatus } from '../../../../models/order.model';
 import { OrderViewMoreComponent } from '../order-view-more/order-view-more.component';
 import { UpdateDeliveryStatusComponent } from '../update-delivery-status/update-delivery-status.component';
@@ -17,8 +17,8 @@ import {
   formatProductOptions,
   formatShipmentOption,
 } from '../../../../helpers/productOption';
-import { AuthService } from 'src/app/services/auth.service';
-import { ApiResponse } from 'src/app/shared/models/IResponseModel';
+import { AuthService } from '../../../../services/auth.service';
+import { ApiResponse } from '../../../../shared/models/IResponseModel';
 
 @Component({
     selector: 'app-order-detail',
@@ -58,7 +58,7 @@ export class OrderDetailComponent implements OnInit {
       this.invoice.orders.forEach((a) => {
         this.total += a.total;
       });
-      this.user$ = this.userService.getUserById(userId);
+      this.user$ = this.userService.getUserById(userId ?? '');
     });
   }
 

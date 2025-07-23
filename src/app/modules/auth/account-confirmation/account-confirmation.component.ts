@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ISignIn } from 'src/app/models/signin-model';
-import { AuthService } from 'src/app/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ISignIn } from '../../../models/signin-model';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'app-account-confirmation',
@@ -25,11 +25,10 @@ export class AccountConfirmationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const email = this.route.snapshot.queryParamMap
-      .get('userId')
-      .replace(/ /g, '+');
+    const userIdParam = this.route.snapshot.queryParamMap.get('userId');
+    const email = userIdParam ? userIdParam.replace(/ /g, '+') : null;
     const token = this.route.snapshot.queryParamMap.get('token');
-    if (email != null || token != null) {
+    if (email !== null && token !== null) {
       this.isSubmited = true;
       this.message = 'Please wait we are verifing your account';
       this.authService.ConfirmEmail(email, token).subscribe(
@@ -45,6 +44,9 @@ export class AccountConfirmationComponent implements OnInit {
           this.message = 'Link must have expired or invalid, Resend a new link';
         }
       );
+    } else {
+      this.message = 'Invalid confirmation link. Please check your email or request a new link.';
+      this.success = false;
     }
   }
 

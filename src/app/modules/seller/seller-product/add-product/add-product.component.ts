@@ -1,19 +1,19 @@
 import { IUser } from '../../../../models/IUserModel';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CreateProductResponse } from '../../../../models/products.model';
 import { Subject } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
-import { nigeriaSates } from 'src/app/data/nigeriastates';
+import { nigeriaSates } from '../../../../data/nigeriastates';
 import { ProductsService } from '../../../../services/products/products.service';
 import { ToastrService } from '../../../../services/toastr.service';
-import { StoreService } from 'src/app/services/store/store.service';
+import { StoreService } from '../../../../services/store/store.service';
 import uikit from 'uikit';
 
 import { DOCUMENT } from '@angular/common';
-import { DialogService } from 'src/app/shared/services/dialog.service';
+import { DialogService } from '../../../../shared/services/dialog.service';
 import { SellerStoreCreateDialogComponent } from '../../seller-store/seller-store-create-dialog/seller-store-create-dialog.component';
 
 declare var cloudinary: any;
@@ -70,7 +70,7 @@ export class AddProductComponent implements OnInit {
   creatingVariation: boolean;
   loadingSubCategories: boolean;
   creatingProduct: boolean;
-  productId = null;
+  productId: string | null = null;
   isFullDescription = false;
   hasFullDesc: boolean;
 
@@ -122,7 +122,7 @@ export class AddProductComponent implements OnInit {
       (error, result) => {
         if (!error && result && result.event === 'success') {
           if (this.images.length < 4) {
-            this.images.push(result.info.secure_url);
+            this.images.push(result.info.secure_url ?? '');
             this.productImage = this.images[0];
             this.form.patchValue({ imageUrls: this.images });
           }

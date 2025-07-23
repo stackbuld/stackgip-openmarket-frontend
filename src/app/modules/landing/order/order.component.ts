@@ -1,17 +1,17 @@
 import { IUser } from '../../../models/IUserModel';
 import { IPage } from '../../../models/products.model';
-import { InvoiceService } from 'src/app/services/invoice/invoice.service';
+import { InvoiceService } from '../../../services/invoice/invoice.service';
 
-import { ProductsService } from 'src/app/services/products/products.service';
+import { ProductsService } from '../../../services/products/products.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ProductModel } from 'src/app/models/products.model';
+import { ProductModel } from '../../../models/products.model';
 import {
   InvoiceModel,
   OrderModel,
   invoiceStatus,
 } from '../../../models/invoice.model';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 
 import * as _ from 'lodash';
 import { numberWithCommas } from '../../../helpers/number-format';

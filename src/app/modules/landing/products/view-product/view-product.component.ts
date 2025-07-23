@@ -1,11 +1,11 @@
 import uikit from 'uikit';
 import { ToastrService } from 'ngx-toastr';
-import { ProductsService } from 'src/app/services/products/products.service';
+import { ProductsService } from '../../../../services/products/products.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
     selector: 'app-view-product',
@@ -57,9 +57,9 @@ export class ViewProductComponent implements OnInit {
         if (res.status === 'success') {
           this.loading = false;
           this.product = res.data;
-          this.videoUrls = res.data.videoUrls;
+          this.videoUrls = res.data.videoUrls ?? [];
           this.previewImg = this.product.productImages[0];
-          let variations = [];
+          let variations: any[] = [];
 
           for (
             let index = 0;

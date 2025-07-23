@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
-import { CreateProductOption, ProductOption} from 'src/app/models/products.model';
+import { CreateProductOption, ProductOption} from '../../../../models/products.model';
 import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl} from '@angular/forms';
 import { ErrorService } from '../../../../services/error.service';
 import { ProductsService } from '../../../../services/products/products.service';

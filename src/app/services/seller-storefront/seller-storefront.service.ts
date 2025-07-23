@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, switchMap } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { ISeller } from 'src/app/models/sellerModel';
+import { environment } from '../../../environments/environment';
+import { ISeller } from '../../models/sellerModel';
 import { HttpClient } from '@angular/common/http';
 import { ISellerService } from './ISellerStorefront.interface';
 @Injectable({

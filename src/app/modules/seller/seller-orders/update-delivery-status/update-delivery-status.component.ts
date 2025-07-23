@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderService } from '../../../../services/order/order.service';
 import { OrderStatus } from "../../../../models/order.model"
 
-import { ToastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from '../../../../services/toastr.service';
 import uikit from 'uikit';
 
 @Component({
@@ -32,7 +32,7 @@ export class UpdateDeliveryStatusComponent implements OnInit {
   }
 
   public setOrderId({orderId,status}):void{
-    this.form.get("status").setValue(status.toLowerCase())
+    this.form.get("status")?.setValue(status.toLowerCase())
     this.currentOrderId = orderId;
   }
 
@@ -75,8 +75,8 @@ export class UpdateDeliveryStatusComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    const status = this.form.get("status").value
-    this.form.get("loading").setValue(true)
+    const status = this.form.get("status")?.value
+    this.form.get("loading")?.setValue(true)
     if(status == 'canceled'){
       uikit.modal.prompt("Please briefly describe your reason for canceling ", '')
       .then((reason)=>{
@@ -86,23 +86,23 @@ export class UpdateDeliveryStatusComponent implements OnInit {
               this.currentOrderId, {status,reason:String(reason)} as OrderStatus
             )
             .subscribe((o)=>{
-              this.form.get("loading").setValue(false)
+              this.form.get("loading")?.setValue(false)
               if(this.type.toLowerCase() === 'intransit'){
                 this.toast.warining("This action will reduce your trust quality on the platform !!!")
               }
               this.toast.success("Status updated successfully")
               this.closed.emit()
             })
-          }else{this.form.get("loading").setValue(false)}
+          }else{this.form.get("loading")?.setValue(false)}
         }else{
           this.toast.error("Order canceling required reason")
-          this.form.get("loading").setValue(false)
+          this.form.get("loading")?.setValue(false)
         }
-      },()=>{this.form.get("loading").setValue(false)})
+      },()=>{this.form.get("loading")?.setValue(false)})
     }else{
     this.orderService.UpdateStatus(this.currentOrderId,{status} as OrderStatus)
       .subscribe((o)=>{
-        this.form.get("loading").setValue(false)
+        this.form.get("loading")?.setValue(false)
         this.toast.success("Status updated successfully")
         this.closed.emit()
       })

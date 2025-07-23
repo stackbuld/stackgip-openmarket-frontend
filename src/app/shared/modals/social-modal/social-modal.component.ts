@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { WindowRefService } from '../../services/window.service';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -30,7 +30,7 @@ constructor(
   this.window = windowRefService.nativeWindow;
 
 }
-  
+
   ngOnInit(): void {
    // @ts-ignore
    this.window.onGoogleLibraryLoad = () => {
@@ -45,7 +45,7 @@ constructor(
     google.accounts.id.renderButton(
       // @ts-ignore
       document.getElementById("buttonDiv"),
-      { theme: "filled_black", size: "large", width: 200,text: "signup_with"} 
+      { theme: "filled_black", size: "large", width: 200,text: "signup_with"}
     );
     // @ts-ignore
     google.accounts.id.prompt((notification: PromptMomentNotification) => {});

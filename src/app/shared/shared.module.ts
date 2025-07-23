@@ -22,7 +22,7 @@ import {
   NgOptimizedImage,
 } from '@angular/common';
 
-import {} from '@angular/common/http';
+import { HttpClientJsonpModule } from '@angular/common/http';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatRippleModule } from '@angular/material/core';
@@ -124,7 +124,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     MatPaginatorModule,
     MatDialogModule,
     MatMenuModule,
-    NgAisModule,
+    NgAisModule as any,
     NgOtpInputModule,
     MatAutocompleteModule,
     MatInputModule,

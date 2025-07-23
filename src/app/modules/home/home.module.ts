@@ -5,12 +5,12 @@ import {CommonModule, isPlatformBrowser} from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NgxPaginationModule } from 'src/app/shared/pagination/ngx-pagination.module';
+import { NgxPaginationModule } from '../../shared/pagination/ngx-pagination.module';
 import { NgxOtpInputModule } from 'ngx-otp-input';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { NgImageFullscreenViewModule } from 'ng-image-fullscreen-view';
 
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { ProductListComponent } from './product-list/product-list.component';
 import { SingleProductComponent } from './single-product/single-product.component';
 import { ProductCheckoutComponent } from './product-checkout/product-checkout.component';

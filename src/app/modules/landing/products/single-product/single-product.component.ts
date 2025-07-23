@@ -1,4 +1,4 @@
-import { ToastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from '../../../../services/toastr.service';
 import {
   ProductModel,
   Category,
@@ -6,8 +6,8 @@ import {
 } from '../../../../models/products.model';
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/reducers';
-import { AddToCart } from 'src/app/reducers/action/cart.actions';
+import { AppState } from '../../../../reducers';
+import { AddToCart } from '../../../../reducers/action/cart.actions';
 import { numberWithCommas } from '../../../../helpers/number-format';
 
 @Component({

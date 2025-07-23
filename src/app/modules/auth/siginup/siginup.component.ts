@@ -1,14 +1,10 @@
 import { WindowRefService } from '../../../shared/services/window.service';
 import { Component, OnInit, SimpleChange } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { ToastrService } from 'src/app/services/toastr.service';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { RegisterModel } from 'src/app/models/register-model';
-import { SignInModel } from 'src/app/models/signin-model';
 import UIkit from 'uikit';
-import { MustMatch } from 'src/app/helpers/control-validators';
+import { MustMatch } from '../../..//helpers/control-validators';
 // import {
 //   FacebookLoginProvider,
 //   GoogleLoginProvider,
@@ -20,8 +16,11 @@ import { delay } from 'rxjs/operators';
 import { JwtHelperService } from '../../../services/jwt-helper.service';
 import { MDCTextField } from '@material/textfield';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
-import { environment } from 'src/environments/environment';
-import { countryCodes } from 'src/app/data/countryCodes';
+import { countryCodes } from '../../../data/countryCodes';
+import { environment } from '../../../../environments/environment';
+import { AuthService } from '../../../services/auth.service';
+import { ToastrService } from '../../../services/toastr.service';
+import { SignInModel } from '../../../models/signin-model';
 // const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
 declare const FB: any
 
@@ -121,16 +120,16 @@ export class SiginupComponent implements OnInit {
       google.accounts.id.renderButton(
       // @ts-ignore
       document.getElementById("buttonDiv"),
-        { size: "large", width: 100,text: "signup_with"} 
+        { size: "large", width: 100,text: "signup_with"}
       );
       // @ts-ignore
       google.accounts.id.prompt((notification: PromptMomentNotification) => {});
     };
 
     console.log(this.registerForm)
-    
+
   }
-  
+
   ngOnChanges(changes: SimpleChange) {
     console.log(changes);
     console.log(this.f)
@@ -148,14 +147,14 @@ export class SiginupComponent implements OnInit {
         this.ngxService.stopLoader('loader-01');
         this.ngxService.stopAll();
       }
-      );  
+      );
 }
 
     changeOption(e: any) {
     console.log(e.target.value)
     this.registerForm?.patchValue({countryCodes: e.target.value});
   }
-  
+
   get f() {
     return this.registerForm.controls;
   }
@@ -187,7 +186,7 @@ export class SiginupComponent implements OnInit {
   get requiresSpecialCharsValid() {
     return !this.registerForm.controls["password"].hasError("requiresSpecialChars");
   }
-  
+
 
   showPassword() {
     this.passwordType = !this.passwordType;
@@ -201,11 +200,11 @@ export class SiginupComponent implements OnInit {
       return;
     }
     const payload = {
-    firstName: this.registerForm.get('firstname').value,
-    lastName: this.registerForm.get('lastname').value,
-    email: this.registerForm.get('email').value,
-    phoneNumber: (this.registerForm.get('countryCode').value).toString() + (this.registerForm.get('phoneNumber').value).toString(),
-    password: this.registerForm.get('password').value,
+    firstName: this.registerForm.get('firstname')!.value,
+    lastName: this.registerForm.get('lastname')!.value,
+    email: this.registerForm.get('email')!.value,
+    phoneNumber: (this.registerForm.get('countryCode')!.value).toString() + (this.registerForm.get('phoneNumber')!.value).toString(),
+    password: this.registerForm.get('password')!.value,
   }
     this.ngxService.startLoader('loader-01');
 
@@ -252,9 +251,9 @@ export class SiginupComponent implements OnInit {
               this.ngxService.stopLoader('loader-01');
               this.ngxService.stopAll();
             }
-          );  
+          );
     }, { scope: 'email' });
-    
+
   }
 
   login(signInModel: SignInModel) {
@@ -297,8 +296,8 @@ export class SiginupComponent implements OnInit {
 
   patternValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
 
-   
-    return (control: AbstractControl): { [key: string]: any } => {
+
+    return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {
         // if control is empty return no error
         return null;
@@ -307,10 +306,9 @@ export class SiginupComponent implements OnInit {
       console.log(this.f.phoneNumber)
       // test the value of the control against the regexp supplied
       const valid = regex.test(control.value);
-     
 
       return valid ? null : error;
-   
+
   };
 }
 }

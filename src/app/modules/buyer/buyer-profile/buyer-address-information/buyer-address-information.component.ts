@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { Subscription, retry, switchMap } from 'rxjs';
-import { ToastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from '../../../../services/toastr.service';
 
-import { CountryInfo } from 'src/app/models/country.model';
-import { nigeriaSates } from 'src/app/data/nigeriastates';
-import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user/user.service';
-import { IUser, UserAddressData } from 'src/app/models/IUserModel';
+import { CountryInfo } from '../../../../models/country.model';
+import { nigeriaSates } from '../../../../data/nigeriastates';
+import { AuthService } from '../../../../services/auth.service';
+import { UserService } from '../../../../services/user/user.service';
+import { IUser, UserAddressData } from '../../../../models/IUserModel';
 
 @Component({
     selector: 'app-buyer-address-information',
@@ -53,8 +53,9 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
     this.isFetching = true;
     this.states = nigeriaSates.map((a) => a.name);
 
-    this.countryInfo = localStorage.getItem('countryCodesInfo')
-      ? JSON.parse(localStorage.getItem('countryCodesInfo'))!
+    const countryCodesInfoStr = localStorage.getItem('countryCodesInfo');
+    this.countryInfo = countryCodesInfoStr
+      ? JSON.parse(countryCodesInfoStr)
       : [];
     console.log(this.countryInfo);
     this.addressForm = new FormGroup({
@@ -79,7 +80,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
           this.isEditingAddress = status;
           this.isDefault = status;
           this.addressForm.reset();
-          this.addressForm.get('countryCode').setValue('+234');
+          this.addressForm.get('countryCode')!.setValue('+234');
         }
       },
     });
@@ -121,9 +122,9 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
         return element.types.includes('administrative_area_level_2');
       });
 
-      this.addressForm.get('address').patchValue(address.formatted_address);
-      this.addressForm.get('state').patchValue(state[0].long_name);
-      this.addressForm.get('country').patchValue(country[0].short_name);
+      this.addressForm.get('address')?.patchValue(address.formatted_address);
+      this.addressForm.get('state')?.patchValue(state[0].long_name);
+      this.addressForm.get('country')?.patchValue(country[0].short_name);
 
       this.addressLatitude = address.geometry.location.lat();
       this.addressLongitude = address.geometry.location.lng();
@@ -141,7 +142,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
       return address.id == id;
     });
 
-    if (address.isDefault == true) {
+    if (address?.isDefault == true) {
       return;
     }
     this.isFetching = true;

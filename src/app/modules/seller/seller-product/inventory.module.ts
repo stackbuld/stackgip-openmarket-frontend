@@ -8,8 +8,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NgxPaginationModule } from 'src/app/shared/pagination/ngx-pagination.module';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { NgxPaginationModule } from '../../../shared/pagination/ngx-pagination.module';
+import { SharedModule } from '../../../shared/shared.module';
 import { ProductItemComponent } from './product-item/product-item.component';
 import { ProductOptionComponent } from './product-option/product-option.component';
 import { SearchItemComponent } from './search-item/search-item.component';
@@ -29,7 +29,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DeleteProductConfirmation } from './create-product/preview-product/delete-product';
-import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
+import { SafeHtmlPipe } from '../../../shared/pipes/safehtml.pipe';
 
 @NgModule({
   declarations: [

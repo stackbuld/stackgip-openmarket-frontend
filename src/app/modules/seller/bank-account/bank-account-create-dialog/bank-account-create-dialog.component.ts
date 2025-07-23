@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BankAccountService } from 'src/app/shared/services/bank-account.service';
-import { DialogService } from 'src/app/shared/services/dialog.service';
-import { HelperService } from 'src/app/shared/services/helper.service';
+import { BankAccountService } from '../../../../shared/services/bank-account.service';
+import { DialogService } from '../../../../shared/services/dialog.service';
+import { HelperService } from '../../../../shared/services/helper.service';
 
 @Component({
     selector: 'app-bank-account-create-dialog',
@@ -65,11 +65,11 @@ export class BankAccountCreateDialogComponent implements OnInit {
   }
 
   onSelectBank() {
-    this.bank.valueChanges.subscribe((value) => {
-      this.bankCode.patchValue(value.code);
-      this.bankName.patchValue(value.name);
-      this.bankCode.updateValueAndValidity();
-      this.bankName.updateValueAndValidity();
+    this.bank?.valueChanges.subscribe((value) => {
+      this.bankCode?.patchValue(value.code);
+      this.bankName?.patchValue(value.name);
+      this.bankCode?.updateValueAndValidity();
+      this.bankName?.updateValueAndValidity();
       this.getAccountName()
     });
   }
@@ -106,18 +106,18 @@ export class BankAccountCreateDialogComponent implements OnInit {
   }
 
   getAccountName() {
-    if (this.accountNumber.value.length != 10 || this.bankCode.value == "") {
+    if (this.accountNumber?.value.length != 10 || this.bankCode?.value == "") {
       return;
     }
     this.bankAccountService.validateAccount({
-      bankcode: this.bankCode.value,
+      bankcode: this.bankCode?.value,
       accountNumber: this.accountNumber.value,
       countryCode: "NGN"
     })
     .subscribe((response: any) => {
       let accountName = response.data.accountName;
-      this.accountName.patchValue(accountName)
-      this.accountName.updateValueAndValidity()
+      this.accountName?.patchValue(accountName)
+      this.accountName?.updateValueAndValidity()
     })
   }
 

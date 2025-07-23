@@ -1,8 +1,8 @@
 import {Component, inject} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {AppLocalStorage} from 'src/app/helpers/local-storage';
+import {AppLocalStorage} from '../../../helpers/local-storage';
 import {AuthService} from "../../../services/auth.service";
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { DOCUMENT } from '@angular/common';
 
 @Component({
@@ -20,7 +20,7 @@ export class LogoutModalComponent {
         private authService: AuthService
     ) {
     }
-    
+
     onCancel() {
         this.dialog.closeAll();
     }

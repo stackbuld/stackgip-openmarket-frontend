@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AppLocalStorage } from 'src/app/helpers/local-storage';
-import { FooterService } from 'src/app/services/footer.service';
+import { AppLocalStorage } from '../../../helpers/local-storage';
+import { FooterService } from '../../../services/footer.service';
 
 @Component({
     selector: 'app-payment-confirmation',

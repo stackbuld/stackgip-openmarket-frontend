@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { WindowRefService } from '../../services/window.service';
 import uikit from 'uikit';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import {
   AbstractControl,
   FormBuilder,
@@ -11,16 +11,16 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { ToastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from '../../../services/toastr.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { SignInModel } from 'src/app/models/signin-model';
+import { SignInModel } from '../../../models/signin-model';
 import { Subscription, filter } from 'rxjs';
 import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import { environment } from 'src/environments/environment';
-import { CountryService } from 'src/app/services/country/country.service';
-import { CountryInfo } from 'src/app/models/country.model';
-import { countryCodes } from 'src/app/data/countryCodes';
+import { CountryService } from '../../../services/country/country.service';
+import { CountryInfo } from '../../../models/country.model';
+import { countryCodes } from '../../../data/countryCodes';
 declare const FB: any;
 
 @Component({

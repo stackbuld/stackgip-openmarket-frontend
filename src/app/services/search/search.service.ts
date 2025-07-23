@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import algoliasearch, { SearchClient, SearchIndex } from 'algoliasearch';
 import { IProductPage, ProductModel } from '../../models/products.model';
 import { ISearchService } from './iSearchService.interface';
@@ -12,7 +12,7 @@ import {
   BehaviorSubject,
 } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { SearchQueryModel } from 'src/app/models/query-params.model';
+import { SearchQueryModel } from '../../models/query-params.model';
 import { tap } from 'rxjs/operators';
 
 const searchClient = algoliasearch(
@@ -88,7 +88,7 @@ export class SearchService implements ISearchService {
     let results = this.convertToProductModel(data.hits);
 
     /* The `tempHits` variable is an object of type `IProductPage`. It represents the paginated results
-    of a search query. It contains the following properties: 
+    of a search query. It contains the following properties:
     It's the final data that'll be used in the product-list component through subscription
     */
     let formattedResults: IProductPage = {

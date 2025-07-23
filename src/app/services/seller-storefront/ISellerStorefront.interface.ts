@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { ISeller } from 'src/app/models/sellerModel';
+import { ISeller } from '../../models/sellerModel';
 
 export interface ISellerService {
   getSellerStorefrontDetails(sellerId: string): Observable<{ data: ISeller }>;

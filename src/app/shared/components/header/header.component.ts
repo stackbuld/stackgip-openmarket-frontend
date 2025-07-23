@@ -1,13 +1,13 @@
 import { getCartCount } from './../../../reducers/selectors/cart.selector';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { Observable } from 'rxjs';
 import { getUser } from './../../../reducers/selectors/auth.selector';
 import { IUser } from './../../../models/IUserModel';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/reducers';
-import { ICategory } from 'src/app/models/CategoryModels';
-import { CategoryService } from 'src/app/services/category/category.service';
+import { AppState } from '../../../reducers';
+import { ICategory } from '../../../models/CategoryModels';
+import { CategoryService } from '../../../services/category/category.service';
 
 @Component({
     selector: 'app-header',

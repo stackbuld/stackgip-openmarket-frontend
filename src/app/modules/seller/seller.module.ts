@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NgxPaginationModule } from 'src/app/shared/pagination/ngx-pagination.module';
+import { NgxPaginationModule } from '../../shared/pagination/ngx-pagination.module';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -15,7 +15,7 @@ import {
   NgxMatTimepickerModule,
 } from '@angular-material-components/datetime-picker';
 
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
 import { SellerHeaderComponent } from './header/header.component';
 import { SellerSidebarComponent } from './sidebar/sidebar.component';

@@ -5,9 +5,9 @@ import { IWallet } from '../../models/wallet.model';
 import { WalletService } from '../../services/wallet/wallet.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { SellerService } from 'src/app/services/seller/seller.service';
+import { SellerService } from '../../services/seller/seller.service';
 import { AlertService } from '../services/alert.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-wallet',

@@ -4,11 +4,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 
-import { IUser } from 'src/app/models/IUserModel';
-import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user/user.service';
-import { environment } from 'src/environments/environment';
+import { IUser } from '../../../../models/IUserModel';
+import { AuthService } from '../../../../services/auth.service';
+import { UserService } from '../../../../services/user/user.service';
 import { BuyerEmailDialogComponent } from './buyer-email-dialog/buyer-email-dialog.component';
+import { environment } from '../../../../../environments/environment';
 declare var cloudinary: any;
 
 @Component({

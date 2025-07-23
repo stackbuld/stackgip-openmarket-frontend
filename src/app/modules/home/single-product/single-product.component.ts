@@ -1,4 +1,4 @@
-import { ProductModel } from 'src/app/models/products.model';
+import { ProductModel } from '../../../models/products.model';
 import {
   Component,
   ElementRef,
@@ -7,15 +7,15 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductsService } from 'src/app/services/products/products.service';
+import { ProductsService } from '../../../services/products/products.service';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/user/user.service';
+import { UserService } from '../../../services/user/user.service';
 import { ToastrService } from 'ngx-toastr';
-import { AppLocalStorage } from 'src/app/helpers/local-storage';
-import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
-import { AuthService } from 'src/app/services/auth.service';
+import { AppLocalStorage } from '../../../helpers/local-storage';
+import { ImageResolutionUtility } from '../../../helpers/image-resolution.utility';
+import { AuthService } from '../../../services/auth.service';
 import { IUser, UserAddressData } from '../../../models/IUserModel';
 import { CartService } from '../../../services/cart/cart.service';
 import { CartAddress, SellerStores } from '../../../models/StoreModels';
@@ -29,19 +29,19 @@ import {
 import { NotificationResponseModel } from '../../../models/notificationResponse.model';
 import * as lodash from 'lodash';
 import * as cryptoJs from 'crypto-js';
-import { FooterService } from 'src/app/services/footer.service';
+import { FooterService } from '../../../services/footer.service';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { BehaviorSubject } from 'rxjs';
 import { WindowRefService } from '../../../shared/services/window.service';
 import uikit from 'uikit';
 
-import { CountryService } from 'src/app/services/country/country.service';
-import { CountryInfo } from 'src/app/models/country.model';
-import { SellerStoreLocationService } from 'src/app/services/cart/seller-store.service';
-import { SearchService } from 'src/app/services/search/search.service';
-import { DeliveryAddressService } from 'src/app/services/cart/delivery-address.service';
-import { MetaService } from 'src/app/shared/services/meta.service';
-import { environment } from 'src/environments/environment';
+import { CountryService } from '../../../services/country/country.service';
+import { CountryInfo } from '../../../models/country.model';
+import { SellerStoreLocationService } from '../../../services/cart/seller-store.service';
+import { SearchService } from '../../../services/search/search.service';
+import { DeliveryAddressService } from '../../../services/cart/delivery-address.service';
+import { MetaService } from '../../../shared/services/meta.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
     selector: 'app-single-product',
@@ -173,7 +173,7 @@ export class SingleProductComponent implements OnInit {
     this.deliveryAddressService.getCurrentLocation();
 
     this.currentShippingMethod = new BehaviorSubject<GetShippingEstimatePrice>(
-      null
+      this.defaultShipping
     );
 
     this.currentShippingMethod.next(this.defaultShipping);
@@ -226,7 +226,7 @@ export class SingleProductComponent implements OnInit {
       this.addresses = JSON.parse(localStorage.getItem('userAddress')!);
     }
 
-    this.addressForm.get('fullAddress').valueChanges.subscribe((value) => {
+    this.addressForm.get('fullAddress')?.valueChanges.subscribe((value) => {
       if (!value || value == '') {
         this.isGoogleAddressSelected = false;
       }
@@ -246,7 +246,7 @@ export class SingleProductComponent implements OnInit {
 
   onUseCurrentAddress() {
     this.deliveryAddressService.deliveryAddress.subscribe((address) => {
-      this.addressForm.get('fullAddress').setValue(address);
+      this.addressForm.get('fullAddress')?.setValue(address);
       this.handleAddressChange(address);
     });
   }
@@ -434,16 +434,16 @@ export class SingleProductComponent implements OnInit {
     this.loading = true;
     this.loadingProductDescription = true;
     const productService$ = this.productService.getCachedProductById(
-      this.productId
+      this.productId ?? ''
     );
     this.sortedVariationsList = [];
     productService$.subscribe({
       next: (res) => {
         this.isLoadingDetails = false;
         this.product = res.data;
-     
+
         this.loadingProductDescription = false;
-        this.sellerStores = res.data?.sellerStores;
+        this.sellerStores = res.data?.sellerStores ?? [];
 
         this.metaService.updateMetaTags(res.data);
 
@@ -455,7 +455,7 @@ export class SingleProductComponent implements OnInit {
           this.productImages.push({ image: image });
           this.sliderMedia.push({ isVideo: false, url: image });
         });
-        this.videoUrls = this.product.videoUrls;
+        this.videoUrls = this.product.videoUrls ?? [];
         if (this.product.videoUrls) {
           this.product.videoUrls.forEach((video) => {
             this.sliderMedia.unshift({ isVideo: true, url: video });
@@ -606,7 +606,7 @@ export class SingleProductComponent implements OnInit {
       1,
       10,
       '',
-      this.product.categoryId,
+      this.product?.categoryId,
       1,
       5000000
     );
@@ -664,7 +664,7 @@ export class SingleProductComponent implements OnInit {
   }
 
   setCurrentAddress = () => {
-    this.currentShippingMethod.next(null);
+    this.currentShippingMethod.next(this.defaultShipping);
     // this.currentAddress = this.selectedAddress;
     for (let index = 0; index < this.addresses.length; index++) {
       const element = this.addresses[index];
@@ -675,7 +675,7 @@ export class SingleProductComponent implements OnInit {
       }
     }
     this.toastService.success('Delivery Address Updated', 'SUCCESS');
-    document.getElementById('closeAddressFormDialog').click();
+    document.getElementById('closeAddressFormDialog')?.click();
     localStorage.setItem(
       'shippingAddress',
       JSON.stringify(this.currentAddress)
@@ -696,7 +696,7 @@ export class SingleProductComponent implements OnInit {
         localStorage.setItem('userAddress', JSON.stringify(addresses));
 
         if (addresses.length == 0) {
-          localStorage.setItem('shippingAddress', null);
+          localStorage.setItem('shippingAddress', '');
         }
 
         this.fetchUserAddresses();
@@ -712,7 +712,7 @@ export class SingleProductComponent implements OnInit {
     localStorage.setItem('shippingAddress', JSON.stringify(address));
     const cartService$ = this.cartService.setDefaultAddress(
       address,
-      address.id
+      address.id ?? ''
     );
     delete address.id;
     cartService$.subscribe({
@@ -895,7 +895,7 @@ export class SingleProductComponent implements OnInit {
       .slice(-10)
       .toString();
     const formattedPhoneNumber =
-      this.addressForm.get('countryCode').value.toString() + phoneNumber;
+      this.addressForm.get('countryCode')?.value.toString() + phoneNumber;
 
     if (this.user !== null) {
       if (this.isEditingAddress) {
@@ -916,12 +916,12 @@ export class SingleProductComponent implements OnInit {
         this.getClosestSellerStore(data);
 
         this.userService
-          .updateUserAddress(this.currentAddress.id, data)
+          .updateUserAddress(this.currentAddress.id ?? '', data)
           .subscribe({
             next: (res) => {
               this.reloadAddresses();
               this.loadingAddress = false;
-              document.getElementById('closeAddressFormDialog').click();
+              document.getElementById('closeAddressFormDialog')?.click();
               this.initAddressForm();
             },
             error: (err) => {},
@@ -955,7 +955,7 @@ export class SingleProductComponent implements OnInit {
 
               this.reloadAddresses();
               this.loadingAddress = false;
-              document.getElementById('closeAddressFormDialog').click();
+              document.getElementById('closeAddressFormDialog')?.click();
               this.initAddressForm();
             } else {
               this.loadingAddress = false;
@@ -986,7 +986,7 @@ export class SingleProductComponent implements OnInit {
 
       this.getShippingEstimate();
       this.toastService.success('Address saved!', 'SUCCESS');
-      document.getElementById('closeAddressFormDialog').click();
+      document.getElementById('closeAddressFormDialog')?.click();
     }
   };
 
@@ -1092,18 +1092,18 @@ export class SingleProductComponent implements OnInit {
       }
     }
     const element = document.getElementById('openAddressModalBtn');
-    element.click();
+    element?.click();
   };
 
   addToCart = () => {
     if (!this.currentAddress) {
       const element = document.getElementById('openAddressModalBtn');
-      element.click();
+      element?.click();
       // uikit.modal('#information-modal').show();
     } else if (this.currentShippingMethod.value === null) {
-      document.getElementById('openShippingModalBtn').click();
+      document.getElementById('openShippingModalBtn')?.click();
     } else {
-      if (this.count > this.product.unit) {
+      if (this.product && this.count > this.product.unit) {
         this.toastService.error('Can not order more than the available units!');
         return;
       }

@@ -1,15 +1,15 @@
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { ProductModel, ProductsApiModel } from 'src/app/models/products.model';
-import { ProductsService } from 'src/app/services/products/products.service';
+import { ProductModel, ProductsApiModel } from '../../../../models/products.model';
+import { ProductsService } from '../../../../services/products/products.service';
 
-import { ICategory } from 'src/app/models/CategoryModels';
-import { SellerService } from 'src/app/services/seller/seller.service';
-import { ISeller } from 'src/app/models/sellerModel';
-import { IUser } from 'src/app/models/IUserModel';
+import { ICategory } from '../../../../models/CategoryModels';
+import { SellerService } from '../../../../services/seller/seller.service';
+import { ISeller } from '../../../../models/sellerModel';
+import { IUser } from '../../../../models/IUserModel';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WindowRefService } from 'src/app/shared/services/window.service';
-import { CategoryService } from 'src/app/services/category/category.service';
+import { WindowRefService } from '../../../../shared/services/window.service';
+import { CategoryService } from '../../../../services/category/category.service';
 declare var UIkit: any;
 
 @Component({

@@ -19,8 +19,8 @@ import {
   startWith,
   Observable,
 } from 'rxjs';
-import { bankData } from 'src/app/models/wallet.model';
-import { WalletService } from 'src/app/services/wallet/wallet.service';
+import { bankData } from '../../../models/wallet.model';
+import { WalletService } from '../../../services/wallet/wallet.service';
 
 interface Bank {
   code: string;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IPromotedProductService } from './IPromotedProductService.interface';
 import { PromotedProduct } from '../../models/products.model';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import algoliasearch from 'algoliasearch';
 import { Observable, from, of, switchMap } from 'rxjs';
 

@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { ToastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from '../../../../services/toastr.service';
 
-import { IUser } from 'src/app/models/IUserModel';
-import { CountryInfo } from 'src/app/models/country.model';
-import { AuthService } from 'src/app/services/auth.service';
-import { CountryService } from 'src/app/services/country/country.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { IUser } from '../../../../models/IUserModel';
+import { CountryInfo } from '../../../../models/country.model';
+import { AuthService } from '../../../../services/auth.service';
+import { CountryService } from '../../../../services/country/country.service';
+import { UserService } from '../../../../services/user/user.service';
 import { BuyerContactDialogComponent } from './buyer-contact-dialog/buyer-contact-dialog.component';
 
 @Component({
@@ -126,12 +126,12 @@ export class BuyerContactInformationComponent implements OnInit, OnDestroy {
     }
 
     this.isSubmitting = true;
-    let phoneNumber = this.contactForm.get('phoneNumber').value.toString();
+    let phoneNumber = this.contactForm.get('phoneNumber')?.value.toString();
 
-    this.contactForm.get('phoneNumber').value.toString();
+    this.contactForm.get('phoneNumber')?.value.toString();
     phoneNumber = phoneNumber.replace(/^0+/, '');
     const formattedPhoneNumber =
-      this.contactForm.get('countryCode').value.toString() + phoneNumber;
+      this.contactForm.get('countryCode')?.value.toString() + phoneNumber;
 
     this.userService
       .updateUser({

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import algoliasearch from 'algoliasearch';
 import { Observable, from, switchMap, of } from 'rxjs';
-import { RecommendedProduct } from 'src/app/models/products.model';
-import { environment } from 'src/environments/environment';
+import { RecommendedProduct } from '../../models/products.model';
+import { environment } from '../../../environments/environment';
 
 const searchClient = algoliasearch(
   environment.algolia.appId,

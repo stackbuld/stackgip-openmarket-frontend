@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
-import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
-import { environment } from 'src/environments/environment.development';
+import { CloudinaryService } from '../../../services/cloudinary/cloudinary.service';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
     selector: 'app-upload-image',

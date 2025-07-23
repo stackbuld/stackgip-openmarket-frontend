@@ -1,6 +1,6 @@
-import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
+import { CloudinaryService } from '../../../../services/cloudinary/cloudinary.service';
 import { IUser } from '../../../../models/IUserModel';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   CreateProductResponse,
@@ -23,15 +23,15 @@ import {
   AfterViewChecked,
   OnDestroy,
 } from '@angular/core';
-import { nigeriaSates } from 'src/app/data/nigeriastates';
+import { nigeriaSates } from '../../../../data/nigeriastates';
 import { ProductsService } from '../../../../services/products/products.service';
 import { ToastrService } from '../../../../services/toastr.service';
-import { StoreService } from 'src/app/services/store/store.service';
+import { StoreService } from '../../../../services/store/store.service';
 
 import { DOCUMENT } from '@angular/common';
-import { DialogService } from 'src/app/shared/services/dialog.service';
+import { DialogService } from '../../../../shared/services/dialog.service';
 import { SellerStoreCreateDialogComponent } from '../../seller-store/seller-store-create-dialog/seller-store-create-dialog.component';
-import { SafeHtmlPipe } from 'src/app/shared/pipes/safehtml.pipe';
+import { SafeHtmlPipe } from '../../../../shared/pipes/safehtml.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { VariationsAlertDialogComponent } from './variations-alert-dialog/variations-alert-dialog.component';
 import { VariantService } from './variant/variant.service';
@@ -41,8 +41,8 @@ import {
   pickupOptions,
   previewEditorConfig,
 } from './editor.config';
-import { ICategory } from 'src/app/models/CategoryModels';
-import { CategoryService } from 'src/app/services/category/category.service';
+import { ICategory } from '../../../../models/CategoryModels';
+import { CategoryService } from '../../../../services/category/category.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 declare var cloudinary: any;
@@ -104,7 +104,7 @@ export class CreateProductComponent
   creatingVariation: boolean;
   loadingSubCategories: boolean;
   creatingProduct: boolean;
-  productId = null;
+  productId: string | null = null;
   isFullDescription = false;
   hasFullDesc: boolean;
   imageErr: string;
@@ -115,7 +115,7 @@ export class CreateProductComponent
   totalVariationsUnit: number = 0;
   editingTotalVariationsUnit: number = 0;
   editingVariation: boolean = false;
-  editingIndex: number = null;
+  editingIndex: number = 0;
   editingVariationUnit: number = 0;
   isProductUnitExceeded: boolean = false;
   videoUrls: string[] = [];
@@ -220,7 +220,7 @@ export class CreateProductComponent
 
     this.createCloudinaryWidgets();
 
-    this.form.get('unit').valueChanges.subscribe((value: number) => {
+    this.form.get('unit')?.valueChanges.subscribe((value: number) => {
       if (!this.editingVariation) {
         this.availableProductUnit = value;
       }

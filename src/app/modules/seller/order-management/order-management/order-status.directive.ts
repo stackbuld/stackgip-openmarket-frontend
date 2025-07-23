@@ -20,10 +20,13 @@ export class OrderStatusDirective implements OnInit {
       case 'confirmed':
         color = '#4CAF50';
         break;
-      case 'pending' || 'notset':
+      case 'pending':
+      case 'notset':
         color = '#F9AA4B';
         break;
-      case 'rejected' || 'cancelled' || 'returned':
+      case 'rejected':
+      case 'cancelled':
+      case 'returned':
         color = '#EF0606';
         break;
       default:

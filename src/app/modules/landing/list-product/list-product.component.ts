@@ -1,5 +1,5 @@
-import { ProductsService } from 'src/app/services/products/products.service';
-import { ProductModel } from 'src/app/models/products.model';
+import { ProductsService } from '../../../services/products/products.service';
+import { ProductModel } from '../../../models/products.model';
 import { Options, LabelType } from '@angular-slider/ngx-slider';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -7,7 +7,7 @@ import { CategoryResponse } from '../../../models/CategoryModels';
 import { ToastrService } from '../../../services/toastr.service';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CategoryService } from 'src/app/services/category/category.service';
+import { CategoryService } from '../../../services/category/category.service';
 
 @Component({
     selector: 'app-list-product',
@@ -74,18 +74,18 @@ export class ListProductComponent implements OnInit {
   }
 
   onSearch() {
-    this.search = this.form.get('keyword').value;
-    this.categoryId = this.form.get('category').value;
-    this.minValue = this.form.get('minPrice').value;
-    this.maxValue = this.form.get('maxPrice').value;
+    this.search = this.form.get('keyword')?.value;
+    this.categoryId = this.form.get('category')?.value;
+    this.minValue = this.form.get('minPrice')?.value;
+    this.maxValue = this.form.get('maxPrice')?.value;
     this.fetchNextProducts(this.defaultPage);
   }
 
   onClear() {
-    this.form.get('keyword').setValue('');
-    this.form.get('category').setValue('');
-    this.form.get('minPrice').setValue(10);
-    this.form.get('maxPrice').setValue(500000);
+    this.form.get('keyword')?.setValue('');
+    this.form.get('category')?.setValue('');
+    this.form.get('minPrice')?.setValue(10);
+    this.form.get('maxPrice')?.setValue(500000);
     this.categoryItem.nativeElement.innerText = '';
   }
 
@@ -100,10 +100,10 @@ export class ListProductComponent implements OnInit {
   }
 
   resetPrice(): boolean {
-    const minPrice: number = this.form.get('minPrice').value;
-    const maxPrice: number = this.form.get('maxPrice').value;
+    const minPrice: number = this.form.get('minPrice')?.value;
+    const maxPrice: number = this.form.get('maxPrice')?.value;
     if (minPrice > maxPrice) {
-      this.form.get('maxPrice').setValue(minPrice);
+      this.form.get('maxPrice')?.setValue(minPrice);
       return true;
     }
     return false;

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ToastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from '../../../../services/toastr.service';
 
-import { IUser } from 'src/app/models/IUserModel';
-import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { IUser } from '../../../../models/IUserModel';
+import { AuthService } from '../../../../services/auth.service';
+import { UserService } from '../../../../services/user/user.service';
 import { BuyerSecurityOtpComponent } from '../../buyer-security-settings/buyer-security-otp/buyer-security-otp.component';
 
 @Component({

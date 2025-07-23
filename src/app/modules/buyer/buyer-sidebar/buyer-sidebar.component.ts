@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IUser } from 'src/app/models/IUserModel';
-import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { IUser } from '../../../models/IUserModel';
+import { AuthService } from '../../../services/auth.service';
+import { UserService } from '../../../services/user/user.service';
 import { LogoutModalComponent } from '../../../shared/components/logout-modal/logout-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 

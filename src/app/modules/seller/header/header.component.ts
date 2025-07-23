@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { IUser } from "src/app/models/IUserModel";
-import { SellerService } from 'src/app/services/seller/seller.service';
-import { environment } from 'src/environments/environment';
+import { IUser } from "../../../models/IUserModel";
+import { SellerService } from '../../../services/seller/seller.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
     selector: 'app-seller-header',
@@ -18,8 +18,8 @@ export class SellerHeaderComponent implements OnInit {
   constructor(
     private sellerS: SellerService,
     private router: Router
-  ) { 
-    this.currentRoute = router.url; 
+  ) {
+    this.currentRoute = router.url;
   }
 
   ngOnInit(): void {

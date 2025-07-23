@@ -4,15 +4,15 @@ import {
   IRequestResponse,
   Requests,
   TransactionsResponse,
-} from 'src/app/models/wallet.model';
-import { WalletService } from 'src/app/services/wallet/wallet.service';
+} from '../../../models/wallet.model';
+import { WalletService } from '../../../services/wallet/wallet.service';
 import { AuthService } from '../../../services/auth.service';
 import { DateRange } from '../../components/date-range/date-range.dto';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
-import { SellerService } from 'src/app/services/seller/seller.service';
+import { SellerService } from '../../../services/seller/seller.service';
 
 @Component({
     selector: 'app-wallet-overview',

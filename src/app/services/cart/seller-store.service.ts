@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { log } from 'console';
-import { SellerStores } from 'src/app/models/StoreModels';
+import { SellerStores } from '../../models/StoreModels';
 
 @Injectable({ providedIn: 'root' })
 export class SellerStoreLocationService {

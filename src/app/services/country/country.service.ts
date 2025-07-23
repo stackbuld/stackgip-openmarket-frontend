@@ -7,7 +7,7 @@ import {
   CountryInfo,
   HttpCountryInfoResponse,
   RawCountryInfo,
-} from 'src/app/models/country.model';
+} from '../../models/country.model';
 
 @Injectable({ providedIn: 'root' })
 export class CountryService {

@@ -34,7 +34,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { VariationsAlertDialogComponent } from '../variations-alert-dialog/variations-alert-dialog.component';
 import { VariantOptions, Variants } from './variant-types';
-import { CloudinaryService } from 'src/app/services/cloudinary/cloudinary.service';
+import { CloudinaryService } from '../../../../../services/cloudinary/cloudinary.service';
 declare var cloudinary: any;
 
 @Component({
@@ -314,10 +314,10 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.variantOptionsValuesArray.controls.forEach((control) => {
-      const cost = control.get('cost').value;
+      const cost = control.get('cost')?.value;
       if (this.productPrice > cost && cost != 0) {
         hasInvalidPrice = true;
-        control.get('cost').setErrors({ invalidPrice: true });
+        control.get('cost')?.setErrors({ invalidPrice: true });
       }
     });
 
@@ -343,8 +343,8 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
       variantUnitValue += unit;
     });
     this.variantOptionsValuesArray.controls.forEach((control) => {
-      variantUnitValue += control.get('unit').value;
-      const cost = control.get('cost').value;
+      variantUnitValue += control.get('unit')?.value;
+      const cost = control.get('cost')?.value;
       this.finishedVariants.push({
         ...control.value,
         cost: cost,
@@ -440,7 +440,7 @@ export class VariantComponent implements OnInit, AfterViewInit, OnDestroy {
         );
         this.totalVariationsUnit -=
           this.variantOptionsValuesArray.value[id].unit;
-        this.variantOptionsValues.push(deletedOption);
+        this.variantOptionsValues.push(deletedOption ?? '');
         this.selectedVariants = this.delete(this.selectedVariants, id);
         this.variantOptionsValuesArray.removeAt(id);
 

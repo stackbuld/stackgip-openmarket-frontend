@@ -1,8 +1,8 @@
 import { IUser } from '../../../models/IUserModel';
 import { Component, OnInit } from '@angular/core';
 
-import { OverView, OverviewApiModel } from 'src/app/models/products.model';
-import { AuthService } from 'src/app/services/auth.service';
+import { OverView, OverviewApiModel } from '../../../models/products.model';
+import { AuthService } from '../../../services/auth.service';
 import { MostSelling } from '../../../models/products.model';
 import { ProductsService } from '../../../services/products/products.service';
 

@@ -2,7 +2,7 @@ import {
   ProductWithOptionAndShipmentModel,
   CreateProductOption,
 } from '../../../models/products.model';
-import { ProductsService } from 'src/app/services/products/products.service';
+import { ProductsService } from '../../../services/products/products.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { formatDate } from '../../../helpers/date-format';

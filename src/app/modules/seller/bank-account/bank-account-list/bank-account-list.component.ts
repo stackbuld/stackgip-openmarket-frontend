@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { SellerStores } from 'src/app/models/StoreModels';
-import { DialogService } from 'src/app/shared/services/dialog.service';
-import { HelperService } from 'src/app/shared/services/helper.service';
-import { BankAccountService } from 'src/app/shared/services/bank-account.service';
+import { SellerStores } from '../../../../models/StoreModels';
+import { DialogService } from '../../../../shared/services/dialog.service';
+import { HelperService } from '../../../../shared/services/helper.service';
+import { BankAccountService } from '../../../../shared/services/bank-account.service';
 import { BankAccountCreateDialogComponent } from '../bank-account-create-dialog/bank-account-create-dialog.component';
-import { bankData } from 'src/app/models/wallet.model';
+import { bankData } from '../../../../models/wallet.model';
 
 @Component({
     selector: 'app-bank-account-list',

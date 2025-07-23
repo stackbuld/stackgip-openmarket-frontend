@@ -1,11 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { ToastrService } from 'src/app/services/toastr.service';
+import { ToastrService } from '../../../../../services/toastr.service';
 
-import { IUser } from 'src/app/models/IUserModel';
-import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { IUser } from '../../../../../models/IUserModel';
+import { AuthService } from '../../../../../services/auth.service';
+import { UserService } from '../../../../../services/user/user.service';
 
 @Component({
     selector: 'app-buyer-contact-dialog',
@@ -75,7 +75,7 @@ export class BuyerContactDialogComponent {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    @Inject(MAT_DIALOG_DATA)
+    @Inject(MAT_DIALOG_DATA) 
     private data: { type: string; payload: any },
     private dialog: MatDialog,
     private toast: ToastrService
@@ -102,7 +102,7 @@ export class BuyerContactDialogComponent {
       }
     }, 1000);
 
-    this.otpInput = new FormControl<string>(null, Validators.required);
+    this.otpInput = new FormControl<string>('', Validators.required);
 
     this.otpInput.valueChanges.subscribe((data) => {
       if (data.length === 6) {

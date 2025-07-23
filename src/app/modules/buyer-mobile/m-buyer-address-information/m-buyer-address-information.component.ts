@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { nigeriaSates } from 'src/app/data/nigeriastates';
-import { CountryInfo } from 'src/app/models/country.model';
-import { CountryService } from 'src/app/services/country/country.service';
+import { nigeriaSates } from '../../../data/nigeriastates';
+import { CountryInfo } from '../../../models/country.model';
+import { CountryService } from '../../../services/country/country.service';
 
 @Component({
     selector: 'app-m-buyer-address-information',

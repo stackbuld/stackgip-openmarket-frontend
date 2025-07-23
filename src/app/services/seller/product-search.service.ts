@@ -7,7 +7,7 @@ import {
   ProductSearchResult,
   ProductsApiModel,
   PromotedProduct,
-} from 'src/app/models/products.model';
+} from '../../models/products.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductSearchService {

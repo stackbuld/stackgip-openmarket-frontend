@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import {
   PromotedProduct,
   RecommendedProduct,
-} from 'src/app/models/products.model';
-import { CategoryService } from 'src/app/services/category/category.service';
-import { ICategory } from 'src/app/models/CategoryModels';
-import { PromotedProductsService } from 'src/app/services/promoted-products/promoted-products.service';
-import { RecommendedProductService } from 'src/app/services/recomended-product/recommended-product.service';
+} from '../../../models/products.model';
+import { CategoryService } from '../../../services/category/category.service';
+import { ICategory } from '../../../models/CategoryModels';
+import { PromotedProductsService } from '../../../services/promoted-products/promoted-products.service';
+import { RecommendedProductService } from '../../../services/recomended-product/recommended-product.service';
 import { ProductsService } from '../../../services/products/products.service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
     selector: 'app-home-page',
@@ -102,7 +102,7 @@ export class HomePageComponent {
             // this just a temporary fix. this category doesn't have ordering number and it's removed awaiting when it will totally be removed from the database, I have also requested for it to be removed by mujib on April 22 2024
             TODO: return cat.id !== 'e3393601-6453-4194-b5da-27ac8db5e92d';
           })
-          .sort((a, b) => a.orderingNumber - b.orderingNumber);
+          .sort((a, b) => (a.orderingNumber ?? 0) - (b.orderingNumber ?? 0));
         this.categories = categories;
         this.loadingCategories = false;
       },

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
-import { AuthService } from 'src/app/services/auth.service';
-import { SellerService } from 'src/app/services/seller/seller.service';
+import { AuthService } from '../../../../services/auth.service';
+import { SellerService } from '../../../../services/seller/seller.service';
 import { IUser } from '../../../../models/IUserModel';
 import { environment } from '../../../../../environments/environment';
 import { v4 as uuidv4 } from 'uuid';
@@ -61,12 +61,10 @@ export class SellerKycComponent implements OnInit {
       this.router.navigate(['/seller-form']);
       return;
     }
-    let widgetId: string;
+    let widgetId: string = '';
 
     if (this.user.isBusinessRegistered) {
       widgetId = environment.kycVerificationWidgetId.business;
-    } else if (!this.user.isBusinessRegistered) {
-      widgetId = environment.kycVerificationWidgetId.individual;
     }
 
     if (

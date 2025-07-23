@@ -5,7 +5,7 @@ import {
   SellerBaseResponse,
   SellerStores,
   StoreAvailability,
-} from 'src/app/models/StoreModels';
+} from '../../models/StoreModels';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

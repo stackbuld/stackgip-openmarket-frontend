@@ -7,15 +7,15 @@ import {
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
-import { nigeriaSates } from 'src/app/data/nigeriastates';
-import { countryCodes } from 'src/app/data/countryCodes';
-import { IUser } from 'src/app/models/IUserModel';
-import { CountryInfo } from 'src/app/models/country.model';
-import { SellerBusinessProfileData } from 'src/app/models/sellerModel';
-import { AuthService } from 'src/app/services/auth.service';
-import { CountryService } from 'src/app/services/country/country.service';
-import { SellerService } from 'src/app/services/seller/seller.service';
-import { ToastrService } from 'src/app/services/toastr.service';
+import { nigeriaSates } from '../../../../data/nigeriastates';
+import { countryCodes } from '../../../../data/countryCodes';
+import { IUser } from '../../../../models/IUserModel';
+import { CountryInfo } from '../../../../models/country.model';
+import { SellerBusinessProfileData } from '../../../../models/sellerModel';
+import { AuthService } from '../../../../services/auth.service';
+import { CountryService } from '../../../../services/country/country.service';
+import { SellerService } from '../../../../services/seller/seller.service';
+import { ToastrService } from '../../../../services/toastr.service';
 import { OTPDialogComponent } from '../otp-dialog/otp-dialog.component';
 
 @Component({
@@ -82,13 +82,13 @@ export class BusinessProfileComponent implements OnInit {
         this.isFetching = false;
         this.user = user.data;
         this.isBusinessPhoneNumberVerified = this.user.businessPhoneConfirmed;
-        let reformedPhoneNumber = null;
+        let reformedPhoneNumber: string | null = null;
         if (this.user.businessPhone) {
           reformedPhoneNumber = this.user.businessPhone.slice(-10);
         }
 
         if (user.data.businessPhoneConfirmed) {
-          this.verifiedBusinessPhoneNumber = reformedPhoneNumber;
+          this.verifiedBusinessPhoneNumber = reformedPhoneNumber ?? '';
         }
 
         this.businessProfileForm.setValue({
@@ -111,10 +111,10 @@ export class BusinessProfileComponent implements OnInit {
 
         this.isSellerApproved = this.user.isSellerApproved;
         if (this.user.isSellerApproved) {
-          this.businessProfileForm.get('businessName').disable();
-          this.businessProfileForm.get('businessAddress').disable();
-          this.businessProfileForm.get('businessState').disable();
-          this.businessProfileForm.get('businessCountry').disable();
+          this.businessProfileForm.get('businessName')?.disable();
+          this.businessProfileForm.get('businessAddress')?.disable();
+          this.businessProfileForm.get('businessState')?.disable();
+          this.businessProfileForm.get('businessCountry')?.disable();
         }
 
         const initialUserForm = this.businessProfileForm.value;
@@ -164,7 +164,7 @@ export class BusinessProfileComponent implements OnInit {
     this.isFetchingOtp = true;
 
     const formattedPhoneNumber =
-      this.businessProfileForm.get('countryCode').value.toString() +
+      this.businessProfileForm.get('countryCode')?.value.toString() +
       this.phoneNumberField.value.toString();
 
     this.authService.sendBusinessPhoneOTP().subscribe({
@@ -196,8 +196,8 @@ export class BusinessProfileComponent implements OnInit {
     this.isSubmitting = true;
 
     const formattedPhoneNumber =
-      this.businessProfileForm.get('countryCode').value.toString() +
-      this.businessProfileForm.get('businessPhoneNumber').value.toString();
+      this.businessProfileForm.get('countryCode')?.value.toString() +
+      this.businessProfileForm.get('businessPhoneNumber')?.value.toString();
 
     const formValue = this.businessProfileForm.value;
     const socialLinks = {

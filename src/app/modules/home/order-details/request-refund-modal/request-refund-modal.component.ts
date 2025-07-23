@@ -3,8 +3,8 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import {
   RefundPayload,
   RefundService,
-} from 'src/app/services/refund/refund.service';
-import { environment } from 'src/environments/environment';
+} from '../../../../services/refund/refund.service';
+import { environment } from '../../../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { ImageResolutionUtility } from '../../../../helpers/image-resolution.utility';
 
@@ -125,7 +125,7 @@ export class RequestRefundModalComponent implements OnInit {
 
   onRemoveMedia() {
     this.mediaUrl = '';
-    this.mediaType = null;
+    this.mediaType = '';
   }
 
   onCloseModal() {

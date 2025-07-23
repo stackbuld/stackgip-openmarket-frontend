@@ -1,4 +1,4 @@
-import { ProductsService } from 'src/app/services/products/products.service';
+import { ProductsService } from '../../../../../services/products/products.service';
 import { SafeHtmlPipe } from '../../../../../shared/pipes/safehtml.pipe';
 import { FormGroup } from '@angular/forms';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
@@ -7,7 +7,7 @@ import { SafeHtml } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import uikit from 'uikit';
-import { CreateProductDto } from 'src/app/models/products.model';
+import { CreateProductDto } from '../../../../../models/products.model';
 
 @Component({
     selector: 'app-preview-product',

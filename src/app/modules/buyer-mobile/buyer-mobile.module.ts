@@ -10,11 +10,11 @@ import { MBuyerDeleteAccountComponent } from './m-buyer-delete-account/m-buyer-d
 import { MBuyerSidebarComponent } from './m-buyer-sidebar/m-buyer-sidebar.component';
 import { BuyerMobileRoutingModule } from './buyer-mobile-routing.module';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { BuyerModule } from '../buyer/buyer.module';
 import { MAT_SELECT_CONFIG } from '@angular/material/select';
 import { MBuyerWalletComponent } from './m-buyer-wallet/m-buyer-wallet.component';
-import { WalletModule } from 'src/app/shared/wallet/wallet.module';
+import { WalletModule } from '../../shared/wallet/wallet.module';
 
 @NgModule({
   imports: [

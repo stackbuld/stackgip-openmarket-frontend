@@ -8,14 +8,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Options } from '@angular-slider/ngx-slider';
-import { ProductsService } from 'src/app/services/products/products.service';
-import { ProductModel } from 'src/app/models/products.model';
-import { CategoryService } from 'src/app/services/category/category.service';
-import { FooterService } from 'src/app/services/footer.service';
-import { SearchService } from 'src/app/services/search/search.service';
-import { CityService } from 'src/app/services/city/city.service';
-import { StateService } from 'src/app/services/state/state.service';
-import { ICategory } from 'src/app/models/CategoryModels';
+import { ProductsService } from '../../../services/products/products.service';
+import { ProductModel } from '../../../models/products.model';
+import { CategoryService } from '../../../services/category/category.service';
+import { FooterService } from '../../../services/footer.service';
+import { SearchService } from '../../../services/search/search.service';
+import { CityService } from '../../../services/city/city.service';
+import { StateService } from '../../../services/state/state.service';
+import { ICategory } from '../../../models/CategoryModels';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, fromEvent, Subject, takeUntil } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -93,7 +93,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     ceil: 200,
   };
   destroyed = new Subject<boolean>();
-  index = this.searchService.index;
+  index: any;
   productSearchResults: any[] = [];
   productSearchControl: FormControl = new FormControl<any>(null);
   productSearchQuery!: string;
@@ -110,6 +110,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.index = this.searchService.index;
     this.footerService.setShowFooter(false);
     this.fetchQueryParamsFromUrl();
     this.fetchAllProducts(this.pageNumber);

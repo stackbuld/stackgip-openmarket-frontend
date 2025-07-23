@@ -1,14 +1,14 @@
-import { OrderService } from 'src/app/services/order/order.service';
+import { OrderService } from '../../../../services/order/order.service';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { AppLocalStorage } from 'src/app/helpers/local-storage';
+import { AppLocalStorage } from '../../../../helpers/local-storage';
 import { ToastrService } from 'ngx-toastr';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { NavigationEnd, Router } from '@angular/router';
 import uikit from 'uikit';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
-import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
-import { OrderAcceptRejectPayload, Refund } from 'src/app/models/order.model';
+import { SellerStoreService } from '../../../../shared/services/seller-store.service';
+import { OrderAcceptRejectPayload, Refund } from '../../../../models/order.model';
 import { MatDialog } from '@angular/material/dialog';
 import { RefundDetailsDialogComponent } from '../refund-details-dialog/refund-details-dialog.component';
 
@@ -192,7 +192,7 @@ export class OrderViewComponent implements OnInit {
   }
 
   closeRejectDialog = () => {
-    document.getElementById('closeRejectOrderDialog').click();
+    document.getElementById('closeRejectOrderDialog')?.click();
   };
 
   onRemovePhoto() {

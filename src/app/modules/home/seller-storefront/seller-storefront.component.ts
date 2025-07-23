@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ISeller } from 'src/app/models/sellerModel';
-import { SellerStorefrontService } from 'src/app/services/seller-storefront/seller-storefront.service';
-import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
+import { ISeller } from '../../../models/sellerModel';
+import { SellerStorefrontService } from '../../../services/seller-storefront/seller-storefront.service';
+import { ImageResolutionUtility } from '../../../helpers/image-resolution.utility';
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { WindowRefService } from 'src/app/shared/services/window.service';
+import { environment } from '../../../../environments/environment';
+import { WindowRefService } from '../../../shared/services/window.service';
 
 @Component({
     selector: 'app-seller-storefront',
@@ -40,7 +40,7 @@ export class SellerStorefrontComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.sellerId = params.get('sellerId');
+      this.sellerId = params.get('sellerId') ?? '';
     });
 
     let unchangedBannerUrl: string;

@@ -1,8 +1,8 @@
 import { WindowRefService } from './../shared/services/window.service';
-import { AuthService } from 'src/app/services/auth.service';
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class AuthGuard  {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let isLogin: boolean;
+    let isLogin: boolean = false;
     const signInData = this.authService.GetSignInData();
     if (signInData) {
       isLogin = signInData.canLogin;

@@ -4,17 +4,17 @@ import {
 } from '../../../reducers/action/cart.actions';
 import { Observable } from 'rxjs';
 import { Component, OnInit, inject } from '@angular/core';
-import { ProductCartModel } from 'src/app/models/products.model';
+import { ProductCartModel } from '../../../models/products.model';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/reducers';
-import { getCart } from 'src/app/reducers/selectors/cart.selector';
-import {environment} from 'src/environments/environment';
+import { AppState } from '../../../reducers';
+import { getCart } from '../../../reducers/selectors/cart.selector';
+import {environment} from '../../../../environments/environment';
 import {DOCUMENT} from "@angular/common";
 import {
   UpdateCartItemUnit,
   IncreamentCartItem,
   DecreamentCartItem,
-} from 'src/app/reducers/action/cart.actions';
+} from '../../../reducers/action/cart.actions';
 @Component({
     selector: 'app-cart',
     templateUrl: './cart.component.html',

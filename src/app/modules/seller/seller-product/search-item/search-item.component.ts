@@ -12,7 +12,7 @@ import { Options, LabelType } from '@angular-slider/ngx-slider';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatDatepickerToggle } from '@angular/material/datepicker';
-import { CategoryService } from 'src/app/services/category/category.service';
+import { CategoryService } from '../../../../services/category/category.service';
 
 @Component({
     selector: 'app-search-item',

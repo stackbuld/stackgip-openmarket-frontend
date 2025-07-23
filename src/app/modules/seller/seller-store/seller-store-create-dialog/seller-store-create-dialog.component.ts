@@ -6,15 +6,15 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { SellerStoreService } from 'src/app/shared/services/seller-store.service';
+import { SellerStoreService } from '../../../../shared/services/seller-store.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HelperService } from 'src/app/shared/services/helper.service';
+import { HelperService } from '../../../../shared/services/helper.service';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { ToastrService } from 'src/app/services/toastr.service';
-import { SellerStores, StoreAvailability } from 'src/app/models/StoreModels';
-import { CountryInfo } from 'src/app/models/country.model';
-import { CountryService } from 'src/app/services/country/country.service';
+import { ToastrService } from '../../../../services/toastr.service';
+import { SellerStores, StoreAvailability } from '../../../../models/StoreModels';
+import { CountryInfo } from '../../../../models/country.model';
+import { CountryService } from '../../../../services/country/country.service';
 
 @Component({
     selector: 'app-seller-store-create-dialog',

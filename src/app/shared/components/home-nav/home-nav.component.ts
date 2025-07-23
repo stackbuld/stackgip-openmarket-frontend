@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { AppLocalStorage } from 'src/app/helpers/local-storage';
-import { CategoryService } from 'src/app/services/category/category.service';
-import { ProductsService } from 'src/app/services/products/products.service';
+import { AppLocalStorage } from '../../../helpers/local-storage';
+import { CategoryService } from '../../../services/category/category.service';
+import { ProductsService } from '../../../services/products/products.service';
 import algoliasearch from 'algoliasearch';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { CartService } from '../../../services/cart/cart.service';
-import { IUser } from 'src/app/models/IUserModel';
+import { IUser } from '../../../models/IUserModel';
 import { AuthService } from '../../../services/auth.service';
 import { WindowRefService } from '../../services/window.service';
-import { SearchService } from 'src/app/services/search/search.service';
+import { SearchService } from '../../../services/search/search.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LogoutModalComponent } from '../logout-modal/logout-modal.component';
 

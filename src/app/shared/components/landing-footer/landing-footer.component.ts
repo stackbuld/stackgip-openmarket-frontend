@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FooterService } from 'src/app/services/footer.service';
+import { FooterService } from '../../../services/footer.service';
 
 @Component({
     selector: 'app-landing-footer',

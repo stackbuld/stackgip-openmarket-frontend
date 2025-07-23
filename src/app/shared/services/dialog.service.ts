@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { WithdrawalDialogComponent } from 'src/app/modules/seller/bank-account/withdrawal-dialog/withdrawal-dialog.component';
+import { WithdrawalDialogComponent } from '../../modules/seller/bank-account/withdrawal-dialog/withdrawal-dialog.component';
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
 import { DeleteDialogComponent } from '../components/delete-dialog/delete-dialog.component';
 import { SuccessfulDialogComponent } from '../components/successful-dialog/successful-dialog.component';
-import { ConfirmOrderDialogComponent } from 'src/app/modules/seller/order-management/confirm-order-dialog/confirm-order-dialog.component';
+import { ConfirmOrderDialogComponent } from '../../modules/seller/order-management/confirm-order-dialog/confirm-order-dialog.component';
 
 @Injectable({
   providedIn: 'root',

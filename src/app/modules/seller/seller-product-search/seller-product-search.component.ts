@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
-import { ProductSearchResult } from 'src/app/models/products.model';
+import { ImageResolutionUtility } from '../../../helpers/image-resolution.utility';
+import { ProductSearchResult } from '../../../models/products.model';
 
-import { ProductSearchService } from 'src/app/services/seller/product-search.service';
+import { ProductSearchService } from '../../../services/seller/product-search.service';
 
 @Component({
     selector: 'app-seller-product-search',

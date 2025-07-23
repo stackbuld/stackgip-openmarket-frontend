@@ -13,7 +13,7 @@ import {
   sellerStoreRedirectGuard,
   singleProductRedirectGuard,
   homeRedirectGuard
-} from 'src/app/guard/redirects.guard';
+} from '../../guard/redirects.guard';
 
 const routes: Routes = [
   {

@@ -1,9 +1,9 @@
 import { Router } from '@angular/router';
 import { DashboardService } from '../../../services/dashboard/dashboard.service';
 import { Component, OnInit } from '@angular/core';
-import { ImageResolutionUtility } from 'src/app/helpers/image-resolution.utility';
-import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { ImageResolutionUtility } from '../../../helpers/image-resolution.utility';
+import { AuthService } from '../../../services/auth.service';
+import { UserService } from '../../../services/user/user.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

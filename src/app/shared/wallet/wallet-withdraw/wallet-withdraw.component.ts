@@ -18,8 +18,8 @@ import { ToastrService } from 'ngx-toastr';
 import { WalletKycPromptComponent } from '../wallet-kyc-prompt/wallet-kyc-prompt.component';
 import { Router } from '@angular/router';
 import e from 'express';
-import { bankData } from 'src/app/models/wallet.model';
-import { AuthService } from 'src/app/services/auth.service';
+import { bankData } from '../../../models/wallet.model';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'app-wallet-withdraw',

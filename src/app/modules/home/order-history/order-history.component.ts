@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AppLocalStorage } from 'src/app/helpers/local-storage';
-import { AuthService } from 'src/app/services/auth.service';
-import { FooterService } from 'src/app/services/footer.service';
-import { OrderService } from 'src/app/services/order/order.service';
+import { AppLocalStorage } from '../../../helpers/local-storage';
+import { AuthService } from '../../../services/auth.service';
+import { FooterService } from '../../../services/footer.service';
+import { OrderService } from '../../../services/order/order.service';
 import { OrderDetail, OrderDetail2 } from '../../../models/order.model';
 
 @Component({

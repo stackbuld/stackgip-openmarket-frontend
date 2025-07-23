@@ -9,12 +9,12 @@ import {
 } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Meta, Title} from '@angular/platform-browser';
-import {WindowRefService} from 'src/app/shared/services/window.service';
+import {WindowRefService} from '../../../shared/services/window.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {HomeService} from 'src/app/services/home/home.service';
-import {ToastrService} from 'src/app/services/toastr.service';
+import {HomeService} from '../../../services/home/home.service';
+import {ToastrService} from '../../../services/toastr.service';
 import {AuthService} from "../../../services/auth.service";
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
     selector: 'app-home-landing',
