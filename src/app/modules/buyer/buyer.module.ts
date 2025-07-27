@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BuyerComponent } from './buyer.component';
 import { BuyerRoutingModule } from './buyer-routing.module';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 import { BuyerProfileComponent } from './buyer-profile/buyer-profile.component';
 import { BuyerPersonalInformationComponent } from './buyer-profile/buyer-personal-information/buyer-personal-information.component';
@@ -31,7 +30,6 @@ import { BuyerEmailDialogComponent } from './buyer-profile/buyer-personal-inform
     CommonModule,
     SharedModule,
     NgOtpInputModule,
-    GooglePlaceModule,
     WalletModule,
   ],
   declarations: [
@@ -65,7 +63,6 @@ import { BuyerEmailDialogComponent } from './buyer-profile/buyer-personal-inform
     BuyerSidebarComponent,
     NgOtpInputModule,
     BuyerSecurityOtpComponent,
-    GooglePlaceModule,
     BuyerWalletComponent,
   ],
 })

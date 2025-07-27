@@ -31,10 +31,9 @@ import { CategoryHomeGridComponent } from './category-home-grid/category-home-gr
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { VideoGuideComponent } from './video-guide/video-guide.component';
 import { VideoGuidePromptComponent } from '../../shared/components/video-guide-prompt/video-guide-prompt.component';
-
+import { SingleProductComponent } from './products/single-product/single-product.component';
 export const MY_DATE_FORMATS = {
   parse: {
     dateInput: 'DD/MM/YYYY',
@@ -72,6 +71,7 @@ export const MY_DATE_FORMATS = {
     CategoryProductsComponent,
     CategoryHomeGridComponent,
     VideoGuideComponent,
+    SingleProductComponent
   ],
   imports: [
     CommonModule,
@@ -83,10 +83,11 @@ export const MY_DATE_FORMATS = {
     MatDatepickerModule,
     NgxPaginationModule,
     MatPaginatorModule,
-    GooglePlaceModule,
     YouTubePlayerModule,
     VideoGuidePromptComponent,
+
   ],
+  exports: [SingleProductComponent],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
 })
 export class LandingModule {}

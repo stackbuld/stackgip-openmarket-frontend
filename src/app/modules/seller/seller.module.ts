@@ -5,15 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxPaginationModule } from '../../shared/pagination/ngx-pagination.module';
-import { Ng2TelInputModule } from 'ng2-tel-input';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
-import {
-  NgxMatDatetimePickerModule,
-  NgxMatNativeDateModule,
-  NgxMatTimepickerModule,
-} from '@angular-material-components/datetime-picker';
 
 import { SharedModule } from '../../shared/shared.module';
 import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
@@ -49,6 +44,8 @@ import { RefundDetailsDialogComponent } from './order-management/refund-details-
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UploadImageComponent } from '../../shared/components/image-upload/upload-image.component';
 import { MatButtonModule } from '@angular/material/button';
+import { SingleProductComponent } from '../landing/products/single-product/single-product.component'
+import { LandingModule } from '../landing/landing.module';
 
 @NgModule({
   declarations: [
@@ -82,8 +79,6 @@ import { MatButtonModule } from '@angular/material/button';
     OrderStatusDirective,
     DeliveryStatusDirective,
     RefundDetailsDialogComponent,
-    UploadImageComponent,
-    
   ],
   imports: [
     CommonModule,
@@ -96,15 +91,13 @@ import { MatButtonModule } from '@angular/material/button';
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
-    Ng2TelInputModule,
+    NgxIntlTelInputModule,
     NgOtpInputModule,
     MatTabsModule,
     MatButtonModule,
-    IvyCarouselModule as unknown as any,,
-    NgxMatDatetimePickerModule,
-    NgxMatTimepickerModule,
-    NgxMatNativeDateModule,
+    //IvyCarouselModule,
     VideoGuidePromptComponent,
+    LandingModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })

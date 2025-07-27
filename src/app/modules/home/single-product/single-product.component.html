@@ -71,12 +71,12 @@
       </div>
     </div>
 
-    <ng-image-fullscreen-view
+    <!-- <ng-image-fullscreen-view
       (close)="closeEventHandler()"
       [imageIndex]="currentIndex"
       [images]="productImages"
       [show]="showFlag"
-    ></ng-image-fullscreen-view>
+    ></ng-image-fullscreen-view> -->
 
     <div class="right-section">
       <div class="mobile-pad-1">
@@ -573,7 +573,7 @@
             class="w-100 input-field"
             formControlName="fullAddress"
             id="address"
-            ngx-google-places-autocomplete
+            ngx-gp-autocomplete
             placeholder="Select delivery location"
             type="text"
           />

@@ -2,6 +2,7 @@ import { getLoggedInUser } from './helpers/userUtility';
 import { SharedModule } from './shared/shared.module';
 import { AppRouteModule } from './app-route.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { provideClientHydration } from '@angular/platform-browser';
 import { NgModule, inject, isDevMode } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,13 +19,8 @@ import { environment } from '../environments/environment';
 import { NgxPaginationModule } from './shared/pagination/ngx-pagination.module';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NgAisModule } from 'angular-instantsearch';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { RouterModule } from '@angular/router';
-import {
-  NgxMatNativeDateModule,
-  NgxMatTimepickerModule,
-} from '@angular-material-components/datetime-picker';
 import { datadogRum } from '@datadog/browser-rum';
 import { WalletModule } from './shared/wallet/wallet.module';
 import { provideClarity } from './helpers/ms-clarity';
@@ -67,7 +63,8 @@ if (environment.production) {
 }
 
 @NgModule({ declarations: [AppComponent, ClarityUnmaskDirective],
-    bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    bootstrap: [AppComponent],
+    imports: [BrowserModule,
         BrowserAnimationsModule,
         AppRouteModule,
         ToastrModule.forRoot(toastOptions),
@@ -76,9 +73,6 @@ if (environment.production) {
         NgxSliderModule,
         NgxPaginationModule,
         MatPaginatorModule,
-        NgxMatNativeDateModule,
-        NgxMatTimepickerModule,
-        NgAisModule.forRoot(),
         StoreModule.forRoot({ counterReducer }, {
         // metaReducers: [storageSyncMetaReducer],
         }),
@@ -93,7 +87,9 @@ if (environment.production) {
             registrationStrategy: 'registerWhenStable:30000',
         }),
         RouterModule,
-        WalletModule], providers: [
+        WalletModule],
+        providers: [
+          provideClientHydration(),
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         {
             provide: HTTP_INTERCEPTORS,

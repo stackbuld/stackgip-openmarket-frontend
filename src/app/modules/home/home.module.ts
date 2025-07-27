@@ -8,7 +8,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxPaginationModule } from '../../shared/pagination/ngx-pagination.module';
 import { NgxOtpInputModule } from 'ngx-otp-input';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
-import { NgImageFullscreenViewModule } from 'ng-image-fullscreen-view';
 
 import { SharedModule } from '../../shared/shared.module';
 import { ProductListComponent } from './product-list/product-list.component';
@@ -17,7 +16,6 @@ import { ProductCheckoutComponent } from './product-checkout/product-checkout.co
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { PaymentConfirmationComponent } from './payment-confirmation/payment-confirmation.component';
 import { SellerStorefrontComponent } from './seller-storefront/seller-storefront.component';
 import { HomePageComponent } from './home-page/home-page.component';
@@ -27,11 +25,11 @@ import { ProductDeleteModalComponent } from './product-checkout/product-delete-m
 import { SingleProductAddressDialogComponent } from './single-product/single-product-address-dialog/single-product-address-dialog.component';
 
 import { register } from 'swiper/element/bundle';
-import {
-  NgAisHitsModule,
-  NgAisInstantSearchModule,
-  NgAisSearchBoxModule,
-} from 'angular-instantsearch';
+// import {
+//   NgAisHitsModule,
+//   NgAisInstantSearchModule,
+//   NgAisSearchBoxModule,
+// } from 'angular-instantsearch';
 if(isPlatformBrowser(PLATFORM_ID)) {
   register();
 }
@@ -62,12 +60,10 @@ if(isPlatformBrowser(PLATFORM_ID)) {
     NgxSliderModule,
     MatPaginatorModule,
     NgxShimmerLoadingModule,
-    GooglePlaceModule,
-    IvyCarouselModule,
-    NgImageFullscreenViewModule,
-    NgAisSearchBoxModule,
-    NgAisInstantSearchModule,
-    NgAisHitsModule,
+    //IvyCarouselModule,
+    // NgAisSearchBoxModule,
+    // NgAisInstantSearchModule,
+    // NgAisHitsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

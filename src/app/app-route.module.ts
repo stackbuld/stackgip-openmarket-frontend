@@ -25,21 +25,21 @@ const route: Routes = [
       import('./modules/seller/seller.module').then((m) => m.SellerModule),
     canActivate: [AuthGuard],
   },
-  {
-    path: 'buyer',
-    loadChildren: () => {
-      if (window.innerWidth < 920) {
-        return import('./modules/buyer-mobile/buyer-mobile.module').then(
-          (m) => m.BuyerMobileModule
-        );
-      } else {
-        return import('./modules/buyer/buyer.module').then(
-          (m) => m.BuyerModule
-        );
-      }
-    },
-    canActivate: [AuthGuard],
-  },
+  // {
+  //   path: 'buyer',
+  //   loadChildren: () => {
+  //     if (window.innerWidth < 920) {
+  //       return import('./modules/buyer-mobile/buyer-mobile.module').then(
+  //         (m) => m.BuyerMobileModule
+  //       );
+  //     } else {
+  //       return import('./modules/buyer/buyer.module').then(
+  //         (m) => m.BuyerModule
+  //       );
+  //     }
+  //   },
+  //   canActivate: [AuthGuard],
+  // },
   {
     path: '**',
     redirectTo: '',

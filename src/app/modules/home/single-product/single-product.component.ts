@@ -8,8 +8,6 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../../../services/products/products.service';
-import { Address } from 'ngx-google-places-autocomplete/objects/address';
-import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user/user.service';
 import { ToastrService } from 'ngx-toastr';
@@ -42,6 +40,7 @@ import { SearchService } from '../../../services/search/search.service';
 import { DeliveryAddressService } from '../../../services/cart/delivery-address.service';
 import { MetaService } from '../../../shared/services/meta.service';
 import { environment } from '../../../../environments/environment';
+import { NgxGpAutocompleteDirective } from '@angular-magic/ngx-gp-autocomplete';
 
 @Component({
     selector: 'home-single-product',
@@ -91,8 +90,8 @@ export class HomeSingleProductComponent implements OnInit {
   temporaryDetails = null;
 
   requestId = '';
-  @ViewChild('placesRef') placesRef: GooglePlaceDirective;
-  @ViewChild('placesRef', { static: false }) placesValue: ElementRef;
+  @ViewChild('ngxPlaces') placesRef: NgxGpAutocompleteDirective;
+  @ViewChild('ngxPlaces', { static: false }) placesValue: ElementRef;
   options: any = {
     types: ['address'],
     componentRestrictions: { country: 'NG' },
@@ -841,7 +840,7 @@ export class HomeSingleProductComponent implements OnInit {
     }
   }
 
-  public handleAddressChange(address: Address | any) {
+  public handleAddressChange(address:  any) {
     this.isGoogleAddressSelected = true;
 
     try {

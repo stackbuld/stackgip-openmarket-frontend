@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { Subscription, retry, switchMap } from 'rxjs';
 import { ToastrService } from '../../../../services/toastr.service';
 
@@ -107,7 +106,7 @@ export class BuyerAddressInformationComponent implements OnInit, OnDestroy {
     this.addressForm.patchValue({ countryCodes: e.target.value });
   }
 
-  handleAddressChange(address: Address) {
+  handleAddressChange(address: any) {
     try {
       this.googleAddressSelected = true;
       let state = address.address_components.filter((element) => {

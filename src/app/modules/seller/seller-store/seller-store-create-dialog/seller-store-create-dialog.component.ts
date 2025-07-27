@@ -9,12 +9,11 @@ import {
 import { SellerStoreService } from '../../../../shared/services/seller-store.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HelperService } from '../../../../shared/services/helper.service';
-import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
-import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { ToastrService } from '../../../../services/toastr.service';
 import { SellerStores, StoreAvailability } from '../../../../models/StoreModels';
 import { CountryInfo } from '../../../../models/country.model';
 import { CountryService } from '../../../../services/country/country.service';
+import { NgxGpAutocompleteDirective } from '@angular-magic/ngx-gp-autocomplete';
 
 @Component({
     selector: 'app-seller-store-create-dialog',
@@ -51,7 +50,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     private countryService: CountryService,
   ) {}
 
-  @ViewChild('placesRef') placesRef: GooglePlaceDirective;
+  @ViewChild('ngxPlaces') placesRef: NgxGpAutocompleteDirective;
   options: any = {
     types: ['address'],
     componentRestrictions: { country: 'NG' },
@@ -321,7 +320,7 @@ export class SellerStoreCreateDialogComponent implements OnInit {
     );
   }
 
-  public handleAddressChange(address: Address) {
+  public handleAddressChange(address: any) {
     this.isGoogleAddressSelected = true;
     console.log(address);
     try {

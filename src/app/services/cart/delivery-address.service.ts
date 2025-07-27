@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {google} from 'google-maps';
 import {BehaviorSubject, Subject} from 'rxjs';
 
 @Injectable({providedIn: 'root'})

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import algoliasearch from 'algoliasearch';
+import {algoliasearch} from 'algoliasearch';
 import { IStateService } from './IState.interface';
 import { Observable, from, of, switchMap } from 'rxjs';
 
@@ -16,13 +16,15 @@ const filterAttribute = 'userId';
   providedIn: 'root',
 })
 export class StateService implements IStateService {
-  index = searchClient.initIndex(environment.algolia.indexName.products);
+  // index = searchClient.initIndex(environment.algolia.indexName.products);
 
   constructor() {}
 
   getAllStates(storefrontSellerId: string): Observable<string[]> {
-    const stateResults = this.index.searchForFacetValues(facetToRetrieve, '', {
-      facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
+    const stateResults = searchClient.searchForFacetValues({
+      indexName: environment.algolia.indexName.products,
+      facetName: facetToRetrieve,
+      //facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
     });
 
     let tempStates: string[] = [];
@@ -42,11 +44,12 @@ export class StateService implements IStateService {
     searchItem: string,
     storefrontSellerId: string
   ): Observable<string[]> {
-    const stateResults = this.index.searchForFacetValues(
-      facetToRetrieve,
-      searchItem,
+    const stateResults = searchClient.searchForFacetValues(
+
       {
-        facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
+        facetName: searchItem,
+        indexName: environment.algolia.indexName.products,
+        //facetFilters: [[`${filterAttribute}:${storefrontSellerId}`]],
       }
     );
     let tempStates: string[] = [];

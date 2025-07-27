@@ -255,7 +255,7 @@ export class ProfileComponent implements OnInit {
     return this.profileForm.controls;
   }
 
-  setUploadedImage(imageUrl: string): void {
+  setUploadedImage(imageUrl: any): void {
     this.ninImageUrl = imageUrl;
     this.showUploadButton = true;
   }

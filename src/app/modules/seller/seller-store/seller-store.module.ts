@@ -8,7 +8,6 @@ import { NgxPaginationModule } from '../../../shared/pagination/ngx-pagination.m
 import { SharedModule } from '../../../shared/shared.module';
 import { SellerStoreComponent } from './seller-store/seller-store.component';
 import { SellerStoreCreateDialogComponent } from './seller-store-create-dialog/seller-store-create-dialog.component';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import {VideoGuidePromptComponent} from "../../../shared/components/video-guide-prompt/video-guide-prompt.component";
 
@@ -24,7 +23,6 @@ import {VideoGuidePromptComponent} from "../../../shared/components/video-guide-
     NgxPaginationModule,
     NgxSliderModule,
     MatPaginatorModule,
-    GooglePlaceModule,
     NgxMaterialTimepickerModule,
     VideoGuidePromptComponent,
   ],

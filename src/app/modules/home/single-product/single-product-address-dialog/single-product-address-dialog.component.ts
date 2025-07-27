@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../../../services/auth.service";
 import {IUser, UserAddressData} from "../../../../models/IUserModel";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Address} from "ngx-google-places-autocomplete/objects/address";
 import {CountryService} from "../../../../services/country/country.service";
 import {CountryInfo} from "../../../../models/country.model";
 import {ToastrService} from "ngx-toastr";
@@ -68,7 +67,7 @@ export class SingleProductAddressDialogComponent implements OnInit {
         this.addressForm.patchValue({countryCode: e.target.value});
     }
 
-    public handleAddressChange(address: Address | any) {
+    public handleAddressChange(address: any) {
         this.isGoogleAddressSelected = true;
 
         const country = address.address_components.filter((element) => {

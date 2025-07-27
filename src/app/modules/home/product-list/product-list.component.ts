@@ -110,7 +110,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.index = this.searchService.index;
+    this.index = this.searchService;
     this.footerService.setShowFooter(false);
     this.fetchQueryParamsFromUrl();
     this.fetchAllProducts(this.pageNumber);

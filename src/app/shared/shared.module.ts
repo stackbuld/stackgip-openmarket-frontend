@@ -10,7 +10,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { SidebarHeaderDisplayComponent } from './components/sidebar-header-display/sidebar-header-display.component';
 import { HeaderComponent } from './components/header/header.component';
-import { SingleProductComponent } from '../modules/landing/products/single-product/single-product.component';
 import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { SliderComponent } from './components/slider/slider.component';
@@ -59,6 +58,7 @@ import { PwaPromptComponent } from './components/pwa-prompt/pwa-prompt.component
 import { AppShellRenderDirective } from '../directives/app-shell-render.directive';
 import { WindowRefService } from './services/window.service';
 import { UploadImageComponent } from './components/image-upload/upload-image.component'
+import { NgxGpAutocompleteModule } from "@angular-magic/ngx-gp-autocomplete";
 
 export const DOCUMENT_TOKEN = new InjectionToken<Document>('Document');
 export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
@@ -71,7 +71,6 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     NavbarComponent,
     FooterComponent,
     HeaderComponent,
-    SingleProductComponent,
     AddToCartComponent,
     LayoutComponent,
     SliderComponent,
@@ -114,7 +113,8 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     MatSelectModule,
     NgxOtpInputModule,
     SignupModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    NgxGpAutocompleteModule
   ],
   exports: [
     HttpClientJsonpModule,
@@ -140,7 +140,6 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     NavbarComponent,
     FooterComponent,
     HeaderComponent,
-    SingleProductComponent,
     AddToCartComponent,
     SliderComponent,
     NewProductListComponent,
@@ -160,6 +159,7 @@ export const WINDOW_TOKEN = new InjectionToken<Window>('Window');
     DemoNgZorroAntdModule,
     LoadingSpinnerComponent,
     AppShellRenderDirective,
+    NgxGpAutocompleteModule,
   ],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [

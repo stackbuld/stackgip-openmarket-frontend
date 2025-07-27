@@ -28,7 +28,6 @@ import { DOCUMENT, LocationStrategy } from '@angular/common';
 import { countryCodes } from '../../../data/countryCodes';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
-import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { MatDialog } from '@angular/material/dialog';
 import { VideoGuideComponent } from '../video-guide/video-guide.component';
 
@@ -184,7 +183,7 @@ export class SellerRegisterationFormComponent
     this.locationStrategy.back();
   };
 
-  handleAddressChange(address: Address) {
+  handleAddressChange(address: any) {
     try {
       this.googleAddressSelected = true;
       let state = address.address_components.filter((element) => {

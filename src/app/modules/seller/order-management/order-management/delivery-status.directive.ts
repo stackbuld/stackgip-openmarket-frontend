@@ -22,10 +22,13 @@ export class DeliveryStatusDirective implements OnInit {
       case 'assignedforpickup':
         color = '#F9AA4B';
         break;
-      case 'rejected' || 'cancelled' || 'returned':
+      case 'rejected':
+      case 'cancelled':
+      case 'returned':
         color = '#EF0606';
         break;
-      case 'pickedupfromstore ' || 'assignedfordelivery':
+      case 'pickedupfromstore ':
+      case 'assignedfordelivery':
         color = '#0096FF';
         break;
       default:

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import algoliasearch, { SearchClient, SearchIndex } from 'algoliasearch';
+import { SearchClient, algoliasearch } from 'algoliasearch';
 import { IProductPage, ProductModel } from '../../models/products.model';
 import { ISearchService } from './iSearchService.interface';
 import {
@@ -25,9 +25,9 @@ const searchClient = algoliasearch(
 })
 export class SearchService implements ISearchService {
   numberOfItems = new BehaviorSubject<number>(0);
-  index: SearchIndex = searchClient.initIndex(
-    environment.algolia.indexName.products,
-  );
+  // index: SearchIndex = searchClient.initIndex(
+  //   environment.algolia.indexName.products,
+  // );
   config = {
     indexName: environment.algolia.indexName.products,
     searchClient,
@@ -46,12 +46,17 @@ export class SearchService implements ISearchService {
     maxItem: number,
     filters: string,
   ) {
-    return this.index.search(searchQuery, {
-      hitsPerPage: maxItem,
-      page: currentPage,
-      filters,
+    return searchClient.search([
+      {
+        //maxFacetHits: maxItem,
+        //facet: filters,
+      //page: currentPage,
+      //filters,
+     // query: searchQuery,
+      indexName: environment.algolia.indexName.products,
       // facets: ['*'],
-    });
+    }
+    ]);
   }
 
   convertToProductModel(hits: any): ProductModel[] {
@@ -153,10 +158,10 @@ export class SearchService implements ISearchService {
     for (let firstPage = 0; firstPage < pageNumber + 1; firstPage++) {
       formattedResults = from(searchResults).pipe(
         tap((data) => {
-          this.numberOfItems.next(data.nbHits);
+          //this.numberOfItems.next(data.nbHits);
         }),
         switchMap((data) => {
-          const formattedHits = this.convertToProductModel(data.hits);
+          const formattedHits = this.convertToProductModel(data.results);
 
           if (pageNumber === 0) {
             tempHits = formattedHits;

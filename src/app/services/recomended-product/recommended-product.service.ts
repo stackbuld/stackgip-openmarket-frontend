@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import algoliasearch from 'algoliasearch';
+import {algoliasearch} from 'algoliasearch';
 import { Observable, from, switchMap, of } from 'rxjs';
 import { RecommendedProduct } from '../../models/products.model';
 import { environment } from '../../../environments/environment';
@@ -13,17 +13,21 @@ const searchClient = algoliasearch(
   providedIn: 'root',
 })
 export class RecommendedProductService {
-  index = searchClient.initIndex(
-    environment.algolia.indexName.recommendedProducts
-  );
+  // index = searchClient.initIndex(
+  //   environment.algolia.indexName.recommendedProducts
+  // );
   constructor() {}
 
   getAllRecommendedProducts(): Observable<RecommendedProduct[]> {
-    let searchClientResults = this.index.search('');
+    let searchClientResults = searchClient.search([
+      {
+        indexName: environment.algolia.indexName.recommendedProducts,
+      },
+    ]);
 
     let formattedProducts = from(searchClientResults).pipe(
       switchMap((data) => {
-        const hits = data.hits.map((category) => {
+        const hits = data.results.map((category) => {
           return this.convertToRecommendedProductModel(category);
         });
         return of(hits);

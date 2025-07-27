@@ -115,7 +115,7 @@
                     }">Business Address
                   </mat-label>
                   <input #placesRef="ngx-places" [options]="options" (onAddressChange)="handleAddressChange($event)"
-                    formControlName="businessAddress" matInput ngx-google-places-autocomplete type="text" />
+                    formControlName="businessAddress" matInput ngx-gp-autocomplete type="text" />
                 </mat-form-field>
                 <p style="margin-top: -20px; margin-bottom: 10px">
                   Select an address that shows as you type

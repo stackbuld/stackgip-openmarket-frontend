@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { IPromotedProductService } from './IPromotedProductService.interface';
 import { PromotedProduct } from '../../models/products.model';
 import { environment } from '../../../environments/environment';
-import algoliasearch from 'algoliasearch';
+import {algoliasearch} from 'algoliasearch';
 import { Observable, from, of, switchMap } from 'rxjs';
 
 const searchClient = algoliasearch(
@@ -14,18 +14,18 @@ const searchClient = algoliasearch(
   providedIn: 'root',
 })
 export class PromotedProductsService implements IPromotedProductService {
-  index = searchClient.initIndex(
-    environment.algolia.indexName.promotedProducts
-  );
+  // index = searchClient.initIndex(
+  //   environment.algolia.indexName.promotedProducts
+  // );
 
   constructor() {}
 
   getAllPromotedProducts(): Observable<PromotedProduct[]> {
-    let searchClientResults = this.index.search('');
+    let searchClientResults = searchClient.search([{indexName: environment.algolia.indexName.promotedProducts}]);
 
     let formattedProducts = from(searchClientResults).pipe(
       switchMap((data) => {
-        const hits = data.hits.map((category) => {
+        const hits = data.results.map((category) => {
           return this.convertToPromotedProductModel(category);
         });
         return of(hits);
